@@ -12,7 +12,7 @@ A `DaprClient` holds access to networking resources in the form of TCP sockets u
 
 For best performance, create a single long-lived instance of `DaprClient` and provide access to that shared instance throughout your application. `DaprClient` instances are thread-safe and intended to be shared.
 
-Avoid creating a `DaprClient` per-operation and disposing it when the operation is complete. 
+Avoid creating a `DaprClient` per-operation and disposing it when the operation is complete.
 
 ## Configuring DaprClient
 
@@ -52,7 +52,7 @@ var daprClient = new DaprClientBuilder()
 
 The APIs on DaprClient that perform asynchronous operations accept an optional `CancellationToken` parameter. This follows a standard .NET idiom for cancellable operations. Note that when cancellation occurs, there is no guarantee that the remote endpoint stops processing the request, only that the client has stopped waiting for completion.
 
-When an operation is cancelled, it will throw an `OperationCancelledException`. 
+When an operation is cancelled, it will throw an `OperationCancelledException`.
 
 ## Understanding DaprClient JSON serialization
 
@@ -125,7 +125,7 @@ await client.SaveStateAsync<object>("mystatestore", "mykey", widget);
 
 ## Error handling
 
-Methods on `DaprClient` will throw `DaprException` or a subclass when a failure is encountered. 
+Methods on `DaprClient` will throw `DaprException` or a subclass when a failure is encountered.
 
 ```C#
 try

@@ -91,7 +91,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/state
 
 #### URL 参数
 
-| 参数        | 描述        |
+| 参数        | 说明        |
 | --------- | --------- |
 | daprPort  | Dapr 端口。  |
 | actorType | Actor 类型。 |
@@ -205,7 +205,7 @@ Body:
 
 #### HTTP 响应码
 
-| Code | 描述                  |
+| Code | 说明                  |
 | ---- | ------------------- |
 | 204  | 请求成功                |
 | 500  | 请求失败                |

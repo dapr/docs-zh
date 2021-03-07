@@ -11,9 +11,7 @@ Dapr uses JSON serialization and thus (complex) type information is lost when se
 
 ## Serialization
 
-When returning an object from a controller, passing an object to the `DaprClient`, or storing an object in a state store,
-only public properties are scanned and serialized. You can customize this behavior by implementing `\Dapr\Serialization\ISerialize`.
-For example, if you wanted to create an ID type that serialized to a string, you may implement it like so:
+When returning an object from a controller, passing an object to the `DaprClient`, or storing an object in a state store, only public properties are scanned and serialized. You can customize this behavior by implementing `\Dapr\Serialization\ISerialize`. For example, if you wanted to create an ID type that serialized to a string, you may implement it like so:
 
 ```php
 <?php
@@ -21,7 +19,7 @@ For example, if you wanted to create an ID type that serialized to a string, you
 class MyId implements \Dapr\Serialization\Serializers\ISerialize 
 {
     public string $id;
-    
+
     public function serialize(mixed $value,\Dapr\Serialization\ISerializer $serializer): mixed
     {
         // $value === $this
@@ -30,8 +28,7 @@ class MyId implements \Dapr\Serialization\Serializers\ISerialize
 }
 ```
 
-This works for any type that we have full ownership over, however, it doesn't work for classes from libraries or PHP itself.
-For that, you need to register a custom serializer with the DI container:
+This works for any type that we have full ownership over, however, it doesn't work for classes from libraries or PHP itself. For that, you need to register a custom serializer with the DI container:
 
 ```php
 <?php

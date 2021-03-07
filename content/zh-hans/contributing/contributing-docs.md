@@ -22,7 +22,7 @@ Fork [文档 repo](https://github.com/dapr/docs) 以处理任何更改
 
 Dapr 文档处理分支的方式与大多数代码存储库不同。 每个分支都标记为运行时发行版的主版本和次要版本，而不存在 `master` 或 `main` 分支。 完整列表，请访问 [Docs repo](https://github.com/dapr/docs#branch-guidance)
 
-总体而言，所有更新都应进入对应 Dapr 最新版本的文档分支。 您可以直接在 https://github.com/dapr/docs 找到，因为最新版本将是默认分支。 对于适用于发布候选版本或文档的预发行版本的任何文档更改，请对该特定分支修改。
+总体而言，所有更新都应进入对应 Dapr 最新版本的文档分支。 You can find this directly at [https://github.com/dapr/docs](https://github.com/dapr/docs), as the latest release will be the default branch. 对于适用于发布候选版本或文档的预发行版本的任何文档更改，请对该特定分支修改。
 
 例如，如果要修复拼写错误、添加注释或澄清点，请在默认 Dapr 分支上变更。 如果要记录即将发生的组件或运行时的变更，请对预发行版分支进行修改。 分支可以在 [ Docs repo](https://github.com/dapr/docs#branch-guidance) 中找到
 
@@ -33,7 +33,7 @@ Dapr 文档处理分支的方式与大多数代码存储库不同。 每个分�
 - **页眉和标题** - 页眉和标题必须是描述性的和清晰的，使用句子大小写，即对页眉和标题也使用上述的大小写指导。
 - **使用简单的句子** - 易于阅读的句子意味着读者可以快速使用您所共享的指导。
 - **避免使用第一人称** - 用第二人称 "你"、"你的 "代替 "我"、"我们"、"我们的"。
-- **假设一个新的开发者受众** - 一些明显的步骤可能看起来很难。 例如: 现在将环境变量 Dapr 设置为值 X。最好给读者一个明确的命令来做这个，而不是让他们自己去想办法。
+- **假设一个新的开发者受众** - 一些明显的步骤可能看起来很难。 例如: 例如: 现在将环境变量 Dapr 设置为值 X。 最好给读者一个明确的命令来做这个，而不是让他们自己去想办法。
 - **使用现在时** - 避免使用 "这个命令将安装 redis"这样的句子，因为这意味着操作是在未来发生。 请改为使用 " 此命令安装 redis" (现在时态) 。
 
 ## 贡献新页面
@@ -46,7 +46,7 @@ Dapr 文档处理分支的方式与大多数代码存储库不同。 每个分�
 - 请确保文档引用该规范以获取使用 API 的示例。
 - 确保规范在名称，参数和术语方面与概念一致。 根据需要更新概念和规范。
 - 请避免重复该规范。 这个想法是为了给读者提供更多关于能力的信息和背景，以便他们可以尝试这个。 因此，尽可能提供更多的信息和实施细节。
-- 提供指向 [参考资料]({{X45X}}) 中的规范的链接。
+- Provide a link to the spec in the [Reference]({{X47X}}) section.
 - 在可能的情况下，参考一个实用的How-To文档。
 
 ### 贡献新的 How-To 指南
@@ -99,7 +99,7 @@ Front-matter 应填写所有字段，包括类型、标题、链接标题、权�
 
 根据 [styling conventions](#styling-conventions)，标题只能大写第一个字和专有名词，但 "How-To："除外。
     - "Getting started with Dapr service invocation"
-    - "How-To: Setup a local Redis instance"
+    - "How-To: 设置本地 Redis 实例"
 
 ### 引用其他页面
 Hugo `ref` 和 `relref` [shortcodes](https://gohugo.io/content-management/cross-references/) 用于引用其他页面和部分。 如果某一页面被错误重命名或删除，它会中断构建。
@@ -128,7 +128,7 @@ Hugo `ref` 和 `relref` [shortcodes](https://gohugo.io/content-management/cross-
 ```
 
 ### 图片
-Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 语法来调整图片大小。 而是使用原始 HTML 。
+Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 语法来调整图片大小。 Instead, raw HTML is used.
 
 首先将图片放置在 `/daprdocs/static/images` 下，命名惯例为 `[page-name]-[image-name].[png|jpg|svg]`.
 
@@ -138,7 +138,7 @@ Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 语法来调
 ```
 > 请不要忘记设置 alt 属性，以保留视觉受损用户的文档可读。
 
-#### Example:
+#### 示例
 
 此 HTML 将在 `overview.md` 页面上显示 `dapr-overview.png` 图片:
 ```md
@@ -192,6 +192,14 @@ brew install dapr/tap/dapr-cli
 这个示例将为此呈现：
 {{< tabs Windows Linux MacOS>}}
 {{% codetab %}}
+{{< tabs Windows Linux MacOS>}}
+{{% codetab %}}
+```powershell
+这个例子将呈现为：
+
+{{< tabs Windows Linux MacOS>}}
+
+{{% codetab %}}
 ```powershell
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
 ```
@@ -212,7 +220,7 @@ brew install dapr/tap/dapr-cli
 {{< /tabs >}}
 
 ### YouTube 视频
-Hugo 可以使用短代码自动嵌入 YouTube 视频:
+短代码为：
 ```
 {{</* youtube [VIDEO ID] */>}}
 ```
@@ -228,3 +236,32 @@ Hugo 可以使用短代码自动嵌入 YouTube 视频:
 
 ### 参考资料
 - [Docsy 编写指南](https://www.docsy.dev/docs/adding-content/)
+
+## Translations
+
+The Dapr Docs supports adding language translations into the docs using git submodules and Hugo's built in language support.
+
+You can find an example PR of adding Chinese language support in [PR 1286](https://github.com/dapr/docs/pull/1286).
+
+Steps to add a language:
+- Open an issue in the Docs repo requesting to create a new language-specific docs repo
+- Once created, create a git submodule within the docs repo:
+   ```sh
+   git submodule add <remote_url> translations/<language_code>
+   ```
+- Add a language entry within `daprdocs/config.toml`:
+   ```toml
+    [languages.<language_code>]
+      title = "Dapr Docs"
+      weight = 3
+      contentDir = "content/<language_code>"
+      languageName = "<language_name>"
+   ```
+- Create a mount within `daprdocs/config.toml`:
+   ```toml
+   [[module.mounts]]
+     source = "../translations/docs-<language_code>/content/<language_code>"
+     target = "content"
+     lang = "<language_code>"
+   ```
+- Repeat above step as necessary for all other translation directories

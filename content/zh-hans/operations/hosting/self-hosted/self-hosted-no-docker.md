@@ -47,13 +47,13 @@ INFO[0000] Raft server is starting on 127.0.0.1:8201...  instance=Nicoletaz-L10.
 INFO[0000] placement service started on port 50005       instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
 INFO[0000] Healthz server is listening on :8080          instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
 INFO[0001] cluster leadership acquired                   instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
-INFO[0001] leader is established.                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
+INFO[0001] leader is established.                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
 
 ```
 
-至此，您可以跟随为 [java-sdk](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/actors/http)， [python-sdk](https://github.com/dapr/python-sdk/tree/master/examples/demo_actor) 或 [dotne-sdk](https://github.com/dapr/dotnet-sdk/tree/master/samples/Actor) 创建的样本示例，在启用了 Actors 的情况下运行应用程序。
+From here on you can follow the sample example created for the [java-sdk](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/actors), [python-sdk](https://github.com/dapr/python-sdk/tree/master/examples/demo_actor) or [dotnet-sdk]({{< ref "dotnet-actor-howto.md" >}}) for running an application with Actors enabled.
 
-更新状态存储配置文件使 Redis host 地址和密码和您的设置相同。 此外，为了启用它作为 actor 状态存储，添加了类似于 [示例 Java Redis 组件](https://github.com/dapr/java-sdk/blob/master/examples/components/redis.yaml) 定义的元数据部分。
+更新状态存储配置文件使 Redis host 地址和密码和您的设置相同。 Additionally to enable it as a actor state store have the metadata piece added similar to the [sample Java Redis component](https://github.com/dapr/java-sdk/blob/master/examples/components/state/redis.yaml) definition.
 
 ```yaml
   - name: actorStateStore

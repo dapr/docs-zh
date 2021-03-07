@@ -6,7 +6,7 @@ weight: 2000
 description: "了解如何使用一个服务向主题发送消息，并在另一个服务中订阅该主题"
 ---
 
-## Introduction
+## 介绍
 
 Pub/Sub 是一个分布式系统中的常见模式，它有许多服务用于解偶、异步消息传递。 使用Pub/Sub，您可以在事件消费者与事件生产者解偶的场景中启用。
 
@@ -14,7 +14,7 @@ Dapr 提供了一个可扩展的 Pub/Sub 系统（保证消息至少传递一次
 
 ## 步骤 1: 设置 Pub/Sub 组件
 
-When publishing a message, it's important to specify the content type of the data being sent. Unless specified, Dapr will assume `text/plain`. When using Dapr's HTTP API, the content type can be set in a `Content-Type` header. gRPC clients and SDKs have a dedicated content type parameter.
+When publishing a message, it's important to specify the content type of the data being sent. Unless specified, Dapr will assume `text/plain`. When publishing a message, it's important to specify the content type of the data being sent. Unless specified, Dapr will assume `text/plain`. When using Dapr's HTTP API, the content type can be set in a `Content-Type` header. gRPC clients and SDKs have a dedicated content type parameter. gRPC clients and SDKs have a dedicated content type parameter.
 
 ## 步骤 1: 设置 Pub/Sub 组件
 然后发布一条消息给 `deathStarStatus` 主题：
@@ -347,7 +347,7 @@ dapr --app-id app1 --app-port 3000 run -- php -S 0.0.0.0:3000 app1.php
 
 ## 步骤 3: 发布主题
 
-To publish a topic you need to run an instance of a Dapr sidecar to use the pubsub Redis component. You can use the default Redis component installed into your local environment.
+To publish a topic you need to run an instance of a Dapr sidecar to use the pubsub Redis component. You can use the default Redis component installed into your local environment. You can use the default Redis component installed into your local environment.
 
 Start an instance of Dapr with an app-id called `testpubsub`:
 
@@ -387,7 +387,7 @@ Dapr 将在符合 Cloud Events v1.0 的信封中自动包装用户有效负载�
 
 为了告诉Dapr 消息处理成功，返回一个 `200 OK` 响应。 如果 Dapr 收到超过 `200` 的返回状态代码，或者你的应用崩溃，Dapr 将根据 At-Least-Once 语义尝试重新传递消息。
 
-#### Example:
+#### 示例
 
 {{< tabs Python Node>}}
 
@@ -471,7 +471,7 @@ dapr --app-id app2 run -- php app2.php
 
 ## Sending a custom CloudEvent
 
-Dapr automatically takes the data sent on the publish request and wraps it in a CloudEvent 1.0 envelope. If you want to use your own custom CloudEvent, make sure to specify the content type as `application/cloudevents+json`.
+Dapr automatically takes the data sent on the publish request and wraps it in a CloudEvent 1.0 envelope. If you want to use your own custom CloudEvent, make sure to specify the content type as `application/cloudevents+json`. If you want to use your own custom CloudEvent, make sure to specify the content type as `application/cloudevents+json`.
 
 See info about content types [here](#Content-Types).
 

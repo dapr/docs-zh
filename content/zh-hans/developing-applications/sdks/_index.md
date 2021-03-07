@@ -7,7 +7,7 @@ description: "Use your favorite languages with Dapr"
 no_list: true
 ---
 
-The Dapr SDKs are the easiest way for you to get Dapr into your application. Choose your favorite language and get up and running with Dapr in minutes.
+The Dapr SDKs are the easiest way for you to get Dapr into your application. Choose your favorite language and get up and running with Dapr in minutes. Choose your favorite language and get up and running with Dapr in minutes.
 
 ## SDK packages
 
@@ -18,7 +18,7 @@ The Dapr SDKs are the easiest way for you to get Dapr into your application. Cho
    - Interact with external resources through input and output [bindings]({{< ref bindings >}})
    - Get [secrets]({{< ref secrets >}}) from secret stores
    - Interact with [virtual actors]({{< ref actors >}})
-- **Service extensions**: The Dapr service extensions allow you to create services that can:
+- **Server extensions**: The Dapr service extensions allow you to create services that can:
    - Be [invoked]({{< ref service-invocation >}}) by other services
    - [Subscribe]({{< ref pubsub >}}) to topics
 - **Actor SDK**: The Dapr Actor SDK allows you to build virtual actors with:
@@ -29,16 +29,16 @@ The Dapr SDKs are the easiest way for you to get Dapr into your application. Cho
 
 ## SDK languages
 
-| 语言                                         |   状态 （State）   | Client SDK |            Service Extensions             |                                        Actor SDK                                         |
-| ------------------------------------------ |:--------------:|:----------:|:-----------------------------------------:|:----------------------------------------------------------------------------------------:|
-| [.NET](https://github.com/dapr/dotnet-sdk) |     Stable     |     ✔      |            ✔ </br>ASP.NET Core            |                                            ✔                                             |
-| [Python]({{< ref python >}})               |     Stable     |     ✔      | ✔ </br>[gRPC]({{< ref python-grpc.md >}}) | [FastAPI]({{< ref python-fastapi.md >}})<br />[Flask]({{< ref python-flask.md >}}) |
-| [Java](https://github.com/dapr/java-sdk)   |     Stable     |     ✔      |            ✔ </br>Spring Boot             |                                            ✔                                             |
-| [Go](https://github.com/dapr/go-sdk)       |     Stable     |     ✔      |                     ✔                     |                                                                                          |
-| [PHP](https://github.com/dapr/php-sdk)     |     Stable     |     ✔      |                     ✔                     |                                            ✔                                             |
-| [C++](https://github.com/dapr/cpp-sdk)     | In development |     ✔      |                                           |                                                                                          |
-| [Rust]()                                   | In development |     ✔      |                                           |                                                                                          |
-| [Javascript]()                             | In development |     ✔      |                                           |                                                                                          |
+| 语言                                       | 状态 （State）     | Client SDK |             Server extensions             |                                        Actor SDK                                         |
+| ---------------------------------------- |:-------------- |:----------:|:-----------------------------------------:|:----------------------------------------------------------------------------------------:|
+| [.NET]({{< ref dotnet >}})               | Stable         |     ✔      | [ASP.NET Core]({{< ref dotnet-aspnet >}}) |                                            ✔                                             |
+| [Python]({{< ref python >}})             | Stable         |     ✔      |    [gRPC]({{< ref python-grpc.md >}})     | [FastAPI]({{< ref python-fastapi.md >}})<br />[Flask]({{< ref python-flask.md >}}) |
+| [Java](https://github.com/dapr/java-sdk) | Stable         |     ✔      |                Spring Boot                |                                            ✔                                             |
+| [Go](https://github.com/dapr/go-sdk)     | Stable         |     ✔      |                     ✔                     |                                                                                          |
+| [PHP]({{< ref php >}})                   | Stable         |     ✔      |                     ✔                     |                                            ✔                                             |
+| [C++](https://github.com/dapr/cpp-sdk)   | In development |     ✔      |                                           |                                                                                          |
+| [Rust]()                                 | In development |     ✔      |                                           |                                                                                          |
+| [Javascript]()                           | In development |     ✔      |                                           |                                                                                          |
 
 ## Further reading
 

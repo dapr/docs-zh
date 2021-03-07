@@ -7,7 +7,7 @@ description: "Detailed documentation on the Alibaba Cloud Object Storage binding
 
 ## Component format
 
-To setup an Alibaba Cloud Object Storage binding create a component of type `bindings.alicloud.oss`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a secretstore configuration. See this guide on [referencing secrets]({{< ref component-secrets.md >}}) to retrieve and use the secret with Dapr components.
+To setup an Alibaba Cloud Object Storage binding create a component of type `bindings.alicloud.oss`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a secretstore configuration. See this guide on [referencing secrets]({{< ref component-secrets.md >}}) to retrieve and use the secret with Dapr components. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a secretstore configuration. See this guide on [referencing secrets]({{< ref component-secrets.md >}}) to retrieve and use the secret with Dapr components.
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -30,7 +30,7 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
+以上示例将 Secret 明文存储。 The example configuration shown above, contain a username and password as plain-text strings. 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
 {{% /alert %}}
 
 ## Spec metadata fields
@@ -42,7 +42,7 @@ spec:
 | `accessKey`   | Y        | Output          | Access key credential.      |                                      |
 | `bucket`      | Y        | Output          | Name of the storage bucket. |                                      |
 
-## Output bindings
+## 相关链接
 
 This component supports **output binding** with the following operations:
 - `create`: [Create object](#create-object)
@@ -60,7 +60,7 @@ To perform a create object operation, invoke the binding with a `POST` method an
 ```
 
 {{% alert title="Note" color="primary" %}}
-By default, a random UUID is auto-generated as the object key. See below for Metadata support to set the key for the object.
+By default, a random UUID is auto-generated as the object key. See below for Metadata support to set the key for the object. See below for Metadata support to set the key for the object.
 {{% /alert %}}
 
 #### 示例
@@ -118,7 +118,7 @@ Windows CMD requires escaping the `"` character.
 
 ### Object key
 
-By default, the Alicloud OSS output binding will auto-generate a UUID as the object key. You can set the key with the following metadata:
+By default, the Alicloud OSS output binding will auto-generate a UUID as the object key. You can set the key with the following metadata: You can set the key with the following metadata:
 
 ```json
 {

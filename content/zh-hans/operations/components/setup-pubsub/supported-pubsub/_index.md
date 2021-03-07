@@ -9,15 +9,15 @@ no_list: true
 
 Table captions:
 
-> `Status`: [Component certification]({{X31X}}) status
+> `Status`: [Component certification]({{X31X}}) status
   - [Alpha]({{X20X}})
   - [Beta]({{X22X}})
-  - [GA]({{X24X}}) > `Since`: defines from which Dapr Runtime version, the component is in the current status
+  - [GA]({{X24X}}) > `Since`: defines from which Dapr Runtime version, the component is in the current status
 
 > `Component version`: defines the version of the component
 ### Generic
 
-| Name                                                  | 状态 （State） | Component version | Since |
+| 名称                                                    | 状态 （State） | Component version | Since |
 | ----------------------------------------------------- | ---------- | ----------------- | ----- |
 | [Apache Kafka]({{< ref setup-apache-kafka.md >}})     | Beta       | v1                | 1.0   |
 | [Hazelcast]({{< ref setup-hazelcast.md >}})           | Alpha      | v1                | 1.0   |

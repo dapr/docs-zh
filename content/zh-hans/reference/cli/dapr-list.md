@@ -9,9 +9,9 @@ description: "有关 list CLI 命令的详细信息"
 
 列出所有 Dapr 实例。
 
-## Supported platforms
+## 支持的平台
 
-- [Self-Hosted]({{< ref self-hosted >}})
+- [自托管]({{< ref self-hosted >}})
 - [Kubernetes]({{< ref kubernetes >}})
 
 ## 用法
@@ -21,7 +21,7 @@ dapr list [flags]
 
 ## 参数
 
-| Name                 | 环境变量 | 默认值     | 说明                             |
+| 名称                   | 环境变量 | 默认值     | 说明                             |
 | -------------------- | ---- | ------- | ------------------------------ |
 | `--help`, `-h`       |      |         | 显示此帮助消息                        |
 | `--kubernetes`, `-k` |      | `false` | 列出 Kubernetes 集群中的所有 Dapr pods |
