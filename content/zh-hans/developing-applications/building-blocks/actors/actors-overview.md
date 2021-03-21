@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "Dapr Actors 概述"
-linkTitle: "Overview"
+linkTitle: "Secrets stores overview"
 weight: 10
 description: Dapr Actor 构建块概述
 aliases:

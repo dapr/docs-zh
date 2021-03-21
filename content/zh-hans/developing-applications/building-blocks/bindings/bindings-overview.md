@@ -1,12 +1,12 @@
 ---
 type: docs
 title: "绑定概述"
-linkTitle: "Overview"
+linkTitle: "概述"
 weight: 100
 description: Dapr 绑定构建块概述
 ---
 
-## Introduction
+## 介绍
 
 使用绑定，您可以使用来自外部系统的事件或与外部系统的接口来触发应用程序。 此构建块为您和您的代码提供了若干益处 :
 
@@ -45,9 +45,9 @@ description: Dapr 绑定构建块概述
 
 阅读 [ 使用输出绑定向外部系统发送事件]({{< ref howto-bindings.md >}}) 页以开始使用输出绑定。
 
-## Next Steps
-* Follow these guides on:
+## 下一步
+* 遵循这些指南：
     * [使用输入绑定从不同资源触发服务]({{< ref howto-triggers.md >}})
     * [使用输出绑定调用不同的资源]({{< ref howto-bindings.md >}})
-* Try out the [bindings quickstart](https://github.com/dapr/quickstarts/tree/master/bindings/README.md) which shows how to bind to a Kafka queue
-* Read the [bindings API specification]({{< ref bindings_api.md >}})
+* 试试 [绑定快速启动](https://github.com/dapr/quickstarts/tree/master/bindings/README.md) 来显示如何绑定到 Kafka 队列
+* 阅读 [绑定API规范]({{< ref bindings_api.md >}})

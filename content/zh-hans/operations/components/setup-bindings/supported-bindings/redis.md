@@ -29,19 +29,19 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
+以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## Spec metadata fields
 
-| 字段            | Required | Binding support | Details                                                                                                                          | Example             |
-| ------------- |:--------:| --------------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| redisHost     |    Y     | Output          | The Redis host address                                                                                                           | `"localhost:6379"`  |
-| redisPassword |    Y     | Output          | The Redis password                                                                                                               | `"password"`        |
-| enableTLS     |    N     | Output          | If the Redis instance supports TLS with public certificates it can be configured to enable or disable TLS. Defaults to `"false"` | `"true"`, `"false"` |
+| 字段            | Required | Binding support | Details                                                                                                                                                | Example             |
+| ------------- |:--------:| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- |
+| redisHost     |    Y     | Output          | The Redis host address                                                                                                                                 | `"localhost:6379"`  |
+| redisPassword |    Y     | Output          | The Redis password                                                                                                                                     | `"password"`        |
+| enableTLS     |    N     | Output          | If the Redis instance supports TLS with public certificates it can be configured to enable or disable TLS. Defaults to `"false"` Defaults to `"false"` | `"true"`, `"false"` |
 
 
-## Output bindings
+## 相关链接
 
 This component supports **output binding** with the following operations:
 

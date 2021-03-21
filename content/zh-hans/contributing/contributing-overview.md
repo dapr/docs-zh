@@ -1,17 +1,17 @@
 ---
 type: docs
 title: "贡献概述"
-linkTitle: "Overview"
+linkTitle: "Secrets stores overview"
 weight: 1000
 description: >
   为任何Dapr项目资源库做出贡献的通用指南
 ---
 
-感谢您对 Dapr的兴趣! 感谢您对 Dapr的兴趣! 本文档提供了有关如何通过问题和拉取请求对 [Dapr 项目](https://github.com/dapr) 作出贡献的指南。 贡献还可以通过多种方式来实现，如举办线下活动，参加社区会议，评论问题或拉取请求等。
+感谢您对 Dapr的兴趣! 感谢您对 Dapr的兴趣! 感谢您对 Dapr的兴趣! 本文档提供了有关如何通过问题和拉取请求对 [Dapr 项目](https://github.com/dapr) 作出贡献的指南。 贡献还可以通过多种方式来实现，如举办线下活动，参加社区会议，评论问题或拉取请求等。
 
 了解有关社区参与和社区成员的更多信息，请参阅 [Dapr community repository](https://github.com/dapr/community)。
 
-> 如果你想为Dapr文档做出贡献，还请参阅 <a href="{{< ref contributing-docs >}}> 投稿准则 </a>。
+> 如果你想为Dapr文档做出贡献，还请参阅 [ 投稿准则 ]({{< ref contributing-docs >}})。
 
 ## Issues
 
@@ -37,7 +37,7 @@ description: >
         - 👎 反对投票
 1. 对于bugs
     - 检查它不是环境问题。 例如，如果在 Kubernetes 上运行，请确保先决条件已到位。 (状态存储，绑定等)
-    - 您有尽可能多的数据。 这通常以日志和/或堆栈跟踪的形式出现。 如果在 Kubernetes 或其他环境中运行，请查看 Dapr 服务的日志 (运行时，操作员和安置服务) 。 有关如何获取日志的更多详细信息，请在[此处](https://github.com/dapr/docs/tree/master/best-practices/troubleshooting/logs.md).
+    - 您有尽可能多的数据。 这通常以日志和/或堆栈跟踪的形式出现。 如果在 Kubernetes 或其他环境中运行，请查看 Dapr 服务的日志 (运行时，操作员和安置服务) 。 有关如何获取日志的更多详细信息，请<a href="{{< ref "logs-troubleshooting.md" >}}访问此处</a>.
 1. 对于建议
     - 对 Dapr 运行时的许多更改可能需要对 API 进行更改。 在此情况下，讨论潜在功能的最佳位置是 [Dapr repo](https://github.com/dapr/dapr)。
     - 其他的例子可以包括绑定、状态存储或全新的组件。
@@ -47,7 +47,7 @@ description: >
 所有的贡献都是通过拉请求来实现的。 要提交拟议的更改，请遵循此工作流程。
 
 1. 确保有一个问题（bug或建议）被提出，这为你即将做出的贡献设定了期望。
-1. Fork相关的repo并创建一个新的分支。
+1. 分叉相关的repo并创建一个新的分支。
 1. 创建更改
     - 代码更改需要测试
 1. 更新有关更改的相关文档

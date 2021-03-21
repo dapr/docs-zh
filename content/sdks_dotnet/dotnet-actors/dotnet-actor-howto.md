@@ -6,7 +6,7 @@ weight: 100000
 description: Try out .NET virtual actors with this example
 ---
 
-## Prerequisites
+## 前期准备
 
 - [Dapr CLI]({{< ref install-dapr-cli.md >}}) installed
 - Initialized [Dapr environment]({{< ref install-dapr-selfhost.md >}})
@@ -14,7 +14,7 @@ description: Try out .NET virtual actors with this example
 
 ## Overview
 
-This document describes how to create an Actor(`MyActor`) and invoke its methods on the client application. 
+This document describes how to create an Actor(`MyActor`) and invoke its methods on the client application.
 
 ```
 MyActor --- MyActor.Interfaces
@@ -263,7 +263,7 @@ By default, the "type" of the actor as seen by clients is derived from the name 
 
 ### Register Actor runtime with ASP.NET Core startup
 
-The Actor runtime is configured through ASP.NET Core `Startup.cs`. 
+The Actor runtime is configured through ASP.NET Core `Startup.cs`.
 
 The runtime uses the ASP.NET Core dependency injection system to register actor types and essential services. This integration is provided through the `AddActors(...)` method call in `ConfigureServices(...)`. Use the delegate passed to `AddActors(...)` to register actor types and configure actor runtime settings. You can register additional types for dependency injection inside `ConfigureServices(...)`. These will be available to be injected into the constructors of your Actor types.
 
@@ -322,7 +322,7 @@ The following code extends the previous section to do this.  Please note the val
             {
                 // Register actor types and configure actor settings
                 options.Actors.RegisterActor<MyActor>();
-                
+
                 options.ActorIdleTimeout = TimeSpan.FromMinutes(10);
                 options.ActorScanInterval = TimeSpan.FromSeconds(35);
                 options.DrainOngoingCallTimeout = TimeSpan.FromSeconds(35);
@@ -390,8 +390,7 @@ namespace MyActorClient
 ```
 
 ### Invoke Actor method without Actor Service Remoting
-You can invoke Actor methods without remoting (directly over http or using helper methods provided in ActorProxy), if Actor method accepts at-most one argument. Actor runtime will deserialize the incoming request body from client and use it as method argument to invoke the actor method.
-When making non-remoting calls Actor method arguments and return types are serialized, deserialized as JSON.
+You can invoke Actor methods without remoting (directly over http or using helper methods provided in ActorProxy), if Actor method accepts at-most one argument. Actor runtime will deserialize the incoming request body from client and use it as method argument to invoke the actor method. When making non-remoting calls Actor method arguments and return types are serialized, deserialized as JSON.
 
 `ActorProxy.Create(actorID, actorType)` returns ActorProxy instance and allow to use the raw http client to invoke the method defined in `IMyActor`.
 
@@ -467,9 +466,9 @@ In order to validate and debug actor service and client, we need to run actor se
 
    MyActorClient will console out if it calls actor hosted in MyActorService successfully.
 
-   > If you specify the different Dapr runtime http port (default port: 3500), you need to set DAPR_HTTP_PORT environment variable before running the client.
-
-   ```bash
-   Success
-   PropertyA: ValueA, PropertyB: ValueB
-   ```
+   > If you specify the different Dapr runtime http port (default port: 3500), you need to set DAPR_HTTP_PORT environment variable before running the client. 
+   > 
+   > ```bash
+   >    Success
+   >    PropertyA: ValueA, PropertyB: ValueB
+   > ```

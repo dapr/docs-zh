@@ -35,7 +35,7 @@ spec:
 
 - [Dapr metric list](https://github.com/dapr/dapr/blob/master/docs/development/dapr-metrics.md)
 
-## 参考文档
+## 参考资料
 
 * [如何：在本地运行Prometheus]({{< ref prometheus.md >}})
 * [如何：设置 Prometheus 和 Grafana 以获取指标]({{< ref grafana.md >}})

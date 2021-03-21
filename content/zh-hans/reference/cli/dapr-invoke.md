@@ -9,9 +9,9 @@ description: "有关 invoke CLI 命令的详细信息"
 
 调用给定 Dapr 应用程序上的方法。
 
-## Supported platforms
+## 支持的平台
 
-- [Self-Hosted]({{< ref self-hosted >}})
+- [自托管]({{< ref self-hosted >}})
 
 ## 用法
 ```bash
@@ -20,7 +20,7 @@ dapr invoke [flags]
 
 ## 参数
 
-| Name             | 环境变量 | 默认值    | 说明                |
+| 名称               | 环境变量 | 默认值    | 说明                |
 | ---------------- | ---- | ------ | ----------------- |
 | `--app-id`, `-a` |      |        | 要调用的应用程序 Id       |
 | `--help`, `-h`   |      |        | 显示此帮助消息           |

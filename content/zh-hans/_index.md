@@ -34,7 +34,6 @@ no_list: true
 </div>
 
 <br />
-
 <div class="card-deck">
   <div class="card">
     <div class="card-body">
@@ -78,7 +77,7 @@ no_list: true
     <h5 class="mt-0"><b>开发语言 SDKs</b></h5>
     <p>使用 Dapr SDKs 配合你擅长的开发语言，构建 Dapr 应用程序</p>
     <div class="media mt-3">
-      <a class="pr-3" href="{{< ref sdks >}}">
+      <a class="pr-3" href="{{< ref dotnet >}}">
         <img src="/images/homepage/dotnet.png" alt=".NET logo" width=30>
       </a>
       <div class="media-body">
@@ -110,7 +109,7 @@ no_list: true
       </div>
     </div>
     <div class="media mt-3">
-      <a class="pr-4" href="{{< ref sdks >}}">
+      <a class="pr-4" href="{{< ref php >}}">
         <img src="/images/homepage/php.png" alt="PHP logo" width=30>
       </a>
       <div class="media-body">
