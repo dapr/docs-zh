@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "How-To: 使用输入绑定来触发应用程序"
-linkTitle: "How-To: Triggers"
+linkTitle: "How-To: 触发器"
 description: "使用 Dapr 输入绑定来触发由事件驱动的程序"
 weight: 200
 ---
@@ -20,7 +20,7 @@ Dapr 绑定允许您 :
 
 有关展示绑定的快速入门示例，请访问此 [链接](https://github.com/dapr/quickstarts/tree/master/bindings)。
 
-## 1. 1. 创建绑定
+## 1. 1. 1. 创建绑定
 
 输入绑定表示 Dapr 用于读取事件并推送到应用程序的事件资源。
 
@@ -94,9 +94,9 @@ res.status(500).send()
 事件传递保证由绑定实现控制。 根据绑定实现，事件传递可以正好一次或至少一次。
 
 
-## 参考文档
+## 参考资料
 
-* [Bindings building block]({{< ref bindings >}})
-* [Bindings API]({{< ref bindings_api.md >}})
+* [绑定构建块]({{< ref bindings >}})
+* [绑定 API]({{< ref bindings_api.md >}})
 * [Components concept]({{< ref components-concept.md >}})
 * [Supported bindings]({{< ref supported-bindings >}})

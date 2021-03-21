@@ -6,7 +6,7 @@ description: "Detailed documentation on the Metadata API"
 weight: 800
 ---
 
-Dapr has a metadata API that returns information about the sidecar allowing runtime discoverability. The metadata endpoint returns among other things, a list of the components loaded and the activated actors (if present). The metadata endpoint returns among other things, a list of the components loaded and the activated actors (if present).
+Dapr has a metadata API that returns information about the sidecar allowing runtime discoverability. The metadata endpoint returns among other things, a list of the components loaded and the activated actors (if present). The metadata endpoint returns among other things, a list of the components loaded and the activated actors (if present). The metadata endpoint returns among other things, a list of the components loaded and the activated actors (if present).
 
 The Dapr metadata API also allows you to store additional information in the format of key-value pairs.
 
@@ -48,7 +48,7 @@ GET http://localhost:<daprPort>/v1.0/metadata
 
 <a id="metadataapiresponseactor"></a>**Metadata API Response Registered Actor**
 
-| Name  | Type    | 说明                         |
+| Name  | Type    | Description                |
 | ----- | ------- | -------------------------- |
 | type  | string  | The registered actor type. |
 | count | integer | Number of actors running.  |
@@ -109,10 +109,10 @@ PUT http://localhost:<daprPort>/v1.0/metadata/attributeName
 
 ### URL 参数
 
-| 参数            | 描述                                                                                         |
-| ------------- | ------------------------------------------------------------------------------------------ |
-| daprPort      | Dapr 端口。                                                                                   |
-| attributeName | Custom attribute name. Custom attribute name. This is they key name in the key-value pair. |
+| 参数            | 描述                                                                                                                |
+| ------------- | ----------------------------------------------------------------------------------------------------------------- |
+| daprPort      | Dapr 端口。                                                                                                          |
+| attributeName | Custom attribute name. Custom attribute name. Custom attribute name. This is they key name in the key-value pair. |
 
 ### HTTP Request Body
 
@@ -132,7 +132,7 @@ attributeValue
 
 ### HTTP Response Codes
 
-| Code | 描述                                                 |
+| Code | 说明                                                 |
 | ---- | -------------------------------------------------- |
 | 204  | Custom attribute added to the metadata information |
 

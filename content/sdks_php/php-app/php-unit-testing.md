@@ -7,8 +7,7 @@ description: Unit Testing
 no_list: true
 ---
 
-Unit and integration tests are first-class citizens with the PHP SDK. Using the DI container, mocks, stubs,
-and the provided `\Dapr\Mocks\TestClient` allows you to have very fine-grained tests.
+Unit and integration tests are first-class citizens with the PHP SDK. Using the DI container, mocks, stubs, and the provided `\Dapr\Mocks\TestClient` allows you to have very fine-grained tests.
 
 ## Testing Actors
 
@@ -168,8 +167,7 @@ class TheTest extends \PHPUnit\Framework\TestCase
 
 ## Testing Transactions
 
-When building on transactions, you'll likely want to test how a failed transaction is handled. In order to do that, you
-need to inject failures and ensure the transaction matches what you expect.
+When building on transactions, you'll likely want to test how a failed transaction is handled. In order to do that, you need to inject failures and ensure the transaction matches what you expect.
 
 {{< tabs "integration test with TestClient" "unit test" >}}
 

@@ -9,9 +9,9 @@ description: "有关 init CLI 命令的详细信息"
 
 在受支持的托管平台上安装 Dapr 。
 
-## Supported platforms
+## 支持的平台
 
-- [Self-Hosted]({{< ref self-hosted >}})
+- [自托管]({{< ref self-hosted >}})
 - [Kubernetes]({{< ref kubernetes >}})
 
 ## 用法
@@ -21,7 +21,7 @@ dapr init [flags]
 
 ## 参数
 
-| Name                 | 环境变量           | 默认值           | 说明                                                 |
+| 名称                   | 环境变量           | 默认值           | 说明                                                 |
 | -------------------- | -------------- | ------------- | -------------------------------------------------- |
 | `--enable-ha`        |                | `false`       | 启用高可用性 (HA) 方式                                     |
 | `--enable-mtls`      |                | `true`        | 在群集中启用 mTLS                                        |

@@ -7,7 +7,7 @@ description: "Detailed documentation on the Azure Storage Queues binding compone
 
 ## Component format
 
-To setup Azure Storage Queues binding create a component of type `bindings.azure.storagequeues`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+To setup Azure Storage Queues binding create a component of type `bindings.azure.storagequeues`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration. To setup Redis binding create a component of type `bindings.redis`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -31,19 +31,19 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
+以上示例将 Secret 明文存储。 The example configuration shown above, contain a username and password as plain-text strings. 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
 {{% /alert %}}
 
 ## Spec metadata fields
 
-| 字段               | Required | Binding support | Details                                                                                                                                                           | Example       |
-| ---------------- |:--------:| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| storageAccount   |    Y     | Input/Output    | The Azure Storage account name                                                                                                                                    | `"account1"`  |
-| storageAccessKey |    Y     | Input/Output    | The Azure Storage access key                                                                                                                                      | `"accessKey"` |
-| queue            |    Y     | Input/Output    | The name of the Azure Storage queue                                                                                                                               | `"myqueue"`   |
-| ttlInSeconds     |    N     | Output          | Parameter to set the default message time to live. If this parameter is omitted, messages will expire after 10 minutes. See [also](#specifying-a-ttl-per-message) | `"60"`        |
+| 字段               | Required | Binding support | Details                                                                                                                                                                                                                                                        | Example       |
+| ---------------- |:--------:| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
+| storageAccount   |    Y     | Input/Output    | The Azure Storage account name                                                                                                                                                                                                                                 | `"account1"`  |
+| storageAccessKey |    Y     | Input/Output    | The Azure Storage access key                                                                                                                                                                                                                                   | `"accessKey"` |
+| queue            |    Y     | Input/Output    | The name of the Azure Storage queue                                                                                                                                                                                                                            | `"myqueue"`   |
+| ttlInSeconds     |    N     | Output          | Parameter to set the default message time to live. Parameter to set the default message time to live. If this parameter is omitted, messages will expire after 10 minutes. See [also](#specifying-a-ttl-per-message) See [also](#specifying-a-ttl-per-message) | `"60"`        |
 
-## Output bindings
+## 相关链接
 
 This component supports both **input and output** binding interfaces.
 

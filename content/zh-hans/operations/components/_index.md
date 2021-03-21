@@ -1,8 +1,8 @@
 ---
 type: docs
-title: "Managing components in Dapr"
+title: "Dapr 中的组件管理"
 linkTitle: "组件"
-weight: 200
-description: "How to manage your Dapr components in your application"
+weight: 300
+description: "如何管理应用程序中的 Dapr 组件"
 ---
 

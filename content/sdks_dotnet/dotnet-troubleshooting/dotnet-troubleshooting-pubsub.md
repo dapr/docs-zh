@@ -66,7 +66,7 @@ The JSON blob that's included near the end is the output of `/dapr/subscribe` th
 ]
 ```
 
---- 
+---
 
 With the output of this command in hand, you are ready to diagnose a problem or move on to the next step.
 
@@ -138,7 +138,7 @@ In this step we'll verify that the entries registered with pub/sub are reachable
 Keep this output, as we'll use the `route` information to test the application.
 
 1. Start the application as you would normally (`dapr run ...`).
-   
+
 2. Adjust the logging verbosity to include `Information` logging for ASP.NET Core as described [here](https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-5.0#debug-diagnostics). Set the `Microsoft` key to `Information`.
 
 3. Use `curl` at the command line (or another HTTP testing tool) to access one of the routes registered a pub/sub endpoint.

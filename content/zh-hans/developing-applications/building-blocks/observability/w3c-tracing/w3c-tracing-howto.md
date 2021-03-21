@@ -3,11 +3,11 @@ type: docs
 title: "How-To : 使用 Dapr 的 W3C 跟踪上下文"
 linkTitle: "How-To: Use W3C trace context"
 weight: 20000
-description: 将 W3C 跟踪标准与 Dapr 一起使用
+description: 将 W3C 追踪标准与 Dapr 一起使用
 ---
 
-# 如何使用跟踪上下文
-Dapr 使用 W3C 跟踪上下文对服务调用和 pub/sub 消息传递进行分布式跟踪。 Dapr 承担生成和传播跟踪上下文信息的所有繁重工作，并且很少需要传播或创建跟踪上下文。 首先阅读 [W3C 分布式跟踪]({{< ref w3c-tracing >}}) 这篇文章中的方案 ，以了解您是否需要传播或创建跟踪上下文。
+# 如何使用追踪上下文
+Dapr 使用 W3C 追踪上下文对服务调用和 pub/sub 消息传递进行分布式跟踪。 Dapr 承担生成和传播跟踪上下文信息的所有繁重工作，并且很少需要传播或创建跟踪上下文。 首先阅读 [W3C 分布式跟踪]({{< ref w3c-tracing >}}) 这篇文章中的方案 ，以了解您是否需要传播或创建跟踪上下文。
 
 若要查看跟踪，请阅读 [如何诊断与跟踪]({{< ref tracing.md >}}) 文章。
 
@@ -16,7 +16,7 @@ Dapr 使用 W3C 跟踪上下文对服务调用和 pub/sub 消息传递进行分�
 
 ### 在 Go 中检索跟踪上下文
 #### 对于 HTTP 调用
-OpenCensus Go SDK provides [ochttp](https://pkg.go.dev/go.opencensus.io/plugin/ochttp/propagation/tracecontext?tab=doc) package that provides methods to retrieve trace context from http response.
+OpenCensus Go SDK 提供 [ochttp](https://pkg.go.dev/go.opencensus.io/plugin/ochttp/propagation/tracecontext?tab=doc) 包，提供从 http 响应中检索跟踪上下文的方法。
 
 若要从 HTTP 响应检索跟踪上下文，可以使用 ：
 
@@ -49,7 +49,7 @@ client.InvokeService(ctx, &pb.InvokeServiceRequest{
 要从 HTTP 响应检索跟踪上下文，可以使用 [.NET API](https://docs.microsoft.com/en-us/dotnet/api/system.net.http.headers.httpresponseheaders?view=netcore-3.1):
 
 ```csharp
-// client is HttpClient. req is HttpRequestMessage
+// client is HttpClient. // client is HttpClient. req is HttpRequestMessage
 HttpResponseMessage response = await client.SendAsync(req);
 IEnumerable<string> values1, values2;
 string traceparentValue = "";
@@ -114,7 +114,7 @@ ctx = metadata.AppendToOutgoingContext(ctx, "grpc-trace-bin", string(traceContex
 // client is HttpClient. req is HttpRequestMessage
 req.Headers.Add("traceparent", traceparentValue);
 req.Headers.Add("tracestate", tracestateValue);
-HttpResponseMessage response = await client.SendAsync(req);
+HttpResponseMessage response = await client.SendAsync(req);  
 ```
 
 #### 对于gRPC 调用
@@ -142,14 +142,14 @@ using var call = client.InvokeServiceAsync(req, headers);
 
 ### 在 Go 中创建跟踪上下文
 
-#### 1. 1. 获取 OpenCensus Go SDK
+#### 1. 1. 1. 获取 OpenCensus Go SDK
 
 先决条件:OpenCensus Go 库需要 Go 1.8 或更高版本。 有关安装的详细信息，请访问 [这里](https://pkg.go.dev/go.opencensus.io?tab=overview)。
 
-#### 2. 2. 导入包 "go.openensuss.io/trace"
+#### 2. 2. 2. 导入包 "go.openensuss.io/trace"
 `$ go get -u go.opencensus.io`
 
-#### 3. 3. 创建跟踪上下文
+#### 3. 3. 3. 创建跟踪上下文
 
 ```go
 ctx, span := trace.StartSpan(ctx, "cache.Get")
@@ -229,7 +229,7 @@ Dapr 包含生成跟踪上下文，您无需明确创建跟踪上下文。
 
 其他代码片段和详细信息，请参阅 [grpc 应用程序]({{< ref grpc >}})。
 
-### 1. 1. 导入包
+### 1. 1. 1. 导入包
 
 ```go
 package main
@@ -243,7 +243,7 @@ import (
 )
 ```
 
-### 2. 2. 创建客户端
+### 2. 2. 2. 创建客户端
 
 ```go
   // Get the Dapr port and create a connection
@@ -259,20 +259,20 @@ import (
   client := pb.NewDaprClient(conn)
 ```
 
-### 3. 3. 使用跟踪上下文调用 InvokeService 方法
+### 3. 3. 3. 使用跟踪上下文调用 InvokeService 方法
 
 ```go
-  // Create the Trace Context
+  // 创建Trace Context
   ctx , span := trace.StartSpan(context.Background(), "InvokeService")
 
-  // The returned context can be used to keep propagating the newly created span in the current context.
-  // In the same process, context.Context is used to propagate trace context.
+  // 返回的上下文可以用于在当前环境中不断传播新创建的span。
+  // 在同一进程中，Context用来传播追踪上下文。
 
-  // Across the process, use the propagation format of Trace Context to propagate trace context.
+  // 跨进程中，使用Trace Context 的传播格式来传播追踪上下文。
   traceContext := propagation.Binary(span.SpanContext())
   ctx = metadata.NewOutgoingContext(ctx, string(traceContext))
 
-  // Pass the trace context
+  // 传递链路上下文
   resp, err := client.InvokeService(ctx, &pb.InvokeServiceRequest{
         Id: "client",
         Message: &commonv1pb.InvokeRequest{

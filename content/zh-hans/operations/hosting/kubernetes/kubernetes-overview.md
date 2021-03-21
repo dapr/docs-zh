@@ -1,18 +1,28 @@
 ---
 type: docs
-title: "Overview of Dapr on Kubernetes"
-linkTitle: "Overview"
+title: "Kubernetes上的 Dapr 概述"
+linkTitle: "概述"
 weight: 10000
-description: "Overview of how to get Dapr running on your Kubernetes cluster"
+description: "如何在 Kubernetes 集群中运行 Dapr 的概述"
 ---
 
-Dapr can be configured to run on any [Kubernetes cluster](https://github.com/dapr/quickstarts/tree/master/hello-kubernetes). In Kubernetes the `dapr-sidecar-injector` and `dapr-operator` services provide first class integration to launch Dapr as a sidecar container in the same pod as the service container and provide notifications of Dapr component updates provisioned into the cluster. Additionally, the `dapr-sidecar-injector` also injects the environment variables `DAPR_HTTP_PORT` and `DAPR_GRPC_PORT` into **all** the containers in the pod to enable user defined applications to easily communicate with Dapr without hardcoding Dapr port values.
+## Kubernetes上的 Dapr
 
-The `dapr-sentry` service is a certificate authority that enables mutual TLS between Dapr sidecar instances for secure data encryption. For more information on the `Sentry` service read the [security overview]({{< ref "security-concept.md" >}})
+Dapr 可以配置为在任何 Kubernetes 集群上运行。 为了实现这一目标，Dapr首先部署了`dapr-sidecar-injector`、`dapr-operator`、`dapr-placement`和`dapr-sentry`Kubernetes服务。  这些都提供了一流的集成，使Dapr的应用运行变得简单。
+- **dapr-operator:** 管理 [组件]({{< ref components >}}) 更新和 Dapr 的 Kubernetes 服务终结点(状态存储、发布/订阅 等)。
+- **dapr-sidecar-injector:** 将 Dapr 注入 [annotated](#adding-dapr-to-a-kubernetes-cluster) deployment pods，并添加环境变量 `DAPR_HTTP_PORT` 和 `DAPR_GRPC_PORT`，以使用户定义的应用程序能够轻松地与 Dapr 通信，而无需硬编码 Dapr 端口值。
+- **dapr-placement:** 仅用于 [Actors]({{< ref actors >}})。 创建映射表，将 actor 实例映射到 pods。
+- **dapr-sentry:** 管理服务之间的mTLS并作为证书颁发机构。 有关详细信息，请阅读[安全概述]({{< ref "security-concept.md" >}})。
 
 <img src="/images/overview_kubernetes.png" width=800>
 
-Deploying and running a Dapr enabled application into your Kubernetes cluster is a simple as adding a few annotations to the deployment schemes. To give your service an `id` and `port` known to Dapr, turn on tracing through configuration and launch the Dapr sidecar container, you annotate your Kubernetes deployment like this.
+## 在 Kubernetes 集群上部署 Dapr
+
+阅读 [本指南]({{< ref kubernetes-deploy.md >}}) 来学习如何将 Dapr 部署到您的 Kubernetes 集群。
+
+## 将 Dapr 添加到 Kubernetes deployment
+
+在你的 Kubernetes 集群中部署和运行一个启用了 Dapr 的应用程序很简单，只需在部署方案中添加一些注释即可。 要给您的服务提供一个 `id` 和 `port` 已知的 Dapr, 通过配置进行追踪并启动 Dapr sidecar 容器, 你要像这样注释你的 Kubernetes deployment。
 
 ```yml
   annotations:
@@ -21,6 +31,14 @@ Deploying and running a Dapr enabled application into your Kubernetes cluster is
     dapr.io/app-port: "3000"
     dapr.io/config: "tracing"
 ```
-You can see some examples [here](https://github.com/dapr/quickstarts/tree/master/hello-kubernetes/deploy) in the Kubernetes getting started sample.
 
-Explore additional [Kubernetes related topics]({{X25X}}) for more information about working with Dapr on Kubernetes.
+## 快速入门
+
+您可以 [在这里](https://github.com/dapr/quickstarts/tree/master/hello-kubernetes) 看到一些例子，在 Kubernetes 的入门示例中。
+
+## 相关链接
+
+- [将 Dapr 部署到 Kubernetes 集群]({{< ref kubernetes-deploy >}})
+- [更新 Kubernetes 集群中的 Dapr]({{< ref kubernetes-upgrade >}})
+- [Kubernetes 的 Dapr 生产环境配置指南]({{< ref kubernetes-production.md >}})
+- [Dapr Kubernetes 快速入门](https://github.com/dapr/quickstarts/tree/master/hello-kubernetes)

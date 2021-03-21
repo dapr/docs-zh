@@ -7,7 +7,7 @@ description: "Detailed documentation on the MQTT binding component"
 
 ## Component format
 
-To setup MQTT binding create a component of type `bindings.mqtt`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+To setup MQTT binding create a component of type `bindings.mqtt`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration. To setup Redis binding create a component of type `bindings.redis`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -26,7 +26,7 @@ spec:
     value: topic1
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
+以上示例将 Secret 明文存储。 The example configuration shown above, contain a username and password as plain-text strings. 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
 {{% /alert %}}
 
 ## Spec metadata fields
@@ -36,7 +36,7 @@ spec:
 | url   |    Y     | Input/Output    | The MQTT broker url                      | `"mqtt[s]://[username][:password]@host.domain[:port]"` |
 | topic |    Y     | Input/Output    | The topic to listen on or send events to | `"mytopic"`                                            |
 
-## Output bindings
+## 相关链接
 
 This component supports both **input and output** binding interfaces.
 
