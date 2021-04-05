@@ -5,9 +5,9 @@ linkTitle: "MQTT"
 description: "Detailed documentation on the MQTT binding component"
 ---
 
-## Component format
+## 配置
 
-To setup MQTT binding create a component of type `bindings.mqtt`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration. To setup Redis binding create a component of type `bindings.redis`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+To setup MQTT binding create a component of type `bindings.mqtt`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 
 ```yaml
@@ -26,27 +26,27 @@ spec:
     value: topic1
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 The example configuration shown above, contain a username and password as plain-text strings. 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
-## Spec metadata fields
+## 元数据字段规范
 
-| 字段    | Required | Binding support | Details                                  | Example                                                |
-| ----- |:--------:| --------------- | ---------------------------------------- | ------------------------------------------------------ |
-| url   |    Y     | Input/Output    | The MQTT broker url                      | `"mqtt[s]://[username][:password]@host.domain[:port]"` |
-| topic |    Y     | Input/Output    | The topic to listen on or send events to | `"mytopic"`                                            |
+| 字段    | 必填 | 绑定支持         | 详情                                       | 示例                                                     |
+| ----- |:--:| ------------ | ---------------------------------------- | ------------------------------------------------------ |
+| url   | 是  | Input/Output | The MQTT broker url                      | `"mqtt[s]://[username][:password]@host.domain[:port]"` |
+| topic | 是  | Input/Output | The topic to listen on or send events to | `"mytopic"`                                            |
 
-## 相关链接
+## 绑定支持
 
-This component supports both **input and output** binding interfaces.
+此组件支持 **输入和输出** 绑定接口。
 
-字段名为 `ttlInSeconds`。
+该组件支持**输出绑定**，其操作如下:
 
 - `create`
 ## 相关链接
 
-- [Basic schema for a Dapr component]({{< ref component-schema >}})
-- [Bindings building block]({{< ref bindings >}})
-- [如何通过 input binding 触发应用]({{< ref howto-triggers.md >}})
-- [How-To：使用绑定与外部资源进行交互]({{< ref howto-bindings.md >}})
+- [Dapr组件的基本格式]({{< ref component-schema >}})
+- [绑定构建块]({{< ref bindings >}})
+- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
+- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
 - [绑定API 参考]({{< ref bindings_api.md >}})

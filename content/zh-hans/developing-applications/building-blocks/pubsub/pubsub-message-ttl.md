@@ -30,7 +30,7 @@ Azure Service Bus 支持 [实体级别的 TTL]((https://docs.microsoft.com/en-us
 
 当非 Dapr 订阅者使用 Azure Service Bus 等组件时，也就是在本机处理消息 TTL，就收不到过期的消息。 在这方面，不需要额外的逻辑。
 
-## 例子
+## 示例
 
 消息 TTL 可以设置在元数据中，作为发布请求的一部分：
 
@@ -87,6 +87,6 @@ $app->run(function(\DI\FactoryInterface $factory) {
 ## 相关链接
 
 - 了解 [Topic 作用域]({{< ref pubsub-scopes.md >}})
-- 学习 [如何配置具有多个命名空间的 Pub/Sub 组件]({{< ref pubsub-namespaces.md >}})
-- [Pub/Sub 组件列表]({{< ref supported-pubsub >}})
+- 您可以重写这个文件以使用另一个 Redis 实例或者另一个 [pubsub component]({{< ref setup-pubsub >}}) ，通过创建 `components` 文件夹（文件夹中包含重写的文件）并在 `dapr run` 命令行界面使用 `--components-path` 标志。
+- {{< ref supported-pubsub >}}
 - 阅读 [API 引用]({{< ref pubsub_api.md >}})

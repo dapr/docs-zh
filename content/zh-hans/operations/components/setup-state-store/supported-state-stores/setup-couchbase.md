@@ -5,9 +5,9 @@ linkTitle: "Couchbase"
 description: Detailed information on the Couchbase state store component
 ---
 
-## Component format
+## 配置
 
-To setup Couchbase state store create a component of type `state.couchbase`. See [this guide]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}}) on how to create and apply a state store configuration. To setup SQL Server state store create a component of type `state.sqlserver`. See [this guide]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}}) on how to create and apply a state store configuration.
+To setup Couchbase state store create a component of type `state.couchbase`. 请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})，了解如何创建和应用状态存储配置。
 
 
 ```yaml
@@ -33,21 +33,27 @@ spec:
   - name: password
     value: <REPLACE-WITH-PASSWORD> # Required.
   - name: bucketName
+    value: <REPLACE-WITH-BUCKET> # Required. Example: "http://localhost:8091"
+  - name: username
+    value: <REPLACE-WITH-USERNAME> # Required.
+  - name: password
+    value: <REPLACE-WITH-PASSWORD> # Required.
+  - name: bucketName
     value: <REPLACE-WITH-BUCKET> # Required.
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 The example configuration shown above, contain a username and password as plain-text strings. 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
-## Spec metadata fields
+## 元数据字段规范
 
-| 字段           | Required | Details                         | Example                   |
-| ------------ |:--------:| ------------------------------- | ------------------------- |
-| couchbaseURL |    Y     | The URL of the Couchbase server | `"http://localhost:8091"` |
-| username     |    Y     | The username for the database   | `"user"`                  |
-| password     |    Y     | The password for access         | `"password"`              |
-| bucketName   |    Y     | The bucket name to write to     | `"bucket"`                |
+| 字段           | 必填 | 详情                              | 示例                        |
+| ------------ |:--:| ------------------------------- | ------------------------- |
+| couchbaseURL | 是  | The URL of the Couchbase server | `"http://localhost:8091"` |
+| username     | 是  | The username for the database   | `"user"`                  |
+| password     | 是  | The password for access         | `"password"`              |
+| bucketName   | 是  | The bucket name to write to     | `"bucket"`                |
 
 ## Setup Couchbase
 
@@ -76,6 +82,6 @@ helm install couchbase/couchbase-cluster
 {{< /tabs >}}
 
 ## 相关链接
-- [Basic schema for a Dapr component]({{< ref component-schema >}})
-- Read [this guide]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}}) for instructions on configuring state store components
-- [State management building block]({{< ref state-management >}})
+- [Dapr组件的基本格式]({{< ref component-schema >}})
+- 阅读 [本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}}) 以获取配置状态存储组件的说明
+- [状态管理构建块]({{< ref state-management >}})

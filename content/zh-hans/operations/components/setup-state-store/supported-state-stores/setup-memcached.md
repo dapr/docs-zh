@@ -5,7 +5,7 @@ linkTitle: "Memcached"
 description: Memcached 状态存储组件的详细信息
 ---
 
-## 组件格式
+## 配置
 
 要设置 Memcached 状态存储，请创建一个类型为 `state.memcached` 的组件。 请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})，了解如何创建和应用状态存储配置。
 
@@ -28,18 +28,22 @@ spec:
   - name: maxIdleConnections
     value: <REPLACE-WITH-MAX-IDLE-CONNECTIONS> # Optional. default: "2"
   - name: timeout
+    value: <REPLACE-WITH-TIMEOUT> # Optional. default: "1000ms" Example: "memcached.default.svc.cluster.local:11211"
+  - name: maxIdleConnections
+    value: <REPLACE-WITH-MAX-IDLE-CONNECTIONS> # Optional. default: "2"
+  - name: timeout
     value: <REPLACE-WITH-TIMEOUT> # Optional. default: "1000ms"
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 The example configuration shown above, contain a username and password as plain-text strings. 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段                 | 必填 | 详情                      | 示例                                            |
 | ------------------ |:--:| ----------------------- | --------------------------------------------- |
-| hosts              | Y  | 逗号分隔的 endpoints         | `"memcached.default.svc.cluster.local:11211"` |
+| hosts              | 是  | 逗号分隔的 endpoints         | `"memcached.default.svc.cluster.local:11211"` |
 | maxIdleConnections | N  | 空闲连接的最大数量。 默认值为 `"2"`   | `"3"`                                         |
 | timeout            | N  | 调用超时时间。 默认值为 `"1000ms"` | `"1000ms"`                                    |
 

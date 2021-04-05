@@ -61,7 +61,7 @@ spec:
 
 下面的步骤显示了如何创建 Dapr 客户端并调用 `保存状态数据` 操作：
 
-1. 导入包
+1. 1. 导入包
 
 ```go
 package main
@@ -75,7 +75,7 @@ import (
 )
 ```
 
-2. 创建客户端
+2. 2. 创建客户端
 
 ```go
 // just for this demo
@@ -109,7 +109,7 @@ logger.Println("data saved")
 
 以下步骤将向您显示如何创建一个让Dapr服务器与之通信的应用程序。
 
-1. 导入包
+1. 1. 导入包
 
 ```go
 package main
@@ -181,6 +181,30 @@ func (s *server) OnBindingEvent(ctx context.Context, in *pb.BindingEventRequest)
     return &pb.BindingEventResponse{}, nil
 }
 
+// This method is fired whenever a message has been published to a topic that has been subscribed. Dapr用CloudEvents 0.3规范发送发布的消息。 In this example, we are telling Dapr
+// To subscribe to a topic named TopicA
+func (s *server) ListTopicSubscriptions(ctx context.Context, in *empty.Empty) (*pb.ListTopicSubscriptionsResponse, error) {
+    return &pb.ListTopicSubscriptionsResponse{
+        Subscriptions: []*pb.TopicSubscription{
+            {Topic: "TopicA"},
+        },
+    }, nil
+}
+
+// Dapr will call this method to get the list of bindings the app will get invoked by. In this example, we are telling Dapr
+// To invoke our app with a binding named storage
+func (s *server) ListInputBindings(ctx context.Context, in *empty.Empty) (*pb.ListInputBindingsResponse, error) {
+    return &pb.ListInputBindingsResponse{
+        Bindings: []string{"storage"},
+    }, nil
+}
+
+// This method gets invoked every time a new event is fired from a registerd binding. The message carries the binding name, a payload and optional metadata
+func (s *server) OnBindingEvent(ctx context.Context, in *pb.BindingEventRequest) (*pb.BindingEventResponse, error) {
+    fmt.Println("Invoked from binding")
+    return &pb.BindingEventResponse{}, nil
+}
+
 // This method is fired whenever a message has been published to a topic that has been subscribed. Dapr用CloudEvents 0.3规范发送发布的消息。
 func (s *server) OnTopicEvent(ctx context.Context, in *pb.TopicEventRequest) (*empty.Empty, error) {
     fmt.Println("Topic message arrived")
@@ -204,12 +228,6 @@ func main() {
     pb.RegisterAppCallbackServer(s, &server{})
 
     fmt.Println("Client starting...")
-
-    // and start...
-    if err := s.Serve(lis); err != nil {
-        log.Fatalf("failed to serve: %v", err)
-    }
-}
 
     // and start...
     if err := s.Serve(lis); err != nil {

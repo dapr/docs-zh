@@ -124,5 +124,5 @@ kubectl delete namespace namespace-b
 ## 相关链接
 
 - [限定组件作用范围在一至多个应用]({{< ref "component-scopes.md" >}})
-- [使用密钥范围界定]({{< ref "secrets-scopes.md" >}})
-- [限制可以从密钥仓库中读取的密钥]({{< ref "secret-scope.md" >}})
+- [Use secret scoping]({{< ref "secrets-scopes.md" >}})
+- [Limit the secrets that can be read from secret stores]({{< ref "secret-scope.md" >}})

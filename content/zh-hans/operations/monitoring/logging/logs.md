@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "日志"
-linkTitle: "Logs"
+linkTitle: "日志"
 weight: 3000
 description: "了解 Dapr 日志记录"
 ---
@@ -14,7 +14,7 @@ Dapr以纯文本形式或JSON格式生成结构化日志到标准输出。 默�
 
 Dapr 基于以下架构生成日志。
 
-| 字段       | 说明                           | 示例                         |
+| 字段       | 描述                           | 示例                         |
 | -------- | ---------------------------- | -------------------------- |
 | time     | ISO8601 时间戳                  | `2011-10-05T14:48:00.000Z` |
 | level    | 日志级别 (info/warn/debug/error) | `info`                     |
@@ -86,7 +86,7 @@ spec:
 
 ## 日志收集器
 
-如果您在 Kubernetes 集群中运行 Dapr ，那么 [Fluentd](https://www.fluentd.org/) 是一个受欢迎的容器日志收集器。 您可以将 Fluentd 与 [json 解析器插件](https://docs.fluentd.org/parser/json) 一起使用，以解析 Dapr JSON 格式的日志。 此 [how-to]({{< ref fluentd.md >}}) 显示如何在您的集群中配置Fluntd 。
+如果您在 Kubernetes 集群中运行 Dapr ，那么 [Fluentd](https://www.fluentd.org/) 是一个受欢迎的容器日志收集器。 您可以将 Fluentd 与 [json 解析器插件](https://docs.fluentd.org/parser/json) 一起使用，以解析 Dapr JSON 格式的日志。 This [how-to]({{< ref fluentd.md >}}) shows how to configure the Fluentd in your cluster.
 
 如果您使用 Azure Kubernetes 服务 您可以使用默认OMS Agent和 Azure Monitor收集日志，而不需要安装 Fluentd。
 
@@ -96,7 +96,7 @@ spec:
 
 如果您正在使用 Azure Kubernetes 服务，您可以使用 [针对容器的Azure monitor](https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-overview) 而不会安装任何额外的监视工具。 也可以阅读 [如何为容器启用 Azure Monitor](https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-onboard)
 
-## 参考文档
+## 参考资料
 
 - [How-to : 设置 Fleuntd, Elastic search 和 Kibana]({{< ref fluentd.md >}})
 - [How-to：在 Azure Kubernetes 服务中设置Azure Monitor。]({{< ref azure-monitor.md >}})

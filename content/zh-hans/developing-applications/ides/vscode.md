@@ -40,7 +40,7 @@ Dapr 为每种语言的 SDK 预先构建了Docker 远程容器。 您可以选�
 3. 输入 `dapr` 来过滤列表到可用的 Dapr 远程容器，并选择符合您应用程序的语言容器。 请注意，您可能需要选择 `Show All Definitions...` <br /><img src="/images/vscode-remotecontainers-daprcontainers.png" alt="添加 dapr 容器的截图" width="700" />
 4. 按照提示重建您在容器中的应用程序。 <br /><img src="/images/vscode-remotecontainers-reopen.png" alt="在开发容器中重新打开应用程序的截图" width="700" />
 
-#### 例子
+#### 示例
 观看有关如何使用应用程序的 Dapr VS 代码远程容器的 [视频](https://www.bilibili.com/video/BV1QK4y1p7fn?p=8&t=120)。 <iframe width="560" height="315" src="https://www.youtube.com/embed/D2dO4aGpHcg?start=120" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
 
 ## 疑难解答
@@ -58,7 +58,7 @@ Dapr 为每种语言的 SDK 预先构建了Docker 远程容器。 您可以选�
 dapr run --app-id nodeapp --app-port 3000 --dapr-http-port 3500 app.js
 ```
 
-这将生成组件的 yaml 文件(如果它们不存在)，以便您的服务能够与本地的redis 容器交互。 当你刚刚入门时这是好的开始，但是如果你想要附加一个debugger到你的服务并且通过VS Code进行单点调试呢？ 您可以在这里使用 dapr 运行时(daprd) 来帮助实现这一点。
+这将生成组件的 yaml 文件(如果它们不存在)，以便您的服务能够与本地的redis 容器交互。 作为一个入门方法这很好用，但是如果你想要附加一个调试器到你的服务来进行代码调试呢？ 您可以在这里使用 dapr 运行时(daprd) 来帮助实现这一点。
 
 {{% alert title="Note" color="primary" %}}
 Dapr runtime (daprd) 不会自动生成用于 Redis 的组件的 yaml 文件。 这些将需要手动创建，否则您需要运行 dapr cli (dapr) 来自动创建它们。
@@ -122,7 +122,7 @@ Dapr runtime (daprd) 不会自动生成用于 Redis 的组件的 yaml 文件。 
 * -app-port -- 您的应用程序代码正在监听的端口号
 * -dapr-http-port -- Dapr api的 http 端口
 * -dapr-grpc-port -- Dapr api的 grpc 端口
-* -placement-host-address -- 放置服务的位置(这应该在docker中运行，因为它是当你安装了dapr 并运行` dapr init`的时候创建)
+* -placement-host-address -- 放置服务的位置(这应该在docker中运行，因为它是当你安装了dapr 并运行`dapr init`的时候创建) > 注意: 您将需要确保您为您创建的每个dapr-grpc (-dapr-http-port 和 -dapr-grpc-port) 指定不同的 http/grpc 端口， 否则，当您尝试启动第二个配置时将端口冲突。
 > 注意: 您将需要确保您为您创建的每个dapr-grpc (-dapr-http-port 和 -dapr-grpc-port) 指定不同的 http/grpc 端口， 否则，当您尝试启动第二个配置时将端口冲突。
 
 ```json
@@ -213,5 +213,5 @@ Dapr runtime (daprd) 不会自动生成用于 Redis 的组件的 yaml 文件。 
 一旦您进行了所需的更改， 您应该能够在 VSCode 中切换到 [debug](https://code.visualstudio.com/Docs/editor/debugging) 视图，然后点击“play”按钮来启动您的调试配置。 如果所有配置正确， 您应该在 VSCode 终端窗口中看到数据启动， [debugger](https://code.visualstudio.com/Docs/editor/debugging) 应该附加到您的应用程序(您应该在调试窗口中看到它的输出)。
 
 {{% alert title="Note" color="primary" %}}
-因为您没有使用 **dapr* run*** cli 命令， 但通过运行 **daprd *list*** 命令将不会显示当前正在运行的应用列表。
+因为您没有使用 ***dapr* run*** cli 命令， 但通过运行 **daprd ***list****** 命令将不会显示当前正在运行的应用列表。
 {{% /alert %}}

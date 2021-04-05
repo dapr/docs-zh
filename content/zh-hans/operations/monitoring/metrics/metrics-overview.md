@@ -1,9 +1,9 @@
 ---
 type: docs
 title: "指标"
-linkTitle: "Metrics"
+linkTitle: "指标"
 weight: 4000
-description: "观察 dapr 指标"
+description: "Observing Dapr metrics in Kubernetes"
 ---
 
 Dapr 公开了一个 [Prometheus](https://prometheus.io/) 指标终结点，您可以扫描该终结点，以更深入地了解 Dapr 的行为方式，针对特定条件设置警报。
@@ -12,9 +12,40 @@ Dapr 公开了一个 [Prometheus](https://prometheus.io/) 指标终结点，您�
 
 默认情况下，指标终结点处于启用状态，您可以通过命令行参数 `--enable-metrics=false` 传递给 Dapr 系统进程来禁用它。
 
-默认指标端口为 `9090`。 This can be overridden by passing the command line argument `--metrics-port` to Daprd.
+默认指标端口为 `9090`。 This can be overridden by passing the command line argument `--metrics-port` to Daprd. Additionally, the metrics exporter can be disabled for a specific application by setting the `dapr.io/enable-metrics: "false"` annotation to your application deployment. With the metrics exporter disabled, `daprd` will not open the metrics listening port.
 
-要禁用 Dapr 边车中的指标，您可以使用 `metric` 规范配置并启用设置 `enabled: false` 以禁用 Dapr 运行时中的指标。
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeapp
+  labels:
+    app: node
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node
+  template:
+    metadata:
+      labels:
+        app: node
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "nodeapp"
+        dapr.io/app-port: "3000"
+        dapr.io/enable-metrics: "true"
+        dapr.io/metrics-port: "9090"
+    spec:
+      containers:
+      - name: node
+        image: dapriosamples/hello-k8s-node:latest
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Always
+```
+
+To disable the metrics collection in the Dapr side cars running in a specific namespace, you can use the `metric` spec configuration and set `enabled: false` to disable the metrics in the Dapr runtime.
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -26,7 +57,7 @@ spec:
   tracing:
     samplingRate: "1"
   metric:
-    enabled: false
+    enabled: true
 ```
 
 ## 指标

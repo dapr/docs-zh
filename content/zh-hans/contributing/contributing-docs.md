@@ -33,7 +33,7 @@ Dapr 文档处理分支的方式与大多数代码存储库不同。 每个分�
 - **页眉和标题** - 页眉和标题必须是描述性的和清晰的，使用句子大小写，即对页眉和标题也使用上述的大小写指导。
 - **使用简单的句子** - 易于阅读的句子意味着读者可以快速使用您所共享的指导。
 - **避免使用第一人称** - 用第二人称 "你"、"你的 "代替 "我"、"我们"、"我们的"。
-- **假设一个新的开发者受众** - 一些明显的步骤可能看起来很难。 例如: 例如: 现在将环境变量 Dapr 设置为值 X。 最好给读者一个明确的命令来做这个，而不是让他们自己去想办法。
+- **假设一个新的开发者受众** - 一些明显的步骤可能看起来很难。 例如: 现在将环境变量 Dapr 设置为值 X。最好给读者一个明确的命令来做这个，而不是让他们自己去想办法。
 - **使用现在时** - 避免使用 "这个命令将安装 redis"这样的句子，因为这意味着操作是在未来发生。 请改为使用 " 此命令安装 redis" (现在时态) 。
 
 ## 贡献新页面
@@ -46,7 +46,7 @@ Dapr 文档处理分支的方式与大多数代码存储库不同。 每个分�
 - 请确保文档引用该规范以获取使用 API 的示例。
 - 确保规范在名称，参数和术语方面与概念一致。 根据需要更新概念和规范。
 - 请避免重复该规范。 这个想法是为了给读者提供更多关于能力的信息和背景，以便他们可以尝试这个。 因此，尽可能提供更多的信息和实施细节。
-- 提供指向 [参考资料]({{X47X}}) 中的规范的链接。
+- Provide a link to the spec in the [Reference]({{X47X}}) section.
 - 在可能的情况下，参考一个实用的How-To文档。
 
 ### 贡献新的 How-To 指南
@@ -84,7 +84,7 @@ description: "1+ SENTENCES DESCRIBING THE ARTICLE"
 ---
 type: docs
 title: "服务调用概述"
-linkTitle: "Overview"
+linkTitle: "概述"
 weight: 10
 description: "Dapr服务调用的快速概述，以及如何在应用程序中使用它来调用服务。"
 ---
@@ -119,7 +119,7 @@ Hugo `ref` 和 `relref` [shortcodes](https://gohugo.io/content-management/cross-
 
 要引用另一页面中的特定部分，请在引用末尾添加 `#section-short-name`。
 
-通常，节短名称是节标题的文本，全部为小写，空格更改为"-"。 您可以通过访问 Web 站点页面，单击该部分旁边的链接图标 (🔗) 来检查区段短名称，并查看在导航栏中呈现 URL 的方式。 "#" 后面的内容是您的段节短名称。
+通常，节短名称是节标题的文本，全部为小写，空格更改为"-"。 You can check the section short name by visiting the website page, clicking the link icon (🔗) next to the section, and see how the URL renders in the nav bar. "#" 后面的内容是您的段节短名称。
 
 例如，对于此特定段节，完整引用页面和部分将是:
 
@@ -165,7 +165,7 @@ Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 语法来调
 
 您所编写的所有内容都将被渲染为Markdown，因此您可以包含图像、代码块、YouTube视频等。
 
-#### 例子
+#### 示例
 ````
 {{</* tabs Windows Linux MacOS>}}
 
@@ -191,14 +191,6 @@ brew install dapr/tap/dapr-cli
 ````
 这个示例将为此呈现：
 {{< tabs Windows Linux MacOS>}}
-{{% codetab %}}
-{{< tabs Windows Linux MacOS>}}
-{{% codetab %}}
-```powershell
-这个例子将呈现为：
-
-{{< tabs Windows Linux MacOS>}}
-
 {{% codetab %}}
 ```powershell
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
@@ -239,7 +231,7 @@ brew install dapr/tap/dapr-cli
 
 ## 翻译
 
-Dapr 文档支持使用 git 子模块和 Hugo 的内置语言支持将语言翻译添加到文档中。
+添加语言的步骤：
 
 您可以在 [PR 1286](https://github.com/dapr/docs/pull/1286) 中找到一个添加中文语言支持的PR 示例。
 

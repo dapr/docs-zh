@@ -22,7 +22,7 @@ pip install flask-dapr
 
 {{% codetab %}}
 {{% alert title="Note" color="warning" %}}
-The development package will contain features and behavior that will be compatible with the pre-release version of the Dapr runtime. Make sure to uninstall any stable versions of the Python SDK extension before installing the dapr-dev package.
+开发包包含的功能和行为将兼容此前发行的 Dapr 运行时。 在安装 dapr-dev 包之前，请务必卸载以前任意稳定版本的 dapr-ext-fastapi 的 Python SDK 扩展包。
 {{% /alert %}}
 
 ```bash

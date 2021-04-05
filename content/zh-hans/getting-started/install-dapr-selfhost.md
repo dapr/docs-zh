@@ -3,9 +3,11 @@ type: docs
 title: "在本地环境中初始化 Dapr"
 linkTitle: "本地初始化 Dapr"
 weight: 20
+aliases:
+  - /getting-started/install-dapr/
 ---
 
-现在，您已经安装了 [Dapr CLI]({{X22X}})，是时候使用 CLI 在本地机器上初始化 Dapr 了。
+Now that you have the [Dapr CLI installed]({{X22X}}), it's time to initialize Dapr on your local machine using the CLI.
 
 Dapr 与您的应用程序一起作为sidecar运行，在自托管模式下，这意味着它是您本地机器上的一个进程。 因此，初始化 Dapr 包括获取 Dapr sidecar 二进制文件并将其安装到本地.
 
@@ -17,7 +19,7 @@ Dapr 与您的应用程序一起作为sidecar运行，在自托管模式下，�
 1. 运行用于本地演员支持的**Dapr placement服务容器实例**
 
 {{% alert title="Docker" color="primary" %}}
-这种推荐的开发环境需要 [Docker](https://docs.docker.com/install/)。 无需依赖 Docker 即可初始化 Dapr（参见[本指南]({{X24X}})），但本指南中的下一步假设了建议的发展环境。
+这种推荐的开发环境需要 [Docker](https://docs.docker.com/install/)。 It is possible to initialize Dapr without a dependency on Docker (see [this guidance]({{X24X}})) but next steps in this guide assume the recommended development environment.
 {{% /alert %}}
 
 ### 第 1 步：打开架起终端
@@ -50,8 +52,8 @@ dapr --version
 
 输出应该看起来像这样：
 ```
-CLI version: 1.0.0
-Runtime version: 1.0.1
+CLI version: 1.1.0
+Runtime version: 1.1.0
 ```
 
 ### 第 4 步：验证容器正在运行
@@ -68,12 +70,13 @@ docker ps
 CONTAINER ID   IMAGE                    COMMAND                  CREATED         STATUS         PORTS                              NAMES
 0dda6684dc2e   openzipkin/zipkin        "/busybox/sh run.sh"     2 minutes ago   Up 2 minutes   9410/tcp, 0.0.0.0:9411->9411/tcp   dapr_zipkin
 9bf6ef339f50   redis                    "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   0.0.0.0:6379->6379/tcp             dapr_redis
-8d993e514150   daprio/dapr              "./placement"            2 minutes ago   Up 2 minutes   0.0.0.0:6050->50005/tcp            dapr_placement    
+8d993e514150   daprio/dapr              "./placement"            2 minutes ago   Up 2 minutes   0.0.0.0:6050->50005/tcp            dapr_placement   2 minutes ago   Up 2 minutes   0.0.0.0:6379->6379/tcp             dapr_redis
+8d993e514150   daprio/dapr              "./placement"            2 minutes ago   Up 2 minutes   0.0.0.0:6050->50005/tcp            dapr_placement
 ```
 
 ### 第 5 步：验证组件目录已初始化
 
-在 `dapr init`时，CLI 还创建了一个默认组件文件夹，其中包括几个 YAML 文件，其中包含state store、elevated 和 zipkin。 Dapr sidecar,将读取这些文件。 告诉它使用Redis容器进行状态管理和消息传递，以及Zipkin容器来收集跟踪。
+在 `dapr init`时，CLI 还创建了一个默认组件文件夹，其中包括几个 YAML 文件，其中包含state store、elevated 和 zipkin。 Dapr sidecar, 将读取这些文件。 告诉它使用Redis容器进行状态管理和消息传递，以及Zipkin容器来收集跟踪。
 
 - 在 Linux/MacOS 中 Dapr 使用默认组件和文件的路径是 `$HOME.dapr`。
 - Windows 中，Dapr 初始化路径到 `%USERPROFILE%\.dapr\`

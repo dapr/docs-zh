@@ -5,9 +5,9 @@ linkTitle: "Twitter"
 description: "Detailed documentation on the Twitter binding component"
 ---
 
-## Component format
+## 配置
 
-To setup Twitter binding create a component of type `bindings.twitter`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration. To setup Redis binding create a component of type `bindings.redis`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+To setup Twitter binding create a component of type `bindings.twitter`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -30,23 +30,23 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 The example configuration shown above, contain a username and password as plain-text strings. 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
-## Spec metadata fields
+## 元数据字段规范
 
-| 字段             | Required | Binding support | Details                     | Example            |
-| -------------- |:--------:| --------------- | --------------------------- | ------------------ |
-| consumerKey    |    Y     | Input/Output    | Twitter API consumer key    | `"conusmerkey"`    |
-| consumerSecret |    Y     | Input/Output    | Twitter API consumer secret | `"conusmersecret"` |
-| accessToken    |    Y     | Input/Output    | Twitter API access token    | `"accesstoken"`    |
-| accessSecret   |    Y     | Input/Output    | Twitter API access secret   | `"accesssecret"`   |
+| 字段             | 必填 | 绑定支持         | 详情                          | 示例                 |
+| -------------- |:--:| ------------ | --------------------------- | ------------------ |
+| consumerKey    | 是  | Input/Output | Twitter API consumer key    | `"conusmerkey"`    |
+| consumerSecret | 是  | Input/Output | Twitter API consumer secret | `"conusmersecret"` |
+| accessToken    | 是  | Input/Output | Twitter API access token    | `"accesstoken"`    |
+| accessSecret   | 是  | Input/Output | Twitter API access secret   | `"accesssecret"`   |
 
-## 相关链接
+## 绑定支持
 
-This component supports both **input and output** binding interfaces.
+此组件支持 **输入和输出** 绑定接口。
 
-字段名为 `ttlInSeconds`。
+该组件支持**输出绑定**，其操作如下:
 
 - `get`
 
@@ -84,9 +84,9 @@ Where the payload is:
 
 The metadata parameters are:
 
-- `query` - any valid Twitter query (e.g. `dapr` or `dapr AND serverless`). `query` - any valid Twitter query (e.g. `dapr` or `dapr AND serverless`). See [Twitter docs](https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators) for more details on advanced query formats
+- `query` - any valid Twitter query (e.g. `dapr` or `dapr AND serverless`). See [Twitter docs](https://developer.twitter.com/en/docs/tweets/rules-and-filtering/overview/standard-operators) for more details on advanced query formats
 - `lang` - (optional, default: `en`) restricts result tweets to the given language using [ISO 639-1 language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)
-- `result` - (optional, default: `recent`) specifies tweet query result type. Valid values include: Valid values include:
+- `result` - (optional, default: `recent`) specifies tweet query result type. Valid values include:
   - `mixed` - both popular and real time results
   - `recent` - most recent results
   - `popular` - most popular results
@@ -95,8 +95,8 @@ You can see the example of the JSON data that Twitter binding returns [here](htt
 
 ## 相关链接
 
-- [Basic schema for a Dapr component]({{< ref component-schema >}})
-- [Bindings building block]({{< ref bindings >}})
-- [How-To: Trigger application with input binding]({{< ref howto-triggers.md >}})
-- [How-To: Use bindings to interface with external resources]({{< ref howto-bindings.md >}})
-- [Bindings API reference]({{< ref bindings_api.md >}})
+- [Dapr组件的基本格式]({{< ref component-schema >}})
+- [绑定构建块]({{< ref bindings >}})
+- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
+- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
+- [绑定API 参考]({{< ref bindings_api.md >}})

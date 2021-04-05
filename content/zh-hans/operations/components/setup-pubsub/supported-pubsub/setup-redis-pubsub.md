@@ -5,9 +5,9 @@ linkTitle: "Redis Streams"
 description: "关于Redis Streams pubsub组件的详细文档"
 ---
 
-## 组件格式
+## 配置
 
-要设置Redis Streams pubsub，请创建一个类型为`pubsub.redis`的组件。 请参阅 [本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
+要设置Redis Streams pubsub，请创建一个类型为`pubsub.redis`的组件。 请参阅[本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -30,30 +30,34 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 [这里]({{< ref component-secrets.md >}})描述的密钥仓库来存储密钥。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段            | 必填 | 详情                                               | 示例                                                              |
-| ------------- |:--:| ------------------------------------------------ | --------------------------------------------------------------- |
-| redisHost     | Y  | Redis的连接地址                                       | `localhost:6379`, `redis-master.default.svc.cluster.local:6379` |
-| redisPassword | Y  | Redis的密码 无默认值 可以用`secretKeyRef`来引用               | `""`, `"KeFg23!"`                                               |
-| consumerID    | N  | 消费组 ID                                           | `"mygroup"`                                                     |
-| enableTLS     | N  | 如果Redis实例支持使用公共证书的TLS，可以配置为启用或禁用。 默认值为 `"false"` | `"true"`, `"false"`                                             |
+| 字段                | 必填 | 详情                                                                                                                           | 示例                                                              |
+| ----------------- |:--:| ---------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| redisHost         | 是  | Redis的连接地址                                                                                                                   | `localhost:6379`, `redis-master.default.svc.cluster.local:6379` |
+| redisPassword     | 是  | Redis的密码 无默认值 可以用`secretKeyRef`来引用密钥。                                                                                        | `""`, `"KeFg23!"`                                               |
+| consumerID        | N  | 消费组 ID                                                                                                                       | `"mygroup"`                                                     |
+| enableTLS         | N  | 如果Redis实例支持使用公共证书的TLS，可以配置为启用或禁用。 默认值为 `"false"`                                                                             | `"true"`, `"false"`                                             |
+| redeliverInterval | N  | The interval between checking for pending messages to redelivery. Defaults to `"60s"`. `"0"` disables redelivery.            | `"30s"`                                                         |
+| processingTimeout | N  | The amount time a message must be pending before attempting to redeliver it. Defaults to `"15s"`. `"0"` disables redelivery. | `"30s"`                                                         |
+| queueDepth        | N  | The size of the message queue for processing. Defaults to `"100"`.                                                           | `"1000"`                                                        |
+| concurrency       | N  | The number of concurrent workers that are processing messages. Defaults to `"10"`.                                           | `"15"`                                                          |
 
-## 创建Redis实例
+## Create a Redis instance
 
-Dapr可以使用任何Redis实例，无论是容器化的，运行在本地开发机器上的，或者是托管的云服务，前提是Redis的版本是5.0.0或更高。
+Dapr can use any Redis instance - containerized, running on your local dev machine, or a managed cloud service, provided the version of Redis is 5.0.0 or later.
 
 {{< tabs "Self-Hosted" "Kubernetes" "AWS" "GCP" "Azure">}}
 
 {{% codetab %}}
-Dapr CLI将自动为你创建和设置一个Redis Streams实例。 当你执行`dapr init`时，Redis实例将通过Docker安装，组件文件将在默认目录下创建。 (默认目录位于`$HOME/.dapr/components` (Mac/Linux) ，`%USERPROFILE%\.dapr\components` (Windows)).
+The Dapr CLI will automatically create and setup a Redis Streams instance for you. The Redis instance will be installed via Docker when you run `dapr init`, and the component file will be created in default directory. (`$HOME/.dapr/components` directory (Mac/Linux) or `%USERPROFILE%\.dapr\components` on Windows).
 {{% /codetab %}}
 
 {{% codetab %}}
-你可以使用[Helm](https://helm.sh/)在我们的Kubernetes集群中快速创建一个Redis实例， 这种方法需要[安装Helm](https://github.com/helm/helm#install)。
+您可以使用 [helm](https://helm.sh/) 在我们的 Kubernetes 集群中快速创建 dapr 实例。 This approach requires [Installing Helm](https://github.com/helm/helm#install).
 
 1. 安装 Redis 到你的集群：
     ```bash
@@ -73,9 +77,9 @@ Dapr CLI将自动为你创建和设置一个Redis Streams实例。 当你执行`
 4. 接下来，我们会获取到我们的Redis密码，根据我们使用的操作系统不同，密码也会略有不同：
     - **Windows**：执行`kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" > encoded.b64`，这将创建一个有你的加密后密码的文件。 接下来，执行`certutil -decode encoded.b64 password.txt`，它将把你的redis密码放在一个名为`password.txt`的文本文件中。 复制密码，删除这两个文件。
 
-    - **Linux/MacOS**：执行 `kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" | base64 --decode`并复制输出的密码。
+    - **Linux/MacOS**: Run `kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" | base64 --decode` and copy the outputted password.
 
-    将此密码设置为redis.yaml文件的`redisPassword`的值。 例如:
+    Add this password as the `redisPassword` value in your redis.yaml file. 例如:
 
     ```yaml
         - name: redisPassword
@@ -99,7 +103,7 @@ Dapr CLI将自动为你创建和设置一个Redis Streams实例。 当你执行`
 
 
 {{% alert title="Note" color="primary" %}}
-作为`dapr init`命令的一部分，Dapr CLI会在自托管模式下自动部署本地redis实例。
+The Dapr CLI automatically deploys a local redis instance in self hosted mode as part of the `dapr init` command.
 {{% /alert %}}
 
 ## 相关链接

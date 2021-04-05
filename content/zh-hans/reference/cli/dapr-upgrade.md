@@ -5,7 +5,7 @@ linkTitle: "upgrade"
 description: "有关 upgrade CLI 命令的详细信息"
 ---
 
-## 说明
+## 描述
 
 在受支持的托管平台上升级 Dapr 。
 
@@ -20,7 +20,7 @@ dapr upgrade [flags]
 
 ## 参数
 
-| 名称                   | 环境变量 | 默认值      | 说明                                            |
+| 名称                   | 环境变量 | 默认值      | 描述                                            |
 | -------------------- | ---- | -------- | --------------------------------------------- |
 | `--help`, `-h`       |      |          | 显示此帮助消息                                       |
 | `--kubernetes`, `-k` |      | `false`  | 更新 Kubernetes 集群中的 dapr                       |
@@ -36,13 +36,13 @@ dapr upgrade -k
 
 ### 在 Kubernetes 中升级指定版本的 Dapr 运行时
 ```bash
-dapr upgrade -k --runtime-version 1.0.0
+dapr upgrade -k --runtime-version 1.1.0
 ```
 
 ### 在 Kubernetes 中升级指定版本的 Dapr 运行时，并包含一些参数
 ```bash
-dapr upgrade -k --runtime-version 1.0.0 --set global.logAsJson=true
+dapr upgrade -k --runtime-version 1.1.0 --set global.logAsJson=true
 ```
 # 相关链接
 
-- [更新 Kubernetes 集群中的 dapr]({{< ref kubernetes-upgrade.md >}})
+- [更新 Kubernetes 集群中的 Dapr]({{< ref kubernetes-upgrade.md >}})

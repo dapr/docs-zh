@@ -5,9 +5,9 @@ linkTitle: "GCP Storage Bucket"
 description: "Detailed documentation on the GCP Storage Bucket binding component"
 ---
 
-## Component format
+## 配置
 
-To setup GCP Storage Bucket binding create a component of type `bindings.gcp.bucket`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration. To setup Redis binding create a component of type `bindings.redis`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+To setup GCP Storage Bucket binding create a component of type `bindings.gcp.bucket`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 
 ```yaml
@@ -45,35 +45,114 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 The example configuration shown above, contain a username and password as plain-text strings. 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
-## Spec metadata fields
+## 元数据字段规范
 
-| 字段                              | Required | Binding support | Details                                                                    | Example                                                                                          |
-| ------------------------------- |:--------:| --------------- | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| bucket                          |    Y     | Output          | The bucket name                                                            | `"mybucket"`                                                                                     |
-| type                            |    Y     | Output          | Tge GCP credentials type                                                   | `"service_account"`                                                                              |
-| project_id                      |    Y     | Output          | GCP project id                                                             | `projectId`                                                                                      |
-| private_key_id                |    Y     | Output          | GCP private key id                                                         | `"privateKeyId"`                                                                                 |
-| private_key                     |    Y     | Output          | GCP credentials private key. Replace with x509 cert Replace with x509 cert | `12345-12345`                                                                                    |
-| client_email                    |    Y     | Output          | GCP client email                                                           | `"client@email.com"`                                                                             |
-| client_id                       |    Y     | Output          | GCP client id                                                              | `0123456789-0123456789`                                                                          |
-| auth_uri                        |    Y     | Output          | Google account OAuth endpoint                                              | `https://accounts.google.com/o/oauth2/auth`                                                      |
-| token_uri                       |    Y     | Output          | Google account token uri                                                   | `https://oauth2.googleapis.com/token`                                                            |
-| auth_provider_x509_cert_url |    Y     | Output          | GCP credentials cert url                                                   | `https://www.googleapis.com/oauth2/v1/certs`                                                     |
-| client_x509_cert_url          |    Y     | Output          | GCP credentials project x509 cert url                                      | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com` |
+| 字段                              | 必填 | 绑定支持 | 详情                                                  | 示例                                                                                               |
+| ------------------------------- |:--:| ---- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| bucket                          | 是  | 输出   | The bucket name                                     | `"mybucket"`                                                                                     |
+| type                            | 是  | 输出   | Tge GCP credentials type                            | `"service_account"`                                                                              |
+| project_id                      | 是  | 输出   | GCP project id                                      | `projectId`                                                                                      |
+| private_key_id                | 是  | 输出   | GCP private key id                                  | `"privateKeyId"`                                                                                 |
+| private_key                     | 是  | 输出   | GCP credentials private key. Replace with x509 cert | `12345-12345`                                                                                    |
+| client_email                    | 是  | 输出   | GCP client email                                    | `"client@email.com"`                                                                             |
+| client_id                       | 是  | 输出   | GCP client id                                       | `0123456789-0123456789`                                                                          |
+| auth_uri                        | 是  | 输出   | Google account OAuth endpoint                       | `https://accounts.google.com/o/oauth2/auth`                                                      |
+| token_uri                       | 是  | 输出   | Google account token uri                            | `https://oauth2.googleapis.com/token`                                                            |
+| auth_provider_x509_cert_url | 是  | 输出   | GCP credentials cert url                            | `https://www.googleapis.com/oauth2/v1/certs`                                                     |
+| client_x509_cert_url          | 是  | 输出   | GCP credentials project x509 cert url               | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com` |
 
-## 相关链接
+## 绑定支持
 
-This component supports **output binding** with the following operations:
+该组件支持**输出绑定**，其操作如下:
 
 - `create`
 
+### Create file
+
+To perform a create operation, invoke the GCP Storage Bucket binding with a `POST` method and the following JSON body:
+
+> 注意：默认情况下，会随机生成一个UUID。 参见下面所示的支持的元数据设置名称
+
+```json
+{
+  "operation": "create",
+  "data": "YOUR_CONTENT"
+}
+```
+
+#### 示例
+
+
+##### Save text to a random generated UUID file
+
+{{< tabs Windows Linux >}}
+  {{% codetab %}}
+  在Windows上，使用cmd提示符（PowerShell有不同的转义机制）。
+  ```bash
+  curl -d "{ \"operation\": \"create\", \"data\": \"Hello World\" }" http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
+  ```
+  {{% /codetab %}}
+
+  {{% codetab %}}
+  ```bash
+  curl -d '{ "operation": "create", "data": "Hello World" }' \
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
+  ```
+  {{% /codetab %}}
+
+{{< /tabs >}}
+
+##### Save text to a specific file
+
+{{< tabs Windows Linux >}}
+
+  {{% codetab %}}
+  ```bash
+  curl -d "{ \"operation\": \"create\", \"data\": \"Hello World\", \"metadata\": { \"name\": \"my-test-file.txt\" } }" \
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
+  ```
+  {{% /codetab %}}
+
+  {{% codetab %}}
+  ```bash
+  curl -d '{ "operation": "create", "data": "Hello World", "metadata": { "name": "my-test-file.txt" } }' \
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
+  ```
+  {{% /codetab %}}
+
+{{< /tabs >}}
+
+
+##### Upload a file
+
+To upload a file, pass the file contents as the data payload; you may want to encode this in e.g. Base64 for binary content.
+
+然后你就可以像平常一样上传了：
+
+{{< tabs Windows Linux >}}
+
+  {{% codetab %}}
+  ```bash
+  curl -d "{ \"operation\": \"create\", \"data\": \"(YOUR_FILE_CONTENTS)\", \"metadata\": { \"name\": \"my-test-file.jpg\" } }" http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
+  ```
+  {{% /codetab %}}
+
+  {{% codetab %}}
+  ```bash
+  curl -d '{ "operation": "create", "data": "$(cat my-test-file.jpg)", "metadata": { "name": "my-test-file.jpg" } }' \
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
+  ```
+  {{% /codetab %}}
+
+{{< /tabs >}}
+
 ## 相关链接
 
-- [Basic schema for a Dapr component]({{< ref component-schema >}})
-- [Bindings building block]({{< ref bindings >}})
-- [如何通过 input binding 触发应用]({{< ref howto-triggers.md >}})
-- [How-To：使用绑定与外部资源进行交互]({{< ref howto-bindings.md >}})
+- [Dapr组件的基本格式]({{< ref component-schema >}})
+- [绑定构建块]({{< ref bindings >}})
+- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
+- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
 - [绑定API 参考]({{< ref bindings_api.md >}})
