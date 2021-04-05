@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "安装 Dapr CLI"
+title: "安装 Dapr CLI 脚手架工具"
 linkTitle: "安装 Dapr CLI"
 weight: 10
 ---
@@ -72,7 +72,7 @@ The output should look like this:
 
 
 ```md
-                  __                
+         __                
     ____/ /___ _____  _____
    / __  / __ '/ __ \/ ___/
   / /_/ / /_/ / /_/ / /    
@@ -107,7 +107,9 @@ Flags:
   -h, --help      help for dapr
   -v, --version   version for dapr
 
-Use "dapr [command] --help" for more information about a command.                       .      
+Use "dapr [command] --help" for more information about a command.
 ```
-
+{{% alert color="primary" %}}
+[Next step: Initialize Dapr >>]({{< ref install-dapr-selfhost.md >}})
+{{% /alert %}}
 

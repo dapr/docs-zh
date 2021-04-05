@@ -5,8 +5,8 @@ linkTitle: "Pulsar"
 description: "关于Pulsar pubsub组件的详细文档"
 ---
 
-## 组件格式
-要设置Pulsar pubsub，请创建一个`pubsub.pulsar`类型的组件。 请参阅 [本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
+## 配置
+要设置Pulsar pubsub，请创建一个`pubsub.pulsar`类型的组件。 请参阅[本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -28,8 +28,8 @@ spec:
 
 | 字段        | 必填 | 详情                                         | 示例                  |
 | --------- |:--:| ------------------------------------------ | ------------------- |
-| host      | Y  | Pulsar broker. 地址， 默认值是 `"localhost:6650"` | `"localhost:6650"`  |
-| enableTLS | Y  | 启用TLS  默认值为 `"false"`                      | `"true"`, `"false"` |
+| host      | 是  | Pulsar broker. 地址， 默认值是 `"localhost:6650"` | `"localhost:6650"`  |
+| enableTLS | 是  | 启用TLS  默认值为 `"false"`                      | `"true"`, `"false"` |
 
 
 ## 创建 Pulsar 实例

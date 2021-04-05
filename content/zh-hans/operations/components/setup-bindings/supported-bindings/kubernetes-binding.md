@@ -1,13 +1,13 @@
 ---
 type: docs
 title: "Kubernetes Events binding spec"
-linkTitle: "Kubernetes Events"
+linkTitle: "Kubernetes 事件"
 description: "Detailed documentation on the Kubernetes Events binding component"
 ---
 
-## Component format
+## 配置
 
-To setup Kubernetes Events binding create a component of type `bindings.kubernetes`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration. To setup Redis binding create a component of type `bindings.redis`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+To setup Kubernetes Events binding create a component of type `bindings.kubernetes`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 
 ```yaml
@@ -26,14 +26,14 @@ spec:
     vale: "<seconds>"
 ```
 
-## Spec metadata fields
+## 元数据字段规范
 
-| 字段                | Required | Binding support                                                                                           | Details                                      | Example     |
-| ----------------- |:--------:| --------------------------------------------------------------------------------------------------------- | -------------------------------------------- | ----------- |
-| namespace         |    Y     | Input                                                                                                     | The Kubernetes namespace to read events from | `"default"` |
-| resyncPeriodInSec |    N     | Te period of time to refresh event list from Kubernetes API server. Defaults to `"10"` Defaults to `"10"` | `"15"`                                       |             |
+| 字段                | 必填 | 绑定支持                                                                                   | 详情                                           | 示例          |
+| ----------------- |:--:| -------------------------------------------------------------------------------------- | -------------------------------------------- | ----------- |
+| namespace         | 是  | 输入                                                                                     | The Kubernetes namespace to read events from | `"default"` |
+| resyncPeriodInSec | N  | Te period of time to refresh event list from Kubernetes API server. Defaults to `"10"` | `"15"`                                       |             |
 
-## 相关链接
+## 绑定支持
 
 This component supports **input** binding interface.
 
@@ -102,7 +102,7 @@ For consuming `events` from Kubernetes, permissions need to be assigned to a Use
 
 ### Role
 
-One of the rules need to be of the form as below to give permissions to `get, watch` and `list` `events`. API Groups can be as restrictive as needed. API Groups can be as restrictive as needed.
+One of the rules need to be of the form as below to give permissions to `get, watch` and `list` `events`. API Groups can be as restrictive as needed.
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -136,8 +136,8 @@ roleRef:
 
 ## 相关链接
 
-- [Basic schema for a Dapr component]({{< ref component-schema >}})
-- [Bindings building block]({{< ref bindings >}})
-- [如何通过 input binding 触发应用]({{< ref howto-triggers.md >}})
-- [How-To：使用绑定与外部资源进行交互]({{< ref howto-bindings.md >}})
+- [Dapr组件的基本格式]({{< ref component-schema >}})
+- [绑定构建块]({{< ref bindings >}})
+- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
+- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
 - [绑定API 参考]({{< ref bindings_api.md >}})

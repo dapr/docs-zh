@@ -5,8 +5,8 @@ linkTitle: "NATS Streaming"
 description: "NATS Streaming pubsub 组件详细文档"
 ---
 
-## 组件格式
-要设置NATS Streaming pubsub，请创建类型为 `pubsub.natsstreaming` 的组件。 请参阅 [本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
+## 配置
+要设置NATS Streaming pubsub，请创建类型为 `pubsub.natsstreaming` 的组件。 请参阅[本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -49,26 +49,26 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 [这里]({{< ref component-secrets.md >}})描述的密钥仓库来存储密钥。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段                      | 必填 | 详情                                                                               | 示例                              |
 | ----------------------- |:--:| -------------------------------------------------------------------------------- | ------------------------------- |
-| natsURL                 | Y  | NATS 服务器地址 URL                                                                   | "`nats://localhost:4222`"       |
-| natsStreamingClusterID  | Y  | NATS cluster ID                                                                  | `"clusterId"`                   |
-| subscriptionType        | Y  | 订阅类型， 允许的值`"topic"`，`"queue"`                                                    | `"topic"`                       |
+| natsURL                 | 是  | NATS 服务器地址 URL                                                                   | "`nats://localhost:4222`"       |
+| natsStreamingClusterID  | 是  | NATS cluster ID                                                                  | `"clusterId"`                   |
+| subscriptionType        | 是  | 订阅类型， 订阅类型， 允许的值`"topic"`，`"queue"`                                              | `"topic"`                       |
 | ackWaitTime             | N  | 见[这里](https://docs.nats.io/developing-with-nats-streaming/acks#acknowledgements) | `"300ms"`                       |
 | maxInFlight             | N  | 见[这里](https://docs.nats.io/developing-with-nats-streaming/acks#acknowledgements) | `"25"`                          |
 | durableSubscriptionName | N  | [持久订阅](https://docs.nats.io/developing-with-nats-streaming/durables)识别名称         | `"my-durable"`                  |
-| deliverNew              | N  | 订阅策略： 只能使用一个， 只发送新消息                                                             | `"true"`, `"false"`             |
+| deliverNew              | N  | 订阅策略： 只能使用一个， 订阅策略： 只能使用一个， 只发送新消息                                               | `"true"`, `"false"`             |
 | startAtSequence         | N  | 订阅策略： 只能使用一个， 设置期望的起始序列位置和状态                                                     | `"100000"`, `"230420"`          |
 | startWithLastReceived   | N  | 订阅策略： 只能使用一个， 将起始位置设置为最后接收的位置                                                    | `"true"`, `"false"`             |
 | deliverAll              | N  | 订阅策略： 只能使用一个， 传递所有可用消息                                                           | `"true"`, `"false"`             |
 | startAtTimeDelta        | N  | 订阅策略： 只能使用一个， 使用增量设置所需的起始时间位置和状态                                                 | `"10m"`, `"23s"`                |
 | startAtTime             | N  | 订阅策略： 只能使用一个， 设置所需的起始时间位置和状态                                                     | `"Feb 3, 2013 at 7:54pm (PST)"` |
-| startAtTimeDelta        | N  | 必须与`startAtTime`一起使用， 设置时间的格式                                                    | `"Jan 2, 2006 at 3:04pm (MST)"` |
+| startAtTimeDelta        | N  | 必须与`startAtTime`一起使用， 设置时间的格式 设置时间的格式                                            | `"Jan 2, 2006 at 3:04pm (MST)"` |
 
 ## 创建NATS服务器
 

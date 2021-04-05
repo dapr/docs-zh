@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "指标"
-linkTitle: "Metrics"
+linkTitle: "指标"
 weight: 4000
 description: "观察 dapr 指标"
 ---

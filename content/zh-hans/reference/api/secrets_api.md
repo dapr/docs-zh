@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Secrets API reference"
+title: "密钥 API 参考"
 linkTitle: "Secrets API"
 description: "Detailed documentation on the secrets API"
 weight: 600
@@ -10,17 +10,17 @@ weight: 600
 
 This endpoint lets you get the value of a secret for a given secret store.
 
-### HTTP Request
+### HTTP 请求
 
 ```
 GET http://localhost:<daprPort>/v1.0/secrets/<secret-store-name>/<name>
 ```
 
-#### URL Parameters
+#### URL 参数
 
-| Parameter         | 说明                                                  |
+| 参数                | 描述                                                  |
 | ----------------- | --------------------------------------------------- |
-| daprPort          | the Dapr port                                       |
+| daprPort          | dapr 端口。                                            |
 | secret-store-name | the name of the secret store to get the secret from |
 | name              | the name of the secret to get                       |
 
@@ -28,7 +28,7 @@ GET http://localhost:<daprPort>/v1.0/secrets/<secret-store-name>/<name>
 
 #### Query Parameters
 
-Some secret stores have **optional** metadata properties. metadata is populated using query parameters: metadata is populated using query parameters: metadata is populated using query parameters:
+Some secret stores have **optional** metadata properties. metadata is populated using query parameters:
 
 ```
 GET http://localhost:<daprPort>/v1.0/secrets/<secret-store-name>/<name>?metadata.version_id=15
@@ -84,15 +84,15 @@ curl http://localhost:3500/v1.0/secrets/vault/db-secret
 
 #### Response Codes
 
-| Code | 说明                                               |
-| ---- | ------------------------------------------------ |
-| 200  | OK                                               |
-| 204  | Secret not found                                 |
-| 400  | Secret store is missing or misconfigured         |
-| 403  | Access denied                                    |
-| 500  | Failed to get secret or no secret stores defined |
+| 代码  | 描述                                               |
+| --- | ------------------------------------------------ |
+| 200 | OK                                               |
+| 204 | Secret not found                                 |
+| 400 | Secret store is missing or misconfigured         |
+| 403 | Access denied                                    |
+| 500 | Failed to get secret or no secret stores defined |
 
-### Examples
+### 示例
 
 ```shell
 curl http://localhost:3500/v1.0/secrets/vault/db-secret \
@@ -110,7 +110,7 @@ curl http://localhost:3500/v1.0/secrets/vault/db-secret?metadata.version_id=15&?
 
 ## Get Bulk Secret
 
-This endpoint lets you get all the secrets in a secret store. This endpoint lets you get all the secrets in a secret store. This endpoint lets you get all the secrets in a secret store. It's recommended to use [token authentication]({{X47X}}) for Dapr if configuring a secret store.
+This endpoint lets you get all the secrets in a secret store. It's recommended to use [token authentication]({{X47X}}) for Dapr if configuring a secret store.
 
 ### HTTP 请求
 
@@ -120,9 +120,9 @@ GET http://localhost:<daprPort>/v1.0/secrets/<secret-store-name>/bulk
 
 #### URL 参数
 
-| Parameter         | 描述                                                  |
+| 参数                | 描述                                                  |
 | ----------------- | --------------------------------------------------- |
-| daprPort          | the Dapr port                                       |
+| daprPort          | dapr 端口。                                            |
 | secret-store-name | the name of the secret store to get the secret from |
 
 > 注意：所有的 URL 参数都是大小写敏感的。
@@ -131,7 +131,7 @@ GET http://localhost:<daprPort>/v1.0/secrets/<secret-store-name>/bulk
 
 #### Response Body
 
-The returned response is a JSON containing the secrets. The returned response is a JSON containing the secrets. The JSON object will contain the secret names as fields and a map of secret keys and values as the field value. The JSON object will contain the secret names as fields and a map of secret keys and values as the field value.
+The returned response is a JSON containing the secrets. The JSON object will contain the secret names as fields and a map of secret keys and values as the field value.
 
 ##### Response with multiple secrets and multiple key / values in a secret (eg. Kubernetes):
 
@@ -154,14 +154,14 @@ curl http://localhost:3500/v1.0/secrets/kubernetes/bulk
 
 #### Response Codes
 
-| Code | 描述                                               |
-| ---- | ------------------------------------------------ |
-| 200  | OK                                               |
-| 400  | Secret store is missing or misconfigured         |
-| 403  | Access denied                                    |
-| 500  | Failed to get secret or no secret stores defined |
+| 代码  | 描述                                               |
+| --- | ------------------------------------------------ |
+| 200 | OK                                               |
+| 400 | Secret store is missing or misconfigured         |
+| 403 | Access denied                                    |
+| 500 | Failed to get secret or no secret stores defined |
 
-### Examples
+### 示例
 
 ```shell
 curl http://localhost:3500/v1.0/secrets/vault/bulk \

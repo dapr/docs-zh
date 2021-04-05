@@ -2,7 +2,7 @@
 type: docs
 title: "设置 Minikube 集群"
 linkTitle: "Minikube"
-weight: 2000
+weight: 1000
 description: >
   如何在 Minikube 集群中设置 Dapr。
 ---
@@ -53,7 +53,7 @@ minikube addons enable ingress
 
 1. 负载均衡器的外部IP地址不显示在`kubectl get svc`
 
-在 Minikube 中，您 Service 的 EXTERNAL-IP 在 `kubectl get svc` 显示 `<pending>` 在这种情况下，您可以运行 `minikube service [service_name]` 在没有外部 IP 地址的情况下打开您的服务。
+在 Minikube 中，您 Service 的 EXTERNAL-IP 在 `kubectl get svc` 显示 `<pending>` 在这种情况下，您可以运行 `minikube service [service_name]` 在没有外部 IP 地址的情况下打开您的服务。 在这种情况下，您可以运行 `minikube service [service_name]` 在没有外部 IP 地址的情况下打开您的服务。
 
 ```bash
 $ kubectl get svc
@@ -72,7 +72,7 @@ $ minikube service calculator-front-end
 |-----------|----------------------|-------------|---------------------------|
 | default   | calculator-front-end |             | http://192.168.64.7:30534 |
 |-----------|----------------------|-------------|---------------------------|
-🎉  Opening kubernetes service  default/calculator-front-end in default browser...
+  Opening kubernetes service  default/calculator-front-end in default browser...
 
 $ minikube service calculator-front-end
 |-----------|----------------------|-------------|---------------------------|

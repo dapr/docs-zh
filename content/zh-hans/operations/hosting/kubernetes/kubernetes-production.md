@@ -17,7 +17,7 @@ description: "在生产环境中将 Dapr 部署到 Kubernetes 集群的建议和
 | **Operator**         | Limit: 1, Request: 100m   | Limit: 200Mi, Request: 100Mi |
 | **Sidecar Injector** | Limit: 1, Request: 100m   | Limit: 200Mi, Request: 30Mi  |
 | **Sentry**           | Limit: 1, Request: 100m   | Limit: 200Mi, Request: 30Mi  |
-| **Placement**        | Limit: 1, Request: 250m   | Limit: 150Mi, Request: 75Mi  |
+| **放置**               | Limit: 1, Request: 250m   | Limit: 150Mi, Request: 75Mi  |
 | **Dashboard**        | Limit: 200m, Request: 50m | Limit: 200Mi, Request: 20Mi  |
 
 ### Helm
@@ -34,7 +34,7 @@ description: "在生产环境中将 Dapr 部署到 Kubernetes 集群的建议和
 
 ## Sidecar 资源设置
 
-请参见 [这里]({{< ref "kubernetes-annotations.md" >}})来为 Dapr sidecar设置资源分配， 与资源约束相关的具体注解如下:
+请参见 [这里]({{< ref "kubernetes-annotations.md" >}})来为 Dapr sidecar设置资源分配， 与资源约束相关的具体注解如下: 与资源约束相关的具体注解如下:
 
 - `dapr.io/sidecar-cpu-limit`
 - `dapr.io/sidecar-memory-limit`
@@ -103,7 +103,7 @@ kubectl get pods --namespace dapr-system
 
 ## 用 Helm 升级 Dapr
 
-Dapr支持零停机升级， 升级包括以下步骤：
+Dapr支持零停机升级， 升级包括以下步骤： 升级包括以下步骤：
 
 1. 升级CLI版本(可选但推荐)
 2. 更新Dapr control plane
@@ -136,15 +136,15 @@ nodeapp    3000      16h  2020-07-29 17:16.22
 
 ## 建议的安全配置
 
-当正确配置时，Dapr可确保安全通信， 它还可以通过一些内置的功能使你的应用更加安全。
+当正确配置时，Dapr可确保安全通信， 它还可以通过一些内置的功能使你的应用更加安全。 它还可以通过一些内置的功能使你的应用更加安全。
 
 建议生产环境的部署涵盖以下设置：
 
 1. **启用相互验证 (mTLS)**。 请注意，Dapr默认开启了mTLS。 有关如何携带自定义证书的详细信息，请参见 [这里]({{< ref "mtls.md#bringing-your-own-certificates" >}})。
 
-2. **启用App to Dapr API认证**。 这是你的应用程序和Dapr边车之间的通信。 为了防止未经授权的应用程序访问Dapr API，建议启用Dapr的基于令牌的认证。 请参阅[在 Dapr 中启用 API 令牌认证。]({{< ref "api-token.md" >}}) 以了解详情
+2. **启用Dapr to App API验证**。 这是你的应用程序和Dapr边车之间的通信。 这能确保Dapr知道它正在与授权的应用程序通信。 请参阅[使用令牌认证对来自Dapr的请求进行认证]({{< ref "app-api-token.md" >}}) 了解详情
 
-3. **启用Dapr to App API验证**。 这是Dapr和你的应用程序之间的通信。 这能确保Dapr知道它正在与授权的应用程序通信。 请参阅[使用令牌认证对来自Dapr的请求进行认证]({{< ref "app-api-token.md" >}}) 了解详情
+3. **启用Dapr to App API验证**。 这是你的应用程序和Dapr边车之间的通信。 这能确保Dapr知道它正在与授权的应用程序通信。 请参阅[使用令牌认证对来自Dapr的请求进行认证]({{< ref "app-api-token.md" >}}) 了解详情
 
 4. 所有的组件YAML都应该把**密钥数据配置在密钥存储中**，而不是硬编码在YAML文件中。 请参阅 [这里]({{< ref "component-secrets.md" >}})，了解如何在Dapr组件中使用秘密。
 
@@ -159,10 +159,10 @@ Dapr 默认启用追踪和度量。 *建议*在生产环境中为您的应用程
 
 如果你已经有了自己的可观察测性支持组件，你可以禁用Dapr的追踪和度量。
 
-### 追踪
+### Tracing（调用链追踪）
 要为 Dapr 配置后台追踪，请访问[这个]({{< ref "setup-tracing.md" >}})链接。
 
-### 度量
+### 指标
 对于度量，Dapr在9090端口上暴露了一个Prometheus端点，可以被Prometheus收集。
 
 要为 Dapr 配置Prometheus、Grafana 和其他监控工具，请访问 [这个]({{< ref "monitoring" >}})链接。

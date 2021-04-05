@@ -5,7 +5,7 @@ linkTitle: "Azure Events Hub"
 description: "关于 Azure Event Hubs pubsub 组件的详细文档"
 ---
 
-## 组件格式
+## 配置
 要安装 Azure Event Hubs pubsub，请创建一个类型为 `pubsub.azure.eventhubs` 的组件。 请参阅[本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
 
 ```yaml
@@ -29,17 +29,17 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 [这里]({{< ref component-secrets.md >}}})描述的密钥存储。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                   | 必填 | 详情                                                | 示例                                                                                                                                         |
-| -------------------- |:--:| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| connectionString     | Y  | Event Hubs的连接地址                                   | `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={EventHub}"` |
-| storageAccountName   | Y  | 用于EventProcessorHost的存储账户名称                       | `"myeventhubstorage"`                                                                                                                      |
-| storageAccountKey    | Y  | 用于EventProcessorHost的存储账户密钥。 可以用`secretKeyRef`来引用 | `"112233445566778899"`                                                                                                                     |
-| storageContainerName | Y  | 存储账户名称的存储容器名称。                                    | `"myeventhubstoragecontainer"`                                                                                                             |
+| 字段                   | 必填 | 详情                                                   | 示例                                                                                                                                         |
+| -------------------- |:--:| ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| connectionString     | 是  | Event Hubs的连接地址                                      | `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={EventHub}"` |
+| storageAccountName   | 是  | 用于EventProcessorHost的存储账户名称                          | `"myeventhubstorage"`                                                                                                                      |
+| storageAccountKey    | 是  | 用于EventProcessorHost的存储账户密钥。 可以用`secretKeyRef`来引用密钥。 | `"112233445566778899"`                                                                                                                     |
+| storageContainerName | 是  | 存储账户名称的存储容器名称。                                       | `"myeventhubstoragecontainer"`                                                                                                             |
 
 
 ## 创建Azure Event Hub

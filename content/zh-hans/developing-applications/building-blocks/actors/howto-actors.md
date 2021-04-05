@@ -32,7 +32,7 @@ Actor 可以使用状态管理功能可靠地保存状态。
 
 Actors 可以通过 timer 或者 remider 自行注册周期性的任务.
 
-### Actor timers
+### Actor 计时器
 
 你可以通过 timer 在actor中注册一个回调。
 

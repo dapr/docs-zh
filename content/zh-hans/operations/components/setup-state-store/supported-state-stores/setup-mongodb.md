@@ -5,7 +5,7 @@ linkTitle: "MongoDB"
 description: MongoDB 状态存储组件的详细信息
 ---
 
-## 组件格式
+## 配置
 
 要设置 MongoDB 状态存储，请创建一个类型为 `state.mongodb` 的组件。 请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})，了解如何创建和应用状态存储配置。
 
@@ -39,7 +39,7 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 如果您想要使用 MongoDB 作为 Actor 存储，请在 yaml 上附上以下内容。
@@ -54,9 +54,9 @@ spec:
 
 | 字段               | 必填 | 详情                               | 示例                                                                    |
 | ---------------- |:--:| -------------------------------- | --------------------------------------------------------------------- |
-| host             | Y  | 要连接的主机                           | `"mongo-mongodb.default.svc.cluster.local:27017"`                     |
+| host             | 是  | 要连接的主机                           | `"mongo-mongodb.default.svc.cluster.local:27017"`                     |
 | username         | N  | 要连接的用户名                          | `"admin"`                                                             |
-| password         | N  | 用户密码                             | `"password"`                                                          |
+| password         | N  | The password of the user         | `"password"`                                                          |
 | databaseName     | N  | 要使用的数据库名称。 默认值为 `"daprStore"`    | `"daprStore"`                                                         |
 | collectionName   | N  | 要使用的收藏名称 默认值为 `"daprCollection"` | `"daprCollection"`                                                    |
 | writeconcern     | N  | 要使用的写入保证                         | `"majority"`                                                          |

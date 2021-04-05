@@ -4,6 +4,8 @@ title: "在Kubernetes集群上部署Dapr"
 linkTitle: "Deploy Dapr"
 weight: 20000
 description: "按照这些步骤在Kubernetes上部署Dapr"
+aliases:
+  - /getting-started/install-dapr-kubernetes/
 ---
 
 你可以使用 Dapr CLI 或 Helm 在 Kubernetes 中部署 Dapr
@@ -18,7 +20,7 @@ description: "按照这些步骤在Kubernetes上部署Dapr"
 
 ### 创建集群
 
-你可以在任何 Kubernetes 集群上安装 Dapr. 下面的链接可以提供帮助:
+你可以在任何 Kubernetes 集群上安装 Dapr. 下面的链接可以提供帮助: 下面的链接可以提供帮助:
 
 - [Setup Minikube Cluster]({{< ref setup-minikube.md >}})
 - [Setup Azure Kubernetes Service Cluster]({{< ref setup-aks.md >}})
@@ -26,7 +28,7 @@ description: "按照这些步骤在Kubernetes上部署Dapr"
 - [Setup Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
 
 {{% alert title="Hybrid clusters" color="primary" %}}
-Dapr CLI 和 Dapr Helm 图表都会自动关联地部署到带有标签`kubernetes.io/os=linux`的节点上。 如果你的应用程序有需要，你也可以将 Dapr 部署到 Windows 节点。 更多信息参见 [部署到Linux/Windows混合型Kubernetes集群]({{X49X}}).
+Dapr CLI 和 Dapr Helm 图表都会自动关联地部署到带有标签`kubernetes.io/os=linux`的节点上。 如果你的应用程序有需要，你也可以将 Dapr 部署到 Windows 节点。 For more information see [Deploying to a hybrid Linux/Windows Kubernetes cluster]({{X49X}}).
 {{% /alert %}}
 
 
@@ -129,7 +131,7 @@ dapr uninstall -k
     ```
 
 
-   有关使用 Helm 安装和升级 Dapr 的更多信息，请参阅 [Kubernetes上的生产环境部署指南]({{X69X}})。
+   See [Guidelines for production ready deployments on Kubernetes]({{X43X}}) for more information on    installing and upgrading Dapr using Helm.
 
 ### 卸载 Kubernetes 上的 Dapr
 
