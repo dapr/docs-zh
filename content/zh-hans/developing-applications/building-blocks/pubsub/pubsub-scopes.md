@@ -3,7 +3,7 @@ type: docs
 title: "限定 Pub/Sub 主题访问权限"
 linkTitle: "Scope topic access"
 weight: 5000
-description: "使用作用域（scopes）限制 Pub/Sub 主题到特定的应用程序"
+description: "使用范围（scopes）限制 Pub/Sub 主题到特定的应用程序"
 ---
 
 ## 介绍
@@ -156,11 +156,11 @@ spec:
 | app3 | X | X |   |
 
 
-## 例子  <iframe width="560" height="315" src="https://www.youtube.com/embed/7VdWBBGcbHQ?start=513" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
+## 例子   <iframe width="560" height="315" src="https://www.youtube.com/embed/7VdWBBGcbHQ?start=513" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
 
 ## 相关链接
 
-- 学习 [如何配置具有多个命名空间的 Pub/Sub 组件]({{< ref pubsub-namespaces.md >}})
-- 了解 [消息存活时间（TTL）]({{< ref pubsub-message-ttl.md >}})
-- [Pub/Sub 组件列表]({{< ref supported-pubsub >}})
+- 您可以重写这个文件以使用另一个 Redis 实例或者另一个 [pubsub component]({{< ref setup-pubsub >}}) ，通过创建 `components` 文件夹（文件夹中包含重写的文件）并在 `dapr run` 命令行界面使用 `--components-path` 标志。
+- 了解 [消息存活时间]({{< ref pubsub-message-ttl.md >}})
+- {{< ref supported-pubsub >}}
 - 阅读 [API 引用]({{< ref pubsub_api.md >}})

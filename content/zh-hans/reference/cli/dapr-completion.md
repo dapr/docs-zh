@@ -5,7 +5,7 @@ linkTitle: "completion"
 description: "有关 completion CLI 命令的详细信息"
 ---
 
-## 说明
+## 描述
 
 生成 shell 补全脚本
 
@@ -18,7 +18,7 @@ dapr completion [command]
 
 ## 参数
 
-| 名称             | 环境变量 | 默认值 | 说明      |
+| 名称             | 环境变量 | 默认值 | 描述      |
 | -------------- | ---- | --- | ------- |
 | `--help`, `-h` |      |     | 显示此帮助消息 |
 

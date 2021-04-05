@@ -1,21 +1,45 @@
 ---
 type: docs
-title: "Troubleshoot Pub/Sub with the .NET SDK"
-linkTitle: "Troubleshoot pub/sub"
+title: "对使用 .NET SDK 的 发布/订阅 进行故障排除。"
+linkTitle: "发布/订阅的故障排除"
 weight: 100000
-description: Try out .NET virtual actors with this example
+description: 试用 .NET 虚拟 Actor
 ---
 
-# Troubleshooting Pub/Sub
+# 发布/订阅的故障排除
 
-The most common problem with pub/sub is that the pub/sub endpoint in your application is not being called.
+发布/订阅 最常见的问题是应用程序中的 发布/订阅 终结点没有被调用。
 
-There are two layers to this problem with different solutions:
+There are a few layers to this problem with different solutions:
 
+- The application is not recieving any traffic from Dapr
 - The application is not registering pub/sub endpoints with Dapr
 - The pub/sub endpoints are registered with Dapr, but the request is not reaching the desired endpoint
 
-## Step 1: Verify endpoint registration
+## Step 1: Turn up the logs
+
+**This is important. Future steps will depend on your ability to see logging output. ASP.NET Core logs almost nothing with the default log settings, so you will need to change it.**
+
+Adjust the logging verbosity to include `Information` logging for ASP.NET Core as described [here](https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-5.0#debug-diagnostics). Set the `Microsoft` key to `Information`.
+
+## Step 2: Verify you can receive traffic from Dapr
+
+1. Start the application as you would normally (`dapr run ...`). Make sure that you're including an `--app-port` argument in the commandline. Dapr needs to know that your application is listening for traffic. By default an ASP.NET Core application will listen for HTTP on port 5000 in local development.
+
+2. Wait for Dapr to finish starting
+
+3. Examine the logs
+
+You should see a log entry like:
+
+```
+info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
+      Request starting HTTP/1.1 GET http://localhost:5000/.....
+```
+
+During initialization Dapr will make some requests to your application for configuration. If you can't find these then it means that something has gone wrong. Please ask for help either via an issue or in Discord (include the logs). If you see requests made to your application, then continue to step 3.
+
+## Step 3: Verify endpoint registration
 
 1. Start the application as you would normally (`dapr run ...`).
 
@@ -70,11 +94,11 @@ The JSON blob that's included near the end is the output of `/dapr/subscribe` th
 
 With the output of this command in hand, you are ready to diagnose a problem or move on to the next step.
 
-### Option 0: The response was a 200 included some pub/sub entries
+### 选项0：响应是200，其中包含一些 发布/订阅 条目。
 
 **If you have entries in the JSON output from this test then the problem lies elsewhere, move on to step 2.**
 
-### Option 1: The response was not a 200, or didn't contain JSON
+### 选项 1： 响应不是 200， 或不包含 Json
 
 If the response was not a 200 or did not contain JSON, then the `MapSubscribeHandler()` endpoint was not reached.
 
@@ -94,7 +118,7 @@ app.UseEndpoints(endpoints =>
 
 **If adding the subscribe handler did not resolve the problem, please open an issue on this repo and include the contents of your `Startup.cs` file.**
 
-### Option 2: The response contained JSON but it was empty (like `[]`)
+### 选项 2：响应包含JSON，但它是空的（如 `[]`）
 
 If the JSON output was an empty array (like `[]`) then the subcribe handler is registered, but no topic endpoints were registered.
 
@@ -124,7 +148,7 @@ In this example the call to `WithTopic(...)` is required but other details might
 
 **After correcting this code and re-testing if the JSON output is still the empty array (like `[]`) then please open an issue on this repository and include the contents of `Startup.cs` and your pub/sub endpoint.**
 
-## Step 2: Verify endpoint reachability
+## Step 4: Verify endpoint reachability
 
 In this step we'll verify that the entries registered with pub/sub are reachable. The last step should have left you with some JSON output like the following:
 
@@ -139,9 +163,7 @@ Keep this output, as we'll use the `route` information to test the application.
 
 1. Start the application as you would normally (`dapr run ...`).
 
-2. Adjust the logging verbosity to include `Information` logging for ASP.NET Core as described [here](https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-5.0#debug-diagnostics). Set the `Microsoft` key to `Information`.
-
-3. Use `curl` at the command line (or another HTTP testing tool) to access one of the routes registered a pub/sub endpoint.
+2. Use `curl` at the command line (or another HTTP testing tool) to access one of the routes registered with a pub/sub endpoint.
 
 Here's an example command assuming your application's listening port is 5000, and one of your pub/sub routes is `withdraw`:
 
@@ -203,12 +225,12 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
 
 This entry shows that:
 
-- Routing executed
-- Routing chose the `ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)'` endpoint
+- 路由已执行
+- 路由选择 `ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)` 终结点
 
 Now you have the information needed to troubleshoot this step.
 
-### Option 0: Routing chose the correct endpoint
+### 选项0：路由选择正确的终结点
 
 If the information in the routing log entry is correct, then it means that in isolation your application is behaving correctly.
 
@@ -229,13 +251,13 @@ dapr publish --pubsub pubsub --topic withdraw --data '{}'
 
 **If after doing this you still don't understand the problem please open an issue on this repo and include the contents of your `Startup.cs`.**
 
-### Option 1: Routing did not execute
+### 选项 1：路由没有执行
 
 If you don't see an entry for `Microsoft.AspNetCore.Routing.EndpointMiddleware` in the logs, then it means that the request was handled by something other than routing. Usually the problem in this case is a misbehaving middleware. Other logs from the request might give you a clue to what's happening.
 
 **If you need help understanding the problem please open an issue on this repo and include the contents of your `Startup.cs`.**
 
-### Option 2: Routing chose the wrong endpoint
+### 选项 2：路由选择了错误的终结点
 
 If you see an entry for `Microsoft.AspNetCore.Routing.EndpointMiddleware` in the logs, but it contains the wrong endpoint then it means that you've got a routing conflict. The endpoint that was chosen will appear in the logs so that should give you an idea of what's causing the conflict.
 

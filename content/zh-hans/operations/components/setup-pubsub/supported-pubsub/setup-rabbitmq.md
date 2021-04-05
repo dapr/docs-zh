@@ -5,7 +5,7 @@ linkTitle: "RabbitMQ"
 description: "RabbitMQ pubsub组件的详细文档"
 ---
 
-## 组件格式
+## 配置
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -37,22 +37,22 @@ spec:
     value: parallel
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 [这里]({{< ref component-secrets.md >}}})描述的密钥仓库来存储密钥。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                | 必填 | 详情                                                                                                               | 示例                                |
-| ----------------- |:--:| ---------------------------------------------------------------------------------------------------------------- | --------------------------------- |
-| host              | Y  | Rabbitmq 的连接地址                                                                                                   | `amqp://user:pass@localhost:5672` |
-| durable           | N  | 是否使用[durable](https://www.rabbitmq.com/queues.html#durability)队列， 默认值为 `"false"`                                 | `"true"`, `"false"`               |
-| deletedWhenUnused | N  | 是否将队列配置为[auto-delete](https://www.rabbitmq.com/queues.html) 默认为`"false"`                                         | `"true"`, `"false"`               |
-| autoAck           | N  | 队列的消费者是否应该[auto-ack](https://www.rabbitmq.com/confirms.html)消息 默认值为 `"false"`                                    | `"true"`, `"false"`               |
-| deliveryMode      | N  | 发布消息时的持久化模式， 默认值为 `"0"`. 值为`"2"`时RabbitMQ会进行持久化，其他值反之                                                            | `"0"`, `"2"`                      |
-| requeueInFailure  | N  | 在发送[否定应答](https://www.rabbitmq.com/nack.html)失败的情况下，是否进行重排， 默认值为 `"false"`                                       | `"true"`, `"false"`               |
-| prefetchCount     | N  | [prefecth](https://www.rabbitmq.com/consumer-prefetch.html)的消息数量， 生产环境中需要考虑设置一个非零值。 该值默认为`"0"`，这意味着所有可用消息都将被预先提取 | `"2"`                             |
-| reconnectWait     | N  | 如果发生连接失败，在重新连接之前需要等待多长时间（秒）                                                                                      | `"0"`                             |
-| concurrencyMode   | N  | 默认值是`parallel`，表示允许并行处理多个消息（如果配置了`app-max-concurrency`，最大并行数会受到该值限制）, 设置为`single`可禁用并行处理， 大多数情况下没必要去这么做          | `parallel`, `single`              |
+| 字段                | 必填 | 详情                                                                                                                                        | 示例                                |
+| ----------------- |:--:| ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------- |
+| host              | 是  | Rabbitmq 的连接地址                                                                                                                            | `amqp://user:pass@localhost:5672` |
+| durable           | N  | 是否使用[durable](https://www.rabbitmq.com/queues.html#durability)队列， 默认值为 `"false"` 默认值为 `"false"`                                           | `"true"`, `"false"`               |
+| deletedWhenUnused | N  | 是否将队列配置为[auto-delete](https://www.rabbitmq.com/queues.html) 默认为`"false"`                                                                  | `"true"`, `"false"`               |
+| autoAck           | N  | 队列的消费者是否应该[auto-ack](https://www.rabbitmq.com/confirms.html)消息 默认值为 `"false"` 默认值为 `"false"`                                              | `"true"`, `"false"`               |
+| deliveryMode      | N  | 发布消息时的持久化模式， 默认值为 `"0"`. 值为`"2"`时RabbitMQ会进行持久化，其他值反之                                                                                     | `"0"`, `"2"`                      |
+| requeueInFailure  | N  | 在发送[否定应答](https://www.rabbitmq.com/nack.html)失败的情况下，是否进行重排， 默认值为 `"false"` 默认值为 `"false"`                                                 | `"true"`, `"false"`               |
+| prefetchCount     | N  | [prefecth](https://www.rabbitmq.com/consumer-prefetch.html)的消息数量， 生产环境中需要考虑设置一个非零值。 生产环境中需要考虑设置一个非零值。 该值默认为`"0"`，这意味着所有可用消息都将被预先提取        | `"2"`                             |
+| reconnectWait     | N  | 如果发生连接失败，在重新连接之前需要等待多长时间（秒）                                                                                                               | `"0"`                             |
+| concurrencyMode   | N  | 默认值是`parallel`，表示允许并行处理多个消息（如果配置了`app-max-concurrency`，最大并行数会受到该值限制）, 设置为`single`可禁用并行处理， 大多数情况下没必要去这么做 设置为`single`可禁用并行处理， 大多数情况下没必要去这么做 | `parallel`, `single`              |
 
 
 ## 创建RabbitMQ服务
@@ -78,7 +78,7 @@ helm install rabbitmq stable/rabbitmq
 
 根据Helm图表的输出，得到用户名和密码。
 
-这会把 RabbitMQ 安装到 `default` 命名空间中， 要与RabbitMQ进行交互，请使用以下方法找到服务：`kubectl get svc rabbitmq`。
+这会把 RabbitMQ 安装到 `default` 命名空间中， 这会把 RabbitMQ 安装到 `default` 命名空间中， 要与RabbitMQ进行交互，请使用以下方法找到服务：`kubectl get svc rabbitmq`。
 
 如果使用上面的示例进行安装，RabbitMQ服务器的客户端地址是：
 

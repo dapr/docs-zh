@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "服务调用概述"
-linkTitle: "Secrets stores overview"
+linkTitle: "概述"
 weight: 1000
 description: "服务调用构建块概述"
 ---
@@ -19,9 +19,9 @@ description: "服务调用构建块概述"
 
 Dapr 通过提供服务调用 API 来应对这些问题，这种调用 API 作为反向代理与内置的服务发现相结合， 同时利用内置分布式跟踪、计量、错误处理、加密等功能。
 
-Dapr 采用边车（Sidecar）、去中心化的架构。 要使用 Dapr 来调用应用程序，请在任意 Dapr 实例上使用 `invoke` 这个API。 Sidecar 编程模型鼓励每个应用程序与自己的 Dapr 实例对话。 Dapr 实例会相互发现并进行通信。
+Dapr 采用边车（Sidecar）、去中心化的架构。 要使用 Dapr 来调用应用程序，请在任意 Dapr 实例上使用 `invoke` 这个API。 sidecar 编程模型鼓励每个应用程序与自己的 Dapr 实例对话。 Dapr 实例会相互发现并进行通信。
 
-### 调用逻辑
+### 服务调用
 
 下图是 Dapr的服务调用如何工作的总览图
 
@@ -51,7 +51,7 @@ Dapr 采用边车（Sidecar）、去中心化的架构。 要使用 Dapr 来调�
 localhost:3500/v1.0/invoke/nodeapp.production/method/neworder
 ```
 
-这在 Kubernetes 集群中进行跨命名空间调用特别有用。 观看此演示视频以获取有关如何使用具有命名空间的服务调用。 <iframe width="560" height="315" src="https://www.bilibili.com/video/BV14z4y167te?p=2&t=497" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
+这在 Kubernetes 集群中进行跨命名空间调用特别有用。 观看此演示视频以获取有关如何使用具有命名空间的服务调用。 <iframe width="560" height="315" src="https://www.youtube.com/embed/LYYV_jouEuA?start=497" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
 
 
 ### 服务间安全性
@@ -104,7 +104,7 @@ Dapr 使用 mDNS 协议提供轮询负载均衡的服务调用请求，例如用
 
 服务调用的 API 规范可在 [规范仓库]({{< ref service_invocation_api.md >}}) 中找到。
 
-## Example
+## 示例
 按照上述调用顺序，假定您有 [Hello World 快速入门](https://github.com/dapr/quickstarts/blob/master/hello-world/README.md)中描述的应用程序，在 python 应用程序调用一个 node.js 应用的地方。 这种情况下，python应用将是“service A”，Node.js应用将是“service B”。
 
 下面的图表展示本地机器上 API 调用的顺序 1-7：
@@ -121,7 +121,7 @@ Dapr 使用 mDNS 协议提供轮询负载均衡的服务调用请求，例如用
 
 ## 下一步
 
-* 关注以下指南：
+* 遵循这些指南：
     * [入门指南：发现并调用服务]({{< ref howto-invoke-discover-services.md >}})
     * [指南：配置 Dapr 来使用 gRPC]({{< ref grpc >}})
 * 试试 [hello World 快速入门](https://github.com/dapr/quickstarts/blob/master/hello-world/README.md) ，它会显示如何使用 HTTP 服务调用或试试 [Dapr SDK]({{< ref sdks >}}) 中的 Sample。

@@ -4,6 +4,8 @@ title: "在Kubernetes集群上部署Dapr"
 linkTitle: "Deploy Dapr"
 weight: 20000
 description: "按照这些步骤在Kubernetes上部署Dapr"
+aliases:
+  - /getting-started/install-dapr-kubernetes/
 ---
 
 你可以使用 Dapr CLI 或 Helm 在 Kubernetes 中部署 Dapr
@@ -18,7 +20,7 @@ description: "按照这些步骤在Kubernetes上部署Dapr"
 
 ### 创建集群
 
-你可以在任何 Kubernetes 集群上安装 Dapr. 下面的链接可以提供帮助:
+你可以在任何 Kubernetes 集群上安装 Dapr. 下面的链接可以提供帮助: 下面的链接可以提供帮助:
 
 - [Setup Minikube Cluster]({{< ref setup-minikube.md >}})
 - [Setup Azure Kubernetes Service Cluster]({{< ref setup-aks.md >}})
@@ -26,7 +28,7 @@ description: "按照这些步骤在Kubernetes上部署Dapr"
 - [Setup Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
 
 {{% alert title="Hybrid clusters" color="primary" %}}
-Dapr CLI 和 Dapr Helm 图表都会自动关联地部署到带有标签`kubernetes.io/os=linux`的节点上。 如果你的应用程序有需要，你也可以将 Dapr 部署到 Windows 节点。 更多信息参见 [部署到Linux/Windows混合型Kubernetes集群]({{X49X}}).
+Dapr CLI 和 Dapr Helm 图表都会自动关联地部署到带有标签`kubernetes.io/os=linux`的节点上。 如果你的应用程序有需要，你也可以将 Dapr 部署到 Windows 节点。 For more information see [Deploying to a hybrid Linux/Windows Kubernetes cluster]({{X51X}}).
 {{% /alert %}}
 
 
@@ -63,7 +65,6 @@ dapr init -k
 dapr init -k -n mynamespace
 ```
 
-
 ### 以高可用方式安装:
 
 你可以在 [生产环境]({{< ref kubernetes-production.md >}}) 中，为在dapr-system 命名空间里的每个控制平面 pod 设置3个副本的方式运行 Dapr。
@@ -78,6 +79,16 @@ Dapr初始化默认开启[mTLS]({< ref "security-concept.md#sidecar-to-sidecar-c
 
 ```bash
 dapr init -k --enable-mtls=false
+```
+
+### Wait for the installation to complete
+
+ You can wait for the installation to complete its deployment with the `--wait` flag.
+
+ The default timeout is 300s (5 min), but can be customized with the `--timeout` flag.
+
+```bash
+dapr init -k --wait --timeout 600
 ```
 
 ### 使用 CLI 卸载 Kubernetes 上的 Dapr
@@ -111,7 +122,7 @@ dapr uninstall -k
 
     ```bash
     helm upgrade --install dapr dapr/dapr \
-    --version=1.0.1 \
+    --version=1.1.0 \
     --namespace dapr-system \
     --create-namespace \
     --wait
@@ -121,7 +132,7 @@ dapr uninstall -k
 
     ```bash
     helm upgrade --install dapr dapr/dapr \
-    --version=1.0.1 \
+    --version=1.1.0 \
     --namespace dapr-system \
     --create-namespace \
     --set global.ha.enabled=true \
@@ -129,7 +140,7 @@ dapr uninstall -k
     ```
 
 
-   有关使用 Helm 安装和升级 Dapr 的更多信息，请参阅 [Kubernetes上的生产环境部署指南]({{X69X}})。
+   See [Guidelines for production ready deployments on Kubernetes]({{X45X}}) for more information on    installing and upgrading Dapr using Helm.
 
 ### 卸载 Kubernetes 上的 Dapr
 

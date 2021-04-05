@@ -5,7 +5,7 @@ linkTitle: "Azure Blob Storage"
 description: "关于 Azure Blob Storage绑定组件的详细文档"
 ---
 
-## 组件格式
+## 配置
 
 要设置 Azure Blob Storage 绑定，请创建一个类型为 `bindings.azure.blobstorage` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
@@ -32,21 +32,21 @@ spec:
     value: <integer>
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 建议使用[这里]({{< ref component-secrets.md >}})描述的密钥存储。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段                | 必填 | 绑定支持 | 详情                                                                                                          | 示例                     |
 | ----------------- |:--:| ---- | ----------------------------------------------------------------------------------------------------------- | ---------------------- |
-| storageAccount    | Y  | 输出   | Blob Storage 账户名称                                                                                           | `"myexmapleaccount"`   |
-| storageAccessKey  | Y  | 输出   | Blob Storage 访问密钥                                                                                           | `"access-key"`         |
-| container         | Y  | 输出   | 要写入的Blob Storage容器名称                                                                                        | `"myexamplecontainer"` |
+| storageAccount    | 是  | 输出   | Blob Storage 账户名称                                                                                           | `"myexmapleaccount"`   |
+| storageAccessKey  | 是  | 输出   | Blob Storage 访问密钥                                                                                           | `"access-key"`         |
+| container         | 是  | 输出   | 要写入的Blob Storage容器名称                                                                                        | `"myexamplecontainer"` |
 | decodeBase64      | N  | 输出   | 配置在保存到Blob Storage之前对base64文件内容进行解码。 (保存有二进制内容的文件时)。 `"true"`是唯一允许的正值。 其他正值，如`"True"`是不可接受的。 默认值为 `"false"` | `"true"`, `"false"`    |
 | getBlobRetryCount | N  | 输出   | 指定从 RetryReader 读取时，将进行的 HTTP GET 请求的最大次数 默认为 `"10"`。                                                       | `"1"`, `"2"`           |
 
 
-## 相关链接
+## 绑定支持
 
 该组件支持**输出绑定**，其操作如下:
 
@@ -158,6 +158,7 @@ spec:
 
 ```json
 {
+   "blobURL": "https://<your account name>. {
    "blobURL": "https://<your account name>. blob.core.windows.net/<your container name>/<filename>"
 }
 
@@ -226,6 +227,6 @@ spec:
 
 - [Dapr组件的基本格式]({{< ref component-schema >}})
 - [绑定构建块]({{< ref bindings >}})
-- [如何通过 input binding 触发应用]({{< ref howto-triggers.md >}})
-- [How-To：使用绑定与外部资源进行交互]({{< ref howto-bindings.md >}})
+- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
+- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
 - [绑定API 参考]({{< ref bindings_api.md >}})

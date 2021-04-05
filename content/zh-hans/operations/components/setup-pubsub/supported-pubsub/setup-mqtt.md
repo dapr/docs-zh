@@ -5,7 +5,7 @@ linkTitle: "MQTT"
 description: "关于MQTT pubsub组件的详细文档"
 ---
 
-## 组件格式
+## 配置
 
 要安装MQTT pubsub，请创建一个类型为`pubsub.mqtt`的组件。 请参阅 [本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
 
@@ -30,15 +30,16 @@ spec:
 ```
 ## 元数据字段规范
 
-| 字段           |    必填    | 详情                                                         | 示例                                                                                                            |
-| ------------ |:--------:| ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
-| url          |    Y     | MQTT broker地址                                              | 非TLS通信： `**tcp://**`，   TLS通信：`**tcps://**`。  <br> "tcp://\[username\]\[:password\]@host.domain[:port]" |
-| qos          |    N     | 表示消息的服务质量等级（QoS）， 默认值 0                                    | `1`                                                                                                           |
-| retain       |    N     | 定义消息是否被broker保存为指定主题的最后已知有效值 默认值为 `"false"`                | `"true"`, `"false"`                                                                                           |
-| cleanSession |    N     | 将在客户端连接到MQTT broker时，在连接消息中设置 "clean session" 默认: `"true"` | `"true"`, `"false"`                                                                                           |
-| caCert       | 使用TLS时需要 | 授权， 可以用`secretKeyRef`来引用                                   | `0123456789-0123456789`                                                                                       |
-| clientCert   | 使用TLS时需要 | 客户端证书， 可以用`secretKeyRef`来引用                                | `0123456789-0123456789`                                                                                       |
-| clientKey    | 使用TLS时需要 | 客户端键， 可以用`secretKeyRef`来引用                                 | `012345`                                                                                                      |
+| 字段                |    必填    | 详情                                                                                                                                                                                                                                                                                                                                                                             | 示例                                                                                                                                       |
+| ----------------- |:--------:| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| url               |    是     | MQTT broker地址                                                                                                                                                                                                                                                                                                                                                                  | 非TLS通信： `**tcp://**`，   TLS通信：`**tcps://**`。   TLS通信：`**tcps://**`。  <br> "tcp://\[username\]\[:password\]@host.domain[:port]" |
+| qos               |    N     | 表示消息的服务质量等级（QoS）， 默认值 0 默认值 0                                                                                                                                                                                                                                                                                                                                                  | `1`                                                                                                                                      |
+| retain            |    N     | 定义消息是否被broker保存为指定主题的最后已知有效值 默认值为 `"false"` 默认值为 `"false"`                                                                                                                                                                                                                                                                                                                     | `"true"`, `"false"`                                                                                                                      |
+| cleanSession      |    N     | 将在客户端连接到MQTT broker时，在连接消息中设置 "clean session" 默认: `"true"` 默认: `"true"`                                                                                                                                                                                                                                                                                                        | `"true"`, `"false"`                                                                                                                      |
+| caCert            | 使用TLS时需要 | 授权， 可以用`secretKeyRef`来引用密钥。                                                                                                                                                                                                                                                                                                                                                    | `0123456789-0123456789`                                                                                                                  |
+| clientCert        | 使用TLS时需要 | 客户端证书， 可以用`secretKeyRef`来引用密钥。                                                                                                                                                                                                                                                                                                                                                 | `0123456789-0123456789`                                                                                                                  |
+| clientKey         | 使用TLS时需要 | 客户端键， 可以用`secretKeyRef`来引用密钥。                                                                                                                                                                                                                                                                                                                                                  | `012345`                                                                                                                                 |
+| backOffMaxRetries |    N     | The maximum number of retries to process the message before returning an error. Defaults to `"0"` which means the component will not retry processing the message. `"-1"` will retry indefinitely until the message is processed or the application is shutdown. And positive number is treated as the maximum retry count. The component will wait 5 seconds between retries. | `"3"`                                                                                                                                    |
 
 
 ### 使用 TLS 通信
@@ -97,7 +98,7 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 [这里]({{< ref component-secrets.md >}})描述的密钥仓库来存储密钥。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 

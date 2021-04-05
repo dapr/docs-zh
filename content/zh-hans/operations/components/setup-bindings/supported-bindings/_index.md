@@ -12,10 +12,10 @@ no_list: true
 
 表格标题：
 
-> `状态`: [组件认证]({{X63X}}) 状态
-  - [Alpha]({{X52X}})
-  - [Beta]({{X54X}})
-  - [GA]({{X56X}}) > `自从`: 定义了当前组件从哪个Dapr Runtime版本开始支持
+> `Status`: [Component certification]({{X64X}}) status
+  - [Alpha]({{X53X}})
+  - [Beta]({{X55X}})
+  - [GA]({{X57X}}) > `Since`: defines from which Dapr Runtime version, the component is in the current status
 
 > `组件版本`：代表组件的版本
 ### 通用
@@ -28,6 +28,7 @@ no_list: true
 | [InfluxDB]({{< ref influxdb.md >}})                   |                |       ✅        | Alpha | v1   | 1.0 |
 | [Kafka]({{< ref kafka.md >}})                         |       ✅        |       ✅        | Alpha | v1   | 1.0 |
 | [Kubernetes 事件]({{< ref "kubernetes-binding.md" >}})  |       ✅        |                | Alpha | v1   | 1.0 |
+| [Local Storage]({{< ref localstorage.md >}})          |                |       ✅        | Alpha | v1   | 1.1 |
 | [MQTT]({{< ref mqtt.md >}})                           |       ✅        |       ✅        | Alpha | v1   | 1.0 |
 | [MySQL]({{< ref mysql.md >}})                         |                |       ✅        | Alpha | v1   | 1.0 |
 | [PostgrSQL]({{< ref postgres.md >}})                  |                |       ✅        | Alpha | v1   | 1.0 |
