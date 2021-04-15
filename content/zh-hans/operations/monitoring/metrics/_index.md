@@ -1,8 +1,8 @@
 ---
 type: docs
 title: "指标"
-linkTitle: "Metrics"
+linkTitle: "指标"
 weight: 300
-description: "How to view Dapr metrics"
+description: "如何查看 Dapr 度量"
 ---
 

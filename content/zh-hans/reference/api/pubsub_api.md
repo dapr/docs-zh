@@ -8,28 +8,28 @@ weight: 300
 
 ## Publish a message to a given topic
 
-This endpoint lets you publish data to multiple consumers who are listening on a `topic`. Dapr guarantees at least once semantics for this endpoint. Dapr guarantees at least once semantics for this endpoint. Dapr guarantees at least once semantics for this endpoint.
+This endpoint lets you publish data to multiple consumers who are listening on a `topic`. Dapr guarantees at least once semantics for this endpoint.
 
-### HTTP Request
+### HTTP 请求
 
 ```
 POST http://localhost:<daprPort>/v1.0/publish/<pubsubname>/<topic>[?<metadata>]
 ```
 
-### HTTP Response codes
+### HTTP 响应码
 
-| 代码  | 说明                                   |
+| 代码  | 描述                                   |
 | --- | ------------------------------------ |
 | 204 | Message delivered                    |
 | 403 | Message forbidden by access controls |
 | 404 | No pubsub name or topic given        |
 | 500 | Delivery failed                      |
 
-### URL Parameters
+### URL 参数
 
 | 参数         | 描述                                               |
 | ---------- | ------------------------------------------------ |
-| daprPort   | the Dapr port                                    |
+| daprPort   | dapr 端口。                                         |
 | pubsubname | the name of pubsub component                     |
 | topic      | the name of the topic                            |
 | metadata   | query parameters for metadata as described below |
@@ -46,15 +46,15 @@ curl -X POST http://localhost:3500/v1.0/publish/pubsubName/deathStarStatus \
 
 ### Headers
 
-The `Content-Type` header tells Dapr which content type your data adheres to when constructing a CloudEvent envelope. The value of the `Content-Type` header populates the `datacontenttype` field in the CloudEvent. Unless specified, Dapr assumes `text/plain`. If your content type is JSON, use a `Content-Type` header with the value of `application/json`. The value of the `Content-Type` header populates the `datacontenttype` field in the CloudEvent. Unless specified, Dapr assumes `text/plain`. If your content type is JSON, use a `Content-Type` header with the value of `application/json`.
+The `Content-Type` header tells Dapr which content type your data adheres to when constructing a CloudEvent envelope. The value of the `Content-Type` header populates the `datacontenttype` field in the CloudEvent. Unless specified, Dapr assumes `text/plain`. If your content type is JSON, use a `Content-Type` header with the value of `application/json`.
 
 If you want to send your own custom CloundEvent, use the `application/cloudevents+json` value for the `Content-Type` header.
 
 #### Metadata
 
-Metadata can be sent via query parameters in the request's URL. It must be prefixed with `metadata.` as shown below. It must be prefixed with `metadata.` as shown below.
+Metadata can be sent via query parameters in the request's URL. It must be prefixed with `metadata.` as shown below.
 
-| Parameter             | 描述                                                                                                     |
+| 参数                    | 描述                                                                                                     |
 | --------------------- | ------------------------------------------------------------------------------------------------------ |
 | metadata.ttlInSeconds | the number of seconds for the message to expire as [described here]({{< ref pubsub-message-ttl.md >}}) |
 
@@ -66,7 +66,7 @@ Metadata can be sent via query parameters in the request's URL. It must be prefi
 
 Dapr will invoke the following endpoint on user code to discover topic subscriptions:
 
-#### HTTP Request
+#### HTTP 请求
 
 ```
 GET http://localhost:<appPort>/dapr/subscribe
@@ -74,7 +74,7 @@ GET http://localhost:<appPort>/dapr/subscribe
 
 #### URL 参数
 
-| 参数      | 说明     |
+| 参数      | 描述     |
 | ------- | ------ |
 | appPort | 应用程序端口 |
 
@@ -82,7 +82,7 @@ GET http://localhost:<appPort>/dapr/subscribe
 
 A json encoded array of strings.
 
-You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image. To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
+Example:
 
 ```json
 [
@@ -110,16 +110,16 @@ POST http://localhost:<appPort>/<path>
 
 > 注意：所有的 URL 参数都是大小写敏感的。
 
-#### URL Parameters
+#### URL 参数
 
-| Parameter | 描述                                             |
-| --------- | ---------------------------------------------- |
-| appPort   | the application port                           |
-| path      | route path from the subscription configuration |
+| 参数      | 描述                                             |
+| ------- | ---------------------------------------------- |
+| appPort | 应用程序端口                                         |
+| path    | route path from the subscription configuration |
 
 #### Expected HTTP Response
 
-An HTTP 2xx response denotes successful processing of message. An HTTP 2xx response denotes successful processing of message. For richer response handling, a JSON encoded payload body with the processing status can be sent:
+An HTTP 2xx response denotes successful processing of message. For richer response handling, a JSON encoded payload body with the processing status can be sent:
 
 ```json
 {
@@ -127,7 +127,7 @@ An HTTP 2xx response denotes successful processing of message. An HTTP 2xx respo
 }
 ```
 
-| Status  | 描述                                       |
+| 状态      | 描述                                       |
 | ------- | ---------------------------------------- |
 | SUCCESS | message is processed successfully        |
 | RETRY   | message to be retried by Dapr            |
@@ -138,7 +138,7 @@ Dapr assumes a JSON encoded payload response without `status` field or an empty 
 
 The HTTP response might be different from HTTP 2xx, the following are Dapr's behavior in different HTTP statuses:
 
-| HTTP Status | 说明                                                                                              |
+| HTTP Status | 描述                                                                                              |
 | ----------- | ----------------------------------------------------------------------------------------------- |
 | 2xx         | message is processed as per status in payload (`SUCCESS` if empty; ignored if invalid payload). |
 | 404         | error is logged and message is dropped                                                          |

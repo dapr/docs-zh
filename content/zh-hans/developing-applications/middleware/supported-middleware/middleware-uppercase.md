@@ -8,9 +8,9 @@ description: "测试您的 HTTP 管道与大写中间件一起运行"
 
 大写 [HTTP midleware]({{< ref middleware-concept.md >}}) 将请求的正文转换为大写字母，并用于测试管道正在起作用。 它只应用于本地开发。
 
-## 组件格式
+## 配置
 
-根据下述定义，请求正文转换为大写字母：
+在下述定义中，将请求体的内容变成大写：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -24,9 +24,9 @@ spec:
 
 此组件没有要配置的 `metadata`。
 
-## Dapr 配置
+## Dapr配置
 
-要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中引用。 请参阅[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
+要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中进行引用。 请参阅[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

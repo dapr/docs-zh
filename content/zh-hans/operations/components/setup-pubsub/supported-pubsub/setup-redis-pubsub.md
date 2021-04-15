@@ -5,9 +5,9 @@ linkTitle: "Redis Streams"
 description: "关于Redis Streams pubsub组件的详细文档"
 ---
 
-## 组件格式
+## 配置
 
-要设置Redis Streams pubsub，请创建一个类型为`pubsub.redis`的组件。 请参阅 [本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
+要设置Redis Streams pubsub，请创建一个类型为`pubsub.redis`的组件。 请参阅[本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -30,15 +30,15 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 [这里]({{< ref component-secrets.md >}})描述的密钥仓库来存储密钥。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段            | 必填 | 详情                                               | 示例                                                              |
 | ------------- |:--:| ------------------------------------------------ | --------------------------------------------------------------- |
-| redisHost     | Y  | Redis的连接地址                                       | `localhost:6379`, `redis-master.default.svc.cluster.local:6379` |
-| redisPassword | Y  | Redis的密码 无默认值 可以用`secretKeyRef`来引用               | `""`, `"KeFg23!"`                                               |
+| redisHost     | 是  | Redis的连接地址                                       | `localhost:6379`, `redis-master.default.svc.cluster.local:6379` |
+| redisPassword | 是  | Redis的密码 无默认值 可以用`secretKeyRef`来引用密钥。            | `""`, `"KeFg23!"`                                               |
 | consumerID    | N  | 消费组 ID                                           | `"mygroup"`                                                     |
 | enableTLS     | N  | 如果Redis实例支持使用公共证书的TLS，可以配置为启用或禁用。 默认值为 `"false"` | `"true"`, `"false"`                                             |
 
@@ -53,7 +53,7 @@ Dapr CLI将自动为你创建和设置一个Redis Streams实例。 当你执行`
 {{% /codetab %}}
 
 {{% codetab %}}
-你可以使用[Helm](https://helm.sh/)在我们的Kubernetes集群中快速创建一个Redis实例， 这种方法需要[安装Helm](https://github.com/helm/helm#install)。
+您可以使用 [helm](https://helm.sh/) 在我们的 Kubernetes 集群中快速创建 dapr 实例。 这种方法需要[安装Helm](https://github.com/helm/helm#install)。
 
 1. 安装 Redis 到你的集群：
     ```bash

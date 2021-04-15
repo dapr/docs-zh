@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "开始使用 Dapr"
-linkTitle: "入门"
+linkTitle: "快速入门"
 weight: 20
 description: "如何在几分钟内开始使用 Dapr 并运行"
 no_list: true
@@ -22,4 +22,6 @@ no_list: true
 1. 完成一个组件的配置
 1. 探索 Dapr 的快速入门案例
 
-
+{{% alert color="primary" %}}
+[第一步：安装Dapr CLI >>]({{< ref install-dapr-cli.md >}})
+{{% /alert %}}

@@ -11,7 +11,7 @@ To run Prometheus on your local machine, you can either [install and run it as a
 
 ### Install
 {{% alert title="Note" color="warning" %}}
-You don't need to install Prometheus if you plan to run it as a Docker container. Please refer to the [Container](#run-as-container) instructions. Please refer to the [Container](#run-as-container) instructions.
+You don't need to install Prometheus if you plan to run it as a Docker container. Please refer to the [Container](#run-as-container) instructions.
 {{% /alert %}}
 
 To install Prometheus, follow the steps outlined [here](https://prometheus.io/docs/prometheus/latest/getting_started/) for your OS.
@@ -52,7 +52,7 @@ Run Prometheus with your configuration to start it collecting metrics from the s
 ```
 > We change the port so it doesn't conflict with Dapr's own metrics endpoint.
 
-If you are not currently running a Dapr application, the target will show as offline. If you are not currently running a Dapr application, the target will show as offline. In order to start collecting metrics you must start Dapr with the metrics port matching the one provided as the target in the configuration.
+If you are not currently running a Dapr application, the target will show as offline. In order to start collecting metrics you must start Dapr with the metrics port matching the one provided as the target in the configuration.
 
 Once Prometheus is running, you'll be able to visit its dashboard by visiting `http://localhost:8080`.
 
@@ -72,7 +72,7 @@ Once Prometheus is running, you'll be able to visit its dashboard by visiting `h
 
 ## Setup Prometheus on Kubernetes
 
-### Prerequisites
+### 前期准备
 
 - Kubernetes (> 1.14)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
@@ -101,7 +101,7 @@ helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring
  --set alertmanager.persistentVolume.enable=false --set pushgateway.persistentVolume.enabled=false --set server.persistentVolume.enabled=false
 ```
 
-3. Validation
+3. 校验
 
 Ensure Prometheus is running in your cluster.
 
@@ -118,9 +118,9 @@ dapr-prom-prometheus-pushgateway-688665d597-h4xx2   1/1     Running   0         
 dapr-prom-prometheus-server-694fd8d7c-q5d59         2/2     Running   0          4m58s
 ```
 
-## Example   <iframe width="560" height="315" src="https://www.youtube.com/embed/8W-iBDNvCUM?start=2577" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
+## 示例 <iframe width="560" height="315" src="https://www.youtube.com/embed/8W-iBDNvCUM?start=2577" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
 
-## 参考文档
+## 参考资料
 
 * [Prometheus Installation](https://github.com/prometheus-community/helm-charts)
 * [Prometheus Query Language](https://prometheus.io/docs/prometheus/latest/querying/basics/)

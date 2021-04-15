@@ -5,7 +5,7 @@ linkTitle: "AWS DynamoDB"
 description: "AWS DynamoDB 绑定组件的详细文档"
 ---
 
-## 组成格式
+## 配置
 
 要设置 AWS DynamoDB 绑定，请创建一个类型为 `bindings.aws.dynamodb` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
@@ -35,23 +35,23 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 建议使用 [这里]({{< ref component-secrets.md >}})描述的密钥存储。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段           | 必填 | 绑定支持   | 详情                          | 示例                  |
-| ------------ |:--:| ------ | --------------------------- | ------------------- |
-| table        | Y  | Output | DynamoDB 表名称                | `"items"`           |
-| region       | Y  | Output | AWS DynamoDB 实例所部署的特定AWS 区域 | `"us-east-1"`       |
-| accessKey    | Y  | Output | 要访问此资源的 AWS 访问密钥            | `"key"`             |
-| secretKey    | Y  | Output | 要访问此资源的 AWS 密钥访问 Key        | `"secretAccessKey"` |
-| sessionToken | N  | Output | 要使用的 AWS 会话令牌               | `"sessionToken"`    |
+| 字段           | 必填 | 绑定支持 | 详情                          | 示例                  |
+| ------------ |:--:| ---- | --------------------------- | ------------------- |
+| table        | 是  | 输出   | DynamoDB 表名称                | `"items"`           |
+| region       | 是  | 输出   | AWS DynamoDB 实例所部署的特定AWS 区域 | `"us-east-1"`       |
+| accessKey    | 是  | 输出   | 要访问此资源的 AWS 访问密钥            | `"key"`             |
+| secretKey    | 是  | 输出   | 要访问此资源的 AWS 密钥访问 Key        | `"secretAccessKey"` |
+| sessionToken | N  | 输出   | 要使用的 AWS 会话令牌               | `"sessionToken"`    |
 
 
-## 相关链接
+## 绑定支持
 
-字段名为 `ttlInSeconds`。
+该组件支持**输出绑定**，其操作如下:
 
 - `create`
 
@@ -59,7 +59,7 @@ spec:
 
 - [Dapr组件的基本格式]({{< ref component-schema >}})
 - [绑定构建块]({{< ref bindings >}})
-- [如何通过 input binding 触发应用]({{< ref howto-triggers.md >}})
-- [How-To：使用绑定与外部资源进行交互]({{< ref howto-bindings.md >}})
+- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
+- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
 - [绑定API 参考]({{< ref bindings_api.md >}})
-- [AWS 认证]({{< ref authenticating-aws.md >}})
+- [AWS认证]({{< ref authenticating-aws.md >}})

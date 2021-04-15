@@ -5,7 +5,7 @@ linkTitle: "Cron"
 description: "Cron 绑定组件的详细文档"
 ---
 
-## 组成格式
+## 配置
 
 要设置 cron 绑定，请创建一个类型为 `bindings.cron` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
@@ -28,7 +28,7 @@ spec:
 
 | 字段       | 必填 | 绑定支持         | 详情                                                | 示例             |
 | -------- |:--:| ------------ | ------------------------------------------------- | -------------- |
-| schedule | Y  | Input/Output | 要用的有效的 cron 时间表。 请参阅[这里](#schedule-format)了解更多详情。 | `"@every 15m"` |
+| schedule | 是  | Input/Output | 要用的有效的 cron 时间表。 请参阅[这里](#schedule-format)了解更多详情。 | `"@every 15m"` |
 
 ### 计划格式
 
@@ -57,7 +57,7 @@ Dapr cron 绑定支持以下格式：
 * `@every 15 s` 的`s` 就是秒， `m` 为分钟， `g` 就是小时
 * `@daily` 或 `@hourly` 它是从绑定初始化之时起运行的
 
-## 相关链接
+## 绑定支持
 
 此组件支持 **输入和输出** 绑定接口。
 
@@ -69,6 +69,6 @@ Dapr cron 绑定支持以下格式：
 
 - [Dapr组件的基本格式]({{< ref component-schema >}})
 - [绑定构建块]({{< ref bindings >}})
-- [如何通过 input binding 触发应用]({{< ref howto-triggers.md >}})
-- [How-To：使用绑定与外部资源进行交互]({{< ref howto-bindings.md >}})
+- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
+- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
 - [绑定API 参考]({{< ref bindings_api.md >}})

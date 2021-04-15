@@ -5,7 +5,7 @@ linkTitle: "Azure Event Grid"
 description: "Azure Event Grid 绑定组件的详细文档"
 ---
 
-## 组件格式
+## 配置
 
 要设置 Azure 事件网格（Event Grid）绑定，请创建一个类型为 `bindings.azure.eventgrid` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
@@ -46,23 +46,23 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [点击这里查看操作方法]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                    | 必填 | 绑定支持   | 详情                                                                                                                                                      | 示例                                     |
-| --------------------- |:--:| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| tenantId              | Y  | Input  | 创建这个事件网格事件订阅的 Azure 租户 id                                                                                                                               | `"tenentID"`                           |
-| subscriptionId        | Y  | Input  | 创建这个事件网格事件订阅的 Azure 订阅 id                                                                                                                               | `"subscriptionId"`                     |
-| clientId              | Y  | Input  | 由绑定来创建或更新事件网格事件订阅的客户端 id                                                                                                                                | `"clientId"`                           |
-| clientSecret          | Y  | Input  | 由绑定来创建或更新事件网格事件订阅的客户端 id                                                                                                                                | `"clientSecret"`                       |
-| subscriberEndpoint    | Y  | Input  | 事件网格将进行握手并发送云端事件的 https 端点。 如果您没有在 ingress 上重写URL， 其形式应该是： `https://[YOUR HOSTNAME]/api/events`。如果测试您的本地机器， 您可以使用 [ngrok](https://ngrok.com) 来创建一个公共端点。 | `"https://[YOUR HOSTNAME]/api/events"` |
-| handshakePort         | Y  | Input  | 输入绑定将侦听握手和事件的容器端口                                                                                                                                       | `"9000"`                               |
-| scope                 | Y  | Input  | 事件订阅需要创建或更新的资源标识符。 请参阅[这里](#scope)了解更多详情。                                                                                                               | `"/subscriptions/{subscriptionId}/"`   |
-| eventSubscriptionName | N  | Input  | 事件订阅的名称。 事件订阅名称长度必须在3到64个字符之间，并且只能使用字母数字                                                                                                                | `"name"`                               |
-| accessKey             | Y  | Output | 将事件网格事件发布到自定义 topic 的访问密钥                                                                                                                               | `"accessKey"`                          |
-| topicEndpoint         | Y  | Output | 输出绑定应该在其中发布事件的 topic 端点                                                                                                                                 | `"topic-endpoint"`                     |
+| 字段                    | 必填 | 绑定支持 | 详情                                                                                                                                                      | 示例                                     |
+| --------------------- |:--:| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| tenantId              | 是  | 输入   | 创建这个事件网格事件订阅的 Azure 租户 id                                                                                                                               | `"tenentID"`                           |
+| subscriptionId        | 是  | 输入   | 创建这个事件网格事件订阅的 Azure 订阅 id                                                                                                                               | `"subscriptionId"`                     |
+| clientId              | 是  | 输入   | 由绑定来创建或更新事件网格事件订阅的客户端 id                                                                                                                                | `"clientId"`                           |
+| clientSecret          | 是  | 输入   | 由绑定来创建或更新事件网格事件订阅的客户端 id                                                                                                                                | `"clientSecret"`                       |
+| subscriberEndpoint    | 是  | 输入   | 事件网格将进行握手并发送云端事件的 https 端点。 如果您没有在 ingress 上重写URL， 其形式应该是： `https://[YOUR HOSTNAME]/api/events`。如果测试您的本地机器， 您可以使用 [ngrok](https://ngrok.com) 来创建一个公共端点。 | `"https://[YOUR HOSTNAME]/api/events"` |
+| handshakePort         | 是  | 输入   | 输入绑定将侦听握手和事件的容器端口                                                                                                                                       | `"9000"`                               |
+| scope                 | 是  | 输入   | 事件订阅需要创建或更新的资源标识符。 请参阅[这里](#scope)了解更多详情。                                                                                                               | `"/subscriptions/{subscriptionId}/"`   |
+| eventSubscriptionName | N  | 输入   | 事件订阅的名称。 事件订阅名称长度必须在3到64个字符之间，并且只能使用字母数字                                                                                                                | `"name"`                               |
+| accessKey             | 是  | 输出   | 将事件网格事件发布到自定义 topic 的访问密钥                                                                                                                               | `"accessKey"`                          |
+| topicEndpoint         | 是  | 输出   | 输出绑定应该在其中发布事件的 topic 端点                                                                                                                                 | `"topic-endpoint"`                     |
 
 ### Scope
 
@@ -71,7 +71,7 @@ Scope 是事件订阅需要创建或更新的资源的标识符。 Scope 可以�
 - `'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'` 资源组
 - `'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}'` 资源
 - `'/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}'` 事件网格主题 > 在大括号 {} 中的内容应该替换为实际值.
-## 相关链接
+## 绑定支持
 
 此组件支持 **输入和输出** 绑定接口。
 
@@ -112,7 +112,7 @@ dapr run --app-id dotnetwebapi --app-port 5000 --dapr-http-port 3500 dotnet run
 
 ### 在 Kubernetes 上测试
 
-Azure 事件网格需要一个有效的 HTTPS 端点用于自定义 webhooks. 自签名证书是不行的。 为了使流量从公共互联网到你的应用程序的 Dapr sidecar，你需要一个启用了 Dapr 的 ingress 控制器。 有一篇关于这个主题的好文章:[Kubernetes NGINX ingress controller with Dapr](https://carlos.mendible.com/2020/04/05/kubernetes-nginx-ingress-controller-with-dapr/)。
+Azure 事件网格需要一个有效的 HTTPS 端点用于自定义 webhooks. 自签名证书是不行的。 自签名证书是不行的。 为了使流量从公共互联网到你的应用程序的 Dapr sidecar，你需要一个启用了 Dapr 的 ingress 控制器。 有一篇关于这个主题的好文章:[Kubernetes NGINX ingress controller with Dapr](https://carlos.mendible.com/2020/04/05/kubernetes-nginx-ingress-controller-with-dapr/)。
 
 若要开始，请首先为 Dapr 创建批注 `dapr-annotations.yaml`
 
@@ -138,7 +138,7 @@ kubectl get svc -l component=controller -o jsonpath='Public IP is: {.items[0].st
 - 安装证书管理器
 - 创建 CA 集群发行者（issuer）
 
-开启事件网格与 Dapr 之间通信的最后一步是定义 `http` 和自定义端口到您应用的服务和一个 Kubernetes 中的 ` ingress `。 这个示例使用 .NET Core Web api 和 Dapr 默认端口和用于握手的自定义端口 9000 。
+开启事件网格与 Dapr 之间通信的最后一步是定义 `http` 和自定义端口到您应用的服务和一个 Kubernetes 中的 `ingress`。 这个示例使用 .NET Core Web api 和 Dapr 默认端口和用于握手的自定义端口 9000 。
 
 ```yaml
 # dotnetwebapi.yaml
@@ -248,6 +248,11 @@ $ kubectl delete pod nginx-nginx-ingress-controller-649df94867-fp6mg
 $ kubectl delete pod nginx-nginx-ingress-controller-649df94867-fp6mg
 
 # Check the logs again - it should start returning 200
+# .."OPTIONS /api/events HTTP/1.1" 200..
+
+$ kubectl delete pod nginx-nginx-ingress-controller-649df94867-fp6mg
+
+# Check the logs again - it should start returning 200
 # .."OPTIONS /api/events HTTP/1.1" 200.. 
 ```
 
@@ -255,6 +260,6 @@ $ kubectl delete pod nginx-nginx-ingress-controller-649df94867-fp6mg
 
 - [Dapr组件的基本格式]({{< ref component-schema >}})
 - [绑定构建块]({{< ref bindings >}})
-- [如何通过 input binding 触发应用]({{< ref howto-triggers.md >}})
-- [How-To：使用绑定与外部资源进行交互]({{< ref howto-bindings.md >}})
+- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
+- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
 - [绑定API 参考]({{< ref bindings_api.md >}})

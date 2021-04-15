@@ -10,7 +10,7 @@ description: "如何以自托管方式部署和运行 Dapr ，而无需在本地
 
 ## 前期准备
 
-- [Dapr CLI]({{< ref "install-dapr-selfhost.md#installing-dapr-cli" >}})
+- [Dapr CLI]({{< ref "install-dapr-selfhost.md#installing-dapr-cli">}})
 
 ## 无需容器初始化 Dapr
 
@@ -47,11 +47,11 @@ INFO[0000] Raft server is starting on 127.0.0.1:8201...  instance=Nicoletaz-L10.
 INFO[0000] placement service started on port 50005       instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
 INFO[0000] Healthz server is listening on :8080          instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
 INFO[0001] cluster leadership acquired                   instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
-INFO[0001] leader is established.                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
+INFO[0001] leader is established.                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
 
 ```
 
-至此，您可以跟随为 [java-sdk](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/actors)， [python-sdk](https://github.com/dapr/python-sdk/tree/master/examples/demo_actor) 或 [dotne-sdk]({{< ref "dotnet-actor-howto.md" >}}) 创建的样本示例，在启用了 Actors 的情况下运行应用程序。
+至此，您可以跟随为 [java-sdk](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/actors)， [python-sdk](https://github.com/dapr/python-sdk/tree/master/examples/demo_actor) 或 [dotne-sdk]({{< ref "dotnet-actors-howto.md" >}}) 创建的样本示例，在启用了 Actors 的情况下运行应用程序。
 
 更新状态存储配置文件使 Redis host 地址和密码和您的设置相同。 此外，为了使它能够作为一个actor状态存储，还添加了类似于[示例Java Redis组件](https://github.com/dapr/java-sdk/blob/master/examples/components/state/redis.yaml)定义的元数据部分。
 

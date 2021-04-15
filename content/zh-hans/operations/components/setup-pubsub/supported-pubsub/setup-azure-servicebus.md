@@ -5,8 +5,8 @@ linkTitle: "Azure Service Bus"
 description: "关于 Azure Service Bus pubsub 组件的详细文档"
 ---
 
-## 组件格式
-要安装 Azure Event Hubs pubsub ，请创建一个类型为 `pubsub.azure.servicebus` 的组件。 请参阅 [本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
+## 配置
+要安装 Azure Event Hubs pubsub ，请创建一个类型为 `pubsub.azure.servicebus` 的组件。 请参阅[本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -49,14 +49,14 @@ spec:
 > __注意：__上述设置在使用该组件的所有主题中是通用的。
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 [这里]({{< ref component-secrets.md >}}})描述的密钥存储。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段                             | 必填 | 详情                                       | 示例                                                                                                                                             |
 | ------------------------------ |:--:| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| connectionString               | Y  | Event Hubs的连接地址                          | "`Endpoint=sb://{ServiceBusNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={ServiceBus}`" |
+| connectionString               | 是  | Event Hubs的连接地址                          | "`Endpoint=sb://{ServiceBusNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={ServiceBus}`" |
 | timeoutInSec                   | N  | 发送消息和其他管理操作的超时时间。 默认值：`60`               | `30`                                                                                                                                           |
 | handlerTimeoutInSec            | N  | 调用应用handler的超时。 # 可选的。 默认值：`60`          | `30`                                                                                                                                           |
 | disableEntityManagement        | N  | 设置为 "true "时，主题和订阅不会自动创建。 默认值为 `"false"` | `"true"`, `"false"`                                                                                                                            |
@@ -64,7 +64,7 @@ spec:
 | lockDurationInSec              | N  | 定义消息过期前被锁定的时长，以秒为单位。 由服务端默认设置            | `30`                                                                                                                                           |
 | lockRenewalInSec               | N  | 定义缓冲消息锁的更新频率。 默认值：`20`.                  | `20`                                                                                                                                           |
 | maxActiveMessages              | N  | 定义一次要缓冲或处理的消息的最大数量。 默认值：`10000`          | `2000`                                                                                                                                         |
-| maxActiveMessagesRecoveryInSec | N  | 定义达到最大活跃消息限制后等待的时长(秒) 默认值：`2`            | `10`                                                                                                                                           |
+| maxActiveMessagesRecoveryInSec | N  | 定义达到最大活跃消息限制后等待的时长(秒) 默认值：`2` 默认值：`2`    | `10`                                                                                                                                           |
 | maxConcurrentHandlers          | N  | 定义并发消息处理器的最大数量                           | `10`                                                                                                                                           |
 | prefetchCount                  | N  | 定义预取消息的数量(用于高吞吐量/低延迟场景)                  | `5`                                                                                                                                            |
 | defaultMessageTimeToLiveInSec  | N  | 默认消息存活时间                                 | `10`                                                                                                                                           |

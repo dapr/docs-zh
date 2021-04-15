@@ -181,7 +181,7 @@ func (s *server) OnBindingEvent(ctx context.Context, in *pb.BindingEventRequest)
     return &pb.BindingEventResponse{}, nil
 }
 
-// This method is fired whenever a message has been published to a topic that has been subscribed. Dapr用CloudEvents 0.3规范发送发布的消息。
+// This method is fired whenever a message has been published to a topic that has been subscribed. Dapr sends published messages in a CloudEvents 0.3 envelope.
 func (s *server) OnTopicEvent(ctx context.Context, in *pb.TopicEventRequest) (*empty.Empty, error) {
     fmt.Println("Topic message arrived")
     return &empty.Empty{}, nil
@@ -204,12 +204,6 @@ func main() {
     pb.RegisterAppCallbackServer(s, &server{})
 
     fmt.Println("Client starting...")
-
-    // and start...
-    if err := s.Serve(lis); err != nil {
-        log.Fatalf("failed to serve: %v", err)
-    }
-}
 
     // and start...
     if err := s.Serve(lis); err != nil {

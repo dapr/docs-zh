@@ -8,7 +8,7 @@ description: "使用中间件对传入的请求应用开放策略代理（OPA）
 
 开放策略代理（OPA）[HTTP 中间件]({{< ref middleware-concept.md >}})将[OPA 策略](https://www.openpolicyagent.org/)应用到传入的 Dapr HTTP 请求中。 这可以用来将可重用的授权策略应用到应用终结点。
 
-## 组件格式
+## 配置
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -83,7 +83,49 @@ spec:
             [_, jwt] := split(auth_header, " ")
             [_, payload, _] := io.jwt.decode(jwt)
         }
-         
+    # Request headers are not passed to the policy by default. Include to receive incoming request headers in
+    # the input
+    - name: includedHeaders
+      value: "x-my-custom-header, x-jwt-header"
+
+    # `defaultStatus` is the status code to return for denied responses
+    - name: defaultStatus
+      value: 403
+
+    # `rego` is the open policy agent policy to evaluate. required
+    # The policy package must be http and the policy must set data.http.allow
+    - name: rego
+      value: |
+        package http
+
+        default allow = true
+
+        # Allow may also be an object and include other properties
+
+        # For example, if you wanted to redirect on a policy failure, you could set the status code to 301 and set the location header on the response:
+        allow = {
+            "status_code": 301,
+            "additional_headers": {
+                "location": "https://my.site/authorize"
+            }
+        } {
+            not jwt.payload["my-claim"]
+        }
+
+        # You can also allow the request and add additional headers to it:
+        allow = {
+            "allow": true,
+            "additional_headers": {
+                "x-my-claim": my_claim
+            }
+        } {
+            my_claim := jwt.payload["my-claim"]
+        }
+        jwt = { "payload": payload } {
+            auth_header := input.request.headers["authorization"]
+            [_, jwt] := split(auth_header, " ")
+            [_, payload, _] := io.jwt.decode(jwt)
+        }
 ```
 
 您可以使用 [官方 opa playground](https://play.openpolicyagent.org)对策略进行原型设计和实验。 例如，[您可以在这里找到上面的示例策略](https://play.openpolicyagent.org/p/oRIDSo6OwE)。
@@ -96,9 +138,9 @@ spec:
 | defaultStatus   | 状态码返回拒绝的响应                                                     | `"https://accounts.google.com"`, `"https://login.salesforce.com"` |
 | includedHeaders | 一组以逗号分隔的不区分大小写的头信息，包含在请求输入中。 默认情况下，请求头不会传递给策略。 在输入中包含接收传入的请求头。 | `"x-my-custom-header, x-jwt-header"`                              |
 
-## Dapr 配置
+## Dapr配置
 
-要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中引用。 请参阅[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
+要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中进行引用。 请参阅[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -143,7 +185,22 @@ type HTTPRequest struct {
   // The request scheme (e.g. http, https)
   scheme string
 }
-     
+  method string
+  // The raw request path (e.g. "/v2/my-path/")
+  path string
+  // The path broken down into parts for easy consumption (e.g. ["v2", "my-path"])
+  path_parts string[]
+  // The raw query string (e.g. "?a=1&b=2")
+  raw_query string
+  // The query broken down into keys and their values
+  query map[string][]string
+  // The request headers
+  // NOTE: By default, no headers are included. You must specify what headers
+  // you want to receive via `spec.metadata.includedHeaders` (see above)
+  headers map[string]string
+  // The request scheme (e.g. http, https)
+  scheme string
+}
 ```
 
 ## 结果
@@ -227,7 +284,7 @@ type Result struct {
 
 ## 相关链接
 
-- [开放策略代理](https://www.openpolicyagent.org)
+- [Open Policy Agent](https://www.openpolicyagent.org)
 - [HTTP API 示例](https://www.openpolicyagent.org/docs/latest/http-api-authorization/)
 - [中间件概念]({{< ref middleware-concept.md >}})
 - [配置概念]({{< ref configuration-concept.md >}})

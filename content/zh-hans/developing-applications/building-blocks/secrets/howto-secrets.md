@@ -1,16 +1,16 @@
 ---
 type: docs
 title: "指南：获取密钥"
-linkTitle: "How To: Retrieve a secret"
+linkTitle: "指南：获取密钥"
 weight: 2000
-description: "使用密钥仓库构建块安全地获取密钥"
+description: "使用密钥存储构建块安全地获取密钥"
 ---
 
-这篇文章提供了关于如何在你的代码中使用 Dapr 的密钥 API 来充分利用 [密钥仓库构建块]({{X30X}}) 的指导。 密钥 API 允许您从配置的密钥仓库轻松获取应用程序代码中的密钥。
+这篇文章提供了关于如何在你的代码中使用 Dapr 的密钥 API 来充分利用 [密钥仓库构建块]({{X30X}}) 的指导。 密钥 API 允许您从配置的密钥存储轻松获取应用程序代码中的密钥。
 
-## 建立一个密钥仓库
+## 建立一个密钥存储
 
-在获取应用程序代码中的密钥之前，您必须配置一个密钥仓库组件。 就本指南而言，作为一个示例，您将配置一个本地的密钥仓库，该仓库使用本地的 JSON 文件来存储密钥。
+在获取应用程序代码中的密钥之前，您必须配置一个密钥存储组件。 就本指南而言，作为一个示例，您将配置一个本地的密钥存储，该仓库使用本地的 JSON 文件来存储密钥。
 > 注意：此示例中使用的组件未被加密且不推荐用于生产部署。 您可以在 [这里]({{X27X}})找到其它替代项。
 
 创建一个名为 `secrets.json` 的文件，包含以下内容：
@@ -41,13 +41,13 @@ spec:
 
 请确保用您刚刚创建的 JSON 文件的路径替换 `<密钥路径>`。
 
-要配置不同类型的密钥仓库，请参阅关于 [如何配置密钥仓库]({{X40X}}) 并审阅 [支持的密钥仓库]({{X41X}}) 查看不同密钥仓库解决方案所需的具体细节。
+要配置不同类型的密钥存储，请参阅关于 [如何配置密钥存储]({{X40X}}) 并审阅 [支持的密钥存储]({{X41X}}) 查看不同密钥存储解决方案所需的具体细节。
 ## 获取密钥
 
 现在运行 Dapr sidecar (在没有应用程序的情况下)
 
 ```bash
-dapr run --app-id my-app --dapr-http-port 3500 --components-path ./components
+dapr run --app-id my-app --port 3500 --components-path ./components
 ```
 
 现在你可以通过使用密钥 API 调用 Dapr sidecar 来获得密钥：
@@ -60,9 +60,9 @@ curl http://localhost:3500/v1.0/secrets/my-secrets-store/my-secret
 
 ## 从你的代码调用密钥 API
 
-一旦您设置了一个密钥仓库，您可以调用 Dapr 从您的应用程序代码中获取密钥。 以下是不同编程语言的几个示例：
+一旦您设置了一个密钥存储，您可以调用 Dapr 从您的应用程序代码中获取密钥。 以下是不同编程语言的几个示例：
 
-{{< tabs "Go" "Javascript" "Python" "Rust" "C#" "PHP" >}}
+{{< tabs "Go" "Javascript" "Python" "Rust" "C#" >}}
 
 {{% codetab %}}
 ```Go
@@ -172,7 +172,7 @@ $app->run(function(\Dapr\SecretManager $secretManager, \Psr\Log\LoggerInterface 
 
 - [Dapr 密钥概述]({{X15X}})
 - [密钥 API 参考]({{X17X}})
-- [配置密钥仓库]({{X19X}})
+- [配置密钥存储]({{X19X}})
 - [支持的密钥]({{X21X}})
 - [在组件中使用密钥]({{X23X}})
-- [密钥仓库快速入门](https://github.com/dapr/quickstarts/tree/master/secretstore)
+- [密钥存储快速入门](https://github.com/dapr/quickstarts/tree/master/secretstore)

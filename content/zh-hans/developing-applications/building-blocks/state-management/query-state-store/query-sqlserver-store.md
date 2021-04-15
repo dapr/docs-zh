@@ -6,7 +6,7 @@ weight: 3000
 description: "使用 SQL Server 作为后端状态存储"
 ---
 
-Dapr 在保存和检索状态时不会转换状态值。 Dapr 要求所有状态存储的实现都遵守特定格式(见 [Dapr状态管理规范]({{< ref state_api.md >}}))。 您可以直接与基础存储进行交互以操作状态数据，例如查询状态、创建聚合视图和进行备份。
+Dapr 在保存和检索状态时不会转换状态值。 Dapr要求所有的状态存储实现都要遵守特定的密钥格式 (参见[Dapr状态管理规范]({{< ref state_api.md >}}))。 您可以直接与基础存储进行交互以操作状态数据，例如查询状态、创建聚合视图和进行备份。
 
 ## 1. 连接到 SQL Server
 
@@ -50,16 +50,16 @@ SELECT * FROM states WHERE JSON_VALUE([Data], '$.color') = 'blue'
 
 ## 5. 获取 actor 状态
 
-执行下面的查询，以获得与ID为 "mypets "的应用程序中ID为 "cat "的actor类型的实例ID为 "leroy "的actor相关联的所有状态键：
+要获取应用ID为 "myets "，实例ID为"leroy"，actor类型为"cat"的相关联所有actor的状态键，请使用以下命令:
 
 ```sql
 SELECT * FROM states WHERE [Key] LIKE 'mypets||cat||leroy||%'
 ```
 
-而要获得特定的actor状态，比如 "food"，可以执行以下查询：
+要获取特定actor状态（如"food"） ，请使用以下命令:
 
 ```sql
 SELECT * FROM states WHERE [Key] = 'mypets||cat||leroy||food'
 ```
 
-> **警告** 您不应手动更新或删除存储区中的状态。 所有写入和删除操作都应通过 Dapr 运行时完成。
+> **警告:** 您不应该手动更新或删除存储引擎中的状态， 所有的写入和删除操作都应该通过Dapr运行时来完成。 所有的写入和删除操作都应该通过Dapr运行时来完成。
