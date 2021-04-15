@@ -6,10 +6,10 @@ description: 详细介绍了关于 Azure Key Vault密钥仓库组件的信息
 ---
 
 {{% alert title="Note" color="primary" %}}
-Azure Managed Identity 可用于 Kubernetes 上的 Azure Key Vault 访问， 在 [这里]({{< ref azure-keyvault-managed-identity.md >}})查看说明。
+Azure Managed Identity 可用于 Kubernetes 上的 Azure Key Vault 访问， 在 [这里]({{< ref azure-keyvault-managed-identity.md >}})查看说明。 在 [这里]({{< ref azure-keyvault-managed-identity.md >}})查看说明。
 {{% /alert %}}
 
-## 组件格式
+## 配置
 
 要设置Azure Key Vault密钥仓库，请创建一个类型为`secretstores.azure.keyvault`的组件。 请参阅 [本指南]({{< ref "secret-stores-overview.md#apply-the-configuration" >}})，了解如何创建和应用 secretstore 配置。 请参阅本指南 [引用密钥]({{< ref component-secrets.md >}}) 来检索和使用Dapr组件的密钥。
 
@@ -35,17 +35,17 @@ spec:
     value : "[pfx_certificate_file_fully_qualified_local_path]"
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， 建议将密钥存储在本地，如 [Kubernetes密钥仓库]({{< ref kubernetes-secret-store.md >}})或 [本地文件]({{< ref file-secret-store.md >}})来安全地存储密钥。
+以上示例将密钥明文存储。 建议将密钥存储在本地，如 [Kubernetes密钥仓库]({{< ref kubernetes-secret-store.md >}})或 [本地文件]({{< ref file-secret-store.md >}})来安全地存储密钥。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                 | 必填 | 详情                                                                                                                                                                                                                                                                                             | 示例                                                                              |
-| ------------------ |:--:| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
-| vaultName          | Y  | Azure Key Vault名称                                                                                                                                                                                                                                                                              | `"mykeyvault"`                                                                  |
-| spnTenantId        | Y  | Service Principal Tenant Id                                                                                                                                                                                                                                                                    | `"spnTenantId"`                                                                 |
-| spnClientId        | Y  | Service Principal App Id                                                                                                                                                                                                                                                                       | `"spnAppId"`                                                                    |
-| spnCertificateFile | Y  | PFX证书文件路径， <br></br> 对于Windows， `[pfx_certificate_file_fully_qualified_local_path]` 值必须使用转义的反斜杠，即双反斜杠。 例如 `"C:\\folder1\\folder2\\certfile.pfx"` <br></br> 对于Linux，你可以使用单斜杠。 例如 `"/folder1/folder2/certfile.pfx"`  <br></br> 请参阅[配置组件](#configure-the-component)了解更多详情 | `"C:\\folder1\\folder2\\certfile.pfx"`, `"/folder1/folder2/certfile.pfx"` |
+| 字段                 | 必填 | 详情                                                                                                                                                                                                                                                                                                                                                                                | 示例                                                                              |
+| ------------------ |:--:| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| vaultName          | 是  | Azure Key Vault名称                                                                                                                                                                                                                                                                                                                                                                 | `"mykeyvault"`                                                                  |
+| spnTenantId        | 是  | Service Principal Tenant Id                                                                                                                                                                                                                                                                                                                                                       | `"spnTenantId"`                                                                 |
+| spnClientId        | 是  | Service Principal App Id                                                                                                                                                                                                                                                                                                                                                          | `"spnAppId"`                                                                    |
+| spnCertificateFile | 是  | PFX证书文件路径， PFX证书文件路径， <br></br> 对于Windows， `[pfx_certificate_file_fully_qualified_local_path]` 值必须使用转义的反斜杠，即双反斜杠。 例如 `"C:\\folder1\\folder2\\certfile.pfx"` <br></br> 对于Linux，你可以使用单斜杠。 <br></br> 对于Linux，你可以使用单斜杠。 例如 `"/folder1/folder2/certfile.pfx"`  例如 `"/folder1/folder2/certfile.pfx"`  <br></br> 请参阅[配置组件](#configure-the-component)了解更多详情 | `"C:\\folder1\\folder2\\certfile.pfx"`, `"/folder1/folder2/certfile.pfx"` |
 
 ## 设置Key Vault和服务主体
 
@@ -206,7 +206,7 @@ kubectl apply -f azurekeyvault.yaml
 
 {{< /tabs >}}
 
-## 参考文档
+## 参考资料
 
 - [Azure CLI Keyvault CLI](https://docs.microsoft.com/en-us/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-create)
 - [使用 Azure CLI 创建 Azure 服务主体](https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest)

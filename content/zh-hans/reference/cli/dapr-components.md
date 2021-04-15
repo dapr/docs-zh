@@ -5,7 +5,7 @@ linkTitle: "components"
 description: "有关 components CLI 命令的详细信息"
 ---
 
-## 说明
+## 描述
 
 列出所有 Dapr 组件。
 
@@ -21,7 +21,7 @@ dapr components [flags]
 
 ## 参数
 
-| 名称                   | 环境变量 | 默认值     | 说明                           |
+| 名称                   | 环境变量 | 默认值     | 描述                           |
 | -------------------- | ---- | ------- | ---------------------------- |
 | `--help`, `-h`       |      |         | 显示此帮助消息                      |
 | `--kubernetes`, `-k` |      | `false` | 列出 Kubernetes 集群中的所有 Dapr 组件 |

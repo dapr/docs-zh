@@ -5,7 +5,7 @@ linkTitle: "init"
 description: "有关 init CLI 命令的详细信息"
 ---
 
-## 说明
+## 描述
 
 在受支持的托管平台上安装 Dapr 。
 
@@ -21,12 +21,12 @@ dapr init [flags]
 
 ## 参数
 
-| 名称                   | 环境变量           | 默认值           | 说明                                                 |
+| 名称                   | 环境变量           | 默认值           | 描述                                                 |
 | -------------------- | -------------- | ------------- | -------------------------------------------------- |
 | `--enable-ha`        |                | `false`       | 启用高可用性 (HA) 方式                                     |
 | `--enable-mtls`      |                | `true`        | 在群集中启用 mTLS                                        |
 | `--help`, `-h`       |                |               | 显示此帮助消息                                            |
-| `--kubernetes`, `-k` |                | `false`       | 将 dapr 部署到 Kubernetes 集群                           |
+| `--kubernetes`, `-k` |                | `false`       | 将 Dapr 部署到 Kubernetes 集群                           |
 | `--namespace`, `-n`  |                | `dapr-system` | 用于安装 Dapr 的 Kubernetes 名称空间                        |
 | `--network`          | `DAPR_NETWORK` |               | 部署 Dapr 运行时的 Docker 网络                             |
 | `--runtime-version`  |                | `latest`      | 要安装的 Dapr 运行时的版本，例如: `1.0.0`                       |

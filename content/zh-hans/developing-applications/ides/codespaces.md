@@ -12,7 +12,7 @@ description: "如何在 GitHub Codespace 中启动和运行 Dapr"
 GitHub Codespaces目前处于内测阶段。 在 [这里](https://github.com/features/codespaces/signup) 注册。
 {{% /alert %}}
 
-## 功能
+## 特性
 
 - **单击并运行**: 获得一个专用和沙盒化的环境，并且所有所需的框架和包件已准备就绪。
 - **基于使用情况的计费**: 只为您在 Codespace 上花费的开发时间支付费用。 环境在不使用时自动关闭。

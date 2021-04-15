@@ -17,7 +17,7 @@ Dapr 提供了一个可扩展的 Pub/Sub 系统（保证消息至少传递一次
 当发布消息时，必须指定所发送数据的内容类型。 除非指定, Dapr 将假定类型为 `text/plain`。 当使用 Dapr 的 HTTP API时，内容类型可以设置在 `Content-Type` 头中。 gRPC 客户端和 SDK 有一个专用的内容类型参数。
 
 ## 步骤 1: 设置 Pub/Sub 组件
-然后发布一条消息给 `deathStarStatus` topic：
+然后发布一条消息给 `deathStarStatus` 主题：
 
 <img src="/images/pubsub-publish-subscribe-example.png" width=1000>
 <br></br>
@@ -156,7 +156,7 @@ def ds_subscriber():
 
 app.run()
 ```
-创建名为 `app1.py` 的文件，并粘贴如下内容：
+创建名为" `app1.py` 的文件，并粘贴如下内容：
 
 ```bash
 pip install flask
@@ -217,7 +217,7 @@ $app->post('/dsstatus', function(
 $app->start();
 ```
 
-然后运行:
+在创建 `app1.php`并安装 [SDK](https://docs.dapr.io/developing-applications/sdks/php/)后， 继续启动应用程序：
 
 ```bash
 dapr --app-id app1 --app-port 3000 run -- php -S 0.0.0.0:3000 app1.php
@@ -262,14 +262,14 @@ def ds_subscriber():
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 app.run()
 ```
-创建 `app1.py` 后，确保 flask 和 flask_cors 已经安装了：
+创建名为" `app1.py` 的文件，并粘贴如下内容：
 
 ```bash
 pip install flask
 pip install flask_cors
 ```
 
-然后运行:
+创建 `app1.py` 后，确保 flask 和 flask_cors 已经安装了：
 
 ```bash
 dapr --app-id app1 --app-port 5000 run python app1.py
@@ -302,7 +302,7 @@ app.post('/dsstatus', (req, res) => {
 
 app.listen(port, () => console.log(`consumer app listening on port ${port}!`))
 ```
-运行此应用：
+设置上述订阅后，将此 javascript（Node > 4.16）下载到 `app2.js` 文件中：
 
 ```bash
 dapr --app-id app2 --app-port 3000 run node app2.js
@@ -333,7 +333,7 @@ $app->post('/dsstatus', function(
 $app->start();
 ```
 
-运行此应用：
+设置上述订阅后，将此 javascript（Node > 4.16）下载到 `app2.js` 文件中：
 
 ```bash
 dapr --app-id app1 --app-port 3000 run -- php -S 0.0.0.0:3000 app1.php
@@ -361,7 +361,7 @@ dapr run --app-id testpubsub --dapr-http-port 3500
 然后发布一条消息给 `deathStarStatus` 主题：
 
 ```bash
-dapr publish --publish-app-id testpubapp --pubsub pubsub --topic deathStarStatus --data '{"status": "completed"}'
+dapr publish --publish-app-id testpubsub --pubsub pubsub --topic deathStarStatus --data '{"status": "completed"}'
 ```
 {{% /codetab %}}
 
@@ -480,6 +480,6 @@ Dapr 自动接收发布请求上发送的数据，并将其包装在CloudEvent 1
 - 试试 [Pub/Sub 快速启动示例](https://github.com/dapr/quickstarts/tree/master/pub-sub)
 - 了解 [Topic 作用域]({{< ref pubsub-scopes.md >}})
 - 了解 [消息存活时间]({{< ref pubsub-message-ttl.md >}})
-- 学习 [如何配置具有多个命名空间的 Pub/Sub 组件]({{< ref pubsub-namespaces.md >}})
-- [Pub/Sub 组件列表]({{< ref setup-pubsub >}})
+- 您可以重写这个文件以使用另一个 Redis 实例或者另一个 [pubsub component]({{< ref setup-pubsub >}}) ，通过创建 `components` 文件夹（文件夹中包含重写的文件）并在 `dapr run` 命令行界面使用 `--components-path` 标志。
+- {{< ref setup-pubsub >}}
 - 阅读 [API 引用]({{< ref pubsub_api.md >}})

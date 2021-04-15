@@ -1,9 +1,11 @@
 ---
 type: docs
 title: "Dapr Actors 概述"
-linkTitle: "Secrets stores overview"
+linkTitle: "概述"
 weight: 10
 description: Dapr Actor 构建块概述
+aliases:
+  - "/zh-hans/developing-applications/building-blocks/actors/actors-background"
 ---
 
 ## 介绍

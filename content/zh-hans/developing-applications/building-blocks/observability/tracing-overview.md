@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "分布式跟踪"
-linkTitle: "Distributed tracing"
+linkTitle: "分布式跟踪"
 weight: 1000
 description: "使用 Dapr 跟踪获取分布式应用程序的可见性"
 ---
@@ -48,7 +48,7 @@ spec:
 
 关于如何在本地环境和 Kubernetes 环境中配置追踪的更多细节，请参阅 [参考文档](#references) 部分。
 
-## 参考文档
+## 参考资料
 
 - [操作方法：使用 OpenTelemetry Collector 为分布式跟踪安装应用程序洞察器]({{< ref open-telemetry-collector.md >}})
 - [操作方法: 为分布式跟踪安装 Zipkin]({{< ref zipkin.md >}})

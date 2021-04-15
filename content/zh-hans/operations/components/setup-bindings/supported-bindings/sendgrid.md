@@ -5,9 +5,9 @@ linkTitle: "Twilio SendGrid"
 description: "Detailed documentation on the Twilio SendGrid binding component"
 ---
 
-## Component format
+## 配置
 
-To setup Twilio SendGrid binding create a component of type `bindings.twilio.sendgrid`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration. To setup Redis binding create a component of type `bindings.redis`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+To setup Twilio SendGrid binding create a component of type `bindings.twilio.sendgrid`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 
 ```yaml
@@ -29,28 +29,30 @@ spec:
   - name: apiKey
     value: "YOUR_API_KEY" # required, this is your SendGrid key # optional 
   - name: apiKey
+    value: "YOUR_API_KEY" # required, this is your SendGrid key # optional 
+  - name: apiKey
     value: "YOUR_API_KEY" # required, this is your SendGrid key
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 The example configuration shown above, contain a username and password as plain-text strings. 更推荐的方式是使用 Secret 组件， [here]({{< ref component-secrets.md >}}})。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
-## Spec metadata fields
+## 元数据字段规范
 
-| 字段        | Required | Binding support | Details                                                                                                                                                                                                                                             | Example                  |
-| --------- |:--------:| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| apiKey    |    Y     | Output          | SendGrid API key, this should be considered a secret value                                                                                                                                                                                          | `"apikey"`               |
-| emailFrom |    N     | Output          | If set this specifies the 'from' email address of the email message. Optional field, see [below](#example-request-payload)                                                                                                                          | `"me@example.com"`       |
-| emailTo   |    N     | Output          | If set this specifies the 'to' email address of the email message. Optional field, see [below](#example-request-payload) Optional field, see [below](#example-request-payload)                                                                      | `"me@example.com"`       |
-| emailCc   |    N     | Output          | If set this specifies the 'cc' email address of the email message. Optional field, see [below](#example-request-payload) If set this specifies the 'from' email address of the email message. Optional field, see [below](#example-request-payload) | `"me@example.com"`       |
-| emailBcc  |    N     | Output          | If set this specifies the 'bcc' email address of the email message. Optional field, see [below](#example-request-payload) Optional field, see [below](#example-request-payload)                                                                     | `"me@example.com"`       |
-| subject   |    N     | Output          | If set this specifies the subject of the email message. Optional field, see [below](#example-request-payload) Optional field, see [below](#example-request-payload)                                                                                 | `"subject of the email"` |
+| 字段        | 必填 | 绑定支持 | 详情                                                                                                                         | 示例                       |
+| --------- |:--:| ---- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
+| apiKey    | 是  | 输出   | SendGrid API key, this should be considered a secret value                                                                 | `"apikey"`               |
+| emailFrom | N  | 输出   | If set this specifies the 'from' email address of the email message. Optional field, see [below](#example-request-payload) | `"me@example.com"`       |
+| emailTo   | N  | 输出   | If set this specifies the 'to' email address of the email message. Optional field, see [below](#example-request-payload)   | `"me@example.com"`       |
+| emailCc   | N  | 输出   | If set this specifies the 'cc' email address of the email message. Optional field, see [below](#example-request-payload)   | `"me@example.com"`       |
+| emailBcc  | N  | 输出   | If set this specifies the 'bcc' email address of the email message. Optional field, see [below](#example-request-payload)  | `"me@example.com"`       |
+| subject   | N  | 输出   | If set this specifies the subject of the email message. Optional field, see [below](#example-request-payload)              | `"subject of the email"` |
 
 
-## 相关链接
+## 绑定支持
 
-This component supports **output binding** with the following operations:
+该组件支持**输出绑定**，其操作如下:
 
 - `create`
 
@@ -68,11 +70,12 @@ You can specify any of the optional metadata properties on the output binding re
 }
 }
 }
+}
 ```
-## Related links
+## 相关链接
 
-- [Basic schema for a Dapr component]({{< ref component-schema >}})
-- [Bindings building block]({{< ref bindings >}})
-- [如何通过 input binding 触发应用]({{< ref howto-triggers.md >}})
-- [How-To：使用绑定与外部资源进行交互]({{< ref howto-bindings.md >}})
+- [Dapr组件的基本格式]({{< ref component-schema >}})
+- [绑定构建块]({{< ref bindings >}})
+- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
+- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
 - [绑定API 参考]({{< ref bindings_api.md >}})

@@ -5,8 +5,8 @@ linkTitle: "Hazelcast"
 description: "关于Hazelcast pubsub组件的详细文档。"
 ---
 
-## 组件格式
-要安装 hazelcast pubsub ，请创建一个类型为 `pubsub.hazelcast` 的组件。 请参阅 [本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
+## 配置
+要安装 hazelcast pubsub ，请创建一个类型为 `pubsub.hazelcast` 的组件。 请参阅[本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -23,14 +23,14 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 [这里]({{< ref component-secrets.md >}})描述的密钥仓库来存储密钥。
+以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段               | 必填 | 详情                                             | 示例                                 |
-| ---------------- |:--:| ---------------------------------------------- | ---------------------------------- |
-| connectionString | Y  | 逗号分隔的服务器地址 示例：“hazelcast:3000,hazelcast2:3000” | `"hazelcast:3000,hazelcast2:3000"` |
+| 字段               | 必填 | 详情                                                        | 示例                                 |
+| ---------------- |:--:| --------------------------------------------------------- | ---------------------------------- |
+| connectionString | 是  | 逗号分隔的服务器地址 逗号分隔的服务器地址 示例：“hazelcast:3000,hazelcast2:3000” | `"hazelcast:3000,hazelcast2:3000"` |
 
 
 ## 创建Hazelcast 实例

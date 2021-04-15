@@ -139,10 +139,10 @@ dapr run --app-id nodeapp --app-port 3000 --dapr-http-port 3500 app.js
 ## 收尾
 
 调试之后，你要确保同时停止了`dapr`和你在IntelliJ中的应用。
-> 注意。由于你使用 **dapr** ***run*** CLI 命令启动服务。**dapr** ***list***命令将在当前使用Dapr运行的应用程序列表中显示IntelliJ的运行情况。
+> 由于你使用 **dapr** ***run*** CLI 命令启动服务。 **dapr** ***list***命令将在当前使用Dapr运行的应用程序列表中显示IntelliJ的运行情况。
 
 调试愉快!
 
 ## 相关链接
 
-- [更改 IntelliJ 配置目录位置](https://intellij-support.jetbrains.com/hc/en-us/articles/206544519-Directories-used-by-the-IDE-to-store-settings-caches-plugins-and-logs)
+- https://intellij-support.jetbrains.com/hc/en-us/articles/206544519-Directories-used-by-the-IDE-to-store-settings-caches-plugins-and-logs

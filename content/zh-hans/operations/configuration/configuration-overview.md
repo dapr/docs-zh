@@ -28,7 +28,7 @@ kubectl apply -f myappconfig.yaml
 dapr configurations -k
 ```
 
-也可以使用 `dapr.io/config` 注解对指定的 Dapr sidecar 应用特定的配置。 例如：
+也可以使用 `dapr.io/config` 注解对指定的 Dapr sidecar 应用特定的配置。 例如:
 
 ```yml
   annotations:
@@ -43,8 +43,8 @@ dapr configurations -k
 
 Dapr 应用 sidecar 提供以下配置选项；
 - [Tracing（调用链追踪）](#tracing)
-- [Metrics（度量）](#metrics)
-- [Middleware（中间件）](#middleware)
+- [指标](#metrics)
+- [中间件](#middleware)
 - [限定范围的密钥储存](#scoping-secrets-for-secret-stores)
 - [服务间调用的访问控制](#access-control-allow-lists-for-service-invocation)
 - [Sidecar 配置示例](#example-application-sidecar-configuration)
@@ -74,7 +74,7 @@ tracing:
 
 请参阅 [分布式可观测性追踪]({{< ref "tracing-overview.md" >}}) 了解更多信息。
 
-#### Metrics（度量）
+#### 指标
 
 配置中的 metrics 部分用来为应用开启或禁用度量功能。
 
@@ -87,13 +87,13 @@ metrics:
 
 下面的表格给出了度量功能可配置的属性
 
-| 属性        | 数据类型    | 说明        |
+| 属性        | 数据类型    | 描述        |
 | --------- | ------- | --------- |
 | `enabled` | boolean | 是否启用度量功能。 |
 
 请参阅 [度量文档]({{< ref "metrics-overview.md" >}}) 了解更多信息。
 
-#### Middleware（中间件）
+#### 中间件
 
 中间件配置用于配置一系列可命名的HTTP管道处理器。`Configuration` spec 下的`httpPipeline` 部分包含以下的配置属性：
 
@@ -108,7 +108,7 @@ httpPipeline:
 
 下面的表格给出了HTTP 处理器可配置的属性
 
-| 属性   | 数据类型   | 说明        |
+| 属性   | 数据类型   | 描述        |
 | ---- | ------ | --------- |
 | name | string | 中间件组件的名称。 |
 | type | string | 中间件组件的类型。 |

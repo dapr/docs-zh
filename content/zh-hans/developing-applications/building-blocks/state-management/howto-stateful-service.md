@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "指南：如何创建一个有状态的服务"
-linkTitle: "How-To: Build a stateful service"
+linkTitle: "指南：如何创建一个有状态的服务"
 weight: 300
 description: "对可伸缩的副本使用状态管理"
 ---
@@ -131,13 +131,6 @@ def get_state(key):
     return response
 
 # Exit when save state is successful. success will be False if there's an ETag mismatch -->
-success = False
-while success != True:
-    response = get_state("key1")
-    etag = response.headers['ETag']
-    newState = '[{ "key": "key1", "value": "New Data", "etag": {}, "options": { "concurrency": "first-write" }}]'.format(etag)
-
-    success = save_state(newState) success will be False if there's an ETag mismatch -->
 success = False
 while success != True:
     response = get_state("key1")

@@ -5,7 +5,7 @@ linkTitle: "定义一个组件"
 weight: 40
 ---
 
-在 [之前的步骤]({{X13X}}) 中，你调用Dapr HTTP API从Redis支持的状态存储中存储和检索状态 Dapr通过Dapr初始化时创建的默认组件定义文件，知道使用本地配置在机器上的Redis实例。
+在 [之前的步骤]({{X13X}}) 中，你调用 Dapr HTTP API 从Redis支持的状态存储中存储和检索状态 Dapr通过Dapr初始化时创建的默认组件定义文件，知道使用本地配置在机器上的Redis实例。 Dapr通过Dapr初始化时创建的默认组件定义文件，知道使用本地配置在机器上的Redis实例。
 
 当构建一个应用程序时，你很可能会根据你想使用的构建块和特定的组件来创建自己的组件文件定义。
 
@@ -89,4 +89,6 @@ Invoke-RestMethod -Uri 'http://localhost:3500/v1.0/secrets/my-secret-store/my-se
 ```json
 {"my-secret":"I'm Batman"}
 ```
-
+{{% alert color="primary" %}}
+[下一步：探索 Dapr 快速入门 >>]({{< ref quickstarts.md >}})
+{{% /alert %}}

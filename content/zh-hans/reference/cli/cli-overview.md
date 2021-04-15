@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "Dapr 命令行接口 （CLI） 参考"
-linkTitle: "Secrets stores overview"
+linkTitle: "概述"
 description: "Dapr CLI 命令的详细信息"
 weight: 10
 ---

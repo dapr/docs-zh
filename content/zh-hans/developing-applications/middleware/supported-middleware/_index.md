@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "Supported middleware"
-linkTitle: "Supported middleware"
+title: "支持的中间件"
+linkTitle: "支持的中间件"
 weight: 50000
 description: 所有支持的中间件组件的列表，这些组件可以注入到Dapr的处理管道中。
 no_list: true
@@ -9,7 +9,7 @@ no_list: true
 
 ### HTTP
 
-| 名称                                                                             | 说明                                                                                                                | 状态                         | 组件版本 |
+| 名称                                                                             | 描述                                                                                                                | 状态                         | 组件版本 |
 | ------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- | -------------------------- | ---- |
 | [Rate limit]({{< ref middleware-rate-limit.md >}})                             | 限制每秒允许的 HTTP 请求的最大数量                                                                                              | Alpha                      | v1   |
 | [OAuth2]({{< ref middleware-oauth2.md >}})                                     | 在Web API上启用[OAuth2授权授权流程](https://tools.ietf.org/html/rfc6749#section-4.1)                                        | Alpha                      | v1   |

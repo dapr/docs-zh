@@ -31,7 +31,7 @@ Dapr 是一个可移植的、事件驱动的运行时，它使任何开发人员
 
 每个构建块都是独立的，这意味着您可以采用其中一个或多个或全部来构建应用。 在当前 Dapr 的初始版本中，提供了以下构建块：
 
-| 构建块                     | 说明                                                                                                                                   |
+| 构建块                     | 描述                                                                                                                                   |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | [**服务间调用**]({{X18X}})  | 弹性的服务间调用能在远程服务上进行方法调用（包括检索），无论它们是否位于受支持的托管环境中的。                                                                                      |
 | [**状态管理**]({{X21X}})   | 对于存储键/值对的状态管理，长时间运行，高可用性，有状态服务可轻松写入应用程序中的无状态服务。 状态存储是可插拔的，可以包括 Azure CosmosDB， Azure SQL Server， PostgreSQL， AWS DynamoDB 或 Redis 等。 |
@@ -62,7 +62,7 @@ Dapr 可以托管在多种环境中，包括用于本地开发的自托管，或
 
 ## 开发者语言 SDK 和框架
 
-为了让不同的开发语言用户能够更加自然地使用到 Dapr ，它还提供了适用于 C++、Go、Java、JavaScript、.NET 和 Python 的 [SDK]({{X64X}})。 这些 SDK 通过类型化的语言 API 而不是通过调用 http/gRPC API 来使用 Dapr 构建块中的功能，例如，保存状态，发布事件或创建Actor。 这使您能够以自己选择的语言编写无状态和有状态函数和 actors 的组合。 由于这些 SDK 共享 Dapr 运行时，因此您可以获得跨语言 actor 和功能支持。
+为了让不同的开发语言用户能够更加自然地使用到 Dapr ，它还提供了适用于 C++、Go、Java、JavaScript、Python、Rust、 .NET 和 PHP的 [SDK]({{X64X}})。 这些 SDK 通过类型化的语言 API 而不是通过调用 API 来使用 Dapr 构建块中的功能，例如，保存状态，发布事件或创建Actor。 这使您能够以自己选择的语言编写无状态和有状态功能和 actors 的组合。 由于这些 SDK 共享 Dapr 运行时，因此您可以获得跨语言 actor 和功能支持。
 
 ### SDK
 
@@ -81,15 +81,15 @@ Dapr 可以托管在多种环境中，包括用于本地开发的自托管，或
 Dapr 可以与任何开发框架集成。 下面是一些已经和 Dapr 集成的。
 
 #### Web
- 例如，通过使用 Dapr 的 [.NET SDK](https://github.com/dapr/dotnet-sdk)，您可以很方便的与 [ASP.NET Core](https://dotnet.microsoft.com/apps/aspnet) 进行集成，它包含了有状态的路由控制器来响应来自其他服务的 pub/sub 事件。
+ 在 Dapr [Java SDK](https://github.com/dapr/java-sdk) 中，您可以找到 [Spring Boot](https://spring.io/) 集成。
 
- 在 Dapr [PHP-SDK](https://github.com/dapr/php-sdk) 中，您可以使用 Apache， Nginx 或 Caddyserver。
+ 在 Dapr [PHP-SDK](https://github.com/dapr/php-sdk) 您可以与 Apache, Nginx, 或者 Caddyserver 一起运行。
 
 Dapr 很容易与Python [Flask](https://pypi.org/project/Flask/) 和 node [Express](http://expressjs.com/) 集成。 请参阅 [Dapr 快速开始](https://github.com/dapr/quickstarts) 中的示例。
 
-Dapr SDK 支持 [virtual actors]({{< ref actors >}}) ，这是简化并发、具有方法和状态封装的有状态对象，设计用于可扩展的分布式应用程序。
+在 Dapr [PHP-SDK](https://github.com/dapr/php-sdk) 您可以与 Apache, Nginx, 或者 Caddyserver 一起运行。
 
-#### Actor
+#### Actors
 Dapr SDK 支持 [virtual actors]({{< ref actors >}}) ，这是简化并发、具有方法和状态封装的有状态对象，设计用于可扩展的分布式应用程序。
 
 #### Azure Functions
