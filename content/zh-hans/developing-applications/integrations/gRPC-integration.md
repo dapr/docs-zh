@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "Dapr的 gRPC 接口"
-linkTitle: "gRPC"
+linkTitle: "gRPC interface"
 weight: 1000
 description: "在应用程序中使用 Dapr gRPC API"
 ---
@@ -75,7 +75,7 @@ import (
 )
 ```
 
-2. 2. 创建客户端
+2. 创建客户端
 
 ```go
 // just for this demo
@@ -85,7 +85,7 @@ data := []byte("ping")
 // create the client
 client, err := dapr.NewClient()
 if err != nil {
-  logger.Panic(err)
+  log.Panic(err)
 }
 defer client.Close()
 ```
@@ -94,11 +94,11 @@ defer client.Close()
 
 ```go
 // save state with the key key1
-err = client.SaveStateData(ctx, "statestore", "key1", "1", data)
+err = client.SaveState(ctx, "statestore", "key1", data)
 if err != nil {
-  logger.Panic(err)
+  log.Panic(err)
 }
-logger.Println("data saved")
+log.Println("data saved")
 ```
 
 好耶!
@@ -134,6 +134,7 @@ import (
 ```go
 // server is our user app
 type server struct {
+     pb.UnimplementedAppCallbackServer
 }
 
 // EchoMethod is a simple demo method to invoke
@@ -182,9 +183,9 @@ func (s *server) OnBindingEvent(ctx context.Context, in *pb.BindingEventRequest)
 }
 
 // This method is fired whenever a message has been published to a topic that has been subscribed. Dapr sends published messages in a CloudEvents 0.3 envelope.
-func (s *server) OnTopicEvent(ctx context.Context, in *pb.TopicEventRequest) (*empty.Empty, error) {
+func (s *server) OnTopicEvent(ctx context.Context, in *pb.TopicEventRequest) (*pb.TopicEventResponse, error) {
     fmt.Println("Topic message arrived")
-    return &empty.Empty{}, nil
+        return &pb.TopicEventResponse{}, nil
 }
 
 ```

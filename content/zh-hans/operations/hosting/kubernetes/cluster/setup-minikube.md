@@ -9,7 +9,7 @@ description: >
 
 # 设置 Minikube 集群
 
-## 前期准备
+## 先决条件
 
 - [Docker](https://docs.docker.com/install/)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)

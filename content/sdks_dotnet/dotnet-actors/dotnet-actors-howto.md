@@ -8,7 +8,7 @@ description: 试用 .NET Dapr virtual actors
 
 通过Dapr actor 程序包，您可以与.NET应用程序中的Dapr虚拟actor进行交互。
 
-## 前期准备
+## 先决条件
 
 - 安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
 - 初始化的 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
@@ -263,8 +263,163 @@ namespace MyActorService
              
              
              
-             
-         
+            return this.StateManager.GetStateAsync<MyData>("my_data");
+        }
+
+        /// <summary>
+        /// Register MyReminder reminder with the actor
+        /// </summary>
+        public async Task RegisterReminder()
+        {
+            await this.RegisterReminderAsync(
+                "MyReminder",              // The name of the reminder
+                null,                      // User state passed to IRemindable.ReceiveReminderAsync()
+                TimeSpan.FromSeconds(5),   // Time to delay before invoking the reminder for the first time
+                TimeSpan.FromSeconds(5));  // Time interval between reminder invocations after the first invocation
+        }
+
+        /// <summary>
+        /// Unregister MyReminder reminder with the actor
+        /// </summary>
+        public Task UnregisterReminder()
+        {
+            Console.WriteLine("Unregistering MyReminder...");
+            return this.UnregisterReminderAsync("MyReminder");
+        }
+
+        // <summary>
+        // Implement IRemindeable.ReceiveReminderAsync() which is call back invoked when an actor reminder is triggered.
+        using Dapr.Actors;
+using Dapr.Actors.Runtime;
+using MyActor.Interfaces;
+using System;
+using System.Threading.Tasks;
+
+namespace MyActorService
+{
+    internal class MyActor : Actor, IMyActor, IRemindable
+    {
+        // The constructor must accept ActorHost as a parameter, and can also accept additional
+        // parameters that will be retrieved from the dependency injection container
+        //
+        /// <summary>
+        /// Initializes a new instance of MyActor
+        /// </summary>
+        /// 
+        public MyActor(ActorHost host)
+            : base(host)
+        {
+        }
+
+        /// <summary>
+        /// This method is called whenever an actor is activated.
+        /// An actor is activated the first time any of its methods are invoked.
+        /// </summary>
+        protected override Task OnActivateAsync()
+        {
+            // Provides opportunity to perform some optional setup.
+            Console.WriteLine($"Activating actor id: {this.Id}");
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// This method is called whenever an actor is deactivated after a period of inactivity.
+        /// </summary>
+        protected override Task OnDeactivateAsync()
+        {
+            // Provides Opporunity to perform optional cleanup.
+            Console.WriteLine($"Deactivating actor id: {this.Id}");
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Set MyData into actor's private state store
+        /// </summary>
+        /// 
+        public async Task<string> SetDataAsync(MyData data)
+        {
+            // Data is saved to configured state store implicitly after each method execution by Actor's runtime.
+            // Data can also be saved explicitly by calling this.StateManager.SaveStateAsync();
+            // State to be saved must be DataContract serializable.
+            await this.StateManager.SetStateAsync<MyData>(
+                "my_data",  // state name
+                data);      // data saved for the named state "my_data"
+
+            return "Success";
+        }
+
+        /// <summary>
+        /// Get MyData from actor's private state store
+        /// </summary>
+        /// <return>the user-defined MyData which is stored into state store as "my_data" state</return>
+        public Task<MyData> GetDataAsync()
+        {
+            // Gets state from the state store.
+            return this.StateManager.GetStateAsync<MyData>("my_data");
+        }
+
+        /// <summary>
+        /// Register MyReminder reminder with the actor
+        /// </summary>
+        public async Task RegisterReminder()
+        {
+            await this.RegisterReminderAsync(
+                "MyReminder",              // The name of the reminder
+                null,                      // User state passed to IRemindable.ReceiveReminderAsync()
+                TimeSpan.FromSeconds(5),   // Time to delay before invoking the reminder for the first time
+                TimeSpan.FromSeconds(5));  // Time interval between reminder invocations after the first invocation
+        }
+
+        /// <summary>
+        /// Unregister MyReminder reminder with the actor
+        /// </summary>
+        public Task UnregisterReminder()
+        {
+            Console.WriteLine("Unregistering MyReminder...");
+            return this.UnregisterReminderAsync("MyReminder");
+        }
+
+        // <summary>
+        // Implement IRemindeable.ReceiveReminderAsync() which is call back invoked when an actor reminder is triggered.
+        // </summary>
+        public Task ReceiveReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period)
+        {
+            Console.WriteLine("ReceiveReminderAsync is called!");
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Register MyTimer timer with the actor
+        /// </summary>
+        public Task RegisterTimer()
+        {
+            return this.RegisterTimerAsync(
+                "MyTimer",                  // The name of the timer
+                nameof(this.OnTimerCallBack),       // Timer callback
+                null,                       // User state passed to OnTimerCallback()
+                TimeSpan.FromSeconds(5),    // Time to delay before the async callback is first invoked
+                TimeSpan.FromSeconds(5));   // Time interval between invocations of the async callback
+        }
+
+        /// <summary>
+        /// Unregister MyTimer timer with the actor
+        /// </summary>
+        public Task UnregisterTimer()
+        {
+            Console.WriteLine("Unregistering MyTimer...");
+            return this.UnregisterTimerAsync("MyTimer");
+        }
+
+        /// <summary>
+        /// Timer callback once timer is expired
+        /// </summary>
+        private Task OnTimerCallBack(byte[] data)
+        {
+            Console.WriteLine("OnTimerCallBack is called!");
+            return Task.CompletedTask;
+        }
+    }
+}
 ```
 
 ### 使用 ASP.NET Core Startup 来注册 actor runtime
@@ -389,7 +544,9 @@ namespace MyActorClient
     }
 }
               
-             
+            var proxy = ActorProxy.Create<IMyActor>(actorId, actorType);
+
+            // Now you can use the actor interface to call the actor's methods.
              
 ```
 
@@ -411,7 +568,7 @@ namespace MyActorClient
     ```txt
     ...
     ℹ️  Updating metadata for app command: dotnet run
-    ✅  You're up and running! Both Dapr and your app logs will appear here.
+    ✅  You're up and running!  
 
     == APP == info: Microsoft.Hosting.Lifetime[0]
 
@@ -454,7 +611,7 @@ namespace MyActorClient
     Got response: Success
     ```
 
-> 💡 这个示例依赖于几个假设。 ASP.NET Core Web 项目的默认监听端口是 5000，它被传递给 `dapr run` 作为 `--app-port 5000`。 Dapr sidecar 的默认HTTP端口是 3500。 我们告诉 sidecar 的 `MyActorService` 使用 3500，以便 `MyActorClient` 可以依赖默认值。
+> 💡 This sample relies on a few assumptions. ASP.NET Core Web 项目的默认监听端口是 5000，它被传递给 `dapr run` 作为 `--app-port 5000`。 Dapr sidecar 的默认HTTP端口是 3500。 我们告诉 sidecar 的 `MyActorService` 使用 3500，以便 `MyActorClient` 可以依赖默认值。
 
 现在您已经成功创建了 actor 服务和客户端。 查看相关链接部分了解更多信息。
 

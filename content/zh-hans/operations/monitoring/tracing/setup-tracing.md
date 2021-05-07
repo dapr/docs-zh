@@ -80,7 +80,7 @@ Create a Kubernetes Service for the Zipkin pod:
 kubectl expose deployment zipkin --type ClusterIP --port 9411
 ```
 
-Next, create the following YAML file locally:
+接下来，在本地创建以下YAML文件：
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -101,16 +101,16 @@ Finally, deploy the Dapr configuration:
 kubectl apply -f config.yaml
 ```
 
-In order to enable this configuration for your Dapr sidecar, add the following annotation to your pod spec template:
+为了启用您的 Dapr sidecar 的配置，请在您的pod spec模板中添加以下注释：
 
 ```yml
 annotations:
   dapr.io/config: "zipkin"
 ```
 
-That's it! Your sidecar is now configured for use with Zipkin.
+就这么简单！ Your sidecar is now configured for use with Zipkin.
 
-### Viewing Tracing Data
+### 查看追踪数据
 
 To view traces, connect to the Zipkin service and open the UI:
 

@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "指南：如何创建一个有状态的服务"
-linkTitle: "指南：如何创建一个有状态的服务"
+linkTitle: "How-To: Build a stateful service"
 weight: 300
 description: "对可伸缩的副本使用状态管理"
 ---
@@ -22,7 +22,7 @@ description: "对可伸缩的副本使用状态管理"
 
 ### Kubernetes
 
-See the instructions [here]({{X20X}}) on how to setup different state stores on Kubernetes.
+请参阅 [这里]({{X20X}}) 的说明，了解如何在 Kubernetes 上设置不同的状态存储引擎。
 
 ## 强一致性和最终一致性
 

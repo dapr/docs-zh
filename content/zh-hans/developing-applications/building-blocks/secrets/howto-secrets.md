@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "指南：获取密钥"
-linkTitle: "指南：获取密钥"
+linkTitle: "How To: Retrieve a secret"
 weight: 2000
 description: "使用密钥存储构建块安全地获取密钥"
 ---

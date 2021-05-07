@@ -37,7 +37,8 @@ internal class MyActor : Actor, IMyActor, IRemindable
         ...
     }
 }
-     
+    }
+}
 ```
 
 一个 actor 类型应该有一个单一的`public`构造函数。 Actor 基础设施使用 [ActivatorUtilities](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#constructor-injection-behavior) 模式来构建 actor 实例。
@@ -55,7 +56,8 @@ public void ConfigureServices(IServiceCollection services)
 }
 
      
-     
+    services.AddSingleton<BankService>();
+}
 ```
 
 每个actor实例都有自己的依赖注入范围。 每个 actor 在执行完一个操作后，都会在内存中保留一段时间，在这段时间内，与 actor 相关的依赖注入作用域也被认为是活的。 当演员被停用时，该范围将被释放。
@@ -71,7 +73,8 @@ internal class MyActor : Actor, IMyActor, IRemindable
         ...
     }
 }
-     
+    }
+}
 ```
 
 在使用该模式时，要注意避免创建许多实现 `IDisposable` 的 **transient** 服务的实例。 由于与一个 actor 相关联的作用域可以被认为是长期有效的，所以有可能在内存中积累许多服务。 更多信息请参见 [依赖注入指南](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines) 。
@@ -174,7 +177,8 @@ public void ConfigureServices(IServiceCollection services)
 }
 
          
-     
+    });
+}
 ```
 
 ### Actors 和 路由

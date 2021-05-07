@@ -114,6 +114,9 @@ ctx = metadata.AppendToOutgoingContext(ctx, "grpc-trace-bin", string(traceContex
 // client is HttpClient. req is HttpRequestMessage
 req.Headers.Add("traceparent", traceparentValue);
 req.Headers.Add("tracestate", tracestateValue);
+HttpResponseMessage response = await client.SendAsync(req); req is HttpRequestMessage
+req.Headers.Add("traceparent", traceparentValue);
+req.Headers.Add("tracestate", tracestateValue);
 HttpResponseMessage response = await client.SendAsync(req);
 ```
 
@@ -243,7 +246,7 @@ import (
 )
 ```
 
-### 2. 2. 创建客户端
+### 2. 创建客户端
 
 ```go
   // Get the Dapr port and create a connection
@@ -259,20 +262,20 @@ import (
   client := pb.NewDaprClient(conn)
 ```
 
-### 3. 3. 使用跟踪上下文调用 InvokeService 方法
+### 3. 使用跟踪上下文调用 InvokeService 方法
 
 ```go
-  // 创建Trace Context
+  // Create the Trace Context
   ctx , span := trace.StartSpan(context.Background(), "InvokeService")
 
-  // 返回的上下文可以用于在当前环境中不断传播新创建的span。
-  // 在同一进程中，Context用来传播追踪上下文。
+  // The returned context can be used to keep propagating the newly created span in the current context.
+  // In the same process, context.Context is used to propagate trace context.
 
-  // 跨进程中，使用Trace Context 的传播格式来传播追踪上下文。
+  // Across the process, use the propagation format of Trace Context to propagate trace context.
   traceContext := propagation.Binary(span.SpanContext())
   ctx = metadata.NewOutgoingContext(ctx, string(traceContext))
 
-  // 传递链路上下文
+  // Pass the trace context
   resp, err := client.InvokeService(ctx, &pb.InvokeServiceRequest{
         Id: "client",
         Message: &commonv1pb.InvokeRequest{

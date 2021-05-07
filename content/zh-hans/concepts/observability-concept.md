@@ -21,7 +21,7 @@ Dapr 可以 [配置发送跟踪数据]({{X11X}})，并且由于 Dapr 使用广�
 
 <img src="/images/observability-tracing.png" width=1000 alt="使用 Dapr 进行分布式跟踪">
 
-### {{< ref open-telemetry-collector.md >}}
+### OpenTelemetry collector
 Dapr 还可以通过配置来使用 [OpenTelemetry Collector]({{X17X}}) ，它会提供更多与外部监控工具的兼容性。
 
 <img src="/images/observability-opentelemetry-collector.png" width=1000 alt="通过 OpenTelemetry collector 进行分布式跟踪">
@@ -35,7 +35,7 @@ Dapr 使用 [W3C 跟踪]({{X20X}}) 规范来跟踪上下文，并可以生成�
 <img src="/images/observability-sidecar.png" width=1000 alt="Dapr sidecar 计量、日志和健康检查">
 
 ### 日志
-Dapr生成 [日志]({{X23X}}) 以提供sidecar操作的可见性，并帮助用户识别问题和执行调试操作。 日志事件包含由 Dapr 系统服务生成的警告，错误，信息和调试消息。 Dapr 还可以通过配置将日志发送到收集器，例如 [Fluentd]({{< ref fluentd.md >}}) 和 [Azure Monitor]({{< ref azure-monitor.md >}}) ，这样就可以轻松搜索，分析和提供洞察。
+Dapr 生成 [日志]({{X23X}})，以提供 sidecar 操作的可见性，并帮助用户识别问题并执行调试。 日志事件包含由 Dapr 系统服务生成的警告，错误，信息和调试消息。 Dapr 还可以通过配置将日志发送到收集器，例如 [Fluentd]({{< ref fluentd.md >}}) 和 [Azure Monitor]({{< ref azure-monitor.md >}}) ，这样就可以轻松搜索，分析和提供洞察。
 
 ### 指标
 指标（Metrics）是在一段时间内收集和存储的一系列度量值和计数。 [Dapr 指标]({{X27X}}) 提供监控功能，以了解 Dapr sidecar 和系统服务的行为。 例如，Dapr sidecar 和用户应用之间的服务指标可以展示调用延迟、流量故障、请求的错误率等。 Dapr 的[系统服务度量](https://github.com/dapr/dapr/blob/master/docs/development/dapr-metrics.md) 则可以显示 sidecar 注入失败，系统服务的运行状况 ( 包括 CPU 使用率，actor 位置数量等) 。

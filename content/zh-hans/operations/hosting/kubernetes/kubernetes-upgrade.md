@@ -6,21 +6,31 @@ weight: 50000
 description: "按照这些步骤升级 Kubernetes 上的 Dapr，并确保顺利升级."
 ---
 
-## 前期准备
+## 先决条件
 
 - [Dapr CLI]({{< ref install-dapr-cli.md >}})
 - [Helm 3](https://github.com/helm/helm/releases) (如果使用 Helm)
 
-## Upgrade existing cluster to 1.1.0
+## Upgrade existing cluster to 1.1.2
 有两种方法可以使用Dapr CLI或Helm升级Kubernetes集群上的Dapr control plane。
 
 ### Dapr CLI
 
-The example below shows how to upgrade to version 1.1.0:
+The example below shows how to upgrade to version 1.1.2:
 
   ```bash
-  dapr upgrade -k --runtime-version=1.0.1
+  dapr upgrade -k --runtime-version=1.1.2
   ```
+
+{{% alert title="Note" color="warning" %}}
+If you are using Dapr CLI v1.1.0 there is a known issue where mTLS will be enabled by default, even on clusters where it is disabled. If your cluster has mTLS disabled, and you would like it to stay disabled, add `--set global.mtls.enabled=false` to your upgrade command:
+
+```bash
+dapr upgrade -k --runtime-version 1.1.1 --set global.mtls.enabled=false
+```
+
+You can track the issue here: [#664](https://github.com/dapr/cli/issues/664).
+{{% /alert %}}
 
 您可以使用Dapr CLI提供所有可用的Helm chart配置。 请参阅 [这里](https://github.com/dapr/cli#supplying-helm-values) 以获取更多信息。
 
@@ -42,7 +52,7 @@ To resolve this issue please run the follow command to upgrade the CustomResourc
 kubectl replace -f https://raw.githubusercontent.com/dapr/dapr/5a15b3e0f093d2d0938b12f144c7047474a290fe/charts/dapr/crds/configuration.yaml
 ```
 
-Then proceed with the `dapr upgrade --runtime-version 1.1.0 -k` command as above.
+Then proceed with the `dapr upgrade --runtime-version 1.1.2 -k` command as above.
 
 ### Helm
 

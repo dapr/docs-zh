@@ -53,7 +53,7 @@ dapr --version
 输出应该看起来像这样：
 ```
 CLI version: 1.1.0
-Runtime version: 1.1.0
+Runtime version: 1.1.2
 ```
 
 ### 第 4 步：验证容器正在运行
@@ -97,7 +97,7 @@ bin  components  config.yaml
 {{% /codetab %}}
 
 {{% codetab %}}
-在文件浏览器中打开 `%USERPROFILE%\.dapr\` ：
+Using Command Prompt (not PowerShell), open `%USERPROFILE%\.dapr\` in file explorer:
 
 ```powershell
 explorer "%USERPROFILE%\.dapr\"
@@ -110,4 +110,4 @@ explorer "%USERPROFILE%\.dapr\"
 
 {{< /tabs >}}
 
-
+{{< button text="Next step: Use the Dapr API >>" page="get-started-api" >}}

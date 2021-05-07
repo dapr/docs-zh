@@ -32,7 +32,7 @@ To figure the Dapr OAuth middleware, you'll need to collect the following inform
 
 Authorization/Token URLs of some of the popular authorization servers:
 
-| Server    | Authorization URL                                             | Token URL                                                                                 |
+| 服务器       | Authorization URL                                             | Token URL                                                                                 |
 | --------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | Azure AAD | <https://login.microsoftonline.com/{tenant}/oauth2/authorize> | <https://login.microsoftonline.com/{tenant}/oauth2/token>                                 |
 | GitHub    | <https://github.com/login/oauth/authorize>                    | <https://github.com/login/oauth/access_token>                                             |

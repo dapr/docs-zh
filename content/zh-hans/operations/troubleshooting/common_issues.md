@@ -8,9 +8,16 @@ description: "Common issues and problems faced when running Dapr applications"
 
 ## I don't see the Dapr sidecar injected to my pod
 
-There could be several reasons to why a sidecar will not be injected into a pod. First, check your Deployment or Pod YAML file, and check that you have the following annotations in the right place:
+There could be several reasons to why a sidecar will not be injected into a pod. First, check your deployment or pod YAML file, and check that you have the following annotations in the right place:
 
-Sample deployment:
+```yaml
+annotations:
+  dapr.io/enabled: "true"
+  dapr.io/app-id: "nodeapp"
+  dapr.io/app-port: "3000"
+```
+
+### Sample deployment:
 
 ```yaml
 apiVersion: apps/v1
@@ -30,9 +37,9 @@ spec:
       labels:
         app: node
       annotations:
-        <b>dapr.io/enabled: "true"</b>
-        <b>dapr.io/app-id: "nodeapp"</b>
-        <b>dapr.io/app-port: "3000"</b>
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "nodeapp"
+        dapr.io/app-port: "3000"
     spec:
       containers:
       - name: node
@@ -83,7 +90,7 @@ The most common cause of this failure is that a component (such as a state store
 
 To diagnose the root cause:
 
-- Significantly increase the liveness probe delay - [link]({{< ref "kubernetes-overview.md" >}})
+- Significantly increase the liveness probe delay - [link]({{< ref "kubernetes-annotations.md" >}})
 - Set the log level of the sidecar to debug - [link]({{< ref "logs-troubleshooting.md#setting-the-sidecar-log-level" >}})
 - Watch the logs for meaningful information - [link]({{< ref "logs-troubleshooting.md#viewing-logs-on-kubernetes" >}})
 
@@ -153,9 +160,9 @@ Have you specified the port your app is listening on? In Kubernetes, make sure t
 
 ```yaml
 annotations:
-    dapr.io/enabled: "true"
-    dapr.io/app-id: "nodeapp"
-    dapr.io/app-port: "3000"
+  dapr.io/enabled: "true"
+  dapr.io/app-id: "nodeapp"
+  dapr.io/app-port: "3000"
 ```
 
 If using Dapr Standalone and the Dapr CLI, make sure you pass the `--app-port` flag to the `dapr run` command.

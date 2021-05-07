@@ -72,7 +72,7 @@ Once Prometheus is running, you'll be able to visit its dashboard by visiting `h
 
 ## Setup Prometheus on Kubernetes
 
-### 前期准备
+### 先决条件
 
 - Kubernetes (> 1.14)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
