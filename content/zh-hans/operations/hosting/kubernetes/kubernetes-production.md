@@ -53,11 +53,13 @@ description: "在生产环境中将 Dapr 部署到 Kubernetes 集群的建议和
 
 *注意：由于Dapr的目的是为了替你的应用程序完成大部分的I/O任务，因此给Dapr的资源能让您大幅减少其他应用程序的资源分配。*
 
-上面的CPU和内存限制是出于Dapr存在大量的I/O密集型操作的考虑。 强烈建议你使用工具监控工具对边车（和应用）容器进行基准监控，并根据基准来调整这些设置。
+上面的CPU和内存限制是出于Dapr存在大量的I/O密集型操作的考虑。 It is strongly recommended that you use a monitoring tool to baseline the sidecar (and app) containers and tune these settings based on those baselines.
 
 ## 高可用模式
 
-当在生产环境中部署Dapr时，建议使用控制平面的高可用配置进行部署，在dapr-system命名空间中为每个控制平面pod创建3个副本。
+When deploying Dapr in a production-ready configuration, it's recommended to deploy with a highly available (HA) configuration of the control plane, which creates 3 replicas of each control plane pod in the dapr-system namespace. This configuration allows for the Dapr control plane to survive node failures and other outages.
+
+HA mode can be enabled with both the \[Dapr CLI\]({{< ref "kubernetes-deploy.md#install-in-highly-available-mode" >}} and with [Helm charts]({{< ref "kubernetes-deploy.md#add-and-install-dapr-helm-chart" >}}).
 
 ## 用Helm部署Dapr
 

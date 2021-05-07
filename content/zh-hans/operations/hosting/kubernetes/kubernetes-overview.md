@@ -10,7 +10,7 @@ description: "如何在 Kubernetes 集群中运行 Dapr 的概述"
 
 Dapr 可以配置为在任何 Kubernetes 集群上运行。 为了实现这一目标，Dapr首先部署了`dapr-sidecar-injector`、`dapr-operator`、`dapr-placement`和`dapr-sentry`Kubernetes服务。 这些都提供了一流的集成，使Dapr的应用运行变得简单。
 - **dapr-operator:** 管理 [组件]({{< ref components >}}) 更新和 Dapr 的 Kubernetes 服务终结点(状态存储、发布/订阅 等)。
-- **dapr-sidecar-injector:** Injects Dapr into [annotated](#adding-dapr-to-a-kubernetes-deployment) deployment pods and adds the environment variables `DAPR_HTTP_PORT` and `DAPR_GRPC_PORT` to enable user-defined applications to easily communicate with Dapr without hard-coding Dapr port values.
+- **dapr-sidecar-injector:** 将 Dapr 注入 [annotated](#adding-dapr-to-a-kubernetes-deployment) deployment pods，并添加环境变量 `DAPR_HTTP_PORT` 和 `DAPR_GRPC_PORT`，以使用户定义的应用程序能够轻松地与 Dapr 通信，而无需硬编码 Dapr 端口值。
 - **dapr-placement:** 仅用于 [Actors]({{< ref actors >}})。 创建映射表，将 actor 实例映射到 pods。
 - **dapr-sentry:** 管理服务之间的mTLS并作为证书颁发机构。 有关详细信息，请阅读[安全概述]({{< ref "security-concept.md" >}})。
 

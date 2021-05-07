@@ -44,8 +44,7 @@ Dapr 使用`CancellationToken`来取消，依赖于 gRPC 通道选项的配置�
 
 ```C#
 var daprClient = new DaprClientBuilder()
-    .UseGrpcChannelOptions(new GrpcChannelOptions { ... ThrowOperationCanceledOnCancellation = true })
-    .Build();  
+    .UseGrpcChannelOptions(new GrpcChannelOptions { ...  
 ```
 
 ## 使用 DaprClient 取消

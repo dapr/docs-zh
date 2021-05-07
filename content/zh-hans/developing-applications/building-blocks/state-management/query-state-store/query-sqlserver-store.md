@@ -48,7 +48,7 @@ SELECT [RowVersion] FROM states WHERE [Key] = 'myapp||balance'
 SELECT * FROM states WHERE JSON_VALUE([Data], '$.color') = 'blue'
 ```
 
-## 5. 获取 actor 状态
+## 5. 4. 获取 actor 状态
 
 要获取应用ID为 "myets "，实例ID为"leroy"，actor类型为"cat"的相关联所有actor的状态键，请使用以下命令:
 

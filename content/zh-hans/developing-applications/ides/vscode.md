@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Visual Studio Code与Dapr 集成"
+title: "Visual Studio Code与 Dapr 集成"
 linkTitle: "Visual Studio Code"
 weight: 1000
 description: "有关如何在 VS Code中开发和运行Dapr应用程序的介绍"
@@ -13,7 +13,7 @@ Dapr提供了一个*预览版* [的Dapr Visual Studio Code扩展](https://market
 <a href="vscode:extension/ms-azuretools.vscode-dapr" class="btn btn-primary" role="button">在 VSCode 中打开</a>
 
 ### 功能概述
-- Scaffold Dapr task, launch, and component assets <br /><img src="/images/vscode-extension-scaffold.png" alt="Dapr VSCode 扩展 scaffold 选项的截图" width="800" />
+- 脚手架Dapr任务、启动和组件资产  <br /><img src="/images/vscode-extension-scaffold.png" alt="Dapr VSCode 扩展 scaffold 选项的截图" width="800" />
 - 查看正在运行的 Dapr 应用程序 <br /><img src="/images/vscode-extension-view.png" alt="Dapr VSCode 扩展视图运行应用程序选项的截图" width="800" />
 - 调用 Dapr 应用的方法  <br /><img src="/images/vscode-extension-invoke.png" alt="Dapr VSCode 扩展调用选项的截图" width="800" />
 - 发布事件到 Dapr 应用程序 <br /><img src="/images/vscode-extension-publish.png" alt="Dapr VSCode 扩展发布选项的截图" width="800" />
@@ -29,7 +29,7 @@ Dapr 为每种语言的 SDK 预先构建了Docker 远程容器。 您可以选�
 
 ### 设置远程开发容器
 
-#### 前期准备
+#### 先决条件
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [VSCode 远程开发扩展包](https://aka.ms/vscode-remote/download/extension)

@@ -39,27 +39,27 @@ GET http://localhost:<daprPort>/v1.0/metadata
 
 **Metadata API Response Object**
 
-| 名称                     | 数据类型                                                                  | 描述                                                                             |
+| Name                   | 数据类型                                                                  | 描述                                                                             |
 | ---------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | id                     | string                                                                | Application ID                                                                 |
 | actors                 | [Metadata API Response Registered Actor](#metadataapiresponseactor)[] | A json encoded array of Registered Actors metadata.                            |
 | extended.attributeName | string                                                                | List of custom attributes as key-value pairs, where key is the attribute name. |
-| components             | [Metadata API Response Component](#metadataapiresponsecomponent)[]    | A json encoded array of loaded components metadata.                            |
+| 组件                     | [Metadata API Response Component](#metadataapiresponsecomponent)[]    | A json encoded array of loaded components metadata.                            |
 
 <a id="metadataapiresponseactor"></a>**Metadata API Response Registered Actor**
 
-| 名称    | 数据类型    | 描述                         |
+| Name  | 数据类型    | 描述                         |
 | ----- | ------- | -------------------------- |
 | type  | string  | The registered actor type. |
 | count | integer | Number of actors running.  |
 
 <a id="metadataapiresponsecomponent"></a>**Metadata API Response Component**
 
-| 名称      | 数据类型   | 描述                     |
+| Name    | 数据类型   | 描述                     |
 | ------- | ------ | ---------------------- |
 | name    | string | Name of the component. |
 | type    | string | Component type.        |
-| version | string | Component version.     |
+| version | string | 组件版本.                  |
 
 ### 示例
 

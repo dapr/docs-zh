@@ -256,13 +256,13 @@ DELETE http://localhost:<daprPort>/v1.0/state/<storename>/<key>
 
 #### URL 参数
 
-| 参数          | 描述                                                                                                                                              |
-| ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| daprPort    | dapr 端口。                                                                                                                                        |
-| storename   | `metadata.name` field in the user configured state store component yaml. Please refer Dapr State Store configuration structure mentioned above. |
-| key         | the key of the desired state                                                                                                                    |
-| concurrency | (optional) either *first-write* or *last-write*, see [state operation options](#optional-behaviors)                                             |
-| consistency | (optional) either *strong* or *eventual*, see [state operation options](#optional-behaviors)                                                    |
+| 参数              | 描述                                                                                                                                              |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| daprPort        | dapr 端口。                                                                                                                                        |
+| storename       | `metadata.name` field in the user configured state store component yaml. Please refer Dapr State Store configuration structure mentioned above. |
+| key             | the key of the desired state                                                                                                                    |
+| 并发（Concurrency） | (optional) either *first-write* or *last-write*, see [state operation options](#optional-behaviors)                                             |
+| consistency     | (optional) either *strong* or *eventual*, see [state operation options](#optional-behaviors)                                                    |
 
 > 注意：所有的 URL 参数都是大小写敏感的。
 
@@ -303,7 +303,7 @@ List of state stores that support transactions:
 * MongoDB
 * PostgrSQL
 * SQL Server
-* Azure CosmosDB
+* Azure CosmSDB
 
 #### HTTP 请求
 
@@ -330,10 +330,10 @@ POST/PUT http://localhost:<daprPort>/v1.0/state/<storename>/transaction
 
 #### Request Body
 
-| 字段         | 描述                                                                     |
-| ---------- | ---------------------------------------------------------------------- |
-| operations | A JSON array of state operation                                        |
-| metadata   | (optional) the metadata for transaction that applies to all operations |
+| 字段       | 描述                                                                     |
+| -------- | ---------------------------------------------------------------------- |
+| 功能操作     | A JSON array of state operation                                        |
+| metadata | (optional) the metadata for transaction that applies to all operations |
 
 Each state operation is comprised with the following fields:
 

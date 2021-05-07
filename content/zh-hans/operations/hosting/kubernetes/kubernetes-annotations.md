@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Dapr Kubernetes pod annotations spec"
+title: "Dapr Kubernetes pod annotations规范"
 linkTitle: "Kubernetes annotations"
 weight: 40000
 description: "在Kubernetes环境中配置Dapr时可用的annotations"
@@ -30,7 +30,7 @@ description: "在Kubernetes环境中配置Dapr时可用的annotations"
 | `dapr.io/sidecar-liveness-probe-timeout-seconds`  | Sidecar 存活探针超时的秒数。 在 [此处](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) 阅读更多 默认值为 `3`                                                                    |
 | `dapr.io/sidecar-liveness-probe-period-seconds`   | 每隔多长时间（以秒为单位）进行一次 sidecar 存活探针。 在 [此处](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) 阅读更多 默认值为 `6`                                                       |
 | `dapr.io/sidecar-liveness-probe-threshold`        | 当 sidecar 存活探针失败时，Kubernetes会在放弃之前尝试N次。 在这种情况下，Pod 将被标记为不健康。 在 [此处](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) 阅读更多关于 `failureThreshold` 。 默认值为 `3`   |
-| `dapr.io/sidecar-readiness-probe-delay-seconds`   | Sidecar 容器启动后，启动准备就绪探针前的秒数。 在 [此处](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) 阅读更多 默认值为 `3`                                                           |
+| `dapr.io/sidecar-readiness-probe-delay-seconds`   | Sidecar 容器启动后，启动准备就绪探针前的秒数。 在 [此处](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) 阅读更多 默认值为 `6` 默认值为 `3`                                                  |
 | `dapr.io/sidecar-readiness-probe-timeout-seconds` | Sidecar 准备就绪探针超时的秒数。 在 [此处](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) 阅读更多 默认值为 `3`                                                                  |
 | `dapr.io/sidecar-readiness-probe-period-seconds`  | 每个多长时间（以秒为单位）进行一次 sidecar 准备就绪探针。 在 [此处](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) 阅读更多 默认值为 `6`                                                     |
 | `dapr.io/sidecar-readiness-probe-threshold`       | 当 sidecar 准备就绪探针失败时，Kubernetes会在放弃之前尝试N次。 在这种情况下，Pod 将被标记为未就绪。 在 [此处](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) 阅读更多关于 `failureThreshold` 。 默认值为 `3` |

@@ -38,7 +38,7 @@ The following tables lists the different properties for access control, policies
 | namespace     | string | Namespace value that needs to be matched with the namespace of the calling app                      |
 | trustDomain   | string | Trust domain that needs to be matched with the trust domain of the calling app. Default is "public" |
 | defaultAction | string | App level default action in case the app is found but no specific operation is matched              |
-| operations    | string | operations that are allowed from the calling app                                                    |
+| 功能操作          | string | operations that are allowed from the calling app                                                    |
 
 ### 功能操作
 

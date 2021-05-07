@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "绑定API 参考"
+title: "Bindings API 引用"
 linkTitle: "绑定 API"
 description: "关于 Bindings API 的详细文档"
 weight: 400
@@ -221,4 +221,4 @@ There are common metadata properties which are support across multiple binding c
 
 | 属性           | 描述                 | 绑定定义                                                                                                         | 有效范围                                             |
 | ------------ | ------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ |
-| ttlInSeconds | 定义消息的生存时间 ( 以秒为单位) | If set in the binding definition will cause all messages to have a default time to live. 消息 ttl 覆盖绑定定义中的任何值。 | RabbitMQ, Azure Service Bus, Azure Storage Queue |
+| ttlInseconds | 定义消息的生存时间 ( 以秒为单位) | If set in the binding definition will cause all messages to have a default time to live. 消息 ttl 覆盖绑定定义中的任何值。 | RabbitMQ, Azure Service Bus, Azure Storage Queue |

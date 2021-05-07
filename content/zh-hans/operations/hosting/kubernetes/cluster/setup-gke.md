@@ -6,7 +6,7 @@ weight: 3000
 description: "Setup a Google Kubernetes Engine cluster"
 ---
 
-### 前期准备
+### 先决条件
 
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
 - [Google Cloud SDK](https://cloud.google.com/sdk)

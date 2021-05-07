@@ -40,7 +40,7 @@ pip install dapr-dev
 
 {{< /tabs >}}
 
-## Try it out
+## 试试吧
 
 克隆Python SDK 仓库来尝试一些 [示例](https://github.com/dapr/python-sdk/tree/master/examples)。
 
@@ -48,7 +48,7 @@ pip install dapr-dev
 git clone https://github.com/dapr/python-sdk.git
 ```
 
-## 更多信息
+## 详情
 
 - [Python 软件包索引 (PyPI)](https://pypi.org/user/dapr.io/)
-- [Dapr SDK serialization]({{< ref sdk-serialization.md >}})
+- [Dapr SDK 序列化]({{< ref sdk-serialization.md >}})

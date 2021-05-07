@@ -22,7 +22,7 @@ To configure API authentication, start by generating your token using any JWT to
 
 The token authentication configuration is slightly different for either Kubernetes or self-hosted Dapr deployments:
 
-### Self-hosted
+### 自托管
 
 In self-hosting scenario, Dapr looks for the presence of `DAPR_API_TOKEN` environment variable. If that environment variable is set while `daprd` process launches, Dapr will enforce authentication on its public APIs:
 
@@ -54,7 +54,7 @@ When deployed, Dapr sidecar injector will automatically create a secret referenc
 
 ## Rotate a token
 
-### Self-hosted
+### 自托管
 
 To rotate the configured token in self-hosted, simply set the `DAPR_API_TOKEN` environment variable to the new value and restart the `daprd` process.
 
@@ -122,7 +122,7 @@ containers:
       name: dapr-api-token
 ```
 
-### Self-hosted
+### 自托管
 
 In self-hosted mode, you can set the token as an environment variable for your app:
 

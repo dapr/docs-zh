@@ -11,7 +11,7 @@ Dapr offers an SDK to help with the development of PHP applications. Using it, y
 
 ## Setting up
 
-### 前期准备
+### 先决条件
 
 - [Composer](https://getcomposer.org/)
 - [PHP 8](https://www.php.net/)
@@ -95,7 +95,7 @@ $app->get('/hello/{name}', function(string $name) {
 $app->start();
 ```
 
-## Try it out
+## 试试吧
 
 Initialize dapr with `dapr init` and then start the project with `dapr run -a dev -p 3000 -- php -S 0.0.0.0:3000`.
 
@@ -106,4 +106,4 @@ Congratulations, you've created your first Dapr service! I'm excited to see what
 ## More Information
 
 - [Packagist](https://packagist.org/packages/dapr/php-sdk)
-- [Dapr SDK serialization]({{< ref sdk-serialization.md >}})
+- [Dapr SDK 序列化]({{< ref sdk-serialization.md >}})

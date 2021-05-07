@@ -6,7 +6,7 @@ weight: 1000
 description: "如何在Kubernetes安装Fluentd、Elastic Search和Kibana来搜索日志"
 ---
 
-## 前期准备
+## 先决条件
 
 - Kubernetes (> 1.14)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
@@ -108,7 +108,7 @@ fluentd-sdrld                 1/1     Running   0          14s
 
 添加 `dapr.io/log-as-json: "true"` annotation 到你的部署yaml.
 
-Example:
+示例:
 ```yaml
 apiVersion: apps/v1
 kind: Deployment

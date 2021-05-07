@@ -8,9 +8,9 @@ description: "如何以自托管方式部署和运行 Dapr ，而无需在本地
 
 本文提供了在没有 Docker 的自托管模式下运行 Dapr 的指导。
 
-## 前期准备
+## 先决条件
 
-- [Dapr CLI]({{< ref "install-dapr-selfhost.md#installing-dapr-cli">}})
+- [Dapr CLI]({{< ref "install-dapr-selfhost.md#installing-dapr-cli" >}})
 
 ## 无需容器初始化 Dapr
 

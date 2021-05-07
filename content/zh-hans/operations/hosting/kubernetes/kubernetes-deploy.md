@@ -12,7 +12,7 @@ aliases:
 
 有关部署到Kubernetes集群的内容的更多信息，请阅读[Kubernetes概述]({{< ref kubernetes-overview.md >}})。
 
-## 前期准备
+## 先决条件
 
 - 安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
 - 安装[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
@@ -28,7 +28,7 @@ aliases:
 - [Setup Amazon Elastic Kubernetes Service](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
 
 {{% alert title="Hybrid clusters" color="primary" %}}
-Dapr CLI 和 Dapr Helm 图表都会自动关联地部署到带有标签`kubernetes.io/os=linux`的节点上。 如果你的应用程序有需要，你也可以将 Dapr 部署到 Windows 节点。 For more information see [Deploying to a hybrid Linux/Windows Kubernetes cluster]({{X51X}}).
+Dapr CLI 和 Dapr Helm 图表都会自动关联地部署到带有标签`kubernetes.io/os=linux`的节点上。 如果你的应用程序有需要，你也可以将 Dapr 部署到 Windows 节点。 更多信息参见 [部署到Linux/Windows混合型Kubernetes集群]({{X51X}}).
 {{% /alert %}}
 
 
@@ -83,9 +83,9 @@ dapr init -k --enable-mtls=false
 
 ### Wait for the installation to complete
 
- You can wait for the installation to complete its deployment with the `--wait` flag.
+ 您可以使用 `--want` 标志来等待安装完成。
 
- The default timeout is 300s (5 min), but can be customized with the `--timeout` flag.
+ 默认超时是 300s (5分钟)，但可以使用 `--timeout` 标志自定义超时。
 
 ```bash
 dapr init -k --wait --timeout 600
@@ -122,7 +122,7 @@ dapr uninstall -k
 
     ```bash
     helm upgrade --install dapr dapr/dapr \
-    --version=1.1.0 \
+    --version=1.1.2 \
     --namespace dapr-system \
     --create-namespace \
     --wait
@@ -132,7 +132,7 @@ dapr uninstall -k
 
     ```bash
     helm upgrade --install dapr dapr/dapr \
-    --version=1.1.0 \
+    --version=1.1.2 \
     --namespace dapr-system \
     --create-namespace \
     --set global.ha.enabled=true \
@@ -148,7 +148,7 @@ dapr uninstall -k
 helm uninstall dapr --namespace dapr-system
 ```
 
-### 更多信息
+### 详情
 
 - 阅读[本指南]({{< ref kubernetes-production.md >}})，了解生产环境中推荐的 Helm 图表值。
 - 请参阅[本页面](https://github.com/dapr/dapr/blob/master/charts/dapr/README.md)，了解有关Dapr Helm图表的详细信息。

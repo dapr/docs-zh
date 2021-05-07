@@ -5,13 +5,13 @@ linkTitle: "使用 Dapr 的内置 API"
 weight: 30
 ---
 
-在 [前一步]({{X18X}})中运行了 `dapr init` 命令后， 您的本地环境有 Dapr sidecar 二进制文件以及默认组件定义的 状态管理 和 消息代理 (都使用 Redis)。 现在您可以通过使用 Dapr CLI 来运行 Dapr sidecar 并尝试使用状态API来存储和检索状态，从而尝试 Dapr 提供的一些功能。 你可以在 [这些文档]({{< ref state-management >}})中了解更多关于状态构建块及其工作原理的信息。
+在 [前一步]({{X19X}})中运行了 `dapr init` 命令后， 您的本地环境有 Dapr sidecar 二进制文件以及默认组件定义的 状态管理 和 消息代理 (都使用 Redis)。 现在您可以通过使用 Dapr CLI 来运行 Dapr sidecar 并尝试使用状态API来存储和检索状态，从而尝试 Dapr 提供的一些功能。 你可以在 [这些文档]({{< ref state-management >}})中了解更多关于状态构建块及其工作原理的信息。
 
 您现在将运行sidecar并直接调用 API (模拟应用程序将做什么)。
 
 ## 第 1 步：运行Dapr sidecar
 
-一个最有用的Dapr CLI 命令是 [`dapr run`]({{< ref dapr-run.md >}})。 此命令与sidecar一起启动一个应用程序。 为了本教程的目的，您将在没有应用程序的情况下运行sidecar。
+One of the most useful Dapr CLI commands is [`dapr run`]({{< ref dapr-run.md >}}). 此命令与sidecar一起启动一个应用程序。 为了本教程的目的，您将在没有应用程序的情况下运行sidecar。
 
 运行以下命令以启动 Dapr sidecar，它将在端口 3500 上监听名为 myapp 的空白应用程序：
 
@@ -23,7 +23,20 @@ dapr run --app-id myapp --dapr-http-port 3500
 
 ## 第 2 步：保存状态
 
-在单独的终端运行中：
+We will now update the state with an object. The new state will look like this:
+
+```json
+[
+  {
+    "key": "name",
+    "value": "Bruce Wayne"
+  }
+]
+```
+
+Notice, the object contained in the state has a `key` assigned with the value `name`. You will use the key in the next step.
+
+Run the command shown below to store the new state.
 
 {{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)">}}
 {{% codetab %}}
@@ -44,7 +57,7 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '[{ "key": 
 
 ## 第 3 步：获取状态
 
-现在使用状态管理 API 的密钥获取您刚刚存储的状态：
+Now get the object you just stored in the state by using the state management API with the key `name`:
 
 {{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)">}}
 
@@ -101,3 +114,4 @@ hgetall "myapp||name"
 exit
 ```
 
+{{< button text="Next step: Define a component >>" page="get-started-component" >}}

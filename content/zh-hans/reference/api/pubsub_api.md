@@ -50,7 +50,7 @@ The `Content-Type` header tells Dapr which content type your data adheres to whe
 
 If you want to send your own custom CloundEvent, use the `application/cloudevents+json` value for the `Content-Type` header.
 
-#### Metadata
+#### 元数据（Metadata）
 
 Metadata can be sent via query parameters in the request's URL. It must be prefixed with `metadata.` as shown below.
 
@@ -82,7 +82,7 @@ GET http://localhost:<appPort>/dapr/subscribe
 
 A json encoded array of strings.
 
-Example:
+示例:
 
 ```json
 [
@@ -127,12 +127,12 @@ An HTTP 2xx response denotes successful processing of message. For richer respon
 }
 ```
 
-| 状态      | 描述                                       |
-| ------- | ---------------------------------------- |
-| SUCCESS | message is processed successfully        |
-| RETRY   | message to be retried by Dapr            |
-| DROP    | warning is logged and message is dropped |
-| Others  | error, message to be retried by Dapr     |
+| 状态 （Status） | 描述                                       |
+| ----------- | ---------------------------------------- |
+| SUCCESS     | message is processed successfully        |
+| RETRY       | message to be retried by Dapr            |
+| DROP        | warning is logged and message is dropped |
+| Others      | error, message to be retried by Dapr     |
 
 Dapr assumes a JSON encoded payload response without `status` field or an empty payload responses with HTTP 2xx, as `SUCCESS`.
 

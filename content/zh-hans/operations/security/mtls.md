@@ -139,7 +139,7 @@ If you signed the new cert root with a different private key, restart all Dapr-e
 kubectl rollout restart deploy/myapp
 ```
 
-## Self-hosted
+## 自托管
 
 ### Running Sentry system service
 

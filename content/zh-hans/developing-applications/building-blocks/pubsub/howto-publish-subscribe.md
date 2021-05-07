@@ -75,7 +75,7 @@ spec:
 
 Dapr 允许两种方法订阅主题：
 
-- **声明**，其中订阅是在外部文件中定义的。
+- **Declaratively**, where subscriptions are defined in an external file.
 - **编程方式**，订阅在用户代码中定义
 
 {{% alert title="Note" color="primary" %}}
@@ -262,14 +262,14 @@ def ds_subscriber():
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 app.run()
 ```
-创建名为" `app1.py` 的文件，并粘贴如下内容：
+创建 `app1.py` 后，确保 flask 和 flask_cors 已经安装了：
 
 ```bash
 pip install flask
 pip install flask_cors
 ```
 
-创建 `app1.py` 后，确保 flask 和 flask_cors 已经安装了：
+然后运行:
 
 ```bash
 dapr --app-id app1 --app-port 5000 run python app1.py
@@ -302,7 +302,7 @@ app.post('/dsstatus', (req, res) => {
 
 app.listen(port, () => console.log(`consumer app listening on port ${port}!`))
 ```
-设置上述订阅后，将此 javascript（Node > 4.16）下载到 `app2.js` 文件中：
+运行此应用：
 
 ```bash
 dapr --app-id app2 --app-port 3000 run node app2.js
@@ -333,7 +333,7 @@ $app->post('/dsstatus', function(
 $app->start();
 ```
 
-设置上述订阅后，将此 javascript（Node > 4.16）下载到 `app2.js` 文件中：
+运行此应用：
 
 ```bash
 dapr --app-id app1 --app-port 3000 run -- php -S 0.0.0.0:3000 app1.php
@@ -473,7 +473,7 @@ dapr --app-id app2 run -- php app2.php
 
 Dapr 自动接收发布请求上发送的数据，并将其包装在CloudEvent 1.0 信封中。 如果您想使用自己自定义的 CloudEvent，请确保指定内容类型为 `application/ cloudevents+json`。
 
-在[这里](#Content-Types)查看内容类型的信息。
+Read about content types [here](#content-types), and about the [Cloud Events message format]({{< ref "pubsub-overview.md#cloud-events-message-format" >}}).
 
 ## 下一步
 

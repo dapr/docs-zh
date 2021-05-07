@@ -118,4 +118,4 @@ In case you are invoking `mathService` on a different namespace, you can use the
 In this URL, `testing` is the namespace that `mathService` is running in.
 
 ## 下一步
-- [How-To: Invoke and discover services]({{< ref howto-invoke-discover-services.md >}})
+- [入门指南：发现并调用服务]({{< ref howto-invoke-discover-services.md >}})
