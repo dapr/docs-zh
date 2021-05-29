@@ -30,12 +30,12 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段          | 必填 | 详情                                                              | 示例                    |
+| 字段          | 必填 | 详情                                                              | Example               |
 | ----------- |:--:| --------------------------------------------------------------- | --------------------- |
 | accountName | Y  | 存储帐户名称                                                          | `"mystorageaccount"`. |
 | accountKey  | Y  | 主要或次要存储密钥                                                       | `"key"`               |
@@ -50,7 +50,7 @@ spec:
 要将 Azure Table Storage配置为状态存储，你需要如下属性：
 - **AccountName**：存储账户名称 举例：**mystorageaccount** 举例：**mystorageaccount**
 - **AccountKey**：主要或次要存储密钥。
-- **TableName**：用于Dapr状态的表名称。 如果表不存在，将会自动创建.
+- **TableName**：用于Dapr状态的表名称。 The name of the table to be used for Dapr state. The table will be created for you if it doesn't exist 如果表不存在，将会自动创建
 
 ## 分区
 

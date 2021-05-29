@@ -6,7 +6,7 @@ description: "How to configure your Dapr application to autoscale using KEDA"
 weight: 2000
 ---
 
-Dapr采用模块化的构件方法，加上10多个不同的[pub/sub组件]({{< ref pubsub >}})，简化了消息处理程序的编写工作。 由于Dapr可以在许多环境中运行（如虚拟机、裸机、云或边缘），因此Dapr应用的自动伸缩是由宿主管理的。
+Dapr, with its modular building-block approach, along with the 10+ different [pub/sub components]({{< ref pubsub >}}), make it easy to write message processing applications. 由于Dapr可以在许多环境中运行（如虚拟机、裸机、云或边缘），因此Dapr应用的自动伸缩是由宿主管理的。
 
 对于Kubernetes，Dapr集成了[KEDA](https://github.com/kedacore/keda)，这是一个用于Kubernetes的事件驱动的自动伸缩组件。 Dapr的许多pub/sub组件与[KEDA](https://github.com/kedacore/keda)提供的扩展器重叠，因此很容易在Kubernetes上配置Dapr的deployment，以使用KEDA根据背压自动扩展。
 
@@ -139,4 +139,4 @@ kubectl apply -f kafka_scaler.yaml
 
 现在，`ScaledObject` KEDA对象已经配置好了，你的deployment将根据Kafka主题的延迟进行扩展。 更多关于为Kafka主题配置KEDA的信息可以在[这里](https://keda.sh/docs/2.0/scalers/apache-kafka/)获得。
 
-现在你可以开始将消息发布到您的Kafka主题`demo-topic`，当延迟阈值高于`5`主题时，你可以看到pods开始自动缩放，正如我们在KEDA缩放器清单中定义的那样。 You can publish messages to the Kafka Dapr component by using the Dapr [Publish]({{< ref dapr-publish >}}) CLI command
+现在你可以开始将消息发布到您的Kafka主题`demo-topic`，当延迟阈值高于`5`主题时，你可以看到pods开始自动缩放，正如我们在KEDA缩放器清单中定义的那样。 您可以通过使用Dapr [Publish]({{< ref dapr-publish >}}) CLI命令将消息发布到Kafka Dapr组件。

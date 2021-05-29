@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-To setup Azure Service Bus Queues binding create a component of type `bindings.azure.servicebusqueues`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+To setup Azure Service Bus Queues binding create a component of type `bindings.azure.servicebusqueues`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -30,22 +30,22 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段               | 必填 | 绑定支持         | 详情                                                                                                                                                                                                                                          | 示例                             |
+| 字段               | 必填 | 绑定支持         | 详情                                                                                                                                                                                                                                          | Example                        |
 | ---------------- |:--:| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ |
 | connectionString | Y  | Input/Output | The Service Bus connection string                                                                                                                                                                                                           | `"Endpoint=sb://************"` |
 | queueName        | Y  | Input/Output | The Service Bus queue name                                                                                                                                                                                                                  | `"queuename"`                  |
-| ttlInseconds     | N  | Output       | Parameter to set the default message [time to live](https://docs.microsoft.com/azure/service-bus-messaging/message-expiration). If this parameter is omitted, messages will expire after 14 days. See [also](#specifying-a-ttl-per-message) | `"60"`                         |
+| ttlInseconds     | N  | 输出           | Parameter to set the default message [time to live](https://docs.microsoft.com/azure/service-bus-messaging/message-expiration). If this parameter is omitted, messages will expire after 14 days. See [also](#specifying-a-ttl-per-message) | `"60"`                         |
 
 ## 绑定支持
 
 此组件支持 **输入和输出** 绑定接口。
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 

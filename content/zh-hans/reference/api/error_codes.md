@@ -18,7 +18,7 @@ For http calls made to Dapr runtime, when an error is encountered, an error json
 
 下表列出了 Dapr 运行时返回的错误代码：
 
-| 错误代码                                  | 描述                                                                                 |
+| 错误代码                                  | 说明                                                                                 |
 | ------------------------------------- | ---------------------------------------------------------------------------------- |
 | ERR_ACTOR_INSTANCE_MISSING          | 获取 actor 实例时出错。 This means that actor is now hosted in some other service replica. |
 | ERR_ACTOR_RUNTIME_NOT_FOUND       | 获取 actor 实例时出错。                                                                    |

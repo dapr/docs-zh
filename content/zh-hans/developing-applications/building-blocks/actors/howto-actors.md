@@ -6,7 +6,7 @@ weight: 20
 description: 了解有关 Actor 模式的更多信息
 ---
 
-Dapr Actors 运行时通过以下功能为 [virtual actors]({{< ref actors-overview.md >}}) 提供支持:
+The Dapr actors runtime provides support for [virtual actors]({{< ref actors-overview.md >}}) through following capabilities:
 
 ## 调用 Actor 方法
 
@@ -18,7 +18,7 @@ POST/GET/PUT/DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/meth
 
 您可以在请求主体中为 actor 方法提供任何数据，并且请求的响应在响应主体中，这是来自 actor 方法调用的数据。
 
-参阅[api spec]({{< ref "actors_api.md#invoke-actor-method" >}}) 获取更多信息。
+Refer [api spec]({{< ref "actors_api.md#invoke-actor-method" >}}) for more details.
 
 ## Actor 状态管理
 
@@ -26,7 +26,7 @@ Actor 可以使用状态管理功能可靠地保存状态。
 
 您可以通过 HTTP/GRPC 端点与 Dapr 进行状态管理。
 
-要使用Actor，您的状态存储必须支持多项目事务。  这意味着您的状态存储 [component](https://github.com/dapr/components-contrib/tree/master/state) 必须实现 [TransactionalStore](https://github.com/dapr/components-contrib/blob/master/state/transactional_store.go) 接口。  支持 事务/actors 的组件列表如下: [受支持的状态存储]({{< ref supported-state-stores.md >}})。
+要使用Actor，您的状态存储必须支持多项目事务。  这意味着您的状态存储 [component](https://github.com/dapr/components-contrib/tree/master/state) 必须实现 [TransactionalStore](https://github.com/dapr/components-contrib/blob/master/state/transactional_store.go) 接口。  The list of components that support transactions/actors can be found here: [supported state stores]({{< ref supported-state-stores.md >}}).
 
 ## Actor timers 和 reminders
 
@@ -74,7 +74,7 @@ Timer 的 `duetime` 和回调函数可以在请求主体中指定。  到期时�
 DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/timers/<name>
 ```
 
-参阅[api spec]({{< ref "actors_api.md#invoke-timer" >}}) 获取更多信息。
+Refer [api spec]({{< ref "actors_api.md#invoke-timer" >}}) for more details.
 
 ### Actor reminders
 
@@ -128,4 +128,4 @@ GET http://localhost:3500/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 ```
 
-请参阅 [Api 描述]({{< ref "actors_api.md#invoke-reminder" >}}) 以获取更多详细信息。
+Refer [api spec]({{< ref "actors_api.md#invoke-reminder" >}}) for more details.

@@ -31,17 +31,23 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 
 ## 元数据字段规范
 
-| 字段            | 必填 | 详情                            | 示例                    |
-| ------------- |:--:| ----------------------------- | --------------------- |
-| accountName   | Y  | 存储帐户名称                        | `"mystorageaccount"`. |
-| accountKey    | Y  | 主要或次要存储密钥                     | `"key"`               |
-| containerName | Y  | Dapr 状态的容器名称， 如果容器不存在，将会自动创建. | `"container"`         |
+| 字段                 | 必填 | 详情                                                                                                       | Example                      |
+| ------------------ |:--:| -------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| accountName        | Y  | 存储帐户名称                                                                                                   | `"mystorageaccount"`.        |
+| accountKey         | Y  | 主要或次要存储密钥                                                                                                | `"key"`                      |
+| containerName      | Y  | Dapr 状态的容器名称， 如果容器不存在，将会自动创建.                                                                            | `"container"`                |
+| ContentType        | N  | The blob’s content type                                                                                  | `"text/plain"`               |
+| ContentMD5         | N  | The blob's MD5 hash                                                                                      | `"vZGKbMRDAnMs4BIwlXaRvQ=="` |
+| ContentEncoding    | N  | The blob's content encoding                                                                              | `"UTF-8"`                    |
+| ContentLanguage    | N  | The blob's content language                                                                              | `"en-us"`                    |
+| ContentDisposition | N  | The blob's content disposition. Conveys additional information about how to process the response payload | `"attachment"`               |
+| CacheControl       | N  | The blob's cache control                                                                                 | `"no-cache"`                 |
 
 ## 安装Azure Blobstorage
 

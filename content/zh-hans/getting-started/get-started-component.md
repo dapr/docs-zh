@@ -5,11 +5,11 @@ linkTitle: "定义一个组件"
 weight: 40
 ---
 
-在 [之前的步骤]({{X13X}}) 中，你调用 Dapr HTTP API 从Redis支持的状态存储中存储和检索状态 Dapr通过Dapr初始化时创建的默认组件定义文件，知道使用本地配置在机器上的Redis实例。 Dapr通过Dapr初始化时创建的默认组件定义文件，知道使用本地配置在机器上的Redis实例。
+In the [previous step]({{<ref get-started-api.md>}}) you called the Dapr HTTP API to store and retrieve a state from a Redis backed state store. Dapr通过初始化时创建的默认组件定义文件得知，要使用你机器上本地配置好的Redis实例。
 
 当构建一个应用程序时，你很可能会根据你想使用的构建块和特定的组件来定义自己的组建文件。
 
-作为如何为您的应用程序定义自定义组件的一个例子，您现在将创建一个组件定义文件来与[密钥构建块]({{< ref secrets >}})进行交互。
+As an example of how to define custom components for your application, you will now create a component definition file to interact with the [secrets building block]({{< ref secrets >}}).
 
 在本指南中，您将：
 - 创建本地JSON密钥存储
@@ -18,7 +18,7 @@ weight: 40
 
 ## 第 1 步：创建一个 JSON 密钥存储
 
-Dapr 支持 [许多类型的密钥存储]({{< ref supported-secret-stores >}})， 但最简单的方法是在本地的JSON文件中加入您的密钥(注意这个秘密存储是为了开发的目的，不推荐生产使用，因为它不安全)。
+While Dapr supports [many types of secret stores]({{< ref supported-secret-stores >}}), the easiest way to get started is a local JSON file with your secret (note this secret store is meant for development purposes and is not recommended for production use cases as it is not secured).
 
 首先保存下面的 JSON 内容到一个名为 `mysecrets.json` 的文件：
 

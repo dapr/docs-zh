@@ -65,7 +65,7 @@ Dapr actor 运行时为您管理分发方案和键范围设置。 这是由 acto
 * 默认情况下，Actors 被随机放入分区中，从而形成均匀的分布。
 * 由于 Actors 是随机放置的，因此可知，执行操作始终需要网络通信，包括方法调用数据的序列化和去序列化，产生延迟和开销。
 
-注: Dapr actor Placement 服务仅用于 actor 安置，因此，如果您的服务未使用 Dapr Actors，那么不需要。 Placement 服务可以在所有 [ 托管环境中]({{< ref hosting >}})</a> ，包括自托管和 Kubernetes。
+注: Dapr actor Placement 服务仅用于 actor 安置，因此，如果您的服务未使用 Dapr Actors，那么不需要。 The Placement service can run in all [hosting environments]({{< ref hosting >}}), including self-hosted and Kubernetes.
 
 ## Actor 通信
 
@@ -77,7 +77,7 @@ POST/GET/PUT/DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/<met
 
 您可以在请求主体中为 actor 方法提供任何数据，并且请求的响应在响应主体中，这是来自 actor 方法调用的数据。
 
-请参阅 [Dapr Actor 功能部件]({{< ref actors-overview.md >}}) ，以获取更多详细信息。
+Refer to [Dapr Actor Features]({{< ref howto-actors.md >}}) for more details.
 
 ### 并发（Concurrency）
 
@@ -89,6 +89,8 @@ Dapr Actors 运行时提供了一个简单的基于回合的访问模型，用�
 
 <img src="/images/actors_background_communication.png" width=600>
 
+#### Reentrancy
+As an enhancement to the base actors in dapr, reentrancy can now be enabled as a preview feature. To learn more about it, see [actor reentrancy]({{<ref actor-reentrancy.md>}})
 
 ### 基于回合的访问
 

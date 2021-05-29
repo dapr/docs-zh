@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "PostgrSQL binding spec"
-linkTitle: "PostgrSQL"
+linkTitle: "PostgreSQL"
 description: "Detailed documentation on the PostgreSQL binding component"
 aliases:
   - "/zh-hans/operations/components/setup-bindings/supported-bindings/postgres/"
@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置与 PostgreSQL相关的 绑定,需要创建类型 `bindings.postgres` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+要设置与 PostgreSQL相关的 绑定,需要创建类型 `bindings.postgres` 的组件。 See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -27,14 +27,14 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段  | 必填 | 绑定支持   | 详情                                     | 示例                                                                                          |
-| --- |:--:| ------ | -------------------------------------- | ------------------------------------------------------------------------------------------- |
-| url | Y  | Output | Postgres连接字符串的写法，请参阅此处 [](#url-format) | `"user=dapr password=secret host=dapr.example.com port=5432 dbname=dapr sslmode=verify-ca"` |
+| 字段  | 必填 | 绑定支持 | 详情                                     | Example                                                                                     |
+| --- |:--:| ---- | -------------------------------------- | ------------------------------------------------------------------------------------------- |
+| url | Y  | 输出   | Postgres连接字符串的写法，请参阅此处 [](#url-format) | `"user=dapr password=secret host=dapr.example.com port=5432 dbname=dapr sslmode=verify-ca"` |
 
 ### URL格式
 
@@ -63,7 +63,7 @@ Both methods also support connection pool configuration variables:
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `exec`
 - `query`
@@ -90,7 +90,7 @@ The `exec` operation can be used for DDL operations (like table creation), as we
 {
   "metadata": {
     "operation": "exec",
-    "duration": "294µs", 
+    "duration": "294µs",
     "start-time": "2020-09-24T11:13:46.405097Z",
     "end-time": "2020-09-24T11:13:46.414519Z",
     "rows-affected": "1",
@@ -120,7 +120,7 @@ The `query` operation is used for `SELECT` statements, which returns the metadat
 {
   "metadata": {
     "operation": "query",
-    "duration": "432µs", 
+    "duration": "432µs",
     "start-time": "2020-09-24T11:13:46.405097Z",
     "end-time": "2020-09-24T11:13:46.420566Z",
     "sql": "SELECT * FROM foo WHERE id < 3"

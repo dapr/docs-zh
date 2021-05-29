@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-To setup Redis binding create a component of type `bindings.redis`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+To setup Redis binding create a component of type `bindings.redis`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -31,21 +31,21 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段            | 必填 | 绑定支持   | 详情                                                                                                                        | 示例                  |
-| ------------- |:--:| ------ | ------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| redisHost     | Y  | Output | The Redis host address                                                                                                    | `"localhost:6379"`  |
-| redisPassword | Y  | Output | The Redis password                                                                                                        | `"password"`        |
-| enableTLS     | N  | Output | If the Redis instance supports TLS with public certificates it can be configured to enable or disable TLS. 默认值为 `"false"` | `"true"`, `"false"` |
+| 字段            | 必填 | 绑定支持 | 详情                                                                                                                        | Example             |
+| ------------- |:--:| ---- | ------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| redisHost     | Y  | 输出   | The Redis host address                                                                                                    | `"localhost:6379"`  |
+| redisPassword | Y  | 输出   | The Redis password                                                                                                        | `"password"`        |
+| enableTLS     | N  | 输出   | If the Redis instance supports TLS with public certificates it can be configured to enable or disable TLS. 默认值为 `"false"` | `"true"`, `"false"` |
 
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 

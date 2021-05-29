@@ -30,32 +30,16 @@ spec:
   - name: maxConnBufferSize
     value: <REPLACE-WITH-MAX-CONN-BUFFER-SIZE> # Optional. default: "1048576"
   - name: keyPrefixPath
-    value: <REPLACE-WITH-KEY-PREFIX-PATH> # Optional. Example: "zookeeper.default.svc.cluster.local:2181"
-  - name: sessionTimeout
-    value: <REPLACE-WITH-SESSION-TIMEOUT> # Required. Example: "5s"
-  - name: maxBufferSize
-    value: <REPLACE-WITH-MAX-BUFFER-SIZE> # Optional. default: "1048576"
-  - name: maxConnBufferSize
-    value: <REPLACE-WITH-MAX-CONN-BUFFER-SIZE> # Optional. default: "1048576"
-  - name: keyPrefixPath
-    value: <REPLACE-WITH-KEY-PREFIX-PATH> # Optional. Example: "zookeeper.default.svc.cluster.local:2181"
-  - name: sessionTimeout
-    value: <REPLACE-WITH-SESSION-TIMEOUT> # Required. Example: "5s"
-  - name: maxBufferSize
-    value: <REPLACE-WITH-MAX-BUFFER-SIZE> # Optional. default: "1048576"
-  - name: maxConnBufferSize
-    value: <REPLACE-WITH-MAX-CONN-BUFFER-SIZE> # Optional. default: "1048576"
-  - name: keyPrefixPath
     value: <REPLACE-WITH-KEY-PREFIX-PATH> # Optional.
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                | 必填 | 详情                                                             | 示例                                           |
+| 字段                | 必填 | 详情                                                             | Example                                      |
 | ----------------- |:--:| -------------------------------------------------------------- | -------------------------------------------- |
 | servers           | Y  | Comma delimited list of servers                                | `"zookeeper.default.svc.cluster.local:2181"` |
 | sessionTimeout    | Y  | The session timeout value                                      | `"5s"`                                       |

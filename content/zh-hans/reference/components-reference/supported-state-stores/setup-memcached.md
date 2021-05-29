@@ -26,24 +26,16 @@ spec:
   - name: maxIdleConnections
     value: <REPLACE-WITH-MAX-IDLE-CONNECTIONS> # Optional. default: "2"
   - name: timeout
-    value: <REPLACE-WITH-TIMEOUT> # Optional. default: "1000ms" Example: "memcached.default.svc.cluster.local:11211"
-  - name: maxIdleConnections
-    value: <REPLACE-WITH-MAX-IDLE-CONNECTIONS> # Optional. default: "2"
-  - name: timeout
-    value: <REPLACE-WITH-TIMEOUT> # Optional. default: "1000ms" Example: "memcached.default.svc.cluster.local:11211"
-  - name: maxIdleConnections
-    value: <REPLACE-WITH-MAX-IDLE-CONNECTIONS> # Optional. default: "2"
-  - name: timeout
     value: <REPLACE-WITH-TIMEOUT> # Optional. default: "1000ms"
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                 | 必填 | 详情                      | 示例                                            |
+| 字段                 | 必填 | 详情                      | Example                                       |
 | ------------------ |:--:| ----------------------- | --------------------------------------------- |
 | hosts              | Y  | 逗号分隔的 endpoints         | `"memcached.default.svc.cluster.local:11211"` |
 | maxIdleConnections | N  | 空闲连接的最大数量。 默认值为 `"2"`   | `"3"`                                         |

@@ -54,10 +54,6 @@ public void ConfigureServices(IServiceCollection services)
     // Register additional types with dependency injection.
     services.AddSingleton<BankService>();
 }
-
-     
-    services.AddSingleton<BankService>();
-}
 ```
 
 每个actor实例都有自己的依赖注入范围。 每个 actor 在执行完一个操作后，都会在内存中保留一段时间，在这段时间内，与 actor 相关的依赖注入作用域也被认为是活的。 当演员被停用时，该范围将被释放。
@@ -175,10 +171,6 @@ public void ConfigureServices(IServiceCollection services)
         options.JsonSerializerOptions = ...
     });
 }
-
-         
-    });
-}
 ```
 
 ### Actors 和 路由
@@ -201,9 +193,6 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     app.UseEndpoints(endpoints =>
     {
         // Register actors handlers that interface with the Dapr runtime.
-        endpoints.MapActorsHandlers();
-    });
-}
          
 ```
 
@@ -240,8 +229,5 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     app.UseEndpoints(endpoints =>
     {
         // Register actors handlers that interface with the Dapr runtime.
-        endpoints.MapActorsHandlers();
-    });
-}
          
 ```

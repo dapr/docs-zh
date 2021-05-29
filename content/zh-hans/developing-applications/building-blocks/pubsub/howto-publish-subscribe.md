@@ -45,11 +45,11 @@ spec:
     value: ""
 ```
 
-您可以重写这个文件以使用另一个 Redis 实例或者另一个 [pubsub component]({{< ref setup-pubsub >}}) ，通过创建 `components` 文件夹（文件夹中包含重写的文件）并在 `dapr run` 命令行界面使用 `--components-path` 标志。
+You can override this file with another Redis instance or another [pubsub component]({{< ref setup-pubsub >}}) by creating a `components` directory containing the file and using the flag `--components-path` with the `dapr run` CLI command.
 {{% /codetab %}}
 
 {{% codetab %}}
-要将其部署到 Kubernetes 群集中，请为你想要的[ pubsub 组件]({{< ref setup-pubsub >}}) 在下面的 yaml `metadata` 中填写链接详情，保存为 `pubsub.yaml`，然后运行 `kubectl apply -f pubsub.yaml`。
+To deploy this into a Kubernetes cluster, fill in the `metadata` connection details of your [desired pubsub component]({{< ref setup-pubsub >}}) in the yaml below, save as `pubsub.yaml`, and run `kubectl apply -f pubsub.yaml`.
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -133,7 +133,7 @@ kubectl apply -f subscription.yaml
 
 {{< /tabs >}}
 
-#### 示例
+#### Example
 
 {{< tabs Python Node PHP>}}
 
@@ -152,7 +152,7 @@ CORS(app)
 @app.route('/dsstatus', methods=['POST'])
 def ds_subscriber():
     print(request.json, flush=True)
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 app.run()
 ```
@@ -234,7 +234,7 @@ dapr --app-id app1 --app-port 3000 run -- php -S 0.0.0.0:3000 app1.php
 - `topic`: 订阅的主题
 - `route`：当消息来到该主题时，Dapr 需要调用哪个终结点
 
-#### 示例
+#### Example
 
 {{< tabs Python Node PHP>}}
 
@@ -259,7 +259,7 @@ def subscribe():
 @app.route('/dsstatus', methods=['POST'])
 def ds_subscriber():
     print(request.json, flush=True)
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 app.run()
 ```
 创建 `app1.py` 后，确保 flask 和 flask_cors 已经安装了：
@@ -290,7 +290,7 @@ app.get('/dapr/subscribe', (req, res) => {
         {
             pubsubname: "pubsub",
             topic: "deathStarStatus",
-            route: "dsstatus"        
+            route: "dsstatus"
         }
     ]);
 })
@@ -352,7 +352,7 @@ dapr --app-id app1 --app-port 3000 run -- php -S 0.0.0.0:3000 app1.php
 用名为 `testpubsub` 的 app-id 启动一个 Dapr 实例：
 
 ```bash
-dapr run --app-id testpubsub --dapr-http-port 3500 
+dapr run --app-id testpubsub --dapr-http-port 3500
 ```
 {{< tabs "Dapr CLI" "HTTP API (Bash)" "HTTP API (PowerShell)">}}
 
@@ -387,7 +387,7 @@ Dapr 将在符合 Cloud Events v1.0 的信封中自动包装用户有效负载�
 
 为了告诉Dapr 消息处理成功，返回一个 `200 OK` 响应。 如果 Dapr 收到超过 `200` 的返回状态代码，或者你的应用崩溃，Dapr 将根据 At-Least-Once 语义尝试重新传递消息。
 
-#### 示例
+#### Example
 
 {{< tabs Python Node>}}
 
@@ -396,7 +396,7 @@ Dapr 将在符合 Cloud Events v1.0 的信封中自动包装用户有效负载�
 @app.route('/dsstatus', methods=['POST'])
 def ds_subscriber():
     print(request.json, flush=True)
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 ```
 {{% /codetab %}}
 
@@ -473,13 +473,13 @@ dapr --app-id app2 run -- php app2.php
 
 Dapr 自动接收发布请求上发送的数据，并将其包装在CloudEvent 1.0 信封中。 如果您想使用自己自定义的 CloudEvent，请确保指定内容类型为 `application/ cloudevents+json`。
 
-[请在此处阅读有关内容类型](#content-types)，以及有关 [ Cloud Events 消息格式]({{< ref "pubsub-overview.md#cloud-events-message-format" >}})。
+Read about content types [here](#content-types), and about the [Cloud Events message format]({{< ref "pubsub-overview.md#cloud-events-message-format" >}}).
 
 ## 下一步
 
 - 试试 [Pub/Sub 快速启动示例](https://github.com/dapr/quickstarts/tree/master/pub-sub)
-- 了解 [Topic 作用域]({{< ref pubsub-scopes.md >}})
-- 了解 [消息存活时间]({{< ref pubsub-message-ttl.md >}})
-- 学习 [如何配置具有多个命名空间的 Pub/Sub 组件]({{< ref pubsub-namespaces.md >}})
-- [Pub/Sub 组件列表]({{< ref setup-pubsub >}})
-- 阅读 [API 引用]({{< ref pubsub_api.md >}})
+- Learn about [topic scoping]({{< ref pubsub-scopes.md >}})
+- Learn about [message time-to-live]({{< ref pubsub-message-ttl.md >}})
+- Learn [how to configure Pub/Sub components with multiple namespaces]({{< ref pubsub-namespaces.md >}})
+- List of [pub/sub components]({{< ref setup-pubsub >}})
+- Read the [API reference]({{< ref pubsub_api.md >}})

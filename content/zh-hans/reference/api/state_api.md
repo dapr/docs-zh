@@ -60,7 +60,7 @@ POST http://localhost:<daprPort>/v1.0/state/<storename>
 
 #### URL 参数
 
-| 参数        | 描述                                                                                                                                              |
+| 参数        | 说明                                                                                                                                              |
 | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | daprPort  | dapr 端口。                                                                                                                                        |
 | storename | `metadata.name` field in the user configured state store component yaml. Please refer Dapr State Store configuration structure mentioned above. |
@@ -71,7 +71,7 @@ POST http://localhost:<daprPort>/v1.0/state/<storename>
 
 A JSON array of state objects. Each state object is comprised with the following fields:
 
-| 字段       | 描述                                                                                     |
+| 字段       | 说明                                                                                     |
 | -------- | -------------------------------------------------------------------------------------- |
 | key      | state key                                                                              |
 | 值        | state value, which can be any byte array                                               |
@@ -85,7 +85,7 @@ A JSON array of state objects. Each state object is comprised with the following
 
 #### Response Codes
 
-| 代码  | 描述                                                           |
+| 代码  | 说明                                                           |
 | --- | ------------------------------------------------------------ |
 | 204 | State saved                                                  |
 | 400 | State store is missing or misconfigured or malformed request |
@@ -95,7 +95,7 @@ A JSON array of state objects. Each state object is comprised with the following
 
 None.
 
-### 示例
+### Example
 
 ```shell
 curl -X POST http://localhost:3500/v1.0/state/starwars \
@@ -103,7 +103,8 @@ curl -X POST http://localhost:3500/v1.0/state/starwars \
   -d '[
         {
           "key": "weapon",
-          "value": "DeathStar"
+          "value": "DeathStar",
+          "etag": "1234"
         },
         {
           "key": "planet",
@@ -126,7 +127,7 @@ GET http://localhost:<daprPort>/v1.0/state/<storename>/<key>
 
 #### URL 参数
 
-| 参数          | 描述                                                                                                                                              |
+| 参数          | 说明                                                                                                                                              |
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | daprPort    | dapr 端口。                                                                                                                                        |
 | storename   | `metadata.name` field in the user configured state store component yaml. Please refer Dapr State Store configuration structure mentioned above. |
@@ -140,7 +141,7 @@ GET http://localhost:<daprPort>/v1.0/state/<storename>/<key>
 
 #### Response Codes
 
-| 代码  | 描述                                      |
+| 代码  | 说明                                      |
 | --- | --------------------------------------- |
 | 200 | Get state successful                    |
 | 204 | Key is not found                        |
@@ -149,14 +150,14 @@ GET http://localhost:<daprPort>/v1.0/state/<storename>/<key>
 
 #### Response Headers
 
-| Header | 描述                     |
+| Header | 说明                     |
 | ------ | ---------------------- |
 | ETag   | ETag of returned value |
 
 #### Response Body
 JSON-encoded value
 
-### 示例
+### Example
 
 ```shell
 curl http://localhost:3500/v1.0/state/starwars/planet \
@@ -189,7 +190,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/state/<storename>/bulk
 
 #### URL 参数
 
-| 参数        | 描述                                                                                                                                              |
+| 参数        | 说明                                                                                                                                              |
 | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | daprPort  | dapr 端口。                                                                                                                                        |
 | storename | `metadata.name` field in the user configured state store component yaml. Please refer Dapr State Store configuration structure mentioned above. |
@@ -201,7 +202,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/state/<storename>/bulk
 
 #### Response Codes
 
-| 代码  | 描述                                      |
+| 代码  | 说明                                      |
 | --- | --------------------------------------- |
 | 200 | Get state successful                    |
 | 400 | State store is missing or misconfigured |
@@ -210,7 +211,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/state/<storename>/bulk
 #### Response Body
 An array of JSON-encoded values
 
-### 示例
+### Example
 
 ```shell
 curl http://localhost:3500/v1.0/state/myRedisStore/bulk \
@@ -256,7 +257,7 @@ DELETE http://localhost:<daprPort>/v1.0/state/<storename>/<key>
 
 #### URL 参数
 
-| 参数              | 描述                                                                                                                                              |
+| 参数              | 说明                                                                                                                                              |
 | --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | daprPort        | dapr 端口。                                                                                                                                        |
 | storename       | `metadata.name` field in the user configured state store component yaml. Please refer Dapr State Store configuration structure mentioned above. |
@@ -268,7 +269,7 @@ DELETE http://localhost:<daprPort>/v1.0/state/<storename>/<key>
 
 #### Request Headers
 
-| Header   | 描述                                                    |
+| Header   | 说明                                                    |
 | -------- | ----------------------------------------------------- |
 | If-Match | (Optional) ETag associated with the key to be deleted |
 
@@ -276,7 +277,7 @@ DELETE http://localhost:<daprPort>/v1.0/state/<storename>/<key>
 
 #### Response Codes
 
-| 代码  | 描述                                      |
+| 代码  | 说明                                      |
 | --- | --------------------------------------- |
 | 204 | Delete state successful                 |
 | 400 | State store is missing or misconfigured |
@@ -285,10 +286,10 @@ DELETE http://localhost:<daprPort>/v1.0/state/<storename>/<key>
 #### Response Body
 None.
 
-### 示例
+### Example
 
 ```shell
-curl -X "DELETE" http://localhost:3500/v1.0/state/starwars/planet -H "ETag: xxxxxxx"
+curl -X "DELETE" http://localhost:3500/v1.0/state/starwars/planet -H "If-Match: xxxxxxx"
 ```
 
 ## State transactions
@@ -301,7 +302,7 @@ List of state stores that support transactions:
 
 * Redis
 * MongoDB
-* PostgrSQL
+* PostgreSQL
 * SQL Server
 * Azure CosmSDB
 
@@ -313,7 +314,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/state/<storename>/transaction
 
 #### HTTP 响应码
 
-| 代码  | 描述                                                           |
+| 代码  | 说明                                                           |
 | --- | ------------------------------------------------------------ |
 | 204 | 请求成功                                                         |
 | 400 | State store is missing or misconfigured or malformed request |
@@ -321,7 +322,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/state/<storename>/transaction
 
 #### URL 参数
 
-| 参数        | 描述                                                                                                                                              |
+| 参数        | 说明                                                                                                                                              |
 | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | daprPort  | dapr 端口。                                                                                                                                        |
 | storename | `metadata.name` field in the user configured state store component yaml. Please refer Dapr State Store configuration structure mentioned above. |
@@ -330,14 +331,14 @@ POST/PUT http://localhost:<daprPort>/v1.0/state/<storename>/transaction
 
 #### Request Body
 
-| 字段       | 描述                                                                     |
+| 字段       | 说明                                                                     |
 | -------- | ---------------------------------------------------------------------- |
 | 功能操作     | A JSON array of state operation                                        |
 | metadata | (optional) the metadata for transaction that applies to all operations |
 
 Each state operation is comprised with the following fields:
 
-| 字段       | 描述                                                                                     |
+| 字段       | 说明                                                                                     |
 | -------- | -------------------------------------------------------------------------------------- |
 | key      | state key                                                                              |
 | 值        | state value, which can be any byte array                                               |
@@ -473,13 +474,13 @@ curl -X POST http://localhost:3500/v1.0/state/statestore \
 Get the object to find the ETag that was set automatically by the statestore:
 
 ```shell
-curl http://localhost:3500/v1.0/state/statestore/sampleData -v 
+curl http://localhost:3500/v1.0/state/statestore/sampleData -v
 * Connected to localhost (127.0.0.1) port 3500 (#0)
 > GET /v1.0/state/statestore/sampleData HTTP/1.1
 > Host: localhost:3500
 > User-Agent: curl/7.64.1
 > Accept: */*
-> 
+>
 < HTTP/1.1 200 OK
 < Server: fasthttp
 < Date: Sun, 14 Feb 2021 04:51:50 GMT
@@ -487,7 +488,7 @@ curl http://localhost:3500/v1.0/state/statestore/sampleData -v
 < Content-Length: 3
 < Etag: 1
 < Traceparent: 00-3452582897d134dc9793a244025256b1-b58d8d773e4d661d-01
-< 
+<
 * Connection #0 to host localhost left intact
 "1"* Closing connection 0
 ```

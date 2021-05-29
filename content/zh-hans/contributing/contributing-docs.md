@@ -7,7 +7,7 @@ description: >
   向Dapr Docs投稿的准则
 ---
 
-本指南包含有关对 [Dapr 文档库](https://github.com/dapr/docs) 的贡献信息。 请在对 Dapr docs 作出贡献之前，请先阅读以下准则。 本指南假定您已阅读了 [指南]({{< ref contributing-overview>}}) ，适用于任何 Dapr 项目贡献。
+本指南包含有关对 [Dapr 文档库](https://github.com/dapr/docs) 的贡献信息。 请在对 Dapr docs 作出贡献之前，请先阅读以下准则。 This guide assumes you have already reviewed the [general guidance]({{< ref contributing-overview>}}) which applies to any Dapr project contributions.
 
 Dapr 文档已发布到 [docs.dapr.io](https://docs.dapr.io)。 因此，任何贡献都必须确保文档能够正确编译和发布。
 
@@ -46,7 +46,7 @@ Dapr 文档处理分支的方式与大多数代码存储库不同。 每个分�
 - 请确保文档引用该规范以获取使用 API 的示例。
 - 确保规范在名称，参数和术语方面与概念一致。 根据需要更新概念和规范。
 - 请避免重复该规范。 这个想法是为了给读者提供更多关于能力的信息和背景，以便他们可以尝试这个。 因此，尽可能提供更多的信息和实施细节。
-- 提供指向 [参考资料]({{X55X}}) 中的规范的链接。
+- Provide a link to the spec in the [Reference]({{<ref reference >}}) section.
 - 在可能的情况下，参考一个实用的How-To文档。
 
 ### 贡献新的 How-To 指南
@@ -79,7 +79,7 @@ description: "1+ SENTENCES DESCRIBING THE ARTICLE"
 ---
 ```
 
-#### 示例
+#### Example
 ```yaml
 ---
 type: docs
@@ -131,8 +131,8 @@ Hugo `ref` 和 `relref` [shortcodes](https://gohugo.io/content-management/cross-
 
 以下是编写 Dapr 文档的有用 shortcodes
 
-### 图片
-Docsy和Hugo使用的markdown规范没有提供使用markdown符号调整图片大小的选项。 而是使用原始 HTML 。
+### Images
+Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 语法来调整图片大小。 而是使用原始 HTML 。
 
 首先将图片放置在 `/daprdocs/static/images` 下，命名惯例为 `[page-name]-[image-name].[png|jpg|svg]`.
 
@@ -142,7 +142,7 @@ Docsy和Hugo使用的markdown规范没有提供使用markdown符号调整图片�
 ```
 > 请不要忘记设置 alt 属性，以保留视觉受损用户的文档可读。
 
-#### 示例
+#### Example:
 
 此 HTML 将在 `overview.md` 页面上显示 `dapr-overview.png` 图片:
 ```md
@@ -169,7 +169,7 @@ Docsy和Hugo使用的markdown规范没有提供使用markdown符号调整图片�
 
 您所编写的所有内容都将被渲染为Markdown，因此您可以包含图像、代码块、YouTube视频等。
 
-#### 示例
+#### Example
 ````
 {{</* tabs Windows Linux MacOS>}}
 
@@ -221,7 +221,7 @@ brew install dapr/tap/dapr-cli
 {{</* youtube [VIDEO ID] */>}}
 ```
 
-#### 示例
+#### Example
 
 给定视频：https://youtu.be/dQw4w9WgXcQ
 

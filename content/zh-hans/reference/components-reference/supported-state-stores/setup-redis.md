@@ -41,7 +41,7 @@ spec:
 **Failover:** When set to `true` enables the failover feature. The redisHost should be the sentinel host address. See [Redis Sentinel Documentation](https://redis.io/topics/sentinel)
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 
@@ -54,7 +54,7 @@ If you wish to use Redis as an actor store, append the following to the yaml.
 
 ## 元数据字段规范
 
-| 字段                 | 必填 | 详情                                                                                             | 示例                                                              |
+| 字段                 | 必填 | 详情                                                                                             | Example                                                         |
 | ------------------ |:--:| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
 | redisHost          | Y  | Redis的连接地址                                                                                     | `localhost:6379`, `redis-master.default.svc.cluster.local:6379` |
 | redisPassword      | Y  | Redis的密码 无默认值 可以用`secretKeyRef`来引用密钥。                                                          | `""`, `"KeFg23!"`                                               |

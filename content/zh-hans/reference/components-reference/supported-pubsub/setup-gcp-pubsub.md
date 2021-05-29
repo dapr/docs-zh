@@ -10,7 +10,7 @@ aliases:
 
 ## 创建 Dapr 组件
 
-要安装GCP pubsub，请创建一个类型为`pubsub.gcp.pubsub`的组件。 请参阅 [本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
+要安装GCP pubsub，请创建一个类型为`pubsub.gcp.pubsub`的组件。 See [this guide]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) on how to create and apply a pubsub configuration
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -43,19 +43,19 @@ spec:
   - name: clientX509CertUrl
     value: https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com #replace PROJECT_NAME
   - name: privateKey
-    value: <PRIVATE_KEY> # replace x509 cert  
+    value: <PRIVATE_KEY> # replace x509 cert
   - name: disableEntityManagement
     value: "false"
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                      | 必填 | 详情                                                                                                                             | 示例                                                                                                       |
+| 字段                      | 必填 | 详情                                                                                                                             | Example                                                                                                  |
 | ----------------------- |:--:| ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| type                    | N  | GCP credentials type. Only `service_account` is supported. Defaults to `service_account`                                       | `service_account`                                                                                        |
+| type                    | N  | GCP 凭证类型. Only `service_account` is supported. Defaults to `service_account`                                                   | `service_account`                                                                                        |
 | project_id              | Y  | GCP 项目 id                                                                                                                      | `myproject-123`                                                                                          |
 | identityProjectId       | N  | If the GCP pubsub project is different from the identity project, specify the identity project using this attribute            | `"myproject-123"`                                                                                        |
 | privateKeyId            | N  | If using explicit credentials, this field should contain the `private_key_id` field from the service account json document     | `"my-private-key"`                                                                                       |
@@ -69,11 +69,11 @@ spec:
 | disableEntityManagement | N  | 当设置为`"true"`时，主题和订阅不会自动创建。 默认值为 `"false"`                                                                                      | `"true"`, `"false"`                                                                                      |
 
 ## 创建 GCP Pub/Sub
-You can use either "explicit" or "implicit" credentials to configure access to your GCP pubsub instance. If using explicit, most fields are required. Implicit relies on dapr running under a Kubernetes service acccount (KSA) mapped to a Google service account (GSA) which has the necessary permissions to access pubsub. In implicit mode, only the `projectId` attribute is needed, all other are optional.
+You can use either "explicit" or "implicit" credentials to configure access to your GCP pubsub instance. If using explicit, most fields are required. Implicit relies on dapr running under a Kubernetes service account (KSA) mapped to a Google service account (GSA) which has the necessary permissions to access pubsub. In implicit mode, only the `projectId` attribute is needed, all other are optional.
 
 按照[这里](https://cloud.google.com/pubsub/docs/quickstart-console)的说明设置Google Cloud Pub/Sub系统。
 
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
-- 请访问 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) ，了解如何配置 pub/sub 组件
+- Read [this guide]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) for instructions on configuring pub/sub components
 - [发布/订阅构建块]({{< ref pubsub >}})

@@ -8,7 +8,7 @@ description: "How to configure Dapr to use gRPC for low-latency, high performanc
 
 Dapr 为本地调用实现 HTTP 和 gRPC API 。 gRPC适用于低延迟、高性能的场景，并且使用原生客户端进行语言集成。
 
-You can find a list of auto-generated clients [here]({{< ref sdks >}}).
+您可以在 [这里]({{< ref sdks >}})找到自动生成的客户端 的列表。
 
 Dapr 运行时实现 [proto服务](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/dapr.proto) ，应用程序可以通过 gRPC 进行通信。
 

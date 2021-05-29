@@ -70,7 +70,7 @@ helm install dapr dapr/dapr --namespace dapr-system --set global.logAsJson=true
 
 添加 `dapr.io/log-as-json: "true"` annotation 到你的部署yaml.
 
-示例:
+You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image. To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -124,7 +124,7 @@ InsightsMetrics
 | where Namespace == "prometheus" and Name == "process_resident_memory_bytes"
 | extend tags=parse_json(Tags)
 | project TimeGenerated, Name, Val, app=tostring(tags['app'])
-| summarize memInBytes=percentile(Val, 99) by bin(TimeGenerated, 1m), app 
+| summarize memInBytes=percentile(Val, 99) by bin(TimeGenerated, 1m), app
 | where app startswith "dapr-"
 | render timechart
 ```

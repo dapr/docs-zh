@@ -91,7 +91,7 @@ curl -i -d '{ "message": "hello" }' \
 ```
 
 ## 使用 pub/sub 的命名空间
-请阅读 [Pub/Sub 和名称空间]({{< ref "component-scopes.md" >}}) 了解有关范围组件的更多信息。
+Read [Pub/Sub and namespaces]({{< ref "component-scopes.md" >}}) for more information on scoping components.
 
 ## 对具有作用域的组件的应用程序访问
 
@@ -116,7 +116,7 @@ scopes:
 - app2
 ```
 
-## 示例 <iframe width="560" height="315" src="https://www.youtube.com/embed/8W-iBDNvCUM?start=1763" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
+## Example <iframe width="560" height="315" src="https://www.youtube.com/embed/8W-iBDNvCUM?start=1763" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
 
 ## 相关链接
 

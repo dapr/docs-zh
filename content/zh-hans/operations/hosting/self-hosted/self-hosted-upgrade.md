@@ -17,7 +17,7 @@ description: "按照这些步骤在自托管模式下升级 Dapr，并确保顺�
    dapr uninstall --all
    ```
 
-1. 下载和安装最新的CLI访问 [这个指南]({{< ref install-dapr-cli.md >}})。
+1. Download and install the latest CLI by visiting [this guide]({{< ref install-dapr-cli.md >}}).
 
 1. 初始化 Dapr 运行时：
 
@@ -25,11 +25,11 @@ description: "按照这些步骤在自托管模式下升级 Dapr，并确保顺�
    dapr init
    ```
 
-1. Ensure you are using the latest version of Dapr (v1.1.2) with:
+1. Ensure you are using the latest version of Dapr (v1.2) with:
 
    ```bash
    $ dapr --version
 
-   CLI version: 1.1.0
-   Runtime version: 1.1.2
+   CLI version: 1.2
+   Runtime version: 1.2
    ```

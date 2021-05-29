@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-To set up the Local Storage binding, create a component of type `bindings.localstorage`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+To set up the Local Storage binding, create a component of type `bindings.localstorage`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -28,13 +28,13 @@ spec:
 
 ## 元数据字段规范
 
-| 字段       | 必填 | 绑定支持           | 详情                                                      | 示例              |
+| 字段       | 必填 | 绑定支持           | 详情                                                      | Example         |
 | -------- |:--:| -------------- | ------------------------------------------------------- | --------------- |
 | rootPath | Y  | Input / Output | The root path anchor to which files can be read / saved | `"/temp/files"` |
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create` : [Create file](#create-file)
 - `get` : [Get file](#get-file)
@@ -142,20 +142,20 @@ To perform a get file operation, invoke the Local Storage binding with a `POST` 
 }
 ```
 
-#### 示例
+#### Example
 
 {{< tabs Windows Linux >}}
 
   {{% codetab %}}
   ```bash
-  curl -d '{ \"operation\": \"get\", \"metadata\": { \"fileName\": \"myfile\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+  curl -d '{ \"operation\": \"get\", \"metadata\": { \"fileName\": \"myfile\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
   {{% codetab %}}
   ```bash
   curl -d '{ "operation": "get", "metadata": { "fileName": "myfile" }}' \
-        http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
@@ -186,20 +186,20 @@ If you only want to list the files beneath a particular directory below the `roo
 }
 ```
 
-#### 示例
+#### Example
 
 {{< tabs Windows Linux >}}
 
   {{% codetab %}}
   ```bash
-  curl -d '{ \"operation\": \"list\", \"metadata\": { \"fileName\": \"my/cool/directory\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+  curl -d '{ \"operation\": \"list\", \"metadata\": { \"fileName\": \"my/cool/directory\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
   {{% codetab %}}
   ```bash
   curl -d '{ "operation": "list", "metadata": { "fileName": "my/cool/directory" }}' \
-        http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
@@ -222,20 +222,20 @@ To perform a delete file operation, invoke the Local Storage binding with a `POS
 }
 ```
 
-#### 示例
+#### Example
 
 {{< tabs Windows Linux >}}
 
   {{% codetab %}}
   ```bash
-  curl -d '{ \"operation\": \"delete\", \"metadata\": { \"fileName\": \"myfile\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+  curl -d '{ \"operation\": \"delete\", \"metadata\": { \"fileName\": \"myfile\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
   {{% codetab %}}
   ```bash
   curl -d '{ "operation": "delete", "metadata": { "fileName": "myfile" }}' \
-        http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 

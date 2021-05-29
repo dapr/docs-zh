@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-To setup MySQL binding create a component of type `bindings.mysql`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+To setup MySQL binding create a component of type `bindings.mysql`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 The MySQL binding uses [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql) internally.
 
@@ -38,19 +38,19 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段              | 必填 | 绑定支持   | 详情                                                                                                        | 示例                                           |
-| --------------- |:--:| ------ | --------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| url             | Y  | Output | Represent DB connection in Data Source Name (DNS) format. See [here](#ssl-connection-details) SSL details | `"user:password@tcp(localhost:3306)/dbname"` |
-| pemPath         | Y  | Output | Path to the PEM file. Used with SSL connection                                                            | `"path/to/pem/file"`                         |
-| maxIdleConns    | N  | Output | The max idle connections. Integer greater than 0                                                          | `"10"`                                       |
-| maxOpenConns    | N  | Output | The max open connections. Integer greater than 0                                                          | `"10"`                                       |
-| connMaxLifetime | N  | Output | The max connection lifetime. Duration string                                                              | `"12s"`                                      |
-| connMaxIdleTime | N  | Output | The max connection idel time. Duration string                                                             | `"12s"`                                      |
+| 字段              | 必填 | 绑定支持 | 详情                                                                                                        | Example                                      |
+| --------------- |:--:| ---- | --------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
+| url             | Y  | 输出   | Represent DB connection in Data Source Name (DNS) format. See [here](#ssl-connection-details) SSL details | `"user:password@tcp(localhost:3306)/dbname"` |
+| pemPath         | Y  | 输出   | Path to the PEM file. Used with SSL connection                                                            | `"path/to/pem/file"`                         |
+| maxIdleConns    | N  | 输出   | The max idle connections. Integer greater than 0                                                          | `"10"`                                       |
+| maxOpenConns    | N  | 输出   | The max open connections. Integer greater than 0                                                          | `"10"`                                       |
+| connMaxLifetime | N  | 输出   | The max connection lifetime. Duration string                                                              | `"12s"`                                      |
+| connMaxIdleTime | N  | 输出   | The max connection idel time. Duration string                                                             | `"12s"`                                      |
 
 ### SSL connection
 
@@ -62,7 +62,7 @@ If your server requires SSL your connection string must end of `&tls=custom` for
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `exec`
 - `query`

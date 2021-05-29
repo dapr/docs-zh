@@ -91,7 +91,7 @@ Components:
 - dapr_placement
 - dapr_sidecar_injector
 
-示例:
+You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image. To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
 
 ```bash
 helm install dapr dapr/dapr --namespace dapr-system --set dapr_operator.logLevel=error
