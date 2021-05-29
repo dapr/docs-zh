@@ -6,7 +6,7 @@ weight: 9999
 description: "测试您的 HTTP 管道与大写中间件一起运行"
 ---
 
-大写 [HTTP midleware]({{< ref middleware-concept.md >}}) 将请求的正文转换为大写字母，并用于测试管道正在起作用。 它只应用于本地开发。
+The uppercase [HTTP middleware]({{< ref middleware-concept.md >}}) converts the body of the request to uppercase letters and is used for testing that the pipeline is functioning. 它只应用于本地开发。
 
 ## 配置
 
@@ -26,7 +26,7 @@ spec:
 
 ## Dapr配置
 
-要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中进行引用。 请参阅[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
+To be applied, the middleware must be referenced in [configuration]({{< ref configuration-concept.md >}}). See [middleware pipelines]({{< ref "middleware-concept.md#customize-processing-pipeline">}}).
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

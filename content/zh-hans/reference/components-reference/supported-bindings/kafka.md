@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-To setup Kafka binding create a component of type `bindings.kafka`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+To setup Kafka binding create a component of type `bindings.kafka`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -41,16 +41,16 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 ## 元数据字段规范
 
-| 字段              | 必填 | 绑定支持         | 详情                                                                                     | 示例                                |
+| 字段              | 必填 | 绑定支持         | 详情                                                                                     | Example                           |
 | --------------- |:--:| ------------ | -------------------------------------------------------------------------------------- | --------------------------------- |
 | topics          | N  | 输入           | A comma separated string of topics                                                     | `"mytopic1,topic2"`               |
 | brokers         | Y  | Input/Output | A comma separated string of kafka brokers                                              | `"localhost:9092,localhost:9093"` |
 | consumerGroup   | N  | 输入           | A kafka consumer group to listen on                                                    | `"group1"`                        |
-| publishTopic    | Y  | Output       | The topic to publish to                                                                | `"mytopic"`                       |
+| publishTopic    | Y  | 输出           | The topic to publish to                                                                | `"mytopic"`                       |
 | authRequired    | Y  | Input/Output | Determines whether to use SASL authentication or not. Defaults to `"true"`             | `"true"`, `"false"`               |
 | saslUsername    | N  | Input/Output | The SASL username for authentication. Only used if `authRequired` is set to - `"true"` | `"user"`                          |
 | saslPassword    | N  | Input/Output | The SASL password for authentication. Only used if `authRequired` is set to - `"true"` | `"password"`                      |
@@ -61,7 +61,7 @@ spec:
 
 此组件支持 **输入和输出** 绑定接口。
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 
@@ -71,7 +71,7 @@ When invoking the Kafka binding, its possible to provide an optional partition k
 
 The field name is `partitionKey`.
 
-示例:
+You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image. To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
 
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myKafka \

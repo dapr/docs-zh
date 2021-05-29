@@ -15,13 +15,13 @@ Dapr提供的状态管理功能包括一致性和并发选项。 在本指南中
 ## 前提
 
 - [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 初始化的 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- Initialized [Dapr environment]({{< ref install-dapr-selfhost.md >}})
 
 ## 第一步：设置状态存储
 
 状态存储组件代表Dapr用来与数据库进行通信的资源。
 
-在本指南中，我们将使用 Redis 作为状态存储引擎，但在 [支持列表]({{< ref supported-state-stores >}})中的任何状态存储引擎都是可以使用的。
+For the purpose of this guide we'll use a Redis state store, but any state store from the [supported list]({{< ref supported-state-stores >}}) will work.
 
 {{< tabs "Self-Hosted (CLI)" Kubernetes>}}
 
@@ -33,7 +33,7 @@ Dapr提供的状态管理功能包括一致性和并发选项。 在本指南中
 
 {{% codetab %}}
 
-要将其部署到 Kubernetes 集群中，请在下面的 yaml 中填写你的[所需statestore 组件]({{< ref supported-state-stores >}}) 的 `metadata` 连接详情，保存为 `statestore.yaml`，并执行命令 `kubectl apply -f statestore.yaml`。
+To deploy this into a Kubernetes cluster, fill in the `metadata` connection details of your [desired statestore component]({{< ref supported-state-stores >}}) in the yaml below, save as `statestore.yaml`, and run `kubectl apply -f statestore.yaml`.
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -50,7 +50,7 @@ spec:
   - name: redisPassword
     value: ""
 ```
-请参阅 [这里]({{< ref "setup-state-store" >}})的说明，了解如何在 Kubernetes 上设置不同的状态存储引擎。
+See the instructions [here]({{< ref "setup-state-store" >}}) on how to setup different state stores on Kubernetes.
 
 {{% /codetab %}}
 
@@ -168,7 +168,7 @@ $app = \Dapr\App::create();
 $app->run(function(\Dapr\State\StateManager $stateManager, \Psr\Log\LoggerInterface $logger) {
     $stateManager->save_state(store_name: 'statestore', item: new \Dapr\State\StateItem(
         key: 'myFirstKey',
-        value: 'myFirstValue' 
+        value: 'myFirstValue'
     ));
     $logger->alert('State has been stored');
 
@@ -278,7 +278,7 @@ $app = \Dapr\App::create();
 $app->run(function(\Dapr\State\StateManager $stateManager, \Psr\Log\LoggerInterface $logger) {
     $stateManager->save_state(store_name: 'statestore', item: new \Dapr\State\StateItem(
         key: 'myFirstKey',
-        value: 'myFirstValue' 
+        value: 'myFirstValue'
     ));
     $logger->alert('State has been stored');
 
@@ -443,10 +443,10 @@ dapr --app-id myapp run -- php state-example.php
 ## 第五步：执行状态事务性操作
 
 {{% alert title="Note" color="warning" %}}
-状态事务性操作需要一个支持multi-item transactions的状态存储引擎。 请访问 [支持的状态存储引擎]({{< ref supported-state-stores >}})页面查看完整列表。 请注意，在自托管环境中创建的默认Redis容器是支持的。
+状态事务性操作需要一个支持multi-item transactions的状态存储引擎。 Visit the [supported state stores page]({{< ref supported-state-stores >}}) page for a full list. 请注意，在自托管环境中创建的默认Redis容器是支持的。
 {{% /alert %}}
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" "Python SDK" "PHP SDK">}}
+{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" "Python SDK">}}
 
 {{% codetab %}}
 用上面运行的同一个dapr实例执行两个状态事务操作:
@@ -584,6 +584,6 @@ dapr --app-id myapp run -- php state-example.php
 
 ## 下一步
 
-- 阅读完整的 [状态 API 参考]({{< ref state_api.md >}})
-- 试试其中一个 [Dapr SDK]({{< ref sdks >}})
-- 构建一个 [状态服务]({{< ref howto-stateful-service.md >}})
+- Read the full [State API reference]({{< ref state_api.md >}})
+- Try one of the [Dapr SDKs]({{< ref sdks >}})
+- Build a [stateful service]({{< ref howto-stateful-service.md >}})

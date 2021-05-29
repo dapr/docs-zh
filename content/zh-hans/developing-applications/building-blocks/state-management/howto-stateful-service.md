@@ -14,7 +14,7 @@ description: "对可伸缩的副本使用状态管理"
 
 状态存储组件代表Dapr用来与数据库进行通信的资源。 在本指南中，我们将使用Redis作为状态存储引擎。
 
-在[这里]({{< ref supported-state-stores >}})查看支持的状态存储引擎列表。
+See a list of supported state stores [here]({{< ref supported-state-stores >}})
 
 ### 使用 Dapr CLI
 
@@ -22,7 +22,7 @@ description: "对可伸缩的副本使用状态管理"
 
 ### Kubernetes
 
-请参阅 [这里]({{X20X}}) 的说明，了解如何在 Kubernetes 上设置不同的状态存储引擎。
+See the instructions [here]({{<ref setup-state-store>}}) on how to setup different state stores on Kubernetes.
 
 ## 强一致性和最终一致性
 

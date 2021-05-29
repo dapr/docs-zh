@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-To setup RabbitMQ binding create a component of type `bindings.rabbitmq`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+To setup RabbitMQ binding create a component of type `bindings.rabbitmq`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -41,18 +41,18 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段               | 必填 | 绑定支持         | 详情                                                                                                                                                                                      | 示例                                                  |
+| 字段               | 必填 | 绑定支持         | 详情                                                                                                                                                                                      | Example                                             |
 | ---------------- |:--:| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
 | queueName        | Y  | Input/Output | The RabbitMQ queue name                                                                                                                                                                 | `"myqueue"`                                         |
 | host             | Y  | Input/Output | The RabbitMQ host address                                                                                                                                                               | `"amqp://[username][:password]@host.domain[:port]"` |
-| durable          | N  | Output       | Tells RabbitMQ to persist message in storage. 默认值为 `"false"`                                                                                                                            | `"true"`, `"false"`                                 |
+| durable          | N  | 输出           | Tells RabbitMQ to persist message in storage. 默认值为 `"false"`                                                                                                                            | `"true"`, `"false"`                                 |
 | deleteWhenUnused | N  | Input/Output | Enables or disables auto-delete. 默认值为 `"false"`                                                                                                                                         | `"true"`, `"false"`                                 |
-| ttlInseconds     | N  | Output       | Set the [default message time to live at RabbitMQ queue level](https://www.rabbitmq.com/ttl.html). 如果此参数为空，消息将不会过期，继续在队列上存在，直到处理完毕。 See [also](#specifying-a-ttl-per-message)           | `60`                                                |
+| ttlInseconds     | N  | 输出           | Set the [default message time to live at RabbitMQ queue level](https://www.rabbitmq.com/ttl.html). 如果此参数为空，消息将不会过期，继续在队列上存在，直到处理完毕。 See [also](#specifying-a-ttl-per-message)           | `60`                                                |
 | prefetchCount    | N  | 输入           | Set the [Channel Prefetch Setting (QoS)](https://www.rabbitmq.com/confirms.html#channel-qos-prefetch). 如果此参数为空，QOS 会设置为0为无限制。                                                           | `0`                                                 |
 | exclusive        | N  | Input/Output | Determines whether the topic will be an exclusive topic or not. 默认值为 `"false"`                                                                                                          | `"true"`, `"false"`                                 |
 | maxPriority      | N  | Input/Output | Parameter to set the [priority queue](https://www.rabbitmq.com/priority.html). 如果此参数为空，消息将不会过期，继续在队列上存在，直到处理完毕。 Value between 1 and 255. See [also](#specifying-a-priority-per-message) | `"1"`, `"10"`                                       |
@@ -60,7 +60,7 @@ spec:
 
 此组件支持 **输入和输出** 绑定接口。
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 
@@ -72,7 +72,7 @@ spec:
 
 字段名为 `ttlInSeconds`。
 
-示例:
+You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image. To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
 
 {{< tabs Windows Linux >}}
 {{% codetab %}}
@@ -117,7 +117,7 @@ To set priority at message level use the `metadata` section in the request body 
 
 The field name is `priority`.
 
-示例:
+You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image. To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
 
 {{< tabs Windows Linux >}}
 {{% codetab %}}

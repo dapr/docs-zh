@@ -31,9 +31,9 @@ spec:
 ...
 ```
 
-数据库的类型由`type`字段决定，连接地址和其他元数据等放在`.metadata`部分。 即使元数据值可以在纯文本中包含密钥，但建议您使用一个 [密钥存储]({{< ref component-secrets.md >}})。
+数据库的类型由`type`字段决定，连接地址和其他元数据等放在`.metadata`部分。 Even though metadata values can contain secrets in plain text, it is recommended you use a [secret store]({{< ref component-secrets.md >}}).
 
-阅读 [本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}}) 以获取配置状态存储组件的说明.
+Visit [this guide]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}}) on how to configure a state store component.
 
 ## 支持的状态存储
 

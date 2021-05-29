@@ -156,7 +156,7 @@ If your deployment target is Kubernetes please use Dapr's first-class integratio
 
 Dapr 为不同的组件提供了许多预构建的 Docker 镜像，您应该为所需的二进制、架构和 标签/版本 选择相关镜像。
 
-### 图片
+### Images
 [Docker Hub](https://hub.docker.com/u/daprio)上，每个 Dapr 组件都有已发布的 Docker 镜像。
 - [daprio/dapr](https://hub.docker.com/r/daprio/dapr) (包含所有Dapr binaries)
 - [daprio/daprd](https://hub.docker.com/r/daprio/daprd)
@@ -164,7 +164,7 @@ Dapr 为不同的组件提供了许多预构建的 Docker 镜像，您应该为�
 - [daprio/sentry](https://hub.docker.com/r/daprio/sentry)
 - [daprio/dapr-dev](https://hub.docker.com/r/daprio/dapr-dev)
 
-### 标签
+### Tags
 
 #### Linux/amd64
 - `latest`：最新版本，**仅** 用于开发目的。

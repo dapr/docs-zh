@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置 cron 绑定，请创建一个类型为 `bindings.cron` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+要设置 cron 绑定，请创建一个类型为 `bindings.cron` 的组件。 See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -23,12 +23,12 @@ spec:
   version: v1
   metadata:
   - name: schedule
-    value: "@every 15m" # valid cron schedule  
+    value: "@every 15m" # valid cron schedule
 ```
 
 ## 元数据字段规范
 
-| 字段       | 必填 | 绑定支持         | 详情                                                | 示例             |
+| 字段       | 必填 | 绑定支持         | 详情                                                | Example        |
 | -------- |:--:| ------------ | ------------------------------------------------- | -------------- |
 | schedule | Y  | Input/Output | 要用的有效的 cron 时间表。 请参阅[这里](#schedule-format)了解更多详情。 | `"@every 15m"` |
 
@@ -63,7 +63,7 @@ Dapr cron 绑定支持以下格式：
 
 此组件支持 **输入和输出** 绑定接口。
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `delete`
 

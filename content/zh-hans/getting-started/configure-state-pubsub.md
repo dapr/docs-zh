@@ -49,7 +49,7 @@ Dapr可以使用任何Redis实例--无论是在本地开发机器上的容器化
 2. 运行`kubectl get pods`来查看现在正在集群中运行的Redis容器。
 
     ```bash
-    $ kubectl get pods 
+    $ kubectl get pods
     NAME             READY   STATUS    RESTARTS   AGE
     redis-master-0   1/1     Running   0          69s
     redis-slave-0    1/1     Running   0          69s
@@ -130,7 +130,7 @@ spec:
 这个例子使用的是用上面的说明设置集群时创建的 kubernetes 密钥。
 
 {{% alert title="Other stores" color="primary" %}}
-如果使用 Redis 以外的其他状态存储，请参考 [支持的状态存储]({{< ref supported-state-stores >}})，了解要设置哪些选项。
+If using a state store other than Redis, refer to the [supported state stores]({{< ref supported-state-stores >}}) for information on what options to set.
 {{% /alert %}}
 
 ### 创建 发布/订阅 消息代理组件
@@ -158,7 +158,7 @@ spec:
 这个例子使用的是用上面的说明设置集群时创建的 kubernetes 密钥。
 
 {{% alert title="Other stores" color="primary" %}}
-如果使用 Redis 以外的 发布/订阅 消息代理，请参考 [支持的 发布/订阅 消息代理]({{< ref supported-pubsub >}})，了解要设置哪些选项。
+If using a pub/sub message broker other than Redis, refer to the [supported pub/sub message brokers]({{< ref supported-pubsub >}}) for information on what options to set.
 {{% /alert %}}
 
 ### 硬编码密码（不推荐）
@@ -210,7 +210,7 @@ spec:
 - 在你的应用程序文件夹中创建一个新的`components`目录，其中包含YAML文件，并提供`dapr run`命令的路径，标志为`--components-path`。
 
 {{% alert title="Self-hosted slim mode" color="primary" %}}
-如果您在[slim模式]({{< ref self-hosted-no-docker.md >}})下初始化Dapr（没有Docker），您需要手动创建默认目录，或者始终使用`--components-path`指定一个组件目录。
+If you initialized Dapr in [slim mode]({{< ref self-hosted-no-docker.md >}}) (without Docker) you need to manually create the default directory, or always specify a components directory using `--components-path`.
 {{% /alert %}}
 
 {{% /codetab %}}

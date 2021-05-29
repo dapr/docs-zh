@@ -15,7 +15,7 @@ description: "教程与代码样本，旨在让你快速上手使用Dapr。"
 
 ## 快速入门
 
-| 入门项                                                                                  | 描述                                                                 |
+| 入门项                                                                                  | 说明                                                                 |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | [Hello World](https://github.com/dapr/quickstarts/tree/v1.0.0/hello-world)           | 演示如何在本地运行Dapr。 重点介绍服务调用和状态管理。                                      |
 | [Hello Kubernetes](https://github.com/dapr/quickstarts/tree/v1.0.0/hello-kubernetes) | 演示如何在Kubernetes中运行Dapr。 重点介绍服务调用和状态管理。                             |

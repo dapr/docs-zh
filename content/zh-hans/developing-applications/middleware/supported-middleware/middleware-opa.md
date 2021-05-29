@@ -6,7 +6,7 @@ weight: 6000
 description: "使用中间件对传入的请求应用开放策略代理（OPA）策略。"
 ---
 
-开放策略代理（OPA）[HTTP 中间件]({{< ref middleware-concept.md >}})将[OPA 策略](https://www.openpolicyagent.org/)应用到传入的 Dapr HTTP 请求中。 这可以用来将可重用的授权策略应用到应用终结点。
+The Open Policy Agent (OPA) [HTTP middleware]({{< ref middleware-concept.md >}}) applys [OPA Policies](https://www.openpolicyagent.org/) to incoming Dapr HTTP requests. 这可以用来将可重用的授权策略应用到应用终结点。
 
 ## 配置
 
@@ -21,68 +21,6 @@ spec:
   version: v1
   metadata:
     # `includedHeaders` is a comma-separated set of case-insensitive headers to include in the request input.
-    # Request headers are not passed to the policy by default. Include to receive incoming request headers in
-    # the input
-    - name: includedHeaders
-      value: "x-my-custom-header, x-jwt-header"
-
-    # `defaultStatus` is the status code to return for denied responses
-    - name: defaultStatus
-      value: 403
-
-    # `rego` is the open policy agent policy to evaluate. apiVersion: dapr.io/v1alpha1
-kind: Component
-metadata:
-  name: my-policy
-  namespace: default
-spec:
-  type: middleware.http.opa
-  version: v1
-  metadata:
-    # `includedHeaders` is a comma-separated set of case-insensitive headers to include in the request input.
-    # Request headers are not passed to the policy by default. Include to receive incoming request headers in
-    # the input
-    - name: includedHeaders
-      value: "x-my-custom-header, x-jwt-header"
-
-    # `defaultStatus` is the status code to return for denied responses
-    - name: defaultStatus
-      value: 403
-
-    # `rego` is the open policy agent policy to evaluate. required
-    # The policy package must be http and the policy must set data.http.allow
-    - name: rego
-      value: |
-        package http
-
-        default allow = true
-
-        # Allow may also be an object and include other properties
-
-        # For example, if you wanted to redirect on a policy failure, you could set the status code to 301 and set the location header on the response:
-        allow = {
-            "status_code": 301,
-            "additional_headers": {
-                "location": "https://my.site/authorize"
-            }
-        } {
-            not jwt.payload["my-claim"]
-        }
-
-        # You can also allow the request and add additional headers to it:
-        allow = {
-            "allow": true,
-            "additional_headers": {
-                "x-my-claim": my_claim
-            }
-        } {
-            my_claim := jwt.payload["my-claim"]
-        }
-        jwt = { "payload": payload } {
-            auth_header := input.request.headers["authorization"]
-            [_, jwt] := split(auth_header, " ")
-            [_, payload, _] := io.jwt.decode(jwt)
-        }
     # Request headers are not passed to the policy by default. Include to receive incoming request headers in
     # the input
     - name: includedHeaders
@@ -132,7 +70,7 @@ spec:
 
 ## 元数据字段规范
 
-| 字段              | 详情                                                             | 示例                                                                |
+| 字段              | 详情                                                             | Example                                                           |
 | --------------- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
 | rego            | Rego策略语言                                                       | 见上文                                                               |
 | defaultStatus   | 状态码返回拒绝的响应                                                     | `"https://accounts.google.com"`, `"https://login.salesforce.com"` |
@@ -140,7 +78,7 @@ spec:
 
 ## Dapr配置
 
-要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中进行引用。 请参阅[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
+To be applied, the middleware must be referenced in [configuration]({{< ref configuration-concept.md >}}). See [middleware pipelines]({{< ref "middleware-concept.md#customize-processing-pipeline">}}).
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -276,7 +214,7 @@ type Result struct {
   // Whether to allow or deny the incoming request
   allow bool
   // Overrides denied response status code; Optional
-  status_code int  
+  status_code int
   // Sets headers on allowed request or denied response; Optional
   additional_headers map[string]string
 }

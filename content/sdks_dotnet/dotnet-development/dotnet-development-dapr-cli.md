@@ -12,7 +12,7 @@ description: 通过 Dapr CLI 学习本地开发
 
 Dapr CLI 为您提供了一个很好的工作基础，通过初始化本地重新分配容器、拉取容器、放置服务和用于重新分配的组件清单。 这将使您能够在没有额外设置的新安装中处理以下构建块：
 
-- [服务调用]({{< ref service-invocation >}})
+- [调用逻辑]({{< ref service-invocation >}})
 - [状态存储]({{< ref state-management >}})
 - [发布/订阅]({{< ref pubsub >}})
 - [Actors]({{< ref actors >}})

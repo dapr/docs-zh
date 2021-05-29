@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置 Azure 事件网格（Event Grid）绑定，请创建一个类型为 `bindings.azure.eventgrid` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+要设置 Azure 事件网格（Event Grid）绑定，请创建一个类型为 `bindings.azure.eventgrid` 的组件。 See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 请参阅[这里](https://docs.microsoft.com/en-us/azure/event-grid/)了解 Azure Event Grid 文档。
 
@@ -32,7 +32,7 @@ spec:
   - name: clientSecret
     value: "[ClientSecret]"
   - name: subscriberEndpoint
-    value: "[SubscriberEndpoint]"    
+    value: "[SubscriberEndpoint]"
   - name: handshakePort
     value: [HandshakePort]
   - name: scope
@@ -48,23 +48,23 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                    | 必填 | 绑定支持   | 详情                                                                                                                                                      | 示例                                     |
-| --------------------- |:--:| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
-| tenantId              | Y  | 输入     | 创建这个事件网格事件订阅的 Azure 租户 id                                                                                                                               | `"tenentID"`                           |
-| subscriptionId        | Y  | 输入     | 创建这个事件网格事件订阅的 Azure 订阅 id                                                                                                                               | `"subscriptionId"`                     |
-| clientId              | Y  | 输入     | 由绑定来创建或更新事件网格事件订阅的客户端 id                                                                                                                                | `"clientId"`                           |
-| clientSecret          | Y  | 输入     | 由绑定来创建或更新事件网格事件订阅的客户端 id                                                                                                                                | `"clientSecret"`                       |
-| subscriberEndpoint    | Y  | 输入     | 事件网格将进行握手并发送云端事件的 https 端点。 如果您没有在 ingress 上重写URL， 其形式应该是： `https://[YOUR HOSTNAME]/api/events`。如果测试您的本地机器， 您可以使用 [ngrok](https://ngrok.com) 来创建一个公共端点。 | `"https://[YOUR HOSTNAME]/api/events"` |
-| handshakePort         | Y  | 输入     | 输入绑定将侦听握手和事件的容器端口                                                                                                                                       | `"9000"`                               |
-| 作用域                   | Y  | 输入     | 事件订阅需要创建或更新的资源标识符。 请参阅[这里](#scope)了解更多详情。                                                                                                               | `"/subscriptions/{subscriptionId}/"`   |
-| eventSubscriptionName | N  | 输入     | 事件订阅的名称。 事件订阅名称长度必须在3到64个字符之间，并且只能使用字母数字                                                                                                                | `"name"`                               |
-| accessKey             | Y  | Output | 将事件网格事件发布到自定义 topic 的访问密钥                                                                                                                               | `"accessKey"`                          |
-| topicEndpoint         | Y  | Output | 输出绑定应该在其中发布事件的 topic 端点                                                                                                                                 | `"topic-endpoint"`                     |
+| 字段                    | 必填 | 绑定支持 | 详情                                                                                                                                                      | Example                                |
+| --------------------- |:--:| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| tenantId              | Y  | 输入   | 创建这个事件网格事件订阅的 Azure 租户 id                                                                                                                               | `"tenentID"`                           |
+| subscriptionId        | Y  | 输入   | 创建这个事件网格事件订阅的 Azure 订阅 id                                                                                                                               | `"subscriptionId"`                     |
+| clientId              | Y  | 输入   | 由绑定来创建或更新事件网格事件订阅的客户端 id                                                                                                                                | `"clientId"`                           |
+| clientSecret          | Y  | 输入   | 由绑定来创建或更新事件网格事件订阅的客户端 id                                                                                                                                | `"clientSecret"`                       |
+| subscriberEndpoint    | Y  | 输入   | 事件网格将进行握手并发送云端事件的 https 端点。 如果您没有在 ingress 上重写URL， 其形式应该是： `https://[YOUR HOSTNAME]/api/events`。如果测试您的本地机器， 您可以使用 [ngrok](https://ngrok.com) 来创建一个公共端点。 | `"https://[YOUR HOSTNAME]/api/events"` |
+| handshakePort         | Y  | 输入   | 输入绑定将侦听握手和事件的容器端口                                                                                                                                       | `"9000"`                               |
+| 作用域                   | Y  | 输入   | 事件订阅需要创建或更新的资源标识符。 请参阅[这里](#scope)了解更多详情。                                                                                                               | `"/subscriptions/{subscriptionId}/"`   |
+| eventSubscriptionName | N  | 输入   | 事件订阅的名称。 事件订阅名称长度必须在3到64个字符之间，并且只能使用字母数字                                                                                                                | `"name"`                               |
+| accessKey             | Y  | 输出   | 将事件网格事件发布到自定义 topic 的访问密钥                                                                                                                               | `"accessKey"`                          |
+| topicEndpoint         | Y  | 输出   | 输出绑定应该在其中发布事件的 topic 端点                                                                                                                                 | `"topic-endpoint"`                     |
 
 ### Scope
 
@@ -77,7 +77,7 @@ Scope 是事件订阅需要创建或更新的资源的标识符。 Scope 可以�
 
 此组件支持 **输入和输出** 绑定接口。
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 ## 补充资料
@@ -246,16 +246,6 @@ $ kubectl delete pod nginx-nginx-ingress-controller-649df94867-fp6mg
 
 # Check the logs again - it should start returning 200
 # .."OPTIONS /api/events HTTP/1.1" 200..
-
-$ kubectl delete pod nginx-nginx-ingress-controller-649df94867-fp6mg
-
-# Check the logs again - it should start returning 200
-# .."OPTIONS /api/events HTTP/1.1" 200..
-
-$ kubectl delete pod nginx-nginx-ingress-controller-649df94867-fp6mg
-
-# Check the logs again - it should start returning 200
-# .."OPTIONS /api/events HTTP/1.1" 200.. 
 ```
 
 ## 相关链接

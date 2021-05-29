@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "Security"
-linkTitle: "安全"
+title: "安全"
+linkTitle: "Security"
 weight: 600
 description: >
   Dapr在设计时是如何考虑安全的
@@ -71,11 +71,11 @@ Dapr 还管理工作负载证书轮换，并且这样做时应用程序不会停
 
 ## 组件命名空间的作用域和密钥
 
-Dapr 组件是受限于命名空间的。 这意味着 Dapr runtime sidecar 的实例只能访问部署到同一命名空间的组件。 更多详细信息，请参阅 [组件范围文档]({{X32X}})。
+Dapr 组件是受限于命名空间的。 这意味着 Dapr runtime sidecar 的实例只能访问部署到同一命名空间的组件。 更多详细信息请参阅 [组件范围文档]({{<ref "component-scopes.md">}})。
 
-Dapr 组件使用 Dapr 的内置密钥管理功能来管理密钥。 详细信息请参阅 [密钥存储概述]({{X34X}})。
+Dapr 组件使用 Dapr 的内置密钥管理功能来管理密钥。 有关详细信息，请参阅 [密钥存储概述]({{<ref "secrets-overview.md">}}) 。
 
-此外，Dapr 还允许用户指定哪些应用程序可以消耗给定的组件，从而为组件提供应用程序级别的范围范围。有关应用级别范围的更多信息，请参阅 [此处]({{X36X}})。
+此外，Dapr 通过允许用户指定哪些应用程序可以使用给定组件，为组件提供应用程序级的范围限制。有关应用程序级别范围设置，[请参阅]({{<ref "component-scopes.md#application-access-to-components-with-scopes">}})。
 
 ## 网络安全
 
@@ -140,6 +140,6 @@ Dapr 使用配置的身份验证方法来与底层状态存储进行身份验证
 
 完整的报告可以 [在这里](/docs/Dapr-july-2020-security-audit-report.pdf) 找到。
 
-## Reporting a security issue
+## 报告安全问题
 
-Visit [this page]({{< ref support-security-issues.md >}}) to report a security issue to the Dapr maintainers.
+访问 [此页面]({{< ref support-security-issues.md >}}) 向 Dapr 维护者报告安全问题。

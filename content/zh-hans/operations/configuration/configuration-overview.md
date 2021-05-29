@@ -37,19 +37,19 @@ dapr configurations -k
     dapr.io/app-port: "3000"
     dapr.io/config: "myappconfig"
 ```
-注意: 还有更多的 [Kubernetes 注解]({{< ref "kubernetes-annotations.md" >}}) 可以用来配置 Dapr sidecar，通过 sidecar injector 系统服务来激活。
+Note: There are more [Kubernetes annotations]({{< ref "kubernetes-annotations.md" >}}) available to configure the Dapr sidecar on activation by sidecar Injector system service.
 
 ### Sidecar 配置
 
 Dapr 应用 sidecar 提供以下配置选项；
-- [Tracing（调用链追踪）](#tracing)
-- [指标](#metrics)
+- [追踪](#tracing)
+- [度量](#metrics)
 - [中间件](#middleware)
 - [限定范围的密钥储存](#scoping-secrets-for-secret-stores)
 - [服务间调用的访问控制](#access-control-allow-lists-for-service-invocation)
 - [Sidecar 配置示例](#example-application-sidecar-configuration)
 
-#### Tracing（调用链追踪）
+#### 追踪
 
 链路追踪配置用于为应用程序开启调用链追踪功能。
 
@@ -64,7 +64,7 @@ tracing:
 
 下面的表格给出了调用链追踪功能可配置的属性
 
-| 属性                       | 数据类型   | 描述                    |
+| 属性                       | 数据类型   | 说明                    |
 | ------------------------ | ------ | --------------------- |
 | `samplingRate`           | string | 设置采样率，可以用来控制追踪功能是否开启。 |
 | `zipkin.endpointAddress` | string | 设置 Zipkin 服务器地址。      |
@@ -72,9 +72,9 @@ tracing:
 
 `samplingRate` 用来控制调用链追踪是否启用。 要禁用采样率 , 可以在配置文件中设置 `samplingRate : "0"` 。 SamplingRate 的有效值在0到1之间。 系统将根据采样率配置的数值决定一条 trace span 是否要被采样。 如果设置 `samplingRate : "1"` ，将会对所有的调用链进行采样。 默认情况下，采样率配置为 (0.0001)，即每10,000条请求中会有一条被采样。
 
-请参阅 [分布式可观测性追踪]({{< ref "tracing-overview.md" >}}) 了解更多信息。
+See [Observability distributed tracing]({{< ref "tracing-overview.md" >}}) for more information
 
-#### 指标
+#### 度量
 
 配置中的 metrics 部分用来为应用开启或禁用度量功能。
 
@@ -87,11 +87,11 @@ metrics:
 
 下面的表格给出了度量功能可配置的属性
 
-| 属性        | 数据类型    | 描述        |
+| 属性        | 数据类型    | 说明        |
 | --------- | ------- | --------- |
 | `enabled` | boolean | 是否启用度量功能。 |
 
-请参阅 [度量文档]({{< ref "metrics-overview.md" >}}) 了解更多信息。
+See [metrics documentation]({{< ref "metrics-overview.md" >}}) for more information
 
 #### 中间件
 
@@ -108,20 +108,24 @@ httpPipeline:
 
 下面的表格给出了HTTP 处理器可配置的属性
 
-| 属性   | 数据类型   | 描述        |
+| 属性   | 数据类型   | 说明        |
 | ---- | ------ | --------- |
 | name | string | 中间件组件的名称。 |
 | type | string | 中间件组件的类型。 |
 
-请参阅 [中间件管道]({{< ref "middleware-concept.md" >}}) 一节以获取更多信息。
+See [Middleware pipelines]({{< ref "middleware-concept.md" >}}) for more information
 
 #### 限定作用域的密钥储存控制
+See the [Scoping secrets]({{< ref "secret-scope.md" >}}) guide for information and examples on how to scope secrets to an application.
 
-请参阅 [Scoping secrets]({{< ref "secret-scope.md" >}}) 指南查看更多信息，以及如何为应用程序设置密钥作用域的例子。
+#### Access Control allow lists for building block APIs
+See the [selectively enable Dapr APIs on the Dapr sidecar]({{< ref "api-allowlist.md" >}}) guide for information and examples on how to set ACLs on the building block APIs lists.
 
-#### 服务间调用的访问控制
+#### Access Control allow lists for service invocation API
+See the [Allow lists for service invocation]({{< ref "invoke-allowlist.md" >}}) guide for information and examples on how to set allow lists with ACLs which using service invocation API.
 
-请参阅 [服务间调用允许列表]({{< ref "invoke-allowlist.md" >}}) 了解更多信息，以及如何设置允许列表的例子。
+#### Turning on preview features
+See the [preview features]({{< ref "preview-features.md" >}}) guide for information and examples on how to opt-in to preview features for a release. Preview feature enable new capabilities to be added that still need more time until they become generally available (GA) in the runtime.
 
 ### Sidecar 配置示例
 下面的yaml内容展示了一个可以被应用于Dapr sidecar的配置文件：
@@ -167,13 +171,13 @@ spec:
 ### 控制平面配置列表
 在 Dapr 控制平面中，可以使用以下配置项：
 
-| 属性               | 数据类型   | 描述                                 |
+| 属性               | 数据类型   | 说明                                 |
 | ---------------- | ------ | ---------------------------------- |
 | enabled          | bool   | 配置mtls是否开启                         |
 | allowedClockSkew | string | 证书到期时，基于本地时钟偏差给出的额外过期时间。 默认值为15分钟。 |
 | workloadCertTTL  | string | 证书有效时间。 默认值为 24 小时。                |
 
-请参阅 [Mutual TLS]({{< ref "mtls.md" >}}) 和 [安全概念]({{< ref "security-concept.md" >}}) 了解更多信息。
+See the [Mutual TLS]({{< ref "mtls.md" >}}) HowTo and [security concepts]({{< ref "security-concept.md" >}}) for more information.
 
 ### 控制平面配置示例
 

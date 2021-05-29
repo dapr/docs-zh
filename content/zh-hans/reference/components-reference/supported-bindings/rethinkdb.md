@@ -9,11 +9,11 @@ aliases:
 
 ## 配置
 
-The [RethinkDB state store]({{X20X}}) supports transactions which means it can be used to support Dapr actors. Dapr persists only the actor's current state which doesn't allow the users to track how actor's state may have changed over time.
+The [RethinkDB state store]({{<ref setup-rethinkdb.md>}}) supports transactions which means it can be used to support Dapr actors. Dapr persists only the actor's current state which doesn't allow the users to track how actor's state may have changed over time.
 
 To enable users to track change of the state of actors, this binding leverages RethinkDB's built-in capability to monitor RethinkDB table and event on change with both the `old` and `new` state. This binding creates a subscription on the Dapr state table and streams these changes using the Dapr input binding interface.
 
-To setup RethinkDB statechange binding create a component of type `bindings.rethinkdb.statechange`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+To setup RethinkDB statechange binding create a component of type `bindings.rethinkdb.statechange`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -29,15 +29,11 @@ spec:
     value: <REPLACE-RETHINKDB-ADDRESS> # Required, e.g. 127.0.0.1:28015 or rethinkdb.default.svc.cluster.local:28015).
   - name: database
     value: <REPLACE-RETHINKDB-DB-NAME> # Required, e.g. dapr (alpha-numerics only)
-  - name: database
-    value: <REPLACE-RETHINKDB-DB-NAME> # Required, e.g. dapr (alpha-numerics only)
-  - name: database
-    value: <REPLACE-RETHINKDB-DB-NAME> # Required, e.g. dapr (alpha-numerics only)
 ```
 
 ## 元数据字段规范
 
-| 字段       | 必填 | 绑定支持 | 详情                          | 示例                                                                |
+| 字段       | 必填 | 绑定支持 | 详情                          | Example                                                           |
 | -------- |:--:| ---- | --------------------------- | ----------------------------------------------------------------- |
 | address  | Y  | 输入   | Address of RethinkDB server | `"27.0.0.1:28015"`, `"rethinkdb.default.svc.cluster.local:28015"` |
 | database | Y  | 输入   | RethinDB database name      | `"dapr"`                                                          |

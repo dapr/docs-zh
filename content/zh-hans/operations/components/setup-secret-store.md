@@ -33,7 +33,7 @@ spec:
 
 密钥存储的类型由`type`字段决定，连接地址和其他元数据等放在`.metadata`部分。
 
-不同的 [支持的密钥存储]({{< ref supported-secret-stores >}}) 将有不同的特定字段需要配置。 例如，当配置一个使用 AWS Secrets Manager秘密存储时，文件看起来就像这样：
+Different [supported secret stores]({{< ref supported-secret-stores >}}) will have different specific fields that would need to be configured. 例如，当配置一个使用 AWS Secrets Manager秘密存储时，文件看起来就像这样：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

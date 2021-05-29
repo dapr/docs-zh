@@ -73,7 +73,6 @@ var proxy = this.ProxyFactory.Create(ActorId.CreateRandom(), "OtherActor");
 // Invoke a method by name to invoke the actor
 //
 // proxy is an instance of ActorProxy.
-await proxy.InvokeMethodAsync("DoSomethingGreat");
  
 ```
 
@@ -88,8 +87,6 @@ var proxy = this.ProxyFactory.Create(ActorId.CreateRandom(), "OtherActor");
 // Invoke a method on the proxy to invoke the actor
 //
 // proxy is an instance of ActorProxy.
-var request = new MyRequest() { Message = "Hi, it's me.", };
-var response = await proxy.InvokeMethodAsync<MyRequest, MyResponse>("DoSomethingGreat", request);
  
 ```
 

@@ -2,14 +2,14 @@
 type: docs
 title: "HashiCorp Consul"
 linkTitle: "HashiCorp Consul"
-description: Detailed information on the HashiCorp Consul state store component
+description: 详细介绍了关于 HashiCorp Consul 状态存储 组件的信息
 aliases:
   - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-consul/"
---- 
+---
 
 ## 配置
 
-To setup Hashicorp Consul state store create a component of type `state.consul`. 请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})，了解如何创建和应用状态存储配置。
+要设置HashiCorp Vault状态存储，请创建一个类型为`state.consul`的组件。 请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})，了解如何创建和应用状态存储配置。
 
 
 ```yaml
@@ -31,45 +31,29 @@ spec:
   - name: scheme
     value: <REPLACE-WITH-SCHEME> # Optional. default: "http"
   - name: keyPrefixPath
-    value: <REPLACE-WITH-TABLE> # Optional. default: "" Example: dc1
-  - name: httpAddr
-    value: <REPLACE-WITH-CONSUL-HTTP-ADDRESS> # Required. Example: "consul.default.svc.cluster.local:8500"
-  - name: aclToken
-    value: <REPLACE-WITH-ACL-TOKEN> # Optional. default: ""
-  - name: scheme
-    value: <REPLACE-WITH-SCHEME> # Optional. default: "http"
-  - name: keyPrefixPath
-    value: <REPLACE-WITH-TABLE> # Optional. default: "" Example: dc1
-  - name: httpAddr
-    value: <REPLACE-WITH-CONSUL-HTTP-ADDRESS> # Required. Example: "consul.default.svc.cluster.local:8500"
-  - name: aclToken
-    value: <REPLACE-WITH-ACL-TOKEN> # Optional. default: ""
-  - name: scheme
-    value: <REPLACE-WITH-SCHEME> # Optional. default: "http"
-  - name: keyPrefixPath
     value: <REPLACE-WITH-TABLE> # Optional. default: ""
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段            | 必填 | 详情                                                                  | 示例                                        |
-| ------------- |:--:| ------------------------------------------------------------------- | ----------------------------------------- |
-| datacenter    | Y  | Datacenter to use                                                   | `"dc1"`                                   |
-| httpAddr      | Y  | Address of the Consul server                                        | `"consul.default.svc.cluster.local:8500"` |
-| aclToken      | N  | Per Request ACL Token. Default is `""`                              | `"token"`                                 |
-| scheme        | N  | Scheme is the URI scheme for the Consul server. Default is `"http"` | `"http"`                                  |
-| keyPrefixPath | N  | Key prefix path in Consul. Default is `""`                          | `"dapr"`                                  |
+| 字段            | 必填 | 详情                                      | Example                                   |
+| ------------- |:--:| --------------------------------------- | ----------------------------------------- |
+| datacenter    | Y  | Datacenter                              | `"dc1"`                                   |
+| httpAddr      | Y  | Consul 服务器地址                            | `"consul.default.svc.cluster.local:8500"` |
+| aclToken      | N  | 请求 ACL 令牌。 默认值 `""`                     | `"token"`                                 |
+| scheme        | N  | Scheme 是Consul服务器的 URI 方案。 默认值 `"http"` | `"http"`                                  |
+| keyPrefixPath | N  | Consul中的密钥前缀路径. 默认值 `""`                | `"dapr"`                                  |
 
-## Setup HashiCorp Consul
+## 搭建 Hashicorp Consul
 
 {{< tabs "Self-Hosted" "Kubernetes" >}}
 
 {{% codetab %}}
-You can run Consul locally using Docker:
+您可以使用 Docker 在本地运行Consul：
 
 ```
 docker run -d --name=dev-consul -e CONSUL_BIND_INTERFACE=eth0 consul

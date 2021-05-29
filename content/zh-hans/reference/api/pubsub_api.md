@@ -18,7 +18,7 @@ POST http://localhost:<daprPort>/v1.0/publish/<pubsubname>/<topic>[?<metadata>]
 
 ### HTTP 响应码
 
-| 代码  | 描述                                   |
+| 代码  | 说明                                   |
 | --- | ------------------------------------ |
 | 204 | Message delivered                    |
 | 403 | Message forbidden by access controls |
@@ -27,7 +27,7 @@ POST http://localhost:<daprPort>/v1.0/publish/<pubsubname>/<topic>[?<metadata>]
 
 ### URL 参数
 
-| 参数         | 描述                                               |
+| 参数         | 说明                                               |
 | ---------- | ------------------------------------------------ |
 | daprPort   | dapr 端口。                                         |
 | pubsubname | the name of pubsub component                     |
@@ -54,9 +54,10 @@ If you want to send your own custom CloundEvent, use the `application/cloudevent
 
 Metadata can be sent via query parameters in the request's URL. It must be prefixed with `metadata.` as shown below.
 
-| 参数                    | 描述                                                                                                     |
-| --------------------- | ------------------------------------------------------------------------------------------------------ |
-| metadata.ttlInSeconds | the number of seconds for the message to expire as [described here]({{< ref pubsub-message-ttl.md >}}) |
+| 参数                    | 说明                                                                                                                                     |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| metadata.ttlInSeconds | the number of seconds for the message to expire as [described here]({{< ref pubsub-message-ttl.md >}})                                 |
+| metadata.rawPayload   | boolean to determine if Dapr should publish the event without wrapping it as CloudEvent as [described here]({{< ref pubsub-raw.md >}}) |
 
 > Additional metadata parameters are available based on each pubsub component.
 
@@ -74,7 +75,7 @@ GET http://localhost:<appPort>/dapr/subscribe
 
 #### URL 参数
 
-| 参数      | 描述     |
+| 参数      | 说明     |
 | ------- | ------ |
 | appPort | 应用程序端口 |
 
@@ -82,19 +83,30 @@ GET http://localhost:<appPort>/dapr/subscribe
 
 A json encoded array of strings.
 
-示例:
+You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image. To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
 
 ```json
 [
   {
     "pubsubname": "pubsub",
     "topic": "newOrder",
-    "route": "/orders"
+    "route": "/orders",
+    "metadata": {
+      "rawPayload": "true",
+    }
   }
 ]
 ```
 
 > Note, all subscription parameters are case-sensitive.
+
+#### 元数据（Metadata）
+
+Optionally, metadata can be sent via the request body.
+
+| 参数         | 说明                                                                                                                              |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| rawPayload | boolean to subscribe to events that do not comply with CloudEvent specification, as [described here]({{< ref pubsub-raw.md >}}) |
 
 ### Provide route(s) for Dapr to deliver topic events
 
@@ -112,7 +124,7 @@ POST http://localhost:<appPort>/<path>
 
 #### URL 参数
 
-| 参数      | 描述                                             |
+| 参数      | 说明                                             |
 | ------- | ---------------------------------------------- |
 | appPort | 应用程序端口                                         |
 | path    | route path from the subscription configuration |
@@ -127,18 +139,18 @@ An HTTP 2xx response denotes successful processing of message. For richer respon
 }
 ```
 
-| 状态 （Status） | 描述                                       |
-| ----------- | ---------------------------------------- |
-| SUCCESS     | message is processed successfully        |
-| RETRY       | message to be retried by Dapr            |
-| DROP        | warning is logged and message is dropped |
-| Others      | error, message to be retried by Dapr     |
+| 状态      | 说明                                       |
+| ------- | ---------------------------------------- |
+| SUCCESS | message is processed successfully        |
+| RETRY   | message to be retried by Dapr            |
+| DROP    | warning is logged and message is dropped |
+| Others  | error, message to be retried by Dapr     |
 
 Dapr assumes a JSON encoded payload response without `status` field or an empty payload responses with HTTP 2xx, as `SUCCESS`.
 
 The HTTP response might be different from HTTP 2xx, the following are Dapr's behavior in different HTTP statuses:
 
-| HTTP Status | 描述                                                                                              |
+| HTTP Status | 说明                                                                                              |
 | ----------- | ----------------------------------------------------------------------------------------------- |
 | 2xx         | message is processed as per status in payload (`SUCCESS` if empty; ignored if invalid payload). |
 | 404         | error is logged and message is dropped                                                          |
@@ -152,4 +164,4 @@ Dapr Pub/Sub adheres to version 1.0 of Cloud Events.
 ## 相关链接
 
 * [How to publish to and consume topics]({{< ref howto-publish-subscribe.md >}})
-* [Sample for pub/sub](https://github.com/dapr/quickstarts/tree/master/pub-sub) 
+* [Sample for pub/sub](https://github.com/dapr/quickstarts/tree/master/pub-sub)

@@ -26,7 +26,7 @@ spec:
     value: <REPLACE-WITH-CONNECTION-STRING> # Required.
   - name: tableName
     value: <REPLACE-WITH-TABLE-NAME>  # Required.
-  - name: keyType 
+  - name: keyType
     value: <REPLACE-WITH-KEY-TYPE>  # Optional. defaults to "string"
   - name: keyLength
     value: <KEY-LENGTH> # Optional. defaults to 200. Yo be used with "string" keyType
@@ -34,31 +34,11 @@ spec:
     value: <SCHEMA> # Optional. defaults to "dbo"
   - name: indexedProperties
     value: <INDEXED-PROPERTIES> # Optional. List of IndexedProperties.
-  - name: tableName
-    value: <REPLACE-WITH-TABLE-NAME>  # Required.
-  - name: keyType 
-    value: <REPLACE-WITH-KEY-TYPE>  # Optional. defaults to "string"
-  - name: keyLength
-    value: <KEY-LENGTH> # Optional. defaults to 200. Yo be used with "string" keyType
-  - name: schema
-    value: <SCHEMA> # Optional. defaults to "dbo"
-  - name: indexedProperties
-    value: <INDEXED-PROPERTIES> # Optional. List of IndexedProperties.
-  - name: tableName
-    value: <REPLACE-WITH-TABLE-NAME>  # Required.
-  - name: keyType 
-    value: <REPLACE-WITH-KEY-TYPE>  # Optional. defaults to "string"
-  - name: keyLength
-    value: <KEY-LENGTH> # Optional. defaults to 200. Yo be used with "string" keyType
-  - name: schema
-    value: <SCHEMA> # Optional. defaults to "dbo"
-  - name: indexedProperties
-    value: <INDEXED-PROPERTIES> # Optional. List of IndexedProperties. 
 
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 If you wish to use Redis as an [actor state store]({{< ref "state_api.md#configuring-state-store-for-actors" >}}), append the following to the yaml.
@@ -70,7 +50,7 @@ If you wish to use Redis as an [actor state store]({{< ref "state_api.md#configu
 
 ## 元数据字段规范
 
-| 字段                | 必填 | 详情                                                                                                                                                                 | 示例                                                                                                  |
+| 字段                | 必填 | 详情                                                                                                                                                                 | Example                                                                                             |
 | ----------------- |:--:| ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
 | connectionString  | Y  | The connection string used to connect                                                                                                                              | `"Server=myServerName\myInstanceName;Database=myDataBase;User Id=myUsername;Password=myPassword;"` |
 | tableName         | Y  | The name of the table to use. Alpha-numeric with underscores                                                                                                       | `"table_name"`                                                                                      |

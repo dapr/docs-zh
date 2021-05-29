@@ -27,7 +27,7 @@ secrets:
 
 The following table lists the properties for secret scopes:
 
-| 属性        | 数据类型   | 描述                                                                                                               |
+| 属性        | 数据类型   | 说明                                                                                                               |
 | --------- | ------ | ---------------------------------------------------------------------------------------------------------------- |
 | storeName | string | Name of the secret store component. Name of the secret store component. storeName must be unique within the list |
 | 默认权限      | string | Access modifier. Accepted values "allow" (default) or "deny"                                                     |
@@ -94,7 +94,7 @@ spec:
         allowedSecrets: ["secret1", "secret2"]
 ```
 
-This example defines configuration for secret store named vault. 密钥仓库的默认访问权限是`deny`，而有些密钥可以通过应用程序基于`allowedSecrets`列表访问。 按照 [这些说明]({{< ref configuration-overview.md >}}) 将配置应用到 sidecar。
+This example defines configuration for secret store named vault. 密钥仓库的默认访问权限是`deny`，而有些密钥可以通过应用程序基于`allowedSecrets`列表访问。 Follow [these instructions]({{< ref configuration-overview.md >}}) to apply configuration to the sidecar.
 
 ### Scenario 3: Deny access to certain senstive secrets in a secret store
 
@@ -113,4 +113,4 @@ spec:
         deniedSecrets: ["secret1", "secret2"]
 ```
 
-上面的配置明确禁止从名为 vault 的密钥仓库访问 `secret1` 和 `secret2` ，但允许访问所有其他密钥。 按照 [这些说明]({{< ref configuration-overview.md >}}) 将配置应用到 sidecar。
+上面的配置明确禁止从名为 vault 的密钥仓库访问 `secret1` 和 `secret2` ，但允许访问所有其他密钥。 Follow [these instructions]({{< ref configuration-overview.md >}}) to apply configuration to the sidecar.

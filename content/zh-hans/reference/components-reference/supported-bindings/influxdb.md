@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-To setup InfluxDB binding create a component of type `bindings.influx`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+To setup InfluxDB binding create a component of type `bindings.influx`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -33,21 +33,21 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段     | 必填 | 绑定支持   | 详情                                   | 示例                        |
-| ------ |:--:| ------ | ------------------------------------ | ------------------------- |
-| url    | Y  | Output | The URL for the InfluxDB instance    | `"http://localhost:8086"` |
-| token  | Y  | Output | The authorization token for InfluxDB | `"mytoken"`               |
-| org    | Y  | Output | The InfluxDB organization            | `"myorg"`                 |
-| bucket | Y  | Output | Bucket name to write to              | `"mybucket"`              |
+| 字段     | 必填 | 绑定支持 | 详情                                   | Example                   |
+| ------ |:--:| ---- | ------------------------------------ | ------------------------- |
+| url    | Y  | 输出   | The URL for the InfluxDB instance    | `"http://localhost:8086"` |
+| token  | Y  | 输出   | The authorization token for InfluxDB | `"mytoken"`               |
+| org    | Y  | 输出   | The InfluxDB organization            | `"myorg"`                 |
+| bucket | Y  | 输出   | Bucket name to write to              | `"mybucket"`              |
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 

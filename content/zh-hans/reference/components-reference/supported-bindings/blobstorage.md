@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置 Azure Blob Storage 绑定，请创建一个类型为 `bindings.azure.blobstorage` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+要设置 Azure Blob Storage 绑定，请创建一个类型为 `bindings.azure.blobstorage` 的组件。 See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
 
 
 ```yaml
@@ -34,23 +34,23 @@ spec:
     value: <integer>
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                | 必填 | 绑定支持   | 详情                                                                                                          | 示例                     |
-| ----------------- |:--:| ------ | ----------------------------------------------------------------------------------------------------------- | ---------------------- |
-| storageAccount    | Y  | Output | Blob Storage 账户名称                                                                                           | `"myexmapleaccount"`   |
-| storageAccessKey  | Y  | Output | Blob Storage 访问密钥                                                                                           | `"access-key"`         |
-| container         | Y  | Output | 要写入的Blob Storage容器名称                                                                                        | `"myexamplecontainer"` |
-| decodeBase64      | N  | Output | 配置在保存到Blob Storage之前对base64文件内容进行解码。 (保存有二进制内容的文件时)。 `"true"`是唯一允许的正值。 其他正值，如`"True"`是不可接受的。 默认值为 `"false"` | `"true"`, `"false"`    |
-| getBlobRetryCount | N  | Output | 指定从 RetryReader 读取时，将进行的 HTTP GET 请求的最大次数 默认为 `"10"`。                                                       | `"1"`, `"2"`           |
+| 字段                | 必填 | 绑定支持 | 详情                                                                                                          | Example                |
+| ----------------- |:--:| ---- | ----------------------------------------------------------------------------------------------------------- | ---------------------- |
+| storageAccount    | Y  | 输出   | Blob Storage 账户名称                                                                                           | `"myexmapleaccount"`   |
+| storageAccessKey  | Y  | 输出   | Blob Storage 访问密钥                                                                                           | `"access-key"`         |
+| container         | Y  | 输出   | 要写入的Blob Storage容器名称                                                                                        | `"myexamplecontainer"` |
+| decodeBase64      | N  | 输出   | 配置在保存到Blob Storage之前对base64文件内容进行解码。 (保存有二进制内容的文件时)。 `"true"`是唯一允许的正值。 其他正值，如`"True"`是不可接受的。 默认值为 `"false"` | `"true"`, `"false"`    |
+| getBlobRetryCount | N  | 输出   | 指定从 RetryReader 读取时，将进行的 HTTP GET 请求的最大次数 默认为 `"10"`。                                                       | `"1"`, `"2"`           |
 
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create` : [创建blob](#create-blob)
 - `get` : [获取blob](#get-blob)
@@ -180,20 +180,20 @@ spec:
 }
 ```
 
-#### 示例
+#### Example
 
 {{< tabs Windows Linux >}}
 
   {{% codetab %}}
   ```bash
-  curl -d '{ \"operation\": \"get\", \"metadata\": { \"blobName\": \"myblob\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+  curl -d '{ \"operation\": \"get\", \"metadata\": { \"blobName\": \"myblob\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
   {{% codetab %}}
   ```bash
   curl -d '{ "operation": "get", "metadata": { "blobName": "myblob" }}' \
-        http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
@@ -224,14 +224,14 @@ To perform a delete blob operation, invoke the Azure Blob Storage binding with a
 
   {{% codetab %}}
   ```bash
-  curl -d '{ \"operation\": \"delete\", \"metadata\": { \"blobName\": \"myblob\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+  curl -d '{ \"operation\": \"delete\", \"metadata\": { \"blobName\": \"myblob\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
   {{% codetab %}}
   ```bash
   curl -d '{ "operation": "delete", "metadata": { "blobName": "myblob" }}' \
-        http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
@@ -243,14 +243,14 @@ To perform a delete blob operation, invoke the Azure Blob Storage binding with a
 
   {{% codetab %}}
   ```bash
-  curl -d '{ \"operation\": \"delete\", \"metadata\": { \"blobName\": \"myblob\", \"DeleteSnapshotOptions\": \"only\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+  curl -d '{ \"operation\": \"delete\", \"metadata\": { \"blobName\": \"myblob\", \"DeleteSnapshotOptions\": \"only\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
   {{% codetab %}}
   ```bash
   curl -d '{ "operation": "delete", "metadata": { "blobName": "myblob", "DeleteSnapshotOptions": "only" }}' \
-        http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
@@ -262,14 +262,14 @@ To perform a delete blob operation, invoke the Azure Blob Storage binding with a
 
   {{% codetab %}}
   ```bash
-  curl -d '{ \"operation\": \"delete\", \"metadata\": { \"blobName\": \"myblob\", \"DeleteSnapshotOptions\": \"include\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+  curl -d '{ \"operation\": \"delete\", \"metadata\": { \"blobName\": \"myblob\", \"DeleteSnapshotOptions\": \"include\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
   {{% codetab %}}
   ```bash
   curl -d '{ "operation": "delete", "metadata": { "blobName": "myblob", "DeleteSnapshotOptions": "include" }}' \
-        http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
