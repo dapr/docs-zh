@@ -2,9 +2,10 @@
 type: docs
 no_list: true
 cascade:
-  github_repo: https://github.com/dapr/docs-zh/
+  github_repo: https://github.com/dapr/docs-zh
   github_branch: v1.2_content
-  path_base_for_github_subdir: content/zh-hans
+  github_subdir: ""
+  path_base_for_github_subdir: zh-hans
 ---
 
 # <img src="/images/home-title.png" alt="Dapr 文档" width=400>
