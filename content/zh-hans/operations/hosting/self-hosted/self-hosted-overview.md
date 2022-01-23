@@ -10,7 +10,7 @@ Dapr 可以配置为在开发人员本地计算机上以 自托管模式 运行�
 
 在自托管模式下，Redis 在本地容器中运行，并被配置为 状态存储 和 发布/订阅 的默认组件。 还配置了一个 Zipkin 容器用于诊断和跟踪。  运行 `dapr init`, 见 `$HOME/.dapr/components` directory (Mac/Linux) 或 `%USERPROFILE%\.dapr\components` on Windows。
 
-`dapr-placement` 服务负责管理 actor 分布方案和关键范围设置。 此服务仅在您使用 Dapr actors 时才需要。 有关 actor `放置` 服务的更多信息，请阅读 [actor 概述]({{< ref "actors-overview.md" >}})。
+`dapr-placement` 服务负责管理 actor 分布方案和关键范围设置。 此服务仅在您使用 Dapr actors 时才需要。 For more information on the actor `Placement` service read [actor overview]({{< ref "actors-overview.md" >}}).
 
 <img src="/images/overview_standalone.png" width=800>
 

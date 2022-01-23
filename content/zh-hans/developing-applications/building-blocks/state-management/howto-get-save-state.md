@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "指南：如何保存和获取状态"
+title: "指南：保存和获取状态"
 linkTitle: "指南：如何保存和获取状态"
 weight: 200
 description: "使用键值对来持久化状态"
@@ -15,13 +15,13 @@ Dapr提供的状态管理功能包括一致性和并发选项。 在本指南中
 ## 前提
 
 - [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 初始化的 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 初始化[Dapr环境]({{< ref install-dapr-selfhost.md >}})
 
 ## 第一步：设置状态存储
 
 状态存储组件代表Dapr用来与数据库进行通信的资源。
 
-在本指南中，我们将使用 Redis 作为状态存储引擎，但在 [支持列表]({{< ref supported-state-stores >}})中的任何状态存储引擎都是可以使用的。
+本手册演示使用Redis状态存储，在[支持列表]({{< ref supported-state-stores >}})中的所有状态存储均可使用。
 
 {{< tabs "Self-Hosted (CLI)" Kubernetes>}}
 
@@ -33,7 +33,7 @@ Dapr提供的状态管理功能包括一致性和并发选项。 在本指南中
 
 {{% codetab %}}
 
-要将其部署到 Kubernetes 集群中，请在下面的 yaml 中填写你的[所需statestore 组件]({{< ref supported-state-stores >}}) 的 `metadata` 连接详情，保存为 `statestore.yaml`，并执行命令 `kubectl apply -f statestore.yaml`。
+若要部署在Kubernetes集群中，请在以下所示的yaml文件中对[期望状态存储组件]({{< ref supported-state-stores >}})的`metadata`进行连接信息填充，保存为`statestore.yaml`，然后运行`kubectl apply -f statestore.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -50,7 +50,7 @@ spec:
   - name: redisPassword
     value: ""
 ```
-请参阅 [这里]({{< ref "setup-state-store" >}})的说明，了解如何在 Kubernetes 上设置不同的状态存储引擎。
+如何在Kubernetes中设置状态存储，请查阅[这里]({{< ref "setup-state-store" >}})。
 
 {{% /codetab %}}
 
@@ -146,12 +146,16 @@ Updating metadata for app command: python pythonState.py
 You are up and running! Both Dapr and your app logs will appear here.
 
 == APP == State has been stored
-== APP == Got value: b'myFirstValue'      
+== APP == Got value: b'myFirstValue' name: statestore, type: state.redis" app_id=Braidbald-Boot scope=dapr.runtime type=log ver=0.11.3
+== DAPR == time="2021-01-06T21:34:33.9760387-08:00" level=info msg="API gRPC server is running on port 51656" app_id=Braidbald-Boot scope=dapr.runtime type=log ver=0.11.3
+== DAPR == time="2021-01-06T21:34:33.9770372-08:00" level=info msg="dapr initialized. Status: Running. Init Elapsed 172.9994ms" app_id=Braidbald-Boot scope=dapr.
 
  
-   
+Updating metadata for app command: python pythonState.py
+You are up and running! Both Dapr and your app logs will appear here.
 
- 
+== APP == State has been stored
+== APP == Got value: b'myFirstValue'
 ```
 
 {{% /codetab %}}
@@ -186,7 +190,7 @@ dapr --app-id myapp run -- php state-example.php
 你应该会得到一个类似于下面的输出，它将同时显示Dapr和应用程序的日志:
 
 ```md
-✅  You're up and running!  
+✅  You're up and running! Both Dapr and your app logs will appear here.
 
 == APP == [2021-02-12T16:30:11.078777+01:00] APP.ALERT: State has been stored [] []
 
@@ -431,7 +435,7 @@ dapr --app-id myapp run -- php state-example.php
 并看到以下输出:
 
 ```md
-✅  You're up and running!  
+✅  You're up and running! Both Dapr and your app logs will appear here.
 
 == APP == [2021-02-12T16:55:02.913801+01:00] APP.ALERT: States have been stored [] []
 
@@ -445,7 +449,7 @@ dapr --app-id myapp run -- php state-example.php
 ## 第五步：执行状态事务性操作
 
 {{% alert title="Note" color="warning" %}}
-状态事务性操作需要一个支持multi-item transactions的状态存储引擎。 请访问 [支持的状态存储引擎]({{< ref supported-state-stores >}})页面查看完整列表。 请注意，在自托管环境中创建的默认Redis容器是支持的。
+状态事务性操作需要一个支持multi-item transactions的状态存储引擎。 完整列表请查阅[受支持的状态存储]({{< ref supported-state-stores >}})。 请注意，在自托管环境中创建的默认Redis容器是支持的。
 {{% /alert %}}
 
 {{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" "Python SDK" "PHP SDK">}}
@@ -573,7 +577,7 @@ dapr --app-id myapp run -- php state-example.php
 观察到以下输出:
 
 ```md
-✅  You're up and running!  
+✅  You're up and running! Both Dapr and your app logs will appear here.
 
 == APP == [2021-02-12T17:10:06.837110+01:00] APP.ALERT: Transaction committed! [] []
 
@@ -586,6 +590,6 @@ dapr --app-id myapp run -- php state-example.php
 
 ## 下一步
 
-- 阅读完整的 [状态 API 参考]({{< ref state_api.md >}})
-- 试试其中一个 [Dapr SDK]({{< ref sdks >}})
+- 请查阅[状态API参考手册]({{< ref state_api.md >}})
+- 尝试一个 [Dapr SDKs]({{< ref sdks >}})
 - 构建一个 [状态服务]({{< ref howto-stateful-service.md >}})

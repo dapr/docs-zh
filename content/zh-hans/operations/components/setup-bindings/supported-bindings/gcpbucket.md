@@ -45,28 +45,28 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                              | 必填 | 绑定支持 | 详情                                                  | 示例                                                                                               |
-| ------------------------------- |:--:| ---- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| bucket                          | 是  | 输出   | The bucket name                                     | `"mybucket"`                                                                                     |
-| type                            | 是  | 输出   | Tge GCP credentials type                            | `"service_account"`                                                                              |
-| project_id                      | 是  | 输出   | GCP project id                                      | `projectId`                                                                                      |
-| private_key_id                | 是  | 输出   | GCP private key id                                  | `"privateKeyId"`                                                                                 |
-| private_key                     | 是  | 输出   | GCP credentials private key. Replace with x509 cert | `12345-12345`                                                                                    |
-| client_email                    | 是  | 输出   | GCP client email                                    | `"client@email.com"`                                                                             |
-| client_id                       | 是  | 输出   | GCP client id                                       | `0123456789-0123456789`                                                                          |
-| auth_uri                        | 是  | 输出   | Google account OAuth endpoint                       | `https://accounts.google.com/o/oauth2/auth`                                                      |
-| token_uri                       | 是  | 输出   | Google account token uri                            | `https://oauth2.googleapis.com/token`                                                            |
-| auth_provider_x509_cert_url | 是  | 输出   | GCP credentials cert url                            | `https://www.googleapis.com/oauth2/v1/certs`                                                     |
-| client_x509_cert_url          | 是  | 输出   | GCP credentials project x509 cert url               | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com` |
+| 字段                              | 必填 | 绑定支持 | 详情                       | 示例                                                                                               |
+| ------------------------------- |:--:| ---- | ------------------------ | ------------------------------------------------------------------------------------------------ |
+| bucket                          | Y  | 输出   | The bucket name          | `"mybucket"`                                                                                     |
+| type                            | Y  | 输出   | Tge GCP credentials type | `"service_account"`                                                                              |
+| project_id                      | Y  | 输出   | GCP 项目 id                | `project_id`                                                                                     |
+| private_key_id                | Y  | 输出   | GCP 私钥 id                | `"privateKeyId"`                                                                                 |
+| private_key                     | Y  | 输出   | GCP凭证私钥 替换为x509证书        | `12345-12345`                                                                                    |
+| client_email                    | Y  | 输出   | GCP 客户端邮箱地址              | `"client@email.com"`                                                                             |
+| client_id                       | Y  | 输出   | GCP 客户端 id               | `0123456789-0123456789`                                                                          |
+| auth_uri                        | Y  | 输出   | Google帐户 OAuth 端点        | `https://accounts.google.com/o/oauth2/auth`                                                      |
+| token_uri                       | Y  | 输出   | Google帐户token地址          | `https://oauth2.googleapis.com/token`                                                            |
+| auth_provider_x509_cert_url | Y  | 输出   | GCP凭证证书地址                | `https://www.googleapis.com/oauth2/v1/certs`                                                     |
+| client_x509_cert_url          | Y  | 输出   | GCP凭证项目x509证书地址          | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com` |
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 
@@ -155,4 +155,4 @@ To upload a file, pass the file contents as the data payload; you may want to en
 - [绑定构建块]({{< ref bindings >}})
 - [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
 - [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
-- [绑定API 参考]({{< ref bindings_api.md >}})
+- [Bindings API 引用]({{< ref bindings_api.md >}})

@@ -29,7 +29,7 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 
@@ -37,9 +37,9 @@ spec:
 
 | 字段            | 必填 | 详情                            | 示例                    |
 | ------------- |:--:| ----------------------------- | --------------------- |
-| accountName   | 是  | 存储帐户名称                        | `"mystorageaccount"`. |
-| accountKey    | 是  | 主要或次要存储密钥                     | `"key"`               |
-| containerName | 是  | Dapr 状态的容器名称， 如果容器不存在，将会自动创建. | `"container"`         |
+| accountName   | Y  | 存储帐户名称                        | `"mystorageaccount"`. |
+| accountKey    | Y  | 主要或次要存储密钥                     | `"key"`               |
+| containerName | Y  | Dapr 状态的容器名称， 如果容器不存在，将会自动创建. | `"container"`         |
 
 ## 安装Azure Blobstorage
 

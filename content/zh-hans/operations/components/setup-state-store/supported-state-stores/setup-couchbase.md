@@ -27,33 +27,21 @@ spec:
   - name: password
     value: <REPLACE-WITH-PASSWORD> # Required.
   - name: bucketName
-    value: <REPLACE-WITH-BUCKET> # Required. Example: "http://localhost:8091"
-  - name: username
-    value: <REPLACE-WITH-USERNAME> # Required.
-  - name: password
-    value: <REPLACE-WITH-PASSWORD> # Required.
-  - name: bucketName
-    value: <REPLACE-WITH-BUCKET> # Required. Example: "http://localhost:8091"
-  - name: username
-    value: <REPLACE-WITH-USERNAME> # Required.
-  - name: password
-    value: <REPLACE-WITH-PASSWORD> # Required.
-  - name: bucketName
     value: <REPLACE-WITH-BUCKET> # Required.
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段           | 必填 | 详情                              | 示例                        |
 | ------------ |:--:| ------------------------------- | ------------------------- |
-| couchbaseURL | 是  | The URL of the Couchbase server | `"http://localhost:8091"` |
-| username     | 是  | The username for the database   | `"user"`                  |
-| password     | 是  | The password for access         | `"password"`              |
-| bucketName   | 是  | The bucket name to write to     | `"bucket"`                |
+| couchbaseURL | Y  | The URL of the Couchbase server | `"http://localhost:8091"` |
+| username     | Y  | The username for the database   | `"user"`                  |
+| password     | Y  | The password for access         | `"password"`              |
+| bucketName   | Y  | The bucket name to write to     | `"bucket"`                |
 
 ## Setup Couchbase
 

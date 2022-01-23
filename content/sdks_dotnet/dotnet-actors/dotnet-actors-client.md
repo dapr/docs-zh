@@ -27,7 +27,7 @@ public Task<MyData> GetDataAsync()
 }
 ```
 
-> 💡 对于一个非依赖注入的应用程序，你可以使用 `ActorProxy` 上静态方法。 当你需要配置自定义设置时，这些方法容易出错，应尽量避免。
+> 💡对于一个非依赖注入的应用程序，你可以使用 `ActorProxy` 上静态方法。 当你需要配置自定义设置时，这些方法容易出错，应尽量避免。
 
 本文档中的指导将集中在 `IActorProxyFactory` 上。 `ActorProxy` 的静态方法功能是相同的，除了集中管理配置的能力。
 
@@ -74,7 +74,6 @@ var proxy = this.ProxyFactory.Create(ActorId.CreateRandom(), "OtherActor");
 //
 // proxy is an instance of ActorProxy.
 await proxy.InvokeMethodAsync("DoSomethingGreat");
- 
 ```
 
 由于 `ActorProxy` 是一个弱类型的代理，你需要将 actor 方法名作为一个字符串传入。
@@ -90,7 +89,6 @@ var proxy = this.ProxyFactory.Create(ActorId.CreateRandom(), "OtherActor");
 // proxy is an instance of ActorProxy.
 var request = new MyRequest() { Message = "Hi, it's me.", };
 var response = await proxy.InvokeMethodAsync<MyRequest, MyResponse>("DoSomethingGreat", request);
- 
 ```
 
 当使用弱类型的代理时，您有责任定义正确的代理方法名称和消息类型。 当使用强类型代理时，这是为你完成的，因为名称和类型是接口定义的一部分。

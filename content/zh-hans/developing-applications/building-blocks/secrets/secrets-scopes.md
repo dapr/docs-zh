@@ -92,7 +92,7 @@ spec:
 | 6 - 两个列表的默认拒绝/允许 | 拒绝/允许 | ["s1"] | ["s2"] | 只能访问"s1"   |
 
 ## 相关链接
-* [密钥仓库]({{< ref supported-secret-stores.md >}}) 列表
-* [密钥仓库]({{< ref secret-stores-overview.md >}}) 概述
+* [密钥存储]({{< ref supported-secret-stores.md >}}) 列表
+* [密钥存储]({{< ref secret-stores-overview.md >}}) 概述
 
 howto-secrets/

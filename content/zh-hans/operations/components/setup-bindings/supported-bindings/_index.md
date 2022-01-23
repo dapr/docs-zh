@@ -12,15 +12,15 @@ no_list: true
 
 表格标题：
 
-> `状态`: [组件认证]({{X63X}}) 状态
-  - [Alpha]({{X52X}})
-  - [Beta]({{X54X}})
-  - [GA]({{X56X}}) > `自从`: 定义了当前组件从哪个Dapr Runtime版本开始支持
+> `Status`: [Component certification]({{<ref "certification-lifecycle.md">}}) status
+  - [Alpha]({{<ref "certification-lifecycle.md#alpha">}})
+  - [Beta]({{<ref "certification-lifecycle.md#beta">}})
+  - [GA]({{<ref "certification-lifecycle.md#general-availability-ga">}}) > `Since`: defines from which Dapr Runtime version, the component is in the current status
 
 > `组件版本`：代表组件的版本
 ### 通用
 
-| 名称                                                    | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
+| Name                                                  | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
 | ----------------------------------------------------- |:--------------:|:--------------:| ----- | ---- | --- |
 | [Apple Push Notifications (APN)]({{< ref apns.md >}}) |                |       ✅        | Alpha | v1   | 1.0 |
 | [Cron (scheduler)]({{< ref cron.md >}})               |       ✅        |       ✅        | Alpha | v1   | 1.0 |
@@ -30,7 +30,7 @@ no_list: true
 | [Kubernetes 事件]({{< ref "kubernetes-binding.md" >}})  |       ✅        |                | Alpha | v1   | 1.0 |
 | [MQTT]({{< ref mqtt.md >}})                           |       ✅        |       ✅        | Alpha | v1   | 1.0 |
 | [MySQL]({{< ref mysql.md >}})                         |                |       ✅        | Alpha | v1   | 1.0 |
-| [PostgrSQL]({{< ref postgres.md >}})                  |                |       ✅        | Alpha | v1   | 1.0 |
+| [PostgreSql]({{< ref postgres.md >}})                 |                |       ✅        | Alpha | v1   | 1.0 |
 | [Postmark]({{< ref postmark.md >}})                   |                |       ✅        | Alpha | v1   | 1.0 |
 | [RabbitMQ]({{< ref rabbitmq.md >}})                   |       ✅        |       ✅        | Alpha | v1   | 1.0 |
 | [Redis]({{< ref redis.md >}})                         |                |       ✅        | Alpha | v1   | 1.0 |
@@ -42,13 +42,13 @@ no_list: true
 
 ### Alibaba Cloud
 
-| 名称                                              | 输入<br>绑定 | 输出<br>绑定 | 状态    |
+| Name                                            | 输入<br>绑定 | 输出<br>绑定 | 状态    |
 | ----------------------------------------------- |:--------------:|:--------------:| ----- |
 | [Alibaba Cloud OSS]({{< ref alicloudoss.md >}}) |                |       ✅        | Alpha |
 
 ### Amazon Web Services (AWS)
 
-| 名称                                      | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
+| Name                                    | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
 | --------------------------------------- |:--------------:|:--------------:| ----- | ---- | --- |
 | [AWS DynamoDB]({{< ref dynamodb.md >}}) |                |       ✅        | Alpha | v1   | 1.0 |
 | [AWS S3]({{< ref s3.md >}})             |                |       ✅        | Alpha | v1   | 1.0 |
@@ -58,17 +58,17 @@ no_list: true
 
 ### Google Cloud Platform (GCP)
 
-| 名称                                             | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
+| Name                                           | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
 | ---------------------------------------------- |:--------------:|:--------------:| ----- | ---- | --- |
 | [GCP Cloud Pub/Sub]({{< ref gcppubsub.md >}})  |       ✅        |       ✅        | Alpha | v1   | 1.0 |
 | [GCP Storage Bucket]({{< ref gcpbucket.md >}}) |                |       ✅        | Alpha | v1   | 1.0 |
 
 ### Microsoft Azure
 
-| 名称                                                          | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
+| Name                                                        | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
 | ----------------------------------------------------------- |:--------------:|:--------------:| ----- | ---- | --- |
 | [Azure Blob Storage]({{< ref blobstorage.md >}})            |                |       ✅        | Alpha | v1   | 1.0 |
-| [Azure CosmosDB]({{< ref cosmosdb.md >}})                   |                |       ✅        | Alpha | v1   | 1.0 |
+| [Azure CosmSDB]({{< ref cosmosdb.md >}})                    |                |       ✅        | Alpha | v1   | 1.0 |
 | [Azure Event Grid]({{< ref eventgrid.md >}})                |       ✅        |       ✅        | Alpha | v1   | 1.0 |
 | [Azure Event Hubs]({{< ref eventhubs.md >}})                |       ✅        |       ✅        | Alpha | v1   | 1.0 |
 | [Azure Service Bus Queues]({{< ref servicebusqueues.md >}}) |       ✅        |       ✅        | Alpha | v1   | 1.0 |

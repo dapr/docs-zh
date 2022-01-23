@@ -24,7 +24,7 @@ When a service invokes another service with Dapr, the status code of the called 
 
 In case a user invokes Dapr over HTTP to talk to a gRPC enabled service, an error from the called gRPC service will return as `500` and a successful response will return as `200OK`.
 
-| 代码  | 描述                                     |
+| 代码  | 说明                                     |
 | --- | -------------------------------------- |
 | XXX | Upstream status returned               |
 | 400 | Method name not given                  |
@@ -33,7 +33,7 @@ In case a user invokes Dapr over HTTP to talk to a gRPC enabled service, an erro
 
 ### URL 参数
 
-| 参数          | 描述                                                        |
+| 参数          | 说明                                                        |
 | ----------- | --------------------------------------------------------- |
 | daprPort    | dapr 端口。                                                  |
 | appId       | the App ID associated with the remote app                 |
@@ -118,4 +118,4 @@ In case you are invoking `mathService` on a different namespace, you can use the
 In this URL, `testing` is the namespace that `mathService` is running in.
 
 ## 下一步
-- [How-To: Invoke and discover services]({{< ref howto-invoke-discover-services.md >}})
+- [入门指南：发现并调用服务]({{< ref howto-invoke-discover-services.md >}})

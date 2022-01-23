@@ -18,7 +18,7 @@ POST http://localhost:<daprPort>/v1.0/publish/<pubsubname>/<topic>[?<metadata>]
 
 ### HTTP 响应码
 
-| 代码  | 描述                                   |
+| 代码  | 说明                                   |
 | --- | ------------------------------------ |
 | 204 | Message delivered                    |
 | 403 | Message forbidden by access controls |
@@ -27,7 +27,7 @@ POST http://localhost:<daprPort>/v1.0/publish/<pubsubname>/<topic>[?<metadata>]
 
 ### URL 参数
 
-| 参数         | 描述                                               |
+| 参数         | 说明                                               |
 | ---------- | ------------------------------------------------ |
 | daprPort   | dapr 端口。                                         |
 | pubsubname | the name of pubsub component                     |
@@ -50,11 +50,11 @@ The `Content-Type` header tells Dapr which content type your data adheres to whe
 
 If you want to send your own custom CloundEvent, use the `application/cloudevents+json` value for the `Content-Type` header.
 
-#### Metadata
+#### 元数据（Metadata）
 
 Metadata can be sent via query parameters in the request's URL. It must be prefixed with `metadata.` as shown below.
 
-| 参数                    | 描述                                                                                                     |
+| 参数                    | 说明                                                                                                     |
 | --------------------- | ------------------------------------------------------------------------------------------------------ |
 | metadata.ttlInSeconds | the number of seconds for the message to expire as [described here]({{< ref pubsub-message-ttl.md >}}) |
 
@@ -74,7 +74,7 @@ GET http://localhost:<appPort>/dapr/subscribe
 
 #### URL 参数
 
-| 参数      | 描述     |
+| 参数      | 说明     |
 | ------- | ------ |
 | appPort | 应用程序端口 |
 
@@ -82,7 +82,7 @@ GET http://localhost:<appPort>/dapr/subscribe
 
 A json encoded array of strings.
 
-Example:
+示例:
 
 ```json
 [
@@ -112,7 +112,7 @@ POST http://localhost:<appPort>/<path>
 
 #### URL 参数
 
-| 参数      | 描述                                             |
+| 参数      | 说明                                             |
 | ------- | ---------------------------------------------- |
 | appPort | 应用程序端口                                         |
 | path    | route path from the subscription configuration |
@@ -127,7 +127,7 @@ An HTTP 2xx response denotes successful processing of message. For richer respon
 }
 ```
 
-| 状态      | 描述                                       |
+| 状态      | 说明                                       |
 | ------- | ---------------------------------------- |
 | SUCCESS | message is processed successfully        |
 | RETRY   | message to be retried by Dapr            |
@@ -138,7 +138,7 @@ Dapr assumes a JSON encoded payload response without `status` field or an empty 
 
 The HTTP response might be different from HTTP 2xx, the following are Dapr's behavior in different HTTP statuses:
 
-| HTTP Status | 描述                                                                                              |
+| HTTP Status | 说明                                                                                              |
 | ----------- | ----------------------------------------------------------------------------------------------- |
 | 2xx         | message is processed as per status in payload (`SUCCESS` if empty; ignored if invalid payload). |
 | 404         | error is logged and message is dropped                                                          |

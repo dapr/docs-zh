@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Dapr Kubernetes pod annotations spec"
+title: "Dapr Kubernetes pod annotations规范"
 linkTitle: "Kubernetes annotations"
 weight: 40000
 description: "在Kubernetes环境中配置Dapr时可用的annotations"
@@ -8,7 +8,7 @@ description: "在Kubernetes环境中配置Dapr时可用的annotations"
 
 下表显示了所有Dapr支持的pod规范annotations。
 
-| Annotation                                        | 描述                                                                                                                                                                                                                                 |
+| Annotation                                        | 说明                                                                                                                                                                                                                                 |
 | ------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `dapr.io/enabled`                                 | 设定此参数为 `true` 注入Dapr sidecar到pod                                                                                                                                                                                                   |
 | `dapr.io/app-port`                                | 这个参数告诉Dapr你的应用程序正在监听哪个端口。                                                                                                                                                                                                          |

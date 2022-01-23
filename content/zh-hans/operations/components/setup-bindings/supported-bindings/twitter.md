@@ -30,27 +30,27 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段             | 必填 | 绑定支持         | 详情                          | 示例                 |
 | -------------- |:--:| ------------ | --------------------------- | ------------------ |
-| consumerKey    | 是  | Input/Output | Twitter API consumer key    | `"conusmerkey"`    |
-| consumerSecret | 是  | Input/Output | Twitter API consumer secret | `"conusmersecret"` |
-| accessToken    | 是  | Input/Output | Twitter API access token    | `"accesstoken"`    |
-| accessSecret   | 是  | Input/Output | Twitter API access secret   | `"accesssecret"`   |
+| consumerKey    | Y  | Input/Output | Twitter API consumer key    | `"conusmerkey"`    |
+| consumerSecret | Y  | Input/Output | Twitter API consumer secret | `"conusmersecret"` |
+| accessToken    | Y  | Input/Output | Twitter API access token    | `"accesstoken"`    |
+| accessSecret   | Y  | Input/Output | Twitter API access secret   | `"accesssecret"`   |
 
 ## 绑定支持
 
 此组件支持 **输入和输出** 绑定接口。
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `get`
 
-### Input binding
+### 输入绑定
 
 For input binding, where the query matching Tweets are streamed to the user service, the above component has to also include a query:
 
@@ -59,7 +59,7 @@ For input binding, where the query matching Tweets are streamed to the user serv
     value: "dapr" # your search query, required 
 ```
 
-### Output binding
+### 输出绑定
 #### get
 
 For output binding invocation the user code has to invoke the binding:
@@ -99,4 +99,4 @@ You can see the example of the JSON data that Twitter binding returns [here](htt
 - [绑定构建块]({{< ref bindings >}})
 - [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
 - [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
-- [绑定API 参考]({{< ref bindings_api.md >}})
+- [Bindings API 引用]({{< ref bindings_api.md >}})

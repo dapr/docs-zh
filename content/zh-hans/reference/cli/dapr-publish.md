@@ -5,7 +5,7 @@ linkTitle: "publish"
 description: "有关 publish CLI 命令的详细信息"
 ---
 
-## 描述
+## 说明
 
 发布 pub-sub 事件。
 
@@ -21,7 +21,7 @@ dapr publish [flags]
 
 ## 参数
 
-| 名称                 | 环境变量 | 默认值 | 描述                |
+| Name               | 环境变量 | 默认值 | 说明                |
 | ------------------ | ---- | --- | ----------------- |
 | `--publish-app-id` | `-i` |     | 代表您要发布的应用程序的 ID   |
 | `--pubsub`         | `-p` |     | Pub/sub 组件的名称     |
@@ -32,7 +32,7 @@ dapr publish [flags]
 
 ## 示例
 
-### 将示例 topic 发布到目标 pubsub
+### Publish to sample topic in target pubsub
 ```bash
 dapr publish --publish-app-id appId --topic sample --pubsub target --data '{"key":"value"}'
 ```

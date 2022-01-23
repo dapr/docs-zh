@@ -213,9 +213,7 @@ info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[2]
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished in 157.056ms 400 application/problem+json; charset=utf-8  
- 
- 
+      Request finished in 157.056ms 400 application/problem+json; charset=utf-8
 ```
 
 主要关注的日志条目是来自路由的：

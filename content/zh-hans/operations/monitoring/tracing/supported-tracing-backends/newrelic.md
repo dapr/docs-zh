@@ -6,7 +6,7 @@ weight: 2000
 description: "Set-up New Relic for Dapr observability"
 ---
 
-## 前期准备
+## 先决条件
 
 - Perpetually [free New Relic account](https://newrelic.com/signup), 100 GB/month of free data ingest, 1 free full access user, unlimited free basic users
 

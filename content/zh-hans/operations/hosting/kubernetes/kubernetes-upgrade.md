@@ -6,7 +6,7 @@ weight: 50000
 description: "按照这些步骤升级 Kubernetes 上的 Dapr，并确保顺利升级."
 ---
 
-## 前期准备
+## 先决条件
 
 - [Dapr CLI]({{< ref install-dapr-cli.md >}})
 - [Helm 3](https://github.com/helm/helm/releases) (如果使用 Helm)

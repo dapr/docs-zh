@@ -48,20 +48,20 @@ The example configuration shown above, contain a username and password as plain-
 
 ## 元数据字段规范
 
-| 字段            | 必填 | 绑定支持 | 详情                                                                                     | 示例                  |
-| ------------- |:--:| ---- | -------------------------------------------------------------------------------------- | ------------------- |
-| host          | 是  | 输出   | The host where your SMTP server runs                                                   | `"smtphost"`        |
-| port          | 是  | 输出   | The port your SMTP server listens on                                                   | `"9999"`            |
-| user          | 是  | 输出   | The user to authenticate against the SMTP server                                       | `"user"`            |
-| password      | 是  | 输出   | The password of the user                                                               | `"password"`        |
-| skipTLSVerify | N  | 输出   | If set to true, the SMPT server's TLS certificate will not be verified. 默认值为 `"false"` | `"true"`, `"false"` |
-| emailFrom     | N  | 输出   | If set, this specifies the email address of the sender. See [also](#example-request)   | `"me@example.com"`  |
-| emailTo       | N  | 输出   | If set, this specifies the email address of the receiver. See [also](#example-request) | `"me@example.com"`  |
-| emailCc       | N  | 输出   | If set, this specifies the email address to CC in. See [also](#example-request)        | `"me@example.com"`  |
-| emailBcc      | N  | 输出   | If set, this specifies email address to BCC in. See [also](#example-request)           | `"me@example.com"`  |
-| subject       | N  | 输出   | If set, this specifies the subject of the email message. See [also](#example-request)  | `"subject of mail"` |
+| 字段            | 必填 | 绑定支持   | 详情                                                                                     | 示例                  |
+| ------------- |:--:| ------ | -------------------------------------------------------------------------------------- | ------------------- |
+| host          | Y  | 输出     | The host where your SMTP server runs                                                   | `"smtphost"`        |
+| port          | Y  | 输出     | The port your SMTP server listens on                                                   | `"9999"`            |
+| user          | Y  | 输出     | The user to authenticate against the SMTP server                                       | `"user"`            |
+| password      | Y  | 输出     | 用户密码                                                                                   | `"password"`        |
+| skipTLSVerify | N  | 输出     | If set to true, the SMPT server's TLS certificate will not be verified. 默认值为 `"false"` | `"true"`, `"false"` |
+| emailFrom     | N  | 输出     | If set, this specifies the email address of the sender. See [also](#example-request)   | `"me@example.com"`  |
+| emailTo       | N  | 输出     | If set, this specifies the email address of the receiver. See [also](#example-request) | `"me@example.com"`  |
+| emailCc       | N  | 输出     | If set, this specifies the email address to CC in. See [also](#example-request)        | `"me@example.com"`  |
+| emailBcc      | N  | Output | If set, this specifies email address to BCC in. See [also](#example-request)           | `"me@example.com"`  |
+| subject       | N  | Output | If set, this specifies the subject of the email message. See [also](#example-request)  | `"subject of mail"` |
 
-## 绑定支持
+## 相关链接
 
 该组件支持**输出绑定**，其操作如下:
 
@@ -81,7 +81,7 @@ When sending an email, the metadata in the configuration and in the request is c
 
 The `emailTo`, `emailCC` and `emailBCC` fields can contain multiple email addresses separated by a semicolon.
 
-Example:
+示例:
 ```json
 {
   "operation": "create",
@@ -99,6 +99,6 @@ The `emailTo`, `emailCC` and `emailBCC` fields can contain multiple email addres
 
 - [Dapr组件的基本格式]({{< ref component-schema >}})
 - [绑定构建块]({{< ref bindings >}})
-- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
-- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
+- [如何通过 input binding 触发应用]({{< ref howto-triggers.md >}})
+- [How-To：使用绑定与外部资源进行交互]({{< ref howto-bindings.md >}})
 - [绑定API 参考]({{< ref bindings_api.md >}})

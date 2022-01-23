@@ -5,11 +5,11 @@ linkTitle: "Autoscale"
 weight: 2000
 ---
 
-Dapr采用模块化的构件方法，加上10多个不同的[pub/sub组件]({{< ref pubsub >}})，简化了消息处理程序的编写工作。 由于Dapr可以在许多环境中运行（如虚拟机、裸机、云或边缘），因此Dapr应用的自动伸缩是由宿主管理的。
+Dapr, with its modular building-block approach, along with the 10+ different [pub/sub components]({{< ref pubsub >}}), make it easy to write message processing applications. 由于Dapr可以在许多环境中运行（如虚拟机、裸机、云或边缘），因此Dapr应用的自动伸缩是由宿主管理的。
 
 对于Kubernetes，Dapr集成了[KEDA](https://github.com/kedacore/keda)，这是一个用于Kubernetes的事件驱动的自动伸缩组件。 Dapr的许多pub/sub组件与[KEDA](https://github.com/kedacore/keda)提供的扩展器重叠，因此很容易在Kubernetes上配置Dapr的deployment，以使用KEDA根据背压自动扩展。
 
-这篇文章中配置了一个可扩展的Dapr应用以及背压的Kafka主题，然而你也可以将这种方法应用到Dapr提供的[pub/sub组件]({{< ref pubsub >}})中。
+This how-to walks through the configuration of a scalable Dapr application along with the back pressure on Kafka topic, however you can apply this approach to [pub/sub components]({{< ref pubsub >}}) offered by Dapr.
 
 ## 安装KEDA
 

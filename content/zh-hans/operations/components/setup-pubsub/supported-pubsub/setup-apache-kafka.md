@@ -33,18 +33,18 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段              | 必填 | 详情                                                                                                                           | 示例                                                          |
-| --------------- |:--:| ---------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
-| brokers         | 是  | 逗号分隔的kafka broker列表                                                                                                          | `localhost:9092`, `dapr-kafka.myapp.svc.cluster.local:9092` |
-| authRequired    | N  | 在Kafka broker上启用验证。 默认值为 `"false"`.                                                                                          | `"true"`, `"false"`                                         |
-| saslUsername    | N  | 用于认证的用户名。 只有当 authRequired 设置为 true 时才需要。                                                                                    | `"adminuser"`                                               |
-| saslPassword    | N  | 用于认证的密码。 可以用`secretKeyRef`来引用密钥。 只有当 authRequired 设置为 true 时才需要。 可以用`secretKeyRef`来[引用密钥]({{< ref component-secrets.md >}})。 | `""`, `"KeFg23!"`                                           |
-| maxMessageBytes | N  | 单条Kafka消息允许的最大消息大小。 默认值为 1024。                                                                                               | `2048`                                                      |
+| 字段              | 必填 | 详情                                                                                                                                                   | 示例                                                          |
+| --------------- |:--:| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- |
+| brokers         | Y  | 逗号分隔的kafka broker列表                                                                                                                                  | `localhost:9092`, `dapr-kafka.myapp.svc.cluster.local:9092` |
+| authRequired    | N  | 在Kafka broker上启用验证。 默认值为 `"false"`.                                                                                                                  | `"true"`, `"false"`                                         |
+| saslUsername    | N  | 用于认证的用户名。 只有当 authRequired 设置为 true 时才需要。                                                                                                            | `"adminuser"`                                               |
+| saslPassword    | N  | 用于认证的密码。 可以用`secretKeyRef`来引用密钥。 只有当 authRequired 设置为 true 时才需要。 Can be `secretKeyRef` to use a [secret reference]({{< ref component-secrets.md >}}) | `""`, `"KeFg23!"`                                           |
+| maxMessageBytes | N  | 单条Kafka消息允许的最大消息大小。 默认值为 1024。                                                                                                                       | `2048`                                                      |
 
 ## 每次调用的元数据字段
 
@@ -54,7 +54,7 @@ spec:
 
 参数名是`partitionKey`。
 
-Example:
+示例:
 
 ```shell
 curl -X POST http://localhost:3500/v1.0/publish/myKafka/myTopic?metadata.partitionKey=key1 \
@@ -74,7 +74,7 @@ curl -X POST http://localhost:3500/v1.0/publish/myKafka/myTopic?metadata.partiti
 {{% /codetab %}}
 
 {{% codetab %}}
-要在Kubernetes上运行Kafka，你可以使用[Helm Chart](https://github.com/helm/charts/tree/master/incubator/kafka#installing-the-chart)。
+To run Kafka on Kubernetes, you can use the [Helm Chart](https://github.com/helm/charts/tree/master/incubator/kafka#installing-the-chart).
 {{% /codetab %}}
 
 {{< /tabs >}}

@@ -24,13 +24,13 @@ GET http://localhost:<daprPort>/v1.0/metadata
 
 ### URL 参数
 
-| 参数       | 描述       |
+| 参数       | 说明       |
 | -------- | -------- |
 | daprPort | Dapr 端口。 |
 
 ### HTTP 响应码
 
-| 代码  | 描述                                             |
+| 代码  | 说明                                             |
 | --- | ---------------------------------------------- |
 | 200 | Metadata information returned                  |
 | 500 | Dapr could not return the metadata information |
@@ -39,27 +39,27 @@ GET http://localhost:<daprPort>/v1.0/metadata
 
 **Metadata API Response Object**
 
-| 名称                     | 数据类型                                                                  | 描述                                                                             |
+| Name                   | 数据类型                                                                  | 说明                                                                             |
 | ---------------------- | --------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
 | id                     | string                                                                | Application ID                                                                 |
-| actors                 | [Metadata API Response Registered Actor](#metadataapiresponseactor)[] | A json encoded array of Registered Actors metadata.                            |
+| actor                  | [Metadata API Response Registered Actor](#metadataapiresponseactor)[] | A json encoded array of Registered Actors metadata.                            |
 | extended.attributeName | string                                                                | List of custom attributes as key-value pairs, where key is the attribute name. |
-| components             | [Metadata API Response Component](#metadataapiresponsecomponent)[]    | A json encoded array of loaded components metadata.                            |
+| 组件                     | [Metadata API Response Component](#metadataapiresponsecomponent)[]    | A json encoded array of loaded components metadata.                            |
 
 <a id="metadataapiresponseactor"></a>**Metadata API Response Registered Actor**
 
-| 名称    | 数据类型    | 描述                         |
+| Name  | 数据类型    | 说明                         |
 | ----- | ------- | -------------------------- |
 | type  | string  | The registered actor type. |
 | count | integer | Number of actors running.  |
 
 <a id="metadataapiresponsecomponent"></a>**Metadata API Response Component**
 
-| 名称      | 数据类型   | 描述                     |
+| Name    | 数据类型   | 说明                     |
 | ------- | ------ | ---------------------- |
 | name    | string | Name of the component. |
 | type    | string | Component type.        |
-| version | string | Component version.     |
+| version | string | 组件版本.                  |
 
 ### 示例
 
@@ -109,7 +109,7 @@ PUT http://localhost:<daprPort>/v1.0/metadata/attributeName
 
 ### URL 参数
 
-| 参数            | 描述                                                                  |
+| 参数            | 说明                                                                  |
 | ------------- | ------------------------------------------------------------------- |
 | daprPort      | Dapr 端口。                                                            |
 | attributeName | Custom attribute name. This is they key name in the key-value pair. |
@@ -132,7 +132,7 @@ attributeValue
 
 ### HTTP 响应码
 
-| 代码  | 描述                                                 |
+| 代码  | 说明                                                 |
 | --- | -------------------------------------------------- |
 | 204 | Custom attribute added to the metadata information |
 

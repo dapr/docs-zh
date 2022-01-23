@@ -22,7 +22,7 @@ spec:
 
 下面的表格给出了调用链追踪功能可配置的属性
 
-| 属性                       | 数据类型   | 描述                    |
+| 属性                       | 数据类型   | 说明                    |
 | ------------------------ | ------ | --------------------- |
 | `samplingRate`           | string | 设置采样率，可以用来控制追踪功能是否开启。 |
 | `zipkin.endpointAddress` | string | 设置 Zipkin 服务器地址。      |
@@ -80,7 +80,7 @@ Create a Kubernetes Service for the Zipkin pod:
 kubectl expose deployment zipkin --type ClusterIP --port 9411
 ```
 
-Next, create the following YAML file locally:
+接下来，在本地创建以下YAML文件：
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -101,16 +101,16 @@ Finally, deploy the Dapr configuration:
 kubectl apply -f config.yaml
 ```
 
-In order to enable this configuration for your Dapr sidecar, add the following annotation to your pod spec template:
+为了启用您的 Dapr sidecar 的配置，请在您的pod spec模板中添加以下注释：
 
 ```yml
 annotations:
   dapr.io/config: "zipkin"
 ```
 
-That's it! Your sidecar is now configured for use with Zipkin.
+就这么简单！ Your sidecar is now configured for use with Zipkin.
 
-### Viewing Tracing Data
+### 查看追踪数据
 
 To view traces, connect to the Zipkin service and open the UI:
 
@@ -123,4 +123,4 @@ On your browser, go to `http://localhost:9411` and you should see the Zipkin UI.
 ![zipkin](/images/zipkin_ui.png)
 
 ## 参考资料
-- [Zipkin for distributed tracing](https://zipkin.io/)
+- [Zipkin 分布式追踪](https://zipkin.io/)

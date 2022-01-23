@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "Health API reference"
-linkTitle: "Health API"
+linkTitle: "健康状况 API"
 description: "Detailed documentation on the health API"
 weight: 100
 ---
@@ -20,14 +20,14 @@ GET http://localhost:<daprPort>/v1.0/healthz
 
 ### HTTP 响应码
 
-| 代码  | 描述                  |
+| 代码  | 说明                  |
 | --- | ------------------- |
 | 204 | dapr is healthy     |
 | 500 | dapr is not healthy |
 
 ### URL 参数
 
-| 参数       | 描述       |
+| 参数       | 说明       |
 | -------- | -------- |
 | daprPort | Dapr 端口。 |
 

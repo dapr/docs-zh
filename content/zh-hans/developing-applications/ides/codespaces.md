@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "使用 GitHub Codespaces 开发"
+title: "Developing with GitHub Codespaces"
 linkTitle: "GitHub Codespaces"
 weight: 3000
-description: "如何在 GitHub Codespace 中启动和运行 Dapr"
+description: "How to get up and running with Dapr in a GitHub Codespace"
 ---
 
-[GitHub Codespaces](https://github.com/features/codespaces) 是启动和运行 Dapr 环境最简单的方式。 只需点击一下，您就可以在浏览器中准备好环境、包、代码、示例和文档。
+[GitHub Codespaces](https://github.com/features/codespaces) are the easiest way to get up and running in a Dapr environment. In as little as a single click you have the environment, packages, code, samples, and documentation all ready to go in your browser.
 
 {{% alert title="Private Beta" color="warning" %}}
 GitHub Codespaces目前处于内测阶段。 在 [这里](https://github.com/features/codespaces/signup) 注册。
