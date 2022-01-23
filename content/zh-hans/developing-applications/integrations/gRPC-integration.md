@@ -14,7 +14,7 @@ Dapr 为本地调用实现 HTTP 和 gRPC API 。 gRPC适用于低延迟、高性
 
 Dapr 运行时实现 [proto服务](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/dapr.proto) ，应用程序可以通过 gRPC 进行通信。
 
-除了通过 gRPC 调用 Dapr ， Dapr 也可以通过 gRPC 与应用程序通信。 要做到这一点，应用程序需要托管一个gRPC服务器，并实现[Dapr appcallback服务](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/appcallback.proto)。
+In addition to calling Dapr via gRPC, Dapr supports service to service calls with gRPC by acting as a proxy. 在这里查看更多信息 []({{< ref howto-invoke-services-grpc.md >}})。
 
 ## Dapr 通过 gRPC 与应用程序通信的配置
 
@@ -176,7 +176,7 @@ func (s *server) ListInputBindings(ctx context.Context, in *empty.Empty) (*pb.Li
     }, nil
 }
 
-// This method gets invoked every time a new event is fired from a registerd binding. The message carries the binding name, a payload and optional metadata
+// This method gets invoked every time a new event is fired from a registered binding. The message carries the binding name, a payload and optional metadata
 func (s *server) OnBindingEvent(ctx context.Context, in *pb.BindingEventRequest) (*pb.BindingEventResponse, error) {
     fmt.Println("Invoked from binding")
     return &pb.BindingEventResponse{}, nil
@@ -206,7 +206,7 @@ func main() {
 
     fmt.Println("Client starting...")
 
-    // 启动......
+    // and start...
     if err := s.Serve(lis); err != nil {
         log.Fatalf("failed to serve: %v", err)
     }
@@ -229,6 +229,6 @@ Kubernetes 中，必须在您的Pod规范文档中进行如下设置： `dapr.io
 
 您可以将 Dapr 与支持Protobuf 的任意语言一起使用，而不仅仅是当前已经生成可用的SDKs。 使用 [protoc](https://developers.google.com/protocol-buffers/docs/downloads) 工具，您可以为 Ruby， C++， Rust 等其他语言生成 Dapr 客户端。
 
- 相关主题
+ ## 相关主题
 - [服务调用构建块]({{< ref service-invocation >}})
 - [服务调用 API 规范]({{< ref service_invocation_api.md >}})

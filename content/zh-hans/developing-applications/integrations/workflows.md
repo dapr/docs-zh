@@ -6,11 +6,11 @@ description: "学习如何使用 Dapr Workflow 和 Logic Apps 构建工作流"
 weight: 4000
 ---
 
-Dapr Workflows is a lightweight host that allows developers to run cloud-native workflows locally, on-premises or any cloud environment using the [Azure Logic Apps](https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-overview) workflow engine and Dapr.
+Dapr Workflow 是一个轻量级主机，允许开发人员在本地运行云端本地工作流。 使用 [Azure Logic Apps](https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-overview) Workflow 引擎和 Dapr来运行或任何云端环境。
 
-## Benefits
+## 优势
 
-By using a workflow engine, business logic can be defined in a declarative, no-code fashion so application code doesn't need to change when a workflow changes. Dapr Workflows allows you to use workflows in a distributed application along with these added benefits:
+通过使用工作流引擎，可以以声明性、无代码的方式定义业务逻辑，因此当工作流发生变化时，应用程序代码不需要更改。 Dapr 工作流允许您在分布式应用程序中使用工作流以及这些附加好处：
 
 - **Run workflows anywhere**: on your local machine, on-premises, on Kubernetes or in the cloud
 - **Built-in observability**: tracing, metrics and mTLS through Dapr
@@ -20,7 +20,7 @@ By using a workflow engine, business logic can be defined in a declarative, no-c
 
 <img src="/images/workflows-diagram.png" width=500 alt="Diagram of Dapr Workflows">
 
-## How it works
+## 工作原理
 
 Dapr Workflows hosts a gRPC server that implements the Dapr Client API.
 
@@ -46,7 +46,7 @@ This allows users to start workflows using gRPC and HTTP endpoints through Dapr,
 
 - [Managed connectors](https://docs.microsoft.com/en-us/azure/connectors/apis-list#managed-connectors)
 
-## Example
+## 示例
 
 Dapr Workflows can be used as the orchestrator for many otherwise complex activities. For example, invoking an external endpoint, saving the data to a state store, publishing the result to a different app or invoking a binding can all be done by calling back into Dapr from the workflow itself.
 
@@ -109,7 +109,7 @@ Since Dapr supports many pluggable state stores and bindings, the workflow becom
    ```bash
    curl http://localhost:3500/v1.0/invoke/workflows/method/workflow1
 
-   {"value":"Hello from Logic App workflow running with    Dapr!"}                                                                                      
+   {"value":"Hello from Logic App workflow running with    Dapr!"}
    ```
 
 ### Kubernetes
@@ -216,11 +216,15 @@ Since Dapr supports many pluggable state stores and bindings, the workflow becom
 
    {{< /tabs >}}
 
-## Example
+## 示例
 
-Watch an example from the Dapr community call: <iframe width="560" height="315" src="https://www.youtube.com/embed/7fP-0Ixmi-w?start=116" title="YouTube 视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
+Watch an example from the Dapr community call:
 
-## Additional resources
+<div class="embed-responsive embed-responsive-16by9">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7fP-0Ixmi-w?start=116" title="YouTube 视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
+
+## 其他资源
 
 - [Blog announcement](https://cloudblogs.microsoft.com/opensource/2020/05/26/announcing-cloud-native-workflows-dapr-logic-apps/)
 - [Repo](https://github.com/dapr/workflows)

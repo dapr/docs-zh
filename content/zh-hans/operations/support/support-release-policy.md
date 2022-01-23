@@ -29,31 +29,36 @@ Patch support is for supported versions (current and previous).
 ## Supported versions
 The table below shows the versions of Dapr releases that have been tested together and form a "packaged" release. Any other combinations of releases are not supported.
 
-| Release date  |  Runtime   | CLI   | SDKs                                                                      | Dashboard | 状态                  |
-| ------------- |:----------:|:----- | ------------------------------------------------------------------------- | --------- | ------------------- |
-| Feb 17th 2021 | 1.0.0</br> | 1.0.0 | Java 1.0.0 </br>Go 1.0.0 </br>PHP 1.0.0 </br>Python 1.0.0 </br>.NET 1.0.0 | 0.6.0     | Unsupported         |
-| Mar 4th 2021  | 1.0.1</br> | 1.0.1 | Java 1.0.2 </br>Go 1.0.0 </br>PHP 1.0.0 </br>Python 1.0.0 </br>.NET 1.0.0 | 0.6.0     | Unsupported         |
-| Apr 1st 2021  | 1.1.0</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | Supported           |
-| Apr 6th 2021  | 1.1.1</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | Supported           |
-| Apr 16th 2021 | 1.1.2</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | Supported           |
-| May 26th 2021 | 1.2.0</br> | 1.2.0 | Java 1.1.0 </br>Go 1.1.0 </br>PHP 1.1.0 </br>Python 1.1.0 </br>.NET 1.2.0 | 0.6.0     | Supported (current) |
+| 发布日期          |  Runtime   | CLI   | SDK                                                                       | Dashboard | 状态     |
+| ------------- |:----------:|:----- | ------------------------------------------------------------------------- | --------- | ------ |
+| 2021年2月17日    | 1.0.0</br> | 1.0.0 | Java 1.0.0 </br>Go 1.0.0 </br>PHP 1.0.0 </br>Python 1.0.0 </br>.NET 1.0.0 | 0.6.0     | 不受支持   |
+| 2021年3月4日     | 1.0.1</br> | 1.0.1 | Java 1.0.2 </br>Go 1.0.0 </br>PHP 1.0.0 </br>Python 1.0.0 </br>.NET 1.0.0 | 0.6.0     | 不受支持   |
+| 2021年4月1日     | 1.1.0</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | 不受支持   |
+| 2021年4月6日     | 1.1.1</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | 不受支持   |
+| 2021年4月16日    | 1.1.2</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | 不受支持   |
+| 2021年5月26日    | 1.2.0</br> | 1.2.0 | Java 1.1.0 </br>Go 1.1.0 </br>PHP 1.1.0 </br>Python 1.1.0 </br>.NET 1.2.0 | 0.6.0     | 支持     |
+| Jun 16th 2021 | 1.2.1</br> | 1.2.0 | Java 1.1.0 </br>Go 1.1.0 </br>PHP 1.1.0 </br>Python 1.1.0 </br>.NET 1.2.0 | 0.6.0     | 支持     |
+| Jun 16th 2021 | 1.2.2</br> | 1.2.0 | Java 1.1.0 </br>Go 1.1.0 </br>PHP 1.1.0 </br>Python 1.1.0 </br>.NET 1.2.0 | 0.6.0     | 支持     |
+| Jul 26th 2021 |  1.3</br>  | 1.3.0 | Java 1.2.0 </br>Go 1.2.0 </br>PHP 1.1.0 </br>Python 1.2.0 </br>.NET 1.3.0 | 0.7.0     | 支持     |
+| Sep 14th 2021 | 1.3.1</br> | 1.3.0 | Java 1.2.0 </br>Go 1.2.0 </br>PHP 1.1.0 </br>Python 1.2.0 </br>.NET 1.3.0 | 0.7.0     | 支持（当前） |
 
 ## Upgrade paths
 After the 1.0 release of the runtime there may be situations where it is necessary to explicitly upgrade through an additional release to reach the desired target. For example an upgrade from v1.0 to v1.2 may need go pass through v1.1
 
-The table below shows the tested upgrade paths for the Dapr runtime. For example you are able to upgrade from 1.0-rc4 to the 1.0 release. Any other combinations of upgrades have not been tested.
+The table below shows the tested upgrade paths for the Dapr runtime. Any other combinations of upgrades have not been tested.
 
 General guidance on upgrading can be found for [self hosted mode]({{<ref self-hosted-upgrade>}}) and [Kubernetes]({{<ref kubernetes-upgrade>}}) deployments. It is best to review the target version release notes for specific guidance.
 
 | Current Runtime version | Must upgrade through | Target Runtime version |
 | ----------------------- | -------------------- | ---------------------- |
-| 0.11                    | N/A                  | 1.0.1                  |
-|                         | 1.0.1                | 1.1.2                  |
-| 1.0-rc1 to 1.0-rc4      | N/A                  | 1.0.1                  |
 | 1.0.0 or 1.0.1          | N/A                  | 1.1.2                  |
-| 1.1.0 or 1.1.1          | N/A                  | 1.1.2                  |
-| 1.0.0 or 1.0.1          | 1.1.2                | 1.2.0                  |
-| 1.1.0 to 1.1.2          | N/A                  | 1.2.0                  |
+|                         | 1.1.2                | 1.2.2                  |
+|                         | 1.2.2                | 1.3.0                  |
+|                         | 1.3.0                | 1.3.1                  |
+| 1.1.0 to 1.1.2          | N/A                  | 1.2.2                  |
+|                         | 1.2.2                | 1.3.0                  |
+|                         | 1.3.0                | 1.3.1                  |
+| 1.3.0                   | N/A                  | 1.3.1                  |
 
 ## Feature and deprecations
 There is a process for announcing feature deprecations.  Deprecations are applied two (2) releases after the release in which they were announced. For example Feature X is announced to be deprecated in the 1.0.0 release notes and will then be removed in 1.2.0.
@@ -65,12 +70,16 @@ Deprecations appear in release notes under a section named “Deprecations”, w
 After announcing a future breaking change, the change will happen in 2 releases or 6 months, whichever is greater. Deprecated features should respond with warning but do nothing otherwise.
 
 ### Announced deprecations
-| Feature                                                                                     | Deprecation announcement | Removal |
-| ------------------------------------------------------------------------------------------- | ------------------------ | ------- |
-| GET /v1.0/shutdown API (Users should use [POST API]({{< ref kubernetes-job.md >}}) instead) | 1.2.0                    | 1.4.0   |
+| 特性                                                                           | 废弃通知  | 移除    |
+| ---------------------------------------------------------------------------- | ----- | ----- |
+| GET /v1.0/shutdown API (用户应该使用 [POST API]({{< ref kubernetes-job.md >}}) 替代) | 1.2.0 | 1.4.0 |
 
 ## Upgrade on Hosting platforms
 Dapr can support multiple hosting platforms for production. With the 1.0 release the two supported platforms are Kubernetes and physical machines. For Kubernetes upgrades see [Production guidelines on Kubernetes]({{< ref kubernetes-production.md >}})
+
+### Supported Kubernetes versions
+
+Dapr follows [Kubernetes Version Skew Policy](https://kubernetes.io/releases/version-skew-policy).
 
 ## 相关链接
 * Read the [Versioning policy]({{< ref support-versioning.md >}})

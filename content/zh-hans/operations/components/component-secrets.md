@@ -20,7 +20,7 @@ Go to [this]({{< ref "howto-secrets.md" >}}) link to see all the secret stores s
 
 ## 引用密钥
 
-虽然您可以选择使用纯文本密钥，但不建议用于生产：
+While you have the option to use plain text secrets (like MyPassword), as shown in the yaml below for the `value` of `redisPassword`, this is not recommended for production:
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -38,7 +38,9 @@ spec:
     value: MyPassword
 ```
 
-相反，在您应该在密钥存储中创建密钥，并在组件定义中引用它：
+Instead create the secret in your secret store and reference it in the component definition.  There are two cases for this shown below -- the "Secret contains an embedded key" and the "Secret is a string".
+
+The "Secret contains an embedded key" case applies when there is a key embedded within the secret, i.e. the secret is **not** an entire connection string. This is shown in the following component definition yaml.
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -60,11 +62,34 @@ auth:
   secretStore: <SECRET_STORE_NAME>
 ```
 
-`SECRET_STORE_NAME` is the name of the configured [secret store component]({{< ref supported-secret-stores >}}). 当在 Kubernetes 中运行并使用 Kubernetes 密钥存储时，字段 `auth.SecretStore` 默认为 `kubernetes` 并且可以留空。
+`SECRET_STORE_NAME` 是已配置的 [秘钥存储组件]({{< ref supported-secret-stores >}}) 的名称。 当在 Kubernetes 中运行并使用 Kubernetes 密钥存储时，字段 `auth.SecretStore` 默认为 `kubernetes` 并且可以留空。
 
-上面的组件定义让Dapr从定义的秘密存储中提取一个名为 `redis-secret` 的密钥，并将密钥的值分配给组件中的 `redis-password` 密钥中的 `redisPassword` 欄位。
+The above component definition tells Dapr to extract a secret named `redis-secret` from the defined `secretStore` and assign the value associated with the `redis-password` key embedded in the secret to the `redisPassword` field in the component. One use of this case is when your code is constructing a connection string, for example putting together a URL, a secret, plus other information as necessary, into a string.
 
-## Example
+On the other hand, the below "Secret is a string" case applies when there is NOT a key embedded in the secret. Rather, the secret is just a string. Therefore, in the `secretKeyRef` section both the secret `name` and the secret `key` will be identical. This is the case when the secret itself is an entire connection string with no embedded key whose value needs to be extracted. Typically a connection string consists of connection information, some sort of secret to allow connection, plus perhaps other information and does not require a separate "secret". This case is shown in the below component definition yaml.
+
+```yml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: servicec-inputq-azkvsecret-asbqueue
+spec:
+  type: bindings.azure.servicebusqueues
+  version: v1
+  metadata:
+  -name: connectionString
+  secretKeyRef:
+      name: asbNsConnString
+      key: asbNsConnString
+  -name: queueName
+   value: servicec-inputq
+auth:
+secretStore: <SECRET_STORE_NAME>
+
+```
+The above "Secret is a string" case yaml tells Dapr to extract a connection string named `asbNsConnstring` from the defined `secretStore` and assign the value to the `connectionString` field in the component since there is no key embedded in the "secret" from the `secretStore` because it is a plain string. This requires the secret `name` and secret `key` to be identical.
+
+## 示例
 
 ### 引用一个Kubernetes密钥
 

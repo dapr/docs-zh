@@ -39,7 +39,6 @@ omsagent-smtk7                                                    1/1     Runnin
 
 ```yaml
 ...
-  ...
   prometheus-data-collection-settings: |-
     [prometheus_data_collection_settings.cluster]
         interval = "1m"
@@ -70,7 +69,7 @@ helm install dapr dapr/dapr --namespace dapr-system --set global.logAsJson=true
 
 添加 `dapr.io/log-as-json: "true"` annotation 到你的部署yaml.
 
-You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image. To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
+示例:
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
