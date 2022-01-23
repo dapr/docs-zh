@@ -39,7 +39,7 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 如果您想要使用 MongoDB 作为 Actor 存储，请在 yaml 上附上以下内容。
@@ -54,9 +54,9 @@ spec:
 
 | 字段               | 必填 | 详情                               | 示例                                                                    |
 | ---------------- |:--:| -------------------------------- | --------------------------------------------------------------------- |
-| host             | 是  | 要连接的主机                           | `"mongo-mongodb.default.svc.cluster.local:27017"`                     |
+| host             | Y  | 要连接的主机                           | `"mongo-mongodb.default.svc.cluster.local:27017"`                     |
 | username         | N  | 要连接的用户名                          | `"admin"`                                                             |
-| password         | N  | The password of the user         | `"password"`                                                          |
+| password         | N  | 用户密码                             | `"password"`                                                          |
 | databaseName     | N  | 要使用的数据库名称。 默认值为 `"daprStore"`    | `"daprStore"`                                                         |
 | collectionName   | N  | 要使用的收藏名称 默认值为 `"daprCollection"` | `"daprCollection"`                                                    |
 | writeconcern     | N  | 要使用的写入保证                         | `"majority"`                                                          |

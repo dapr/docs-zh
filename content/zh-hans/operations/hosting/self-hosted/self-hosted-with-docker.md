@@ -8,14 +8,14 @@ description: "如何使用 Docker 在自托管模式下部署和运行 Dapr"
 
 本文提供了关于在 Kubernetes 之外与Docker一起运行 Dapr 的指导。 有许多不同的配置，你可能希望用Docker来运行Dapr，这些配置被记录在下面。
 
-## 前期准备
+## 先决条件
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker-Compose](https://docs.docker.com/compose/install/) (可选)
 
 ## 选择Docker镜像
 Dapr 为不同的组件提供了许多预构建的 Docker 镜像，您应该为所需的二进制、架构和 标签/版本 选择相关镜像。
 
-### 图片
+### Images
 [Docker Hub](https://hub.docker.com/u/daprio)上，每个 Dapr 组件都有已发布的 Docker 镜像。
 - [daprio/dapr](https://hub.docker.com/r/daprio/dapr) (包含所有Dapr binaries)
 - [daprio/daprd](https://hub.docker.com/r/daprio/daprd)
@@ -142,5 +142,5 @@ services:
 要进一步了解如何使用 Docker Compose 运行 Dapr，请参见 [Docker-Compose Sample](https://github.com/dapr/samples/tree/master/hello-docker-compose)。
 
 ## 在 Kubernetes 运行
-如果你的部署目标是Kubernetes，那么你可能最好直接在Kubernetes平台上运行你的applicationaiton和Dapr sidecars。 在Kubernetes上运行Dapr是一等一的体验，并有单独的文档。 请参考 [Kubernetes上的Dapr 文档]({{< ref "kubernetes-overview.md" >}})。
+如果你的部署目标是Kubernetes，那么你可能最好直接在Kubernetes平台上运行你的applicationaiton和Dapr sidecars。 在Kubernetes上运行Dapr是一等一的体验，并有单独的文档。 Please refer to the [Dapr on Kubernetes docs]({{< ref "kubernetes-overview.md" >}})
 

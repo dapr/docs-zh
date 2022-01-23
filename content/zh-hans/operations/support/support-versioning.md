@@ -36,7 +36,7 @@ Based to the these guidelines;
 - A `MINOR` versions *may* be incremented for any other changes. For example a change to the JSON schema of the message sent to the API. The definition of a breaking change to the API can be viewed [here](https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#123-definition-of-a-breaking-change).
 - Experimental APIs include an “alpha” suffix to denote for their alpha status. For example v1.0alpha, v2.0alpha, etc.
 
-## Dapr runtime
+## Dapr 运行时
 Dapr releases use `MAJOR.MINOR.PATCH` versioning. For example 1.0.0. Read [Supported releases]({{< ref support-release-policy.md >}}) for more on the versioning of releases.
 
 ## Helm Charts
@@ -56,7 +56,7 @@ The [components-contrib](https://github.com/dapr/components-contrib/) repo relea
 
 Note: Components have a production usage lifecycle status: Alpha, Beta and GA (stable). These statuses are not related to their versioning. The tables of supported components shows both their versions and their status.
 * [状态存储组件]({{< ref supported-state-stores.md >}}) 列表
-* 可用发布/订阅实现的完整列表 [在这]({{< ref supported-pubsub >}})。
+* [pub/sub组件列表]({{< ref supported-pubsub.md >}})
 * List of [secret store components]({{< ref supported-secret-stores.md >}})
 * List of [binding components]({{< ref supported-bindings.md >}})
 

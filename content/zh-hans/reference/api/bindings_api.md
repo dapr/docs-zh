@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "绑定API 参考"
+title: "Bindings API 引用"
 linkTitle: "绑定 API"
 description: "关于 Bindings API 的详细文档"
 weight: 400
@@ -34,7 +34,7 @@ spec:
 
 如果在 kubernetes 上运行，那么应该将该组件应用于集群。
 
-> **Note:** In production never place passwords or secrets within Dapr component files. 有关使用 secret stores 和检索密钥的信息，请参阅 [设置 secret stores ]({{< ref setup-secret-store >}})
+> **Note:** In production never place passwords or secrets within Dapr component files. For information on securely storing and retrieving secrets using secret stores refer to [Setup Secret Store]({{< ref setup-secret-store >}})
 
 ## 通过输入绑定调用服务代码
 
@@ -95,14 +95,14 @@ OPTIONS http://localhost:<appPort>/<name>
 
 #### HTTP 响应码
 
-| 代码  | 描述                  |
+| 代码  | 说明                  |
 | --- | ------------------- |
 | 404 | 应用程序不希望绑定到 Bindings |
 | 其它  | 应用程序想要绑定到 Bindings  |
 
 #### URL 参数
 
-| 参数      | 描述           |
+| 参数      | 说明           |
 | ------- | ------------ |
 | appPort | 应用程序端口       |
 | name    | bindings 的名称 |
@@ -121,13 +121,13 @@ POST http://localhost:<appPort>/<name>
 
 #### HTTP 响应码
 
-| 代码  | 描述            |
+| 代码  | 说明            |
 | --- | ------------- |
 | 200 | 应用程序已成功处理输入绑定 |
 
 #### URL 参数
 
-| 参数      | 描述           |
+| 参数      | 说明           |
 | ------- | ------------ |
 | appPort | 应用程序端口       |
 | name    | bindings 的名称 |
@@ -155,7 +155,7 @@ POST http://localhost:<appPort>/<name>
 
 此端点允许您调用一个 Dapr 输出绑定。 Dapr bindings support various operations, such as `create`.
 
-请参阅 [ 每个绑定上的不同配置]({{< ref supported-bindings >}}) 以查看受支持操作的列表。
+See the [different specs]({{< ref supported-bindings >}}) on each binding to see the list of supported operations.
 
 ### HTTP 请求
 
@@ -165,7 +165,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/bindings/<name>
 
 ### HTTP 响应码
 
-| 代码  | 描述                |
+| 代码  | 说明                |
 | --- | ----------------- |
 | 200 | 请求成功              |
 | 204 | Empty Response    |
@@ -192,7 +192,7 @@ The `data` field takes any JSON serializable value and acts as the payload to be
 
 ### URL 参数
 
-| 参数       | 描述                      |
+| 参数       | 说明                      |
 | -------- | ----------------------- |
 | daprPort | dapr 端口。                |
 | name     | 要调用 output binding 的名称。 |
@@ -219,6 +219,6 @@ curl -X POST http://localhost:3500/v1.0/bindings/myKafka \
 
 There are common metadata properties which are support across multiple binding components. 具体清单如下：
 
-| 属性           | 描述                 | 绑定定义                                                                                                         | 有效范围                                             |
+| 属性           | 说明                 | 绑定定义                                                                                                         | 有效范围                                             |
 | ------------ | ------------------ | ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------ |
-| ttlInSeconds | 定义消息的生存时间 ( 以秒为单位) | If set in the binding definition will cause all messages to have a default time to live. 消息 ttl 覆盖绑定定义中的任何值。 | RabbitMQ, Azure Service Bus, Azure Storage Queue |
+| ttlInseconds | 定义消息的生存时间 ( 以秒为单位) | If set in the binding definition will cause all messages to have a default time to live. 消息 ttl 覆盖绑定定义中的任何值。 | RabbitMQ, Azure Service Bus, Azure Storage Queue |

@@ -49,14 +49,14 @@ spec:
 > __注意：__上述设置在使用该组件的所有主题中是通用的。
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段                             | 必填 | 详情                                       | 示例                                                                                                                                             |
 | ------------------------------ |:--:| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| connectionString               | 是  | Event Hubs的连接地址                          | "`Endpoint=sb://{ServiceBusNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={ServiceBus}`" |
+| connectionString               | Y  | Event Hubs的连接地址                          | "`Endpoint=sb://{ServiceBusNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={ServiceBus}`" |
 | timeoutInSec                   | N  | 发送消息和其他管理操作的超时时间。 默认值：`60`               | `30`                                                                                                                                           |
 | handlerTimeoutInSec            | N  | 调用应用handler的超时。 # 可选的。 默认值：`60`          | `30`                                                                                                                                           |
 | disableEntityManagement        | N  | 设置为 "true "时，主题和订阅不会自动创建。 默认值为 `"false"` | `"true"`, `"false"`                                                                                                                            |
@@ -77,4 +77,4 @@ spec:
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
 - [发布/订阅构建块]({{< ref pubsub >}})
-- 请访问 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) ，了解如何配置 pub/sub 组件
+- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})，了解配置 发布/订阅组件的说明

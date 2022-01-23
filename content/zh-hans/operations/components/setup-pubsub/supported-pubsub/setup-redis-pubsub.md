@@ -30,15 +30,15 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段            | 必填 | 详情                                               | 示例                                                              |
 | ------------- |:--:| ------------------------------------------------ | --------------------------------------------------------------- |
-| redisHost     | 是  | Redis的连接地址                                       | `localhost:6379`, `redis-master.default.svc.cluster.local:6379` |
-| redisPassword | 是  | Redis的密码 无默认值 可以用`secretKeyRef`来引用密钥。            | `""`, `"KeFg23!"`                                               |
+| redisHost     | Y  | Redis的连接地址                                       | `localhost:6379`, `redis-master.default.svc.cluster.local:6379` |
+| redisPassword | Y  | Redis的密码 无默认值 可以用`secretKeyRef`来引用密钥。            | `""`, `"KeFg23!"`                                               |
 | consumerID    | N  | 消费组 ID                                           | `"mygroup"`                                                     |
 | enableTLS     | N  | 如果Redis实例支持使用公共证书的TLS，可以配置为启用或禁用。 默认值为 `"false"` | `"true"`, `"false"`                                             |
 
@@ -104,5 +104,5 @@ Dapr CLI将自动为你创建和设置一个Redis Streams实例。 当你执行`
 
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
-- 请访问 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) ，了解如何配置 pub/sub 组件
+- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})，了解配置 发布/订阅组件的说明
 - [发布/订阅构建块]({{< ref pubsub >}})

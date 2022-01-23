@@ -41,46 +41,26 @@ spec:
   - name: client_x509_cert_url
     value: <REPLACE-WITH-CLIENT-x509-CERT-URL> # Required.
   - name: entity_kind
-    value: <REPLACE-WITH-ENTITY-KIND> # Optional. default: "DaprState" Example: "serviceaccount"
-  - name: project_id
-    value: <REPLACE-WITH-PROJECT-ID> # Required.
-  - name: private_key_id
-    value: <REPLACE-WITH-PRIVATE-KEY-ID> # Required.
-  - name: private_key
-    value: <REPLACE-WITH-PRIVATE-KEY> # Required.
-  - name: client_email
-    value: <REPLACE-WITH-CLIENT-EMAIL> # Required.
-  - name: client_id
-    value: <REPLACE-WITH-CLIENT-ID> # Required.
-  - name: auth_uri
-    value: <REPLACE-WITH-AUTH-URI> # Required.
-  - name: token_uri
-    value: <REPLACE-WITH-TOKEN-URI> # Required.
-  - name: auth_provider_x509_cert_url
-    value: <REPLACE-WITH-AUTH-X509-CERT-URL> # Required.
-  - name: client_x509_cert_url
-    value: <REPLACE-WITH-CLIENT-x509-CERT-URL> # Required.
-  - name: entity_kind
     value: <REPLACE-WITH-ENTITY-KIND> # Optional. default: "DaprState"
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段                              | 必填 | 详情                                                      | 示例                                                      |
 | ------------------------------- |:--:| ------------------------------------------------------- | ------------------------------------------------------- |
-| type                            | 是  | The credentials type                                    | `"serviceaccount"`                                      |
-| project_id                      | 是  | The ID of the GCP project to use                        | `"project-id"`                                          |
-| private_key_id                | 是  | The ID of the prvate key to use                         | `"private-key-id"`                                      |
-| client_email                    | 是  | The email address for the client                        | `"eample@example.com"`                                  |
-| client_id                       | 是  | The client id value to use for authentication           | `"client-id"`                                           |
-| auth_uri                        | 是  | The authentication URI to use                           | `"https://accounts.google.com/o/oauth2/auth"`           |
-| token_uri                       | 是  | The token URI to query for Auth token                   | `"https://oauth2.googleapis.com/token"`                 |
-| auth_provider_x509_cert_url | 是  | The auth provider certificate URL                       | `"https://www.googleapis.com/oauth2/v1/certs"`          |
-| client_x509_cert_url          | 是  | The client certificate URL                              | `"https://www.googleapis.com/robot/v1/metadata/x509/x"` |
+| type                            | Y  | The credentials type                                    | `"serviceaccount"`                                      |
+| project_id                      | Y  | The ID of the GCP project to use                        | `"project-id"`                                          |
+| private_key_id                | Y  | The ID of the prvate key to use                         | `"private-key-id"`                                      |
+| client_email                    | Y  | The email address for the client                        | `"eample@example.com"`                                  |
+| client_id                       | Y  | The client id value to use for authentication           | `"client-id"`                                           |
+| auth_uri                        | Y  | The authentication URI to use                           | `"https://accounts.google.com/o/oauth2/auth"`           |
+| token_uri                       | Y  | The token URI to query for Auth token                   | `"https://oauth2.googleapis.com/token"`                 |
+| auth_provider_x509_cert_url | Y  | The auth provider certificate URL                       | `"https://www.googleapis.com/oauth2/v1/certs"`          |
+| client_x509_cert_url          | Y  | The client certificate URL                              | `"https://www.googleapis.com/robot/v1/metadata/x509/x"` |
 | entity_kind                     | N  | The entity name in Filestore. Defaults to `"DaprState"` | `"DaprState"`                                           |
 
 ## Setup GCP Firestone
@@ -90,7 +70,7 @@ spec:
 {{% codetab %}}
 You can use the GCP Datastore emulator to run locally using the instructions [here](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
 
-You can then interact with the server using `localhost:8081`.
+然后您可以使用 `localhost:8081` 与服务器交互。
 {{% /codetab %}}
 
 {{% codetab %}}

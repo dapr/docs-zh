@@ -30,7 +30,7 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 如果您想要使用 CosmosDb 作为 Actor 存储，请在 yaml 上附上以下内容。
@@ -44,10 +44,10 @@ spec:
 
 | 字段              | 必填 | 详情                                 | 示例                                           |
 | --------------- |:--:| ---------------------------------- | -------------------------------------------- |
-| url             | 是  | CosmosDB 地址                        | `"https://******.documents.azure.com:443/"`. |
-| masterKey       | 是  | 认证到CosmosDB 账户的密钥                  | `"key"`                                      |
-| database        | 是  | 数据库名称                              | `"db"`                                       |
-| collection      | 是  | 要使用的集合名称                           | `"collection"`                               |
+| url             | Y  | CosmosDB 地址                        | `"https://******.documents.azure.com:443/"`. |
+| masterKey       | Y  | 认证到CosmosDB 账户的密钥                  | `"key"`                                      |
+| database        | Y  | 数据库名称                              | `"db"`                                       |
+| collection      | Y  | 要使用的集合名称                           | `"collection"`                               |
 | actorStateStore | N  | 是否将此状态存储给 Actor 使用。 默认值为 `"false"` | `"true"`, `"false"`                          |
 
 ## 安装Azure Cosmos DB
@@ -57,7 +57,7 @@ spec:
 **注意：集合的分区键必须命名为"/partitionKey"。  注意：这是区分大小写的。**
 
 为了配置CosmosDB作为状态存储，你需要以下属性：
-- **URL**: CosmosDB的 url. 示例: https://******.documents.azure.com:443/ 示例: https://******.documents.azure.com:443/
+- **URL**: the CosmosDB url. 示例: https://******.documents.azure.com:443/
 - **Master Key**: 用于验证 CosmosDB 账户的密钥
 - **Database**: 数据库的名称
 - **Collection**: 集合的名称

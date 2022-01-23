@@ -28,16 +28,16 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段          | 必填 | 详情                                                              | 示例                    |
 | ----------- |:--:| --------------------------------------------------------------- | --------------------- |
-| accountName | 是  | 存储帐户名称                                                          | `"mystorageaccount"`. |
-| accountKey  | 是  | 主要或次要存储密钥                                                       | `"key"`               |
-| tableName   | 是  | The name of the table to be used for Dapr state. 如果表不存在，将会自动创建. | `"table"`             |
+| accountName | Y  | 存储帐户名称                                                          | `"mystorageaccount"`. |
+| accountKey  | Y  | 主要或次要存储密钥                                                       | `"key"`               |
+| tableName   | Y  | The name of the table to be used for Dapr state. 如果表不存在，将会自动创建. | `"table"`             |
 
 ## 安装Azure Table Storage
 

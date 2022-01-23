@@ -2,12 +2,12 @@
 type: docs
 title: "Kafka binding spec"
 linkTitle: "Kafka"
-description: "Detailed documentation on the Kafka binding component"
+description: "Kafka 组件绑定详细说明"
 ---
 
 ## 配置
 
-To setup Kafka binding create a component of type `bindings.kafka`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+要设置 Kafka 绑定，请创建一个类型为 `bindings.kafka`的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 
 ```yaml
@@ -39,17 +39,17 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 ## 元数据字段规范
 
 | 字段              | 必填 | 绑定支持         | 详情                                                                                     | 示例                                |
 | --------------- |:--:| ------------ | -------------------------------------------------------------------------------------- | --------------------------------- |
 | topics          | N  | 输入           | A comma separated string of topics                                                     | `"mytopic1,topic2"`               |
-| brokers         | 是  | Input/Output | A comma separated string of kafka brokers                                              | `"localhost:9092,localhost:9093"` |
+| brokers         | Y  | Input/Output | A comma separated string of kafka brokers                                              | `"localhost:9092,localhost:9093"` |
 | consumerGroup   | N  | 输入           | A kafka consumer group to listen on                                                    | `"group1"`                        |
-| publishTopic    | 是  | 输出           | The topic to publish to                                                                | `"mytopic"`                       |
-| authRequired    | 是  | Input/Output | Determines whether to use SASL authentication or not. Defaults to `"true"`             | `"true"`, `"false"`               |
+| publishTopic    | Y  | 输出           | The topic to publish to                                                                | `"mytopic"`                       |
+| authRequired    | Y  | Input/Output | Determines whether to use SASL authentication or not. Defaults to `"true"`             | `"true"`, `"false"`               |
 | saslUsername    | N  | Input/Output | The SASL username for authentication. Only used if `authRequired` is set to - `"true"` | `"user"`                          |
 | saslPassword    | N  | Input/Output | The SASL password for authentication. Only used if `authRequired` is set to - `"true"` | `"password"`                      |
 | maxMessageBytes | N  | Input/Output | The maximum size allowed for a single Kafka message. Defaults to 1024                  | `2048`                            |
@@ -59,17 +59,17 @@ spec:
 
 此组件支持 **输入和输出** 绑定接口。
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 
-## Specifying a partition key
+## 指定分区键
 
-When invoking the Kafka binding, its possible to provide an optional partition key by using the `metadata` section in the request body.
+调用 Kafka 绑定时，可以使用请求正文中的 `metadata` 部分提供可选的分区键。
 
-The field name is `partitionKey`.
+字段名称为 `partitionKey`。
 
-Example:
+示例:
 
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myKafka \
@@ -92,4 +92,4 @@ curl -X POST http://localhost:3500/v1.0/bindings/myKafka \
 - [绑定构建块]({{< ref bindings >}})
 - [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
 - [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
-- [绑定API 参考]({{< ref bindings_api.md >}})
+- [Bindings API 引用]({{< ref bindings_api.md >}})

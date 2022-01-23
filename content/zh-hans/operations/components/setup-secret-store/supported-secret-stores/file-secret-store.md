@@ -35,7 +35,7 @@ spec:
 
 | 字段              | 必填 | 详情                                             | 示例                    |
 | --------------- |:--:| ---------------------------------------------- | --------------------- |
-| secretsFile     | 是  | 存储密钥的文件路径                                      | `"path/to/file.json"` |
+| secretsFile     | Y  | 存储密钥的文件路径                                      | `"path/to/file.json"` |
 | nestedSeparator | N  | 在将JSON层次结构扁平化为map时，被仓库使用 默认值为 `":"` 默认值为 `":"` | `":"`                 |
 
 ## 设置 JSON 文件来保存密钥
@@ -54,7 +54,7 @@ spec:
 
 仓库将加载文件并创建一个具有以下键值对的map:
 
-| 扁平键                       | 值                              |
+| 扁平键                       | value                          |
 | ------------------------- | ------------------------------ |
 | "redis"                   | "your redis password"          |
 | "connectionStrings:sql"   | "your sql connection string"   |

@@ -44,10 +44,10 @@ spec:
 
 | 字段                       | 必填 | 详情                                                                                                                                    | 示例                                           |
 | ------------------------ |:--:| ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| accessKey                | 是  | 具有SNS和SQS适当权限的AWS账户的ID。 可以用`secretKeyRef`来引用密钥。                                                                                       | `"AKIAIOSFODNN7EXAMPLE"`                     |
-| secretKey                | 是  | AWS用户的密钥。 可以用`secretKeyRef`来引用密钥。                                                                                                     | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
-| region                   | 是  | AWS区域到实例。 有效区域请参见本页面：https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html。 确保该地区有SNS和SQS。 | `"us-east-1"`                                |
-| 终结点                      | N  | 该组件要使用的AWS端点， 仅用于本地开发。 仅用于本地开发。 当对生产环境的AWS，`endpoint`是不需要的。                                                                           | `"http://localhost:4566"`                    |
+| accessKey                | Y  | 具有SNS和SQS适当权限的AWS账户的ID。 可以用`secretKeyRef`来引用密钥。                                                                                       | `"AKIAIOSFODNN7EXAMPLE"`                     |
+| secretKey                | Y  | AWS用户的密钥。 可以用`secretKeyRef`来引用密钥。                                                                                                     | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
+| region                   | Y  | AWS区域到实例。 有效区域请参见本页面：https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html。 确保该地区有SNS和SQS。 | `"us-east-1"`                                |
+| endpoint                 | 否  | 该组件要使用的AWS端点， 仅用于本地开发。 仅用于本地开发。 当对生产环境的AWS，`endpoint`是不需要的。                                                                           | `"http://localhost:4566"`                    |
 | sessionToken             | N  | 要使用的 AWS 会话令牌。  只有当您使用临时安全凭证时才需要会话令牌。                                                                                                 | `"TOKEN"`                                    |
 | messageVisibilityTimeout | N  | 消息发送至订阅者后，隐藏接收请求的时间，以秒为单位。 默认值：`10`                                                                                                   | `10`                                         |
 | messageRetryLimit        | N  | 在处理消息失败后，从队列中删除该消息之前，重新发送消息的次数。 默认值：`10`                                                                                              | `10`                                         |
@@ -63,7 +63,7 @@ spec:
 
 为了将localstack与你的pubsub绑定在一起，你需要提供`endpoint`配置。 当在AWS生产环境上运行时，`endpoint`是不需要的。
 
-关于身份验证相关属性的信息，请参阅 [认证到 AWS]({{< ref authenticating-aws.md >}})
+See [Authenticating to AWS]({{< ref authenticating-aws.md >}}) for information about authentication-related attributes
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -136,7 +136,7 @@ spec:
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
 - [发布/订阅构建块]({{< ref pubsub >}})
-- 请访问 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) ，了解如何配置 pub/sub 组件
+- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})，了解配置 发布/订阅组件的说明
 - [将AWS SQS作为SNS的订阅者](https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html)
 - [AWS SNS API参考](https://docs.aws.amazon.com/sns/latest/api/Welcome.html)
 - [AWS SQS API参考](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/Welcome.html)

@@ -9,7 +9,7 @@ description: 将 W3C 追踪标准与 Dapr 一起使用
 # 如何使用追踪上下文
 Dapr 使用 W3C 追踪上下文对服务调用和 pub/sub 消息传递进行分布式跟踪。 Dapr 承担生成和传播跟踪上下文信息的所有繁重工作，并且很少需要传播或创建跟踪上下文。 首先阅读 [W3C 分布式跟踪]({{< ref w3c-tracing >}}) 这篇文章中的方案 ，以了解您是否需要传播或创建跟踪上下文。
 
-若要查看跟踪，请阅读 [如何诊断与跟踪]({{< ref tracing.md >}}) 文章。
+若要查看跟踪，请阅读 [如何诊断与跟踪]({{< ref tracing-overview.md >}}) 文章。
 
 ## 如何从响应中检索跟踪上下文
 `注意: 在 Dapr SDK 中没有用于传播和检索跟踪上下文的辅助方法。 您需要使用 http/gRPC 客户端通过 http 标头和 gRPC 元数据传播和检索跟踪标头。`
@@ -142,14 +142,14 @@ using var call = client.InvokeServiceAsync(req, headers);
 
 ### 在 Go 中创建跟踪上下文
 
-#### 1. 1. 获取 OpenCensus Go SDK
+#### 1. 获取 OpenCensus Go SDK
 
 先决条件:OpenCensus Go 库需要 Go 1.8 或更高版本。 有关安装的详细信息，请访问 [这里](https://pkg.go.dev/go.opencensus.io?tab=overview)。
 
-#### 2. 2. 导入包 "go.openensuss.io/trace"
+#### 2. 导入包 "go.openensuss.io/trace"
 `$ go get -u go.opencensus.io`
 
-#### 3. 3. 创建跟踪上下文
+#### 3. 创建跟踪上下文
 
 ```go
 ctx, span := trace.StartSpan(ctx, "cache.Get")

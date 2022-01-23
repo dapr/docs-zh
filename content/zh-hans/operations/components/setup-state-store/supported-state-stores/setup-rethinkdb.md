@@ -31,30 +31,10 @@ spec:
     value: <PASSWORD> # Optional
   - name: archive
     value: bool # Optional (whether or not store should keep archive table of all the state changes)
-  - name: database
-    value: <REPLACE-RETHINKDB-DB-NAME> # Required, e.g. dapr (alpha-numerics only)
-  - name: table
-    value: # Optional
-  - name: username
-    value: <USERNAME> # Optional
-  - name: password
-    value: <PASSWORD> # Optional
-  - name: archive
-    value: bool # Optional (whether or not store should keep archive table of all the state changes)
-  - name: database
-    value: <REPLACE-RETHINKDB-DB-NAME> # Required, e.g. dapr (alpha-numerics only)
-  - name: table
-    value: # Optional
-  - name: username
-    value: <USERNAME> # Optional
-  - name: password
-    value: <PASSWORD> # Optional
-  - name: archive
-    value: bool # Optional (whether or not store should keep archive table of all the state changes)
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 If you wish to use Redis as an actor store, append the following to the yaml.
@@ -73,8 +53,8 @@ Additionally, if the optional `archive` metadata is set to `true`, on each state
 
 | 字段       | 必填 | 详情                                       | 示例                                                                 |
 | -------- |:--:| ---------------------------------------- | ------------------------------------------------------------------ |
-| address  | 是  | The address for RethinkDB server         | `"127.0.0.1:28015"`, `"rethinkdb.default.svc.cluster.local:28015"` |
-| database | 是  | The database to use. Alpha-numerics only | `"dapr"`                                                           |
+| address  | Y  | The address for RethinkDB server         | `"127.0.0.1:28015"`, `"rethinkdb.default.svc.cluster.local:28015"` |
+| database | Y  | The database to use. Alpha-numerics only | `"dapr"`                                                           |
 | table    | N  | The table name to use                    | `"table"`                                                          |
 | username | N  | The username to connect with             | `"user"`                                                           |
 | password | N  | The password to connect with             | `"password"`                                                       |

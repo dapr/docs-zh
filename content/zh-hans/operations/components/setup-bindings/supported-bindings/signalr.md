@@ -27,20 +27,20 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段               | 必填 | 绑定支持 | 详情                                                                                                                                                            | 示例                                                                                                                 |
 | ---------------- |:--:| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| connectionString | 是  | 输出   | The Azure SignalR connection string                                                                                                                           | `"Endpoint=https://<your-azure-signalr>.service.signalr.net;AccessKey=<your-access-key>;Version=1.0;"` |
+| connectionString | Y  | 输出   | The Azure SignalR connection string                                                                                                                           | `"Endpoint=https://<your-azure-signalr>.service.signalr.net;AccessKey=<your-access-key>;Version=1.0;"` |
 | hub              | N  | 输出   | Defines the hub in which the message will be send. The hub can be dynamically defined as a metadata value when publishing to an output binding (key is "hub") | `"myhub"`                                                                                                          |
 
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 
@@ -79,4 +79,4 @@ For more information on integration Azure SignalR into a solution check the [doc
 - [绑定构建块]({{< ref bindings >}})
 - [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
 - [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
-- [绑定API 参考]({{< ref bindings_api.md >}})
+- [Bindings API 引用]({{< ref bindings_api.md >}})

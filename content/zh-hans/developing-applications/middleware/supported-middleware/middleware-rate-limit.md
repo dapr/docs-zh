@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "速率限制"
-linkTitle: "速率限制"
+title: "限流"
+linkTitle: "限流"
 weight: 1000
-description: "使用速率限制中间件来限制每秒的请求"
+description: "使用限流中间件来限制每秒的请求"
 ---
 
-速率限制 [HTTP 中间件]({{< ref middleware-concept.md >}})允许限制每秒允许的 HTTP 请求的最大数量。 速率限制可以保护您的应用程序免受拒绝服务（DOS）攻击。 DOS攻击可以由恶意的第三方发起，也可以由你的软件中的错误发起（也就是 "友军 "DOS攻击）。
+限流[HTTP 中间件]({{< ref middleware-concept.md >}})允许限制每秒允许的最大 HTTP 请求数。 限流可以保护您的应用程序免受拒绝服务（DOS）攻击。 DOS攻击可以由恶意的第三方发起，也可以由你的软件中的错误发起（也就是 "友军 "DOS攻击）。
 
 ## 配置
 
@@ -32,11 +32,11 @@ spec:
 
 一旦达到上限，请求将返回 *HTTP Status code 429: Too Many Requests*。
 
-另外，[最大并发量设置]({{< ref control-concurrency.md >}})可用于限制应用程序的速率，并适用于所有流量，无论远程IP或路径如何。
+或者，[最大并发数设置]({{< ref control-concurrency.md >}})可用于对应用程序进行限流并适用于所有流量，而不考虑远程IP或路径。
 
 ## Dapr配置
 
-要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中进行引用。 请参阅[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
+要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中引用中间件。 参考[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
