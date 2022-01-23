@@ -28,38 +28,22 @@ spec:
   - name: maxConnBufferSize
     value: <REPLACE-WITH-MAX-CONN-BUFFER-SIZE> # Optional. default: "1048576"
   - name: keyPrefixPath
-    value: <REPLACE-WITH-KEY-PREFIX-PATH> # Optional. Example: "zookeeper.default.svc.cluster.local:2181"
-  - name: sessionTimeout
-    value: <REPLACE-WITH-SESSION-TIMEOUT> # Required. Example: "5s"
-  - name: maxBufferSize
-    value: <REPLACE-WITH-MAX-BUFFER-SIZE> # Optional. default: "1048576"
-  - name: maxConnBufferSize
-    value: <REPLACE-WITH-MAX-CONN-BUFFER-SIZE> # Optional. default: "1048576"
-  - name: keyPrefixPath
-    value: <REPLACE-WITH-KEY-PREFIX-PATH> # Optional. Example: "zookeeper.default.svc.cluster.local:2181"
-  - name: sessionTimeout
-    value: <REPLACE-WITH-SESSION-TIMEOUT> # Required. Example: "5s"
-  - name: maxBufferSize
-    value: <REPLACE-WITH-MAX-BUFFER-SIZE> # Optional. default: "1048576"
-  - name: maxConnBufferSize
-    value: <REPLACE-WITH-MAX-CONN-BUFFER-SIZE> # Optional. default: "1048576"
-  - name: keyPrefixPath
     value: <REPLACE-WITH-KEY-PREFIX-PATH> # Optional.
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段                | 必填 | 详情                                                             | 示例                                           |
 | ----------------- |:--:| -------------------------------------------------------------- | -------------------------------------------- |
-| servers           | 是  | Comma delimited list of servers                                | `"zookeeper.default.svc.cluster.local:2181"` |
-| sessionTimeout    | 是  | The session timeout value                                      | `"5s"`                                       |
-| maxBufferSize     | N  | The maximum size of buffer. Defaults to `"1048576"`            | `"1048576"`                                  |
+| servers           | Y  | Comma delimited list of servers                                | `"zookeeper.default.svc.cluster.local:2181"` |
+| sessionTimeout    | Y  | The session timeout value                                      | `"5s"`                                       |
+| maxBufferSize     | N  | The maximum size of buffer. 默认值为 `"1048576"`                   | `"1048576"`                                  |
 | maxConnBufferSize | N  | The maximum size of connection buffer. Defautls to `"1048576`" | `"1048576"`                                  |
-| keyPrefixPath     | N  | The key prefix path in Zookeeper. No default                   | `"dapr"`                                     |
+| keyPrefixPath     | N  | The key prefix path in Zookeeper. 无默认值                         | `"dapr"`                                     |
 
 ## Setup Zookeeper
 
@@ -72,7 +56,7 @@ You can run Zookeeper locally using Docker:
 docker run --name some-zookeeper --restart always -d zookeeper
 ```
 
-You can then interact with the server using `localhost:2181`.
+然后您可以使用 `localhost:2181` 与服务器交互。
 {{% /codetab %}}
 
 {{% codetab %}}

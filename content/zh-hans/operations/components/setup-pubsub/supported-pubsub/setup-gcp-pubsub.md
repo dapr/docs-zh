@@ -9,7 +9,7 @@ aliases:
 
 ## 创建 Dapr 组件
 
-要安装GCP pubsub，请创建一个类型为`pubsub.gcp.pubsub`的组件。 请参阅 [本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
+要安装GCP pubsub，请创建一个类型为`pubsub.gcp.pubsub`的组件。 See [this guide]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) on how to create and apply a pubsub configuration
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -45,23 +45,23 @@ spec:
     value: "false"
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段                              | 必填 | 详情                                        | 示例                                                                                               |
 | ------------------------------- |:--:| ----------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| type                            | 是  | GCP 凭证类型                                  | `service_account`                                                                                |
-| project_id                      | 是  | GCP 项目 id                                 | `projectId`                                                                                      |
-| private_key_id                | 是  | GCP 私钥 id                                 | `"privateKeyId"`                                                                                 |
-| private_key                     | 是  | GCP凭证私钥 替换为x509证书                         | `12345-12345`                                                                                    |
-| client_email                    | 是  | GCP 客户端邮箱地址                               | `"client@email.com"`                                                                             |
-| client_id                       | 是  | GCP 客户端 id                                | `0123456789-0123456789`                                                                          |
-| auth_uri                        | 是  | Google帐户 OAuth 端点                         | `https://accounts.google.com/o/oauth2/auth`                                                      |
-| token_uri                       | 是  | Google帐户token地址                           | `https://oauth2.googleapis.com/token`                                                            |
-| auth_provider_x509_cert_url | 是  | GCP凭证证书地址                                 | `https://www.googleapis.com/oauth2/v1/certs`                                                     |
-| client_x509_cert_url          | 是  | GCP凭证项目x509证书地址                           | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com` |
+| type                            | Y  | GCP 凭证类型                                  | `service_account`                                                                                |
+| project_id                      | Y  | GCP 项目 id                                 | `project_id`                                                                                     |
+| private_key_id                | Y  | GCP 私钥 id                                 | `"privateKeyId"`                                                                                 |
+| private_key                     | Y  | GCP凭证私钥 替换为x509证书                         | `12345-12345`                                                                                    |
+| client_email                    | Y  | GCP 客户端邮箱地址                               | `"client@email.com"`                                                                             |
+| client_id                       | Y  | GCP 客户端 id                                | `0123456789-0123456789`                                                                          |
+| auth_uri                        | Y  | Google帐户 OAuth 端点                         | `https://accounts.google.com/o/oauth2/auth`                                                      |
+| token_uri                       | Y  | Google帐户token地址                           | `https://oauth2.googleapis.com/token`                                                            |
+| auth_provider_x509_cert_url | Y  | GCP凭证证书地址                                 | `https://www.googleapis.com/oauth2/v1/certs`                                                     |
+| client_x509_cert_url          | Y  | GCP凭证项目x509证书地址                           | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com` |
 | disableEntityManagement         | N  | 当设置为`"true"`时，主题和订阅不会自动创建。 默认值为 `"false"` | `"true"`, `"false"`                                                                              |
 
 ## 创建 GCP Pub/Sub
@@ -70,5 +70,5 @@ spec:
 
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
-- 请访问 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) ，了解如何配置 pub/sub 组件
+- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})，了解配置 发布/订阅组件的说明
 - [发布/订阅构建块]({{< ref pubsub >}})

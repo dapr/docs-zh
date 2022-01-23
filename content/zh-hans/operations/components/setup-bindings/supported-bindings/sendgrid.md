@@ -27,22 +27,18 @@ spec:
   - name: subject
     value: "Hello!" # optional 
   - name: apiKey
-    value: "YOUR_API_KEY" # required, this is your SendGrid key # optional 
-  - name: apiKey
-    value: "YOUR_API_KEY" # required, this is your SendGrid key # optional 
-  - name: apiKey
     value: "YOUR_API_KEY" # required, this is your SendGrid key
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段        | 必填 | 绑定支持 | 详情                                                                                                                         | 示例                       |
 | --------- |:--:| ---- | -------------------------------------------------------------------------------------------------------------------------- | ------------------------ |
-| apiKey    | 是  | 输出   | SendGrid API key, this should be considered a secret value                                                                 | `"apikey"`               |
+| apiKey    | Y  | 输出   | SendGrid API key, this should be considered a secret value                                                                 | `"apikey"`               |
 | emailFrom | N  | 输出   | If set this specifies the 'from' email address of the email message. Optional field, see [below](#example-request-payload) | `"me@example.com"`       |
 | emailTo   | N  | 输出   | If set this specifies the 'to' email address of the email message. Optional field, see [below](#example-request-payload)   | `"me@example.com"`       |
 | emailCc   | N  | 输出   | If set this specifies the 'cc' email address of the email message. Optional field, see [below](#example-request-payload)   | `"me@example.com"`       |
@@ -52,7 +48,7 @@ spec:
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 
@@ -68,9 +64,6 @@ You can specify any of the optional metadata properties on the output binding re
   }, 
   "data": "<h1>Testing Dapr Bindings</h1>This is a test.<br>Bye!"
 }
-}
-}
-}
 ```
 ## 相关链接
 
@@ -78,4 +71,4 @@ You can specify any of the optional metadata properties on the output binding re
 - [绑定构建块]({{< ref bindings >}})
 - [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
 - [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
-- [绑定API 参考]({{< ref bindings_api.md >}})
+- [Bindings API 引用]({{< ref bindings_api.md >}})

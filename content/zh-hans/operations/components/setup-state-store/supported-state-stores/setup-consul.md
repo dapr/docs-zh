@@ -2,12 +2,12 @@
 type: docs
 title: "HashiCorp Consul"
 linkTitle: "HashiCorp Consul"
-description: Detailed information on the HashiCorp Consul state store component
+description: 详细介绍了关于 HashiCorp Consul 状态存储 组件的信息
 --- 
 
 ## 配置
 
-To setup Hashicorp Consul state store create a component of type `state.consul`. 请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})，了解如何创建和应用状态存储配置。
+要设置HashiCorp Vault状态存储，请创建一个类型为`state.consul`的组件。 请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})，了解如何创建和应用状态存储配置。
 
 
 ```yaml
@@ -29,63 +29,47 @@ spec:
   - name: scheme
     value: <REPLACE-WITH-SCHEME> # Optional. default: "http"
   - name: keyPrefixPath
-    value: <REPLACE-WITH-TABLE> # Optional. default: "" Example: dc1
-  - name: httpAddr
-    value: <REPLACE-WITH-CONSUL-HTTP-ADDRESS> # Required. Example: "consul.default.svc.cluster.local:8500"
-  - name: aclToken
-    value: <REPLACE-WITH-ACL-TOKEN> # Optional. default: ""
-  - name: scheme
-    value: <REPLACE-WITH-SCHEME> # Optional. default: "http"
-  - name: keyPrefixPath
-    value: <REPLACE-WITH-TABLE> # Optional. default: "" Example: dc1
-  - name: httpAddr
-    value: <REPLACE-WITH-CONSUL-HTTP-ADDRESS> # Required. Example: "consul.default.svc.cluster.local:8500"
-  - name: aclToken
-    value: <REPLACE-WITH-ACL-TOKEN> # Optional. default: ""
-  - name: scheme
-    value: <REPLACE-WITH-SCHEME> # Optional. default: "http"
-  - name: keyPrefixPath
     value: <REPLACE-WITH-TABLE> # Optional. default: ""
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段            | 必填 | 详情                                                                  | 示例                                        |
-| ------------- |:--:| ------------------------------------------------------------------- | ----------------------------------------- |
-| datacenter    | 是  | Datacenter to use                                                   | `"dc1"`                                   |
-| httpAddr      | 是  | Address of the Consul server                                        | `"consul.default.svc.cluster.local:8500"` |
-| aclToken      | N  | Per Request ACL Token. Default is `""`                              | `"token"`                                 |
-| scheme        | N  | Scheme is the URI scheme for the Consul server. Default is `"http"` | `"http"`                                  |
-| keyPrefixPath | N  | Key prefix path in Consul. Default is `""`                          | `"dapr"`                                  |
+| 字段            | 必填 | 详情                                      | 示例                                        |
+| ------------- |:--:| --------------------------------------- | ----------------------------------------- |
+| datacenter    | Y  | Datacenter                              | `"dc1"`                                   |
+| httpAddr      | Y  | Consul 服务器地址                            | `"consul.default.svc.cluster.local:8500"` |
+| aclToken      | N  | 请求 ACL 令牌。 默认值 `""`                     | `"token"`                                 |
+| scheme        | N  | Scheme 是Consul服务器的 URI 方案。 默认值 `"http"` | `"http"`                                  |
+| keyPrefixPath | N  | Consul中的密钥前缀路径. 默认值 `""`                | `"dapr"`                                  |
 
-## Setup HashiCorp Consul
+## 搭建 Hashicorp Consul
 
 {{< tabs "Self-Hosted" "Kubernetes" >}}
 
 {{% codetab %}}
-You can run Consul locally using Docker:
+您可以使用 Docker 在本地运行Consul：
 
 ```
 docker run -d --name=dev-consul -e CONSUL_BIND_INTERFACE=eth0 consul
 ```
 
-You can then interact with the server using `localhost:8500`.
+然后您可以使用 `localhost:8500` 与服务器交互。
 {{% /codetab %}}
 
 {{% codetab %}}
-The easiest way to install Consul on Kubernetes is by using the [Helm chart](https://github.com/helm/charts/tree/master/stable/consul):
+在 Kubernetes 上安装 Consul 最简单的方法是使用 [Helm chart](https://github.com/helm/charts/tree/master/stable/consul)：
 
 ```
 helm install consul stable/consul
 ```
 
-This installs Consul into the `default` namespace. To interact with Consul, find the service with: `kubectl get svc consul`.
+这将把 Consul 安装到 `default` 命名空间。 要与 Consul 进行交互，请使用以下方法找到服务：`kubectl get svc consul`.
 
-For example, if installing using the example above, the Consul host address would be:
+例如，如果使用上面的例子安装，Consul主机地址将是：
 
 `consul.default.svc.cluster.local:8500`
 {{% /codetab %}}

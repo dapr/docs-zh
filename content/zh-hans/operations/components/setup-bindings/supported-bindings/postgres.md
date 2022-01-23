@@ -1,13 +1,13 @@
 ---
 type: docs
 title: "PostgrSQL binding spec"
-linkTitle: "PostgrSQL"
+linkTitle: "PostgreSQL"
 description: "Detailed documentation on the PostgreSQL binding component"
 ---
 
 ## 配置
 
-To setup PostgreSQL binding create a component of type `bindings.postgres`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
+要设置与 PostgreSQL相关的 绑定,需要创建类型 `bindings.postgres` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 
 ```yaml
@@ -30,11 +30,11 @@ spec:
 
 ## 元数据字段规范
 
-| 字段  | 必填 | 绑定支持 | 详情                                                                  | 示例                                                                                          |
-| --- |:--:| ---- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| url | 是  | 输出   | Postgres connection string See [here](#url-format) for more details | `"user=dapr password=secret host=dapr.example.com port=5432 dbname=dapr sslmode=verify-ca"` |
+| 字段  | 必填 | 绑定支持 | 详情                                     | 示例                                                                                          |
+| --- |:--:| ---- | -------------------------------------- | ------------------------------------------------------------------------------------------- |
+| url | Y  | 输出   | Postgres连接字符串的写法，请参阅此处 [](#url-format) | `"user=dapr password=secret host=dapr.example.com port=5432 dbname=dapr sslmode=verify-ca"` |
 
-### URL format
+### URL格式
 
 The PostgreSQL binding uses [pgx connection pool](https://github.com/jackc/pgx) internally so the `url` parameter can be any valid connection string, either in a `DSN` or `URL` format:
 
@@ -59,7 +59,7 @@ Both methods also support connection pool configuration variables:
 - `pool_health_check_period`: duration string
 
 
-## 绑定支持
+## 相关链接
 
 该组件支持**输出绑定**，其操作如下:
 
@@ -69,9 +69,9 @@ Both methods also support connection pool configuration variables:
 
 ### exec
 
-The `exec` operation can be used for DDL operations (like table creation), as well as `INSERT`, `UPDATE`, `DELETE` operations which return only metadata (e.g. number of affected rows).
+`exec` 操作可用于 DDL 操作（如表创建），以及 `INSERT`、 `UPDATE`、 `DELETE` 仅返回元数据的操作（例如受影响的行数）。
 
-**Request**
+**请求**
 
 ```json
 {
@@ -99,9 +99,9 @@ The `exec` operation can be used for DDL operations (like table creation), as we
 
 ### query
 
-The `query` operation is used for `SELECT` statements, which returns the metadata along with data in a form of an array of row values.
+`query` 操作用于 `SELECT` 语句，该语句以行值数组的形式返回元数据和数据。
 
-**Request**
+**请求**
 
 ```json
 {
@@ -133,9 +133,9 @@ The `query` operation is used for `SELECT` statements, which returns the metadat
 
 ### close
 
-Finally, the `close` operation can be used to explicitly close the DB connection and return it to the pool. This operation doesn't have any response.
+最后， `close` 操作可用于显式关闭数据库连接并将其返回到池中。 此操作没有任何响应。
 
-**Request**
+**请求**
 
 ```json
 {
@@ -150,6 +150,6 @@ Finally, the `close` operation can be used to explicitly close the DB connection
 
 - [Dapr组件的基本格式]({{< ref component-schema >}})
 - [绑定构建块]({{< ref bindings >}})
-- [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
-- [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
+- [如何通过 input binding 触发应用]({{< ref howto-triggers.md >}})
+- [How-To：使用绑定与外部资源进行交互]({{< ref howto-bindings.md >}})
 - [绑定API 参考]({{< ref bindings_api.md >}})

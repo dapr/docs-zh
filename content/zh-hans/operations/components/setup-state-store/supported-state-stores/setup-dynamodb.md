@@ -34,14 +34,14 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段           | 必填 | 详情                                                                                                                                                                        | 示例                                           |
 | ------------ |:--:| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
-| table        | 是  | name of the DynamoDB table to use                                                                                                                                         | `"mytable"`                                  |
+| table        | Y  | name of the DynamoDB table to use                                                                                                                                         | `"mytable"`                                  |
 | accessKey    | N  | 具有SNS和SQS适当权限的AWS账户的ID。 可以用`secretKeyRef`来引用密钥。                                                                                                                           | `"AKIAIOSFODNN7EXAMPLE"`                     |
 | secretKey    | N  | AWS用户的密钥。 可以用`secretKeyRef`来引用密钥。                                                                                                                                         | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
 | region       | N  | AWS区域到实例。 有效区域请参见本页面：https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html。 Ensure that DynamoDB are available in that region. | `"us-east-1"`                                |
@@ -49,7 +49,7 @@ spec:
 | sessionToken | N  | 要使用的 AWS 会话令牌。  A session token is only required if you are using temporary security credentials.                                                                         | `"TOKEN"`                                    |
 
 ## Setup AWS DynamoDB
-关于身份验证相关属性的信息，请参阅 [认证到 AWS]({{< ref authenticating-aws.md >}})
+See [Authenticating to AWS]({{< ref authenticating-aws.md >}}) for information about authentication-related attributes
 
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})

@@ -6,7 +6,7 @@ weight: 2000
 description: "使用OAuth2中间件来保护HTTP端点的安全"
 ---
 
-OAuth2 [HTTP 中间件]({{< ref middleware-concept.md >}})可以在 Web API 上实现 [OAuth2 授权代码流](https://tools.ietf.org/html/rfc6749#section-4.1)，而无需修改应用程序。 这种设计将认证/授权的关注点从应用中分离出来，因此应用操作者可以采用和配置认证/授权提供者，而不影响应用代码。
+OAuth2 [HTTP中间件]({{< ref middleware-concept.md >}})在 Web API 上启用 [OAuth2 授权码流程](https://tools.ietf.org/html/rfc6749#section-4.1)，而无需修改应用程序。 这种设计将认证/授权的关注点从应用中分离出来，因此应用操作者可以采用和配置认证/授权提供者，而不影响应用代码。
 
 ## 配置
 
@@ -50,7 +50,7 @@ spec:
 
 ## Dapr配置
 
-要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中进行引用。 请参阅[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
+要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中引用中间件。 参考[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

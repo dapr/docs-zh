@@ -8,9 +8,9 @@ description: "如何以自托管方式部署和运行 Dapr ，而无需在本地
 
 本文提供了在没有 Docker 的自托管模式下运行 Dapr 的指导。
 
-## 前期准备
+## 先决条件
 
-- [Dapr CLI]({{< ref "install-dapr-selfhost.md#installing-dapr-cli">}})
+- [Dapr CLI]({{< ref "install-dapr-selfhost.md#installing-dapr-cli" >}})
 
 ## 无需容器初始化 Dapr
 
@@ -24,7 +24,7 @@ dapr init --slim
 
 在此模式下，不会为状态管理或发布/订阅安装任何默认组件（如 Redis）。 这意味着，除了 [服务调用]({{< ref "service-invocation-overview.md" >}})，在现成可用的情况下，没有其他构建块功能可用。 用户可以自由设置自己的环境和自定义组件。 此外，如果按照以下部分所述配置状态存储，基于 actor 的服务就可以调用。
 
-## 服务调用
+## 调用逻辑
 有关如何在此方式下执行服务调用的示例，请参阅 [此示例](https://github.com/dapr/samples/tree/master/hello-dapr-slim)。
 
 ## 启用状态管理或发布/订阅
@@ -47,11 +47,11 @@ INFO[0000] Raft server is starting on 127.0.0.1:8201...  instance=Nicoletaz-L10.
 INFO[0000] placement service started on port 50005       instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
 INFO[0000] Healthz server is listening on :8080          instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
 INFO[0001] cluster leadership acquired                   instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
-INFO[0001] leader is established.                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
+INFO[0001] leader is established.                        instance=Nicoletaz-L10.redmond.corp.microsoft.com scope=dapr.placement type=log ver=1.0.0-rc.1
 
 ```
 
-至此，您可以跟随为 [java-sdk](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/actors)， [python-sdk](https://github.com/dapr/python-sdk/tree/master/examples/demo_actor) 或 [dotne-sdk]({{< ref "dotnet-actors-howto.md" >}}) 创建的样本示例，在启用了 Actors 的情况下运行应用程序。
+From here on you can follow the sample example created for the [java-sdk](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/actors), [python-sdk](https://github.com/dapr/python-sdk/tree/master/examples/demo_actor) or [dotnet-sdk]({{< ref "dotnet-actors-howto.md" >}}) for running an application with Actors enabled.
 
 更新状态存储配置文件使 Redis host 地址和密码和您的设置相同。 此外，为了使它能够作为一个actor状态存储，还添加了类似于[示例Java Redis组件](https://github.com/dapr/java-sdk/blob/master/examples/components/state/redis.yaml)定义的元数据部分。
 
@@ -63,4 +63,4 @@ INFO[0001] leader is established.                        instance=Nicoletaz-L10.
 
 ## 清理
 
-按照卸载 [说明]({{< ref "install-dapr-selfhost.md#uninstall-dapr-in-a-self-hosted-mode" >}}) 来移除二进制文件。
+Follow the uninstall [instructions]({{< ref "install-dapr-selfhost.md#uninstall-dapr-in-a-self-hosted-mode" >}}) to remove the binaries.

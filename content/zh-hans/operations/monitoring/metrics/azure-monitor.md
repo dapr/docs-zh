@@ -6,7 +6,7 @@ weight: 2000
 description: "使用Azure Monitor为Azure Kubernetes Service(AKS) 启用Dapr度量和日志"
 ---
 
-## 前期准备
+## 先决条件
 
 - [Azure Kubernetes Service](https://docs.microsoft.com/en-us/azure/aks/)
 - [对AKS中的容器启用 Azure Monitor。](https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-overview)
@@ -39,7 +39,6 @@ omsagent-smtk7                                                    1/1     Runnin
 
 ```yaml
 ...
-  ...
   prometheus-data-collection-settings: |-
     [prometheus_data_collection_settings.cluster]
         interval = "1m"
@@ -70,7 +69,7 @@ helm install dapr dapr/dapr --namespace dapr-system --set global.logAsJson=true
 
 添加 `dapr.io/log-as-json: "true"` annotation 到你的部署yaml.
 
-Example:
+示例:
 ```yaml
 apiVersion: apps/v1
 kind: Deployment

@@ -5,7 +5,7 @@ linkTitle: "logs"
 description: "有关 logs CLI 命令的详细信息"
 ---
 
-## 描述
+## 说明
 
 获取应用程序的 dapr sidecar 日志。
 
@@ -20,7 +20,7 @@ dapr logs [flags]
 
 ## 参数
 
-| 名称                   | 环境变量 | 默认值       | 描述                                          |
+| Name                 | 环境变量 | 默认值       | 说明                                          |
 | -------------------- | ---- | --------- | ------------------------------------------- |
 | `--app-id`, `-a`     |      |           | 需要显示日志的应用程序 Id                              |
 | `--help`, `-h`       |      |           | 显示此帮助消息                                     |
@@ -31,7 +31,7 @@ dapr logs [flags]
 
 ## 示例
 
-### 从定制名称空间中的目标 Pod 获取 应用程序的日志
+### Get logs of sample app from target pod in custom namespace
 ```bash
 dapr logs -k --app-id sample --pod-name target --namespace custom
 ```

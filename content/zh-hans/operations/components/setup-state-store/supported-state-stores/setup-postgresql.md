@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "PostgrSQL"
-linkTitle: "PostgrSQL"
+title: "PostgreSQL"
+linkTitle: "PostgreSQL"
 description: PostgreSQL 状态存储组件的详细信息
 ---
 
@@ -25,14 +25,14 @@ spec:
     value: "<CONNECTION STRING>"
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段               | 必填 | 详情                                 | 示例                                                            |
 | ---------------- |:--:| ---------------------------------- | ------------------------------------------------------------- |
-| connectionString | 是  | PostgreSQL 的连接字符串                  | `"User ID=root;Password=myPassword;Host=localhost;Port=5432"` |
+| connectionString | Y  | PostgreSQL 的连接字符串                  | `"User ID=root;Password=myPassword;Host=localhost;Port=5432"` |
 | actorStateStore  | N  | 是否将此状态存储给 Actor 使用。 默认值为 `"false"` | `"true"`, `"false"`                                           |
 
 

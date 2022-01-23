@@ -7,7 +7,7 @@ description: "阿里云对象存储绑定组件的详细说明文档"
 
 ## 配置
 
-要设置阿里云对象存储绑定，请创建一个类型为`bindings.alicloud.os`的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用 secretstore 配置。 请参阅本指南 [引用密钥]({{< ref component-secrets.md >}}) 来检索和使用Dapr组件的密钥。
+要设置阿里云对象存储绑定，请创建一个类型为`bindings.alicloud.os`的组件。 See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a secretstore configuration. See this guide on [referencing secrets]({{< ref component-secrets.md >}}) to retrieve and use the secret with Dapr components.
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -30,21 +30,21 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段            | 必填 | 绑定支持 | 详情               | 示例                                   |
 | ------------- | -- | ---- | ---------------- | ------------------------------------ |
-| `终结点`         | 是  | 输出   | Alicloud OSS 端点。 | https://oss-cn-hangzhou.aliyuncs.com |
-| `accessKeyID` | 是  | 输出   | 访问密钥 ID 凭据。      |                                      |
-| `accessKey`   | 是  | 输出   | 访问密钥凭据。          |                                      |
-| `bucket`      | 是  | 输出   | 存储桶名称            |                                      |
+| `终结点`         | Y  | 输出   | Alicloud OSS 端点。 | https://oss-cn-hangzhou.aliyuncs.com |
+| `accessKeyID` | Y  | 输出   | 访问密钥 ID 凭据。      |                                      |
+| `accessKey`   | Y  | 输出   | 访问密钥凭据。          |                                      |
+| `bucket`      | Y  | 输出   | 存储桶名称            |                                      |
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 - `create`: [创建对象](#create-object)
 
 
@@ -135,4 +135,4 @@ Windows CMD需要转义`"`字符。
 - [绑定构建块]({{< ref bindings >}})
 - [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
 - [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
-- [绑定API 参考]({{< ref bindings_api.md >}})
+- [Bindings API 引用]({{< ref bindings_api.md >}})

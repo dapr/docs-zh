@@ -29,7 +29,7 @@ Dapr 为每种语言的 SDK 预先构建了Docker 远程容器。 您可以选�
 
 ### 设置远程开发容器
 
-#### 前期准备
+#### 先决条件
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [VSCode 远程开发扩展包](https://aka.ms/vscode-remote/download/extension)
@@ -43,7 +43,7 @@ Dapr 为每种语言的 SDK 预先构建了Docker 远程容器。 您可以选�
 #### 示例
 观看有关如何使用应用程序的 Dapr VS 代码远程容器的 [视频](https://www.bilibili.com/video/BV1QK4y1p7fn?p=8&t=120)。 <iframe width="560" height="315" src="https://www.youtube.com/embed/D2dO4aGpHcg?start=120" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
 
-## Troubleshooting
+## 疑难解答
 
 ### 同时调试多个Dapr应用程序
 使用 VS Code extension，您可以通过[Multi-target debugging](https://code.visualstudio.com/docs/editor/debugging#_multitarget-debugging)同时调试多个Dapr应用程序

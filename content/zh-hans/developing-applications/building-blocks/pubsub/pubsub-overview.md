@@ -12,7 +12,7 @@ description: "Pub/Sub 构建块概述"
 
 Dapr 中的发布/订阅 API 提供至少一次（at-least-once）的保证，并与各种消息代理和队列系统集成。 您的服务所使用的特定实现是可插入的，并被配置为运行时的 Dapr Pub/Sub 组件。 这种方法消除了您服务的依赖性，从而使您的服务可以更便携，更灵活地适应更改。
 
-发布 / 订阅 API 位于 [API 引用]({{< ref pubsub_api.md >}})。
+Dapr 发布/订阅组件的完整列表 [点击这里]({{< ref supported-pubsub >}})。
 
 <img src="/images/pubsub-overview-pattern.png" width=1000>
 
@@ -112,5 +112,5 @@ Dapr 可以在每个消息的基础上设置超时。 表示如果消息未从 P
 * 试试 [Pub/Sub 快速启动示例](https://github.com/dapr/quickstarts/tree/master/pub-sub)
 * 了解 [Topic 作用域]({{< ref pubsub-scopes.md >}})
 * 了解 [消息存活时间（TTL）]({{< ref pubsub-message-ttl.md >}})
-* 可用发布/订阅实现的完整列表 [在这]({{< ref supported-pubsub >}})。
+* [pub/sub组件列表]({{< ref supported-pubsub.md >}})
 * 阅读 [API 引用]({{< ref pubsub_api.md >}})

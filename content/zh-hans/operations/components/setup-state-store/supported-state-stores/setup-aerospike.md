@@ -24,23 +24,19 @@ spec:
   - name: namespace
     value: <REPLACE-WITH-NAMESPACE> # Required. The aerospike namespace.
   - name: set
-    value: <REPLACE-WITH-SET> # Optional 逗号分隔的服务器地址 Example: "aerospike:3000,aerospike2:3000"
-  - name: namespace
-    value: <REPLACE-WITH-NAMESPACE> # Required. The aerospike namespace.
-  - name: set
     value: <REPLACE-WITH-SET> # Optional
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段        | 必填 | 详情              | 示例                                                     |
 | --------- |:--:| --------------- | ------------------------------------------------------ |
-| hosts     | 是  | 数据库服务器主机名/端口    | `"localhost:3000"`, `"aerospike:3000,aerospike2:3000"` |
-| namespace | 是  | Aerospike 命名空间。 | `"namespace"`                                          |
+| hosts     | Y  | 数据库服务器主机名/端口    | `"localhost:3000"`, `"aerospike:3000,aerospike2:3000"` |
+| namespace | Y  | Aerospike 命名空间。 | `"namespace"`                                          |
 | set       | N  | 数据库中的 setname   | `"myset"`                                              |
 
 ## 安装Aerospike

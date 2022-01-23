@@ -6,7 +6,7 @@ description: "关于 Actors API 的详细文档"
 weight: 500
 ---
 
-Dapr 提供原生、跨平台和跨语言 virtual actors 功能。 Besides the [language specific SDKs]({{X156X}}), a developer can invoke an actor using the API endpoints below.
+Dapr 提供原生、跨平台和跨语言 virtual actors 功能。 Besides the [language specific SDKs]({{<ref sdks>}}), a developer can invoke an actor using the API endpoints below.
 
 ## 调用 dapr 的服务代码
 
@@ -22,7 +22,7 @@ POST/GET/PUT/DELETE http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId
 
 #### HTTP 响应码
 
-| 代码  | 描述          |
+| 代码  | 说明          |
 | --- | ----------- |
 | 200 | 请求成功        |
 | 500 | 请求失败        |
@@ -30,7 +30,7 @@ POST/GET/PUT/DELETE http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId
 
 #### URL 参数
 
-| 参数        | 描述         |
+| 参数        | 说明         |
 | --------- | ---------- |
 | daprPort  | Dapr 端口。   |
 | actorType | Actor 类型。  |
@@ -81,7 +81,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/state
 
 #### HTTP 响应码
 
-| 代码  | 描述        |
+| 代码  | 说明        |
 | --- | --------- |
 | 204 | 请求成功      |
 | 400 | 未找到 Actor |
@@ -91,7 +91,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/state
 
 #### URL 参数
 
-| 参数        | 描述        |
+| 参数        | 说明        |
 | --------- | --------- |
 | daprPort  | Dapr 端口。  |
 | actorType | Actor 类型。 |
@@ -133,7 +133,7 @@ GET http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/state/<key>
 
 #### HTTP 响应码
 
-| 代码  | 描述          |
+| 代码  | 说明          |
 | --- | ----------- |
 | 200 | 请求成功        |
 | 204 | 找不到键值，响应将为空 |
@@ -143,7 +143,7 @@ GET http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/state/<key>
 
 #### URL 参数
 
-| 参数        | 描述        |
+| 参数        | 说明        |
 | --------- | --------- |
 | daprPort  | Dapr 端口。  |
 | actorType | Actor 类型。 |
@@ -205,7 +205,7 @@ Body:
 
 #### HTTP 响应码
 
-| 代码  | 描述                  |
+| 代码  | 说明                  |
 | --- | ------------------- |
 | 204 | 请求成功                |
 | 500 | 请求失败                |
@@ -213,7 +213,7 @@ Body:
 
 #### URL 参数
 
-| 参数        | 描述                 |
+| 参数        | 说明                 |
 | --------- | ------------------ |
 | daprPort  | Dapr 端口。           |
 | actorType | Actor 类型。          |
@@ -246,14 +246,14 @@ GET http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/reminders/<nam
 
 #### HTTP 响应码
 
-| 代码  | 描述   |
+| 代码  | 说明   |
 | --- | ---- |
 | 200 | 请求成功 |
 | 500 | 请求失败 |
 
 #### URL 参数
 
-| 参数        | 描述                 |
+| 参数        | 说明                 |
 | --------- | ------------------ |
 | daprPort  | Dapr 端口。           |
 | actorType | Actor 类型。          |
@@ -291,14 +291,14 @@ DELETE http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/reminders/<
 
 #### HTTP 响应码
 
-| 代码  | 描述   |
+| 代码  | 说明   |
 | --- | ---- |
 | 204 | 请求成功 |
 | 500 | 请求失败 |
 
 #### URL 参数
 
-| 参数        | 描述                 |
+| 参数        | 说明                 |
 | --------- | ------------------ |
 | daprPort  | Dapr 端口。           |
 | actorType | Actor 类型。          |
@@ -326,7 +326,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/timers/<n
 
 Body:
 
-以下指定 `dueTime` 的 3 秒和 7 秒的句点。
+以下指定 `dueTime` 的 3 秒和period 为 7 秒。
 ```json
 {
   "dueTime":"0h0m3s0ms",
@@ -344,7 +344,7 @@ Body:
 
 #### HTTP 响应码
 
-| 代码  | 描述                  |
+| 代码  | 说明                  |
 | --- | ------------------- |
 | 204 | 请求成功                |
 | 500 | 请求失败                |
@@ -352,7 +352,7 @@ Body:
 
 #### URL 参数
 
-| 参数        | 描述             |
+| 参数        | 说明             |
 | --------- | -------------- |
 | daprPort  | Dapr 端口。       |
 | actorType | Actor 类型。      |
@@ -386,14 +386,14 @@ DELETE http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/timers/<nam
 
 #### HTTP 响应码
 
-| 代码  | 描述   |
+| 代码  | 说明   |
 | --- | ---- |
 | 204 | 请求成功 |
 | 500 | 请求失败 |
 
 #### URL 参数
 
-| 参数        | 描述             |
+| 参数        | 说明             |
 | --------- | -------------- |
 | daprPort  | Dapr 端口。       |
 | actorType | Actor 类型。      |
@@ -421,14 +421,14 @@ GET http://localhost:<appPort>/dapr/config
 
 #### HTTP 响应码
 
-| 代码  | 描述   |
+| 代码  | 说明   |
 | --- | ---- |
 | 200 | 请求成功 |
 | 500 | 请求失败 |
 
 #### URL 参数
 
-| 参数      | 描述     |
+| 参数      | 说明     |
 | ------- | ------ |
 | appPort | 应用程序端口 |
 
@@ -444,7 +444,7 @@ curl -X GET http://localhost:3000/dapr/config \
 以上命令返回配置 ( 所有字段都是可选的):
 
 
-| 参数                      | 描述                                                                                                       |
+| 参数                      | 说明                                                                                                       |
 | ----------------------- | -------------------------------------------------------------------------------------------------------- |
 | entities                | 此应用程序支持的 actor 类型。                                                                                       |
 | actorIdleTimeout        | 指定在取消激活空闲 actor 之前要等待的时间。  如果没有 actor 方法被调用，并且没有触发任何 reminders ，那么 actor 将处于空闲状态。                        |
@@ -474,7 +474,7 @@ DELETE http://localhost:<appPort>/actors/<actorType>/<actorId>
 
 #### HTTP 响应码
 
-| 代码  | 描述        |
+| 代码  | 说明        |
 | --- | --------- |
 | 200 | 请求成功      |
 | 500 | 请求失败      |
@@ -482,7 +482,7 @@ DELETE http://localhost:<appPort>/actors/<actorType>/<actorId>
 
 #### URL 参数
 
-| 参数        | 描述        |
+| 参数        | 说明        |
 | --------- | --------- |
 | appPort   | 应用程序端口    |
 | actorType | Actor 类型。 |
@@ -511,7 +511,7 @@ PUT http://localhost:<appPort>/actors/<actorType>/<actorId>/method/<methodName>
 
 #### HTTP 响应码
 
-| 代码  | 描述        |
+| 代码  | 说明        |
 | --- | --------- |
 | 200 | 请求成功      |
 | 500 | 请求失败      |
@@ -519,7 +519,7 @@ PUT http://localhost:<appPort>/actors/<actorType>/<actorId>/method/<methodName>
 
 #### URL 参数
 
-| 参数         | 描述         |
+| 参数         | 说明         |
 | ---------- | ---------- |
 | appPort    | 应用程序端口     |
 | actorType  | Actor 类型。  |
@@ -549,7 +549,7 @@ PUT http://localhost:<appPort>/actors/<actorType>/<actorId>/method/remind/<remin
 
 #### HTTP 响应码
 
-| 代码  | 描述        |
+| 代码  | 说明        |
 | --- | --------- |
 | 200 | 请求成功      |
 | 500 | 请求失败      |
@@ -557,7 +557,7 @@ PUT http://localhost:<appPort>/actors/<actorType>/<actorId>/method/remind/<remin
 
 #### URL 参数
 
-| 参数           | 描述                 |
+| 参数           | 说明                 |
 | ------------ | ------------------ |
 | appPort      | 应用程序端口             |
 | actorType    | Actor 类型。          |
@@ -587,7 +587,7 @@ PUT http://localhost:<appPort>/actors/<actorType>/<actorId>/method/timer/<timerN
 
 #### HTTP 响应码
 
-| 代码  | 描述        |
+| 代码  | 说明        |
 | --- | --------- |
 | 200 | 请求成功      |
 | 500 | 请求失败      |
@@ -595,7 +595,7 @@ PUT http://localhost:<appPort>/actors/<actorType>/<actorId>/method/timer/<timerN
 
 #### URL 参数
 
-| 参数        | 描述             |
+| 参数        | 说明             |
 | --------- | -------------- |
 | appPort   | 应用程序端口         |
 | actorType | Actor 类型。      |
@@ -627,13 +627,13 @@ GET http://localhost:<appPort>/healthz
 
 #### HTTP 响应码
 
-| 代码  | 描述       |
+| 代码  | 说明       |
 | --- | -------- |
 | 200 | 应用程序是健康的 |
 
 #### URL 参数
 
-| 参数      | 描述     |
+| 参数      | 说明     |
 | ------- | ------ |
 | appPort | 应用程序端口 |
 

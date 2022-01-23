@@ -72,7 +72,7 @@ Once Prometheus is running, you'll be able to visit its dashboard by visiting `h
 
 ## Setup Prometheus on Kubernetes
 
-### 前期准备
+### 先决条件
 
 - Kubernetes (> 1.14)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
@@ -118,7 +118,7 @@ dapr-prom-prometheus-pushgateway-688665d597-h4xx2   1/1     Running   0         
 dapr-prom-prometheus-server-694fd8d7c-q5d59         2/2     Running   0          4m58s
 ```
 
-## 示例 <iframe width="560" height="315" src="https://www.youtube.com/embed/8W-iBDNvCUM?start=2577" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
+## 示例 <iframe width="560" height="315" src="//player.bilibili.com/player.html?aid=886064109&bvid=BV1QK4y1p7fn&cid=277946151&page=10&t=2577" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
 
 ## 参考资料
 

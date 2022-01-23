@@ -28,8 +28,8 @@ spec:
 
 | 字段        | 必填 | 详情                                         | 示例                  |
 | --------- |:--:| ------------------------------------------ | ------------------- |
-| host      | 是  | Pulsar broker. 地址， 默认值是 `"localhost:6650"` | `"localhost:6650"`  |
-| enableTLS | 是  | 启用TLS  默认值为 `"false"`                      | `"true"`, `"false"` |
+| host      | Y  | Pulsar broker. 地址， 默认值是 `"localhost:6650"` | `"localhost:6650"`  |
+| enableTLS | Y  | 启用TLS  默认值为 `"false"`                      | `"true"`, `"false"` |
 
 
 ## 创建 Pulsar 实例
@@ -57,5 +57,5 @@ docker run -it \
 
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
-- 请访问 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) ，了解如何配置 pub/sub 组件
+- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})，了解配置 发布/订阅组件的说明
 - [发布/订阅构建块]({{< ref pubsub >}})

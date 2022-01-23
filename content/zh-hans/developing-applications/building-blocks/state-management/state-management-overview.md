@@ -101,8 +101,8 @@ SELECT AVG(value) FROM StateTable WHERE Id LIKE '<app-id>||<thermometer>||*||tem
 
 ## 下一步
 * 遵循这些指南：
-    * [指南：如何保存和获取状态]({{< ref howto-get-save-state.md >}})
-    * [指南：如何创建一个有状态的服务]({{< ref howto-stateful-service.md >}})
+    * [指南：保存和获取状态]({{< ref howto-get-save-state.md >}})
+    * [指南：创建一个有状态的服务]({{< ref howto-stateful-service.md >}})
     * [指南：如何在应用程序之间共享状态]({{< ref howto-share-state.md >}})
 * 试试 [hello world 快速入门](https://github.com/dapr/quickstarts/blob/master/hello-world/README.md) ，它会显示如何使用状态管理或试试 [Dapr SDK]({{< ref sdks >}}) 中的 Sample。
 * [状态存储组件]({{< ref supported-state-stores.md >}}) 列表

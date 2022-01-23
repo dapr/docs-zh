@@ -31,23 +31,23 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
 | 字段               | 必填 | 绑定支持         | 详情                                                                                                                                                                | 示例            |
 | ---------------- |:--:| ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------- |
-| storageAccount   | 是  | Input/Output | The Azure Storage account name                                                                                                                                    | `"account1"`  |
-| storageAccessKey | 是  | Input/Output | The Azure Storage access key                                                                                                                                      | `"accessKey"` |
-| queue            | 是  | Input/Output | The name of the Azure Storage queue                                                                                                                               | `"myqueue"`   |
-| ttlInSeconds     | N  | 输出           | Parameter to set the default message time to live. If this parameter is omitted, messages will expire after 10 minutes. See [also](#specifying-a-ttl-per-message) | `"60"`        |
+| storageAccount   | Y  | Input/Output | The Azure Storage account name                                                                                                                                    | `"account1"`  |
+| storageAccessKey | Y  | Input/Output | The Azure Storage access key                                                                                                                                      | `"accessKey"` |
+| queue            | Y  | Input/Output | The name of the Azure Storage queue                                                                                                                               | `"myqueue"`   |
+| ttlInseconds     | N  | 输出           | Parameter to set the default message time to live. If this parameter is omitted, messages will expire after 10 minutes. See [also](#specifying-a-ttl-per-message) | `"60"`        |
 
 ## 绑定支持
 
 此组件支持 **输入和输出** 绑定接口。
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 
@@ -59,7 +59,7 @@ spec:
 
 字段名为 `ttlInSeconds`。
 
-Example:
+示例:
 
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myStorageQueue \
@@ -80,4 +80,4 @@ curl -X POST http://localhost:3500/v1.0/bindings/myStorageQueue \
 - [绑定构建块]({{< ref bindings >}})
 - [如何通过输入绑定触发应用]({{< ref howto-triggers.md >}})
 - [如何处理: 使用绑定对接外部资源]({{< ref howto-bindings.md >}})
-- [绑定API 参考]({{< ref bindings_api.md >}})
+- [Bindings API 引用]({{< ref bindings_api.md >}})

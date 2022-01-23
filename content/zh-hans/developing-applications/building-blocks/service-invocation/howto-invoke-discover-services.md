@@ -131,7 +131,7 @@ dapr invoke --app-id cart --method add
 curl http://localhost:3500/v1.0/invoke/cart.production/method/add -X POST
 ```
 
-查看更多有关名称空间的内容，请参阅\[跨命名空间 API 规范\]({{< ref "service_invocation_api. md#cross-namespace-invocation" >}})。
+有关名称空间的更多信息，请参阅 [跨命名空间 API]({{< ref "service_invocation_api.md#cross-namespace-invocation" >}}) 。
 
 ## 步骤 4: 查看跟踪和日志
 
@@ -139,7 +139,7 @@ curl http://localhost:3500/v1.0/invoke/cart.production/method/add -X POST
 
 有关跟踪和日志的更多信息，请参阅 [可观察性]({{< ref observability-concept.md >}}) 篇文章。
 
- 相关链接
+ ## Related Links
 
 * [服务调用概述]({{< ref service-invocation-overview.md >}})
 * [服务调用 API 规范]({{< ref service_invocation_api.md >}})

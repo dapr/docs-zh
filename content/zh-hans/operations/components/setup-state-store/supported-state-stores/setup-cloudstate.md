@@ -30,8 +30,8 @@ spec:
 
 | 字段         | 必填 | 详情                                                       | 示例                 |
 | ---------- |:--:| -------------------------------------------------------- | ------------------ |
-| hosts      | 是  | 指定Cloudstate API 地址                                      | `"localhost:8013"` |
-| serverPort | 是  | 指定要在 Dapr 中打开的 Cloudstate 回调端口。 这需要是你的应用程序或 Dapr 没有占用的端口 | `"8080"`           |
+| hosts      | Y  | 指定Cloudstate API 地址                                      | `"localhost:8013"` |
+| serverPort | Y  | 指定要在 Dapr 中打开的 Cloudstate 回调端口。 这需要是你的应用程序或 Dapr 没有占用的端口 | `"8080"`           |
 
 > 由于 Cloudstate 在 pod 中作为额外的sidecar运行，你可以通过 `localhost` 以默认端口 `8013` 访问它。
 

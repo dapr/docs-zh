@@ -27,27 +27,7 @@ spec:
   - name: keyType 
     value: <REPLACE-WITH-KEY-TYPE>  # Optional. defaults to "string"
   - name: keyLength
-    value: <KEY-LENGTH> # Optional. defaults to 200. Yo be used with "string" keyType
-  - name: schema
-    value: <SCHEMA> # Optional. defaults to "dbo"
-  - name: indexedProperties
-    value: <INDEXED-PROPERTIES> # Optional. List of IndexedProperties.
-  - name: tableName
-    value: <REPLACE-WITH-TABLE-NAME>  # Required.
-  - name: keyType 
-    value: <REPLACE-WITH-KEY-TYPE>  # Optional. defaults to "string"
-  - name: keyLength
-    value: <KEY-LENGTH> # Optional. defaults to 200. Yo be used with "string" keyType
-  - name: schema
-    value: <SCHEMA> # Optional. defaults to "dbo"
-  - name: indexedProperties
-    value: <INDEXED-PROPERTIES> # Optional. List of IndexedProperties.
-  - name: tableName
-    value: <REPLACE-WITH-TABLE-NAME>  # Required.
-  - name: keyType 
-    value: <REPLACE-WITH-KEY-TYPE>  # Optional. defaults to "string"
-  - name: keyLength
-    value: <KEY-LENGTH> # Optional. defaults to 200. Yo be used with "string" keyType
+    value: <KEY-LENGTH> # Optional. 默认值为 200。 Yo be used with "string" keyType
   - name: schema
     value: <SCHEMA> # Optional. defaults to "dbo"
   - name: indexedProperties
@@ -56,7 +36,7 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 {{% alert title="Note" color="primary" %}}
@@ -65,14 +45,14 @@ Currently this component does not support state management for actors
 
 ## 元数据字段规范
 
-| 字段                | 必填 | 详情                                                                             | 示例                                                                                                  |
-| ----------------- |:--:| ------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
-| connectionString  | 是  | The connection string used to connect                                          | `"Server=myServerName\myInstanceName;Database=myDataBase;User Id=myUsername;Password=myPassword;"` |
-| tableName         | 是  | The name of the table to use. Alpha-numeric with underscores                   | `"table_name"`                                                                                      |
-| keyType           | N  | The type of key used. Defaults to `"string"`                                   | `"string"`                                                                                          |
-| keyLength         | N  | The max length of key. Used along with `"string"` keytype. Defaults to `"200"` | `"200"`                                                                                             |
-| schema            | N  | The schema to use. Defaults to `"dbo"`                                         | `"dapr"`,`"dbo"`                                                                                    |
-| indexedProperties | N  | List of IndexedProperties.                                                     | `"[{"ColumnName": "column", "Property": "property", "Type": "type"}]"`                              |
+| 字段                | 必填 | 详情                                                                      | 示例                                                                                                  |
+| ----------------- |:--:| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| connectionString  | Y  | The connection string used to connect                                   | `"Server=myServerName\myInstanceName;Database=myDataBase;User Id=myUsername;Password=myPassword;"` |
+| tableName         | Y  | The name of the table to use. Alpha-numeric with underscores            | `"table_name"`                                                                                      |
+| keyType           | N  | The type of key used. Defaults to `"string"`                            | `"string"`                                                                                          |
+| keyLength         | N  | The max length of key. Used along with `"string"` keytype. 默认值为 `"200"` | `"200"`                                                                                             |
+| schema            | N  | The schema to use. Defaults to `"dbo"`                                  | `"dapr"`,`"dbo"`                                                                                    |
+| indexedProperties | N  | List of IndexedProperties.                                              | `"[{"ColumnName": "column", "Property": "property", "Type": "type"}]"`                              |
 
 
 ## Create Azure SQL instance

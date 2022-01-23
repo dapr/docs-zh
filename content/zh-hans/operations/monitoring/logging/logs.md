@@ -14,13 +14,13 @@ Dapr以纯文本形式或JSON格式生成结构化日志到标准输出。 默�
 
 Dapr 基于以下架构生成日志。
 
-| 字段       | 描述                           | 示例                         |
+| 字段       | 说明                           | 示例                         |
 | -------- | ---------------------------- | -------------------------- |
 | time     | ISO8601 时间戳                  | `2011-10-05T14:48:00.000Z` |
 | level    | 日志级别 (info/warn/debug/error) | `info`                     |
 | type     | 日志类型                         | `log`                      |
 | msg      | 日志消息                         | `hello dapr!`              |
-| scope    | 日志记录范围                       | `dapr.runtime`             |
+| 作用域      | 日志记录范围                       | `dapr.runtime`             |
 | instance | 容器名称                         | `dapr-pod-xxxxx`           |
 | app_id   | Dapr 应用 ID                   | `dapr-app`                 |
 | ver      | Dapr 运行时版本                   | `0.5.0`                    |
@@ -86,13 +86,13 @@ spec:
 
 ## 日志收集器
 
-如果您在 Kubernetes 集群中运行 Dapr ，那么 [Fluentd](https://www.fluentd.org/) 是一个受欢迎的容器日志收集器。 您可以将 Fluentd 与 [json 解析器插件](https://docs.fluentd.org/parser/json) 一起使用，以解析 Dapr JSON 格式的日志。 此 [how-to]({{< ref fluentd.md >}}) 显示如何在您的集群中配置Fluntd 。
+如果您在 Kubernetes 集群中运行 Dapr ，那么 [Fluentd](https://www.fluentd.org/) 是一个受欢迎的容器日志收集器。 您可以将 Fluentd 与 [json 解析器插件](https://docs.fluentd.org/parser/json) 一起使用，以解析 Dapr JSON 格式的日志。 This [how-to]({{< ref fluentd.md >}}) shows how to configure the Fleuntd in your cluster.
 
 如果您使用 Azure Kubernetes 服务 您可以使用默认OMS Agent和 Azure Monitor收集日志，而不需要安装 Fluentd。
 
 ## 搜索引擎
 
-如果使用 [Fluentd](https://www.fluentd.org/)，我们建议使用 Elastic Search 和 Kibana。 此 [how-to]({{< ref fluentd.md >}}) 演示如何在 Kubernetes 集群中设置 Elastic Search 和 Kibana 。
+如果使用 [Fluentd](https://www.fluentd.org/)，我们建议使用 Elastic Search 和 Kibana。 This [how-to]({{< ref fluentd.md >}}) shows how to set up Elastic Search and Kibana in your Kubernetes cluster.
 
 如果您正在使用 Azure Kubernetes 服务，您可以使用 [针对容器的Azure monitor](https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-overview) 而不会安装任何额外的监视工具。 也可以阅读 [如何为容器启用 Azure Monitor](https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-onboard)
 
