@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "Sidecar 运行状况"
-linkTitle: "Sidecar health"
+linkTitle: "Sidecar 运行状况"
 weight: 5000
 description: Dapr sidecar 运行状况检查。
 ---
@@ -12,7 +12,7 @@ The Dapr `/healthz` endpoint can be used by health probes from the application h
 
 作为用户，在将Dapr部署到主机平台时(例如Kubernetes)，Dapr健康端点会自动为您配置。 您无需配置任何内容。
 
-注意：Dapr actors还有一个健康 API 终点，Dapr 会探测对 Dapr 信号的响应申请，该信号表示actor应用程序是健康且运行的。 请参阅 [health API ]({{< ref health_api.md >}})
+注意：Dapr actors还有一个健康 API 终点，Dapr 会探测对 Dapr 信号的响应申请，该信号表示actor应用程序是健康且运行的。 请参阅 [health API ]({{< ref "actors_api.md#health-check" >}})
 
 ## 运行状况终结点：与Kubernetes集成
 

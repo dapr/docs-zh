@@ -29,37 +29,23 @@ spec:
     value: *****************
   - name: authToken # required.
     value: *****************
-    value: 111-111-1111
-  - name: fromNumber # required.
-    value: 222-222-2222
-  - name: accountSid # required.
-    value: *****************
-  - name: authToken # required.
-    value: *****************
-    value: 111-111-1111
-  - name: fromNumber # required.
-    value: 222-222-2222
-  - name: accountSid # required.
-    value: *****************
-  - name: authToken # required.
-    value: *****************
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段         | 必填 | 绑定支持   | 详情                                   | 示例               |
-| ---------- |:--:| ------ | ------------------------------------ | ---------------- |
-| toNumber   | Y  | Output | The target number to send the sms to | `"111-111-1111"` |
-| fromNumber | Y  | Output | The sender phone number              | `"122-222-2222"` |
-| accountSid | Y  | Output | The Twilio account SID               | `"account sid"`  |
-| authToken  | Y  | Output | The Twilio auth token                | `"auth token"`   |
+| 字段         | 必填 | 绑定支持 | 详情                                   | 示例               |
+| ---------- |:--:| ---- | ------------------------------------ | ---------------- |
+| toNumber   | Y  | 输出   | The target number to send the sms to | `"111-111-1111"` |
+| fromNumber | Y  | 输出   | The sender phone number              | `"122-222-2222"` |
+| accountSid | Y  | 输出   | The Twilio account SID               | `"account sid"`  |
+| authToken  | Y  | 输出   | The Twilio auth token                | `"auth token"`   |
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 

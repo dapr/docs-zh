@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "PostgrSQL binding spec"
-linkTitle: "PostgrSQL"
+linkTitle: "PostgreSQL"
 description: "Detailed documentation on the PostgreSQL binding component"
 aliases:
   - "/zh-hans/operations/components/setup-bindings/supported-bindings/postgres/"
@@ -27,14 +27,14 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段  | 必填 | 绑定支持   | 详情                                     | 示例                                                                                          |
-| --- |:--:| ------ | -------------------------------------- | ------------------------------------------------------------------------------------------- |
-| url | Y  | Output | Postgres连接字符串的写法，请参阅此处 [](#url-format) | `"user=dapr password=secret host=dapr.example.com port=5432 dbname=dapr sslmode=verify-ca"` |
+| 字段  | 必填 | 绑定支持 | 详情                                     | 示例                                                                                          |
+| --- |:--:| ---- | -------------------------------------- | ------------------------------------------------------------------------------------------- |
+| url | Y  | 输出   | Postgres连接字符串的写法，请参阅此处 [](#url-format) | `"user=dapr password=secret host=dapr.example.com port=5432 dbname=dapr sslmode=verify-ca"` |
 
 ### URL格式
 
@@ -63,7 +63,7 @@ Both methods also support connection pool configuration variables:
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `exec`
 - `query`
@@ -71,7 +71,7 @@ Both methods also support connection pool configuration variables:
 
 ### exec
 
-The `exec` operation can be used for DDL operations (like table creation), as well as `INSERT`, `UPDATE`, `DELETE` operations which return only metadata (e.g. number of affected rows).
+`exec` 操作可用于 DDL 操作（如表创建），以及 `INSERT`、 `UPDATE`、 `DELETE` 仅返回元数据的操作（例如受影响的行数）。
 
 **请求**
 
@@ -90,7 +90,7 @@ The `exec` operation can be used for DDL operations (like table creation), as we
 {
   "metadata": {
     "operation": "exec",
-    "duration": "294µs", 
+    "duration": "294µs",
     "start-time": "2020-09-24T11:13:46.405097Z",
     "end-time": "2020-09-24T11:13:46.414519Z",
     "rows-affected": "1",
@@ -101,7 +101,7 @@ The `exec` operation can be used for DDL operations (like table creation), as we
 
 ### query
 
-The `query` operation is used for `SELECT` statements, which returns the metadata along with data in a form of an array of row values.
+`query` 操作用于 `SELECT` 语句，该语句以行值数组的形式返回元数据和数据。
 
 **请求**
 
@@ -120,7 +120,7 @@ The `query` operation is used for `SELECT` statements, which returns the metadat
 {
   "metadata": {
     "operation": "query",
-    "duration": "432µs", 
+    "duration": "432µs",
     "start-time": "2020-09-24T11:13:46.405097Z",
     "end-time": "2020-09-24T11:13:46.420566Z",
     "sql": "SELECT * FROM foo WHERE id < 3"
@@ -135,7 +135,7 @@ The `query` operation is used for `SELECT` statements, which returns the metadat
 
 ### close
 
-Finally, the `close` operation can be used to explicitly close the DB connection and return it to the pool. This operation doesn't have any response.
+最后， `close` 操作可用于显式关闭数据库连接并将其返回到池中。 此操作没有任何响应。
 
 **请求**
 

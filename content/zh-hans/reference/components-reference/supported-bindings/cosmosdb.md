@@ -35,24 +35,24 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段           | 必填 | 绑定支持   | 详情                               | 示例                                          |
-| ------------ |:--:| ------ | -------------------------------- | ------------------------------------------- |
-| url          | Y  | Output | CosmosDB 地址                      | `"https://******.documents.azure.com:443/"` |
-| masterKey    | Y  | Output | CosmosDB 账户主键                    | `"master-key"`                              |
-| database     | Y  | Output | CosmosDB 数据库名                    | `"OrderDb"`                                 |
-| collection   | Y  | Output | 数据库中容器的名称。                       | `"Orders"`                                  |
-| partitionKey | Y  | Output | 要从有效负载中提取并在容器中使用的partitionKey的名称 | `"OrderId"`, `"message"`                    |
+| 字段           | 必填 | 绑定支持 | 详情                               | 示例                                          |
+| ------------ |:--:| ---- | -------------------------------- | ------------------------------------------- |
+| url          | Y  | 输出   | CosmosDB 地址                      | `"https://******.documents.azure.com:443/"` |
+| masterKey    | Y  | 输出   | CosmosDB 账户主键                    | `"master-key"`                              |
+| database     | Y  | 输出   | CosmosDB 数据库名                    | `"OrderDb"`                                 |
+| collection   | Y  | 输出   | 数据库中容器的名称。                       | `"Orders"`                                  |
+| partitionKey | Y  | 输出   | 要从有效负载中提取并在容器中使用的partitionKey的名称 | `"OrderId"`, `"message"`                    |
 
 欲了解更多信息，请参阅 [Azure Cosmos DB 资源模型](https://docs.microsoft.com/en-us/azure/cosmos-db/account-databases-containers-items)。
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create`
 

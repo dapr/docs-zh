@@ -5,7 +5,7 @@ linkTitle: "invoke"
 description: "有关 invoke CLI 命令的详细信息"
 ---
 
-## 描述
+## 说明
 
 调用给定 Dapr 应用程序上的方法。
 
@@ -20,7 +20,7 @@ dapr invoke [flags]
 
 ## 参数
 
-| Name             | 环境变量 | 默认值    | 描述                |
+| Name             | 环境变量 | 默认值    | 说明                |
 | ---------------- | ---- | ------ | ----------------- |
 | `--app-id`, `-a` |      |        | 要调用的应用程序 Id       |
 | `--help`, `-h`   |      |        | 显示此帮助消息           |
@@ -31,7 +31,7 @@ dapr invoke [flags]
 ## 示例
 
 ### 使用 POST 谓词在目标应用上调用示例方法
-```bash 
+```bash
 dapr invoke --app-id target --method sample --data '{"key":"value"}'
 ```
 

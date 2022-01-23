@@ -26,39 +26,19 @@ spec:
     value: <REPLACE-WITH-CONNECTION-STRING> # Required.
   - name: tableName
     value: <REPLACE-WITH-TABLE-NAME>  # Required.
-  - name: keyType 
+  - name: keyType
     value: <REPLACE-WITH-KEY-TYPE>  # Optional. defaults to "string"
   - name: keyLength
-    value: <KEY-LENGTH> # Optional. defaults to 200. Yo be used with "string" keyType
+    value: <KEY-LENGTH> # Optional. 默认值为 200。 Yo be used with "string" keyType
   - name: schema
     value: <SCHEMA> # Optional. defaults to "dbo"
   - name: indexedProperties
     value: <INDEXED-PROPERTIES> # Optional. List of IndexedProperties.
-  - name: tableName
-    value: <REPLACE-WITH-TABLE-NAME>  # Required.
-  - name: keyType 
-    value: <REPLACE-WITH-KEY-TYPE>  # Optional. defaults to "string"
-  - name: keyLength
-    value: <KEY-LENGTH> # Optional. defaults to 200. Yo be used with "string" keyType
-  - name: schema
-    value: <SCHEMA> # Optional. defaults to "dbo"
-  - name: indexedProperties
-    value: <INDEXED-PROPERTIES> # Optional. List of IndexedProperties.
-  - name: tableName
-    value: <REPLACE-WITH-TABLE-NAME>  # Required.
-  - name: keyType 
-    value: <REPLACE-WITH-KEY-TYPE>  # Optional. defaults to "string"
-  - name: keyLength
-    value: <KEY-LENGTH> # Optional. defaults to 200. Yo be used with "string" keyType
-  - name: schema
-    value: <SCHEMA> # Optional. defaults to "dbo"
-  - name: indexedProperties
-    value: <INDEXED-PROPERTIES> # Optional. List of IndexedProperties. 
 
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 If you wish to use Redis as an [actor state store]({{< ref "state_api.md#configuring-state-store-for-actors" >}}), append the following to the yaml.
@@ -78,7 +58,7 @@ If you wish to use Redis as an [actor state store]({{< ref "state_api.md#configu
 | keyLength         | N  | The max length of key. Used along with `"string"` keytype. 默认值为 `"200"`                                                                                            | `"200"`                                                                                             |
 | schema            | N  | The schema to use. Defaults to `"dbo"`                                                                                                                             | `"dapr"`,`"dbo"`                                                                                    |
 | indexedProperties | N  | List of IndexedProperties.                                                                                                                                         | `"[{"ColumnName": "column", "Property": "property", "Type": "type"}]"`                              |
-| actorStateStore   | N  | Indicates that Dapr should configure this component for the actor state store ([more information]({{< ref "state_api.md#configuring-state-store-for-actors" >}})). | `“true”`                                                                                            |
+| actorStateStore   | N  | Indicates that Dapr should configure this component for the actor state store ([more information]({{< ref "state_api.md#configuring-state-store-for-actors" >}})). | `"true"`                                                                                            |
 
 
 ## Create Azure SQL instance

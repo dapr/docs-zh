@@ -37,7 +37,7 @@ export DAPR_API_TOKEN=<token>
 在 Kubernetes deployment 里，Dapr 借助 Kubernetes secrets store 保存 JWT 令牌。 配置 Dapr API 认证，需要创建新的 secret：
 
 ```shell
-kubectl create secret generic dapr-api-token --from-literal=token=<token> 
+kubectl create secret generic dapr-api-token --from-literal=token=<token>
 ```
 
 > 注意，上述 secret 需要你希望开启 Dapr 令牌认证的命名空间中创建
@@ -45,8 +45,8 @@ kubectl create secret generic dapr-api-token --from-literal=token=<token>
 指定 Dapr 使用该密钥来保护其公有 API，需要在你的 Deployment template spec 中添加 annotation：
 
 ```yaml
-annotations: 
-  dapr.io/enabled: "true" 
+annotations:
+  dapr.io/enabled: "true"
   dapr.io/api-token-secret: "dapr-api-token" # name of the Kubernetes secret
 ```
 
@@ -132,5 +132,5 @@ export DAPR_API_TOKEN=<my-dapr-token>
 
 ## 相关链接
 
-- 了解 [Dapr 安全概念]({{< ref security-concept.md >}})
-- 学习 [如何通过令牌认证 来自 Dapr 的请求]({{< ref app-api-token.md >}})
+- Learn about [Dapr security concepts]({{< ref security-concept.md >}})
+- Learn [HowTo authenticate requests from Dapr using token authentication]({{< ref app-api-token.md >}})

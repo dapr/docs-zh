@@ -20,7 +20,7 @@ aliases:
 此页的其余部分描述了如何使用Redis启动和运行。
 
 {{% alert title="Self-hosted mode" color="warning" %}}
-当在自托管模式下初始化时，Dapr会自动运行一个Redis容器并设置所需的 yaml 文件. 您可以跳过此页并跳转到 [下一步](#next-steps) 您可以跳过此页并跳转到 [下一步](#next-steps)
+当在自托管模式下初始化时，Dapr会自动运行一个Redis容器并设置所需的 yaml 文件. 您可以跳过此页并跳转到 [下一步](#next-steps)
 {{% /alert %}}
 
 ## 创建Redis存储
@@ -49,7 +49,7 @@ Dapr可以使用任何Redis实例--无论是在本地开发机器上的容器化
 2. 运行`kubectl get pods`来查看现在正在集群中运行的Redis容器。
 
     ```bash
-    $ kubectl get pods 
+    $ kubectl get pods
     NAME             READY   STATUS    RESTARTS   AGE
     redis-master-0   1/1     Running   0          69s
     redis-slave-0    1/1     Running   0          69s
@@ -210,7 +210,7 @@ spec:
 - 在你的应用程序文件夹中创建一个新的`components`目录，其中包含YAML文件，并提供`dapr run`命令的路径，标志为`--components-path`。
 
 {{% alert title="Self-hosted slim mode" color="primary" %}}
-如果您在[slim模式]({{< ref self-hosted-no-docker.md >}})下初始化Dapr（没有Docker），您需要手动创建默认目录，或者始终使用`--components-path`指定一个组件目录。
+如果你在 [Slim模式]({{< ref self-hosted-no-docker.md >}})下初始化了Dapr (不使用Docker)，你需要手动创建默认目录， 或者总是使用 `--components-path` 指定组件目录。
 {{% /alert %}}
 
 {{% /codetab %}}

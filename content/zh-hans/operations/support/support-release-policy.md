@@ -29,20 +29,20 @@ Patch support is for supported versions (current and previous).
 ## Supported versions
 The table below shows the versions of Dapr releases that have been tested together and form a "packaged" release. Any other combinations of releases are not supported.
 
-| Release date  |  Runtime   | CLI   | SDKs                                                                      | Dashboard | 状态 （Status）         |
-| ------------- |:----------:|:----- | ------------------------------------------------------------------------- | --------- | ------------------- |
-| Feb 17th 2021 | 1.0.0</br> | 1.0.0 | Java 1.0.0 </br>Go 1.0.0 </br>PHP 1.0.0 </br>Python 1.0.0 </br>.NET 1.0.0 | 0.6.0     | Supported           |
-| Mar 4th 2021  | 1.0.1</br> | 1.0.1 | Java 1.0.2 </br>Go 1.0.0 </br>PHP 1.0.0 </br>Python 1.0.0 </br>.NET 1.0.0 | 0.6.0     | Supported           |
-| Apr 1st 2021  | 1.1.0</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | Supported           |
-| Apr 6th 2021  | 1.1.1</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | Supported (current) |
-| Apr 16th 2021 | 1.1.2</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | Supported (current) |
+| 发布日期       |  Runtime   | CLI   | SDK                                                                       | Dashboard | 状态     |
+| ---------- |:----------:|:----- | ------------------------------------------------------------------------- | --------- | ------ |
+| 2021年2月17日 | 1.0.0</br> | 1.0.0 | Java 1.0.0 </br>Go 1.0.0 </br>PHP 1.0.0 </br>Python 1.0.0 </br>.NET 1.0.0 | 0.6.0     | 支持     |
+| 2021年3月4日  | 1.0.1</br> | 1.0.1 | Java 1.0.2 </br>Go 1.0.0 </br>PHP 1.0.0 </br>Python 1.0.0 </br>.NET 1.0.0 | 0.6.0     | 支持     |
+| 2021年4月1日  | 1.1.0</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | 支持     |
+| 2021年4月6日  | 1.1.1</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | 支持（当前） |
+| 2021年4月16日 | 1.1.2</br> | 1.1.0 | Java 1.0.2 </br>Go 1.1.0 </br>PHP 1.0.0 </br>Python 1.1.0 </br>.NET 1.1.0 | 0.6.0     | 支持（当前） |
 
 ## Upgrade paths
 After the 1.0 release of the runtime there may be situations where it is necessary to explicitly upgrade through an additional release to reach the desired target. For example an upgrade from v1.0 to v1.2 may need go pass through v1.1
 
 The table below shows the tested upgrade paths for the Dapr runtime. For example you are able to upgrade from 1.0-rc4 to the 1.0 release. Any other combinations of upgrades have not been tested.
 
-General guidance on upgrading can be found for [self hosted mode]({{X52X}}) and [Kubernetes]({{X53X}}) deployments. It is best to review the target version release notes for specific guidance.
+General guidance on upgrading can be found for [self hosted mode]({{<ref self-hosted-upgrade>}}) and [Kubernetes]({{<ref kubernetes-upgrade>}}) deployments. It is best to review the target version release notes for specific guidance.
 
 | Current Runtime version | Must upgrade through | Target Runtime version |
 | ----------------------- | -------------------- | ---------------------- |
@@ -63,9 +63,9 @@ After announcing a future breaking change, the change will happen in 2 releases 
 
 Here is an example, using a hypothetical 1.1.0 as the deprecation announcement release.
 
-| Feature   | Deprecation announcement | Deprecation |
-| --------- | ------------------------ | ----------- |
-| Feature X | 1.1.0                    | 1.3.0       |
+| 特性        | 废弃通知  | Deprecation |
+| --------- | ----- | ----------- |
+| Feature X | 1.1.0 | 1.3.0       |
 
 ## Upgrade on Hosting platforms
 Dapr can support multiple hosting platforms for production. With the 1.0 release the two supported platforms are Kubernetes and physical machines. For Kubernetes upgrades see [Production guidelines on Kubernetes]({{< ref kubernetes-production.md >}})

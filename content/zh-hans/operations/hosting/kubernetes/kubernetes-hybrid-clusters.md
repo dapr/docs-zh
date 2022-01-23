@@ -33,7 +33,7 @@ Kubernetes 使用了一个叫做节点亲和性的概念，这样你就可以表
    ```
 ## 安装 Dapr 控制面板
 
-如果您正在使用 Dapr CLI 或通过 Helm Chart 安装， 只需遵循正常的部署程序： [在 Kubernetes 集群上安装 Dapr]({{< ref "install-dapr-selfhost.md#installing-Dapr-on-a-kubernetes-cluster" >}})
+If you are installing using the Dapr CLI or via a helm chart, simply follow the normal deployment procedures: [Installing Dapr on a Kubernetes cluster]({{< ref "install-dapr-selfhost.md#installing-Dapr-on-a-kubernetes-cluster" >}})
 
 关联性将被自动设置为 `kubernetes.io/os=linux`。 这对于大多数用户来说是足够的，因为Kubernetes至少需要一个Linux节点池。
 

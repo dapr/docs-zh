@@ -9,16 +9,16 @@ description: "如何在 Kubernetes 集群中运行 Dapr 的概述"
 ## Kubernetes上的 Dapr
 
 Dapr 可以配置为在任何 Kubernetes 集群上运行。 为了实现这一目标，Dapr首先部署了`dapr-sidecar-injector`、`dapr-operator`、`dapr-placement`和`dapr-sentry`Kubernetes服务。 这些都提供了一流的集成，使Dapr的应用运行变得简单。
-- **dapr-operator:** 管理 [组件]({{< ref components >}}) 更新和 Dapr 的 Kubernetes 服务终结点(状态存储、发布/订阅 等)。
+- **dapr-operator:** Manages [component]({{< ref components >}}) updates and Kubernetes services endpoints for Dapr (state stores, pub/subs, etc.)
 - **dapr-sidecar-injector:** 将 Dapr 注入 [annotated](#adding-dapr-to-a-kubernetes-deployment) deployment pods，并添加环境变量 `DAPR_HTTP_PORT` 和 `DAPR_GRPC_PORT`，以使用户定义的应用程序能够轻松地与 Dapr 通信，而无需硬编码 Dapr 端口值。
-- **dapr-placement:** 仅用于 [Actors]({{< ref actors >}})。 创建映射表，将 actor 实例映射到 pods。
-- **dapr-sentry:** 管理服务之间的mTLS并作为证书颁发机构。 有关详细信息，请阅读[安全概述]({{< ref "security-concept.md" >}})。
+- **dapr-placement:** Used for [actors]({{< ref actors >}}) only. 创建映射表，将 actor 实例映射到 pods。
+- **dapr-sentry:** 管理服务之间的mTLS并作为证书颁发机构。 For more information read the [security overview]({{< ref "security-concept.md" >}}).
 
 <img src="/images/overview_kubernetes.png" width=800>
 
 ## 在 Kubernetes 集群上部署 Dapr
 
-阅读 [本指南]({{< ref kubernetes-deploy.md >}}) 来学习如何将 Dapr 部署到您的 Kubernetes 集群。
+Read [this guide]({{< ref kubernetes-deploy.md >}}) to learn how to deploy Dapr to your Kubernetes cluster.
 
 ## 将 Dapr 添加到 Kubernetes deployment
 
@@ -32,13 +32,13 @@ Dapr 可以配置为在任何 Kubernetes 集群上运行。 为了实现这一�
     dapr.io/config: "tracing"
 ```
 
-## 快速启动
+## 入门项
 
-您可以 [在这里](https://github.com/dapr/quickstarts/tree/master/hello-kubernetes) 看到一些例子，在 Kubernetes 的入门示例中。
+You can see some examples [here](https://github.com/dapr/quickstarts/tree/master/hello-kubernetes) in the Kubernetes getting started quickstart.
 
 ## 相关链接
 
-- [将 Dapr 部署到 Kubernetes 集群]({{< ref kubernetes-deploy >}})
+- [将 dapr 部署到 Kubernetes 集群]({{< ref kubernetes-deploy >}})
 - [更新 Kubernetes 集群中的 Dapr]({{< ref kubernetes-upgrade >}})
 - [Kubernetes 的 Dapr 生产环境配置指南]({{< ref kubernetes-production.md >}})
 - [Dapr Kubernetes 快速入门](https://github.com/dapr/quickstarts/tree/master/hello-kubernetes)

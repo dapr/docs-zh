@@ -152,7 +152,7 @@ CORS(app)
 @app.route('/dsstatus', methods=['POST'])
 def ds_subscriber():
     print(request.json, flush=True)
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
 app.run()
 ```
@@ -259,17 +259,17 @@ def subscribe():
 @app.route('/dsstatus', methods=['POST'])
 def ds_subscriber():
     print(request.json, flush=True)
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 app.run()
 ```
-创建 `app1.py` 后，确保 flask 和 flask_cors 已经安装了：
+创建名为" `app1.py` 的文件，并粘贴如下内容：
 
 ```bash
 pip install flask
 pip install flask_cors
 ```
 
-然后运行:
+创建 `app1.py` 后，确保 flask 和 flask_cors 已经安装了：
 
 ```bash
 dapr --app-id app1 --app-port 5000 run python app1.py
@@ -290,7 +290,7 @@ app.get('/dapr/subscribe', (req, res) => {
         {
             pubsubname: "pubsub",
             topic: "deathStarStatus",
-            route: "dsstatus"        
+            route: "dsstatus"
         }
     ]);
 })
@@ -302,7 +302,7 @@ app.post('/dsstatus', (req, res) => {
 
 app.listen(port, () => console.log(`consumer app listening on port ${port}!`))
 ```
-运行此应用：
+设置上述订阅后，将此 javascript（Node > 4.16）下载到 `app2.js` 文件中：
 
 ```bash
 dapr --app-id app2 --app-port 3000 run node app2.js
@@ -333,7 +333,7 @@ $app->post('/dsstatus', function(
 $app->start();
 ```
 
-运行此应用：
+设置上述订阅后，将此 javascript（Node > 4.16）下载到 `app2.js` 文件中：
 
 ```bash
 dapr --app-id app1 --app-port 3000 run -- php -S 0.0.0.0:3000 app1.php
@@ -352,7 +352,7 @@ dapr --app-id app1 --app-port 3000 run -- php -S 0.0.0.0:3000 app1.php
 用名为 `testpubsub` 的 app-id 启动一个 Dapr 实例：
 
 ```bash
-dapr run --app-id testpubsub --dapr-http-port 3500 
+dapr run --app-id testpubsub --dapr-http-port 3500
 ```
 {{< tabs "Dapr CLI" "HTTP API (Bash)" "HTTP API (PowerShell)">}}
 
@@ -396,7 +396,7 @@ Dapr 将在符合 Cloud Events v1.0 的信封中自动包装用户有效负载�
 @app.route('/dsstatus', methods=['POST'])
 def ds_subscriber():
     print(request.json, flush=True)
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 ```
 {{% /codetab %}}
 
@@ -481,5 +481,5 @@ Dapr 自动接收发布请求上发送的数据，并将其包装在CloudEvent 1
 - 了解 [Topic 作用域]({{< ref pubsub-scopes.md >}})
 - 了解 [消息存活时间]({{< ref pubsub-message-ttl.md >}})
 - 学习 [如何配置具有多个命名空间的 Pub/Sub 组件]({{< ref pubsub-namespaces.md >}})
-- [Pub/Sub 组件列表]({{< ref setup-pubsub >}})
+- Pub/sub组件是可扩展的， [这里]({{< ref setup-pubsub >}})有支持的pub/sub组件列表，实现可以在[components-contrib repo](https://github.com/dapr/components-contrib)中找到。
 - 阅读 [API 引用]({{< ref pubsub_api.md >}})

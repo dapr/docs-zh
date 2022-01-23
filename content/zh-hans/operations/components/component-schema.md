@@ -44,7 +44,7 @@ spec:
 
 ### 特殊的元数据值
 
-元数据值可以包含一个 `{uuid}` 标签，当 Dapr sidecar 启动时，该标记将被随机生成的 UUID 所取代。 每个启动都会生成新的 UUID。 它可以用来在 Kubernetes 上区分同一个 pod 的多个实例 ，比如 [共享的 MQTT 订阅]({{< ref "setup-mqtt.md" >}})。 下面是一个使用 ` {uuid}` 选项的示例。
+元数据值可以包含一个 `{uuid}` 标签，当 Dapr sidecar 启动时，该标记将被随机生成的 UUID 所取代。 每个启动都会生成新的 UUID。 It can be used, for example, to have a pod on Kubernetes with multiple application instances consuming a [shared MQTT subscription]({{< ref "setup-mqtt.md" >}}). 下面是一个使用 ` {uuid}` 选项的示例。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

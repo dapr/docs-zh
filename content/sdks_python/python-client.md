@@ -11,11 +11,11 @@ The Dapr client package allows you to interact with other Dapr applications from
 ## 前提
 
 - 安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 初始化的 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
-- [Python 3.7+](https://www.python.org/downloads/) installed
-- [Dapr Python module]({{< ref "python#install-the0dapr-module" >}}) installed
+- 初始化[Dapr环境]({{< ref install-dapr-selfhost.md >}})
+- 安装[Python 3.7+](https://www.python.org/downloads/)
+- 安装[Dapr Python 模块]({{< ref "python#install-the0dapr-module" >}})
 
-## Import the client package
+## 导入包
 
 The dapr package contains the `DaprClient` which will be used to create and use a client.
 

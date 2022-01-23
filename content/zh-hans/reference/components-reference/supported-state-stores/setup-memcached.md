@@ -26,19 +26,11 @@ spec:
   - name: maxIdleConnections
     value: <REPLACE-WITH-MAX-IDLE-CONNECTIONS> # Optional. default: "2"
   - name: timeout
-    value: <REPLACE-WITH-TIMEOUT> # Optional. default: "1000ms" Example: "memcached.default.svc.cluster.local:11211"
-  - name: maxIdleConnections
-    value: <REPLACE-WITH-MAX-IDLE-CONNECTIONS> # Optional. default: "2"
-  - name: timeout
-    value: <REPLACE-WITH-TIMEOUT> # Optional. default: "1000ms" Example: "memcached.default.svc.cluster.local:11211"
-  - name: maxIdleConnections
-    value: <REPLACE-WITH-MAX-IDLE-CONNECTIONS> # Optional. default: "2"
-  - name: timeout
     value: <REPLACE-WITH-TIMEOUT> # Optional. default: "1000ms"
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范

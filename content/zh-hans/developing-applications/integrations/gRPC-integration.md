@@ -206,7 +206,7 @@ func main() {
 
     fmt.Println("Client starting...")
 
-    // 启动......
+    // and start...
     if err := s.Serve(lis); err != nil {
         log.Fatalf("failed to serve: %v", err)
     }
@@ -229,6 +229,6 @@ Kubernetes 中，必须在您的Pod规范文档中进行如下设置： `dapr.io
 
 您可以将 Dapr 与支持Protobuf 的任意语言一起使用，而不仅仅是当前已经生成可用的SDKs。 使用 [protoc](https://developers.google.com/protocol-buffers/docs/downloads) 工具，您可以为 Ruby， C++， Rust 等其他语言生成 Dapr 客户端。
 
- 相关主题
+ ## 相关主题
 - [服务调用构建块]({{< ref service-invocation >}})
 - [服务调用 API 规范]({{< ref service_invocation_api.md >}})

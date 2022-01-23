@@ -34,7 +34,7 @@ description: "在生产环境中将 Dapr 部署到 Kubernetes 集群的建议和
 
 ## Sidecar 资源设置
 
-请参见 [这里]({{< ref "kubernetes-annotations.md" >}})来为 Dapr sidecar设置资源分配， 与资源约束相关的具体注解如下: 与资源约束相关的具体注解如下:
+To set the resource assignments for the Dapr sidecar, see the annotations [here]({{< ref "kubernetes-annotations.md" >}}). 与资源约束相关的具体注解如下:
 
 - `dapr.io/sidecar-cpu-limit`
 - `dapr.io/sidecar-memory-limit`
@@ -59,11 +59,11 @@ description: "在生产环境中将 Dapr 部署到 Kubernetes 集群的建议和
 
 When deploying Dapr in a production-ready configuration, it's recommended to deploy with a highly available (HA) configuration of the control plane, which creates 3 replicas of each control plane pod in the dapr-system namespace. This configuration allows for the Dapr control plane to survive node failures and other outages.
 
-HA mode can be enabled with both the \[Dapr CLI\]({{< ref "kubernetes-deploy.md#install-in-highly-available-mode" >}} and with [Helm charts]({{< ref "kubernetes-deploy.md#add-and-install-dapr-helm-chart" >}}).
+HA mode can be enabled with both the [Dapr CLI]({{< ref "kubernetes-deploy.md#install-in-highly-available-mode" >}}) and with [Helm charts]({{< ref "kubernetes-deploy.md#add-and-install-dapr-helm-chart" >}}).
 
 ## 用Helm部署Dapr
 
-有关使用 Helm 部署 Dapr 的完整指南，请访问 [本指南]({{< ref "kubernetes-deploy.md#install-with-helm-advanced" >}})。
+For a full guide on deploying Dapr with Helm visit [this guide]({{< ref "kubernetes-deploy.md#install-with-helm-advanced" >}}).
 
 ### 参数文件
 建议创建一个文件来存储值，而不是在命令行中指定参数。 这个文件应当应用代码版本控制，这样你就可以跟踪对它的修改。
@@ -101,7 +101,7 @@ kubectl get pods --namespace dapr-system
 
 该命令将为dapr-system命名空间中每个控制平面service创建3个副本。
 
-*Dapr Cli 和 Dapr Helm 图表都会自动关联地部署到带有标签`kubernetes.io/os=linux`的节点上。 你可以将Dapr控制平面部署到Windows节点，但大多数用户应该不需要。 更多信息参见[部署到Linux/Windows混合型Kubernetes集群]({{< ref "kubernetes-hybrid-clusters.md" >}})*
+*Dapr Cli 和 Dapr Helm 图表都会自动关联地部署到带有标签`kubernetes.io/os=linux`的节点上。 你可以将Dapr控制平面部署到Windows节点，但大多数用户应该不需要。 For more information see [Deploying to a Hybrid Linux/Windows K8s Cluster]({{< ref "kubernetes-hybrid-clusters.md" >}})*
 
 ## 用 Helm 升级 Dapr
 
@@ -117,7 +117,7 @@ Dapr支持零停机升级， 升级包括以下步骤： 升级包括以下步�
 
 ### 更新Dapr control plane
 
-请参阅 [在 Kubernetes 集群上升级 Dapr 的步骤]({{< ref "kubernetes-upgrade.md#helm" >}})。
+See [steps to upgrade Dapr on a Kubernetes cluster]({{< ref "kubernetes-upgrade.md#helm" >}}).
 
 ### 更新数据平面(sidecar)
 
@@ -142,17 +142,17 @@ nodeapp    3000      16h  2020-07-29 17:16.22
 
 建议生产环境的部署涵盖以下设置：
 
-1. **启用相互验证 (mTLS)**。 请注意，Dapr默认开启了mTLS。 有关如何携带自定义证书的详细信息，请参见 [这里]({{< ref "mtls.md#bringing-your-own-certificates" >}})。
+1. **启用相互验证 (mTLS)**。 请注意，Dapr默认开启了mTLS。 For details on how to bring your own certificates, see [here]({{< ref "mtls.md#bringing-your-own-certificates" >}})
 
-2. **启用Dapr to App API验证**。 这是你的应用程序和Dapr边车之间的通信。 这能确保Dapr知道它正在与授权的应用程序通信。 请参阅[使用令牌认证对来自Dapr的请求进行认证]({{< ref "app-api-token.md" >}}) 了解详情
+2. **启用Dapr to App API验证**。 这是你的应用程序和Dapr边车之间的通信。 这能确保Dapr知道它正在与授权的应用程序通信。 See [enable API token authentication in Dapr]({{< ref "api-token.md" >}}) for details
 
-3. **启用Dapr to App API验证**。 这是你的应用程序和Dapr边车之间的通信。 这能确保Dapr知道它正在与授权的应用程序通信。 请参阅[使用令牌认证对来自Dapr的请求进行认证]({{< ref "app-api-token.md" >}}) 了解详情
+3. **启用Dapr to App API验证**。 这是你的应用程序和Dapr边车之间的通信。 这能确保Dapr知道它正在与授权的应用程序通信。 See [Authenticate requests from Dapr using token authentication]({{< ref "app-api-token.md" >}}) for details
 
-4. 所有的组件YAML都应该把**密钥数据配置在密钥存储中**，而不是硬编码在YAML文件中。 请参阅 [这里]({{< ref "component-secrets.md" >}})，了解如何在Dapr组件中使用秘密。
+4. 所有的组件YAML都应该把**密钥数据配置在密钥存储中**，而不是硬编码在YAML文件中。 See [here]({{< ref "component-secrets.md" >}}) on how to use secrets with Dapr components
 
 5. Dapr **控制平面安装在一个专用的命名空间**上，如`dapr-system`。
 
-6. Dapr还支持**框定应用程序的组件范围**。 这不是必要的，可以根据您的安全需求启用。 请参阅 [这里]({{< ref "component-scopes.md" >}}) 以获取更多信息。
+6. Dapr还支持**框定应用程序的组件范围**。 这不是必要的，可以根据您的安全需求启用。 See [here]({{< ref "component-scopes.md" >}}) for more info.
 
 
 ## 追踪和度量配置
@@ -161,10 +161,10 @@ Dapr 默认启用追踪和度量。 *建议*在生产环境中为您的应用程
 
 如果你已经有了自己的可观察测性支持组件，你可以禁用Dapr的追踪和度量。
 
-### Tracing（调用链追踪）
-要为 Dapr 配置后台追踪，请访问[这个]({{< ref "setup-tracing.md" >}})链接。
+### 追踪
+To configure a tracing backend for Dapr visit [this]({{< ref "setup-tracing.md" >}}) link.
 
-### 指标
+### 度量
 对于度量，Dapr在9090端口上暴露了一个Prometheus端点，可以被Prometheus收集。
 
-要为 Dapr 配置Prometheus、Grafana 和其他监控工具，请访问 [这个]({{< ref "monitoring" >}})链接。
+To setup Prometheus, Grafana and other monitoring tools with Dapr, visit [this]({{< ref "monitoring" >}}) link.

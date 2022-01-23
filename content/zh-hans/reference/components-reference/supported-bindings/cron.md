@@ -23,7 +23,7 @@ spec:
   version: v1
   metadata:
   - name: schedule
-    value: "@every 15m" # valid cron schedule  
+    value: "@every 15m" # valid cron schedule
 ```
 
 ## 元数据字段规范
@@ -63,7 +63,7 @@ Dapr cron 绑定支持以下格式：
 
 此组件支持 **输入和输出** 绑定接口。
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `delete`
 

@@ -1,11 +1,11 @@
 ---
 type: docs
-title: "安装 Dapr CLI 脚手架工具"
+title: "安装 Dapr CLI"
 linkTitle: "安装 Dapr CLI"
 weight: 10
 ---
 
-Dapr CLI 是您用于各种 Dapr 相关任务的主要工具。 您可以使用它来运行一个带有Dapr sidecar的应用程序， 以及查看sidecar日志、列出运行中的服务、运行 Dapr 仪表板。 Dapr CLI 同时支持 [自托管]({{< ref self-hosted >}}) 和 [Kubernetes]({{< ref Kubernetes >}}) 环境。
+Dapr CLI 是您用于各种 Dapr 相关任务的主要工具。 您可以使用它来运行一个带有Dapr sidecar的应用程序， 以及查看sidecar日志、列出运行中的服务、运行 Dapr 仪表板。 The Dapr CLI works with both [self-hosted]({{< ref self-hosted >}}) and [Kubernetes]({{< ref Kubernetes >}}) environments.
 
 开始下载并安装 Dapr CLI：
 
@@ -72,12 +72,12 @@ dapr
 
 
 ```md
-         __                
+         __
     ____/ /___ _____  _____
    / __  / __ '/ __ \/ ___/
-  / /_/ / /_/ / /_/ / /    
-  \__,_/\__,_/ .___/_/     
-              /_/            
+  / /_/ / /_/ / /_/ / /
+  \__,_/\__,_/ .___/_/
+              /_/
 
 ===============================
 Distributed Application Runtime

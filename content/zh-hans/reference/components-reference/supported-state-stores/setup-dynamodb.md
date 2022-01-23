@@ -29,14 +29,14 @@ spec:
     value: "abcd" # Optional
   - name: endpoint
     value: "http://localhost:8080" # Optional
-  - name: region 
+  - name: region
     value: "eu-west-1" # Optional
   - name: sessionToken
     value: "abcd" # Optional
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
@@ -51,7 +51,7 @@ spec:
 | sessionToken | N  | 要使用的 AWS 会话令牌。  A session token is only required if you are using temporary security credentials.                                                                         | `"TOKEN"`                                    |
 
 ## Setup AWS DynamoDB
-关于身份验证相关属性的信息，请参阅 [认证到 AWS]({{< ref authenticating-aws.md >}})
+See [Authenticating to AWS]({{< ref authenticating-aws.md >}}) for information about authentication-related attributes
 
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})

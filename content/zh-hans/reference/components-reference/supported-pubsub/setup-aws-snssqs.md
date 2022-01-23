@@ -31,15 +31,15 @@ spec:
     - name: messageVisibilityTimeout
       value: 10
     - name: messageRetryLimit
-      value: 10      
+      value: 10
     - name: messageWaitTimeSeconds
       value: 1
     - name: messageMaxNumber
-      value: 10 
+      value: 10
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
@@ -47,7 +47,7 @@ spec:
 | 字段                       | 必填 | 详情                                                                                                                                    | 示例                                           |
 | ------------------------ |:--:| ------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------- |
 | accessKey                | Y  | 具有SNS和SQS适当权限的AWS账户的ID。 可以用`secretKeyRef`来引用密钥。                                                                                       | `"AKIAIOSFODNN7EXAMPLE"`                     |
-| secretKey                | Y  | AWS用户的密钥。 可以用`secretKeyRef`来引用                                                                                                        | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
+| secretKey                | Y  | AWS用户的密钥。 可以用`secretKeyRef`来引用密钥。                                                                                                     | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
 | region                   | Y  | AWS区域到实例。 有效区域请参见本页面：https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html。 确保该地区有SNS和SQS。 | `"us-east-1"`                                |
 | 终结点                      | N  | 该组件要使用的AWS端点， 仅用于本地开发。 仅用于本地开发。 当对生产环境的AWS，`endpoint`是不需要的。                                                                           | `"http://localhost:4566"`                    |
 | sessionToken             | N  | 要使用的 AWS 会话令牌。  只有当您使用临时安全凭证时才需要会话令牌。                                                                                                 | `"TOKEN"`                                    |
@@ -63,9 +63,9 @@ spec:
 {{% codetab %}}
 对于本地开发来说，可以用[localstack项目](https://github.com/localstack/localstack)集成AWS SNS/SQS。 按照[这里](https://github.com/localstack/localstack#installing)的说明安装localstack CLI。
 
-为了将localstack与你的pubsub绑定在一起，你需要提供`endpoint`配置。 当在AWS生产环境上运行时，`endpoint`是不需要的。
+In order to use localstack with your pubsub binding, you need to provide the `endpoint` configuration in the component metadata. 当在AWS生产环境上运行时，`endpoint`是不需要的。
 
-关于身份验证相关属性的信息，请参阅 [认证到 AWS]({{< ref authenticating-aws.md >}})
+See [Authenticating to AWS]({{< ref authenticating-aws.md >}}) for information about authentication-related attributes
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -85,7 +85,7 @@ spec:
 {{% /codetab %}}
 
 {{% codetab %}}
-要在Kubernetes上运行localstack，可以应用以下配置。 然后，Localstack可以通过DNS名称`http://localstack.default.svc.cluster.local:4566`发现。 (假设这被应用于默认的命名空间)，这应该被用作`端点`。
+要在Kubernetes上运行localstack，可以应用以下配置。 Localstack is then reachable at the DNS name `http://localstack.default.svc.cluster.local:4566` (assuming this was applied to the default namespace) and this should be used as the `endpoint`
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -138,7 +138,7 @@ spec:
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
 - [发布/订阅构建块]({{< ref pubsub >}})
-- 请访问 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) ，了解如何配置 pub/sub 组件
+- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})，了解配置 发布/订阅组件的说明
 - [将AWS SQS作为SNS的订阅者](https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html)
 - [AWS SNS API reference](https://docs.aws.amazon.com/sns/latest/api/Welcome.html)
 - [AWS SQS API reference](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/Welcome.html)

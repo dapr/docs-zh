@@ -88,5 +88,5 @@ $app->run(function(\DI\FactoryInterface $factory) {
 
 - 了解 [Topic 作用域]({{< ref pubsub-scopes.md >}})
 - 学习 [如何配置具有多个命名空间的 Pub/Sub 组件]({{< ref pubsub-namespaces.md >}})
-- [Pub/Sub 组件列表]({{< ref supported-pubsub >}})
+- [pub/sub组件列表]({{< ref supported-pubsub >}})
 - 阅读 [API 引用]({{< ref pubsub_api.md >}})

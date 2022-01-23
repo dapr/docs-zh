@@ -5,7 +5,7 @@ linkTitle: "configurations"
 description: "有关 configurations CLI 命令的详细信息"
 ---
 
-## 描述
+## 说明
 
 列出所有 Dapr 配置。
 
@@ -21,7 +21,7 @@ dapr configurations [flags]
 
 ## 参数
 
-| Name                 | 环境变量 | 默认值     | 描述                           |
+| Name                 | 环境变量 | 默认值     | 说明                           |
 | -------------------- | ---- | ------- | ---------------------------- |
 | `--kubernetes`, `-k` |      | `false` | 列出 Kubernetes 群集中的所有 Dapr 配置 |
 | `--name`, `-n`       |      |         | 要打印的配置名称（可选）                 |

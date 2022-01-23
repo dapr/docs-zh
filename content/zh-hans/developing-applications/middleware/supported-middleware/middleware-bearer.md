@@ -3,10 +3,10 @@ type: docs
 title: "Bearer"
 linkTitle: "Bearer"
 weight: 4000
-description: "使用Bearer中间件，通过验证Bearer token来确保HTTP端点的安全"
+description: "使用 Bearer 中间件，通过验证 Bearer token 来确保 HTTP 端点的安全"
 ---
 
-Bearer [HTTP 中间件]({{< ref middleware-concept.md >}})使用 [OpenID Connect](https://openid.net/connect/)在 Web API 上验证 [Bearer Token](https://tools.ietf.org/html/rfc6750)，而无需修改应用程序。 这种设计将认证/授权的关注点从应用中分离出来，因此应用操作者可以采用和配置认证/授权提供者，而不影响应用代码。
+[Bearer 中间件]({{< ref middleware-concept.md >}})在 Web API 上使用 [OpenID Connect](https://openid.net/connect/) 来验证 [Bearer Token](https://tools.ietf.org/html/rfc6750) 而无须修改应用程序。 这种设计将认证/授权的关注点从应用中分离出来，因此应用操作者可以采用和配置认证/授权提供者，而不影响应用代码。
 
 ## 配置
 
@@ -33,7 +33,7 @@ spec:
 
 ## Dapr配置
 
-要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中进行引用。 请参阅[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
+要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中引用中间件。 参考[中间件管道]({{< ref "middleware-concept.md#customize-processing-pipeline">}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

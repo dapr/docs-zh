@@ -34,7 +34,7 @@ spec:
 
 ## 绑定支持
 
-该组件支持**输出绑定**，其操作如下:
+字段名为 `ttlInSeconds`。
 
 - `create` : [Create file](#create-file)
 - `get` : [Get file](#get-file)
@@ -148,14 +148,14 @@ To perform a get file operation, invoke the Local Storage binding with a `POST` 
 
   {{% codetab %}}
   ```bash
-  curl -d '{ \"operation\": \"get\", \"metadata\": { \"fileName\": \"myfile\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+  curl -d '{ \"operation\": \"get\", \"metadata\": { \"fileName\": \"myfile\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
   {{% codetab %}}
   ```bash
   curl -d '{ "operation": "get", "metadata": { "fileName": "myfile" }}' \
-        http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
@@ -192,14 +192,14 @@ If you only want to list the files beneath a particular directory below the `roo
 
   {{% codetab %}}
   ```bash
-  curl -d '{ \"operation\": \"list\", \"metadata\": { \"fileName\": \"my/cool/directory\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+  curl -d '{ \"operation\": \"list\", \"metadata\": { \"fileName\": \"my/cool/directory\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
   {{% codetab %}}
   ```bash
   curl -d '{ "operation": "list", "metadata": { "fileName": "my/cool/directory" }}' \
-        http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
@@ -222,20 +222,20 @@ To perform a delete file operation, invoke the Local Storage binding with a `POS
 }
 ```
 
-#### 示例
+#### Example
 
 {{< tabs Windows Linux >}}
 
   {{% codetab %}}
   ```bash
-  curl -d '{ \"operation\": \"delete\", \"metadata\": { \"fileName\": \"myfile\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+  curl -d '{ \"operation\": \"delete\", \"metadata\": { \"fileName\": \"myfile\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 
   {{% codetab %}}
   ```bash
   curl -d '{ "operation": "delete", "metadata": { "fileName": "myfile" }}' \
-        http://localhost:<dapr-port>/v1.0/bindings/<binding-name> 
+        http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /codetab %}}
 

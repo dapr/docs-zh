@@ -82,4 +82,4 @@ Visit the [bindings reference]({{< ref supported-bindings >}}) for a full list o
 
 ## 相关链接
 - [绑定构建块]({{< ref bindings >}})
-- [Supported bindings]({{X8X}})
+- [Supported bindings]({{<ref supported-bindings >}})
