@@ -28,12 +28,14 @@ spec:
     value: "<SCHEMA NAME>"
   - name: tableName
     value: "<TABLE NAME>"
-  - name: pemPath
+  - name: pemPath # Required if pemContents not provided. Path to pem file.
     value: "<PEM PATH>"
+  - name: pemContents # Required if pemPath not provided. Pem value.
+    value: "<PEM CONTENTS>"    
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 如果您想要使用 MySQL 作为 Actor 存储，请在 yaml 上附上以下内容。
@@ -45,12 +47,13 @@ spec:
 
 ## 元数据字段规范
 
-| 字段               | 必填 | 详情                                                                  | Example                                                                                                                                                                                                                                                                  |
-| ---------------- |:--:| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| connectionString | Y  | 用于连接到 MySQL 的连接字符串。 请不要将schema添加到连接字符串中。                            | [非SSL连接](#non-ssl-connection): `"<user>:<password>@tcp(<server>:3306)/?allowNativePasswords=true"`, [Enforced SSL 连接](#enforced-ssl-connection):  `"<user>:<password>@tcp(<server>:3306)/?allowNativePasswords=true&tls=custom"` |
-| schemaName       | N  | 要使用的schema名称。 如果指定的schema不存在，将会自动创建。 默认值为 `"dapr_state_store"`      | `"custom_schema"`, `"dapr_schema"`                                                                                                                                                                                                                                       |
-| tableName        | N  | 要使用的表名。 如果对应的表不存在，将被自动创建。 默认值为 `"state"`                            | `"table_name"`, `"dapr_state"`                                                                                                                                                                                                                                           |
-| pemPath          | N  | 使用 [enforced SSL 连接](#enforced-ssl-connection) 时，指定要使用的 PEM 文件完整路径。 | `"/path/to/file.pem"`, `"C:\path\to\file.pem"`                                                                                                                                                                                                                        |
+| 字段               | 必填 | 详情                                                                                                                                                                  | 示例                                                                                                                                                                                                                                                                       |
+| ---------------- |:--:| ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| connectionString | Y  | 用于连接到 MySQL 的连接字符串。 请不要将schema添加到连接字符串中。                                                                                                                            | [非SSL连接](#non-ssl-connection): `"<user>:<password>@tcp(<server>:3306)/?allowNativePasswords=true"`, [Enforced SSL 连接](#enforced-ssl-connection):  `"<user>:<password>@tcp(<server>:3306)/?allowNativePasswords=true&tls=custom"` |
+| schemaName       | N  | 要使用的schema名称。 如果指定的schema不存在，将会自动创建。 默认值为 `"dapr_state_store"`                                                                                                      | `"custom_schema"`, `"dapr_schema"`                                                                                                                                                                                                                                       |
+| tableName        | N  | 要使用的表名。 如果对应的表不存在，将被自动创建。 默认值为 `"state"`                                                                                                                            | `"table_name"`, `"dapr_state"`                                                                                                                                                                                                                                           |
+| pemPath          | N  | Full path to the PEM file to use for [enforced SSL Connection](#enforced-ssl-connection) required if pemContents is not provided. Cannot be used in K8s environment | `"/path/to/file.pem"`, `"C:\path\to\file.pem"`                                                                                                                                                                                                                        |
+| pemContents      | N  | Contents of PEM file to use for [enforced SSL Connection](#enforced-ssl-connection) required if pemPath is not provided. Can be used in K8s environment             | `"pem value"`                                                                                                                                                                                                                                                            |
 
 ## 设置 MySQL
 

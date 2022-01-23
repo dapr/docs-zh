@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-To setup Redis binding create a component of type `bindings.redis`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+要设置 Redis 绑定，请创建一个类型为 `bindings.redis`的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 
 ```yaml
@@ -31,16 +31,34 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段            | 必填 | 绑定支持 | 详情                                                                                                                        | Example             |
-| ------------- |:--:| ---- | ------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| redisHost     | Y  | 输出   | The Redis host address                                                                                                    | `"localhost:6379"`  |
-| redisPassword | Y  | 输出   | The Redis password                                                                                                        | `"password"`        |
-| enableTLS     | N  | 输出   | If the Redis instance supports TLS with public certificates it can be configured to enable or disable TLS. 默认值为 `"false"` | `"true"`, `"false"` |
+| 字段                    | 必填 | 绑定支持                                                                                  | 详情                                                                                                                        | 示例                  |
+| --------------------- |:--:| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| redisHost             | Y  | 输出                                                                                    | The Redis host address                                                                                                    | `"localhost:6379"`  |
+| redisPassword         | Y  | 输出                                                                                    | The Redis password                                                                                                        | `"password"`        |
+| enableTLS             | N  | 输出                                                                                    | If the Redis instance supports TLS with public certificates it can be configured to enable or disable TLS. 默认值为 `"false"` | `"true"`, `"false"` |
+| failover              | N  | 已启用故障转移配置的属性。 需要设置 sentinalMasterName。 默认值为 `"false"`                                 | `"true"`, `"false"`                                                                                                       |                     |
+| sentinelMasterName    | N  | 哨兵主名称。 请参阅 [Redis Sentinel 文档](https://redis.io/topics/sentinel)                      | `""`,  `"127.0.0.1:6379"`                                                                                                 |                     |
+| redeliverInterval     | N  | 检查待处理消息到重发的间隔。 默认为 `"60s"`. `"0"` 禁用重发。                                               | `"30s"`                                                                                                                   |                     |
+| processingTimeout     | N  | 在尝试重新发送消息之前必须等待的时间。 默认为 `"15s"`。 `"0"` 禁用重发。                                          | `"30s"`                                                                                                                   |                     |
+| redisType             | N  | Redis 的类型。 有两个有效的值，一个是 `"node"` 用于单节点模式，另一个是 `"cluster"` 用于 redis 集群模式。 默认为 `"node"`。 | `"cluster"`                                                                                                               |                     |
+| redisDB               | N  | 连接到 redis 后选择的数据库。 如果 `"redisType"` 是 `"cluster "` 此选项被忽略。 默认值为 `"0"`.                | `"0"`                                                                                                                     |                     |
+| redisMaxRetries       | N  | 放弃前重试命令的最大次数。 默认值为不重试失败的命令。                                                           | `"5"`                                                                                                                     |                     |
+| redisMinRetryInterval | N  | 每次重试之间 redis 命令的最小回退时间。 默认值为 `"8ms"`;  `"-1"` 禁用回退。                                   | `"8ms"`                                                                                                                   |                     |
+| redisMaxRetryInterval | N  | 每次重试之间 redis 命令的最大回退时间。 默认值为 `"512ms"`;`"-1"` 禁用回退。                                   | `"5s"`                                                                                                                    |                     |
+| dialTimeout           | N  | 建立新连接的拨号超时。 默认为 `"5s"`。                                                               | `"5s"`                                                                                                                    |                     |
+| readTimeout           | N  | 套接字读取超时。 如果达到，redis命令将以超时的方式失败，而不是阻塞。 默认为 `"3s"`, `"-1"` 表示没有超时。                      | `"3s"`                                                                                                                    |                     |
+| writeTimeout          | N  | 套接字写入超时。 如果达到，redis命令将以超时的方式失败，而不是阻塞。 默认值为 readTimeout。                               | `"3s"`                                                                                                                    |                     |
+| poolSize              | N  | 最大套接字连接数。 默认是每个CPU有10个连接，由 runtime.NumCPU 所述。                                         | `"20"`                                                                                                                    |                     |
+| poolTimeout           | N  | 如果所有连接都处于繁忙状态，客户端等待连接时间，超时后返回错误。 默认值为 readTimeout + 1 秒。                              | `"5s"`                                                                                                                    |                     |
+| maxConnAge            | N  | 客户端退出（关闭）连接时的连接期限。 默认值是不关闭过期的连接。                                                      | `"30m"`                                                                                                                   |                     |
+| minIdleConns          | N  | 保持开放的最小空闲连接数，以避免创建新连接带来的性能下降。 默认值为 `"0"`.                                             | `"2"`                                                                                                                     |                     |
+| idleCheckFrequency    | N  | 空闲连接后的空闲检查频率。 默认值为 `"1m"`。 `"-1"` 禁用空闲连接回收。                                           | `"-1"`                                                                                                                    |                     |
+| idleTimeout           | N  | 客户端关闭空闲连接的时间量。 应小于服务器的超时。 默认值为 `"5m"`。 `"-1"` 禁用空闲超时检查。                               | `"10m"`                                                                                                                   |                     |
 
 
 ## 绑定支持

@@ -7,7 +7,7 @@ description: >
   向Dapr Docs投稿的准则
 ---
 
-本指南包含有关对 [Dapr 文档库](https://github.com/dapr/docs) 的贡献信息。 请在对 Dapr docs 作出贡献之前，请先阅读以下准则。 This guide assumes you have already reviewed the [general guidance]({{< ref contributing-overview>}}) which applies to any Dapr project contributions.
+本指南包含有关对 [Dapr 文档库](https://github.com/dapr/docs) 的贡献信息。 请在对 Dapr docs 作出贡献之前，请先阅读以下准则。 本指南假定您已阅读了适用于任何Dapr项目贡献的[通用指南]({{< ref contributing-overview>}})。
 
 Dapr 文档已发布到 [docs.dapr.io](https://docs.dapr.io)。 因此，任何贡献都必须确保文档能够正确编译和发布。
 
@@ -46,7 +46,7 @@ Dapr 文档处理分支的方式与大多数代码存储库不同。 每个分�
 - 请确保文档引用该规范以获取使用 API 的示例。
 - 确保规范在名称，参数和术语方面与概念一致。 根据需要更新概念和规范。
 - 请避免重复该规范。 这个想法是为了给读者提供更多关于能力的信息和背景，以便他们可以尝试这个。 因此，尽可能提供更多的信息和实施细节。
-- Provide a link to the spec in the [Reference]({{<ref reference >}}) section.
+- 提供指向[参考资料]({{<ref reference >}})中规范的链接。
 - 在可能的情况下，参考一个实用的How-To文档。
 
 ### 贡献新的 How-To 指南
@@ -79,7 +79,7 @@ description: "1+ SENTENCES DESCRIBING THE ARTICLE"
 ---
 ```
 
-#### Example
+#### 示例
 ```yaml
 ---
 type: docs
@@ -142,7 +142,7 @@ Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 语法来调
 ```
 > 请不要忘记设置 alt 属性，以保留视觉受损用户的文档可读。
 
-#### Example:
+#### 示例
 
 此 HTML 将在 `overview.md` 页面上显示 `dapr-overview.png` 图片:
 ```md
@@ -169,7 +169,7 @@ Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 语法来调
 
 您所编写的所有内容都将被渲染为Markdown，因此您可以包含图像、代码块、YouTube视频等。
 
-#### Example
+#### 示例
 ````
 {{</* tabs Windows Linux MacOS>}}
 
@@ -215,13 +215,109 @@ brew install dapr/tap/dapr-cli
 
 {{< /tabs >}}
 
-### YouTube 视频
-短代码为：
+### 嵌入代码片段
+
+使用 `code-snippet` 快捷码从 `静态/代码` 目录中的引用代码片段。
+
+```
+{{</* code-snippet file="myfile.py" lang="python" */>}}
+```
+
+{{% alert title="Warning" color="warning" %}}
+所有Dapr示例代码都应该在单独的文件中自成一体，而不是在Markdown中。 使用这里描述的技术来突出示例代码的部分用户应该关注的问题。
+{{% /alert %}}
+
+使用 `lang` (默认 `txt`) 参数来配置用于语法高亮的语言。
+
+使用 `marker` 参数限制嵌入式到部分示例文件中。 当您只想显示较大文件的一部分时，这是非常有用的。 典型的方法是用注释包围感兴趣的代码，然后将注释文本传递给`marker`。
+
+下面的短代码和代码示例:
+
+```
+{{</* code-snippet file="./contributing-1.py" lang="python" marker="#SAMPLE" */>}}
+```
+
+```python
+import json
+import time
+
+from dapr.clients import DaprClient
+
+#SAMPLE
+with DaprClient() as d:
+    req_data = {
+        'id': 1,
+        'message': 'hello world'
+    }
+
+    while True:
+        # Create a typed message with content type and body
+        resp = d.invoke_method(
+            'invoke-receiver',
+            'my-method',
+            data=json.dumps(req_data),
+        )
+
+        # Print the response
+        print(resp.content_type, flush=True)
+        print(resp.text(), flush=True)
+
+        time.sleep(2)
+#SAMPLE
+```
+
+将产生以下产出：
+
+{{< code-snippet file="contributing-1.py" lang="python" marker="#SAMPLE" >}}
+
+Use the `replace-key-[token]` and `replace-value-[token]` parameters to limit the embedded snipped to a portion of the sample file. This is useful when you want abbreviate a portion of the code sample. Multiple replacements are supported with multiple values of `token`.
+
+下面的短代码和代码示例:
+
+```
+{{</* code-snippet file="./contributing-2.py" lang="python" replace-key-imports="#IMPORTS" replace-value-imports="# Import statements"  */>}}
+```
+
+```python
+#IMPORTS
+import json
+import time
+#IMPORTS
+
+from dapr.clients import DaprClient
+
+with DaprClient() as d:
+    req_data = {
+        'id': 1,
+        'message': 'hello world'
+    }
+
+    while True:
+        # Create a typed message with content type and body
+        resp = d.invoke_method(
+            'invoke-receiver',
+            'my-method',
+            data=json.dumps(req_data),
+        )
+
+        # Print the response
+        print(resp.content_type, flush=True)
+        print(resp.text(), flush=True)
+
+        time.sleep(2)
+```
+
+将产生以下产出：
+
+{{< code-snippet file="./contributing-2.py" lang="python" replace-key-imports="#IMPORTS" replace-value-imports="# Import statements"  >}}
+
+### YouTube videos
+Hugo can automatically embed YouTube videos using a shortcode:
 ```
 {{</* youtube [VIDEO ID] */>}}
 ```
 
-#### Example
+#### 示例
 
 给定视频：https://youtu.be/dQw4w9WgXcQ
 
@@ -233,6 +329,8 @@ brew install dapr/tap/dapr-cli
 ### 按钮
 
 若要在网页上创建按钮，请使用 `button` 短码。
+
+可选的"Newtab"参数将指示页面是否应在新的选项卡中打开。 选项为“true”或“false”。 默认情况为“false”，在同一个标签页中打开页面。
 
 #### 链接到外部文件
 
@@ -246,10 +344,10 @@ brew install dapr/tap/dapr-cli
 
 您还可以在按钮中引用页面：
 ```
-{{</* button text="My Button" page="contributing" */>}}
+{{</* button text="My Button" page="contributing" newtab="true" */>}}
 ```
 
-{{< button text="My Button" page="contributing" >}}
+{{< button text="My Button" page="contributing" newtab="true" >}}
 
 #### 按钮颜色
 

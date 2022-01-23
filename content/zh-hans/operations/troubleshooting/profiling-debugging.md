@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "Profiling & Debugging"
-linkTitle: "Debugging"
+linkTitle: "调试"
 weight: 4000
 description: "Discover problems and issues such as concurrency, performance, cpu and memory usage through a profiling session"
 ---
@@ -10,7 +10,7 @@ In any real world scenario, an app might start exhibiting undesirable behavior i
 
 Dapr allows users to start an on-demand profiling session using `pprof` through its profiling server endpoint and start an instrumentation session to discover problems and issues such as concurrency, performance, cpu and memory usage.
 
-## Enable profiling
+## 启用性能分析
 
 Dapr allows you to enable profiling in both Kubernetes and stand-alone modes.
 
@@ -19,7 +19,7 @@ Dapr allows you to enable profiling in both Kubernetes and stand-alone modes.
 To enable profiling in Standalone mode, pass the `--enable-profiling` and the `--profile-port` flags to the Dapr CLI: Note that `profile-port` is not required, and if not provided Dapr will pick an available port.
 
 ```bash
-dapr run --enable-profiling true --profile-port 7777 python myapp.py
+dapr run --enable-profiling --profile-port 7777 python myapp.py
 ```
 
 ### Kubernetes

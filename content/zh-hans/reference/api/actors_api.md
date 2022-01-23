@@ -81,11 +81,11 @@ POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/state
 
 #### HTTP 响应码
 
-| Code | 说明        |
-| ---- | --------- |
-| 204  | 请求成功      |
-| 400  | 未找到 Actor |
-| 500  | 请求失败      |
+| 代码  | 说明        |
+| --- | --------- |
+| 204 | 请求成功      |
+| 400 | 未找到 Actor |
+| 500 | 请求失败      |
 
 
 
@@ -177,7 +177,16 @@ curl http://localhost:3500/v1.0/actors/stormtrooper/50/state/location \
 POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 ```
 
-Body:
+#### Request Body
+
+A JSON object with the following fields:
+
+| 字段      | 说明                                                                                                                                                                                                |
+| ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| dueTime | Specifies the time after which the reminder is invoked, its format should be [time.ParseDuration](https://pkg.go.dev/time#ParseDuration) format                                                   |
+| period  | Specifies the period between different invocations, its format should be [time.ParseDuration](https://pkg.go.dev/time#ParseDuration) format or ISO 8601 duration format with optional recurrence. |
+
+`period` field supports `time.Duration` format and ISO 8601 format (with some limitations). Only duration format of ISO 8601 duration `Rn/PnYnMnWnDTnHnMnS` is supported for `period`. Here `Rn/` specifies that the reminder will be invoked `n` number of times. It should be a positive integer greater than zero. If certain values are zero, the `period` can be shortened, for example 10 seconds can be specified in ISO 8601 duration as `PT10S`. If `Rn/` is not specified the reminder will run infinite number of times until deleted.
 
 以下指定 `dueTime` 的 3 秒和 7 秒的句点。
 ```json
@@ -257,7 +266,7 @@ GET http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/reminders/<nam
 | --------- | ------------------ |
 | daprPort  | Dapr 端口。           |
 | actorType | Actor 类型。          |
-| actorId   | The actor ID.      |
+| actorId   | Actor ID           |
 | name      | 要获取 reminders 的名称。 |
 
 > 注意：所有的 URL 参数都是大小写敏感的。
@@ -310,8 +319,8 @@ DELETE http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/reminders/<
 #### 示例
 
 ```shell
-curl http://localhost:3500/v1.0/actors/stormtrooper/50/reminders/checkRebels \
-  -X "Content-Type: application/json"
+curl -X DELETE http://localhost:3500/v1.0/actors/stormtrooper/50/reminders/checkRebels \
+  -H "Content-Type: application/json"
 ```
 
 ### 创建 Actor timers
@@ -326,7 +335,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/timers/<n
 
 Body:
 
-以下指定 `dueTime` 的 3 秒和period 为 7 秒。
+以下指定 `dueTime` 的 3 秒和 7 秒的句点。
 ```json
 {
   "dueTime":"0h0m3s0ms",
@@ -380,7 +389,7 @@ curl http://localhost:3500/v1.0/actors/stormtrooper/50/timers/checkRebels \
 
 #### HTTP 请求
 
-```http
+```
 DELETE http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/timers/<name>
 ```
 
@@ -403,8 +412,8 @@ DELETE http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/timers/<nam
 > 注意：所有的 URL 参数都是大小写敏感的。
 
 ```shell
-curl http://localhost:3500/v1.0/actors/stormtrooper/50/timers/checkRebels \
-  -X "Content-Type: application/json"
+curl -X DELETE http://localhost:3500/v1.0/actors/stormtrooper/50/timers/checkRebels \
+  -H "Content-Type: application/json"
 ```
 
 ## Dapr 调用用户服务

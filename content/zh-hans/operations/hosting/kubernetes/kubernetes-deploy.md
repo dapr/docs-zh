@@ -15,7 +15,7 @@ For more information on what is deployed to your Kubernetes cluster read the [Ku
 ## 先决条件
 
 - Install [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 安装[kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- 安装[kubectl](https://kubernetes.io/docs/tasks/tools/)
 - Kubernetes 集群 (如有需要可参考下文)
 
 ### 创建集群
@@ -83,7 +83,7 @@ dapr init -k --enable-mtls=false
 
 ### Wait for the installation to complete
 
- 您可以使用 `--want` 标志来等待安装完成。
+ 您可以使用 `--wait` 标志来等待安装完成。
 
  默认超时是 300s (5分钟)，但可以使用 `--timeout` 标志自定义超时。
 
@@ -122,7 +122,7 @@ dapr uninstall -k
 
     ```bash
     helm upgrade --install dapr dapr/dapr \
-    --version=1.2 \
+    --version={{% dapr-latest-version short="true" %}} \
     --namespace dapr-system \
     --create-namespace \
     --wait
@@ -132,7 +132,7 @@ dapr uninstall -k
 
     ```bash
     helm upgrade --install dapr dapr/dapr \
-    --version=1.2 \
+    --version={{% dapr-latest-version short="true" %}} \
     --namespace dapr-system \
     --create-namespace \
     --set global.ha.enabled=true \

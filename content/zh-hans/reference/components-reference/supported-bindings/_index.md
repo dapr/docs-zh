@@ -26,6 +26,7 @@ no_list: true
 | ----------------------------------------------------- |:--------------:|:--------------:| ----- | ---- | --- |
 | [Apple Push Notifications (APN)]({{< ref apns.md >}}) |                |       ✅        | Alpha | v1   | 1.0 |
 | [Cron (scheduler)]({{< ref cron.md >}})               |       ✅        |       ✅        | Alpha | v1   | 1.0 |
+| [GraphQL]({{< ref graghql.md >}})                     |                |       ✅        | Alpha | v1   | 1.0 |
 | [HTTP]({{< ref http.md >}})                           |                |       ✅        | GA    | v1   | 1.0 |
 | [InfluxDB]({{< ref influxdb.md >}})                   |                |       ✅        | Alpha | v1   | 1.0 |
 | [Kafka]({{< ref kafka.md >}})                         |       ✅        |       ✅        | Alpha | v1   | 1.0 |
@@ -33,7 +34,7 @@ no_list: true
 | [本地存储]({{< ref localstorage.md >}})                   |                |       ✅        | Alpha | v1   | 1.1 |
 | [MQTT]({{< ref mqtt.md >}})                           |       ✅        |       ✅        | Alpha | v1   | 1.0 |
 | [MySQL]({{< ref mysql.md >}})                         |                |       ✅        | Alpha | v1   | 1.0 |
-| [PostgrSQL]({{< ref postgres.md >}})                  |                |       ✅        | Alpha | v1   | 1.0 |
+| [PostgreSql]({{< ref postgres.md >}})                 |                |       ✅        | Alpha | v1   | 1.0 |
 | [Postmark]({{< ref postmark.md >}})                   |                |       ✅        | Alpha | v1   | 1.0 |
 | [RabbitMQ]({{< ref rabbitmq.md >}})                   |       ✅        |       ✅        | Alpha | v1   | 1.0 |
 | [Redis]({{< ref redis.md >}})                         |                |       ✅        | Alpha | v1   | 1.0 |
@@ -55,6 +56,7 @@ no_list: true
 | --------------------------------------- |:--------------:|:--------------:| ----- | ---- | --- |
 | [AWS DynamoDB]({{< ref dynamodb.md >}}) |                |       ✅        | Alpha | v1   | 1.0 |
 | [AWS S3]({{< ref s3.md >}})             |                |       ✅        | Alpha | v1   | 1.0 |
+| [AWS SES]({{< ref ses.md >}})           |                |       ✅        | Alpha | v1   | 1.4 |
 | [AWS SNS]({{< ref sns.md >}})           |                |       ✅        | Alpha | v1   | 1.0 |
 | [AWS SQS]({{< ref sqs.md >}})           |       ✅        |       ✅        | Alpha | v1   | 1.0 |
 | [AWS Kinesis]({{< ref kinesis.md >}})   |       ✅        |       ✅        | Alpha | v1   | 1.0 |
@@ -78,7 +80,7 @@ no_list: true
 | [Azure SignalR]({{< ref signalr.md >}})                     |                |       ✅        | Alpha | v1   | 1.0 |
 | [Azure Storage Queues]({{< ref storagequeues.md >}})        |       ✅        |       ✅        | GA    | v1   | 1.0 |
 
-### Zeebe (Camunda)
+### Zeebe (Camunda Cloud)
 
 | Name                                               | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
 | -------------------------------------------------- |:--------------:|:--------------:| ----- | ---- | --- |
