@@ -20,7 +20,7 @@ description: 学习如何使用Docker-Compose进行本地开发
 
 在.Net中使用`docker-compose`配合Dapr并不需要专门的指导。 `docker-compose` 运行容器，一旦您的服务放在容器中，它的配置与其他任何编程技术都是相似的。
 
-{{% alert title="💡 应用端口" color="primary" %}}
+{{% alert title="💡 App Port" color="primary" %}}
 在容器中，ASP.NET Core应用默认监听80端口。 必要时，可以对`--app-port`配置项进行修改。
 {{% /alert %}}
 

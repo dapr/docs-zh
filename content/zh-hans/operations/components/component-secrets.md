@@ -16,7 +16,7 @@ description: "如何从组件定义中安全地引用密钥"
 
 ### 支持的密钥存储
 
-跳转到 [此]({{< ref "howto-secrets.md" >}}) 链接来查看Dapr 支持的所有密钥存储，以及如何配置和使用这些存储的信息。
+Go to [this]({{< ref "howto-secrets.md" >}}) link to see all the secret stores supported by Dapr, along with information on how to configure and use them.
 
 ## 引用密钥
 
@@ -60,7 +60,7 @@ auth:
   secretStore: <SECRET_STORE_NAME>
 ```
 
-`SECRET_STORE_NAME` 是已配置的 [密钥存储组件]({{< ref supported-secret-stores >}}) 当在 Kubernetes 中运行并使用 Kubernetes 密钥存储时，字段 `auth.SecretStore` 默认为 `kubernetes` 并且可以留空。
+`SECRET_STORE_NAME` 是已配置的 [秘钥存储组件]({{< ref supported-secret-stores >}}) 的名称。 当在 Kubernetes 中运行并使用 Kubernetes 密钥存储时，字段 `auth.SecretStore` 默认为 `kubernetes` 并且可以留空。
 
 上面的组件定义让Dapr从定义的秘密存储中提取一个名为 `redis-secret` 的密钥，并将密钥的值分配给组件中的 `redis-password` 密钥中的 `redisPassword` 欄位。
 
@@ -99,7 +99,7 @@ auth:
 
 ## 访问密钥的范围
 
-Dapr 可以使用其配置限制对密钥存储中的密钥的访问。 请阅读[如何：使用密钥范围]({{< ref "secrets-scopes.md" >}})和[如何：限制可从密钥存储中读取的密钥]({{< ref "secret-scope.md" >}})以了解更多信息。 这是推荐的使用 Dapr 限制访问密钥的方式。
+Dapr 可以使用其配置限制对密钥存储中的密钥的访问。 Read [How To: Use secret scoping]({{< ref "secrets-scopes.md" >}}) and  [How-To: Limit the secrets that can be read from secret stores]({{< ref "secret-scope.md" >}}) for more information. 这是推荐的使用 Dapr 限制访问密钥的方式。
 
 ## Kubernetes 权限
 

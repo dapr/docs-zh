@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "如何: 使用秘钥的作用域限定"
-linkTitle: "如何 : 使用秘钥的作用域限定"
+linkTitle: "如何: 使用秘钥的作用域限定"
 weight: 3000
 description: "应用程序从秘钥存储介质中读取时，需要使用作用域来限定"
 ---
@@ -92,7 +92,7 @@ spec:
 | 6 - 两个列表的默认拒绝/允许 | 拒绝/允许 | ["s1"] | ["s2"] | 只能访问"s1"   |
 
 ## 相关链接
-* [密钥仓库]({{< ref supported-secret-stores.md >}}) 列表
-* [密钥仓库]({{< ref setup-secret-store.md >}}) 概述
+* [密钥存储]({{< ref supported-secret-stores.md >}}) 列表
+* [密钥存储]({{< ref setup-secret-store.md >}}) 概述
 
 howto-secrets/

@@ -37,8 +37,6 @@ internal class MyActor : Actor, IMyActor, IRemindable
         ...
     }
 }
-    }
-}
 ```
 
 一个 actor 类型应该有一个单一的`public`构造函数。 Actor 基础设施使用 [ActivatorUtilities](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#constructor-injection-behavior) 模式来构建 actor 实例。
@@ -54,10 +52,6 @@ public void ConfigureServices(IServiceCollection services)
     // Register additional types with dependency injection.
     services.AddSingleton<BankService>();
 }
-
-     
-    services.AddSingleton<BankService>();
-}
 ```
 
 每个actor实例都有自己的依赖注入范围。 每个 actor 在执行完一个操作后，都会在内存中保留一段时间，在这段时间内，与 actor 相关的依赖注入作用域也被认为是活的。 当演员被停用时，该范围将被释放。
@@ -71,8 +65,6 @@ internal class MyActor : Actor, IMyActor, IRemindable
         : base(host)
     {
         ...
-    }
-}
     }
 }
 ```
@@ -112,7 +104,6 @@ public Task<MyData> GetDataAsync()
 internal class MyActor : Actor, IMyActor
 {
     // ...
-}
 }
 ```
 
@@ -175,10 +166,6 @@ public void ConfigureServices(IServiceCollection services)
         options.JsonSerializerOptions = ...
     });
 }
-
-         
-    });
-}
 ```
 
 ### Actors 和 路由
@@ -204,7 +191,6 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         endpoints.MapActorsHandlers();
     });
 }
-         
 ```
 
 `UseRouting` 和 `UseEndpoints` 调用是配置路由所必需的。 在终结点中间件中添加 `MapActorsHandlers` 就是将 actors 配置为管道的一部分。
@@ -243,5 +229,4 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         endpoints.MapActorsHandlers();
     });
 }
-         
 ```

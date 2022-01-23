@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "配置"
-linkTitle: "配置"
+title: "Configuration (配置)"
+linkTitle: "Configuration (配置)"
 weight: 400
 description: "变更 Dapr sidecars 或全局 Dapr 系统服务的行为"
 ---
@@ -25,4 +25,4 @@ spec:
 
 这个配置文件配置了遥测录制跟踪。 你可以在自托管模式中通过编辑 `.dapr` 目录中名为 `config.yaml` 的配置文件进行加载；或者通过 kubectl/helm 应用到您的 Kubernetes 集群。
 
-阅读 [此页面]({{X6X}}) 查看所有配置选项的列表。
+阅读 [此页面]({{<ref "configuration-overview.md">}}) 查看所有配置选项的列表。

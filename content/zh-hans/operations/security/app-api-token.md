@@ -37,7 +37,7 @@ To rotate the configured token, simply set the `APP_API_TOKEN` environment varia
 在 Kubernetes deployment 里，Dapr 借助 Kubernetes secrets store 保存 JWT 令牌。 Start by creating a new secret:
 
 ```shell
-kubectl create secret generic app-api-token --from-literal=token=<token> 
+kubectl create secret generic app-api-token --from-literal=token=<token>
 ```
 
 > Note, the above secret needs to be created in each namespace in which you want to enable app token authentication
@@ -45,8 +45,8 @@ kubectl create secret generic app-api-token --from-literal=token=<token>
 To indicate to Dapr to use the token in the secret when sending requests to the app, add an annotation to your Deployment template spec:
 
 ```yaml
-annotations: 
-  dapr.io/enabled: "true" 
+annotations:
+  dapr.io/enabled: "true"
   dapr.io/app-token-secret: "app-api-token" # name of the Kubernetes secret
 ```
 
@@ -132,5 +132,5 @@ export APP_API_TOKEN=<my-app-token>
 
 ## 相关链接
 
-- 了解 [Dapr 安全概念]({{< ref security-concept.md >}})
+- Learn about [Dapr security concepts]({{< ref security-concept.md >}})
 - Learn [HowTo Enable API token authentication in Dapr]({{< ref api-token.md >}})

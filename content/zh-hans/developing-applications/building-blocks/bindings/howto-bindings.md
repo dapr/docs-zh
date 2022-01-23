@@ -11,11 +11,11 @@ weight: 300
 观看如何使用双向输出绑定的 [视频](https://www.bilibili.com/video/BV1EA411W71L?p=3&t=1960) 。 <iframe width="560" height="315" src="https://www.youtube.com/embed/ysklxm81MTs?start=1960" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
 
 
-## 1. 1. 创建绑定
+## 1. 创建绑定
 
 输出绑定表示 Dapr 将使用调用和向其发送消息的资源。
 
-就本指南的目的，您将使用 Kafka 绑定。 您可以在 [此处]({{< ref bindings >}}) 找到不同绑定规范的列表。
+就本指南的目的，您将使用 Kafka 绑定。 您可以在 [此处]({{< ref setup-bindings >}}) 找到不同绑定规范的列表。
 
 创建一个新的名称为 `myevent` 的绑定组件。
 
@@ -70,7 +70,7 @@ spec:
 
 {{< /tabs >}}
 
-## 2. 2. 发送事件
+## 2. 发送事件
 
 注: 在 Kubernetes 中运行时，使用 `kubectl apply -f binding.yaml` 将此文件应用于您的集群
 
@@ -88,4 +88,4 @@ curl -X POST -H 'Content-Type: application/json' http://localhost:3500/v1.0/bind
 
 - [Binding API]({{< ref bindings_api.md >}})
 - [绑定组件]({{< ref bindings >}})
-- [绑定详细规范]({{< ref supported-bindings >}}) 
+- [绑定详细规范]({{< ref supported-bindings >}})

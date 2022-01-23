@@ -22,7 +22,7 @@ spec:
 
 下面的表格给出了调用链追踪功能可配置的属性
 
-| 属性                       | 数据类型   | 描述                    |
+| 属性                       | 数据类型   | 说明                    |
 | ------------------------ | ------ | --------------------- |
 | `samplingRate`           | string | 设置采样率，可以用来控制追踪功能是否开启。 |
 | `zipkin.endpointAddress` | string | 设置 Zipkin 服务器地址。      |
@@ -123,4 +123,4 @@ On your browser, go to `http://localhost:9411` and you should see the Zipkin UI.
 ![zipkin](/images/zipkin_ui.png)
 
 ## 参考资料
-- [Zipkin for distributed tracing](https://zipkin.io/)
+- [Zipkin 分布式追踪](https://zipkin.io/)

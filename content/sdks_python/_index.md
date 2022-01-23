@@ -11,12 +11,12 @@ Dapr提供了帮助开发Python应用程序各种包。 你可以使用他们来
 
 ## 可用软件包
 
-- [**Dapr 客户端**]({{< ref python-client.md >}}) 用于与 Python 应用程序交互的 Dapr 边车和其他 Dapr 应用程序
+- [**Dapr client**]({{< ref python-client.md >}}) for writing Python applications to interact with the Dapr sidecar and other Dapr applications
 - [**Dapr actor**]({{< ref python-actor.md >}}) 用于使用 Python 创建并和有状态的virtual actors 交互。
-- [**扩展**]({{< ref python-sdk-extensions >}}) 用于将Dapr与其他 Python 框架兼容
-    - [**gRPC 扩展**]({{< ref python-grpc.md >}}) 用创建 Dapr gRPC 服务器
-    - [**FastAPI 扩展**]({{< ref python-fastapi.md >}}) 向 FastAPI 应用程序中添加 Dapr actor 的功能
-    - [**Flask 扩展**]({{< ref python-flask.md >}}) 向Flask 应用程序添加 Dapr actor 的功能
+- [**Extensions**]({{< ref python-sdk-extensions >}}) for adding Dapr capabilities to other Python frameworks
+    - [**gRPC extension**]({{< ref python-grpc.md >}}) for creating a gRPC server with Dapr
+    - [**FastAPI extension**]({{< ref python-fastapi.md >}}) for adding Dapr actor capabilities to FastAPI applications
+    - [**Flask extension**]({{< ref python-flask.md >}}) for adding Dapr actor capabilities to Flask applications
 
 ## 安装 Dapr 模块
 

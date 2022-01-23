@@ -29,23 +29,11 @@ spec:
   - name: password
     value: <REPLACE-WITH-PASSWORD> # Required.
   - name: bucketName
-    value: <REPLACE-WITH-BUCKET> # Required. Example: "http://localhost:8091"
-  - name: username
-    value: <REPLACE-WITH-USERNAME> # Required.
-  - name: password
-    value: <REPLACE-WITH-PASSWORD> # Required.
-  - name: bucketName
-    value: <REPLACE-WITH-BUCKET> # Required. Example: "http://localhost:8091"
-  - name: username
-    value: <REPLACE-WITH-USERNAME> # Required.
-  - name: password
-    value: <REPLACE-WITH-PASSWORD> # Required.
-  - name: bucketName
     value: <REPLACE-WITH-BUCKET> # Required.
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范

@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "指南：如何创建一个有状态的服务"
-linkTitle: "How-To: Build a stateful service"
+title: "指南：创建一个有状态的服务"
+linkTitle: "指南：创建一个有状态的服务"
 weight: 300
 description: "对可伸缩的副本使用状态管理"
 ---
@@ -14,7 +14,7 @@ description: "对可伸缩的副本使用状态管理"
 
 状态存储组件代表Dapr用来与数据库进行通信的资源。 在本指南中，我们将使用Redis作为状态存储引擎。
 
-在[这里]({{< ref supported-state-stores >}})查看支持的状态存储引擎列表。
+[在此]({{< ref supported-state-stores >}})查看那受支持的状态存储列表。
 
 ### 使用 Dapr CLI
 
@@ -22,7 +22,7 @@ description: "对可伸缩的副本使用状态管理"
 
 ### Kubernetes
 
-请参阅 [这里]({{X20X}}) 的说明，了解如何在 Kubernetes 上设置不同的状态存储引擎。
+在Kubernetes中配置不同的状态存储，请查阅[这里]({{<ref setup-state-store>}})。
 
 ## 强一致性和最终一致性
 

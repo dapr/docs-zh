@@ -67,5 +67,5 @@ spec:
 
 ## 相关链接
 * 尝试访问[可观察性快速入门](https://github.com/dapr/quickstarts/tree/master/observability/README.md)
-* 如何设置[应用跟踪配置选项]({{< ref "configuration-overview.md#tracing" >}})
+* How to set [tracing configuration options]({{< ref "configuration-overview.md#tracing" >}})
 

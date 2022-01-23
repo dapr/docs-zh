@@ -25,7 +25,7 @@ Dapr 使用标准的 W3C 跟踪上下文标头。 对于 HTTP 请求，Dapr 使�
 
 阅读 [W3C 分布式跟踪]({{< ref w3c-tracing >}}) ，了解更多关于 W3C Trace Context 的背景.
 
-## 配置
+## Configuration (配置)
 
 Dapr uses probabilistic sampling. 采样率定义跟踪 Span 采样的概率，其值可以在0和1之间（包括）。 采样率定义跟踪 Span 采样的概率，其值可以在0和1之间（包括）。 默认采样率是0.0001（即每10000个span中采样一个）。
 

@@ -28,7 +28,7 @@ Dapr has the following versioning schemes:
 
 Note that the Dapr APIs,  binaries releases (runtime, CLI, SDKs) and components are all independent from one another.
 
-## Dapr API
+## Dapr HTTP API
 The Dapr HTTP API is versioned according to these [REST API guidelines](https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#71-url-structure).
 
 Based to the these guidelines;
@@ -56,7 +56,7 @@ The [components-contrib](https://github.com/dapr/components-contrib/) repo relea
 
 Note: Components have a production usage lifecycle status: Alpha, Beta and GA (stable). These statuses are not related to their versioning. The tables of supported components shows both their versions and their status.
 * [状态存储组件]({{< ref supported-state-stores.md >}}) 列表
-* 可用发布/订阅实现的完整列表 [在这]({{< ref supported-pubsub >}})。
+* [pub/sub组件列表]({{< ref supported-pubsub.md >}})
 * List of [secret store components]({{< ref supported-secret-stores.md >}})
 * List of [binding components]({{< ref supported-bindings.md >}})
 

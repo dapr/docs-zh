@@ -39,7 +39,6 @@ omsagent-smtk7                                                    1/1     Runnin
 
 ```yaml
 ...
-  ...
   prometheus-data-collection-settings: |-
     [prometheus_data_collection_settings.cluster]
         interval = "1m"
@@ -124,7 +123,7 @@ InsightsMetrics
 | where Namespace == "prometheus" and Name == "process_resident_memory_bytes"
 | extend tags=parse_json(Tags)
 | project TimeGenerated, Name, Val, app=tostring(tags['app'])
-| summarize memInBytes=percentile(Val, 99) by bin(TimeGenerated, 1m), app 
+| summarize memInBytes=percentile(Val, 99) by bin(TimeGenerated, 1m), app
 | where app startswith "dapr-"
 | render timechart
 ```

@@ -5,7 +5,7 @@ linkTitle: "Cassandra"
 description: Cassandra 状态存储组件的详细信息
 aliases:
   - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-cassandra/"
---- 
+---
 
 ## 配置
 
@@ -36,39 +36,11 @@ spec:
   - name: protoVersion
     value: <REPLACE-WITH-PROTO-VERSION> # Optional. default: "4"
   - name: replicationFactor
-    value: <REPLACE-WITH-REPLICATION-FACTOR> #  Optional. default: "1" Example: cassandra.cassandra.svc.cluster.local
-  - name: username
-    value: <REPLACE-WITH-PASSWORD> # Optional. default: ""
-  - name: password
-    value: <REPLACE-WITH-PASSWORD> # Optional. default: ""
-  - name: consistency
-    value: <REPLACE-WITH-CONSISTENCY> # Optional. default: "All"
-  - name: table
-    value: <REPLACE-WITH-TABLE> # Optional. default: "items"
-  - name: keyspace
-    value: <REPLACE-WITH-KEYSPACE> # Optional. default: "dapr"
-  - name: protoVersion
-    value: <REPLACE-WITH-PROTO-VERSION> # Optional. default: "4"
-  - name: replicationFactor
-    value: <REPLACE-WITH-REPLICATION-FACTOR> #  Optional. default: "1" Example: cassandra.cassandra.svc.cluster.local
-  - name: username
-    value: <REPLACE-WITH-PASSWORD> # Optional. default: ""
-  - name: password
-    value: <REPLACE-WITH-PASSWORD> # Optional. default: ""
-  - name: consistency
-    value: <REPLACE-WITH-CONSISTENCY> # Optional. default: "All"
-  - name: table
-    value: <REPLACE-WITH-TABLE> # Optional. default: "items"
-  - name: keyspace
-    value: <REPLACE-WITH-KEYSPACE> # Optional. default: "dapr"
-  - name: protoVersion
-    value: <REPLACE-WITH-PROTO-VERSION> # Optional. default: "4"
-  - name: replicationFactor
     value: <REPLACE-WITH-REPLICATION-FACTOR> #  Optional. default: "1"
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范

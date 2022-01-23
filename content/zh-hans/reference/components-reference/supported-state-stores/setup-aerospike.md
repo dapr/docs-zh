@@ -26,15 +26,11 @@ spec:
   - name: namespace
     value: <REPLACE-WITH-NAMESPACE> # Required. The aerospike namespace.
   - name: set
-    value: <REPLACE-WITH-SET> # Optional 逗号分隔的服务器地址 Example: "aerospike:3000,aerospike2:3000"
-  - name: namespace
-    value: <REPLACE-WITH-NAMESPACE> # Required. The aerospike namespace.
-  - name: set
     value: <REPLACE-WITH-SET> # Optional
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将 Secret 明文存储。 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范

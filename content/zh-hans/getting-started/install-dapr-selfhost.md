@@ -7,19 +7,19 @@ aliases:
   - /zh-hans/getting-started/install-dapr/
 ---
 
-现在，您已经安装了 [Dapr CLI]({{X22X}})，是时候使用 CLI 在本地机器上初始化 Dapr 了。
+Now that you have the [Dapr CLI installed]({{<ref install-dapr-cli.md>}}), it's time to initialize Dapr on your local machine using the CLI.
 
 Dapr 与您的应用程序一起作为sidecar运行，在自托管模式下，这意味着它是您本地机器上的一个进程。 因此，初始化 Dapr 包括获取 Dapr sidecar 二进制文件并将其安装到本地.
 
 此外，默认初始化过程还创建了一个开发环境，帮助简化 Dapr 的应用开发。 这包括下列步骤：
 
-1. 运行 **Redis container 实例** 将被用作本地的 状态存储 和 消息代理
-1. 运行一个 **Zipkin 容器实例** 用于观测性
+1. 运行一个用于状态存储和消息代理的**Redis容器实例**
+1. 运行一个用于提供可观察性的**Zipkin容器实例**
 1. 创建具有上述组件定义的 **默认组件文件夹**
 1. 运行用于本地演员支持的**Dapr placement服务容器实例**
 
 {{% alert title="Docker" color="primary" %}}
-这种推荐的开发环境需要 [Docker](https://docs.docker.com/install/)。 无需依赖 Docker 即可初始化 Dapr（参见[本指南]({{X24X}})），但本指南中的下一步假设了建议的开发环境。
+这种推荐的开发环境需要 [Docker](https://docs.docker.com/install/)。 可以在不依赖 Docker 的情况下初始化 Dapr（[请参阅本指南]({{<ref self-hosted-no-docker.md>}})），但本指南中的后续步骤将假定使用推荐的开发环境。
 {{% /alert %}}
 
 ### 第 1 步：打开架起终端
@@ -70,7 +70,6 @@ docker ps
 CONTAINER ID   IMAGE                    COMMAND                  CREATED         STATUS         PORTS                              NAMES
 0dda6684dc2e   openzipkin/zipkin        "/busybox/sh run.sh"     2 minutes ago   Up 2 minutes   9410/tcp, 0.0.0.0:9411->9411/tcp   dapr_zipkin
 9bf6ef339f50   redis                    "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   0.0.0.0:6379->6379/tcp             dapr_redis
-8d993e514150   daprio/dapr              "./placement"            2 minutes ago   Up 2 minutes   0.0.0.0:6050->50005/tcp            dapr_placement   2 minutes ago   Up 2 minutes   0.0.0.0:6379->6379/tcp             dapr_redis
 8d993e514150   daprio/dapr              "./placement"            2 minutes ago   Up 2 minutes   0.0.0.0:6050->50005/tcp            dapr_placement
 ```
 

@@ -5,7 +5,7 @@ linkTitle: "mtls"
 description: "有关 mtls CLI 命令的详细信息"
 ---
 
-## 描述
+## 说明
 
 检查是否启用了 mTLS
 
@@ -22,7 +22,7 @@ dapr mtls [command]
 
 ## 参数
 
-| Name                 | 环境变量 | 默认值     | 描述                           |
+| Name                 | 环境变量 | 默认值     | 说明                           |
 | -------------------- | ---- | ------- | ---------------------------- |
 | `--help`, `-h`       |      |         | 显示此帮助消息                      |
 | `--kubernetes`, `-k` |      | `false` | 检查是否在 Kubernetes 集群中启用了 mTLS |
