@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "设置 Azure Kubernetes 服务集群"
-linkTitle: "Azure Kubernetes Service"
+title: "Setup an Azure Kubernetes Service (AKS) cluster"
+linkTitle: "Azure Kubernetes Service (AKS)"
 weight: 2000
 description: >
   如何在 Azure Kubernetes 集群上设置 Dapr。
@@ -12,12 +12,12 @@ description: >
 ## 先决条件
 
 - [Docker](https://docs.docker.com/install/)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
-- [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest)
 
 ## 部署 Azure Kubernetes 服务集群
 
-本指南将告诉您安装 Azure Kubernetes 服务集群。 如果您需要更多信息，请参阅 [快速启动：使用 Azure CLI 部署 Azure Kubernetes 服务 (AKS) 集群](https://docs.microsoft.com/en-us/azure/aks/kubernetes-walkthrough)
+本指南将告诉您安装 Azure Kubernetes 服务集群。 如果您需要更多信息，请参阅 [快速启动：使用 Azure CLI 部署 Azure Kubernetes 服务 (AKS) 集群](https://docs.microsoft.com/azure/aks/kubernetes-walkthrough)
 
 1. 登录到 Azure
 

@@ -8,7 +8,7 @@ aliases:
 ---
 
 ## 配置
-要设置Pulsar pubsub，请创建一个`pubsub.pulsar`类型的组件。 See [this guide]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) on how to create and apply a pubsub configuration.
+要设置Pulsar pubsub，请创建一个`pubsub.pulsar`类型的组件。 请参阅[本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -24,15 +24,47 @@ spec:
     value: "localhost:6650"
   - name: enableTLS
     value: "false"
-
 ```
+
 ## 元数据字段规范
 
-| 字段        | 必填 | 详情                                         | Example             |
+| 字段        | 必填 | 详情                                         | 示例                  |
 | --------- |:--:| ------------------------------------------ | ------------------- |
 | host      | Y  | Pulsar broker. 地址， 默认值是 `"localhost:6650"` | `"localhost:6650"`  |
 | enableTLS | N  | 启用TLS  默认值为 `"false"`                      | `"true"`, `"false"` |
 
+
+### Delay queue
+
+When invoking the Pulsar pub/sub, it's possible to provide an optional delay queue by using the `metadata` query parameters in the request url.
+
+These optional parameter names are `metadata.deliverAt` or `metadata.deliverAfter`:
+- `deliverAt`: Delay message to deliver at a specified time (RFC3339 format), e.g. `"2021-09-01T10:00:00Z"`
+- `deliverAfter`: Delay message to deliver after a specified amount of time, e.g.`"4h5m3s"`
+
+示例:
+
+```shell
+curl -X POST http://localhost:3500/v1.0/publish/myPulsar/myTopic?metadata.deliverAt='2021-09-01T10:00:00Z' \
+  -H "Content-Type: application/json" \
+  -d '{
+        "data": {
+          "message": "Hi"
+        }
+      }'
+```
+
+Or
+
+```shell
+curl -X POST http://localhost:3500/v1.0/publish/myPulsar/myTopic?metadata.deliverAfter='4h5m3s' \
+  -H "Content-Type: application/json" \
+  -d '{
+        "data": {
+          "message": "Hi"
+        }
+      }'
+```
 
 ## 创建 Pulsar 实例
 
@@ -59,5 +91,5 @@ docker run -it \
 
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
-- Read [this guide]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) for instructions on configuring pub/sub components
+- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})，了解配置 发布/订阅组件的说明
 - [发布/订阅构建块]({{< ref pubsub >}})

@@ -34,7 +34,7 @@ description: "在生产环境中将 Dapr 部署到 Kubernetes 集群的建议和
 
 ## Sidecar 资源设置
 
-To set the resource assignments for the Dapr sidecar, see the annotations [here]({{< ref "kubernetes-annotations.md" >}}). 与资源约束相关的具体注解如下:
+To set the resource assignments for the Dapr sidecar, see the annotations [here]({{< ref "arguments-annotations-overview.md" >}}). 与资源约束相关的具体注解如下:
 
 - `dapr.io/sidecar-cpu-limit`
 - `dapr.io/sidecar-memory-limit`
@@ -59,7 +59,9 @@ To set the resource assignments for the Dapr sidecar, see the annotations [here]
 
 When deploying Dapr in a production-ready configuration, it's recommended to deploy with a highly available (HA) configuration of the control plane, which creates 3 replicas of each control plane pod in the dapr-system namespace. This configuration allows for the Dapr control plane to survive node failures and other outages.
 
-HA mode can be enabled with both the [Dapr CLI]({{< ref "kubernetes-deploy.md#install-in-highly-available-mode" >}}) and with [Helm charts]({{< ref "kubernetes-deploy.md#add-and-install-dapr-helm-chart" >}}).
+For a new Dapr deployment, the HA mode can be set with both the [Dapr CLI]({{< ref "kubernetes-deploy.md#install-in-highly-available-mode" >}}) and with [Helm charts]({{< ref "kubernetes-deploy.md#add-and-install-dapr-helm-chart" >}}).
+
+For an existing Dapr deployment, enabling the HA mode requires additional steps. Please refer to [this paragraph]({{< ref "#enabling-high-availability-in-an-existing-dapr-deployment" >}}) for more details.
 
 ## 用Helm部署Dapr
 
@@ -83,8 +85,9 @@ helm search repo dapr --devel --versions
 # create a values file to store variables
 touch values.yml
 cat << EOF >> values.yml
-global.ha.enabled: true
-
+global:
+  ha:
+    enabled: true
 EOF
 
 # run install/upgrade
@@ -136,6 +139,23 @@ APP ID     APP PORT  AGE  CREATED
 nodeapp    3000      16h  2020-07-29 17:16.22
 ```
 
+### Enabling high-availability in an existing Dapr deployment
+
+Enabling HA mode for an existing Dapr deployment requires two steps.
+
+First, delete the existing placement stateful set:
+```bash
+kubectl delete statefulset.apps/dapr-placement-server -n dapr-system
+```
+Second, issue the upgrade command:
+```bash
+helm upgrade dapr ./charts/dapr -n dapr-system --set global.ha.enabled=true
+```
+
+The reason for deletion of the placement stateful set is because in the HA mode, the placement service adds [Raft](https://raft.github.io/) for leader election. However, Kubernetes only allows for limited fields in stateful sets to be patched, subsequently failing upgrade of the placement service.
+
+Deletion of the existing placement stateful set is safe. The agents will reconnect and re-register with the newly created placement service, which will persist its table in Raft.
+
 ## 建议的安全配置
 
 当正确配置时，Dapr可确保安全通信， 它还可以通过一些内置的功能使你的应用更加安全。 它还可以通过一些内置的功能使你的应用更加安全。
@@ -152,7 +172,7 @@ nodeapp    3000      16h  2020-07-29 17:16.22
 
 5. Dapr **控制平面安装在一个专用的命名空间**上，如`dapr-system`。
 
-6. Dapr还支持**框定应用程序的组件范围**。 这不是必要的，可以根据您的安全需求启用。 请参阅 [这里]({{< ref "component-scopes.md" >}}) 以获取更多信息。
+6. Dapr还支持**框定应用程序的组件范围**。 这不是必要的，可以根据您的安全需求启用。 See [here]({{< ref "component-scopes.md" >}}) for more info.
 
 
 ## 追踪和度量配置
@@ -168,3 +188,8 @@ To configure a tracing backend for Dapr visit [this]({{< ref "setup-tracing.md" 
 对于度量，Dapr在9090端口上暴露了一个Prometheus端点，可以被Prometheus收集。
 
 To setup Prometheus, Grafana and other monitoring tools with Dapr, visit [this]({{< ref "monitoring" >}}) link.
+
+## Best Practices
+Watch this video for a deep dive into the best practices for running Dapr in production with Kubernetes
+
+<div class="embed-responsive embed-responsive-16by9"> <iframe width="360" height="315" src="https://www.youtube.com/embed/_U9wJqq-H1g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>

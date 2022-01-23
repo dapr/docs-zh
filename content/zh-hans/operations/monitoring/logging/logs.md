@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "日志"
-linkTitle: "Logs"
+linkTitle: "日志"
 weight: 3000
 description: "了解 Dapr 日志记录"
 ---
@@ -14,7 +14,7 @@ Dapr以纯文本形式或JSON格式生成结构化日志到标准输出。 默�
 
 Dapr 基于以下架构生成日志。
 
-| 字段       | 说明                           | Example                    |
+| 字段       | 说明                           | 示例                         |
 | -------- | ---------------------------- | -------------------------- |
 | time     | ISO8601 时间戳                  | `2011-10-05T14:48:00.000Z` |
 | level    | 日志级别 (info/warn/debug/error) | `info`                     |
@@ -94,7 +94,7 @@ spec:
 
 如果使用 [Fluentd](https://www.fluentd.org/)，我们建议使用 Elastic Search 和 Kibana。 This [how-to]({{< ref fluentd.md >}}) shows how to set up Elastic Search and Kibana in your Kubernetes cluster.
 
-如果您正在使用 Azure Kubernetes 服务，您可以使用 [针对容器的Azure monitor](https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-overview) 而不会安装任何额外的监视工具。 也可以阅读 [如何为容器启用 Azure Monitor](https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-onboard)
+如果您正在使用 Azure Kubernetes 服务，您可以使用 [针对容器的Azure monitor](https://docs.microsoft.com/azure/azure-monitor/insights/container-insights-overview) 而不会安装任何额外的监视工具。 也可以阅读 [如何为容器启用 Azure Monitor](https://docs.microsoft.com/azure/azure-monitor/insights/container-insights-onboard)
 
 ## 参考资料
 

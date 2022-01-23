@@ -1,14 +1,14 @@
 ---
 type: docs
-title: "设置 Google Kubernetes 服务集群"
-linkTitle: "谷歌Kubernetes引擎(GKE)"
+title: "Setup a Google Kubernetes Engine (GKE) cluster"
+linkTitle: "Google Kubernetes Engine (GKE)"
 weight: 3000
 description: "设置 Google Kubernetes 服务集群"
 ---
 
 ### 先决条件
 
-- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Google Cloud SDK](https://cloud.google.com/sdk)
 
 ## 创建新群集

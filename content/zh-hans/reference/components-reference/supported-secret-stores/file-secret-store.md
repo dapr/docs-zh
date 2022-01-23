@@ -31,18 +31,21 @@ spec:
     value: [path to the JSON file]
   - name: nestedSeparator
     value: ":"
+  - name: multiValued
+    value: "false"
 ```
 
 ## 元数据字段规范
 
-| 字段              | 必填 | 详情                                             | Example               |
-| --------------- |:--:| ---------------------------------------------- | --------------------- |
-| secretsFile     | Y  | 存储密钥的文件路径                                      | `"path/to/file.json"` |
-| nestedSeparator | N  | 在将JSON层次结构扁平化为map时，被仓库使用 默认值为 `":"` 默认值为 `":"` | `":"`                 |
+| 字段              | 必填 | 详情                                                                                                | 示例                    |
+| --------------- |:--:| ------------------------------------------------------------------------------------------------- | --------------------- |
+| secretsFile     | Y  | 存储密钥的文件路径                                                                                         | `"path/to/file.json"` |
+| nestedSeparator | N  | 在将JSON层次结构扁平化为map时，被仓库使用 默认值为 `":"` 默认值为 `":"`                                                    | `":"`                 |
+| multiValued     | N  | Allows one level of multi-valued key/value pairs before flattening JSON hierarchy. 默认值为 `"false"` | `"true"`              |
 
 ## 设置 JSON 文件来保存密钥
 
-提供以下json：
+Given the following JSON loaded from `secretsFile`:
 
 ```json
 {
@@ -54,7 +57,7 @@ spec:
 }
 ```
 
-仓库将加载文件并创建一个具有以下键值对的map:
+If `multiValued` is `"false"`, the store will load the file and create a map with the following key value pairs:
 
 | 扁平键                       | 值                              |
 | ------------------------- | ------------------------------ |
@@ -62,7 +65,49 @@ spec:
 | "connectionStrings:sql"   | "your sql connection string"   |
 | "connectionStrings:mysql" | "your mysql connection string" |
 
-使用扁平键 (`connectionStrings:sql`)来访问密钥。
+使用扁平键 (`connectionStrings:sql`)来访问密钥。 The following JSON map returned:
+
+```json
+{
+  "connectionStrings:sql": "your sql connection string"
+}
+```
+
+If `multiValued` is `"true"`, you would instead use the top level key. In this example, `connectionStrings` would return the following map:
+
+```json
+{
+  "sql": "your sql connection string",
+  "mysql": "your mysql connection string"
+}
+```
+
+Nested structures after the top level will be flattened. In this example, `connectionStrings` would return the following map:
+
+JSON from `secretsFile`:
+
+```json
+{
+    "redisPassword": "your redis password",
+    "connectionStrings": {
+        "mysql": {
+          "username": "your mysql username",
+          "password": "your mysql password"
+        }
+    }
+}
+```
+
+响应:
+
+```json
+{
+  "mysql:username": "your mysql username",
+  "mysql:password": "your mysql password"
+}
+```
+
+This is useful in order to mimic secret stores like Vault or Kubernetes that return multiple key/value pairs per secret key.
 
 ## 相关链接
 - [密钥构建块]({{< ref secrets >}})

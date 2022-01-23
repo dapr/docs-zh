@@ -41,7 +41,7 @@ extensions:
 # Services to run go here.
 services:
 
-  # 此名称将被用作 app-id. 对于.NET 项目，Tye 只需要项目文件的路径。
+  # The name will be used as the app-id. For a .NET project, Tye only needs the path to the project file.
 - name: orders
   project: orders/orders.csproj
 - name: products
@@ -56,7 +56,7 @@ services:
     - port: 6973
 ```
 
-使用应用程序代码在源控制中签入 `tye.yaml` 。
+将`tye.yaml`和应用代码签入源代码控制
 
 您现在可以使用 `tye run` 从一个终端启动整个应用程序。 运行时，Tye有一个仪表板在 `http://localhost:8000` 查看应用程序状态和日志。
 

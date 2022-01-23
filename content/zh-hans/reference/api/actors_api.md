@@ -6,7 +6,7 @@ description: "关于 Actors API 的详细文档"
 weight: 500
 ---
 
-Dapr 提供原生、跨平台和跨语言 virtual actors 功能。 Besides the [language specific SDKs]({{<ref sdks>}}), a developer can invoke an actor using the API endpoints below.
+Dapr 提供原生、跨平台和跨语言 virtual actors 功能。 除了 [特定语言的 SDK]({{< ref sdks>}})，开发人员还可以使用下面的 API 端点调用参与者。
 
 ## 调用 dapr 的服务代码
 
@@ -81,11 +81,11 @@ POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/state
 
 #### HTTP 响应码
 
-| Code | 说明        |
-| ---- | --------- |
-| 204  | 请求成功      |
-| 400  | 未找到 Actor |
-| 500  | 请求失败      |
+| 代码  | 说明        |
+| --- | --------- |
+| 204 | 请求成功      |
+| 400 | 未找到 Actor |
+| 500 | 请求失败      |
 
 
 
@@ -177,7 +177,16 @@ curl http://localhost:3500/v1.0/actors/stormtrooper/50/state/location \
 POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 ```
 
-Body:
+#### Request Body
+
+具有以下字段的 JSON 对象：
+
+| 字段      | 说明                                                                                                      |
+| ------- | ------------------------------------------------------------------------------------------------------- |
+| dueTime | 指定调用提醒的时间，其格式应 [时间。解析](https://pkg.go.dev/time#ParseDuration) 格式                                        |
+| period  | 指定不同调用之间的时间段，其格式应 [time.ParseDuration](https://pkg.go.dev/time#ParseDuration) 格式或 ISO 8601 持续时间格式，可选重复。 |
+
+`period` 字段支持 `time.Duration` 格式和 ISO 8601 格式(有一些限制)。 `period` 仅支持 ISO 8601 持续时间格式， `Rn/PnYnMnWnDTnHnMnS` 。 此处 `Rn/` 指定将调用提醒 `n ` 次。 它应该是一个大于零的正整数。 如果某些值为 0，则 `period` 可以缩短， 例如10秒持续时间可以在ISO 8601 中被指定为 `PT10S`。 如果未指定 `Rn/` ，则提醒将运行无限次，直到删除。
 
 以下指定 `dueTime` 的 3 秒和 7 秒的句点。
 ```json
@@ -257,7 +266,7 @@ GET http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/reminders/<nam
 | --------- | ------------------ |
 | daprPort  | Dapr 端口。           |
 | actorType | Actor 类型。          |
-| actorId   | The actor ID.      |
+| actorId   | Actor ID           |
 | name      | 要获取 reminders 的名称。 |
 
 > 注意：所有的 URL 参数都是大小写敏感的。
@@ -310,8 +319,8 @@ DELETE http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/reminders/<
 #### 示例
 
 ```shell
-curl http://localhost:3500/v1.0/actors/stormtrooper/50/reminders/checkRebels \
-  -X "Content-Type: application/json"
+curl -X DELETE http://localhost:3500/v1.0/actors/stormtrooper/50/reminders/checkRebels \
+  -H "Content-Type: application/json"
 ```
 
 ### 创建 Actor timers
@@ -326,7 +335,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/timers/<n
 
 Body:
 
-以下指定 `dueTime` 的 3 秒和period 为 7 秒。
+以下指定 `dueTime` 的 3 秒和 7 秒的句点。
 ```json
 {
   "dueTime":"0h0m3s0ms",
@@ -380,7 +389,7 @@ curl http://localhost:3500/v1.0/actors/stormtrooper/50/timers/checkRebels \
 
 #### HTTP 请求
 
-```http
+```
 DELETE http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/timers/<name>
 ```
 
@@ -403,8 +412,8 @@ DELETE http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/timers/<nam
 > 注意：所有的 URL 参数都是大小写敏感的。
 
 ```shell
-curl http://localhost:3500/v1.0/actors/stormtrooper/50/timers/checkRebels \
-  -X "Content-Type: application/json"
+curl -X DELETE http://localhost:3500/v1.0/actors/stormtrooper/50/timers/checkRebels \
+  -H "Content-Type: application/json"
 ```
 
 ## Dapr 调用用户服务

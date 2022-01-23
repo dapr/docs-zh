@@ -3,7 +3,7 @@ type: docs
 title: "密钥管理概览"
 linkTitle: "概述"
 weight: 1000
-description: "密钥管理构建块概览"
+description: "Overview of secrets management API building block"
 ---
 
 应用程序通常会通过使用专用的密钥存储来秘密存储敏感信息，如连接字符串、密钥和用于与数据库、服务和外部系统进行验证的令牌。
@@ -19,7 +19,7 @@ description: "密钥管理构建块概览"
 
 ## 设置一个密钥存储
 
-See [Setup secret stores]({{< ref howto-secrets.md >}}) for guidance on how to setup a secret store with Dapr.
+请参阅 [设置密钥存储]({{< ref howto-secrets.md >}}) 以了解如何设置一个密钥存储。
 
 ## 在您的应用程序中使用密钥
 
@@ -33,24 +33,24 @@ See [Setup secret stores]({{< ref howto-secrets.md >}}) for guidance on how to s
 
 <img src="/images/secrets-overview-kubernetes-store.png" width=600>
 
-在 Azure 中，Dapr 可以配置为使用管理身份验证的 Azure Key Vault，以便获取密钥。 在下面的示例中，Azure Kubernetes 服务 (AKS) 集群被配置为使用托管标识。 然后，Dapr 使用 [pod identities](https://docs.microsoft.com/en-us/azure/aks/operator-best-practices-identity#use-pod-identities) 代表应用程序从 Azure Key Vault 中检索机密。
+在 Azure 中，Dapr 可以配置为使用管理身份验证的 Azure Key Vault，以便获取密钥。 在下面的示例中，Azure Kubernetes 服务 (AKS) 集群被配置为使用托管标识。 然后，Dapr 使用 [pod identities](https://docs.microsoft.com/azure/aks/operator-best-practices-identity#use-pod-identities) 代表应用程序从 Azure Key Vault 中检索机密。
 
 <img src="/images/secrets-overview-azure-aks-keyvault.png" width=600>
 
 请注意，在以上所有示例中，应用程序代码不必更改以获取相同的密钥。 Dapr在这里通过密钥构建块API和使用密钥组件完成了所有的重任。
 
-See [Access Application Secrets using the Secrets API]({{< ref howto-secrets.md >}}) for a How To guide to use secrets in your application.
+请参阅 [使用 密钥API 访问应用程序密钥]({{< ref howto-secrets.md >}}) 以了解如何在您的应用程序中使用密钥。
 
-For detailed API information read [Secrets API]({{< ref secrets_api.md >}}).
+有关详细的API信息，请阅读 [密钥API]({{< ref secrets_api.md >}})。
 
 ## 在Dapr组件中引用密钥存储
 
 在配置Dapr组件（如状态存储）时，通常需要在组件文件中包含凭证。 与此相反，您可以将凭证放在Dapr支持的密钥存储中，并在Dapr组件中引用该密钥。 这是首选方法，是推荐的最佳做法，尤其是在生产环境中。
 
-For more information read [referencing secret stores in components]({{< ref component-secrets.md >}})
+欲了解更多信息，请阅读 [引用组件中的密钥存储]({{< ref component-secrets.md >}})
 
 ## 限制访问密钥
 
-为了对访问密钥提供更精细的控制，Dapr 提供了定义范围和限制访问权限的能力。 Learn more about [using secret scoping]({{<ref secrets-scopes>}})
+为了对访问密钥提供更精细的控制，Dapr 提供了定义范围和限制访问权限的能力。 请参阅 [密钥的范围]({{<ref secrets-scopes>}})
 
 

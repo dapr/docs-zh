@@ -16,7 +16,7 @@ Kubernetes 使用了一个叫做节点亲和性的概念，这样你就可以表
 
 1. 按照您的首选提供商的说明来设置一个带有Windows功能的集群。
 
-- [在 Azure AKS 上设置 Windows](https://docs.microsoft.com/en-us/azure/aks/windows-container-cli)
+- [在 Azure AKS 上设置 Windows](https://docs.microsoft.com/azure/aks/windows-container-cli)
 - [在 AWS EKS 上设置 Windows](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html)
 - [在 Google Cloud GKE 上设置 Windows](https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster-windows)
 
@@ -48,7 +48,7 @@ helm install dapr dapr/dapr --set global.daprControlPlaneOs=windows
 ## 安装 Dapr 应用程序
 
 ### Windows 应用程序
-为了在 Windows 上启动 Dapr 应用程序，您需要首先创建一个安装应用程序的 Docker 容器。 指南见 [开始：为容器准备 Windows](https://docs.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment)。 一旦你拥有一个带有应用程序的Docker container，创建一个 deployment YAML 文件，节点亲和性设置为 kubernetes.io/os: windows。
+为了在 Windows 上启动 Dapr 应用程序，您需要首先创建一个安装应用程序的 Docker 容器。 For a step by step guide see [Get started: Prep Windows for containers](https://docs.microsoft.com/virtualization/windowscontainers/quick-start/set-up-environment). 一旦你拥有一个带有应用程序的Docker container，创建一个 deployment YAML 文件，节点亲和性设置为 kubernetes.io/os: windows。
 
 1. 创建一个 deployment YAML
 
@@ -161,8 +161,8 @@ helm uninstall dapr
 ## 相关链接
 
 - 通过 [官方的 Kubernetes 文档](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) 获取更高级的节点亲和性配置的案例
-- [开始：为容器准备 Windows](https://docs.microsoft.com/en-us/virtualization/windowscontainers/quick-start/set-up-environment)
-- [在 Azure AKS 上设置一个启用了 Windows Kubernetes 的集群](https://docs.microsoft.com/en-us/azure/aks/windows-container-cli)
+- [开始：为容器准备 Windows](https://docs.microsoft.com/virtualization/windowscontainers/quick-start/set-up-environment)
+- [在 Azure AKS 上设置一个启用了 Windows Kubernetes 的集群](https://docs.microsoft.com/azure/aks/windows-container-cli)
 - [在 AWS EKS 上设置一个启用了 Windows Kubernetes 的集群](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html)
 - [在 Google Cloud GKE 上设置 Windows](https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster-windows)
 

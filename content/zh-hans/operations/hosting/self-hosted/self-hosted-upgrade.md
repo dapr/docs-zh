@@ -25,11 +25,11 @@ description: "按照这些步骤在自托管模式下升级 Dapr，并确保顺�
    dapr init
    ```
 
-1. Ensure you are using the latest version of Dapr (v1.2) with:
+1. Ensure you are using the latest version of Dapr (v{{% dapr-latest-version long="true" %}})) with:
 
    ```bash
    $ dapr --version
 
-   CLI version: 1.2
-   Runtime version: 1.2
+   CLI version: {{% dapr-latest-version short="true" %}}
+   Runtime version: {{% dapr-latest-version short="true" %}}
    ```
