@@ -2,11 +2,12 @@
 type: docs
 title: "应用开放策略代理 (OPA) 策略"
 linkTitle: "开放策略代理 (OPA)"
-weight: 6000
 description: "使用中间件对传入的请求应用开放策略代理（OPA）策略。"
+aliases:
+  - /zh-hans/developing-applications/middleware/supported-middleware/middleware-opa/
 ---
 
-The Open Policy Agent (OPA) [HTTP middleware]({{< ref middleware-concept.md >}}) applys [OPA Policies](https://www.openpolicyagent.org/) to incoming Dapr HTTP requests. 这可以用来将可重用的授权策略应用到应用终结点。
+The Open Policy Agent (OPA) [HTTP middleware]({{< ref middleware.md >}}) applys [OPA Policies](https://www.openpolicyagent.org/) to incoming Dapr HTTP requests. 这可以用来将可重用的授权策略应用到应用终结点。
 
 ## 配置
 
@@ -70,7 +71,7 @@ spec:
 
 ## 元数据字段规范
 
-| 字段              | 详情                                                             | Example                                                           |
+| 字段              | 详情                                                             | 示例                                                                |
 | --------------- | -------------------------------------------------------------- | ----------------------------------------------------------------- |
 | rego            | Rego策略语言                                                       | 见上文                                                               |
 | defaultStatus   | 状态码返回拒绝的响应                                                     | `"https://accounts.google.com"`, `"https://login.salesforce.com"` |
@@ -78,7 +79,7 @@ spec:
 
 ## Dapr配置
 
-To be applied, the middleware must be referenced in [configuration]({{< ref configuration-concept.md >}}). See [middleware pipelines]({{< ref "middleware-concept.md#customize-processing-pipeline">}}).
+要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中引用中间件。 参考[中间件管道]({{< ref "middleware.md#customize-processing-pipeline">}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -98,7 +99,7 @@ spec:
 
 ### HTTP请求
 
-`HTTPRequest` 输入包含所有关于传入HTTP请求的透彻信息，但它的正文除外。
+The `HTTPRequest` input contains all the relevant information about an incoming HTTP Request except it's body.
 
 ```go
 type Input struct {
@@ -224,6 +225,6 @@ type Result struct {
 
 - [Open Policy Agent](https://www.openpolicyagent.org)
 - [HTTP API 示例](https://www.openpolicyagent.org/docs/latest/http-api-authorization/)
-- [中间件概念]({{< ref middleware-concept.md >}})
+- [中间件]({{< ref middleware.md >}})
 - [配置概念]({{< ref configuration-concept.md >}})
 - [配置概览]({{< ref configuration-overview.md >}})
