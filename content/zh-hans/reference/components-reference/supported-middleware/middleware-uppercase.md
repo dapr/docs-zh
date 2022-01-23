@@ -2,11 +2,12 @@
 type: docs
 title: "大写请求实体"
 linkTitle: "Uppercase"
-weight: 9999
 description: "测试您的 HTTP 管道与大写中间件一起运行"
+aliases:
+  - /zh-hans/developing-applications/middleware/supported-middleware/middleware-uppercase/
 ---
 
-The uppercase [HTTP middleware]({{< ref middleware-concept.md >}}) converts the body of the request to uppercase letters and is used for testing that the pipeline is functioning. 它只应用于本地开发。
+The uppercase [HTTP middleware]({{< ref middleware.md >}}) converts the body of the request to uppercase letters and is used for testing that the pipeline is functioning. 它只应用于本地开发。
 
 ## 配置
 
@@ -26,7 +27,7 @@ spec:
 
 ## Dapr配置
 
-To be applied, the middleware must be referenced in [configuration]({{< ref configuration-concept.md >}}). See [middleware pipelines]({{< ref "middleware-concept.md#customize-processing-pipeline">}}).
+要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中引用中间件。 参考[中间件管道]({{< ref "middleware.md#customize-processing-pipeline">}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -42,6 +43,6 @@ spec:
 
 ## 相关链接
 
-- [中间件概念]({{< ref middleware-concept.md >}})
+- [中间件]({{< ref middleware.md >}})
 - [配置概念]({{< ref configuration-concept.md >}})
 - [配置概览]({{< ref configuration-overview.md >}})

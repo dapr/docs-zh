@@ -3,20 +3,24 @@ type: docs
 title: "如何：将访问控制列表配置应用于服务调用"
 linkTitle: "服务调用访问控制"
 weight: 4000
-description: "Restrict what operations *calling* applications can perform, via service invocation, on the *called* application"
+description: "限制应用程序可以通过服务调用在\"调用\"应用程序上执行什么操作"
 ---
 
 Access control enables the configuration of policies that restrict what operations *calling* applications can perform, via service invocation, on the *called* application. To limit access to a called applications from specific operations and HTTP verbs from the calling applications, you can define an access control policy specification in configuration.
 
-An access control policy is specified in configuration and be applied to Dapr sidecar for the *called* application. Example access policies are shown below and access to the called app is based on the matched policy action. You can provide a default global action for all calling applications and if no access control policy is specified, the default behavior is to allow all calling applicatons to access to the called app.
+An access control policy is specified in configuration and be applied to Dapr sidecar for the *called* application. Example access policies are shown below and access to the called app is based on the matched policy action. You can provide a default global action for all calling applications and if no access control policy is specified, the default behavior is to allow all calling applications to access to the called app.
 
-Watch this [video](https://youtu.be/j99RN_nxExA?t=1108) on how to apply access control list for service invocation. <iframe width="688" height="430" src="https://www.youtube.com/embed/j99RN_nxExA?start=1108" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
+Watch this [video](https://youtu.be/j99RN_nxExA?t=1108) on how to apply access control list for service invocation.
+
+<div class="embed-responsive embed-responsive-16by9">
+<iframe width="688" height="430" src="https://www.youtube.com/embed/j99RN_nxExA?start=1108" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 ## 基础概念
 
 **TrustDomain** - A "trust domain" is a logical group to manage trust relationships. Every application is assigned a trust domain which can be specified in the access control list policy spec. If no policy spec is defined or an empty trust domain is specified, then a default value "public" is used. This trust domain is used to generate the identity of the application in the TLS cert.
 
-**App Identity** - Dapr requests the sentry service to generate a [SPIFFE](https://spiffe.io/) id for all applications and this id is attached in the TLS cert. The SPIFFE id is of the format: `**spiffe://\<trustdomain>/ns/\<namespace\>/\<appid\>**`. For matching policies, the trust domain, namespace and app ID values of the calling app are extracted from the SPIFFE id in the TLS cert of the calling app. These values are matched against the trust domain, namespace and app ID values specified in the policy spec. If all three of these match, then more specific policies are further matched. The SPIFFE id is of the format: `**spiffe://\<trustdomain>/ns/\<namespace\>/\<appid\>**`. For matching policies, the trust domain, namespace and app ID values of the calling app are extracted from the SPIFFE id in the TLS cert of the calling app. These values are matched against the trust domain, namespace and app ID values specified in the policy spec. If all three of these match, then more specific policies are further matched. The SPIFFE id is of the format: `**spiffe://\<trustdomain>/ns/\<namespace\>/\<appid\>**`. For matching policies, the trust domain, namespace and app ID values of the calling app are extracted from the SPIFFE id in the TLS cert of the calling app. These values are matched against the trust domain, namespace and app ID values specified in the policy spec. If all three of these match, then more specific policies are further matched.
+**App Identity** - Dapr requests the sentry service to generate a [SPIFFE](https://spiffe.io/) id for all applications and this id is attached in the TLS cert. The SPIFFE id is of the format: `**spiffe://\<trustdomain>/ns/\<namespace\>/\<appid\>**`. For matching policies, the trust domain, namespace and app ID values of the calling app are extracted from the SPIFFE id in the TLS cert of the calling app. These values are matched against the trust domain, namespace and app ID values specified in the policy spec. If all three of these match, then more specific policies are further matched.
 
 ## Configuration properties
 
@@ -38,13 +42,13 @@ The following tables lists the different properties for access control, policies
 | namespace     | string | Namespace value that needs to be matched with the namespace of the calling app                      |
 | trustDomain   | string | Trust domain that needs to be matched with the trust domain of the calling app. Default is "public" |
 | defaultAction | string | App level default action in case the app is found but no specific operation is matched              |
-| 功能操作          | string | operations that are allowed from the calling app                                                    |
+| operations    | string | operations that are allowed from the calling app                                                    |
 
-### 功能操作
+### Operations
 
 | 属性       | 数据类型   | 说明                                                                                                                                           |
 | -------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
-| name     | string | Path name of the operations allowed on the called app. Wildcard "\*" can be used to under a path to match                                  |
+| name     | string | Path name of the operations allowed on the called app. 通配符"\*"可用于在匹配路径                                                                     |
 | httpVerb | list   | List specific http verbs that can be used by the calling app. Wildcard "\*" can be used to match any http verb. Unused for grpc invocation |
 | action   | string | Access modifier. Accepted values "allow" (default) or "deny"                                                                                 |
 
@@ -67,7 +71,7 @@ The action corresponding to the most specific policy matched takes effect as ord
 
 Below are some example scenarios for using access control list for service invocation. See [configuration guidance]({{< ref "configuration-concept.md" >}}) to understand the available configuration settings for an application sidecar.
 
-<font size=5>Scenario 1: Deny access to all apps except where trustDomain = public, namespace = default, appId = app1</font>
+<font size=5>方案1：拒绝访问所有应用，除非 trustDomain = public, namespace = default, appId = app1</font>
 
 With this configuration, all calling methods with appId = app1 are allowed and all other invocation requests from other applications are denied
 
@@ -87,7 +91,7 @@ spec:
       namespace: "default"
 ```
 
-<font size=5>Scenario 2: Deny access to all apps except trustDomain = public, namespace = default, appId = app1, operation = op1</font>
+<font size=5>方案2：拒绝访问除信任域外的所有 trustDomain = public, namespace = default, appId = app1, operation = op1</font>
 
 With this configuration, only method op1 from appId = app1 is allowed and all other method requests from all other apps, including other methods on app1, are denied
 
@@ -111,7 +115,7 @@ spec:
         action: allow
 ```
 
-<font size=5>Scenario 3: Deny access to all apps except when a specific verb for HTTP and operation for GRPC is matched</font>
+<font size=5>方案 3：拒绝访问所有应用，除非匹配 HTTP 的特定动词和 GRPC 的操作</font>
 
 With this configuration, the only scenarios below are allowed access and and all other method requests from all other apps, including other methods on app1 or app2, are denied
 * trustDomain = public, namespace = default, appID = app1, operation = op1, http verb = POST/PUT
@@ -191,7 +195,7 @@ spec:
 ```
 
 ## Hello world examples
-These examples show how to apply access control to the [hello world](https://github.com/dapr/quickstarts#quickstarts) quickstart samples where a python app invokes a node.js app. Access control lists rely on the Dapr [Sentry service]({{< ref "security-concept.md" >}}) to generate the TLS certificates with a SPIFFE id for authentication, which means the Sentry service either has to be running locally or deployed to your hosting enviroment such as a Kubernetes cluster.
+These examples show how to apply access control to the [hello world](https://github.com/dapr/quickstarts#quickstarts) quickstart samples where a python app invokes a node.js app. Access control lists rely on the Dapr [Sentry service]({{< ref "security-concept.md" >}}) to generate the TLS certificates with a SPIFFE id for authentication, which means the Sentry service either has to be running locally or deployed to your hosting environment such as a Kubernetes cluster.
 
 The nodeappconfig example below shows how to **deny** access to the `neworder` method from the `pythonapp`, where the python app is in the `myDomain` trust domain and `default` namespace. The nodeapp is in the `public` trust domain.
 
@@ -257,9 +261,9 @@ The following steps run the Sentry service locally with mTLS enabled, set up nec
 
    {{% codetab %}}
    ```powershell
-   $env:DAPR_TRUST_ANCHORS=$(Get-Content $env:USERPROFILE\.dapr\certs\ca.crt)
-   $env:DAPR_CERT_CHAIN=$(Get-Content $env:USERPROFILE\.dapr\certs\issuer.crt)
-   $env:DAPR_CERT_KEY=$(Get-Content $env:USERPROFILE\.dapr\certs\issuer.key)
+   $env:DAPR_TRUST_ANCHORS=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\ca.crt)
+   $env:DAPR_CERT_CHAIN=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\issuer.crt)
+   $env:DAPR_CERT_KEY=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\issuer.key)
    $env:NAMESPACE="default"
    ```
 
@@ -294,9 +298,9 @@ The following steps run the Sentry service locally with mTLS enabled, set up nec
 
    {{% codetab %}}
    ```powershell
-   $env:DAPR_TRUST_ANCHORS=$(Get-Content $env:USERPROFILE\.dapr\certs\ca.crt)
-   $env:DAPR_CERT_CHAIN=$(Get-Content $env:USERPROFILE\.dapr\certs\issuer.crt)
-   $env:DAPR_CERT_KEY=$(Get-Content $env:USERPROFILE\.dapr\certs\issuer.key)
+   $env:DAPR_TRUST_ANCHORS=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\ca.crt)
+   $env:DAPR_CERT_CHAIN=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\issuer.crt)
+   $env:DAPR_CERT_KEY=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\issuer.key)
    $env:NAMESPACE="default"
    ```
    {{% /codetab %}}

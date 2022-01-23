@@ -13,7 +13,7 @@ aliases:
 
 在Kubernetes中，将服务主体的证书存储到Kubernetes Secret Store中，然后用Kubernetes secretstore中的这个证书启用Azure Key Vault密钥仓库。
 
-组件yaml使用你的密钥仓库的名称和托管标识的Cliend ID来配置密钥仓库。
+The component yaml uses the name of your key vault and the Client ID of the managed identity to setup the secret store.
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -37,7 +37,7 @@ spec:
 
 ## 元数据字段规范
 
-| 字段          | 必填 | 详情                | Example        |
+| 字段          | 必填 | 详情                | 示例             |
 | ----------- |:--:| ----------------- | -------------- |
 | vaultName   | Y  | Azure Key Vault名称 | `"mykeyvault"` |
 | spnClientId | Y  | 你的托管标识客户端ID       | `"yourId"`     |
@@ -149,6 +149,12 @@ spec:
       azureIdentity: [your managed identity name]
       selector: [your managed identity selector]
     ```
+    where the value `resourceID: [your managed identity id]` is the fully qualified resource ID of the managed identity. It can be retrieved by running
+    ```
+    az identity show -g [your resource group] -n [managed identity name] --query id
+    ```
+
+
 
 10. 部署azure-identity-config.yaml：
 

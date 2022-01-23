@@ -45,5 +45,5 @@ no_list: true
 
 | Name                                                       | 状态    | 组件版本 | 自从  |
 | ---------------------------------------------------------- | ----- | ---- | --- |
-| [Azure Events Hub]({{< ref setup-azure-eventhubs.md >}})   | Alpha | v1   | 1.0 |
+| [Azure Event Hubs]({{< ref setup-azure-eventhubs.md >}})   | Alpha | v1   | 1.0 |
 | [Azure Service Bus]({{< ref setup-azure-servicebus.md >}}) | GA    | v1   | 1.0 |

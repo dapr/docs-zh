@@ -8,7 +8,7 @@ description: "使用范围（scopes）限制 Pub/Sub 主题到特定的应用程
 
 ## 介绍
 
-[Namespaces or component scopes]({{< ref component-scopes.md >}}) can be used to limit component access to particular applications. 添加到组件的这些应用程序作用域仅限制具有特定 ID 的应用程序才能使用该组件。
+[名称空间或组件作用域（scopes）]({{< ref component-scopes.md >}}) 可用于限制对特定应用程序的组件访问。 添加到组件的这些应用程序作用域仅限制具有特定 ID 的应用程序才能使用该组件。
 
 除了此常规组件范围外，对于 pub/sub 组件，还可以限制以下操作：
 - 哪些主题可以使用(发布或订阅)
@@ -32,7 +32,7 @@ description: "使用范围（scopes）限制 Pub/Sub 主题到特定的应用程
 - `spec.metadata.allowedTopics`
   - 一个逗号分隔的允许主题列表，对所有应用程序。
   - 如果未设置 `allowedTopics` (缺省行为) ，那么所有主题都有效。 `subscriptionScopes` 和 `publishingScopes` 如果存在则仍然生效。
-  - `publishingScopes` 或 `subscriptionScopes` 可用于与 `allowedTopics` 的 conjuction ，以添加限制粒度
+  - `publishingScopes`或`subscriptionScopes`可以与`allowedTopics`一起使用，以添加粒度限制
 
 这些元数据属性可用于所有 pub/sub 组件。 以下示例使用 Redis 作为 pub/sub 组件。
 
@@ -156,11 +156,15 @@ spec:
 | app3 | X | X |   |
 
 
-## 例子   <iframe width="560" height="315" src="https://www.youtube.com/embed/7VdWBBGcbHQ?start=513" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
+## 例子
+
+<div class="embed-responsive embed-responsive-16by9">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/7VdWBBGcbHQ?start=513" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</div>
 
 ## 相关链接
 
-- Learn [how to configure Pub/Sub components with multiple namespaces]({{< ref pubsub-namespaces.md >}})
-- Learn about [message time-to-live]({{< ref pubsub-message-ttl.md >}})
-- List of [pub/sub components]({{< ref supported-pubsub >}})
-- Read the [API reference]({{< ref pubsub_api.md >}})
+- 学习 [如何配置具有多个命名空间的 Pub/Sub 组件]({{< ref pubsub-namespaces.md >}})
+- 了解 [消息存活时间]({{< ref pubsub-message-ttl.md >}})
+- [pub/sub组件列表]({{< ref supported-pubsub >}})
+- 阅读 [API 引用]({{< ref pubsub_api.md >}})

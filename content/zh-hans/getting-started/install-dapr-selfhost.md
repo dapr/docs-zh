@@ -19,7 +19,7 @@ Dapr 与您的应用程序一起作为sidecar运行，在自托管模式下，�
 1. 运行用于本地演员支持的**Dapr placement服务容器实例**
 
 {{% alert title="Docker" color="primary" %}}
-这种推荐的开发环境需要 [Docker](https://docs.docker.com/install/)。 It is possible to initialize Dapr without a dependency on Docker (see [this guidance]({{<ref self-hosted-no-docker.md>}})) but next steps in this guide assume the recommended development environment.
+这种推荐的开发环境需要 [Docker](https://docs.docker.com/install/)。 可以在不依赖 Docker 的情况下初始化 Dapr（[请参阅本指南]({{<ref self-hosted-no-docker.md>}})），但本指南中的后续步骤将假定使用推荐的开发环境。
 {{% /alert %}}
 
 ### 第 1 步：打开架起终端
@@ -52,8 +52,8 @@ dapr --version
 
 输出应该看起来像这样：
 ```
-CLI version: 1.2.0
-Runtime version: 1.2.0
+CLI version: 1.3.0
+Runtime version: 1.3.1
 ```
 
 ### 第 4 步：验证容器正在运行
@@ -70,7 +70,6 @@ docker ps
 CONTAINER ID   IMAGE                    COMMAND                  CREATED         STATUS         PORTS                              NAMES
 0dda6684dc2e   openzipkin/zipkin        "/busybox/sh run.sh"     2 minutes ago   Up 2 minutes   9410/tcp, 0.0.0.0:9411->9411/tcp   dapr_zipkin
 9bf6ef339f50   redis                    "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   0.0.0.0:6379->6379/tcp             dapr_redis
-8d993e514150   daprio/dapr              "./placement"            2 minutes ago   Up 2 minutes   0.0.0.0:6050->50005/tcp            dapr_placement   2 minutes ago   Up 2 minutes   0.0.0.0:6379->6379/tcp             dapr_redis
 8d993e514150   daprio/dapr              "./placement"            2 minutes ago   Up 2 minutes   0.0.0.0:6050->50005/tcp            dapr_placement
 ```
 
