@@ -7,7 +7,7 @@ description: "Detailed documentation on the Zeebe JobWorker binding component"
 
 ## 配置
 
-To setup Zeebe JobWorker binding create a component of type `bindings.zeebe.jobworker`. See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+To setup Zeebe JobWorker binding create a component of type `bindings.zeebe.jobworker`. 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 See [this](https://docs.camunda.io/docs/product-manuals/concepts/job-workers) for Zeebe JobWorker documentation.
 
@@ -51,7 +51,7 @@ spec:
 
 ## 元数据字段规范
 
-| 字段                     | 必填 | 绑定支持 | 详情                                                                                                                                                                                                                                                                                                      | Example                              |
+| 字段                     | 必填 | 绑定支持 | 详情                                                                                                                                                                                                                                                                                                      | 示例                                   |
 | ---------------------- |:--:| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | gatewayAddr            | Y  | 输入   | Zeebe gateway address                                                                                                                                                                                                                                                                                   | `localhost:26500`                    |
 | gatewayKeepAlive       | N  | 输入   | Sets how often keep alive messages should be sent to the gateway. Defaults to 45 seconds                                                                                                                                                                                                                | `45s`                                |
@@ -73,17 +73,41 @@ This component supports **input** binding interfaces.
 
 ### 输入绑定
 
-The Zeebe workflow engine handles the workflow state as also workflow variables which can be passed on workflow instantiation or which can be updated or created during workflow execution. These variables can be passed to a registered job worker by defining the variable names as comma-separated list in the `fetchVariables` metadata field. The workflow engine will then pass these variables with its current values to the job worker implementation.
+#### Variables
 
-If the binding will register three variables `productId`, `productName` and `productKey` then the service will be called with the following JSON:
+The Zeebe process engine handles the process state as also process variables which can be passed on process instantiation or which can be updated or created during process execution. These variables can be passed to a registered job worker by defining the variable names as comma-separated list in the `fetchVariables` metadata field. The process engine will then pass these variables with its current values to the job worker implementation.
+
+If the binding will register three variables `productId`, `productName` and `productKey` then the worker will be called with the following JSON body:
 
 ```json
 {
-  "productId": "some-product-id",  
-  "productName": "some-product-name",  
-  "productKey": "some-product-key"  
+  "productId": "some-product-id",
+  "productName": "some-product-name",
+  "productKey": "some-product-key"
 }
 ```
+
+Note: if the `fetchVariables` metadata field will not be passed, all process variables will be passed to the worker.
+
+#### Headers
+
+The Zeebe process engine has the ability to pass custom task headers to a job worker. These headers can be defined for every [service task](https://stage.docs.zeebe.io/bpmn-workflows/service-tasks/service-tasks.html). Task headers will be passed by the binding as metadata (HTTP headers) to the job worker.
+
+The binding will also pass the following job related variables as metadata. The values will be passed as string. The table contains also the original data type so that it can be converted back to the equivalent data type in the used programming language for the worker.
+
+| 元数据（Metadata）                      | Data type | 说明                                                                                              |
+| ---------------------------------- | --------- | ----------------------------------------------------------------------------------------------- |
+| X-Zeebe-Job-Key                    | int64     | The key, a unique identifier for the job                                                        |
+| X-Zeebe-Job-Type                   | string    | The type of the job (should match what was requested)                                           |
+| X-Zeebe-Process-Instance-Key       | int64     | The job's process instance key                                                                  |
+| X-Zeebe-Bpmn-Process-Id            | string    | The bpmn process ID of the job process definition                                               |
+| X-Zeebe-Process-Definition-Version | int32     | The version of the job process definition                                                       |
+| X-Zeebe-Process-Definition-Key     | int64     | The key of the job process definition                                                           |
+| X-Zeebe-Element-Id                 | string    | The associated task element ID                                                                  |
+| X-Zeebe-Element-Instance-Key       | int64     | The unique key identifying the associated task, unique within the scope of the process instance |
+| X-Zeebe-Worker                     | string    | The name of the worker which activated this job                                                 |
+| X-Zeebe-Retries                    | int32     | The amount of retries left to this job (should always be positive)                              |
+| X-Zeebe-Deadline                   | int64     | When the job can be activated again, sent as a UNIX epoch timestamp                             |
 
 ## 相关链接
 

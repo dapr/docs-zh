@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "使用 OAuth 配置 API 授权"
-linkTitle: "OAuth"
+title: "Configure endpoint authorization with OAuth"
+linkTitle: "Configure endpoint authorization with OAuth"
 weight: 2000
-description: "Enable OAUTH authorization on Dapr endpoints for your web APIs"
+description: "Enable OAuth authorization on application endpoints for your web APIs"
 ---
 
-Dapr OAuth 2.0 [middleware]({{< ref "middleware-concept.md" >}}) allows you to enable [OAuth](https://oauth.net/2/) authorization on Dapr endpoints for your web APIs using the [Authorization Code Grant flow](https://tools.ietf.org/html/rfc6749#section-4.1). You can also inject authorization tokens into your APIs which can be used for authorization towards external APIs called by your APIs using the [Client Credentials Grant flow](https://tools.ietf.org/html/rfc6749#section-4.4). When the middleware is enabled any method invocation through Dapr needs to be authorized before getting passed to the user code.
+Dapr OAuth 2.0 [middleware]({{< ref "middleware.md" >}}) allows you to enable [OAuth](https://oauth.net/2/) authorization on Dapr endpoints for your web APIs using the [Authorization Code Grant flow](https://tools.ietf.org/html/rfc6749#section-4.1). You can also inject authorization tokens into your endpoint APIs which can be used for authorization towards external APIs called by your APIs using the [Client Credentials Grant flow](https://tools.ietf.org/html/rfc6749#section-4.4). When the middleware is enabled any method invocation through Dapr needs to be authorized before getting passed to the user code.
 
 The main difference between the two flows is that the `Authorization Code Grant flow` needs user interaction and authorizes a user where the `Client Credentials Grant flow` doesn't need a user interaction and authorizes a service/application.
 
@@ -14,7 +14,7 @@ The main difference between the two flows is that the `Authorization Code Grant 
 
 Different authorization servers provide different application registration experiences. Here are some samples:
 
-* [Azure AAD](https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-protocols-oauth-code)
+* [Azure AAD](https://docs.microsoft.com/azure/active-directory/develop/v1-protocols-oauth-code)
 * [Facebook](https://developers.facebook.com/apps)
 * [Fitbit](https://dev.fitbit.com/build/reference/web-api/oauth2/)
 * [GitHub](https://developer.github.com/apps/building-oauth-apps/creating-an-oauth-app/)
@@ -32,12 +32,14 @@ To figure the Dapr OAuth middleware, you'll need to collect the following inform
 
 Authorization/Token URLs of some of the popular authorization servers:
 
+<!-- IGNORE_LINKS -->
 | 服务器       | Authorization URL                                             | Token URL                                                                                 |
 | --------- | ------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | Azure AAD | <https://login.microsoftonline.com/{tenant}/oauth2/authorize> | <https://login.microsoftonline.com/{tenant}/oauth2/token>                                 |
 | GitHub    | <https://github.com/login/oauth/authorize>                    | <https://github.com/login/oauth/access_token>                                             |
 | Google    | <https://accounts.google.com/o/oauth2/v2/auth>                | <https://accounts.google.com/o/oauth2/token> <https://www.googleapis.com/oauth2/v4/token> |
 | Twitter   | <https://api.twitter.com/oauth/authorize>                     | <https://api.twitter.com/oauth2/token>                                                    |
+<!-- END_IGNORE -->
 
 ## Define the middleware component definition
 
@@ -79,7 +81,7 @@ spec:
 
 ### Define a custom pipeline for an Authorization Code Grant
 
-To use the OAuth middleware (Authorization Code), you should create a [custom pipeline]({{< ref "middleware-concept.md" >}}) using [Dapr configuration]({{< ref "configuration-overview" >}}), as shown in the following sample:
+To use the OAuth middleware (Authorization Code), you should create a [custom pipeline]({{< ref "middleware.md" >}}) using [Dapr configuration]({{< ref "configuration-overview" >}}), as shown in the following sample:
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -136,7 +138,7 @@ spec:
 
 ### Define a custom pipeline for a Client Credentials Grant
 
-To use the OAuth middleware (Client Credentials), you should create a [custom pipeline]({{< ref "middleware-concept.md" >}}) using [Dapr configuration]({{< ref "configuration-overview.md" >}}), as shown in the following sample:
+To use the OAuth middleware (Client Credentials), you should create a [custom pipeline]({{< ref "middleware.md" >}}) using [Dapr configuration]({{< ref "configuration-overview.md" >}}), as shown in the following sample:
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

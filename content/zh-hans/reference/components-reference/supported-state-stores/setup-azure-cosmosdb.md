@@ -32,7 +32,7 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 如果您想要使用 CosmosDb 作为 Actor 存储，请在 yaml 上附上以下内容。
@@ -44,7 +44,7 @@ spec:
 
 ## 元数据字段规范
 
-| 字段              | 必填 | 详情                                 | Example                                      |
+| 字段              | 必填 | 详情                                 | 示例                                           |
 | --------------- |:--:| ---------------------------------- | -------------------------------------------- |
 | url             | Y  | CosmosDB 地址                        | `"https://******.documents.azure.com:443/"`. |
 | masterKey       | Y  | 认证到CosmosDB 账户的密钥                  | `"key"`                                      |
@@ -54,15 +54,34 @@ spec:
 
 ## 安装Azure Cosmos DB
 
-[请遵循 Azure 文档中关于如何创建 Azure CosmosDB 帐户的说明](https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-manage-database-account)。  在为Dapr所使用之前，必须先在CosmosDB中创建数据库和集合。
+[请遵循 Azure 文档中关于如何创建 Azure CosmosDB 帐户的说明](https://docs.microsoft.com/azure/cosmos-db/how-to-manage-database-account)。  在为Dapr所使用之前，必须先在CosmosDB中创建数据库和集合。
 
 **注意：集合的分区键必须命名为"/partitionKey"。  注意：这是区分大小写的。**
 
 为了配置CosmosDB作为状态存储，你需要以下属性：
-- **URL**: CosmosDB的 url. 示例: https://******.documents.azure.com:443/ 示例: https://******.documents.azure.com:443/
+- **URL**: the CosmosDB url. 示例: https://******.documents.azure.com:443/
 - **Master Key**: 用于验证 CosmosDB 账户的密钥
 - **Database**: 数据库的名称
 - **Collection**: 集合的名称
+
+## Best Practices for Production Use
+
+Azure Cosmos DB shares a strict metadata request rate limit across all databases in a single Azure Cosmos DB account. New connections to Azure Cosmos DB assume a large percentage of the allowable request rate limit. (See the [CosmosDB documentation](https://docs.microsoft.com/azure/cosmos-db/sql/troubleshoot-request-rate-too-large#recommended-solution-3))
+
+Therefore several strategies must be applied to avoid simultaneous new connections to Azure Cosmos DB:
+
+- Ensure sidecars of applications only load the Azure Cosmos DB component when they require it to avoid unnecessary database connections. This can be done by [scoping your components to specific applications]({{< ref component-scopes.md >}}#application-access-to-components-with-scopes).
+- Choose deployment strategies that sequentially deploy or start your applications to minimize bursts in new connections to your Azure Cosmos DB accounts.
+- Avoid reusing the same Azure Cosmos DB account for unrelated databases or systems (even outside of Dapr). Distinct Azure Cosmos DB accounts have distinct rate limits.
+- Increase the `initTimeout` value to allow the component to retry connecting to Azure Cosmos DB during side car initialization for up to 5 minutes. The default value is `5s` and should be increased. When using Kubernetes, increasing this value may also require an update to your [Readiness and Liveness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+
+```yaml
+spec:
+  type: state.azure.cosmosdb
+  version: v1
+  initTimeout: 5m
+  metadata:
+```
 
 ## 日期格式
 

@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置 Azure CosmosDB 绑定，请创建一个类型为 `bindings.azure.cosmosdb` 的组件。 See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+要设置 Azure CosmosDB 绑定，请创建一个类型为 `bindings.azure.cosmosdb` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 
 ```yaml
@@ -35,26 +35,51 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段           | 必填 | 绑定支持 | 详情                               | Example                                     |
-| ------------ |:--:| ---- | -------------------------------- | ------------------------------------------- |
-| url          | Y  | 输出   | CosmosDB 地址                      | `"https://******.documents.azure.com:443/"` |
-| masterKey    | Y  | 输出   | CosmosDB 账户主键                    | `"master-key"`                              |
-| database     | Y  | 输出   | CosmosDB 数据库名                    | `"OrderDb"`                                 |
-| collection   | Y  | 输出   | 数据库中容器的名称。                       | `"Orders"`                                  |
-| partitionKey | Y  | 输出   | 要从有效负载中提取并在容器中使用的partitionKey的名称 | `"OrderId"`, `"message"`                    |
+| 字段           | 必填 | 绑定支持 | 详情                                                                                                                                                                                                     | 示例                                          |
+| ------------ |:--:| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------- |
+| url          | Y  | 输出   | CosmosDB 地址                                                                                                                                                                                            | `"https://******.documents.azure.com:443/"` |
+| masterKey    | Y  | 输出   | CosmosDB 账户主键                                                                                                                                                                                          | `"master-key"`                              |
+| database     | Y  | 输出   | CosmosDB 数据库名                                                                                                                                                                                          | `"OrderDb"`                                 |
+| collection   | Y  | 输出   | 数据库中容器的名称。                                                                                                                                                                                             | `"Orders"`                                  |
+| partitionKey | Y  | 输出   | The name of the key to extract from the payload (document to be created) that is used as the partition key. This name must match the partition key specified upon creation of the Cosmos DB container. | `"OrderId"`, `"message"`                    |
 
-欲了解更多信息，请参阅 [Azure Cosmos DB 资源模型](https://docs.microsoft.com/en-us/azure/cosmos-db/account-databases-containers-items)。
+欲了解更多信息，请参阅 [Azure Cosmos DB 资源模型](https://docs.microsoft.com/azure/cosmos-db/account-databases-containers-items)。
 
 ## 绑定支持
 
 字段名为 `ttlInSeconds`。
 
 - `create`
+
+## Best Practices for Production Use
+
+Azure Cosmos DB shares a strict metadata request rate limit across all databases in a single Azure Cosmos DB account. New connections to Azure Cosmos DB assume a large percentage of the allowable request rate limit. (See the [CosmosDB documentation](https://docs.microsoft.com/azure/cosmos-db/sql/troubleshoot-request-rate-too-large#recommended-solution-3))
+
+Therefore several strategies must be applied to avoid simultaneous new connections to Azure Cosmos DB:
+
+- Ensure sidecars of applications only load the Azure Cosmos DB component when they require it to avoid unnecessary database connections. This can be done by [scoping your components to specific applications]({{< ref component-scopes.md >}}#application-access-to-components-with-scopes).
+- Choose deployment strategies that sequentially deploy or start your applications to minimize bursts in new connections to your Azure Cosmos DB accounts.
+- Avoid reusing the same Azure Cosmos DB account for unrelated databases or systems (even outside of Dapr). Distinct Azure Cosmos DB accounts have distinct rate limits.
+- Increase the `initTimeout` value to allow the component to retry connecting to Azure Cosmos DB during side car initialization for up to 5 minutes. The default value is `5s` and should be increased. When using Kubernetes, increasing this value may also require an update to your [Readiness and Liveness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/).
+
+```yaml
+spec:
+  type: bindings.azure.cosmosdb
+  version: v1
+  initTimeout: 5m
+  metadata:
+```
+
+## 日期格式
+
+The **output binding** `create` operation requires the following keys to exist in the payload of every document to be created:
+- `id`: a unique ID for the document to be created
+- `<partitionKey>`: the name of the partition key specified via the `spec.partitionKey` in the component definition. This must also match the partition key specified upon creation of the Cosmos DB container.
 
 ## 相关链接
 

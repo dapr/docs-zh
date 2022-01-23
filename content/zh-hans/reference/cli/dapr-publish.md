@@ -5,21 +5,21 @@ linkTitle: "publish"
 description: "有关 publish CLI 命令的详细信息"
 ---
 
-## 说明
+### 说明
 
 发布 pub-sub 事件。
 
-## 支持的平台
+### 支持的平台
 
 - [自托管]({{< ref self-hosted >}})
 
-## 用法
+### 用法
 
 ```bash
 dapr publish [flags]
 ```
 
-## 参数
+### 参数
 
 | Name                     | 环境变量 | 默认值             | 说明                                                    |
 | ------------------------ | ---- | --------------- | ----------------------------------------------------- |
@@ -31,9 +31,9 @@ dapr publish [flags]
 | `--help`, `-h`           |      |                 | 显示此帮助消息                                               |
 
 
-## 示例
+### 示例
 
-### 将示例 topic 发布到目标 pubsub
 ```bash
+# Publish to sample topic in target pubsub
 dapr publish --publish-app-id appId --topic sample --pubsub target --data '{"key":"value"}'
 ```

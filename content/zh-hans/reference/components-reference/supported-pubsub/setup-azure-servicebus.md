@@ -8,7 +8,7 @@ aliases:
 ---
 
 ## 配置
-To setup Azure Service Bus pubsub create a component of type `pubsub.azure.servicebus`. See [this guide]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) on how to create and apply a pubsub configuration.
+To setup Azure Service Bus pubsub create a component of type `pubsub.azure.servicebus`. 请参阅[本指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})，了解如何创建和应用 pubsub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -22,51 +22,51 @@ spec:
   metadata:
   - name: connectionString # Required
     value: "Endpoint=sb://{ServiceBusNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={ServiceBus}"
-  - name: timeoutInSec # Optional
-    value: 60
-  - name: handlerTimeoutInSec # Optional
-    value: 60
-  - name: disableEntityManagement # Optional
-    value: "false"
-  - name: maxDeliveryCount # Optional
-    value: 3
-  - name: lockDurationInSec # Optional
-    value: 60
-  - name: lockRenewalInSec # Optional
-    value: 20
-  - name: maxActiveMessages # Optional
-    value: 2000
-  - name: maxActiveMessagesRecoveryInSec # Optional
-    value: 2
-  - name: maxConcurrentHandlers # Optional
-    value: 10
-  - name: prefetchCount # Optional
-    value: 5
-  - name: defaultMessageTimeToLiveInSec # Optional
-    value: 10
-  - name: autoDeleteOnIdleInSec # Optional
-    value: 10
-  - name: maxReconnectionAttempts # Optional
-    value: 30
-  - name: connectionRecoveryInSec # Optional
-    value: 2
-  - name: publishMaxRetries # Optional
-    value: 5
-  - name: publishInitialRetryInternalInMs # Optional
-    value: 500
+  # - name: timeoutInSec # Optional
+  #   value: 60
+  # - name: handlerTimeoutInSec # Optional
+  #   value: 60
+  # - name: disableEntityManagement # Optional
+  #   value: "false"
+  # - name: maxDeliveryCount # Optional
+  #   value: 3
+  # - name: lockDurationInSec # Optional
+  #   value: 60
+  # - name: lockRenewalInSec # Optional
+  #   value: 20
+  # - name: maxActiveMessages # Optional
+  #   value: 2000
+  # - name: maxActiveMessagesRecoveryInSec # Optional
+  #   value: 2
+  # - name: maxConcurrentHandlers # Optional
+  #   value: 10
+  # - name: prefetchCount # Optional
+  #   value: 5
+  # - name: defaultMessageTimeToLiveInSec # Optional
+  #   value: 10
+  # - name: autoDeleteOnIdleInSec # Optional
+  #   value: 10
+  # - name: maxReconnectionAttempts # Optional
+  #   value: 30
+  # - name: connectionRecoveryInSec # Optional
+  #   value: 2
+  # - name: publishMaxRetries # Optional
+  #   value: 5
+  # - name: publishInitialRetryInternalInMs # Optional
+  #   value: 500
 ```
 
 > __注意：__上述设置在使用该组件的所有主题中是通用的。
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                              | 必填 | 详情                                                                                                                         | Example                                                                                                                                        |
+| 字段                              | 必填 | 详情                                                                                                                         | 示例                                                                                                                                             |
 | ------------------------------- |:--:| -------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| connectionString                | Y  | Connection-string for the Service Bus                                                                                      | "`Endpoint=sb://{ServiceBusNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={ServiceBus}`" |
+| connectionString                | Y  | Shared access policy connection-string for the Service Bus                                                                 | "`Endpoint=sb://{ServiceBusNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={ServiceBus}`" |
 | timeoutInSec                    | N  | 发送消息和其他管理操作的超时时间。 默认值：`60`                                                                                                 | `30`                                                                                                                                           |
 | handlerTimeoutInSec             | N  | 调用应用handler的超时。 # 可选的。 默认值：`60`                                                                                            | `30`                                                                                                                                           |
 | disableEntityManagement         | N  | 设置为 "true "时，主题和订阅不会自动创建。 默认值为 `"false"`                                                                                   | `"true"`, `"false"`                                                                                                                            |
@@ -79,16 +79,49 @@ spec:
 | prefetchCount                   | N  | 定义预取消息的数量(用于高吞吐量/低延迟场景)                                                                                                    | `5`                                                                                                                                            |
 | defaultMessageTimeToLiveInSec   | N  | 默认消息存活时间                                                                                                                   | `10`                                                                                                                                           |
 | autoDeleteOnIdleInSec           | N  | 自动删除消息前等待的时间(秒)                                                                                                            | `10`                                                                                                                                           |
-| maxReconnectionAttempts         | N  | Defines the maximum number of reconnect attempts. 默认值：`30`                                                                 | `30`                                                                                                                                           |
+| maxReconnectionAttempts         | N  | Defines the maximum number of reconnect attempts. Default: `30`                                                            | `30`                                                                                                                                           |
 | connectionRecoveryInSec         | N  | Time in seconds to wait between connection recovery attempts. Defaults: `2`                                                | `2`                                                                                                                                            |
 | publishMaxRetries               | N  | The max number of retries for when Azure Service Bus responds with "too busy" in order to throttle messages. Defaults: `5` | `5`                                                                                                                                            |
 | publishInitialRetryInternalInMs | N  | Time in milliseconds for the initial exponential backoff when Azure Service Bus throttle messages. Defaults: `500`         | `500`                                                                                                                                          |
 
+## Message metadata
+
+Azure Service Bus messages extend the Dapr message format with additional contextual metadata. Some metadata fields are set by Azure Service Bus itself (read-only) and others can be set by the client when publishing a message.
+
+### Sending a message with metadata
+
+To set Azure Service Bus metadata when sending a message, set the query parameters on the HTTP request or the gRPC metadata as documented [here](https://docs.dapr.io/reference/api/pubsub_api/#metadata).
+
+- `metadata.MessageId`
+- `metadata.CorrelationId`
+- `metadata.SessionId`
+- `metadata.Label`
+- `metadata.ReplyTo`
+- `metadata.PartitionKey`
+- `metadata.To`
+- `metadata.ContentType`
+- `metadata.ScheduledEnqueueTimeUtc`
+- `metadata.ReplyToSessionId`
+
+> **NOTE:** The `metadata.MessageId` property does not set the `id` property of the cloud event and should be treated in isolation.
+
+### Receiving a message with metadata
+
+When Dapr calls your application, it will attach Azure Service Bus message metadata to the request using either HTTP headers or gRPC metadata. In addition to the [settable metadata listed above](#sending-a-message-with-metadata), you can also access the following read-only message metadata.
+
+- `metadata.DeliveryCount`
+- `metadata.LockedUntilUtc`
+- `metadata.LockToken`
+- `metadata.EnqueuedTimeUtc`
+- `metadata.SequenceNumber`
+
+To find out more details on the purpose of any of these metadata properties, please refer to [the official Azure Service Bus documentation](https://docs.microsoft.com/rest/api/servicebus/message-headers-and-properties#message-headers).
+
 ## 创建Azure Service Bus
 
-请按照[此处](https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-quickstart-topics-subscriptions-portal)的说明设置Azure Service Bus Topics。
+Follow the instructions [here](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-topics-subscriptions-portal) on setting up Azure Service Bus Topics.
 
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
 - [发布/订阅构建块]({{< ref pubsub >}})
-- Read [this guide]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) for instructions on configuring pub/sub components
+- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})，了解配置 发布/订阅组件的说明

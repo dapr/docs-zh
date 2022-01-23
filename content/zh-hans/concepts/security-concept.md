@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "安全"
+title: "Security"
 linkTitle: "Security"
 weight: 600
 description: >
@@ -75,13 +75,11 @@ Dapr 组件是受限于命名空间的。 这意味着 Dapr runtime sidecar 的�
 
 Dapr 组件使用 Dapr 的内置密钥管理功能来管理密钥。 有关详细信息，请参阅 [密钥存储概述]({{<ref "secrets-overview.md">}}) 。
 
-此外，Dapr 通过允许用户指定哪些应用程序可以使用给定组件，为组件提供应用程序级的范围限制。有关应用程序级别范围设置，[请参阅]({{<ref "component-scopes.md#application-access-to-components-with-scopes">}})。
+此外，Dapr 还允许用户指定哪些应用程序可以消费给定组件，从而为组件提供应用程序级别范围。 有关应用级别范围的更多信息，请参阅 [此处]({{<ref "component-scopes.md#application-access-to-components-with-scopes">}})。
 
 ## 网络安全
 
-您可以采用常见的网络安全技术，如网络安全组 （NSG）、非军事区 （DMZ） 和防火墙，以便为您的网络资源提供层层保护。
-
-例如，除非配置为与外部绑定目标通讯，否则 Dapr sidecar 不会打开到 Internet 的连接。 而大多数绑定实现仅使用出站连接。 您可以设计防火墙规则，只允许通过指定的端口进行出站连接。
+您可以采用常见的网络安全技术，如网络安全组 （NSG）、非军事区 （DMZ） 和防火墙，以便为您的网络资源提供层层保护。 例如，除非配置为与外部绑定目标通讯，否则 Dapr sidecar 不会打开到 Internet 的连接。 而大多数绑定实现仅使用出站连接。 您可以设计防火墙规则，只允许通过指定的端口进行出站连接。
 
 ## 绑定安全性
 
@@ -99,7 +97,7 @@ Dapr 使用配置的身份验证方法来与底层状态存储进行身份验证
 
 在 Kubernetes 上部署时，您可以使用 [Kubernetes RBAC](https://kubernetes.io/docs/reference/access-authn-authz/rbac/) 控制对管理活动的访问。
 
-在 Azure Kubernetes Service （AKS） 上部署时，可以使用 [Azure Active Directory （AD） 服务主体](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals) 控制对管理活动和资源管理的访问。
+在 Azure Kubernetes Service （AKS） 上部署时，可以使用 [Azure Active Directory （AD） 服务主体](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals) 控制对管理活动和资源管理的访问。
 
 ## 威胁模型
 威胁建模是一个过程，通过该过程可以识别、枚举潜在威胁（如结构漏洞或缺乏适当的安全措施），并确定缓解措施的优先级。 Dapr 威胁模型如下：

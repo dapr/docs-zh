@@ -9,9 +9,9 @@ aliases:
 
 ## 配置
 
-要设置 Azure 事件网格（Event Grid）绑定，请创建一个类型为 `bindings.azure.eventgrid` 的组件。 See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+要设置 Azure 事件网格（Event Grid）绑定，请创建一个类型为 `bindings.azure.eventgrid` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
-请参阅[这里](https://docs.microsoft.com/en-us/azure/event-grid/)了解 Azure Event Grid 文档。
+请参阅[这里](https://docs.microsoft.com/azure/event-grid/)了解 Azure Event Grid 文档。
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -48,12 +48,12 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                    | 必填 | 绑定支持 | 详情                                                                                                                                                      | Example                                |
+| 字段                    | 必填 | 绑定支持 | 详情                                                                                                                                                      | 示例                                     |
 | --------------------- |:--:| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------- |
 | tenantId              | Y  | 输入   | 创建这个事件网格事件订阅的 Azure 租户 id                                                                                                                               | `"tenentID"`                           |
 | subscriptionId        | Y  | 输入   | 创建这个事件网格事件订阅的 Azure 订阅 id                                                                                                                               | `"subscriptionId"`                     |
@@ -82,7 +82,7 @@ Scope 是事件订阅需要创建或更新的资源的标识符。 Scope 可以�
 - `create`
 ## 补充资料
 
-在Dapr初始化时，事件网格绑定会创建一个 [事件订阅](https://docs.microsoft.com/en-us/azure/event-grid/concepts#event-subscriptions)。 您的服务主要需要获得权限才能启用此功能。
+Event Grid Binding creates an [event subscription](https://docs.microsoft.com/azure/event-grid/concepts#event-subscriptions) when Dapr initializes. 您的服务主要需要获得权限才能启用此功能。
 
 ```bash
 # 首先确保 Azure Resource Manager 提供商已注册事件网格
@@ -129,13 +129,14 @@ controller:
 然后使用 Helm 3 安装 NGINX ingress controller 到您的 Kubernetes 集群使用
 
 ```bash
-helm repo add stable https://kubernetes-charts.storage.googleapis.com/
-helm install nginx stable/nginx-ingress -f ./dapr-annotations.yaml -n default
-# 获取 ingress controller 的公开IP
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install nginx-ingress ingress-nginx/ingress-nginx -f ./dapr-annotations.yaml -n default
+# Get the public IP for the ingress controller
 kubectl get svc -l component=controller -o jsonpath='Public IP is: {.items[0].status.loadBalancer.ingress[0].ip}{"\n"}'
 ```
 
-如果部署到 Azure Kubernetes 服务, 你可以跟随 [官方的 MS 文档进行其余步骤](https://docs.microsoft.com/en-us/azure/aks/ingress-tls)
+If deploying to Azure Kubernetes Service, you can follow [the official MS documentation for rest of the steps](https://docs.microsoft.com/azure/aks/ingress-tls)
 - 添加一条记录到你的 DNS 区域
 - 安装证书管理器
 - 创建 CA 集群发行者（issuer）

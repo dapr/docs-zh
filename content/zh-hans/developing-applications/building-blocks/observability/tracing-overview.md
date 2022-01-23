@@ -6,7 +6,7 @@ weight: 1000
 description: "使用 Dapr 跟踪获取分布式应用程序的可见性"
 ---
 
-Dapr 使用 Zipkin 协议进行分布式跟踪和指标收集。 由于 Zipkin 协议无处不在，许多后端被开箱即用，例如 [Stackdriver](https://cloud.google.com/stackdriver)、 [Zipkin](https://zipkin.io)、 [New Relic](https://newrelic.com) 等。 与 OpenTelemetry 收藏器组合，Dapr 可以导出跟踪到许多其他后端，包括但不局限于 [Azure Monitor](https://azure.microsoft.com/en-us/services/monitor/) [Datadog](https://www.datadoghq.com), [Instanca](https://www.instana.com), [Jaeger](https://www.jaegertracing.io/), and [SignalFX](https://www.signalfx.com/)
+Dapr 使用 Zipkin 协议进行分布式跟踪和指标收集。 由于 Zipkin 协议无处不在，许多后端被开箱即用，例如 [Stackdriver](https://cloud.google.com/stackdriver)、 [Zipkin](https://zipkin.io)、 [New Relic](https://newrelic.com) 等。 Combining with the OpenTelemetry Collector, Dapr can export traces to many other backends including but not limted to [Azure Monitor](https://azure.microsoft.com/services/monitor/), [Datadog](https://www.datadoghq.com), Instana, [Jaeger](https://www.jaegertracing.io/), and [SignalFX](https://www.signalfx.com/).
 
 <img src="/images/tracing.png" width=600>
 
@@ -23,7 +23,7 @@ Dapr 将 HTTP/GRPC Middleware 添加到 Dapr sidecar。 Middleware 拦截所有 
 
 Dapr 使用标准的 W3C 跟踪上下文标头。 对于 HTTP 请求，Dapr 使用 `traceparent` 标头。 对于 gRPC 请求，Dapr 使用 `grpc-trace-bin` 标头。   当请求到达时，如果没有跟踪 ID ，Dapr 将创建一个新的跟踪 ID。 否则，它将沿调用链传递跟踪 ID。
 
-Read [W3C distributed tracing]({{< ref w3c-tracing >}}) for more background on W3C Trace Context.
+阅读 [W3C 分布式跟踪]({{< ref w3c-tracing >}}) ，了解更多关于 W3C Trace Context 的背景.
 
 ## Configuration (配置)
 

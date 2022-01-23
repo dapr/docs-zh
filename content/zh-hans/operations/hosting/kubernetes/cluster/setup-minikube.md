@@ -12,10 +12,10 @@ description: >
 ## 先决条件
 
 - [Docker](https://docs.docker.com/install/)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Minikube](https://minikube.sigs.k8s.io/docs/start/)
 
-> 注意：对于Windows，在 BIOS 和 [安装 Hyper-V](https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v) 启用虚拟化（Vitualization）
+> 注意：对于Windows，在 BIOS 和 [安装 Hyper-V](https://docs.microsoft.com/virtualization/hyper-v-on-windows/quick-start/enable-hyper-v) 启用虚拟化（Vitualization）
 
 ## 启动 Minikube 集群
 
@@ -30,7 +30,7 @@ minikube config set vm-driver [driver_name]
 2. 使用 1.13.x 或更新版本的 Kubernetes `--kubernetes-version` 启动集群
 
 ```bash
-minikube start --cpus=4 --memory=4096 --kubernetes-version=1.16.2 --extra-config=apiserver.authorization-mode=RBAC
+minikube start --cpus=4 --memory=4096
 ```
 
 3. 启用仪表盘和 ingress 插件
