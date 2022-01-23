@@ -1,33 +1,33 @@
 ---
 type: docs
-title: "Pub/Sub without CloudEvents"
-linkTitle: "Pub/Sub without CloudEvents"
+title: "无 CloudEvents 的发布/订阅"
+linkTitle: "无 CloudEvents 的发布/订阅"
 weight: 7000
-description: "Use Pub/Sub without CloudEvents."
+description: "在没有 CloudEvents 的情况下使用发布订阅"
 ---
 
 ## 介绍
 
-Dapr uses CloudEvents to provide additional context to the event payload, enabling features like:
+Dapr 使用 CloudEvents 为事件负载提供额外的上下文，从而启用以下功能：
 * 追踪
-* Deduplication by message Id
-* Content-type for proper deserialization of event's data
+* 按消息 Id 进行重复数据删除
+* 用于正确反序列化事件数据的 Content-type
 
-For more information about CloudEvents, read the [CloudEvents specification](https://github.com/cloudevents/spec).
+更多关于 CloudEvents 的信息，查看 [ CloudEvents 规范](https://github.com/cloudevents/spec)。
 
-When adding Dapr to your application, some services may still need to communicate via raw pub/sub messages not encapsulated in CloudEvents. This may be for compatibility reasons, or because some apps are not using Dapr. Dapr enables apps to publish and subscribe to raw events that are not wrapped in a CloudEvent.
+当添加 Dapr 到你的应用时，某些服务可能仍需要通过未封装在 CloudEvents 中的原始发布/订阅消息进行通信。 这可能是出于兼容性原因，或者因为某些应用程序没有使用 Dapr。 Dapr 允许应用程序发布和订阅未包装在 CloudEvent 中的原始事件。
 
 {{% alert title="Warning" color="warning" %}}
-Not using CloudEvents disables support for tracing, event deduplication per messageId, content-type metadata, and any other features built using the CloudEvent schema.
+不使用 CloudEvents 将禁用对追踪、每个 messageId 的事件重复数据删除、content-type 元数据以及使用 CloudEvent 架构构建的任何其他功能的支持。
 {{% /alert %}}
 
-## Publishing raw messages
+## 发布原始消息
 
-Dapr apps are able to publish raw events to pub/sub topics without CloudEvent encapsulation, for compatibility with non-Dapr apps.
+Dapr 应用能够在没有云事件封装的情况下将原始事件发布到 pub/sub，以便与非 Dapr 应用兼容。
 
-<img src="/images/pubsub_publish_raw.png" alt="Diagram showing how to publish with Dapr when subscriber does not use Dapr or CloudEvent" width=1000>
+<img src="/images/pubsub_publish_raw.png" alt="图表展示了当订阅者没有使用Dapr或者云事件时如何用Dapr进行发布。" width=1000>
 
-To disable CloudEvent wrapping, set the `rawPayload` metadata to `true` as part of the publishing request. This allows subscribers to receive these messages without having to parse the CloudEvent schema.
+要禁用 CloudEvent 包装，请将 `rawPayload` 元数据设置为 `true` ，作为发布的一部分。 这允许订阅者接收这些消息，而不必分析 CloudEvent 。
 
 {{< tabs curl "Python SDK" "PHP SDK">}}
 
@@ -77,16 +77,16 @@ $app->run(function(\DI\FactoryInterface $factory) {
 
 {{< /tabs >}}
 
-## Subscribing to raw messages
+## 订阅原始消息
 
-Dapr apps are also able to subscribe to raw events coming from existing pub/sub topics that do not use CloudEvent encapsulation.
+Dapr 应用程序还能够订阅来自不使用 CloudEvent 封装的现有 pub/sub 的原始事件。
 
-<img src="/images/pubsub_subscribe_raw.png" alt="Diagram showing how to subscribe with Dapr when publisher does not use Dapr or CloudEvent" width=1000>
+<img src="/images/pubsub_subscribe_raw.png" alt="图表展示了当订阅者没有使用Dapr或者云事件时如何用Dapr进行发布。" width=1000>
 
 
-### Programmatically subscribe to raw events
+### 编程式订阅原始事件
 
-When subscribing programmatically, add the additional metadata entry for `rawPayload` so the Dapr sidecar automatically wraps the payloads into a CloudEvent that is compatible with current Dapr SDKs.
+在使用编程式订阅时，添加 `rawPayload` 元数据条目，以便 Dapr sidecar 自动将有效载荷包裹到与当前 Dapr SDK 兼容的 CloudEvent 中。
 
 {{< tabs "Python" "PHP SDK" >}}
 
@@ -149,12 +149,12 @@ $app->start();
 {{< /tabs >}}
 
 
-## Declaratively subscribe to raw events
+## 声明式订阅原始事件
 
 Subscription Custom Resources Definitions (CRDs) do not currently contain metadata attributes ([issue #3225](https://github.com/dapr/dapr/issues/3225)). At this time subscribing to raw events can only be done through programmatic subscriptions.
 
 ## 相关链接
 
-- Learn more about [how to publish and subscribe]({{< ref howto-publish-subscribe.md >}})
-- List of [pub/sub components]({{< ref supported-pubsub >}})
-- Read the [API reference]({{< ref pubsub_api.md >}})
+- 了解有关[如何发布和订阅]({{< ref howto-publish-subscribe.md >}})的详细信息
+- [pub/sub组件列表]({{< ref supported-pubsub >}})
+- 阅读 [API 引用]({{< ref pubsub_api.md >}})

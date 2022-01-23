@@ -31,7 +31,7 @@ dapr logs [flags]
 
 ## 示例
 
-### 从定制名称空间中的目标 Pod 获取 应用程序的日志
+### Get logs of sample app from target pod in custom namespace
 ```bash
 dapr logs -k --app-id sample --pod-name target --namespace custom
 ```

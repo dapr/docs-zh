@@ -2,11 +2,12 @@
 type: docs
 title: "OAuth2 client credentials"
 linkTitle: "OAuth2 client credentials"
-weight: 3000
-description: "使用OAuth2客户端凭证中间件来保护HTTP端点的安全"
+description: "使用 OAuth2 客户端认证中间件来保护HTTP端点的安全"
+aliases:
+  - /zh-hans/developing-applications/middleware/supported-middleware/middleware-oauth2clientcredentials/
 ---
 
-The OAuth2 client credentials [HTTP middleware]({{< ref middleware-concept.md >}}) enables the [OAuth2 Client Credentials flow](https://tools.ietf.org/html/rfc6749#section-4.4) on a Web API without modifying the application. 这种设计将认证/授权的关注点从应用中分离出来，因此应用操作者可以采用和配置认证/授权提供者，而不影响应用代码。
+OAuth2 客户端认证[HTTP中间件]({{< ref middleware.md >}})在 Web API 上启用 [OAuth2 客户端认证流程](https://tools.ietf.org/html/rfc6749#section-4.4)，而无需修改应用程序。 这种设计将认证/授权的关注点从应用中分离出来，因此应用操作者可以采用和配置认证/授权提供者，而不影响应用代码。
 
 ## 配置
 
@@ -30,9 +31,14 @@ spec:
   - name: headerName
     value: "authorization"
 ```
+
+{{% alert title="Warning" color="warning" %}}
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+{{% /alert %}}
+
 ## 元数据字段规范
 
-| 字段                  | 详情                                                                                         | Example                                            |
+| 字段                  | 详情                                                                                         | 示例                                                 |
 | ------------------- | ------------------------------------------------------------------------------------------ | -------------------------------------------------- |
 | clientId            | 您的应用程序的客户端ID，它是作为OAuth平台托管的凭证的一部分而创建的                                                      |                                                    |
 | clientSecret        | 您的应用程序的客户密钥，它是作为OAuth平台托管的凭证的一部分而创建的。                                                      |                                                    |
@@ -52,7 +58,7 @@ spec:
 
 ## Dapr配置
 
-To be applied, the middleware must be referenced in a [configuration]({{< ref configuration-concept.md >}}). See [middleware pipelines]({{< ref "middleware-concept.md#customize-processing-pipeline">}}).
+要应用，必须在[配置]({{< ref configuration-concept.md >}})中引用中间件。 参考[中间件管道]({{< ref "middleware.md#customize-processing-pipeline">}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -67,6 +73,6 @@ spec:
 ```
 
 ## 相关链接
-- [中间件概念]({{< ref middleware-concept.md >}})
+- [中间件]({{< ref middleware.md >}})
 - [配置概念]({{< ref configuration-concept.md >}})
 - [配置概览]({{< ref configuration-overview.md >}})

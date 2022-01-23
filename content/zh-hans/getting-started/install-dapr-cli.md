@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "安装 Dapr CLI 脚手架工具"
+title: "安装 Dapr CLI"
 linkTitle: "安装 Dapr CLI"
 weight: 10
 ---
@@ -19,25 +19,25 @@ wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O 
 {{% /codetab %}}
 
 {{% codetab %}}
-此命令提示命令将安装最新的 Windows Dapr CLI 到 `C:\dapr` 并将此目录添加到用户PATH 环境变量。
+This Command Prompt command installs the latest windows Dapr cli to `C:\dapr` and adds this directory to User PATH environment variable.
 ```powershell
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
 ```
 {{% /codetab %}}
 
 {{% codetab %}}
-此命令将安装最新的 darwin Dapr CLI 到 `/usr/local/bin`:
+This command installs the latest darwin Dapr CLI to `/usr/local/bin`:
 ```bash
 curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | /bin/bash
 ```
 
-或者您可以通过 [Homebrew](https://brew.sh) 进行安装：
+Or you can install via [Homebrew](https://brew.sh):
 ```bash
 brew install dapr/tap/dapr-cli
 ```
 
 {{% alert title="Note for M1 Macs" color="primary" %}}
-M1 Mac不支持homebrew 您需要使用 Dapr 安装脚本并安装 rosetta amd64 兼容层。 如果你没有安装它，你可以运行：
+For M1 Macs, homebrew is not supported. You will need to use the dapr install script and have the rosetta amd64 compatibility layer installed. If you do not have it installed already, you can run the following:
 
 ```bash
 softwareupdate --install-rosetta
@@ -49,26 +49,26 @@ softwareupdate --install-rosetta
 {{% /codetab %}}
 
 {{% codetab %}}
-每次发行的Dapr CLI包括各种操作系统和架构。 这些二进制版本可以手动下载和安装。
+Each release of Dapr CLI includes various OSes and architectures. These binary versions can be manually downloaded and installed.
 
 1. 从最新的 [Dapr Releases](https://github.com/dapr/cli/releases)中下载所需的 Dapr CLI
 2. 解压它(例如，dapr_linux_amd64.tar.gz, dapr_windows_amd64.zip)
 3. 将其移动到你想要的位置。
-   - 用于 Linux/MacOS - `/usr/local/bin`
+   - For Linux/MacOS - `/usr/local/bin`
    - 对于Windows，创建一个目录并将其添加到系统PATH。 例如，通过编辑系统环境变量，创建一个名为 `C:\dapr` 的目录，并将此目录添加到您的用户PATH。
 {{% /codetab %}}
 {{< /tabs >}}
 
 
-### 步骤 2：验证安装
+### Step 2: Verify the installation
 
-您可以通过重新启动您的终端/命令提示和运行以下操作来验证CLI：
+You can verify the CLI is installed by restarting your terminal/command prompt and running the following:
 
 ```bash
 dapr
 ```
 
-输出显示应该如下方所示：
+The output should look like this:
 
 
 ```md
@@ -110,4 +110,4 @@ Flags:
 Use "dapr [command] --help" for more information about a command.
 ```
 
-{{< button text="下一步: 初始化 Dapr >>" page="install-dapr-selfhost" >}}
+{{< button text="Next step: Initialize Dapr >>" page="install-dapr-selfhost" >}}

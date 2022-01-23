@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置Apple Push Notifications绑定，请创建一个类型为`bindings.apns`的组件。 See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+要设置Apple Push Notifications绑定，请创建一个类型为`bindings.apns`的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -34,9 +34,9 @@ spec:
 ```
 ## 元数据字段规范
 
-| 字段          | 必填 | 绑定支持 | 详情                                                                         | Example            |
+| 字段          | 必填 | 绑定支持 | 详情                                                                         | 示例                 |
 | ----------- |:--:| ---- | -------------------------------------------------------------------------- | ------------------ |
-| development | Y  | 输出   | 告诉绑定使用哪个APNs服务。 设置为 `true` 以用于开发环境， `false` 用于生产环境。 默认: `"true"`           | `“true”`           |
+| 开发          | Y  | 输出   | 告诉绑定使用哪个APNs服务。 设置为 `true` 以用于开发环境， `false` 用于生产环境。 默认: `"true"`           | `"true"`           |
 | key-id      | Y  | 输出   | 来自 Apple 开发者门户的私钥的标识符。                                                     | `"private-key-id`" |
 | team-id     | Y  | 输出   | 来自 Apple 开发者门户的组织或作者的标识符。                                                  | `"team-id"`        |
 | private-key | Y  | 输出   | 是一个PKCS #8格式的私钥。 其目的是将私钥存储在密钥存储中，而不是直接暴露在配置中。 请参阅[这里](#private-key)了解更多详情。 | `"pem file"`       |

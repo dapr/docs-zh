@@ -213,22 +213,6 @@ info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[2]
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)'
 info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished in 157.056ms 400 application/problem+json; charset=utf-8  
-info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
-      Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
-info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
-      Request starting HTTP/1.1 POST http://localhost:5000/withdraw application/json 2
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
-      Executing endpoint 'ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)'
-info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[3]
-      Route matched with {action = "Withdraw", controller = "Sample"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ControllerSample.Account]] Withdraw(ControllerSample.Transaction, Dapr.Client.DaprClient) on controller ControllerSample.Controllers.SampleController (ControllerSample).
-info: Microsoft.AspNetCore.Mvc.Infrastructure.ObjectResultExecutor[1]
-      Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
-info: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker[2]
-      Executed action ControllerSample.Controllers.SampleController.Withdraw (ControllerSample) in 52.1211ms
-info: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
-      Executed endpoint 'ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)'
-info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
       Request finished in 157.056ms 400 application/problem+json; charset=utf-8
 ```
 
@@ -250,7 +234,7 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
 
 如果路由日志条目中的信息是正确的，那么这意味着您的应用程序的行为是正确的。
 
-You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image. To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
+示例:
 
 ```txt
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]

@@ -45,18 +45,13 @@ Leverage the different language specific OpenTelemetry implementations, for exam
 
 ### New Relic Language agent
 
-Similarly to the OpenTelemetry instrumentation, you can also leverage a New Relic language agent. 一个例子是 </a>.NET Core 的 New Relic 代理工具
-是Docker文件的一部分。 [查看示例](https://github.com/harrykimpel/quickstarts/blob/master/distributed-calculator/csharp/Dockerfile)。</p> 
-
-
+Similarly to the OpenTelemetry instrumentation, you can also leverage a New Relic language agent. As an example, the [New Relic agent instrumentation for .NET Core](https://docs.newrelic.com/docs/agents/net-agent/installation/install-docker-container) is part of the Dockerfile. [查看示例](https://github.com/harrykimpel/quickstarts/blob/master/distributed-calculator/csharp/Dockerfile)。
 
 ## (optional) Enable New Relic Kubernetes integration
 
 In case Dapr and your applications run in the context of a Kubernetes environment, you can enable additional metrics and logs.
 
 The easiest way to install the New Relic Kubernetes integration is to use the [automated installer](https://one.newrelic.com/launcher/nr1-core.settings?pane=eyJuZXJkbGV0SWQiOiJrOHMtY2x1c3Rlci1leHBsb3Jlci1uZXJkbGV0Lms4cy1zZXR1cCJ9) to generate a manifest. It bundles not just the integration DaemonSets, but also other New Relic Kubernetes configurations, like [Kubernetes events](https://docs.newrelic.com/docs/integrations/kubernetes-integration/kubernetes-events/install-kubernetes-events-integration), [Prometheus OpenMetrics](https://docs.newrelic.com/docs/integrations/prometheus-integrations/get-started/new-relic-prometheus-openmetrics-integration-kubernetes), and [New Relic log monitoring](https://docs.newrelic.com/docs/logs).
-
-
 
 ### New Relic Kubernetes Cluster Explorer
 
@@ -68,41 +63,27 @@ It is a good starting point to observe all your data and dig deeper into any per
 
 Automated correlation is part of the visualization capabilities of New Relic.
 
-
-
 ### Pod-level details
 
 ![New Relic K8s Pod Level Details](/images/nr-k8s-pod-level-details.png)
-
-
 
 ### Logs in Context
 
 ![New Relic K8s Logs In Context](/images/nr-k8s-logs-in-context.png)
 
-
-
 ## New Relic Dashboards
-
-
 
 ### Kubernetes Overview
 
 ![New Relic Dashboard Kubernetes Overview](/images/nr-dashboard-k8s-overview.png)
 
-
-
 ### Dapr System Services
 
 ![New Relic Dashboard Dapr System Services](/images/nr-dashboard-dapr-system-services.png)
 
-
-
 ### Dapr Metrics
 
 ![New Relic Dashboard Dapr Metrics 1](/images/nr-dashboard-dapr-metrics-1.png)
-
-
 
 ## New Relic Grafana integration
 
@@ -116,13 +97,9 @@ And the exact same dashboard templates from Dapr can be imported to visualize Da
 
 ![New Relic Grafana Dashboard](/images/nr-grafana-dashboard.png)
 
-
-
 ## New Relic Alerts
 
 All the data that is collected from Dapr, Kubernetes or any services that run on top of can be used to set-up alerts and notifications into the preferred channel of your choice. See [Alerts and Applied Intelligence](https://docs.newrelic.com/docs/alerts-applied-intelligence).
-
-
 
 ## Related Links/References
 

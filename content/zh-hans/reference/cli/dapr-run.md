@@ -7,7 +7,7 @@ description: "有关 run CLI 命令的详细信息"
 
 ## 说明
 
-并排运行 Dapr 和 (可选) 应用程序。
+并排运行 Dapr 和 (可选) 应用程序。 A full list comparing daprd arguments, CLI arguments, and Kubernetes annotations can be found [here]({{< ref arguments-annotations-overview.md >}}).
 
 ## 支持的平台
 
@@ -36,7 +36,7 @@ dapr run [flags] [command]
 | `--help`, `-h`                 |                       |                                                                                          | 显示此帮助消息                                                                  |
 | `--image`                      |                       |                                                                                          | 要在中生成代码的 image。 输入为： `repository/image`                                  |
 | `--log-level`                  |                       | `info`                                                                                   | 日志详细程度。 有效值因为其中之一: `debug`, `info`, `warn`, `error`, `fatal`, or `panic` |
-| `--placement-host-address`     | `DAPR_PLACEMENT_HOST` | `localhost`                                                                              | Placement 服务所在的主机                                                        |
+| `--placement-host-address`     | `DAPR_PLACEMENT_HOST` | `localhost`                                                                              | The host on which the placement service resides                          |
 | `--profile-port`               |                       | `7777`                                                                                   | 要侦听的性能检测服务的端口                                                            |
 | `--dapr-http-max-request-size` |                       | `4`                                                                                      | Max size of request body in MB.                                          |
 

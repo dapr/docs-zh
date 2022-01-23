@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置 cron 绑定，请创建一个类型为 `bindings.cron` 的组件。 See [this guide]({{< ref "howto-bindings.md#1-create-a-binding" >}}) on how to create and apply a binding configuration.
+要设置 cron 绑定，请创建一个类型为 `bindings.cron` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
 
 ```yaml
@@ -28,7 +28,7 @@ spec:
 
 ## 元数据字段规范
 
-| 字段       | 必填 | 绑定支持         | 详情                                                | Example        |
+| 字段       | 必填 | 绑定支持         | 详情                                                | 示例             |
 | -------- |:--:| ------------ | ------------------------------------------------- | -------------- |
 | schedule | Y  | Input/Output | 要用的有效的 cron 时间表。 请参阅[这里](#schedule-format)了解更多详情。 | `"@every 15m"` |
 
@@ -50,7 +50,7 @@ Dapr cron 绑定支持以下格式：
 * `30 * * * * *` - 每 30 秒
 * `0 15 * * *` - 每 15 分钟
 * `0 30 3-6, 20-23 * *` - 每半小时在上午3-6点，晚上8-11点范围内
-* `CRON_TZ=America/New_York 0 0 30 04 * * *` - 每天早上4:30纽约时间
+* `CRON_TZ=America/New_York 0 30 04 * * *` - every day at 4:30am New York time
 
 > 您可以在[这里](https://en.wikipedia.org/wiki/Cron)了解更多关于cron和支持的格式
 

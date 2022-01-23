@@ -41,7 +41,7 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 如果您想要使用 MongoDB 作为 Actor 存储，请在 yaml 上附上以下内容。
@@ -54,7 +54,7 @@ spec:
 
 ## 元数据字段规范
 
-| 字段               | 必填 | 详情                               | Example                                                               |
+| 字段               | 必填 | 详情                               | 示例                                                                    |
 | ---------------- |:--:| -------------------------------- | --------------------------------------------------------------------- |
 | host             | Y  | 要连接的主机                           | `"mongo-mongodb.default.svc.cluster.local:27017"`                     |
 | username         | N  | 要连接的用户名                          | `"admin"`                                                             |
@@ -63,7 +63,7 @@ spec:
 | collectionName   | N  | 要使用的收藏名称 默认值为 `"daprCollection"` | `"daprCollection"`                                                    |
 | writeconcern     | N  | 要使用的写入保证                         | `"majority"`                                                          |
 | readconcern      | N  | 要使用的读取保证                         | `"majority"`, `"local"`,`"available"`, `"linearizable"`, `"snapshot"` |
-| operationTimeout | N  | 操作超时。 默认为 `"5s"`                 | `"5s"`                                                                |
+| operationTimeout | N  | 操作超时。 Defaults to `"5s"`         | `"5s"`                                                                |
 
 ## 配置 MongoDB
 
@@ -77,6 +77,9 @@ docker run --name some-mongo -d mongo
 ```
 
 然后您可以使用 `localhost:27017` 与服务器交互。
+
+If you do not specify a `databaseName` value in your component definition, make sure to create a database named `daprStore`.
+
 {{% /codetab %}}
 
 {{% codetab %}}

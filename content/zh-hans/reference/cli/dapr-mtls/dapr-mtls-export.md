@@ -28,7 +28,7 @@ dapr mtls export [flags]
 
 ## 示例
 
-### 检查 Kubernetes 证书的过期时间
+### Check expiry of Kubernetes certs
 ```bash
 dapr mtls export -o ./certs
 ```
