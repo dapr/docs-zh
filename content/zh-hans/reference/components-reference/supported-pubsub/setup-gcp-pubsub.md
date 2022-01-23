@@ -46,14 +46,16 @@ spec:
     value: <PRIVATE_KEY> # replace x509 cert
   - name: disableEntityManagement
     value: "false"
+  - name: enableMessageOrdering
+    value: "false"
 ```
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                      | 必填 | 详情                                                                                                                             | Example                                                                                                  |
+| 字段                      | 必填 | 详情                                                                                                                             | 示例                                                                                                       |
 | ----------------------- |:--:| ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
 | type                    | N  | GCP 凭证类型. Only `service_account` is supported. Defaults to `service_account`                                                   | `service_account`                                                                                        |
 | project_id              | Y  | GCP 项目 id                                                                                                                      | `myproject-123`                                                                                          |
@@ -67,6 +69,11 @@ spec:
 | authProviderX509CertUrl | N  | If using explicit credentials, this field should contain the `auth_provider_x509_cert_url` field from the service account json | `https://www.googleapis.com/oauth2/v1/certs`                                                             |
 | clientX509CertUrl       | N  | If using explicit credentials, this field should contain the `client_x509_cert_url` field from the service account json        | `https://www.googleapis.com/robot/v1/metadata/x509/myserviceaccount%40myproject.iam.gserviceaccount.com` |
 | disableEntityManagement | N  | 当设置为`"true"`时，主题和订阅不会自动创建。 默认值为 `"false"`                                                                                      | `"true"`, `"false"`                                                                                      |
+| enableMessageOrdering   | N  | When set to `"true"`, subscribed messages will be received in order, depending on publishing and permissions configuration.    | `"true"`, `"false"`                                                                                      |
+
+{{% alert title="Warning" color="warning" %}}
+If `enableMessageOrdering` is set to "true", the roles/viewer or roles/pubsub.viewer role will be required on the service account in order to guarantee ordering in cases where order tokens are not embedded in the messages. If this role is not given, or the call to Subscription.Config() fails for any other reason, ordering by embedded order tokens will still function correctly.
+{{% /alert %}}
 
 ## 创建 GCP Pub/Sub
 You can use either "explicit" or "implicit" credentials to configure access to your GCP pubsub instance. If using explicit, most fields are required. Implicit relies on dapr running under a Kubernetes service account (KSA) mapped to a Google service account (GSA) which has the necessary permissions to access pubsub. In implicit mode, only the `projectId` attribute is needed, all other are optional.
@@ -75,5 +82,5 @@ You can use either "explicit" or "implicit" credentials to configure access to y
 
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
-- Read [this guide]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) for instructions on configuring pub/sub components
+- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})，了解配置 发布/订阅组件的说明
 - [发布/订阅构建块]({{< ref pubsub >}})

@@ -11,15 +11,15 @@ description: "按照这些步骤升级 Kubernetes 上的 Dapr，并确保顺利�
 - [Dapr CLI]({{< ref install-dapr-cli.md >}})
 - [Helm 3](https://github.com/helm/helm/releases) (如果使用 Helm)
 
-## Upgrade existing cluster to 1.2.0
+## Upgrade existing cluster to {{% dapr-latest-version long="true" %}}
 有两种方法可以使用Dapr CLI或Helm升级Kubernetes集群上的Dapr control plane。
 
 ### Dapr CLI
 
-The example below shows how to upgrade to version 1.2.0:
+The example below shows how to upgrade to version {{% dapr-latest-version long="true" %}}:
 
   ```bash
-  dapr upgrade -k --runtime-version=1.2.0
+  dapr upgrade -k --runtime-version={{% dapr-latest-version long="true" %}}
   ```
 
 您可以使用Dapr CLI提供所有可用的Helm chart配置。 请参阅 [这里](https://github.com/dapr/cli#supplying-helm-values) 以获取更多信息。
@@ -42,20 +42,31 @@ The CustomResourceDefinition "configurations.dapr.io" is invalid: spec.preserveU
 kubectl replace -f https://raw.githubusercontent.com/dapr/dapr/5a15b3e0f093d2d0938b12f144c7047474a290fe/charts/dapr/crds/configuration.yaml
 ```
 
-Then proceed with the `dapr upgrade --runtime-version 1.2.0 -k` command as above.
+Then proceed with the `dapr upgrade --runtime-version {{% dapr-latest-version long="true" %}} -k` command as above.
 
 ### Helm
 
 从1.0.0版本开始，使用Helm升级Dapr不再是一个破坏性的动作，因为现有的证书值将自动被重新使用。
 
-1. 将Dapr从1.0.0（或更新）升级到任何[新版本] > v1.0.0。
+1. Upgrade Dapr from 1.0.0 (or newer) to any [NEW VERSION] > 1.0.0:
+
+   *Helm does not handle upgrading CRDs, so you need to perform that manually. CRDs are backward-compatible and should only be installed forward.*
+> Note: The Dapr version is included in the commands below.
+
+   For version {{% dapr-latest-version long="true" %}}:
+
+   ```bash
+   kubectl replace -f https://raw.githubusercontent.com/dapr/dapr/v{{% dapr-latest-version long="true" %}}/charts/dapr/crds/components.yaml
+   kubectl replace -f https://raw.githubusercontent.com/dapr/dapr/v{{% dapr-latest-version long="true" %}}/charts/dapr/crds/configuration.yaml
+   kubectl replace -f https://raw.githubusercontent.com/dapr/dapr/v{{% dapr-latest-version long="true" %}}/charts/dapr/crds/subscription.yaml
+   ```
 
    ```bash
    helm repo update
    ```
 
    ```bash
-   helm upgrade dapr dapr/dapr --version [NEW VERSION] --namespace dapr-system --wait
+   helm upgrade dapr dapr/dapr --version {{% dapr-latest-version long="true" %}} --namespace dapr-system --wait
    ```
    *如果你使用的是values文件，记得在运行升级命令时添加`--values`选项。*
 
@@ -79,6 +90,11 @@ Then proceed with the `dapr upgrade --runtime-version 1.2.0 -k` command as above
    ```
 
 4. 全部完成！
+
+#### Upgrading existing Dapr to enable high availability mode
+
+Enabling HA mode in an existing Dapr deployment requires additional steps. Please refer to [this paragraph]({{< ref "kubernetes-production.md#enabling-high-availability-in-an-existing-dapr-deployment" >}}) for more details.
+
 
 ## 下一步
 

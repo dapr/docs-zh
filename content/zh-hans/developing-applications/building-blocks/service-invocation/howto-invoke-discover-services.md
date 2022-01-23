@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "入门指南：发现并调用服务"
-linkTitle: "How-To: Invoke services"
+linkTitle: "How-To: Invoke with HTTP"
 description: "入门指南指导如何使用 Dapr 服务在分布式应用程序中调用其它服务"
 weight: 2000
 ---
@@ -18,13 +18,13 @@ Dapr 允许您为您的应用分配一个全局唯一ID。 此 ID 为您的应�
 在自托管方式下，设置 `--app-id` 标记:
 
 ```bash
-dapr run --app-id cart --app-port 5000 python app.py
+dapr run --app-id cart --dapr-http-port 3500 --app-port 5000 python app.py
 ```
 
 如果您的应用使用 SSL 连接，您可以告诉Dapr 在不安全的 SSL 连接中调用您的应用：
 
 ```bash
-dapr run --app-id cart --app-port 5000 --app-ssl python app.py
+dapr run --app-id cart --dapr-http-port 3500 --app-port 5000 --app-ssl python app.py
 ```
 {{% /codetab %}}
 
@@ -57,7 +57,7 @@ spec:
         dapr.io/app-port: "5000"
 ...
 ```
-*If your app uses an SSL connection, you can tell Dapr to invoke your app over an insecure SSL connection with the `app-ssl: "true"` annotation (full list [here]({{< ref kubernetes-annotations.md >}}))*
+*如果应用程序使用 SSL 连接，那么可以使用 `app-ssl: "true"` 注解 (完整列表 [此处]({{< ref arguments-annotations-overview.md >}})) 告知 Dapr 在不安全的 SSL 连接上调用应用程序。*
 
 {{% /codetab %}}
 
@@ -111,6 +111,32 @@ curl http://localhost:3500/v1.0/invoke/cart/method/add -X DELETE
 ```
 
 Dapr 将调用的服务返回的任何有效负载放在 HTTP 响应的消息体中。
+
+### Additional URL formats
+
+In order to avoid changing URL paths as much as possible, Dapr provides the following ways to call the service invocation API:
+
+
+1. Change the address in the URL to `localhost:<dapr-http-port>`.
+2. Add a `dapr-app-id` header to specify the ID of the target service, or alternatively pass the ID via HTTP Basic Auth: `http://dapr-app-id:<service-id>@localhost:3500/path`.
+
+For example, the following command
+```bash
+curl http://localhost:3500/v1.0/invoke/cart/method/add
+```
+
+is equivalent to:
+
+```bash
+curl -H 'dapr-app-id: cart' 'http://localhost:3500/add' -X POST
+```
+
+or:
+
+```bash
+curl 'http://dapr-app-id:cart@localhost:3500/add' -X POST
+```
+
 {{% /codetab %}}
 
 {{% codetab %}}
@@ -123,7 +149,7 @@ dapr invoke --app-id cart --method add
 
 ### 命名空间
 
-When running on [namespace supported platforms]({{< ref "service_invocation_api.md#namespace-supported-platforms" >}}), you include the namespace of the target app in the app ID: `myApp.production`
+当运行于[支持命名空间]({{< ref "service_invocation_api.md#namespace-supported-platforms" >}})的平台时，在您的 app ID 中包含命名空间：`myApp.production`
 
 例如，调用包含名称空间的示例 python 服务:
 
@@ -131,15 +157,15 @@ When running on [namespace supported platforms]({{< ref "service_invocation_api.
 curl http://localhost:3500/v1.0/invoke/cart.production/method/add -X POST
 ```
 
-See the [Cross namespace API spec]({{< ref "service_invocation_api.md#cross-namespace-invocation" >}}) for more information on namespaces.
+有关名称空间的更多信息，请参阅 [跨命名空间 API]({{< ref "service_invocation_api.md#cross-namespace-invocation" >}}) 。
 
 ## 步骤 4: 查看跟踪和日志
 
 上面的示例显示了如何直接调用本地或 Kubernetes 中运行的其他服务。 Dapr 输出指标、跟踪和日志记录信息，允许您可视化服务之间的调用图、日志错误和可选地记录有效负载正文。
 
-For more information on tracing and logs see the [observability]({{< ref observability-concept.md >}}) article.
+有关跟踪和日志的更多信息，请参阅 [可观察性]({{< ref observability-concept.md >}}) 篇文章。
 
- 相关链接
+ ## Related Links
 
 * [服务调用概述]({{< ref service-invocation-overview.md >}})
 * [服务调用 API 规范]({{< ref service_invocation_api.md >}})

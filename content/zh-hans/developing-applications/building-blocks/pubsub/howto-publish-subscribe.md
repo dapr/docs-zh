@@ -45,11 +45,11 @@ spec:
     value: ""
 ```
 
-You can override this file with another Redis instance or another [pubsub component]({{< ref setup-pubsub >}}) by creating a `components` directory containing the file and using the flag `--components-path` with the `dapr run` CLI command.
+您可以重写这个文件以使用另一个 Redis 实例或者另一个 [pubsub component]({{< ref setup-pubsub >}}) ，通过创建 `components` 文件夹（文件夹中包含重写的文件）并在 `dapr run` 命令行界面使用 `--components-path` 标志。
 {{% /codetab %}}
 
 {{% codetab %}}
-To deploy this into a Kubernetes cluster, fill in the `metadata` connection details of your [desired pubsub component]({{< ref setup-pubsub >}}) in the yaml below, save as `pubsub.yaml`, and run `kubectl apply -f pubsub.yaml`.
+要将其部署到 Kubernetes 群集中，请为你想要的[ pubsub 组件]({{< ref setup-pubsub >}}) 在下面的 yaml `metadata` 中填写链接详情，保存为 `pubsub.yaml`，然后运行 `kubectl apply -f pubsub.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -133,7 +133,7 @@ kubectl apply -f subscription.yaml
 
 {{< /tabs >}}
 
-#### Example
+#### 示例
 
 {{< tabs Python Node PHP>}}
 
@@ -234,7 +234,7 @@ dapr --app-id app1 --app-port 3000 run -- php -S 0.0.0.0:3000 app1.php
 - `topic`: 订阅的主题
 - `route`：当消息来到该主题时，Dapr 需要调用哪个终结点
 
-#### Example
+#### 示例
 
 {{< tabs Python Node PHP>}}
 
@@ -262,14 +262,14 @@ def ds_subscriber():
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 app.run()
 ```
-创建 `app1.py` 后，确保 flask 和 flask_cors 已经安装了：
+创建名为" `app1.py` 的文件，并粘贴如下内容：
 
 ```bash
 pip install flask
 pip install flask_cors
 ```
 
-然后运行:
+创建 `app1.py` 后，确保 flask 和 flask_cors 已经安装了：
 
 ```bash
 dapr --app-id app1 --app-port 5000 run python app1.py
@@ -302,7 +302,7 @@ app.post('/dsstatus', (req, res) => {
 
 app.listen(port, () => console.log(`consumer app listening on port ${port}!`))
 ```
-运行此应用：
+设置上述订阅后，将此 javascript（Node > 4.16）下载到 `app2.js` 文件中：
 
 ```bash
 dapr --app-id app2 --app-port 3000 run node app2.js
@@ -333,7 +333,7 @@ $app->post('/dsstatus', function(
 $app->start();
 ```
 
-运行此应用：
+设置上述订阅后，将此 javascript（Node > 4.16）下载到 `app2.js` 文件中：
 
 ```bash
 dapr --app-id app1 --app-port 3000 run -- php -S 0.0.0.0:3000 app1.php
@@ -387,7 +387,7 @@ Dapr 将在符合 Cloud Events v1.0 的信封中自动包装用户有效负载�
 
 为了告诉Dapr 消息处理成功，返回一个 `200 OK` 响应。 如果 Dapr 收到超过 `200` 的返回状态代码，或者你的应用崩溃，Dapr 将根据 At-Least-Once 语义尝试重新传递消息。
 
-#### Example
+#### 示例
 
 {{< tabs Python Node>}}
 
@@ -409,6 +409,10 @@ app.post('/dsstatus', (req, res) => {
 {{% /codetab %}}
 
 {{< /tabs >}}
+
+{{% alert title="Note on message redelivery" color="primary" %}}
+Some pubsub components (e.g. Redis) will redeliver a message if a response is not sent back within a specified time window. Make sure to configure metadata such as `processingTimeout` to customize this behavior. For more information refer to the respective [component references]({{< ref supported-pubsub >}}).
+{{% /alert %}}
 
 ## (可选) 步骤5：发布带有代码的主题
 
@@ -473,13 +477,41 @@ dapr --app-id app2 run -- php app2.php
 
 Dapr 自动接收发布请求上发送的数据，并将其包装在CloudEvent 1.0 信封中。 如果您想使用自己自定义的 CloudEvent，请确保指定内容类型为 `application/ cloudevents+json`。
 
-Read about content types [here](#content-types), and about the [Cloud Events message format]({{< ref "pubsub-overview.md#cloud-events-message-format" >}}).
+[请在此处阅读有关内容类型](#content-types)，以及有关 [ Cloud Events 消息格式]({{< ref "pubsub-overview.md#cloud-events-message-format" >}})。
+
+#### 示例
+
+{{< tabs "Dapr CLI" "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+
+{{% codetab %}}
+Publish a custom CloudEvent to the `deathStarStatus` topic:
+```bash
+dapr publish --publish-app-id testpubsub --pubsub pubsub --topic deathStarStatus --data '{"specversion" : "1.0", "type" : "com.dapr.cloudevent.sent", "source" : "testcloudeventspubsub", "subject" : "Cloud Events Test", "id" : "someCloudEventId", "time" : "2021-08-02T09:00:00Z", "datacontenttype" : "application/cloudevents+json", "data" : {"status": "completed"}}'
+```
+{{% /codetab %}}
+
+{{% codetab %}}
+Publish a custom CloudEvent to the `deathStarStatus` topic:
+```bash
+curl -X POST http://localhost:3500/v1.0/publish/pubsub/deathStarStatus -H "Content-Type: application/cloudevents+json" -d '{"specversion" : "1.0", "type" : "com.dapr.cloudevent.sent", "source" : "testcloudeventspubsub", "subject" : "Cloud Events Test", "id" : "someCloudEventId", "time" : "2021-08-02T09:00:00Z", "datacontenttype" : "application/cloudevents+json", "data" : {"status": "completed"}}'
+```
+{{% /codetab %}}
+
+{{% codetab %}}
+Publish a custom CloudEvent to the `deathStarStatus` topic:
+```powershell
+Invoke-RestMethod -Method Post -ContentType 'application/cloudevents+json' -Body '{"specversion" : "1.0", "type" : "com.dapr.cloudevent.sent", "source" : "testcloudeventspubsub", "subject" : "Cloud Events Test", "id" : "someCloudEventId", "time" : "2021-08-02T09:00:00Z", "datacontenttype" : "application/cloudevents+json", "data" : {"status": "completed"}}' -Uri 'http://localhost:3500/v1.0/publish/pubsub/deathStarStatus'
+```
+{{% /codetab %}}
+
+{{< /tabs >}}
 
 ## 下一步
 
 - 试试 [Pub/Sub 快速启动示例](https://github.com/dapr/quickstarts/tree/master/pub-sub)
-- Learn about [topic scoping]({{< ref pubsub-scopes.md >}})
-- Learn about [message time-to-live]({{< ref pubsub-message-ttl.md >}})
-- Learn [how to configure Pub/Sub components with multiple namespaces]({{< ref pubsub-namespaces.md >}})
-- List of [pub/sub components]({{< ref setup-pubsub >}})
-- Read the [API reference]({{< ref pubsub_api.md >}})
+- Learn about [PubSub routing]({{< ref howto-route-messages >}})
+- 了解 [Topic 作用域]({{< ref pubsub-scopes.md >}})
+- 了解 [消息存活时间]({{< ref pubsub-message-ttl.md >}})
+- 学习 [如何配置具有多个命名空间的 Pub/Sub 组件]({{< ref pubsub-namespaces.md >}})
+- Pub/sub组件是可扩展的， [这里]({{< ref setup-pubsub >}})有支持的pub/sub组件列表，实现可以在[components-contrib repo](https://github.com/dapr/components-contrib)中找到。
+- 阅读 [API 引用]({{< ref pubsub_api.md >}})

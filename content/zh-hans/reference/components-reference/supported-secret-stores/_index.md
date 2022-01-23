@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "Secret store component specs"
-linkTitle: "Secret stores（密钥存储）"
+linkTitle: "Secret stores（密钥仓库）"
 weight: 4000
 description: Dapr支持对接的密钥仓库
 aliases:
@@ -42,7 +42,6 @@ no_list: true
 
 ### Microsoft Azure
 
-| Name                                                                                  | 状态    | 组件版本 | 自从  |
-| ------------------------------------------------------------------------------------- | ----- | ---- | --- |
-| [Azure Key Vault w/ Managed Identity]({{< ref azure-keyvault-managed-identity.md >}}) | Alpha | v1   | 1.0 |
-| [Azure Key Vault]({{< ref azure-keyvault.md >}})                                      | GA    | v1   | 1.0 |
+| Name                                             | 状态 | 组件版本 | 自从  |
+| ------------------------------------------------ | -- | ---- | --- |
+| [Azure Key Vault]({{< ref azure-keyvault.md >}}) | GA | v1   | 1.0 |

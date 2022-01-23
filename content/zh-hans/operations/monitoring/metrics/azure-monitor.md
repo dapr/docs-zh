@@ -10,7 +10,7 @@ description: "使用Azure Monitor为Azure Kubernetes Service(AKS) 启用Dapr度�
 
 - [Azure Kubernetes Service](https://docs.microsoft.com/en-us/azure/aks/)
 - [对AKS中的容器启用 Azure Monitor。](https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-overview)
-- [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+- [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Helm 3](https://helm.sh/)
 
 ## 使用config map启用 Prometheus 度量抓取
@@ -39,7 +39,6 @@ omsagent-smtk7                                                    1/1     Runnin
 
 ```yaml
 ...
-  ...
   prometheus-data-collection-settings: |-
     [prometheus_data_collection_settings.cluster]
         interval = "1m"
@@ -70,7 +69,7 @@ helm install dapr dapr/dapr --namespace dapr-system --set global.logAsJson=true
 
 添加 `dapr.io/log-as-json: "true"` annotation 到你的部署yaml.
 
-You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image. To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
+示例:
 ```yaml
 apiVersion: apps/v1
 kind: Deployment

@@ -95,14 +95,14 @@ curl http://localhost:3500/v1.0/secrets/vault/db-secret
 ### 示例
 
 ```shell
-curl http://localhost:3500/v1.0/secrets/vault/db-secret \
+curl http://localhost:3500/v1.0/secrets/vault/db-secret
 ```
 
 ```shell
-curl http://localhost:3500/v1.0/secrets/vault/db-secret?metadata.version_id=15&metadata.version_stage=AAA \
+curl http://localhost:3500/v1.0/secrets/vault/db-secret?metadata.version_id=15&metadata.version_stage=AAA
 ```
 
-> Note, in case of deploying into namespace other than  default`, the above query will also have to include the namespace metadata (e.g.`production` below)
+> Note, in case of deploying into namespace other than  default, the above query will also have to include the namespace metadata (e.g. `production` below)
 
 ```shell
 curl http://localhost:3500/v1.0/secrets/vault/db-secret?metadata.version_id=15&?metadata.namespace=production
@@ -164,7 +164,7 @@ curl http://localhost:3500/v1.0/secrets/kubernetes/bulk
 ### 示例
 
 ```shell
-curl http://localhost:3500/v1.0/secrets/vault/bulk \
+curl http://localhost:3500/v1.0/secrets/vault/bulk
 ```
 
 ```json

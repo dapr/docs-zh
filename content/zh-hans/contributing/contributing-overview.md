@@ -11,7 +11,7 @@ description: >
 
 了解有关社区参与和社区成员的更多信息，请参阅 [Dapr community repository](https://github.com/dapr/community)。
 
-> If you are looking to contribute to the Dapr docs, please also see the specific guidelines for [docs contributions]({{< ref contributing-docs >}}).
+> 如果你想为Dapr文档做出贡献，还请参阅 [ 投稿准则 ]({{< ref contributing-docs >}})。
 
 ## Issues
 
@@ -48,6 +48,7 @@ description: >
 
 1. 确保有一个问题（bug或建议）被提出，这为你即将做出的贡献设定了期望。
 1. 分叉相关的repo并创建一个新的分支。
+    - Some Dapr repos support [Codespaces]({{< ref codespaces.md >}}) to provide an instant environment for you to build and test your changes.
 1. 创建更改
     - 代码更改需要测试
 1. 更新有关更改的相关文档

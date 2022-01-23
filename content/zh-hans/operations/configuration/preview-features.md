@@ -7,21 +7,20 @@ description: "How to specify and enable preview features"
 ---
 
 ## 概述
-Some features in Dapr are considered experimental when they are first released. These features require explicit opt-in in order to be used. The opt-in is specified in Dapr's configuration.
+Preview features in Dapr are considered experimental when they are first released. These preview features require explicit opt-in in order to be used. 选择加入在 Dapr 的配置中指定。
 
-Currently, preview features are enabled on a per application basis when running on Kubernetes. A global scope may be introduced in the future should there be a use case for it.
+Preview features are enabled on a per application basis by setting configuration when running an application instance.
 
-### Current preview features
-Below is a list of existing preview features:
-- [Actor Reentrancy]({{<ref actor-reentrancy.md>}})
+### Preview features
+The current list of preview features can be found [here]({{<ref support-preview-features>}}).
 
 ## Configuration properties
 The `features` section under the `Configuration` spec contains the following properties:
 
-| 属性      | 数据类型   | 说明                                                            |
-| ------- | ------ | ------------------------------------------------------------- |
-| name    | string | The name of the preview feature that will be enabled/disabled |
-| enabled | bool   | Boolean specifying if the feature is enabled or disabled      |
+| 属性      | 数据类型   | 说明                                                       |
+| ------- | ------ | -------------------------------------------------------- |
+| name    | string | The name of the preview feature that is enabled/disabled |
+| enabled | bool   | Boolean specifying if the feature is enabled or disabled |
 
 ## Enabling a preview feature
 Preview features are specified in the configuration. Here is an example of a full configuration that contains multiple features:

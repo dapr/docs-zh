@@ -47,12 +47,12 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， It is recommended to use a secret store for the secrets as described [here]({{< ref component-secrets.md >}}).
+以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 元数据字段规范
 
-| 字段                              | 必填 | 详情                                                      | Example                                                 |
+| 字段                              | 必填 | 详情                                                      | 示例                                                      |
 | ------------------------------- |:--:| ------------------------------------------------------- | ------------------------------------------------------- |
 | type                            | Y  | The credentials type                                    | `"serviceaccount"`                                      |
 | project_id                      | Y  | The ID of the GCP project to use                        | `"project-id"`                                          |
@@ -65,7 +65,7 @@ spec:
 | client_x509_cert_url          | Y  | The client certificate URL                              | `"https://www.googleapis.com/robot/v1/metadata/x509/x"` |
 | entity_kind                     | N  | The entity name in Filestore. Defaults to `"DaprState"` | `"DaprState"`                                           |
 
-## Setup GCP Firestone
+## Setup GCP Firestore
 
 {{< tabs "Self-Hosted" "Google Cloud" >}}
 
