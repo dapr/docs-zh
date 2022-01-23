@@ -6,7 +6,7 @@ weight: 20
 description: 了解有关 Actor 模式的更多信息
 ---
 
-The Dapr actors runtime provides support for [virtual actors]({{< ref actors-overview.md >}}) through following capabilities:
+Dapr actors 运行时提供了以下功能以支持[虚拟actors]({{< ref actors-overview.md >}}):
 
 ## 调用 Actor 方法
 
@@ -18,15 +18,13 @@ POST/GET/PUT/DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/meth
 
 您可以在请求主体中为 actor 方法提供任何数据，并且请求的响应在响应主体中，这是来自 actor 方法调用的数据。
 
-Refer [api spec]({{< ref "actors_api.md#invoke-actor-method" >}}) for more details.
+更多信息，请查阅：[api 规范]({{< ref "actors_api.md#invoke-actor-method" >}})
 
 ## Actor 状态管理
 
-Actor 可以使用状态管理功能可靠地保存状态。
+Actor 可以使用状态管理功能可靠地保存状态。 您可以通过 HTTP/GRPC 端点与 Dapr 进行状态管理。
 
-您可以通过 HTTP/GRPC 端点与 Dapr 进行状态管理。
-
-要使用Actor，您的状态存储必须支持多项目事务。  这意味着您的状态存储 [component](https://github.com/dapr/components-contrib/tree/master/state) 必须实现 [TransactionalStore](https://github.com/dapr/components-contrib/blob/master/state/transactional_store.go) 接口。  The list of components that support transactions/actors can be found here: [supported state stores]({{< ref supported-state-stores.md >}}).
+要使用Actor，您的状态存储必须支持多项目事务。  这意味着您的状态存储 [component](https://github.com/dapr/components-contrib/tree/master/state) 必须实现 [TransactionalStore](https://github.com/dapr/components-contrib/blob/master/state/transactional_store.go) 接口。  支持事务/actors的组建列表如下:[受支持状态存储]({{< ref supported-state-stores.md >}}) 只有一个 状态存储 件可以用作所有 Actors 的状态存储 。
 
 ## Actor timers 和 reminders
 
@@ -74,7 +72,7 @@ Timer 的 `duetime` 和回调函数可以在请求主体中指定。  到期时�
 DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/timers/<name>
 ```
 
-Refer [api spec]({{< ref "actors_api.md#invoke-timer" >}}) for more details.
+更多信息，请查阅:[api规范]({{< ref "actors_api.md#invoke-timer" >}})
 
 ### Actor reminders
 
@@ -128,4 +126,79 @@ GET http://localhost:3500/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 ```
 
-Refer [api spec]({{< ref "actors_api.md#invoke-reminder" >}}) for more details.
+更多信息，请查阅:[api规范]({{< ref "actors_api.md#invoke-reminder" >}})
+
+## Actor 运行时配置
+
+您可以配置 Dapr Actors 运行时间配置以修改默认的运行时间行为。
+
+### 配置参数
+- `actorIdleTimeout` - 停用 actor 之前的超时。 每当经过 `actorScanInterval` 会进行一次超时检查。 默认**：60分钟**
+- `actorScanInterval` - 指定扫描 Actors 以停用空闲 Actors 的频率时间间隔。 Actors 时间超过 actor_idle_timeout 的 Actors 将被取消激活。 默认**：30 秒**
+- `drainOngoingCallTimeout` - 在重定位 actor 的过程中的持续时间。 这指定等待当前活动 actor 方法完成多长时间。 如果没有当前 actor 方法调用，那么将忽略此时间。 默认**：60 秒**
+- `drainRebalancedActors` - 如果为 true，那么 Dapr 将等待`drainOngoingCallTimeout`的持续时间，以便在尝试停用一个 actor 之前, 允许当前的 actor 调用完成。 **默认: true**
+- `reentrancy` (ActorReentrancyConfig) - 配置一个 actor 的重入行为。 如果没有提供，重入是禁用的。 **默认: disabled**
+
+{{< tabs Java Dotnet Python >}}
+
+{{% codetab %}}
+```java
+// import io.dapr.actors.runtime.ActorRuntime;
+// import java.time.Duration;
+
+ActorRuntime.getInstance().getConfig().setActorIdleTimeout(Duration.ofMinutes(60));
+ActorRuntime.getInstance().getConfig().setActorScanInterval(Duration.ofSeconds(30));
+ActorRuntime.getInstance().getConfig().setDrainOngoingCallTimeout(Duration.ofSeconds(60));
+ActorRuntime.getInstance().getConfig().setDrainBalancedActors(true);
+ActorRuntime.getInstance().getConfig().setActorReentrancyConfig(false, null);
+```
+
+查看 [这个示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/actors/DemoActorService.java)
+{{% /codetab %}}
+
+{{% codetab %}}
+```csharp
+// In Startup.cs
+public void ConfigureServices(IServiceCollection services)
+{
+    // Register actor runtime with DI
+    services.AddActors(options =>
+    {
+        // Register actor types and configure actor settings
+        options.Actors.RegisterActor<MyActor>();
+
+        // Configure default settings
+        options.ActorIdleTimeout = TimeSpan.FromMinutes(60);
+        options.ActorScanInterval = TimeSpan.FromSeconds(30);
+        options.DrainOngoingCallTimeout = TimeSpan.FromSeconds(60);
+        options.DrainRebalancedActors = true;
+        // reentrancy not implemented in the .NET SDK at this time
+    });
+
+    // Register additional services for use with actors
+    services.AddSingleton<BankService>();
+}
+```
+查看 .NET SDK [文档](https://github.com/dapr/dotnet-sdk/blob/master/daprdocs/content/en/dotnet-sdk-docs/dotnet-actors/dotnet-actors-usage.md#registering-actors)。
+{{% /codetab %}}
+
+{{% codetab %}}
+```python
+from datetime import timedelta
+from dapr.actor.runtime.config import ActorRuntimeConfig, ActorReentrancyConfig
+
+ActorRuntime.set_actor_config(
+    ActorRuntimeConfig(
+        actor_idle_timeout=timedelta(hours=1),
+        actor_scan_interval=timedelta(seconds=30),
+        drain_ongoing_call_timeout=timedelta(minutes=1),
+        drain_rebalanced_actors=True,
+        reentrancy=ActorReentrancyConfig(enabled=False)
+    )
+)
+```
+{{% /codetab %}}
+
+{{< /tabs >}}
+
+更多详细信息请参阅 [Dapr SDK]({{< ref "developing-applications/sdks/#sdk-languages" >}}) 的文档和示例。

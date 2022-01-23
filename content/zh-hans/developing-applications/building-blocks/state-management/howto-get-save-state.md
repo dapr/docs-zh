@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "指南：如何保存和获取状态"
+title: "指南：保存和获取状态"
 linkTitle: "指南：如何保存和获取状态"
 weight: 200
 description: "使用键值对来持久化状态"
@@ -15,13 +15,13 @@ Dapr提供的状态管理功能包括一致性和并发选项。 在本指南中
 ## 前提
 
 - [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- Initialized [Dapr environment]({{< ref install-dapr-selfhost.md >}})
+- 初始化[Dapr环境]({{< ref install-dapr-selfhost.md >}})
 
 ## 第一步：设置状态存储
 
 状态存储组件代表Dapr用来与数据库进行通信的资源。
 
-For the purpose of this guide we'll use a Redis state store, but any state store from the [supported list]({{< ref supported-state-stores >}}) will work.
+本手册演示使用Redis状态存储，在[支持列表]({{< ref supported-state-stores >}})中的所有状态存储均可使用。
 
 {{< tabs "Self-Hosted (CLI)" Kubernetes>}}
 
@@ -33,7 +33,7 @@ For the purpose of this guide we'll use a Redis state store, but any state store
 
 {{% codetab %}}
 
-To deploy this into a Kubernetes cluster, fill in the `metadata` connection details of your [desired statestore component]({{< ref supported-state-stores >}}) in the yaml below, save as `statestore.yaml`, and run `kubectl apply -f statestore.yaml`.
+若要部署在Kubernetes集群中，请在以下所示的yaml文件中对[期望状态存储组件]({{< ref supported-state-stores >}})的`metadata`进行连接信息填充，保存为`statestore.yaml`，然后运行`kubectl apply -f statestore.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -50,7 +50,7 @@ spec:
   - name: redisPassword
     value: ""
 ```
-See the instructions [here]({{< ref "setup-state-store" >}}) on how to setup different state stores on Kubernetes.
+如何在Kubernetes中设置状态存储，请查阅[这里]({{< ref "setup-state-store" >}})。
 
 {{% /codetab %}}
 
@@ -140,18 +140,12 @@ dapr --app-id myapp run python pythonState.py
 == DAPR == time="2021-01-06T21:34:33.9760387-08:00" level=info msg="API gRPC server is running on port 51656" app_id=Braidbald-Boot scope=dapr.runtime type=log ver=0.11.3
 == DAPR == time="2021-01-06T21:34:33.9770372-08:00" level=info msg="dapr initialized. Status: Running. Init Elapsed 172.9994ms" app_id=Braidbald-Boot scope=dapr.
 
-Checking if Dapr sidecar is listening on GRPC port 51656
-Dapr sidecar is up and running.
+ 
 Updating metadata for app command: python pythonState.py
 You are up and running! Both Dapr and your app logs will appear here.
 
 == APP == State has been stored
-== APP == Got value: b'myFirstValue'   Status: Running. Init Elapsed 172.9994ms" app_id=Braidbald-Boot scope=dapr.
-
- 
-   
-
- 
+== APP == Got value: b'myFirstValue'
 ```
 
 {{% /codetab %}}
@@ -202,7 +196,7 @@ dapr --app-id myapp run -- php state-example.php
 
 下面的例子显示了如何通过给状态管理API传递一个键来删除一个对象:
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" "Python SDK">}}
+{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" "Python SDK" "PHP SDK">}}
 
 {{% codetab %}}
 用上面运行的同一个dapr实例执行:
@@ -253,12 +247,14 @@ Starting Dapr with id Yakchocolate-Lord. HTTP Port: 59457. gRPC Port: 59458
 
 == DAPR == time="2021-01-06T22:55:36.5570696-08:00" level=info msg="starting Dapr Runtime -- version 0.11.3 -- commit a1a8e11" app_id=Yakchocolate-Lord scope=dapr.runtime type=log ver=0.11.3
 == DAPR == time="2021-01-06T22:55:36.5690367-08:00" level=info msg="standalone mode configured" app_id=Yakchocolate-Lord scope=dapr.runtime type=log ver=0.11.3
-== DAPR == time="2021-01-06T22:55:36.7220140-08:00" level=info msg="component loaded.   Status: Running. Init Elapsed 154.984ms" app_id=Yakchocolate-Lord scope=dapr.runtime type=log ver=0.11.3
+== DAPR == time="2021-01-06T22:55:36.7220140-08:00" level=info msg="component loaded. name: statestore, type: state.redis" app_id=Yakchocolate-Lord scope=dapr.runtime type=log ver=0.11.3
+== DAPR == time="2021-01-06T22:55:36.7230148-08:00" level=info msg="API gRPC server is running on port 59458" app_id=Yakchocolate-Lord scope=dapr.runtime type=log ver=0.11.3
+== DAPR == time="2021-01-06T22:55:36.7240207-08:00" level=info msg="dapr initialized. Status: Running. Init Elapsed 154.984ms" app_id=Yakchocolate-Lord scope=dapr.runtime type=log ver=0.11.3
 
 Checking if Dapr sidecar is listening on GRPC port 59458
 Dapr sidecar is up and running.
 Updating metadata for app command: python pythonState.py
-You're up and running!  
+You're up and running! Both Dapr and your app logs will appear here.
 
 == APP == State has been stored
 == APP == Got value: b'value1'
@@ -300,7 +296,7 @@ dapr --app-id myapp run -- php state-example.php
 你应该会看到类似下面的输出:
 
 ```md
-✅  You're up and running!  
+✅  You're up and running! Both Dapr and your app logs will appear here.
 
 == APP == [2021-02-12T16:38:00.839201+01:00] APP.ALERT: State has been stored [] []
 
@@ -317,7 +313,7 @@ dapr --app-id myapp run -- php state-example.php
 
 Dapr还允许你在同一个调用中保存和检索多个状态:
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" "Python SDK">}}
+{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" "Python SDK" "PHP SDK">}}
 
 {{% codetab %}}
 在上面运行的同一个dapr实例中，将两个键/值对保存到你的statetore中:
@@ -384,7 +380,7 @@ dapr --app-id myapp run python pythonState.py
 Checking if Dapr sidecar is listening on GRPC port 60614
 Dapr sidecar is up and running.
 Updating metadata for app command: python pythonState.py
-You're up and running!  
+You're up and running! Both Dapr and your app logs will appear here.
 
 == APP == States have been stored
 == APP == Got items: [b'value1', b'value2']
@@ -429,7 +425,7 @@ dapr --app-id myapp run -- php state-example.php
 并看到以下输出:
 
 ```md
-✅  You're up and running!  
+✅  You're up and running! Both Dapr and your app logs will appear here.
 
 == APP == [2021-02-12T16:55:02.913801+01:00] APP.ALERT: States have been stored [] []
 
@@ -443,10 +439,10 @@ dapr --app-id myapp run -- php state-example.php
 ## 第五步：执行状态事务性操作
 
 {{% alert title="Note" color="warning" %}}
-状态事务性操作需要一个支持multi-item transactions的状态存储引擎。 Visit the [supported state stores page]({{< ref supported-state-stores >}}) page for a full list. 请注意，在自托管环境中创建的默认Redis容器是支持的。
+状态事务性操作需要一个支持multi-item transactions的状态存储引擎。 完整列表请查阅[受支持的状态存储]({{< ref supported-state-stores >}})。 请注意，在自托管环境中创建的默认Redis容器是支持的。
 {{% /alert %}}
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" "Python SDK">}}
+{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" "Python SDK" "PHP SDK">}}
 
 {{% codetab %}}
 用上面运行的同一个dapr实例执行两个状态事务操作:
@@ -523,7 +519,7 @@ Starting Dapr with id Singerchecker-Player. HTTP Port: 59533. gRPC Port: 59534
 Checking if Dapr sidecar is listening on GRPC port 59534
 Dapr sidecar is up and running.
 Updating metadata for app command: python pythonState.py
-You're up and running!  
+You're up and running! Both Dapr and your app logs will appear here.
 
 == APP == State transactions have been completed
 == APP == Got items: [b'value1', b'']
@@ -571,7 +567,7 @@ dapr --app-id myapp run -- php state-example.php
 观察到以下输出:
 
 ```md
-✅  You're up and running!  
+✅  You're up and running! Both Dapr and your app logs will appear here.
 
 == APP == [2021-02-12T17:10:06.837110+01:00] APP.ALERT: Transaction committed! [] []
 
@@ -584,6 +580,6 @@ dapr --app-id myapp run -- php state-example.php
 
 ## 下一步
 
-- Read the full [State API reference]({{< ref state_api.md >}})
-- Try one of the [Dapr SDKs]({{< ref sdks >}})
-- Build a [stateful service]({{< ref howto-stateful-service.md >}})
+- 请查阅[状态API参考手册]({{< ref state_api.md >}})
+- 尝试一个 [Dapr SDKs]({{< ref sdks >}})
+- 构建一个 [状态服务]({{< ref howto-stateful-service.md >}})

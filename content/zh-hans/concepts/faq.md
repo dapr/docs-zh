@@ -7,7 +7,7 @@ description: "关于 Dapr 的常见问题"
 ---
 
 ## Dapr 与 Istio 、Linkerd 或 OSM 等服务网格相比如何？
-Dapr 不是一个服务网格。 虽然服务网侧重于细粒度网络控制，但 Dapr 专注于帮助开发人员构建分布式应用程序。 Dapr 和服务网都使用 sidecar 模式，并随应用程序一起运行，它们确实具有一些重叠的功能，但也提供独特的优势。 欲了解更多信息，请阅读 [Dapr & 服务网格]({{<ref service-mesh>}}) 概念页面。
+Dapr 不是一个服务网格。 虽然服务网侧重于细粒度网络控制，但 Dapr 专注于帮助开发人员构建分布式应用程序。 Dapr 和服务网格都使用 sidecar 模式，并随应用程序一起运行。 它们确实具有一些重叠的功能，但也提供独特的优势。 欲了解更多信息，请阅读 [Dapr & 服务网格]({{<ref service-mesh>}}) 概念页面。
 
 ## 性能基准
 Dapr项目的重点是性能，因为其固有的讨论是Dapr作为您的应用程序的侧面。 请参阅 [这里]({{< ref perf-service-invocation.md >}}) 以获取最新的性能数字。
@@ -22,17 +22,15 @@ Dapr 中的Actors基于同一个虚拟Actor概念， [Orleans](https://www.micro
 
 虚拟 actors 功能是 Dapr 在其运行时提供的构建块之一。 对于 Dapr，因为它使用 http/gRPC API 对语言无关，因此可以从任何语言调用actors。 这允许用一种语言编写的actors调用以不同语言编写的actors。
 
-创建一个新的actor遵循本地调用，如`http://localhost:3500/v1.0/actors/<actorType>/<actorId>/…`, 比如 `http://localhost:3500/v1.0/actors/myactor/50/method/getData` ，就是在新创建的 id 等于 `50` 的 `myactor` 的 actor 上调用 `getData` 方法。
+通过本地调用来创建一个新的 actor ，比如`http://localhost:3500/v1.0/actors/<actorType>/<actorId>/…`。 例如， `http://localhost:3500/v1.0/actors/myactor/50/method/getData` 将在新创建的以 id 为`50`的 `myactor` 上调用 `getData` 方法。
 
-Dapr 运行时 SDK 具有特定于语言的 actor 框架。 例如， .NET SDK 具有 C# Actors。 目标是所有 Dapr 语言 SDK 都具有Actor架。 当前 .NET， Java 和 Python SDK 具有Actor框架。
+Dapr 运行时 SDK 具有特定于语言的 actor 框架。 例如，.NET SDK 具有 C# Actors。 目标是所有 Dapr 语言 SDK 都具有Actor架。 当前 .NET， Java 和 Python SDK 具有Actor框架。
 
 ## 开发者语言 SDK 和框架
 
-### 如果我想使用特定的编程语言或框架，Dapr是否有任何语言的SDK？
+### 如果我想使用特定的编程语言或框架，Dapr是否有任何SDK可以使用？
 
-为了使不同语言使用 Dapr 更加自然，它包括 [特定语言的 SDK]({{<ref sdks>}}) 用于 Go、Java、JavaScript、.NET、Python、PHP、Rust 和C++。
-
-这些 SDK 通过类型化的语言 API 而不是通过调用 API 来使用 Dapr 构建块中的功能，例如，保存状态，发布事件或创建Actor。 这使您能够以自己选择的语言编写无状态和有状态功能和 actors 的组合。 由于这些 SDK 共享 Dapr 运行时，因此您可以获得跨语言 actor 和功能支持。
+为了使不同语言使用 Dapr 更加自然，它包括 [特定语言的 SDK]({{<ref sdks>}}) 用于 Go、Java、JavaScript、.NET、Python、PHP、Rust 和C++。 这些 SDK 通过类型化的语言 API 而不是通过调用 API 来使用 Dapr 构建块中的功能，例如，保存状态，发布事件或创建Actor。 这使您能够以自己选择的语言编写无状态和有状态功能和 actors 的组合。 由于这些 SDK 共享 Dapr 运行时，因此您可以获得跨语言 actor 和功能支持。
 
 ### Dapr 集成了哪些框架?
 Dapr 可以与任何开发者框架集成。 例如，在 Dapr .NET SDK 中，您可以与 ASP.NET Core集成，它带来了有状态的路由控制器来响应来自其他服务的 pub/sub 事件。

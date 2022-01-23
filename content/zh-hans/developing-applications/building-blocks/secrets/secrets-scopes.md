@@ -6,19 +6,19 @@ weight: 3000
 description: "应用程序从秘钥存储介质中读取时，需要使用作用域来限定"
 ---
 
-You can read [guidance on setting up secret store components]({{< ref setup-secret-store >}}) to configure a secret store for an application. 一旦配置完毕，默认情况下 *任何* 该仓库内定义的密钥都可以从 Dapr 应用程序访问。
+您可以阅读 [设置密钥仓库组件指南]({{< ref setup-secret-store >}}) 以配置应用程序的密钥仓库。 一旦配置完毕，默认情况下 *任何* 该仓库内定义的密钥都可以从 Dapr 应用程序访问。
 
-要限制 Dapr 应用程序访问密钥的话， 您可以通过向应用程序配置添加密钥作用域政策并限制权限来定义密钥作用域。 Follow [these instructions]({{< ref configuration-concept.md >}}) to define an application configuration.
+To limit the secrets to which the Dapr application has access to, you can can define secret scopes by adding a secret scope policy to the application configuration with restrictive permissions. 按照 [这些说明]({{< ref configuration-concept.md >}}) 来定义应用程序配置。
 
-The secret scoping policy applies to any [secret store]({{< ref supported-secret-stores.md >}}), whether that is a local secret store, a Kubernetes secret store or a public cloud secret store. For details on how to set up a [secret stores]({{< ref setup-secret-store.md >}}) read [How To: Retrieve a secret]({{< ref howto-secrets.md >}})
+密钥作用域适用于任何 [密钥仓库]({{< ref supported-secret-stores.md >}})， 是否是本地密钥仓库、Kubernetes 密钥仓库或公共云密钥仓库。 关于如何设置一个 [密钥仓库]({{< ref setup-secret-store.md >}}) 查看 [指南：获取密钥]({{< ref howto-secrets.md >}})
 
 观看这个 [视频](https://youtu.be/j99RN_nxExA?start=2272) 演示如何让你的应用程序使用密钥作用域。 <iframe width="688" height="430" src="https://www.youtube.com/embed/j99RN_nxExA?start=2272" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
 
 ## 场景1：拒绝访问所有密钥仓库
 
-此示例使用 Kubernetes。 默认 Kubernetes 的密钥仓库会添加到您的 Dapr 应用程序。 在某些情况下，可能有必要拒绝某个应用程序访问 Dapr 密钥。 要添加此配置，请按照下面的步骤：
+This example uses Kubernetes. The native Kubernetes secret store is added to you Dapr application by default. 在某些情况下，可能有必要拒绝某个应用程序访问 Dapr 密钥。 要添加此配置，请按照下面的步骤：
 
-定义下面 `appconfig.yaml` 配置，并使用命令 `kubectl apply -f appconfig.yaml` 到 Kubernetes 集群。
+Define the following `appconfig.yaml` configuration and apply it to the Kubernetes cluster using the command `kubectl apply -f appconfig.yaml`.
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -38,11 +38,11 @@ For applications that need to be denied access to the Kubernetes secret store, f
 dapr.io/config: appconfig
 ```
 
-定义后，应用程序不再能访问 Kubernetes 密钥仓库的任何密钥。
+With this defined, the application no longer has access to any secrets in the Kubernetes secret store.
 
 ## 场景2：只允许访问密钥仓库中的某些密钥
 
-这个示例使用一个名为 `vault` 的密钥仓库。 例如，这可能是已经设置在您的应用程序上的 Hashicorp 密钥仓库组件。 允许 Dapr 应用程序只访问在 `vault` 密钥仓库的 `secret1` 和 `secret2` 密钥， 需要定义下面的 `appconfig.yaml`:
+This example uses a secret store that is named `vault`. For example this could be a Hashicorp secret store component that has been set on your application. To allow a Dapr application to have access to only certain secrets `secret1` and `secret2` in the `vault` secret store, define the following `appconfig.yaml`:
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -57,7 +57,7 @@ spec:
         allowedSecrets: ["secret1", "secret2"]
 ```
 
-此示例定义了名为 `vault` 的密钥仓库配置。 密钥仓库的默认访问权限是`deny`，而有些密钥可以通过应用程序基于`allowedSecrets`列表访问。 Follow [these instructions]({{< ref configuration-concept.md >}}) to apply configuration to the sidecar.
+This example defines configuration for secret store named `vault`. 密钥仓库的默认访问权限是`deny`，而有些密钥可以通过应用程序基于`allowedSecrets`列表访问。 Follow [these instructions]({{< ref configuration-concept.md >}}) to apply configuration to the sidecar.
 
 ## 场景3：拒绝访问密钥仓库中的某些敏感密钥
 
@@ -76,11 +76,11 @@ spec:
         deniedSecrets: ["secret1", "secret2"]
 ```
 
-这个示例使用一个名为 `vault` 的密钥仓库。 上面的配置明确禁止从名为 vault 的密钥仓库访问 `secret1` 和 `secret2` ，但允许访问所有其他密钥。 Follow [these instructions]({{< ref configuration-concept.md >}}) to apply configuration to the sidecar.
+This example uses a secret store that is named `vault`. 上面的配置明确禁止从名为 vault 的密钥仓库访问 `secret1` 和 `secret2` ，但允许访问所有其他密钥。 Follow [these instructions]({{< ref configuration-concept.md >}}) to apply configuration to the sidecar.
 
 ## 权限优先级
 
-`allowedSecrets`和`deniedSecrets`列表值优先于`defaultAccess`策略。
+The `allowedSecrets` and `deniedSecrets` list values take priority over the `defaultAccess` policy.
 
 | 场景               | 默认权限  | 允许的密钥  | 被拒绝的密钥 | 权限         |
 | ---------------- | ----- | ------ | ------ | ---------- |
@@ -92,7 +92,7 @@ spec:
 | 6 - 两个列表的默认拒绝/允许 | 拒绝/允许 | ["s1"] | ["s2"] | 只能访问"s1"   |
 
 ## 相关链接
-* List of [secret stores]({{< ref supported-secret-stores.md >}})
-* Overview of [secret stores]({{< ref setup-secret-store.md >}})
+* [密钥存储]({{< ref supported-secret-stores.md >}}) 列表
+* [密钥存储]({{< ref setup-secret-store.md >}}) 概述
 
 howto-secrets/
