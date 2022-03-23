@@ -6,7 +6,7 @@ description: "使用 Dapr 输出绑定调用外部系统"
 weight: 300
 ---
 
-使用绑定，可以调用外部资源，而无需绑定到特定的 SDK 或库。 有关显示输出绑定的完整示例，请访问此 [链接](https://github.com/dapr/quickstarts/tree/master/bindings)。
+使用绑定，可以调用外部资源，而无需绑定到特定的 SDK 或库。 有关显示输出绑定的完整示例，请访问此 [链接](https://github.com/dapr/quickstarts/tree/master/tutorials/bindings)。
 
 ## 示例︰
 

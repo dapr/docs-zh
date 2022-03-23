@@ -233,7 +233,7 @@ spec:
 ```
 
 ### 自托管模式
-此示例使用 [hello world](https://github.com/dapr/quickstarts/tree/master/hello-world/README.md) 快速入门。
+此示例使用 [hello world](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world/README.md) 快速入门。
 
 以下步骤在启用 mTLS 的情况下在本地运行 Sentry 服务，设置必要的环境变量以访问证书，然后启动节点应用和 python 应用，每个应用都引用 Sentry 服务来应用 ACL。
 
@@ -316,7 +316,7 @@ spec:
 8. 你应该看到，由于 nodeappconfig 文件中的 **deny** 操作动作，在基于 python 应用程序的命令提示中，对 node 应用程序的调用失败。 将此操作更改为 **allow** 并重新运行应用，然后应看到此调用成功。
 
 ### Kubernetes 模式
-此示例使用 [hello kubernetes](https://github.com/dapr/quickstarts/tree/master/hello-kubernetes/README.md) 快速入门。
+此示例使用 [hello kubernetes](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes/README.md) 快速入门。
 
 您可以创建并应用上述配置文件 `nodeappconfig.yaml` 和 `pythonconfig.yaml` 由 [configuration]({{< ref "configuration-concept.md" >}}) 描述到 Kubernetes 部署。
 

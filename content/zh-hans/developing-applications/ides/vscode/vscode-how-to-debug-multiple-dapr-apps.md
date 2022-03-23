@@ -18,12 +18,12 @@ dapr run --app-id nodeapp --app-port 3000 --dapr-http-port 3500 app.js
 
 将调试器附加到您的服务中的一种方法是先从命令行中运行符合正确参数的 daprd，然后启动您的代码并附加调试器。 虽然这完全是一个可以接受的解决方案，但它也需要一些额外的步骤，以及对那些可能想要克隆你的仓库并点击 "play "按钮开始调试的开发人员进行一些指导。
 
-如果您的应用程序是一组微服务，每个程序都有Dapr sidecar，那么在Visual Studio代码中将其一起调试将会更加有意义。 本章将使用 [Hello world quickstart](https://github.com/dapr/quickstarts/tree/master/hello-world) 来演示如何使用 [VSCode 调试](https://code.visualstudio.com/Docs/editor/debugging) 来配置 VSCode 调试多个Dapr 应用程序。
+如果您的应用程序是一组微服务，每个程序都有Dapr sidecar，那么在Visual Studio代码中将其一起调试将会更加有意义。 本章将使用 [Hello world quickstart](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world) 来演示如何使用 [VSCode 调试](https://code.visualstudio.com/Docs/editor/debugging) 来配置 VSCode 调试多个Dapr 应用程序。
 
 ## 先决条件
 
 - 安装 [Dapr 扩展]({{< ref vscode-dapr-extension.md >}})。 您将使用它稍后提供的 [功能](https://code.visualstudio.com/docs/editor/tasks)。
-- 如果还未clone项目，clone [hello world quickstart](https://github.com/dapr/quickstarts/tree/master/hello-world)
+- 如果还未clone项目，clone [hello world quickstart](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world)
 
 ## 步骤 1：配置 launch.json
 

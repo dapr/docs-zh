@@ -49,5 +49,5 @@ description: Dapr 绑定API构建块概述
 * 遵循这些指南：
     * [使用输入绑定从不同资源触发服务]({{< ref howto-triggers.md >}})
     * [使用输出绑定调用不同的资源]({{< ref howto-bindings.md >}})
-* 试试 [绑定快速启动](https://github.com/dapr/quickstarts/tree/master/bindings/README.md) 来显示如何绑定到 Kafka 队列
+* 试试 [绑定快速启动](https://github.com/dapr/quickstarts/tree/master/tutorials/bindings/README.md) 来显示如何绑定到 Kafka 队列
 * 查阅[绑定API规范]({{< ref bindings_api.md >}})

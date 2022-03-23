@@ -33,7 +33,7 @@ description: "将 Dapr 发布/订阅与多个命名空间结合使用"
 ## 先决条件
 
 * [ Dapr 可安装在 Kubernetes 上的]({{< ref " kubernetes-deploy. md" >}})任何命名空间，因为 Dapr 工作在集群级别。
-* 将 [PubSub quickstart](https://github.com/dapr/quickstarts/tree/master/pub-sub) 示例 checkout下来并进入目录。
+* 将 [PubSub quickstart](https://github.com/dapr/quickstarts/tree/master/pub_sub) 示例 checkout下来并进入目录。
 
 ## 设置 `namespace-a`
 
