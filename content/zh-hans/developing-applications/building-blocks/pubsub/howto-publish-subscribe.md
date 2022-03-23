@@ -693,7 +693,7 @@ Invoke-RestMethod -Method Post -ContentType 'application/cloudevents+json' -Body
 
 ## 下一步
 
-- 试试 [Pub/Sub 快速启动示例](https://github.com/dapr/quickstarts/tree/master/pub-sub)
+- 试试 [Pub/Sub 快速启动示例](https://github.com/dapr/quickstarts/tree/master/pub_sub)
 - 了解 [PubSub 路由]({{< ref howto-route-messages >}})
 - 了解 [Topic 作用域]({{< ref pubsub-scopes.md >}})
 - 了解 [消息存活时间]({{< ref pubsub-message-ttl.md >}})

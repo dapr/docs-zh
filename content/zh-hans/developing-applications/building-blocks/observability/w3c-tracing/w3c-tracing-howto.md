@@ -292,4 +292,4 @@ import (
 - [如何使用 OpenTelemetry 为分布式跟踪设置 Application Insights]({{< ref open-telemetry-collector.md >}})
 - [如何设置 Zipkin 以进行分布式跟踪]({{< ref zipkin.md >}})
 - [W3C 跟踪上下文规范](https://www.w3.org/TR/trace-context/)
-- [可观察性 快速开始](https://github.com/dapr/quickstarts/tree/master/observability)
+- [可观察性 快速开始](https://github.com/dapr/quickstarts/tree/master/tutorials/observability)

@@ -74,4 +74,3 @@ func (m *customMiddleware) GetHandler(metadata Metadata) (func(fasthttp.RequestH
 
 * [组件模式]({{< ref component-schema.md >}})
 * [配置概览]({{< ref configuration-overview.md >}})
-* [中间件快速入门](https://github.com/dapr/quickstarts/tree/master/middleware)

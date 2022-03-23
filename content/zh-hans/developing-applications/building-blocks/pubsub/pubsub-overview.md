@@ -112,7 +112,7 @@ Dapr 可以在每个消息的基础上设置超时。 表示如果消息未从 P
 * 遵循这些指南：
     * [指南：发布消息并订阅主题]({{< ref howto-publish-subscribe.md >}})
     * [操作：配置具有多个命名空间的 Pub/Sub 组件]({{< ref pubsub-namespaces.md >}})
-* 试试 [Pub/Sub 快速启动示例](https://github.com/dapr/quickstarts/tree/master/pub-sub)
+* 试试 [Pub/Sub 快速启动示例](https://github.com/dapr/quickstarts/tree/master/pub_sub)
 * 了解 [Topic 作用域]({{< ref pubsub-scopes.md >}})
 * 了解 [消息存活时间（TTL）]({{< ref pubsub-message-ttl.md >}})
 * 学习 [不通过CloudEvent 进行 pubsub]({{< ref pubsub-raw.md >}})

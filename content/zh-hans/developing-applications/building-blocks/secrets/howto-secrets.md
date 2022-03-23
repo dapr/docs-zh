@@ -269,4 +269,4 @@ main();
 - [配置密钥存储]({{<ref setup-secret-store>}})
 - [支持的密钥]({{<ref supported-secret-stores>}})
 - [在组件中使用密钥]({{<ref component-secrets>}})
-- [密钥存储快速入门](https://github.com/dapr/quickstarts/tree/master/secretstore)
+- [密钥存储快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/secretstore)

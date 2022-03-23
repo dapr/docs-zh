@@ -110,4 +110,4 @@ Forwarding from [::1]:40000 -> 40000
 
 - [Kubernetes上的 Dapr 概述]({{< ref kubernetes-overview >}})
 - [将 dapr 部署到 Kubernetes 集群]({{< ref kubernetes-deploy >}})
-- [Dapr Kubernetes 快速入门](https://github.com/dapr/quickstarts/tree/master/hello-kubernetes)
+- [Dapr Kubernetes 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)

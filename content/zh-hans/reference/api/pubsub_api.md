@@ -164,4 +164,4 @@ Dapr Pub/Sub adheres to version 1.0 of Cloud Events.
 ## 相关链接
 
 * [如何发布和消费主题]({{< ref howto-publish-subscribe.md >}})
-* [发布/订阅示例](https://github.com/dapr/quickstarts/tree/master/pub-sub)
+* [发布/订阅示例](https://github.com/dapr/quickstarts/tree/master/pub_sub)

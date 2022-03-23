@@ -108,4 +108,4 @@ Tracestate 字段的详细信息 [ 在这里 ](https://www.w3.org/TR/trace-conte
 - [如何使用 OpenTelemetry 为分布式跟踪设置 Application Insights]({{< ref open-telemetry-collector.md >}})
 - [操作方法: 为分布式跟踪安装 Zipkin]({{< ref zipkin.md >}})
 - [W3C 跟踪上下文规范](https://www.w3.org/TR/trace-context/)
-- [可观测性示例](https://github.com/dapr/quickstarts/tree/master/observability)
+- [可观测性示例](https://github.com/dapr/quickstarts/tree/master/tutorials/observability)

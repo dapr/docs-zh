@@ -46,7 +46,7 @@ spec:
 ## 相关链接
 
 - Dapr [发布/订阅构建块概述]({{< ref pubsub-overview.md >}})
-- 试试 [发布/订阅快速启动示例](https://github.com/dapr/quickstarts/tree/master/pub-sub)
+- 试试 [发布/订阅快速启动示例](https://github.com/dapr/quickstarts/tree/master/pub_sub)
 - 阅读 [关于发布和订阅的指南]({{< ref howto-publish-subscribe.md >}})
 - 了解 [主题作用域]({{< ref pubsub-scopes.md >}})
 - 了解 [消息存活时间]({{< ref pubsub-message-ttl.md >}})
