@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作方法: 为分布式追踪安装 Zipkin"
+title: "操作方法: 为分布式跟踪安装 Zipkin"
 linkTitle: "Zipkin"
 weight: 3000
 description: "设置 Zipkin 进行分布式追踪"
@@ -61,7 +61,7 @@ kubectl create deployment zipkin --image openzipkin/zipkin
 kubectl expose deployment zipkin --type ClusterIP --port 9411
 ```
 
-接下来，在本地创建以下 YAML 文件：
+接下来，在本地创建以下YAML文件：
 
 * tracing.yaml configuration
 
@@ -84,7 +84,7 @@ spec:
 kubectl apply -f tracing.yaml
 ```
 
-为了启用您的 Dapr sidecar 的配置，请在您的 pod spec 模板中添加以下注解：
+为了启用您的 Dapr sidecar 的配置，请在您的pod spec模板中添加以下注释：
 
 ```yml
 annotations:

@@ -51,9 +51,9 @@ spec:
 | 字段                  | 必填 | 详情                                                                                                                   | 示例                         |
 | ------------------- |:--:| -------------------------------------------------------------------------------------------------------------------- | -------------------------- |
 | vaultAddr           | N  | Vault服务器的地址 默认值为 `"https://127.0.0.1:8200"`                                                                          | `"https://127.0.0.1:8200"` |
-| caCert              | N  | Certificate Authority只使用其中一个选项。 要使用的加密cacerts                                                                        | `"cacerts"`                |
-| caPath              | N  | Certificate Authority只使用其中一个选项。 CA证书文件的路径                                                                            | `"path/to/cacert/file"`    |
-| caPem               | N  | Certificate Authority只使用其中一个选项。 要是用的加密cacert pem                                                                     | `"encodedpem"`             |
+| caCert              | 否  | Certificate Authority只使用其中一个选项。 要使用的加密cacerts                                                                        | `"cacerts"`                |
+| caPath              | 否  | Certificate Authority只使用其中一个选项。 CA证书文件的路径                                                                            | `"path/to/cacert/file"`    |
+| caPem               | 否  | Certificate Authority只使用其中一个选项。 要是用的加密cacert pem                                                                     | `"encodedpem"`             |
 | skipVerify          | N  | 跳过 TLS 验证。 默认值为 `"false"`                                                                                            | `"true"`, `"false"`        |
 | tlsServerName       | N  | TLS 配置服务器名称                                                                                                          | `"tls-server"`             |
 | vaultTokenMountPath | Y  | 包含token的文件路径                                                                                                         | `"path/to/file"`           |

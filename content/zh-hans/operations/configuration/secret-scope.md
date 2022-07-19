@@ -27,12 +27,12 @@ secrets:
 
 下面的表格给出了秘密作用域的属性：
 
-| 属性             | 数据类型   | 说明                                  |
-| -------------- | ------ | ----------------------------------- |
-| storeName      | string | 秘密存储组件的名称。 storeName 在列表中必须是唯一的     |
-| 默认权限           | string | 访问修饰符。 接受的值为 "allow" (默认值) 或 "deny" |
-| allowedSecrets | list   | 可访问的密钥列表                            |
-| deniedSecrets  | list   | 无法访问的密钥列表                           |
+| 属性             | 数据类型   | 说明                                                                                      |
+| -------------- | ------ | --------------------------------------------------------------------------------------- |
+| storeName      | string | 秘密存储组件的名称。 Name of the secret store component. storeName must be unique within the list |
+| defaultAccess  | string | 访问修饰符。 接受的值为 "allow" (默认值) 或 "deny"                                                     |
+| allowedSecrets | list   | 可访问的密钥列表                                                                                |
+| 被拒绝的密钥         | list   | 无法访问的密钥列表                                                                               |
 
 当 `allowedSecrets` 列表中至少存在一个元素时，应用程序只能访问列表中定义的那些秘密。
 
@@ -40,14 +40,14 @@ secrets:
 
 `allowedSecrets` 和 `deniedSecrets` 列表值优先于 `defaultAccess`。
 
-| 场景               | 默认权限  | allowedSecrets | deniedSecrets | 权限         |
-| ---------------- | ----- | -------------- | ------------- | ---------- |
-| 1 - 仅默认访问        | 拒绝/允许 | 为空             | 为空            | 拒绝/允许      |
-| 2 - 默认拒绝允许列表     | 拒绝    | ["s1"]         | 为空            | 只能访问"s1"   |
-| 3 - 默认允许拒绝列表     | 允许    | 为空             | ["s1"]        | 仅限"s1"无法访问 |
-| 4 - 默认允许允许列表     | 允许    | ["s1"]         | 为空            | 只能访问"s1"   |
-| 5 - 默认拒绝拒绝列表     | 拒绝    | 为空             | ["s1"]        | 拒绝         |
-| 6 - 两个列表的默认拒绝/允许 | 拒绝/允许 | ["s1"]         | ["s2"]        | 只能访问"s1"   |
+| 场景               | 默认权限  | 允许的密钥  | 被拒绝的密钥 | 权限         |
+| ---------------- | ----- | ------ | ------ | ---------- |
+| 1 - 仅默认访问        | 拒绝/允许 | 为空     | 为空     | 拒绝/允许      |
+| 2 - 默认拒绝允许列表     | 拒绝    | ["s1"] | 为空     | 只能访问"s1"   |
+| 3 - 默认允许拒绝列表     | 允许    | 为空     | ["s1"] | 仅限"s1"无法访问 |
+| 4 - 默认允许允许列表     | 允许    | ["s1"] | 为空     | 只能访问"s1"   |
+| 5 - 默认拒绝拒绝列表     | 拒绝    | 为空     | ["s1"] | 拒绝         |
+| 6 - 两个列表的默认拒绝/允许 | 拒绝/允许 | ["s1"] | ["s2"] | 只能访问"s1"   |
 
 ## 示例
 
@@ -77,7 +77,7 @@ dapr.io/config: appconfig
 
 定义后，应用程序不再能访问 Kubernetes 秘密存储。
 
-### 场景2：只允许访问秘密仓库中的某些秘密
+### 场景2：只允许访问密钥仓库中的某些密钥
 
 要允许 Dapr 应用程序仅访问某些秘密，请定义以下 `config.yaml`：
 
@@ -94,11 +94,11 @@ spec:
         allowedSecrets: ["secret1", "secret2"]
 ```
 
-此示例定义了名为 vault 的秘密仓库配置。 秘密仓库的默认访问权限是 `deny`，而有些秘密可以通过应用程序基于 `allowedSecrets` 列表访问。 按照 [这些说明]({{< ref configuration-overview.md >}}) 将配置应用到 sidecar。
+此示例定义了名为 vault 的秘密仓库配置。 密钥仓库的默认访问权限是`deny`，而有些密钥可以通过应用程序基于`allowedSecrets`列表访问。 按照 [这些说明]({{< ref configuration-overview.md >}}) 将配置应用到 sidecar。
 
-### 场景3：拒绝访问秘密仓库中的某些敏感秘密
+### 场景3：拒绝访问密钥仓库中的某些敏感密钥
 
-定义以下 `config.yaml`：
+定义以下 `config.yaml`:
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -113,4 +113,4 @@ spec:
         deniedSecrets: ["secret1", "secret2"]
 ```
 
-上面的配置明确禁止从名为 vault 的秘密仓库访问 `secret1` 和 `secret2` ，但允许访问所有其他秘密。 按照 [这些说明]({{< ref configuration-overview.md >}}) 将配置应用到 sidecar。
+上面的配置明确禁止从名为 vault 的密钥仓库访问 `secret1` 和 `secret2` ，但允许访问所有其他密钥。 按照 [这些说明]({{< ref configuration-overview.md >}}) 将配置应用到 sidecar。

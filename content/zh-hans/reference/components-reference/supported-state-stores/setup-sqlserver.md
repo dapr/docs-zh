@@ -33,7 +33,7 @@ spec:
   - name: schema
     value: <SCHEMA> # Optional. defaults to "dbo"
   - name: indexedProperties
-    value: <INDEXED-PROPERTIES> # Optional. List of IndexedProperties.
+    value: <INDEXED-PROPERTIES> # Optional. 索引属性列表。
 
 ```
 
@@ -53,9 +53,9 @@ spec:
 | 字段                | 必填 | 详情                                                                                                      | 示例                                                                                                                                            |
 | ----------------- |:--:| ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
 | connectionString  | Y  | 用于连接的连接字符串。 如果连接字符串包含数据库，则该数据库必须已存在。 如果数据库被省略，将会创建一个名为 `"Dapr"` 的默认数据库。                                 | `"Server=myServerName\myInstanceName;Database=myDataBase;User Id=myUsername;Password=myPassword;"`                                           |
-| tableName         | N  | 要使用的表名称。 带下划线的字母数字。 默认值为 `"state"`                                                                      | `"table_name"`                                                                                                                                |
-| keyType           | N  | 键使用的数据类型。 默认为 `"string"`                                                                                | `"string"`                                                                                                                                    |
-| keyLength         | N  | 键的最大长度。 与 `"string"` keyType 一起使用。 默认值为 `"200"`                                                         | `"200"`                                                                                                                                       |
+| tableName         | 否  | 要使用的表名称。 带下划线的字母数字。 默认值为 `"state"`                                                                      | `"table_name"`                                                                                                                                |
+| keyType           | 否  | 键使用的数据类型。 默认为 `"string"`                                                                                | `"string"`                                                                                                                                    |
+| keyLength         | 否  | 键的最大长度。 与 `"string"` keyType 一起使用。 默认值为 `"200"`                                                         | `"200"`                                                                                                                                       |
 | schema            | N  | 要使用的schema名称。 默认为 `"dbo"`                                                                               | `"dapr"`,`"dbo"`                                                                                                                              |
 | indexedProperties | N  | 索引属性列表。                                                                                                 | `'[{"column": "transactionid", "property": "id", "type": "int"}, {"column": "customerid", "property": "customer", "type": "nvarchar(100)"}]'` |
 | actorStateStore   | N  | 指示 Dapr 是否应该将为 actor 状态存储配置该组件 ([更多信息]({{< ref "state_api.md#configuring-state-store-for-actors" >}}))。 | `"true"`                                                                                                                                      |
@@ -63,7 +63,7 @@ spec:
 
 ## 创建 Azure SQL 实例
 
-按照 Azure 文档中有关如何创建 SQL 数据库的说明[进行操作](https://docs.microsoft.com/azure/sql-database/sql-database-single-database-get-started?tabs=azure-portal) 。  必须在 Dapr 使用数据库之前创建数据库。
+[Follow the instructions](https://docs.microsoft.com/azure/sql-database/sql-database-single-database-get-started?tabs=azure-portal) from the Azure documentation on how to create a SQL database.  The database must be created before Dapr consumes it.  The database must be created before Dapr consumes it.  必须在 Dapr 使用数据库之前创建数据库。
 
 **注意：SQL Server 状态存储还支持在 VM 和 Docker 中运行 SQL Server。**
 

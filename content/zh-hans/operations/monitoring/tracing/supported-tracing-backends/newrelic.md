@@ -45,13 +45,18 @@ New Relic 分布式追踪详情 ![New Relic Kubernetes Cluster Explorer App](/im
 
 ### New Relic 代理
 
-与 OpenTelemetry 指令类似，您还可以利用 New Relic 语言代理。 比如 [.NET Core New Relic 代理指令](https://docs.newrelic.com/docs/agents/net-agent/other-installation/install-net-agent-docker-container) 是 Docker 文件的一部分。 [查看示例](https://github.com/harrykimpel/quickstarts/blob/master/distributed-calculator/csharp/Dockerfile)。
+与 OpenTelemetry 指令类似，您还可以利用 New Relic 语言代理。 一个例子是 </a>.NET Core 的 New Relic 代理工具
+是Docker文件的一部分。 [查看示例](https://github.com/harrykimpel/quickstarts/blob/master/distributed-calculator/csharp/Dockerfile)。</p> 
+
+
 
 ## （可选）启用 New Relic Kubernetes 集成
 
 如果 Dapr 和您的应用程序在 Kubernetes 环境中运行，您可以启用额外的指标和日志。
 
-安装 New Relic Kubernetes 集成的最简单方法是使用 [自动安装程序](https://one.newrelic.com/launcher/nr1-core.settings?pane=eyJuZXJkbGV0SWQiOiJrOHMtY2x1c3Rlci1leHBsb3Jlci1uZXJkbGV0Lms4cy1zZXR1cCJ9) 生成清单。 它不仅打包集成守护进程集，还捆绑了其他 New Relic Kubernetes 配置，如 [Kubernetes事件 ](https://docs.newrelic.com/docs/integrations/kubernetes-integration/kubernetes-events/install-kubernetes-events-integration)， [Prometheus OpenMetrics](https://docs.newrelic.com/docs/integrations/prometheus-integrations/get-started/send-prometheus-metric-data-new-relic/)，以及 [New Relic 日志监控](https://docs.newrelic.com/docs/logs)。
+安装 New Relic Kubernetes 集成的最简单方法是使用 [自动安装程序](https://one.newrelic.com/launcher/nr1-core.settings?pane=eyJuZXJkbGV0SWQiOiJrOHMtY2x1c3Rlci1leHBsb3Jlci1uZXJkbGV0Lms4cy1zZXR1cCJ9) 生成清单。 它不仅打包集成守护进程集，还捆绑了其他 New Relic Kubernetes 配置，如 [Kubernetes事件 ](https://docs.newrelic.com/docs/integrations/kubernetes-integration/kubernetes-events/install-kubernetes-events-integration)， [Prometheus OpenMetrics](https://docs.newrelic.com/docs/integrations/prometheus-integrations/get-started/send-prometheus-metric-data-new-relic/)，以及 [New Relic 日志监控](https://docs.newrelic.com/docs/logs/ui-data/use-logs-ui/)。
+
+
 
 ### New Relic Kubernetes 集群 Explorer
 
@@ -63,27 +68,41 @@ New Relic 分布式追踪详情 ![New Relic Kubernetes Cluster Explorer App](/im
 
 自动关联是 New Relic 可视化功能的一部分。
 
+
+
 ### 容器级别详细信息
 
 ![New Relic K8s Pod Level Details](/images/nr-k8s-pod-level-details.png)
+
+
 
 ### 上下文中的日志
 
 ![New Relic K8s Logs In Context](/images/nr-k8s-logs-in-context.png)
 
+
+
 ## New Relic 仪表板
+
+
 
 ### Kubernetes 概览
 
 ![New Relic Dashboard Kubernetes Overview](/images/nr-dashboard-k8s-overview.png)
 
+
+
 ### Dapr 系统服务
 
 ![New Relic Dashboard Dapr System Services](/images/nr-dashboard-dapr-system-services.png)
 
+
+
 ### Dapr 指标
 
 ![New Relic Dashboard Dapr Metrics 1](/images/nr-dashboard-dapr-metrics-1.png)
+
+
 
 ## New Relic Grafana 集成
 
@@ -97,9 +116,13 @@ New Relic 与 [Grafana Labs](https://grafana.com/) 一起协作，所以你可�
 
 ![New Relic Grafana Dashboard](/images/nr-grafana-dashboard.png)
 
+
+
 ## New Relic 警报
 
-从 Dapr、Kubernetes 或任何在其上运行的服务收集的所有数据都可用于将警报和通知设置到您选择的首选频道中。 请参阅 [警报和智能](https://docs.newrelic.com/docs/alerts-applied-intelligence)。
+从 Dapr、Kubernetes 或任何在其上运行的服务收集的所有数据都可用于将警报和通知设置到您选择的首选频道中。 请参阅 [警报和智能](https://docs.newrelic.com/docs/alerts-applied-intelligence/new-relic-alerts/learn-alerts/alerts-ai-transition-guide-2022/)。
+
+
 
 ## 相关链接/参考资料
 
@@ -109,4 +132,4 @@ New Relic 与 [Grafana Labs](https://grafana.com/) 一起协作，所以你可�
 * [New Relic Trace API](https://docs.newrelic.com/docs/distributed-tracing/trace-api/introduction-trace-api/)
 * [New Relic API 密钥类型](https://docs.newrelic.com/docs/apis/intro-apis/new-relic-api-keys/)
 * [New Relic OpenTelemetry 用户体验](https://blog.newrelic.com/product-news/opentelemetry-user-experience/)
-* [警报和应用智能](https://docs.newrelic.com/docs/alerts-applied-intelligence)
+* [警报和应用智能](https://docs.newrelic.com/docs/alerts-applied-intelligence/new-relic-alerts/learn-alerts/alerts-ai-transition-guide-2022/)

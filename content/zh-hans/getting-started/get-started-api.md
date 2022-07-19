@@ -1,29 +1,42 @@
 ---
 type: docs
-title: "使用 Dapr API"
-linkTitle: "使用 Dapr API"
+title: "使用 Dapr 的内置 API"
+linkTitle: "使用 Dapr 的内置 API"
 weight: 30
+description: "运行 Dapr sidecar 并尝试使用状态 API"
 ---
 
-在[上一步]({{<ref install-dapr-selfhost.md>}})运行了 `dapr init` 命令后， 您的本地环境具有 Dapr sidecar 二进制文件以及默认组件定义的状态管理和消息代理(都使用 Redis)。 现在您可以通过使用 Dapr CLI 来运行 Dapr sidecar 并尝试使用状态 API 来存储和检索状态，从而尝试 Dapr 提供的一些功能。 你可以在 [这些文档]({{< ref state-management >}})中了解更多关于状态构建块及其工作原理的信息。
+运行 [`dapr init`]({{<ref install-dapr-selfhost.md>}}) 加载你的本地环境：
 
-现在，您将运行 sidecar 并直接调用 API（模拟应用程序将执行的操作）。
+- Dapr sidecar 二进制文件。
+- 两者的默认 Redis 组件定义：
+  - 状态管理，和
+  - 消息代理。
 
-## 第 1 步：运行 Dapr sidecar
+通过此设置，使用 Dapr CLI 运行 Dapr，并尝试使用状态 API 来存储和检索状态。 [通过我们的概念文档了解更多关于状态构建块以及它是如何工作的]({{< ref state-management >}})。
 
-最有用的 Dapr CLI 命令之一是 [`dapr run`]({{< ref dapr-run.md >}})。 这条命令在启动应用的同时启动 sidecar。 在本教程中，你将在没有应用程序的情况下运行 sidecar。
+在本指南中，您将通过运行 sidecar 并直接调用 API 来模拟应用程序。 为了本教程的目的，您将在没有应用程序的情况下运行sidecar。
 
-运行以下命令以启动 Dapr sidecar，它将在端口 3500 上监听名为 myapp 的空白应用程序：
+### 第 1 步：运行Dapr sidecar
+
+最有用的 Dapr CLI 命令之一是 [`dapr run`]({{< ref dapr-run.md >}})。 这条命令在启动应用的同时启动 sidecar。
+
+启动一个 Dapr sidecar，它将在端口 3500 上侦听名为 `myapp`的空白应用程序：
 
 ```bash
 dapr run --app-id myapp --dapr-http-port 3500
 ```
 
-使用此命令时，未定义自定义组件文件夹，因此 Dapr 使用在初始化流程期间创建的默认组件定义（这些定义可以在 Linux 或 MacOS 上的 `$HOME/.dapr/components` 下以及 Windows 上的 `%USERPROFILE%\.dapr\components` 下找到）。 这些告诉 Dapr 使用本地的 Redis Docker 容器作为状态存储和消息代理。
+由于没有使用上述命令定义自定义组件文件夹，因此 Dapr 将使用在 [`dapr init` flow]({{< ref install-dapr-selfhost.md >}}) 期间创建的默认组件定义，查看：
 
-## 第 2 步：保存状态
+- 在Windows上，在 `%UserProfile%\.dapr\components`
+- 在Linux/MacOS上，在 `~/.dapr/components`
 
-我们现在将更新对象的状态。 新状态将如下所示：
+这些告诉 Dapr 使用本地的 Redis Docker 容器作为状态存储和消息代理。
+
+### 第 2 步：保存状态
+
+更新对象的状态。 新状态将看起来像这样：
 
 ```json
 [
@@ -34,9 +47,9 @@ dapr run --app-id myapp --dapr-http-port 3500
 ]
 ```
 
-注意, 状态中包含的对象有一个值为 `name` 的 `key`。 您将在下一步中使用该 key。
+注意, 状态中包含的对象有一个 `key`, 其值 `name`。 您将在下一步中使用该key。
 
-运行如下所示的命令以存储新的状态。
+使用以下命令存储新状态：
 
 {{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)">}}
 {{% codetab %}}
@@ -55,63 +68,63 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '[{ "key": 
 
 {{< /tabs >}}
 
-## 第 3 步：获取状态
+### 第 3 步：获取状态
 
-现在通过使用状态管理 API，用 key `name` 来获取你刚刚存储在状态中的对象。
+通过使用状态管理 API，用 key `name` 来检索你刚刚存储在状态中的对象。 使用之前运行的同一 Dapr 实例运行以下代码：
 
 {{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)">}}
 
 {{% codetab %}}
-使用从上面运行的相同 Dapr 实例运行：
+
 ```bash
 curl http://localhost:3500/v1.0/state/statestore/name
 ```
+
 {{% /codetab %}}
 
 {{% codetab %}}
-使用从上面运行的相同 Dapr 实例运行：
+
 ```powershell
 Invoke-RestMethod -Uri 'http://localhost:3500/v1.0/state/statestore/name'
 ```
+
 {{% /codetab %}}
 
 {{< /tabs >}}
 
-## 第 4 步：查看状态在 Redis 中的存储方式
+### 第 4 步：查看状态如何在 Redis 中存储
 
-您可以查看 Redis 容器并验证 Dapr 是否将其用作状态存储。 运行以下命令以使用 Redis CLI：
+在 Redis 容器中查看并验证Dapr 正在使用它作为状态存储。 通过以下命令使用 Redis CLI：
 
 ```bash
 docker exec -it dapr_redis redis-cli
 ```
 
-列出redis keys以查看Dapr如何创建一个键值对(您提供给 `dapr run` 的app-id 作为key的前缀)：
+列出Redis keys以查看Dapr如何创建一个键值对(您提供给 `dapr run` 的app-id 作为key的前缀)：
 
 ```bash
 keys *
 ```
 
-```
-1) "myapp||name"
-```
+**输出：**  
+`1) "myapp||name"`
 
-通过运行命令来查看状态值：
+查看运行时状态值：
 
 ```bash
 hgetall "myapp||name"
 ```
 
-```
-1) "data"
-2) "\"Bruce Wayne\""
-3) "version"
-4) "1"
-```
+**输出:**  
+`1) "data"`  
+`2) "\"Bruce Wayne\""`  
+`3) "version"`  
+`4) "1"`
 
-退出 redis-cli：
+退出redis-cli，使用
 
 ```bash
 exit
 ```
 
-{{< button text="下一步: 定义一个组件 >>" page="get-started-component" >}}
+{{< button text="下一步：Dapr 快速入门 >>" page="getting-started/quickstarts" >}}

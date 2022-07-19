@@ -3,10 +3,10 @@ type: docs
 title: "为 Python SDK 贡献"
 linkTitle: "Python SDK"
 weight: 3000
-description: 为 Dapr Python SDK 做贡献的指南
+description: Dapr Python SDK贡献准则
 ---
 
-当为 [Python SDK](https://github.com/dapr/python-sdk) 贡献时，应该遵循以下规则和最佳做法。
+当为 [Python SDK](https://github.com/dapr/python-sdk) 贡献时，应该遵循以下规则和最佳实践。
 
 ## 示例
 
@@ -17,7 +17,7 @@ description: 为 Dapr Python SDK 做贡献的指南
 
 ## Docs
 
-`daprdocs` 目录包含渲染到 [Dapr 文档](https://docs.dapr.io)网站的 markdown 文件。 当文档网站建立后，该仓库会被克隆和配置，使其内容与文档内容一起呈现。 编写文档时牢记：
+`daprdocs` 目录包含渲染到 [Dapr 文档](https://docs.dapr.io) 网站的 markdown 文件。 当文档网站建立后，该仓库会被克隆和配置，使其内容与文档内容一起呈现。 编写文档时牢记：
 
-   - 除了这些规则外，还应遵循[文档指南]({{< ref contributing-docs.md >}})。
+   - 除了这些规则外，还应遵循 [文档指南]({{< ref contributing-docs.md >}})。
    - 所有文件和目录都应该以 `python-` 为前缀，以确保所有文件/目录名称在所有 Dapr 文档中是全局唯一的。

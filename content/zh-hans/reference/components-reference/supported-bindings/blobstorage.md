@@ -41,24 +41,26 @@ spec:
 
 ## 元数据字段规范
 
-| 字段                | 必填 | 绑定支持 | 详情                                                                                                                                                                                   | 示例                          |
-| ----------------- |:--:| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- |
-| storageAccount    | Y  | 输出   | Blob Storage 账户名称                                                                                                                                                                    | `myexmapleaccount`          |
-| storageAccessKey  | Y  | 输出   | Blob Storage 访问密钥                                                                                                                                                                    | `access-key`                |
-| container         | Y  | 输出   | 要写入的Blob Storage容器名称                                                                                                                                                                 | `myexamplecontainer`        |
-| decodeBase64      | N  | 输出   | 配置在保存到Blob Storage之前对base64文件内容进行解码。 (保存有二进制内容的文件时)。 `true` is the only allowed positive value. Other positive variations like `"True", "1"` are not acceptable. Defaults to `false` | `true`, `false`             |
-| getBlobRetryCount | N  | 输出   | Specifies the maximum number of HTTP GET requests that will be made while reading from a RetryReader Defaults to `10`                                                                | `1`, `2`                    |
-| publicAccessLevel | N  | 输出   | Specifies whether data in the container may be accessed publicly and the level of access (only used if the container is created by Dapr). Defaults to `none`                         | `blob`, `container`, `none` |
+| 字段                | 必填 | 绑定支持 | 详情                                                                                                                            | 示例                          |
+| ----------------- |:--:| ---- | ----------------------------------------------------------------------------------------------------------------------------- | --------------------------- |
+| storageAccount    | 是  | 输出   | Blob Storage 账户名称                                                                                                             | `myexmapleaccount`          |
+| storageAccessKey  | 是  | 输出   | Blob Storage 访问密钥                                                                                                             | `access-key`                |
+| container         | 是  | 输出   | 要写入的Blob Storage容器名称                                                                                                          | `myexamplecontainer`        |
+| decodeBase64      | 否  | 输出   | 配置在保存到Blob Storage之前对base64文件内容进行解码。 (保存有二进制内容的文件时)。 `true` 是唯一允许的正值。 其他正值，如 `"True"，"1"<code> 是不允许的。 默认值为 <code>false` | `true`, `false`             |
+| getBlobRetryCount | 否  | 输出   | 指定从 RetryReader 读取时发出的最大 HTTP GET 请求次数，默认为`10`                                                                                | `1`, `2`                    |
+| publicAccessLevel | 否  | 输出   | 指定是否可以公开访问容器中的数据以及访问级别(仅在由 Dapr 创建的容器中使用)。 默认值为 `none`                                                                        | `blob`, `container`, `none` |
 
+### Azure Active Directory (AAD) 认证
+Azure Blob Storage绑定组件支持使用所有Azure Active Directory机制进行认证。 更多信息和相关组件的元数据字段根据选择的AAD认证机制，参考[Azure认证文档]({{< ref authenticating-azure.md >}})。
 
 ## 绑定支持
 
-字段名为 `ttlInSeconds`。
+该组件支持如下操作的 **输出绑定** ：
 
 - `create` : [创建blob](#create-blob)
 - `get` : [获取blob](#get-blob)
-- `delete` : [Delete blob](#delete-blob)
-- `list`: [List blobs](#list-blobs)
+- `delete` ：[删除blob](#delete-blob)
+- `list`：[遍历blob](#list-blobs)
 
 ### 创建blob
 
@@ -185,10 +187,10 @@ spec:
 }
 ```
 
-The metadata parameters are:
+元数据参数包括：
 
-- `blobName` - the name of the blob
-- `includeMetadata`- (optional) defines if the user defined metadata should be returned or not, defaults to: false
+- `blobName` - blob名
+- `includeMetadata`- (可选) 定义是否应返回用户定义的元数据，默认值为：false
 
 #### 示例
 
@@ -211,13 +213,13 @@ The metadata parameters are:
 
 #### 响应
 
-响应体包含存储在blob对象中的值。 If enabled, the user defined metadata will be returned as HTTP headers in the form:
+响应体包含存储在blob对象中的值。 如果启用，用户定义的元数据将以以下格式的HTTP头返回:
 
 `Metadata.key1: value1` `Metadata.key2: value2`
 
-### Delete blob
+### 删除blob
 
-To perform a delete blob operation, invoke the Azure Blob Storage binding with a `POST` method and the following JSON body:
+要执行删除blob操作，需要使用如下JSON结构数据的`POST`方法去调用Azure Blob Storage绑定:
 
 ```json
 {
@@ -228,16 +230,16 @@ To perform a delete blob operation, invoke the Azure Blob Storage binding with a
 }
 ```
 
-The metadata parameters are:
+元数据参数包括：
 
-- `blobName` - the name of the blob
-- `deleteSnapshots` - (optional) required if the blob has associated snapshots. Specify one of the following two options:
-  - include: Delete the base blob and all of its snapshots
-  - only: Delete only the blob's snapshots and not the blob itself
+- `blobName` - blob名
+- `deleteSnapshots` - (可选项) 如果blob有关联的快照需要设置。 指定以下两个选项之一：
+  - include: 删除基础blob和它所有的快照
+  - only: 只删除blob的快照而不删除blob本身
 
 #### 示例
 
-##### Delete blob
+##### 删除blob
 
 {{< tabs Windows Linux >}}
 
@@ -256,7 +258,7 @@ The metadata parameters are:
 
 {{< /tabs >}}
 
-##### Delete blob snapshots only
+##### 仅删除 Blob 快照
 
 {{< tabs Windows Linux >}}
 
@@ -275,7 +277,7 @@ The metadata parameters are:
 
 {{< /tabs >}}
 
-##### Delete blob including snapshots
+##### 删除 blob包含快照
 
 {{< tabs Windows Linux >}}
 
@@ -296,11 +298,11 @@ The metadata parameters are:
 
 #### 响应
 
-An HTTP 204 (No Content) and empty body will be retuned if successful.
+如果成功，将返回 HTTP 204（没有内容）和空报文体。
 
-### List blobs
+### Blob列表
 
-To perform a list blobs operation, invoke the Azure Blob Storage binding with a `POST` method and the following JSON body:
+要执行获取blob列表的操作, 需要使用如下JSON结构体数据的`POST` 方法调用Azure Blob Storage绑定:
 
 ```json
 {
@@ -320,28 +322,28 @@ To perform a list blobs operation, invoke the Azure Blob Storage binding with a 
 }
 ```
 
-The data parameters are:
+参数的含义是：
 
-- `maxResults` - (optional) specifies the maximum number of blobs to return, including all BlobPrefix elements. If the request does not specify maxresults the server will return up to 5,000 items.
-- `prefix` - (optional) filters the results to return only blobs whose names begin with the specified prefix.
-- `marker` - (optional) a string value that identifies the portion of the list to be returned with the next list operation. The operation returns a marker value within the response body if the list returned was not complete. The marker value may then be used in a subsequent call to request the next set of list items.
-- `include` - (optional) Specifies one or more datasets to include in the response:
-  - snapshots: Specifies that snapshots should be included in the enumeration. Snapshots are listed from oldest to newest in the response. Defaults to: false
-  - metadata: Specifies that blob metadata be returned in the response. Defaults to: false
-  - uncommittedBlobs: Specifies that blobs for which blocks have been uploaded, but which have not been committed using Put Block List, be included in the response. Defaults to: false
-  - copy: Version 2012-02-12 and newer. Specifies that metadata related to any current or previous Copy Blob operation should be included in the response. Defaults to: false
-  - deleted: Version 2017-07-29 and newer. Specifies that soft deleted blobs should be included in the response. Defaults to: false
+- `maxResults` - (可选项) 指定要返回的最大blob数量，包括所有BlobPrefix元素。 如果请求没有指定maxresults，服务端将最多返回5000条。
+- `prefix` - (可选项) 只返回以指定前缀开头命名的blob
+- `marker` - (可选项) 一个字符串值，用于标识下一次列表操作将返回的列表部分。 如果列表数据没有读取完成，本次操作将在响应正文中返回一个标记值。 然后，可以在后续调用中使用标记值来请求下一组数据。
+- `include` - (可选项) 指定包含在响应正文中的一个或多个数据集:
+  - snapshots: 指定应该被包含在枚举中的快照。 快照在响应正文中从最旧到最新版本列出。 默认为: false
+  - metadata: 指定在响应正文中返回的blob元数据。 默认为: false
+  - uncommittedBlobs: 为已经上传但是还未使用Put Block List提交的块数据指定blob，同样包含在响应正文中。 默认为: false
+  - copy: 2012-02-12以及更新的版本。 指定应该在响应正文中包含的与任何当前或先前Blob副本操作相关的元数据。 默认为: false
+  - deleted: 2017-07-29以及更新版本。 指定应该在响应正文中包含的被软删除的blob。 默认为: false
 
 #### 响应
 
-The response body contains the list of found blocks as also the following HTTP headers:
+响应正文包含查找到的块数据列表以及如下HTTP头:
 
 `Metadata.marker: 2!108!MDAwMDM1IWZpbGUtMDgtMDctMjAyMS0wOS0zOC0zNC04NjctMTEudHh0ITAwMDAyOCE5OTk5LTEyLTMxVDIzOjU5OjU5Ljk5OTk5OTlaIQ--` `Metadata.number: 10`
 
-- `marker` - the next marker which can be used in a subsequent call to request the next set of list items. See the marker description on the data property of the binding input.
-- `number` - the number of found blobs
+- `marker` - 下一次标记值，可以被用在随后调用下一组列表元素的请求中。 请参阅输入绑定数据属性中关于marker的描述。
+- `number` - 查询到的blob数量
 
-The list of blobs will be returned as JSON array in the following form:
+Blob列表将按照以下JSON数组的格式返回:
 
 ```json
 [

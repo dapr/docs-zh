@@ -11,7 +11,7 @@ aliases:
 
 要设置 AWS DynamoDB 绑定，请创建一个类型为 `bindings.aws.dynamodb` 的组件。 请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})，了解如何创建和应用绑定配置。
 
-See [Authenticating to AWS]({{< ref authenticating-aws.md >}}) for information about authentication-related attributes
+有关身份验证相关属性的信息，请参阅 [向 AWS 进行身份验证]({{< ref authenticating-aws.md >}})
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -44,16 +44,16 @@ spec:
 
 | 字段           | 必填 | 绑定支持 | 详情                          | 示例                  |
 | ------------ |:--:| ---- | --------------------------- | ------------------- |
-| table        | Y  | 输出   | DynamoDB 表名称                | `"items"`           |
-| region       | Y  | 输出   | AWS DynamoDB 实例所部署的特定AWS 区域 | `"us-east-1"`       |
-| accessKey    | Y  | 输出   | 要访问此资源的 AWS 访问密钥            | `"key"`             |
-| secretKey    | Y  | 输出   | 要访问此资源的 AWS 密钥访问 Key        | `"secretAccessKey"` |
-| sessionToken | N  | 输出   | 要使用的 AWS 会话令牌               | `"sessionToken"`    |
+| table        | 是  | 输出   | DynamoDB 表名称                | `"items"`           |
+| region       | 是  | 输出   | AWS DynamoDB 实例所部署的特定AWS 区域 | `"us-east-1"`       |
+| accessKey    | 是  | 输出   | 要访问此资源的 AWS 访问密钥            | `"key"`             |
+| secretKey    | 是  | 输出   | 要访问此资源的 AWS 密钥访问 Key        | `"secretAccessKey"` |
+| sessionToken | 否  | 输出   | 要使用的 AWS 会话令牌               | `"sessionToken"`    |
 
 
 ## 绑定支持
 
-字段名为 `ttlInSeconds`。
+该组件支持如下操作的 **输出绑定** ：
 
 - `create`
 

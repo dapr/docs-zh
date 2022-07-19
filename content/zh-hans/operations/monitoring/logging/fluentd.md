@@ -3,7 +3,7 @@ type: docs
 title: "操作方法：在 Kubernetes 中搭建 Fluentd、Elastic search 和 Kibana"
 linkTitle: "FluentD"
 weight: 1000
-description: "如何安装 Fluentd、Elastic Search 和 Kibana 以在 Kubernetes 中搜索日志"
+description: "如何在 Kubernetes 中安装 Fluentd、Elastic Search 和 Kibana 来搜索日志"
 ---
 
 ## 先决条件
@@ -102,7 +102,7 @@ description: "如何安装 Fluentd、Elastic Search 和 Kibana 以在 Kubernetes
 
 2. 在 Dapr sidecar 中启用 JSON 格式化日志
 
-    添加 `dapr.io/log-as-json: "true"` annotation 到 deployment yaml。 例如：
+    添加 `dapr.io/log-as-json: "true"` annotation 到 deployment yaml。 例如:
 
     ```yaml
     apiVersion: apps/v1

@@ -50,7 +50,7 @@ $publisher->topic('my-topic')->publish($raw_data, content_type: 'application/oct
 
 {{% alert title="Binary data" color="warning" %}}
 
-只有 `application/octet-steam` 支持二进制数据。
+Only `application/octet-steam` is supported for binary data.
 
 {{% /alert %}}
 

@@ -3,40 +3,54 @@ type: docs
 title: "在本地环境中初始化 Dapr"
 linkTitle: "本地初始化 Dapr"
 weight: 20
+description: "获取 Dapr sidecar 二进制文件并使用 `dapr init` 在本地安装它们"
 aliases:
-  - /zh-hans/getting-started/install-dapr/
+  - /zh-hans/getting-started/set-up-dapr/install-dapr/
 ---
 
-现在，您已经安装了 [Dapr CLI]({{<ref install-dapr-cli.md>}})，是时候使用 CLI 在本地机器上初始化 Dapr 了。
+现在您已经 [安装了 Dapr CLI]({{<ref install-dapr-cli.md>}})，使用 CLI 在本地计算机上初始化 Dapr。
 
-Dapr 与您的应用程序一起作为 sidecar 运行，在自托管模式下，这意味着它是您本地机器上的一个进程。 因此，初始化 Dapr 包括获取 Dapr sidecar 二进制文件并将其安装到本地.
+Dapr 作为 sidecar 与您的应用程序一起运行。 在自托管模式下，这意味着它是本地计算机上的一个进程。 通过初始化 Dapr，您可以：
 
-此外，默认初始化过程还创建了一个开发环境，帮助简化 Dapr 的应用开发。 这包括下列步骤：
+- 在本地获取并安装 Dapr sidecar 二进制文件。
+- 创建一个开发环境，用Dapr简化应用开发。
 
-1. 运行一个用于状态存储和消息代理的** Redis 容器实例**
-1. 运行一个用于提供可观察性的** Zipkin 容器实例**
-1. 创建具有上述组件定义的**默认组件文件夹**
-1. 运行用于本地 actor 支持的** Dapr placement 服务容器实例**
+Dapr 初始化包括：
+
+1. 运行一个用于状态存储和消息代理的** Redis 容器实例**.
+1. 运行一个用于提供可观察性的** Zipkin 容器实例**.
+1. 创建具有上述组件定义的**默认组件文件夹**.
+1. 运行用于本地 actor 支持的** Dapr placement 服务容器实例**.
 
 {{% alert title="Docker" color="primary" %}}
-此推荐的开发环境需要 [Docker](https://docs.docker.com/install/)。 可以在不依赖 Docker 的情况下初始化 Dapr（[请参阅本指南]({{<ref self-hosted-no-docker.md>}})），但本指南中的后续步骤将假定使用推荐的开发环境。
+推荐的开发环境需要 [Docker](https://docs.docker.com/install/)。 虽然你可以 [在不依赖Docker的情况下初始化Dapr]({{<ref self-hosted-no-docker.md>}})，但本指南接下来的步骤都是假设推荐的Docker开发环境。
 {{% /alert %}}
 
-### 第 1 步：打开终端
+### 第 1 步：打开提升权限终端
 
-   {{< tabs "Linux/MacOS" "Windows">}}
+{{< tabs "Linux/MacOS" "Windows">}}
 
-   {{% codetab %}}
-   如果您使用 sudo 运行 Docker 命令，或者安装路径是 `/usr/local/bin` (默认安装路径)， 您需要在下面使用 `sudo`。
-   {{% /codetab %}}
+{{% codetab %}}
 
-   {{% codetab %}}
-   确保以管理员方式运行命令提示符终端 (右键单击，以管理员方式运行 )
-   {{% /codetab %}}
+在以下情况下，您将需要使用 `sudo` 进行此快速入门：
 
-   {{< /tabs >}}
+- 您使用 `sudo`运行 Docker 命令，或者
+- 安装路径为 `/usr/local/bin` （默认安装路径）。
 
-### 第 2 步：运行 init CLI 命令
+{{% /codetab %}}
+
+{{% codetab %}}
+
+以管理员身份运行 Windows 终端或命令提示符。
+
+1. 右键单击 Windows 终端或命令提示符图标。
+1. 选择 **以管理员身份运行**。
+
+{{% /codetab %}}
+
+{{< /tabs >}}
+
+### 第 2 步：运行init CLI 命令
 
 安装最新的 Dapr 运行时二进制程序:
 
@@ -44,69 +58,71 @@ Dapr 与您的应用程序一起作为 sidecar 运行，在自托管模式下，
 dapr init
 ```
 
-### 第 3 步：验证 Dapr 版本
+### 第 3 步：验证Dapr 版本
 
 ```bash
 dapr --version
 ```
 
-输出应如下所示：
-```
-CLI version: {{% dapr-latest-version cli="true" %}}
-Runtime version: {{% dapr-latest-version long="true" %}}
-```
+**输出:**
 
-### 第 4 步：验证容器是否运行
+`CLI version: {{% dapr-latest-version cli="true" %}}` <br> `Runtime version: {{% dapr-latest-version long="true" %}}`
 
-如上所述， `dapr init` 命令启动了几个容器，这将有助于你开始使用 Dapr。 运行以下列操作来验证：
+### 第 4 步：验证容器正在运行
+
+如前所述， `dapr init` 命令启动了几个容器，这将有助于你开始使用 Dapr。 验证您有是否有运行 `daprio/dapr`、 `openzipkin/zipkin` 和 `redis` 映像的容器实例：
 
 ```bash
 docker ps
 ```
 
-请确保镜像为 `daprio/dapr`, `openzipkin/zipkin` 和 `redis` 的容器都在运行：
+**输出:**
 
-```
-CONTAINER ID   IMAGE                    COMMAND                  CREATED         STATUS         PORTS                              NAMES
-0dda6684dc2e   openzipkin/zipkin        "/busybox/sh run.sh"     2 minutes ago   Up 2 minutes   9410/tcp, 0.0.0.0:9411->9411/tcp   dapr_zipkin
-9bf6ef339f50   redis                    "docker-entrypoint.s…"   2 minutes ago   Up 2 minutes   0.0.0.0:6379->6379/tcp             dapr_redis
-8d993e514150   daprio/dapr              "./placement"            2 minutes ago   Up 2 minutes   0.0.0.0:6050->50005/tcp            dapr_placement
-```
+<img src="/images/install-dapr-selfhost/docker-containers.png" width=800>
 
 ### 第 5 步：验证组件目录已初始化
 
-在 `dapr init` 时，CLI 还创建了一个默认组件文件夹，其中包括几个 YAML 文件，其中包含 state store、pub/sub 和 zipkin。 这些将由 Dapr sidecar 读取，告诉它使用 Redis 容器进行状态管理和消息传递，并使用 Zipkin 容器收集跟踪。
+在 `dapr init`上，CLI 还会创建一个默认组件文件夹，其中包含多个 YAML 文件，其中包含状态存储、Pub/sub（发布/订阅）和 Zipkin 的定义。 Dapr sidecar 将读取这些组件并使用：
 
-- 在 Linux/MacOS 中，Dapr 使用 `$HOME/.dapr` 中的默认组件和文件进行初始化。
-- 在 Windows 中，Dapr 初始化路径为 `%USERPROFILE%\.dapr\`
+- 用于状态管理和消息传递的 Redis 容器。
+- 用于收集trace的 Zipkin 容器。
 
+通过打开您的组件目录进行验证：
+
+- 在Windows上，在 `%UserProfile%\.dapr`
+- 在Linux/MacOS上，在 `~/.dapr`
 
 {{< tabs "Linux/MacOS" "Windows">}}
 
 {{% codetab %}}
-运行：
+
 ```bash
 ls $HOME/.dapr
 ```
 
-您应该看到：
-```
-bin  components  config.yaml
-```
+**输出:**
+
+`bin  components  config.yaml`
+
+<br>
+
 {{% /codetab %}}
 
 {{% codetab %}}
-使用命令提示符 CMD (不是 PowerShell)，在文件管理器中打开 `%USERPROFILE%\.dapr\` ：
 
 ```powershell
 explorer "%USERPROFILE%\.dapr\"
 ```
 
-您将会看到 Dapr 配置、 Dapr 二进制目录和 Dapr 的默认组件目录：
+**结果:**
 
-<img src="/images/install-dapr-selfhost-windows.png" width=500>
+<img src="/images/install-dapr-selfhost/windows-view-components.png" width=600>
+
 {{% /codetab %}}
 
 {{< /tabs >}}
 
-{{< button text="下一步: 定义一个组件 >>" page="get-started-api" >}}
+<br>
+
+{{< button text="下一步：使用 Dapr API >>" page="getting-started/get-started-api.md" >}}
+

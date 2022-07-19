@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "uninstall CLI 命令参考"
+title: "uninstall CLI 命令参考文档"
 linkTitle: "uninstall"
 description: "有关 uninstall CLI 命令的详细信息"
 ---
@@ -31,13 +31,13 @@ dapr uninstall [flags]
 
 ### 示例
 
-#### 从 Self-Hosted 模式卸载
+#### 从自托管模式卸载
 
 ```bash
 dapr uninstall
 ```
 
-You can also use option `--all` to remove .dapr directory, Redis, Placement and Zipkin containers
+你也可以使用选项 `--all` 去移除 .dapr 目录，以及 Redis、Placement 和 Zipkin 容器。
 
 ```bash
 dapr uninstall --all

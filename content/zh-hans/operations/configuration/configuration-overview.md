@@ -45,7 +45,7 @@ dapr configurations -k
 - [追踪](#tracing)
 - [度量](#metrics)
 - [中间件](#middleware)
-- [限定范围的秘密储存](#scoping-secrets-for-secret-stores)
+- [限定范围的密钥储存](#scoping-secrets-for-secret-stores)
 - [服务间调用的访问控制](#access-control-allow-lists-for-service-invocation)
 - [Sidecar 配置示例](#example-application-sidecar-configuration)
 
@@ -62,7 +62,7 @@ tracing:
     endpointAddress: "http://zipkin.default.svc.cluster.local:9411/api/v2/spans"
 ```
 
-下面的表格给出了调用链追踪功能可配置的属性：
+下面的表格给出了调用链追踪功能可配置的属性
 
 | 属性                       | 数据类型   | 说明                    |
 | ------------------------ | ------ | --------------------- |
@@ -72,7 +72,7 @@ tracing:
 
 `samplingRate` 用来控制调用链追踪是否启用。 要禁用采样率 , 可以在配置文件中设置 `samplingRate : "0"` 。 SamplingRate 的有效值在0到1之间。 系统将根据采样率配置的数值决定一条 trace span 是否要被采样。 如果设置 `samplingRate : "1"` ，将会对所有的调用链进行采样。 默认情况下，采样率配置为 (0.0001)，即每10,000条请求中会有一条被采样。
 
-更多信息请参见 [可观察性分布式追踪]({{< ref " tracing-overview. md" >}}) 。
+更多信息请参见 [可观测性分布式追踪]({{< ref " tracing-overview. md" >}}) 。
 
 #### 度量
 
@@ -85,7 +85,7 @@ metrics:
   enabled: true
 ```
 
-下面的表格给出了度量功能可配置的属性：
+下面的表格给出了度量功能可配置的属性
 
 | 属性        | 数据类型    | 说明        |
 | --------- | ------- | --------- |
@@ -95,7 +95,7 @@ metrics:
 
 #### 中间件
 
-中间件配置用于配置一系列可命名的 Http 管道处理器。`Configuration` spec 下的`httpPipeline` 部分包含以下的配置属性：
+中间件配置用于配置一系列可命名的 Http 管道处理器。`Configuration` spec 下的 `httpPipeline` 部分包含以下的配置属性：
 
 ```yml
 httpPipeline:
@@ -106,7 +106,7 @@ httpPipeline:
       type: middleware.http.uppercase
 ```
 
-下面的表格给出了 HTTP 处理器可配置的属性：
+下面的表格给出了 HTTP 处理器可配置的属性
 
 | 属性   | 数据类型   | 说明        |
 | ---- | ------ | --------- |
@@ -115,7 +115,7 @@ httpPipeline:
 
 更多信息见 [中间件管道]({{< ref " middleware. md" >}}) 。
 
-#### 限定作用域的秘密储存控制
+#### 限定作用域的密钥储存控制
 请参阅 [秘密范围]({{< ref "secret-scope.md" >}}) 指南，了解如何将秘密范围化到一个应用程序的信息和例子。
 
 #### 构建块 API 的访问控制允许列表
@@ -128,7 +128,7 @@ httpPipeline:
 请参阅 [预览功能]({{< ref "preview-features.md" >}}) 指南，了解关于如何选择加入某个版本的预览功能的信息和例子。 预览功能可以增加新的功能，这些功能在运行时成为普遍可用（GA）之前还需要更多时间。
 
 ### Sidecar 配置示例
-下面的 yaml 内容展示了一个可以被应用于 Dapr sidecar 的配置文件：
+下面的yaml内容展示了一个可以被应用于Dapr sidecar的配置文件：
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -166,14 +166,14 @@ spec:
 ```
 
 ## 控制平面配置
-有一个名为 `daprsystem` 的配置文件，该文件随应用全局设置的 Dapr 控制平面系统服务一起安装。 这个配置仅在 Dapr 部署到 Kubernetes 中时生效。
+有一个名为 `daprsystem` 的配置文件，该文件随应用全局设置的 Dapr 控制平面系统服务一起安装。 这个配置仅在Dapr部署到Kubernetes中时生效。
 
 ### 控制平面配置列表
 在 Dapr 控制平面中，可以使用以下配置项：
 
 | 属性               | 数据类型   | 说明                                 |
 | ---------------- | ------ | ---------------------------------- |
-| enabled          | bool   | 配置 mtls 是否开启                       |
+| enabled          | bool   | 配置mtls是否开启                         |
 | allowedClockSkew | string | 证书到期时，基于本地时钟偏差给出的额外过期时间。 默认值为15分钟。 |
 | workloadCertTTL  | string | 证书有效时间。 默认值为 24 小时。                |
 

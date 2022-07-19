@@ -1,9 +1,9 @@
 ---
 type: docs
-title: "使用 Docker-Compose 进行 Dapr .NET SDK 开发"
+title: "使用Docker-Compose进行Dapr .NET SDK开发"
 linkTitle: "Docker Compose"
-weight: 50000
-description: 学习如何使用 Docker-Compose 进行本地开发
+weight: 40000
+description: 学习如何使用Docker-Compose进行本地开发
 ---
 
 ## Docker-Compose
@@ -14,31 +14,31 @@ description: 学习如何使用 Docker-Compose 进行本地开发
 
 - **优点：** 由于 `docker-compose` 为您管理容器，因此我们可以将依赖关系作为应用程序定义的一部分，并停止在机器上的长时间运行的容器。
 - **缺点：** 需要更多资源，服务需要被容器化才能使用。
-- **缺点：** 如果不熟悉 Docker，则可能很难调试和排除故障。
+- **缺点：** 不熟悉Docker的情况下，可能对调试和问题诊断造成困难。
 
-### 使用 Docker-Compose
+### 使用Docker-Compose
 
 从 .NET 的角度来看，一起使用 Dapr 和 `docker-compose` 并不需要专门的指导。 `docker-compose` 运行容器，一旦您的服务放在容器中，它的配置与其他任何编程技术都是相似的。
 
 {{% alert title="💡 App Port" color="primary" %}}
-在容器中，ASP.NET Core 应用默认监听80端口。 必要时，可以对 `--app-port` 配置项进行修改。
+在容器中，ASP.NET Core应用默认监听80端口。 必要时，可以对`--app-port`配置项进行修改。
 {{% /alert %}}
 
-总结一下方法：
+总结一下：
 
 - 为每个服务创建一个 `Dockerfile`
 - 创建一个 `docker-compose.yaml` 并将其添加到源码仓库中
 
 要了解如何编写 `docker-compose.yaml` ，请查阅： [Hello, docker-compose sample](https://github.com/dapr/samples/tree/master/hello-docker-compose) 。
 
-与本地运行 `dapr run` 类似，对于每个服务，你需要选择唯一的 app-id。 选择容器的名称作为 app-id，将使其易于记忆。
+与本地运行 `dapr run` 类似，对于每个服务，你需要选择唯一的 app-id。 并且将此app-id作为容器名称以便于记忆。
 
 Compose 文件应至少包含：
 
 - 容器用于通信的网络
 - 每个服务的容器
 - 指定了服务端口和 app-id 的 `<service>-daprd` sidecar 容器。
-- 在容器中运行的额外依赖项（例如redis）
-- 可选：Dapr placement 容器 (适用于 Actor)
+- 在容器中运行的其他依赖组件 (例如redis)
+- 可选：Dapr placement容器 (适用于 Actors)
 
-您也可以在 [eShopOnContainers](https://github.com/dotnet-architecture/eShopOnDapr/blob/master/docker-compose.yml) 示例应用程序中查看一个更大的示例。
+您也可以在 [eShopOnContainers](https://github.com/dotnet-architecture/eShopOnDapr/blob/master/docker-compose.yml) 示例应用程序中查看一个更大规模的示例。

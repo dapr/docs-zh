@@ -1,30 +1,30 @@
 ---
 type: docs
 title: "文档贡献"
-linkTitle: "文档"
+linkTitle: "Docs"
 weight: 2000
 description: >
-  为 Dapr 文档做贡献的指南
+  向Dapr Docs投稿的准则
 ---
 
-本指南包含有关对 [Dapr 文档仓库](https://github.com/dapr/docs) 的贡献信息。 请在对 Dapr 文档作出贡献之前，请先阅读以下指南。 本指南假定您已阅读了适用于任何 Dapr 项目贡献的[通用指南]({{< ref contributing-overview>}})。
+本指南包含有关对 [Dapr 文档库](https://github.com/dapr/docs) 的贡献信息。 请在对 Dapr 文档作出贡献之前，请先阅读以下指南。 本指南假定您已阅读了适用于任何 Dapr 项目贡献的[通用指南]({{< ref contributing-overview>}})。
 
 Dapr 文档已发布到 [docs.dapr.io](https://docs.dapr.io)。 因此，任何贡献都必须确保文档能够正确编译和发布。
 
 ## 先决条件
-Dapr docs 使用 [Hugo](https://gohugo.io/) 的 [Docsy](https://docsy.dev) 主题构建。 为了在提交贡献之前验证文档是否正确构建，你应该设置本地环境，在本地构建和显示文档。
+Dapr 文档使用 [Hugo](https://gohugo.io/) 的[Docsy](https://docsy.dev) 主题构建。 要在提交添加项之前验证文档是否正确构建，您应该设置本地环境以在本地构建和显示文档。
 
-Fork [ docs 仓库](https://github.com/dapr/docs)以进行更改
+Fork [文档 repo](https://github.com/dapr/docs) 以处理任何更改
 
-遵循仓库 [README.md](https://github.com/dapr/docs/blob/master/README.md#environment-setup) 中的指示信息以在本地安装 Hugo 并构建 docs Web站点。
+遵循存储库 [README.md](https://github.com/dapr/docs/blob/master/README.md#environment-setup) 中的指示信息以在本地安装 Hugo 并构建文档 Web站点。
 
 ## 分支指南
 
-Dapr 文档处理分支的方式与大多数代码仓库不同。 没有 `master` 或 `main` 分支，而是给每个分支贴上标签，以匹配运行时版本的主版本和次要版本。 有关完整列表，请访问 [Docs 仓库](https://github.com/dapr/docs#branch-guidance)。
+Dapr 文档处理分支的方式与大多数代码存储库不同。 每个分支都标记为运行时发行版的主版本和次要版本，而不存在 `master` 或 `main` 分支。 完整列表，请访问 [Docs repo](https://github.com/dapr/docs#branch-guidance)
 
-总体而言，所有更新都应进入对应 Dapr 最新版本的文档分支。 您可以直接在 [https://github.com/dapr/docs](https://github.com/dapr/docs) 找到这个选项，因为最新版本将是默认分支。 对于适用于发布候选版本或文档的预发行版本的任何文档更改，请在该特定分支中修改。
+总体而言，所有更新都应进入对应 Dapr 最新版本的文档分支。 您可以直接在 [https://github.com/dapr/docs](https://github.com/dapr/docs)找到这个选项，因为最新版本将是默认分支。 对于适用于发布候选版本或文档的预发行版本的任何文档更改，请对该特定分支修改。
 
-例如，如果要修复拼写错误、添加注释或澄清某个观点，请在默认 Dapr 分支上进行更改。 如果要记录即将发生的组件或运行时的变更，请在预发行版分支中进行更改。 分支可以在 [ Docs 仓库](https://github.com/dapr/docs#branch-guidance) 中找到。
+例如，如果要修复拼写错误、添加注释或澄清点，请在默认 Dapr 分支上变更。 如果要记录即将发生的组件或运行时的变更，请对预发行版分支进行修改。 分支可以在 [ Docs repo](https://github.com/dapr/docs#branch-guidance) 中找到
 
 ## 风格和语气
 应在所有 Dapr 文档中遵循这些约定，以确保所有文档的体验一致。
@@ -41,7 +41,7 @@ Dapr 文档处理分支的方式与大多数代码仓库不同。 没有 `master
 - 在可能的情况下，避免创建新的部分，很有可能在文档的层次结构中已经有一个合适的位置。
 - 确保包括完整的 [Hugo front-matter](#front-matter)。
 
-### 贡献新的概念文档
+### 贡献一个新的概念文档
 - 请确保读者能够理解为什么他们应该关注此功能。 它能帮他们解决什么问题?
 - 请确保文档引用该规范以获取使用 API 的示例。
 - 确保规范在名称，参数和术语方面与概念一致。 根据需要更新概念和规范。
@@ -83,28 +83,28 @@ description: "1+ SENTENCES DESCRIBING THE ARTICLE"
 ```yaml
 ---
 type: docs
-title: "Service invocation overview"
-linkTitle: "Overview"
+title: "服务调用概述"
+linkTitle: "概述"
 weight: 10
-description: "A quick overview of Dapr service invocation and how to use it to invoke services within your application"
+description: "Dapr服务调用的快速概述，以及如何在应用程序中使用它来调用服务。"
 ---
 ```
 
 > Weight 确定左侧栏中页面的顺序，其中 0 是最顶部。
 
-Front-matter 应填写所有字段，包括 type、title、linkTitle、weight 和 description。
+Front-matter 应填写所有字段，包括type, title, linkTitle, weight, and description。
 - `title` 应该仅有一句话，最后没有句号
-- `linkTitle` 应该是1到3个词语，前面的How-to除外。
-- `描述` 应该是1-2句话，描述读者将在此文档中学习，完成或执行什么。
+- `linkTitle` 应该是 1到 3 个字，前面的How-to除外。
+- `description` 应该是 1-2 个句子，描述读者将在此文档中学习，完成或执行什么。
 
-根据 [样式惯例](#styling-conventions)，标题只能大写第一个字和专有名词，但 "How-To："除外。
-    - "Getting started with Dapr service invocation"
-    - "How-To: Setup a local Redis instance"
+根据 [styling conventions](#styling-conventions)，标题只能大写第一个字和专有名词，但 "How-To："除外。
+    - "Dapr 服务调用入门"
+    - "How-To: 设置本地 Redis 实例"
 
 ### 引用其他页面
 Hugo `ref` 和 `relref` [shortcodes](https://gohugo.io/content-management/cross-references/) 用于引用其他页面和部分。 如果某一页面被错误重命名或删除，它会中断构建。
 
-这个 shortcodes 在 Markdown 页面中编写，将链接到该节/文件夹名称的 _index.md 页面
+这个 shortcodes 在 Markdown 页面中写入，将链接到该节/文件夹名称的 _index.md 页面
 ```md
 {{</* ref "folder" */>}}
 ```
@@ -113,7 +113,7 @@ Hugo `ref` 和 `relref` [shortcodes](https://gohugo.io/content-management/cross-
 ```md
 {{</* ref "page.md" */>}}
 ```
-> 请注意，所有的页面和文件夹都需要有全局唯一的名称，以使 ref shortcode 正常工作。 如果存在重复的名称，那么构建将中断，并且将抛出错误。
+> 请注意，所有的页面和文件夹都需要有全局唯一的名称，以使ref shortcode正常工作。 如果存在重复的名称，那么构建将中断，并且将抛出错误。
 
 #### 引用其他页面中的部分
 
@@ -149,7 +149,7 @@ Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 语法来调
 <img src="/images/overview-dapr-overview.png" width=1000 alt="Overview diagram of Dapr and its building blocks">
 ```
 
-### 选项卡式内容
+### 标签内容
 通过 [Hugo shortcodes](https://gohugo.io/content-management/shortcodes/) 可以实现标签。
 
 总体格式为:
@@ -167,9 +167,9 @@ Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 语法来调
 {{< /tabs */>}}
 ```
 
-您所编写的所有内容都将被渲染为 Markdown，因此您可以包含图像、代码块、YouTube视频等。
+您所编写的所有内容都将被渲染为Markdown，因此您可以包含图像、代码块、YouTube视频等。
 
-#### 例子
+#### 示例
 ````
 {{</* tabs Windows Linux MacOS>}}
 
@@ -193,7 +193,7 @@ brew install dapr/tap/dapr-cli
 
 {{< /tabs */>}}
 ````
-此示例将呈现为：
+这个示例将为此呈现：
 {{< tabs Windows Linux MacOS>}}
 {{% codetab %}}
 ```powershell
@@ -217,7 +217,7 @@ brew install dapr/tap/dapr-cli
 
 ### 嵌入代码片段
 
-使用 `code-snippet` shortcode 来引用 `static/code` 目录中的代码片段。
+使用 `code-snippet` 短代码引用来自 `static/code` 目录的代码片段。
 
 ```
 {{</* code-snippet file="myfile.py" lang="python" */>}}
@@ -229,7 +229,7 @@ brew install dapr/tap/dapr-cli
 
 使用 `lang` (默认 `txt`) 参数来配置用于语法高亮的语言。
 
-使用 `marker` 参数标记将嵌入的截图限制为示例文件的一部分。 当您只想显示较大文件的一部分时，这是非常有用的。 典型的方法是用注释包围感兴趣的代码，然后将注释文本传递给 `marker`。
+使用 `marker` 参数限制嵌入式到部分示例文件中。 当您只想显示较大文件的一部分时，这是非常有用的。 典型的方法是用注释包围感兴趣的代码，然后将注释文本传递给`marker`。
 
 下面的短代码和代码示例:
 
@@ -266,7 +266,7 @@ with DaprClient() as d:
 #SAMPLE
 ```
 
-将产生以下输出：
+将产生以下产出：
 
 {{< code-snippet file="contributing-1.py" lang="python" marker="#SAMPLE" >}}
 
@@ -330,7 +330,7 @@ Hugo 可以使用短代码自动嵌入 YouTube 视频:
 
 若要在网页上创建按钮，请使用 `button` 短码。
 
-可选的 "Newtab" 参数将指示页面是否应在新的选项卡中打开。 选项为 "true" 或 "false"。 默认为 "false"，页面将在同一标签页中打开。
+可选的"Newtab"参数将指示页面是否应在新的选项卡中打开。 选项为“true”或“false”。 默认情况为“false”，在同一个标签页中打开页面。
 
 #### 链接到外部文件
 
@@ -378,7 +378,7 @@ Hugo 可以使用短代码自动嵌入 YouTube 视频:
 您可以在 [PR 1286](https://github.com/dapr/docs/pull/1286) 中找到一个添加中文语言支持的PR 示例。
 
 添加语言的步骤：
-- 在 Docs 仓库中打开一个 issue，请求创建一个新的特定语言文档
+- 在文档 Repo 中打开一个issue，请求创建一个新的特定语言文档
 - 创建完成后，在文档仓库中创建 git 子模块：
    ```sh
    git submodule add <remote_url> translations/<language_code>

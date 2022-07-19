@@ -20,7 +20,7 @@ spec:
       endpointAddress: "https://..."
 ```
 
-下面的表格给出了调用链追踪功能可配置的属性：
+下面的表格给出了调用链追踪功能可配置的属性
 
 | 属性                       | 数据类型   | 说明                    |
 | ------------------------ | ------ | --------------------- |
@@ -80,7 +80,7 @@ kubectl create deployment zipkin --image openzipkin/zipkin
 kubectl expose deployment zipkin --type ClusterIP --port 9411
 ```
 
-接下来，在本地创建以下 YAML 文件：
+接下来，在本地创建以下YAML文件：
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -101,7 +101,7 @@ spec:
 kubectl apply -f config.yaml
 ```
 
-为了启用您的 Dapr sidecar 的配置，请在您的 pod spec 模板中添加以下注解：
+为了启用您的 Dapr sidecar 的配置，请在您的pod spec模板中添加以下注释：
 
 ```yml
 annotations:

@@ -2,8 +2,8 @@
 type: docs
 title: "服务调用概述"
 linkTitle: "概述"
-weight: 1000
-description: "服务调用API构建块概述"
+weight: 900
+description: "服务调用 API 构建块概述"
 ---
 
 ## 介绍
@@ -41,25 +41,11 @@ Dapr 采用边车（Sidecar）、去中心化的架构。 要使用 Dapr 来调�
 
 ### 命名空间作用域
 
-默认情况下，用户可以通过简单地引用应用ID（`nodeapp`）来调用同一命名空间内的服务。
-
-```sh
-localhost:3500/v1.0/invoke/nodeapp/method/neworder
-```
-
-服务调用也支持跨命名空间的调用。 在所有受支持的托管平台上， Dapr 应用程序标识（ID）遵循包含了目标命名空间的有效 FQDN 格式。
-
-用户可以指定应用程序的ID（`nodeapp`），以及应用程序运行的命名空间（`production`）。
-
-```sh
-localhost:3500/v1.0/invoke/nodeapp.production/method/neworder
-```
-
-这在 Kubernetes 集群中进行跨命名空间调用特别有用。
+应用程序的范围可以限定为命名空间以实现部署和安全性，并且可以在部署到不同命名空间的服务之间进行调用。 有关详细信息，请阅读 [ 跨命名空间服务调用]({{< ref "service-invocation-namespaces.md" >}}) 章节。
 
 ### 服务间安全性
 
-Dapr 应用程序之间的所有调用都可以通过托管平台上的相互(mTLS) 身份验证来安全，包括通过 Dapr 哨兵服务来自动证书翻转（certificate rollover）。 下面的图表显示了自托管的应用程序。
+Dapr 应用程序之间的所有调用都可以通过托管平台上的相互(mTLS) 身份验证来安全，包括通过 Dapr 哨兵服务来自动证书翻转（certificate rollover）。
 
 更多信息查看 [服务间安全]({{< ref "security-concept.md#sidecar-to-sidecar-communication" >}})。
 
@@ -111,7 +97,7 @@ Dapr允许用户保留他们自己的proto服务，并与gRPC原生工作。 这
 
 ## 示例
 
-按照上述调用顺序，假定您有 [Hello World 快速入门](https://github.com/dapr/quickstarts/blob/master/hello-world/README.md)中描述的应用程序，在 python 应用程序调用一个 node.js 应用的地方。 这种情况下，python应用将是“service A”，Node.js应用将是“service B”。
+按照上述调用顺序，假定您有 [Hello World 快速入门](https://github.com/dapr/quickstarts/blob/master/tutorials/hello-world/README.md)中描述的应用程序，在 python 应用程序调用一个 node.js 应用的地方。 这种情况下，python应用将是“service A”，Node.js应用将是“service B”。
 
 下面的图表展示本地机器上 API 调用的顺序 1-7：
 
@@ -133,6 +119,6 @@ Dapr允许用户保留他们自己的proto服务，并与gRPC原生工作。 这
     - [入门指南：发现并调用服务]({{< ref howto-invoke-discover-services.md >}})
   - [指南：配置 Dapr 来使用 gRPC]({{< ref grpc >}})
   - [操作方法：使用 gRPC 调用服务]({{< ref howto-invoke-services-grpc.md >}})
-- 试试 [hello World 快速入门](https://github.com/dapr/quickstarts/blob/master/hello-world/README.md) ，它会显示如何使用 HTTP 服务调用或试试 [Dapr SDK]({{< ref sdks >}}) 中的 Sample。
+- 试试 [hello World 快速入门](https://github.com/dapr/quickstarts/blob/master/tutorials/hello-world/README.md) ，它会显示如何使用 HTTP 服务调用或试试 [Dapr SDK]({{< ref sdks >}}) 中的 Sample。
 - 阅读 [服务调用 API 规范]({{< ref service_invocation_api.md >}})
 - 了解 [服务调用性能]({{< ref perf-service-invocation.md >}}) 数字

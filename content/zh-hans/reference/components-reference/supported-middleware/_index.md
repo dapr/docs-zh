@@ -11,10 +11,10 @@ aliases:
 
 表格标题：
 
-> `Status`: [Component certification]({{<ref "certification-lifecycle.md">}}) status
+> `状态`： [组件认证]({{<ref "certification-lifecycle.md">}}) 状态
   - [Alpha]({{<ref "certification-lifecycle.md#alpha">}})
   - [Beta]({{<ref "certification-lifecycle.md#beta">}})
-  - [Stable]({{<ref "certification-lifecycle.md#stable">}}) > `Since`: defines from which Dapr Runtime version, the component is in the current status
+  - [Stable]({{<ref "certification-lifecycle.md#stable">}}) > `Since`: 定义自哪个 Dapr 运行时版本开始，组件处于当前的状态。
 
 > `组件版本`：代表组件的版本
 
@@ -28,3 +28,5 @@ aliases:
 | [Bearer]({{< ref middleware-bearer.md >}})                                     | 使用 [OpenID Connect](https://tools.ietf.org/html/rfc6750)在 Web API 上验证 [Bearer Token](https://openid.net/connect/) | Alpha                         | v1   |
 | [Open Policy Agent]({{< ref middleware-opa.md >}})                             | 将[Rego/OPA策略](https://www.openpolicyagent.org/)应用到传入的Dapr HTTP请求中                                                 | Alpha                         | v1   |
 | [Uppercase]({{< ref middleware-uppercase.md >}})                               | 将请求的正文转换为大写字母                                                                                                     | Stable(For local development) | v1   |
+| [Sentinel]({{< ref middleware-sentinel.md >}})                                 | 使用 Sentinel 中间件来保证应用程序的可靠性和弹性                                                                                     | Alpha                         | v1   |
+| [RouterChecker]({{< ref middleware-routerchecker.md >}})                       | Validates HTTP requests using regexp and filters out invalid requests                                             | Alpha                         | v1   |

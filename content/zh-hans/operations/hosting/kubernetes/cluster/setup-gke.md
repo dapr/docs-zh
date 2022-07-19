@@ -18,7 +18,7 @@ $ gcloud services enable container.googleapis.com && \
   --zone $ZONE \
   --project $PROJECT_ID
 ```
-更多选项请参阅 [Google Cloud SDK 文档](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)， 或者通过 [云控制台](https://console.cloud.google.com/kubernetes) 创建集群以获取更多交互体验。
+更多选项请参阅 [Google 云SDK 文档](https://cloud.google.com/sdk/gcloud/reference/container/clusters/create)， 或者通过 [云控制台](https://console.cloud.google.com/kubernetes) 创建集群以获取更多交互体验。
 
 {{% alert title="For private GKE clusters" color="warning" %}}
 Sidecar 注入不适用于没有额外步骤的私有集群。 为 master 节点自动创建的防火墙规则不会打开4000端口。 这是 Dapr sidecar 注入所必需的。
@@ -28,7 +28,7 @@ Sidecar 注入不适用于没有额外步骤的私有集群。 为 master 节点
 $ gcloud compute firewall-rules list --filter="name~gke-${CLUSTER_NAME}-[0-9a-z]*-master"
 ```
 
-要替换现有的规则并允许 Kubernetes master 访问端口4000：
+要替换现有的规则并允许Kubernetes主访问端口4000：
 ```bash
 $ gcloud compute firewall-rules update <firewall-rule-name> --allow tcp:10250,tcp:443,tcp:4000
 ```

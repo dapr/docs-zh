@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置阿里云 Tablestore 绑定，需要创建一个类型为 `bindings.alicloud.tablestore` 的组件。 看[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})如何创建和应用秘钥配置。 通过[引用 Secrets]({{< ref component-secrets.md >}}) 这个指南可以看到如何在 Dapr 组件中检索和使用 Secret。
+要设置阿里云 Tablestore 绑定，需要创建一个类型为 `bindings.alicloud.tablestore` 的组件。 请参阅 [本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}}) 了解如何创建和应用 secretstore 配置。 有关如何在 Dapr 组件中检索和使用 secret，请参阅 [引用 secrets]({{< ref component-secrets.md >}}) 指南。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -43,21 +43,21 @@ spec:
 
 | 字段             | 必填 | 绑定支持 | 详情                       | 示例                                          |
 | -------------- | -- | ---- | ------------------------ | ------------------------------------------- |
-| `终结点`          | Y  | 输出   | 阿里云 Tablestore endpoint。 | https://tablestore-cn-hangzhou.aliyuncs.com |
-| `accessKeyID`  | Y  | 输出   | 访问密钥 ID 凭据。              |                                             |
-| `accessKey`    | Y  | 输出   | 访问密钥凭据。                  |                                             |
-| `instanceName` | Y  | 输出   | 实例的名称。                   |                                             |
-| `tableName`    | Y  | 输出   | 表的名称。                    |                                             |
+| `endpoint`     | 是  | 输出   | 阿里云 Tablestore endpoint。 | https://tablestore-cn-hangzhou.aliyuncs.com |
+| `accessKeyID`  | 是  | 输出   | 访问密钥 ID 凭据。              |                                             |
+| `accessKey`    | 是  | 输出   | 访问密钥凭据。                  |                                             |
+| `instanceName` | 是  | 输出   | 实例的名称。                   |                                             |
+| `tableName`    | 是  | 输出   | 表的名称。                    |                                             |
 
 ## 绑定支持
 
-字段名为 `ttlInSeconds`。
+该组件支持如下操作的 **输出绑定** ：
 - `create`: [创建对象](#create-object)
 
 
 ### 创建对象
 
-要执行创建对象操作，请使用 `POST` 方法和以下 JSON 调用绑定：
+要执行创建对象操作，请使用`POST`方法和以下JSON调用绑定：
 
 ```json
 {

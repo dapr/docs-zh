@@ -2,8 +2,8 @@
 type: docs
 title: "更新 Kubernetes 集群中的 Dapr"
 linkTitle: "升级 Dapr"
-weight: 30000
-description: "请按照以下步骤在 Kubernetes 上升级 Dapr 并确保顺利升级。"
+weight: 50000
+description: "按照这些步骤升级 Kubernetes 上的 Dapr，并确保顺利升级."
 ---
 
 ## 先决条件
@@ -12,7 +12,7 @@ description: "请按照以下步骤在 Kubernetes 上升级 Dapr 并确保顺利
 - [Helm 3](https://github.com/helm/helm/releases) (如果使用 Helm)
 
 ## 升级现有集群到 {{% dapr-latest-version long="true" %}}
-有两种方法可以使用 Dapr CLI 或 Helm 在 Kubernetes 集群上升级 Dapr 控制平面。
+有两种方法可以使用 Dapr CLI 或 Helm 升级 Kubernetes 集群上的 Dapr 控制平面。
 
 ### Dapr CLI
 
@@ -26,9 +26,9 @@ description: "请按照以下步骤在 Kubernetes 上升级 Dapr 并确保顺利
 
 #### 使用 CLI 进行故障排除升级
 
-在群集上运行升级时存在一个已知问题，该群集上以前可能安装了 1.0.0-rc.2 之前的版本。
+在集群上安装 1.0.0-rc.2 之前，可能以前有一个版本，但在集群上运行升级时存在一个已知问题。
 
-大多数用户不应该遇到这个问题。 但有几个升级路径边缘案例可能会在您的集群中安装不兼容的CustomResourceDefinition。 此情况下的错误消息如下所示：
+大多数用户不应该遇到这个问题。 但有几个升级路径边缘案例可能会在您的集群中安装不兼容的 CustomResourceDefinition。 此案例的错误消息看起来像这样：
 
 ```
 ❌  Failed to upgrade Dapr: Warning: kubectl apply should be used on resource created by either kubectl create --save-config or kubectl apply
@@ -68,9 +68,9 @@ kubectl replace -f https://raw.githubusercontent.com/dapr/dapr/5a15b3e0f093d2d09
    ```bash
    helm upgrade dapr dapr/dapr --version {{% dapr-latest-version long="true" %}} --namespace dapr-system --wait
    ```
-   *如果你使用的是 values 文件，记得在运行升级命令时添加 `--values` 选项。*
+   *如果你使用的是 values 文件，记得在运行升级命令时添加`--values`选项。*
 
-2. 确保所有 Pod 都在运行：
+2. 确保所有 pod 正在运行：
 
    ```bash
    kubectl get pods -n dapr-system -w
@@ -83,7 +83,7 @@ kubectl replace -f https://raw.githubusercontent.com/dapr/dapr/5a15b3e0f093d2d09
    dapr-sidecar-injector-68f868668f-6xnbt   1/1     Running   0          41s
    ```
 
-3. 重新启动应用程序的 deployment 以更新 Dapr 运行时。
+3. 重新启动您的应用程序 deployments 以更新 Dapr 运行时。
 
    ```bash
    kubectl rollout restart deploy/<DEPLOYMENT-NAME>

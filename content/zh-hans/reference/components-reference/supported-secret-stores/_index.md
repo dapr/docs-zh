@@ -45,3 +45,9 @@ no_list: true
 | Name                                             | 状态     | 组件版本 | 自从  |
 | ------------------------------------------------ | ------ | ---- | --- |
 | [Azure Key Vault]({{< ref azure-keyvault.md >}}) | Stable | v1   | 1.0 |
+
+### Alibaba Cloud
+
+| Name                                                                            | 状态    | 组件版本 | 自从  |
+| ------------------------------------------------------------------------------- | ----- | ---- | --- |
+| [AlibabaCloud OOS Parameter Store]({{< ref alicloud-oos-parameter-store.md >}}) | Alpha | v1   | 1.6 |

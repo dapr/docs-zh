@@ -7,9 +7,9 @@ description: 单元测试
 no_list: true
 ---
 
-单元和集成测试是 PHP SDK 的一等公民。 使用 DI 容器、 mocks、 stubs 和提供的 `\Dapr\Mocks\TestClient` 允许您进行非常细粒度的测试。
+单元和集成测试是PHP SDK的一等公民。 使用 DI 容器、 mocks、 stubs 和提供的 `\Dapr\Mocks\TestClient` 允许您进行非常细粒度的测试。
 
-## 测试Actor
+## 测试 Actor
 
 对于 actor，在测试 actor 时，我们有两件事要关注：
 
@@ -20,7 +20,7 @@ no_list: true
 
 {{% codetab %}}
 
-下面是一个示例，测试一个非常简单的 actor，该 actor 组件更新其状态并返回特定值：
+这是一个非常简单的 actor 的测试示例，该 actor 更新其状态并返回特定值：
 
 ```php
 <?php
@@ -165,9 +165,9 @@ class TheTest extends \PHPUnit\Framework\TestCase
 
 {{< /tabs >}}
 
-## 测试事务
+## 测试 Transaction
 
-在基于事务进行构建时，您可能希望测试如何处理失败的事务。 为此，您需要注入异常并确保事务符合您的期望。
+建立事务时，您可能需要测试如何处理失败的事务。 为此，您需要注入异常并确保事务符合您的预期。
 
 {{< tabs "integration test with TestClient" "unit test" >}}
 
