@@ -1,18 +1,18 @@
 ---
 type: docs
 title: "使用输出绑定调用不同的资源"
-linkTitle: "How-To: 绑定"
+linkTitle: "操作方法: 绑定"
 description: "使用 Dapr 输出绑定调用外部系统"
 weight: 300
 ---
 
 使用绑定，可以调用外部资源，而无需绑定到特定的 SDK 或库。 有关显示输出绑定的完整示例，请访问此 [链接](https://github.com/dapr/quickstarts/tree/master/tutorials/bindings)。
 
-## 示例︰
+## 示例:
 
-下面的代码示例松散地描述了处理订单的应用程序。 在示例中，有一个订单处理服务，它具有 Dapr sidecar。 订单处理服务使用 Dapr 通过输出绑定调用外部资源，在本例中为 Kafka。
+以下的示例简述了一个订单处理程序。 在示例中，有一个订单处理服务，它具有 Dapr sidecar。 订单处理服务使用 Dapr 通过输出绑定调用外部资源，在本例中为 Kafka。
 
-<img src="/images/building-block-output-binding-example.png" width=1000 alt="Diagram showing bindings of example service">
+<img src="/images/building-block-output-binding-example.png" width=1000 alt="显示示例服务绑定的图示">
 
 ## 1. 创建绑定
 
@@ -20,9 +20,9 @@ weight: 300
 
 就本指南的目的，您将使用 Kafka 绑定。 您可以在 [此处]({{< ref setup-bindings >}}) 找到不同绑定规范的列表。
 
-创建一个名称为 `checkout`的新绑定组件。
+创建一个名称为 `checkout` 的新绑定组件。
 
-在 `metadata` 部分中，配置 Kafka 相关属性，如要将消息发布到其的topics和代理。
+在 `metadata` 部分中，配置 Kafka 相关属性，如要将消息发布到其的 topic 和代理。
 
 {{< tabs "Self-Hosted (CLI)" Kubernetes >}}
 

@@ -40,7 +40,7 @@ spec:
 | accountName        |             Y             | 存储帐户名称                        | `"mystorageaccount"`.                                                                                       |
 | accountKey         | Y (unless using Azure AD) | 主要或次要存储密钥                     | `"key"`                                                                                                     |
 | containerName      |             Y             | Dapr 状态的容器名称， 如果容器不存在，将会自动创建. | `"container"`                                                                                               |
-| `azureEnvironment` |             N             | Azure 环境的可选名称（如果使用其他 Azure 云） | `"AZUREPUBLICCLOUD"` (default value), `"AZURECHINACLOUD"`, `"AZUREUSGOVERNMENTCLOUD"`, `"AZUREGERMANCLOUD"` |
+| `azureEnvironment` |             否             | Azure 环境的可选名称（如果使用其他 Azure 云） | `"AZUREPUBLICCLOUD"` (default value), `"AZURECHINACLOUD"`, `"AZUREUSGOVERNMENTCLOUD"`, `"AZUREGERMANCLOUD"` |
 | ContentType        |             N             | Blob 的内容类型                    | `"text/plain"`                                                                                              |
 | ContentMD5         |             N             | Blob 的 MD5 哈希                 | `"vZGKbMRDAnMs4BIwlXaRvQ=="`                                                                                |
 | ContentEncoding    |             N             | Blob 的内容编码                    | `"UTF-8"`                                                                                                   |

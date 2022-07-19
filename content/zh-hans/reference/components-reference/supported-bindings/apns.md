@@ -36,10 +36,10 @@ spec:
 
 | 字段          | 必填 | 绑定支持 | 详情                                                                         | 示例                 |
 | ----------- |:--:| ---- | -------------------------------------------------------------------------- | ------------------ |
-| 开发          | Y  | 输出   | 告诉绑定使用哪个APNs服务。 设置为 `true` 以用于开发环境， `false` 用于生产环境。 默认: `"true"`           | `"true"`           |
-| key-id      | Y  | 输出   | 来自 Apple 开发者门户的私钥的标识符。                                                     | `"private-key-id`" |
-| team-id     | Y  | 输出   | 来自 Apple 开发者门户的组织或作者的标识符。                                                  | `"team-id"`        |
-| private-key | Y  | 输出   | 是一个PKCS #8格式的私钥。 其目的是将私钥存储在密钥存储中，而不是直接暴露在配置中。 请参阅[这里](#private-key)了解更多详情。 | `"pem file"`       |
+| development | 是  | 输出   | 告诉绑定使用哪个APNs服务。 设置为 `true` 以用于开发环境， `false` 用于生产环境。 默认: `"true"`           | `"true"`           |
+| key-id      | 是  | 输出   | 来自 Apple 开发者门户的私钥的标识符。                                                     | `"private-key-id`" |
+| team-id     | 是  | 输出   | 来自 Apple 开发者门户的组织或作者的标识符。                                                  | `"team-id"`        |
+| private-key | 是  | 输出   | 是一个PKCS #8格式的私钥。 其目的是将私钥存储在密钥存储中，而不是直接暴露在配置中。 请参阅[这里](#private-key)了解更多详情。 | `"pem file"`       |
 
 ### 私钥
 APNS绑定需要一个加密私钥，以便为APNS服务生成认证令牌。 私钥可以从Apple开发者门户生成，并以PKCS #8文件的形式提供，私钥以PEM格式存储。 私钥应该存储在Dapr的密钥存储中，而不是直接存储在绑定的配置文件中。
@@ -81,11 +81,11 @@ stringData:
 
 ## 绑定支持
 
-字段名为 `ttlInSeconds`。
+该组件支持如下操作的 **输出绑定** ：
 
 - `create`
 
-## 输出绑定支持的操作
+## 推送通知格式
 
 APNS 绑定是Apple Push Notification Service的通行证封装。 APNS绑定会直接将请求发送到APNS服务，不需要任何翻译。 因此，了解APNS服务所期望的推送通知的有效载荷非常重要。 有效载荷格式在[这里](https://developer.apple.com/documentation/usernotifications/setting_up_a_remote_notification_server/generating_a_remote_notification)有详细文档。
 

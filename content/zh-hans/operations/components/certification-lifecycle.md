@@ -3,19 +3,19 @@ type: docs
 title: "认证生命周期"
 linkTitle: "认证生命周期"
 weight: 200
-description: "组件认证生命周期，从提交到生产就绪"
+description: "从提交到生产准备的组件认证生命周期"
 ---
 
 ## 概述
 
 Dapr 使用模块化设计，将功能作为组件来提供。 每个组件都有接口定义。  所有的组件都是可插拔的，因此在理想的情况下，你可以用一个具有相同接口的组件换掉另一个。 用于生产的每个组件， 需要保持一套技术要求，以确保组件的功能兼容性和强度。
 
-通常，组件需要：
+一般来说，一个组件需要是：
 - 符合定义的 Dapr 接口
 - 功能正确和强健
 - 完善的文档和维护
 
-为了确保组件符合 Dapr 设置的标准，在 Dapr 维护者托管环境中，有一组针对组件运行的测试。 一旦测试持续通过，就可以确定组件的成熟度级别。
+为了确保组件符合 Dapr 设定的标准，在 Dapr 维护者管理的环境中，有一组针对组件的测试。 一旦测试持续通过，就可以确定组件的成熟度。
 
 ## 认证级别
 
@@ -55,16 +55,16 @@ Dapr 使用模块化设计，将功能作为组件来提供。 每个组件都�
 
 ## 一致性测试
 
-[components-contrib](https://github.com/dapr/components-contrib) 仓库中的每个组件都需要遵守由 Dapr 定义的一组接口。 一致性测试是对这些组件定义及其相关的支持服务运行的测试，这样组件就被测试为符合 Dapr 接口规范和行为。
+[components-contrib](https://github.com/dapr/components-contrib)资源库中的每个组件都需要遵守由 Dapr 定义的一组接口。 一致性测试是对这些组件定义及其相关的支持服务运行的测试，这样组件就被测试为符合 Dapr 接口规范和行为。
 
 一致性测试是为以下构建块定义的：
 
 - 状态存储
-- 秘密存储
+- 密钥存储
 - 绑定
 - 发布/订阅
 
-要了解更多关于它们的信息，请看[这里](https://github.com/dapr/components-contrib/blob/master/tests/conformance/README.md)。
+要了解更多关于它们的信息，请看readme [这里](https://github.com/dapr/components-contrib/blob/master/tests/conformance/README.md)。
 
 ### 测试要求
 

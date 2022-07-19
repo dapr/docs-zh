@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Azure SignalR binding spec"
+title: "Azure SignalR绑定规范"
 linkTitle: "Azure SignalR"
 description: "有关 Azure SignalR 绑定组件的详细文档"
 aliases:
@@ -36,13 +36,13 @@ spec:
 
 | 字段               | 必填 | 绑定支持 | 详情                                                  | 示例                                                                                                                 |
 | ---------------- |:--:| ---- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| connectionString | Y  | 输出   | Azure SignalR 连接字符串                                 | `"Endpoint=https://<your-azure-signalr>.service.signalr.net;AccessKey=<your-access-key>;Version=1.0;"` |
-| hub              | N  | 输出   | 定义消息将被发送到的 Hub。 发布到输出绑定时，可以将 Hub 动态定义为元数据值（键为"Hub"） | `"myhub"`                                                                                                          |
+| connectionString | 是  | 输出   | Azure SignalR 连接字符串                                 | `"Endpoint=https://<your-azure-signalr>.service.signalr.net;AccessKey=<your-access-key>;Version=1.0;"` |
+| hub              | 否  | 输出   | 定义消息将被发送到的 Hub。 发布到输出绑定时，可以将 Hub 动态定义为元数据值（键为"Hub"） | `"myhub"`                                                                                                          |
 
 
 ## 绑定支持
 
-字段名为 `ttlInSeconds`。
+该组件支持如下操作的 **输出绑定** ：
 
 - `create`
 

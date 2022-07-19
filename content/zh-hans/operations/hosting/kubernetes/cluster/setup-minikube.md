@@ -19,15 +19,15 @@ description: >
 
 ## 启动 Minikube 集群
 
-1. (可选) 设置默认的虚拟机驱动
+1. (可选) 设置默认的 VM 驱动
 
 ```bash
 minikube config set vm-driver [driver_name]
 ```
 
-> 注意：有关支持的驱动程序以及如何安装插件的详细信息，请参阅 [驱动程序](https://minikube.sigs.k8s.io/docs/reference/drivers/) 。
+> 注意：关于支持的驱动程序和如何安装插件的详细信息，请参阅 [DRIVERS](https://minikube.sigs.k8s.io/docs/reference/drivers/)。
 
-2. 启动集群：使用 1.13.x 或更新版本的 Kubernetes `--kubernetes-version`
+2. 使用 1.13.x 或更新版本的 Kubernetes `--kubernetes-version` 启动集群
 
 ```bash
 minikube start --cpus=4 --memory=4096
@@ -36,14 +36,14 @@ minikube start --cpus=4 --memory=4096
 3. 启用仪表盘和 ingress 插件
 
 ```bash
-# Enable dashboard
+# 启用 dashboard
 minikube addons enable dashboard
 
-# Enable ingress
+# 启用 ingress
 minikube addons enable ingress
 ```
 
-## (可选) 安装 Helm v3
+## (可选) 安装Helm v3
 
 1. [安装 Helm v3 客户端](https://helm.sh/docs/intro/install/)
 
@@ -51,7 +51,7 @@ minikube addons enable ingress
 
 ### 疑难解答
 
-1. 负载均衡器的外部 IP 地址不显示在 `kubectl get svc`
+1. 负载均衡器的外部IP地址不显示在`kubectl get svc`
 
 在 Minikube 中， `kubectl get svc` 中的 EXTERNAL-IP 显示服务处于 `<pending>` 状态。 在这种情况下，您可以运行 `minikube service [service_name]` 在没有外部 IP 地址的情况下打开您的服务。
 

@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置Azure Key Vault密钥仓库，请创建一个类型为`secretstores.azure.keyvault`的组件。 有关如何创建和应用密钥库配置，请参阅[本指南]({{< ref "setup-secret-store.md#apply-the-configuration" >}})。 请参阅本指南 [引用Secret]({{< ref component-secrets.md >}}) 在 Dapr 组件中检索和使用的 Secret。
+要设置Azure Key Vault密钥仓库，请创建一个类型为`secretstores.azure.keyvault`的组件。 有关如何创建和应用 secretstore 配置，请参阅[本指南]({{< ref "setup-secret-store.md#apply-the-configuration" >}})。 有关如何在 Dapr 组件中检索和使用 secret，请参阅 [引用 secrets]({{< ref component-secrets.md >}}) 指南。
 
 也请参见本页面中的[配置组件](#configure-the-component)指南。
 
@@ -23,20 +23,18 @@ spec:
   type: secretstores.azure.keyvault
   version: v1
   metadata:
-  - name: vaultName
+  - name: vaultName # Required
     value: [your_keyvault_name]
-  - name: spnTenantId
+  - name: azureEnvironment # Optional, defaults to AZUREPUBLICCLOUD
+    value: "AZUREPUBLICCLOUD"
+  # See authentication section below for all options
+  - name: azureTenantId
     value: "[your_service_principal_tenant_id]"
-  - name: spnClientId
+  - name: azureClientId
     value: "[your_service_principal_app_id]"
-    value : "[pfx_certificate_contents]"
-  - name: spnCertificateFile
+  - name: azureCertificateFile
     value : "[pfx_certificate_file_fully_qualified_local_path]"
 ```
-
-{{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， 建议将密钥存储在本地，如[Kubernetes密钥仓库]({{< ref kubernetes-secret-store.md >}})或 [本地文件]({{< ref file-secret-store.md >}})来安全地存储密钥。
-{{% /alert %}}
 
 ## 使用 Azure AD 进行身份验证
 
@@ -44,14 +42,15 @@ Azure Key Vault 密钥仓库组件仅支持使用 Azure AD 进行身份验证。
 
 ## 元数据字段规范
 
-| 字段                 | 必填 | 详情                            | 示例                                                                                                          |
-| ------------------ |:--:| ----------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `vaultName`        | Y  | Azure Key Vault名称             | `"mykeyvault"`                                                                                              |
-| `azureEnvironment` | N  | Azure 环境的可选名称（如果使用其他 Azure 云） | `"AZUREPUBLICCLOUD"` (default value), `"AZURECHINACLOUD"`, `"AZUREUSGOVERNMENTCLOUD"`, `"AZUREGERMANCLOUD"` |
+| 字段                 | 必填 | 详情                                                                                      | 示例                                                                                                          |
+| ------------------ |:--:| --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `vaultName`        | Y  | Azure Key Vault名称                                                                       | `"mykeyvault"`                                                                                              |
+| `azureEnvironment` | 否  | Azure 环境的可选名称（如果使用其他 Azure 云）                                                           | `"AZUREPUBLICCLOUD"` (default value), `"AZURECHINACLOUD"`, `"AZUREUSGOVERNMENTCLOUD"`, `"AZUREGERMANCLOUD"` |
+| Auth metadata      |    | See [Authenticating to Azure]({{< ref authenticating-azure.md >}}) for more information |                                                                                                             |
 
 此外，必须提供身份验证字段，如 [Azure 身份验证]({{< ref authenticating-azure.md >}})文档中所述。
 
-## 创建 Azure Key Vault 并授权服务主体
+## Example: Create an Azure Key Vault and authorize a Service Principal
 
 ### 先决条件
 
@@ -101,15 +100,17 @@ Azure Key Vault 密钥仓库组件仅支持使用 Azure AD 进行身份验证。
     --location "${LOCATION}"
   ```
 
-5. 使用 RBAC，将角色分配给 Azure AD 应用程序，以便它可以访问 Key Vault 。  
-   在这种情况下，请分配"Key Vault Crypto Officer"角色，该角色具有广泛的访问权限; 也可以使用其他限制性更强的角色，具体取决于您的应用程序。
+5. Using RBAC, assign a role to the Azure AD application so it can access the Key Vault.  
+   In this case, assign the "Key Vault Secrets User" role, which has the "Get secrets" permission over Azure Key Vault.
 
   ```sh
   az role assignment create \
     --assignee "${SERVICE_PRINCIPAL_ID}" \
-    --role "Key Vault Crypto Officer" \
+    --role "Key Vault Secrets User" \
     --scope "${RG_ID}/providers/Microsoft.KeyVault/vaults/${KEYVAULT_NAME}"
   ```
+
+Other less restrictive roles like "Key Vault Secrets Officer" and "Key Vault Administrator" can be used as well, depending on your application. For more information about Azure built-in roles for Key Vault see the [Microsoft docs](https://docs.microsoft.com/azure/key-vault/general/rbac-guide?tabs=azure-cli#azure-built-in-roles-for-key-vault-data-plane-operations).
 
 ## 配置组件
 
@@ -212,7 +213,7 @@ spec:
     kubectl apply -f azurekeyvault.yaml
     ```
 
-使用 **证书**：
+要使用 **证书**：
 
 1. 使用以下命令创建 Kubernetes 秘密：
 
@@ -286,14 +287,14 @@ spec:
     ```
 4. 按照 [本指南](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#create-a-pod-identity) 创建和使用托管标识/Pod标识。 创建 AKS Pod 标识后，[ 授予该标识对所需的 KeyVault 实例的读权限](https://docs.microsoft.com/azure/key-vault/general/assign-access-policy?tabs=azure-cli#assign-the-access-policy)，最后，在您的应用程序 deployment 中通过标签注解注入 Pod 标识：
 
-  ```yaml
-  apiVersion: v1
-  kind: Pod
-  metadata:
-    name: mydaprdemoapp
-    labels:
-      aadpodidbinding: $POD_IDENTITY_NAME
-  ```
+   ```yaml
+   apiVersion: v1
+   kind: Pod
+   metadata:
+     name: mydaprdemoapp
+     labels:
+       aadpodidbinding: $POD_IDENTITY_NAME
+   ```
 
 {{% /codetab %}}
 
@@ -301,7 +302,7 @@ spec:
 
 ## 参考资料
 
-- [Authenticating to Azure]({{< ref authenticating-azure.md >}})
+- [Azure认证]({{< ref authenticating-azure.md >}})
 - [Azure CLI: keyvault commands](https://docs.microsoft.com/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-create)
 - [密钥构建块]({{< ref secrets >}})
 - [指南：获取密钥]({{< ref "howto-secrets.md" >}})

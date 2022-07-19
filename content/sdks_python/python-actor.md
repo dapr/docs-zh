@@ -8,7 +8,7 @@ description: 如何使用 Dapr Python SDK 启动和运行
 
 Dapr actor 包允许您从 Python 应用程序中与 Dapr virtual actor 进行交互。
 
-## 先决条件
+## 前提
 
 - 安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
 - 初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
@@ -30,15 +30,15 @@ class DemoActorInterface(ActorInterface):
 
 ## Actor 服务
 
-Actor 服务承载着 virtual actor。 它实现了一个派生自基类型 `Actor` 的类，并实现了 actor 接口中定义的接口。
+Actor 服务承载着虚拟 Actor。 它实现了一个派生自基类型 `Actor` 的类，并实现了 actor 接口中定义的接口。
 
-Actor 可以使用 Dapr actor 扩展来创建：
-   - [FastAPI actor extension]({{< ref python-fastapi.md >}})
-   - [Flask actor extension]({{< ref python-flask.md >}})
+可以使用以下 Dapr Actor 扩展之一创建 Actor：
+   - [FastAPI actor 扩展]({{< ref python-fastapi.md >}})
+   - [Flask actor 扩展]({{< ref python-flask.md >}})
 
 ## Actor 客户端
 
-Actor 客户端包含 actor 客户端的实现，它调用 actor 接口中定义的 actor 方法。
+Actor 客户端包含调用 Actor 接口中定义的 Actor 方法的 Actor 客户端实现。
 
 ```python
 import asyncio
@@ -54,6 +54,6 @@ async def main():
     resp = await proxy.GetMyData()
 ```
 
-## 样本
+## 示例
 
-请访问[本页](https://github.com/dapr/python-sdk/tree/release-1.0/examples/demo_actor)以获得可运行的 actor 样本。
+请访问 [本页](https://github.com/dapr/python-sdk/tree/release-1.0/examples/demo_actor) 以获得可运行的 Actor 示例。

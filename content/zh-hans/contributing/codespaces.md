@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "使用 GitHub Codespaces 进行贡献"
+title: "使用 GitHub Codespaces 贡献"
 linkTitle: "GitHub Codespaces"
 weight: 2500
 description: "如何在 GitHub Codespaces 中与 Dapr 仓库协同工作"
@@ -12,7 +12,7 @@ aliases:
 
 ## 特性
 
-- **单击并运行**: 获得一个专用和沙盒化的环境，并且所有所需的框架和包都已准备就绪。
+- **单击并运行**: 获得一个专用和沙盒化的环境，并且所有所需的框架和包件已准备就绪。
 - **基于使用情况的计费**: 只为您在 Codespace 上花费的开发时间支付费用。 环境在不使用时自动关闭。
 - **便携**: 在您的浏览器或 Visual Studio Code 中运行
 
@@ -24,7 +24,7 @@ aliases:
 
 如果您尚未 fork 仓库，创建 Codespace 还将为您创建一个 fork，并在 Codespace 内使用它。
 
-### 支持的仓库
+### 支持的 Repo
 
 - [Dapr](https://github.com/dapr/dapr)
 - [Components-contrib](https://github.com/dapr/components-contrib)

@@ -30,7 +30,7 @@ description: "如何在 Grafana 仪表板中查看 Dapr 指标。"
 
 {{< /tabs >}}
 
-## 先决条件
+## 前提
 
 - [安装 Prometheus]({{<ref prometheus.md>}})
 

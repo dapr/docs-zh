@@ -2,7 +2,7 @@
 type: docs
 title: "使用 Kubernetes 作业运行 Dapr"
 linkTitle: "Kubernetes Jobs"
-weight: 70000
+weight: 60000
 description: "在 Kubernetes 作业上下文中使用 Dapr API"
 ---
 

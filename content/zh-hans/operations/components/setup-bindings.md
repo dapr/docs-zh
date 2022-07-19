@@ -57,13 +57,13 @@ spec:
 
 ## 应用配置
 
-创建组件的 YAML 文件后，请按照以下说明根据您的主机环境应用该文件：
+一旦您创建了组件的 YAML 文件，按照以下说明来根据您的主机环境应用它：
 
 
 {{< tabs "Self-Hosted" "Kubernetes" >}}
 
 {{% codetab %}}
-要在本地运行，创建一个包含 YAML 文件的 `components` 目录，并为 `dapr run` 命令提供路径，标志为 `--components-path`。
+要在本地运行，创建一个包含YAML文件的`components`目录，并提供`dapr run`命令的路径，标志为`--components-path`。
 {{% /codetab %}}
 
 {{% codetab %}}
@@ -76,7 +76,7 @@ kubectl apply -f mybinding.yaml
 
 {{< /tabs >}}
 
-## 已支持的绑定
+## Supported bindings
 
 访问 [绑定参考文档]({{< ref supported-bindings >}}) 获取支持资源的完整列表。
 

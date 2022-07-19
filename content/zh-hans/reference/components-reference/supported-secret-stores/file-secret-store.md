@@ -40,8 +40,8 @@ spec:
 | 字段              | 必填 | 详情                                             | 示例                    |
 | --------------- |:--:| ---------------------------------------------- | --------------------- |
 | secretsFile     | Y  | 存储密钥的文件路径                                      | `"path/to/file.json"` |
-| nestedSeparator | N  | 在将JSON层次结构扁平化为map时，被仓库使用 默认值为 `":"` 默认值为 `":"` | `":"`                 |
-| multiValued     | N  | 允许在平展 JSON 层次结构之前使用一个级别的多值键/值对。 默认值为 `"false"` | `"true"`              |
+| nestedSeparator | 否  | 在将JSON层次结构扁平化为map时，被仓库使用 默认值为 `":"` 默认值为 `":"` | `":"`                 |
+| multiValued     | 否  | 允许在平展 JSON 层次结构之前使用一个级别的多值键/值对。 默认值为 `"false"` | `"true"`              |
 
 ## 设置 JSON 文件来保存密钥
 
@@ -61,7 +61,7 @@ spec:
 
 | 扁平键                       | 值                              |
 | ------------------------- | ------------------------------ |
-| "redis"                   | "your redis password"          |
+| "redisPassword"           | "your redis password"          |
 | "connectionStrings:sql"   | "your sql connection string"   |
 | "connectionStrings:mysql" | "your mysql connection string" |
 

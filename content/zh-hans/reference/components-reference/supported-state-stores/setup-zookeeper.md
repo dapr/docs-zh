@@ -43,8 +43,8 @@ spec:
 | ----------------- |:--:| --------------------------- | -------------------------------------------- |
 | servers           | Y  | 逗号分隔的服务器列表                  | `"zookeeper.default.svc.cluster.local:2181"` |
 | sessionTimeout    | Y  | 会话超时值                       | `"5s"`                                       |
-| maxBufferSize     | N  | 缓冲区的最大大小。 默认值为 `"1048576"`  | `"1048576"`                                  |
-| maxConnBufferSize | N  | 连接缓冲区的最大大小。 默认为 `"1048576"` | `"1048576"`                                  |
+| maxBufferSize     | 否  | 缓冲区的最大大小。 默认值为 `"1048576"`  | `"1048576"`                                  |
+| maxConnBufferSize | 否  | 连接缓冲区的最大大小。 默认为 `"1048576"` | `"1048576"`                                  |
 | keyPrefixPath     | N  | Zookeeper 中的键前缀路径。 无默认值     | `"dapr"`                                     |
 
 ## 设置 Zookeeper

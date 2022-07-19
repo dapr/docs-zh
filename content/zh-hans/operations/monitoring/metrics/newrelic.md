@@ -30,7 +30,7 @@ New Relic 提供了 Prometheus OpenMetrics 集成。
 
 ## 查看指标
 
-![Dapr Metrics](/images/nr-metrics-1.png)
+![Dapr 指标](/images/nr-metrics-1.png)
 
 ![仪表盘](/images/nr-dashboard-dapr-metrics-1.png)
 
@@ -40,4 +40,4 @@ New Relic 提供了 Prometheus OpenMetrics 集成。
 * [Telemetry 数据平台](https://newrelic.com/platform/telemetry-data-platform)
 * [New Relic 与 Prometheus OpenMetrics 集成。](https://github.com/newrelic/helm-charts/tree/master/charts/nri-prometheus)
 * [New Relic API 密钥类型](https://docs.newrelic.com/docs/apis/intro-apis/new-relic-api-keys/)
-* [警报和智能](https://docs.newrelic.com/docs/alerts-applied-intelligence)
+* [警报和智能](https://docs.newrelic.com/docs/alerts-applied-intelligence/new-relic-alerts/learn-alerts/alerts-ai-transition-guide-2022/)

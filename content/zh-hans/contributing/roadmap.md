@@ -29,10 +29,10 @@ Dapr 路线图通过以下阶段进行：
 
 {{< cardpane >}}
 {{< card title="**[📄 Backlog](https://github.com/orgs/dapr/projects/52#column-14691591)**" >}}
-  需要社区👍投票才能确定 issue （功能）的优先级。 由 Dapr 维护者更新。
+  需要社区👍投票才能确定 issue （功能）的优先级。 由 Dapr 维护人员更新。
 {{< /card >}}
 {{< card title="**[⏳ Planned (Committed)](https://github.com/orgs/dapr/projects/52#column-14561691)**" >}}
-  有提案和/或目标发布里程碑的 issue。 这是设计和讨论设计提案的地方。
+  有提案和/或目标发布里程碑的 issue。 这是讨论和设计设计建议的地方。
 {{< /card >}}
 {{< card title="**[👩‍💻 In Progress (Development)](https://github.com/orgs/dapr/projects/52#column-14561696)**" >}}
  已商定具体实施细节，该特性正在积极开发中。

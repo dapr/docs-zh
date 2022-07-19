@@ -43,7 +43,7 @@ spec:
 | region       | Y  | AWS Secrets Manager 实例所部署的特定AWS 区域 | `"us-east-1"`       |
 | accessKey    | Y  | 要访问此资源的 AWS 访问密钥                   | `"key"`             |
 | secretKey    | Y  | 要访问此资源的 AWS 密钥访问 Key               | `"secretAccessKey"` |
-| sessionToken | N  | 要使用的 AWS 会话令牌                      | `"sessionToken"`    |
+| sessionToken | 否  | 要使用的 AWS 会话令牌                      | `"sessionToken"`    |
 ## 创建一个AWS Secrets Manager实例
 
 参考AWS文档设置AWS Secrets Manager：https://docs.aws.amazon.com/secretsmanager/latest/userguide/tutorials_basic.html。

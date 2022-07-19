@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "GCP 存储桶绑定规范"
-linkTitle: "GCP 存储桶"
+linkTitle: "GCP Storage Bucket"
 description: "关于本地存储桶绑定组件的详细文档"
 aliases:
   - "/zh-hans/operations/components/setup-bindings/supported-bindings/gcpbucket/"
@@ -58,28 +58,28 @@ spec:
 
 | 字段                              | 必填 | 绑定支持 | 详情                                                                                                                        | 示例                                                                                               |
 | ------------------------------- |:--:| ---- | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| bucket                          | Y  | 输出   | 存储桶名称                                                                                                                     | `"mybucket"`                                                                                     |
-| type                            | Y  | 输出   | GCP 凭证类型                                                                                                                  | `"service_account"`                                                                              |
-| project_id                      | Y  | 输出   | GCP 项目 id                                                                                                                 | `project_id`                                                                                     |
-| private_key_id                | Y  | 输出   | GCP 私钥 id                                                                                                                 | `"privateKeyId"`                                                                                 |
-| private_key                     | Y  | 输出   | GCP凭证私钥 替换为x509证书                                                                                                         | `12345-12345`                                                                                    |
-| client_email                    | Y  | 输出   | GCP 客户端邮箱地址                                                                                                               | `"client@email.com"`                                                                             |
-| client_id                       | Y  | 输出   | GCP 客户端 id                                                                                                                | `0123456789-0123456789`                                                                          |
-| auth_uri                        | Y  | 输出   | Google帐户 OAuth 端点                                                                                                         | `https://accounts.google.com/o/oauth2/auth`                                                      |
-| token_uri                       | Y  | 输出   | Google帐户token地址                                                                                                           | `https://oauth2.googleapis.com/token`                                                            |
-| auth_provider_x509_cert_url | Y  | 输出   | GCP凭证证书地址                                                                                                                 | `https://www.googleapis.com/oauth2/v1/certs`                                                     |
-| client_x509_cert_url          | Y  | 输出   | GCP凭证项目x509证书地址                                                                                                           | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com` |
-| decodeBase64                    | N  | 输出   | 在保存到存储桶之前解码 base64 文件内容的配置。 (在打开带有二进制内容的文件时有用)。 `true` 是唯一允许的正值。 其他正值，如 `"True"，"1"<code> 是不允许的。 默认值为 <code>false`  | `true`, `false`                                                                                  |
+| bucket                          | 是  | 输出   | 存储桶名称                                                                                                                     | `"mybucket"`                                                                                     |
+| type                            | 是  | 输出   | GCP 凭证类型                                                                                                                  | `"service_account"`                                                                              |
+| project_id                      | 是  | 输出   | GCP 项目 id                                                                                                                 | `project_id`                                                                                     |
+| private_key_id                | 是  | 输出   | GCP 私钥 id                                                                                                                 | `"privateKeyId"`                                                                                 |
+| private_key                     | 是  | 输出   | GCP凭证私钥 替换为x509证书                                                                                                         | `12345-12345`                                                                                    |
+| client_email                    | 是  | 输出   | GCP 客户端邮箱地址                                                                                                               | `"client@email.com"`                                                                             |
+| client_id                       | 是  | 输出   | GCP 客户端 id                                                                                                                | `0123456789-0123456789`                                                                          |
+| auth_uri                        | 是  | 输出   | Google帐户 OAuth 端点                                                                                                         | `https://accounts.google.com/o/oauth2/auth`                                                      |
+| token_uri                       | 是  | 输出   | Google帐户token地址                                                                                                           | `https://oauth2.googleapis.com/token`                                                            |
+| auth_provider_x509_cert_url | 是  | 输出   | GCP凭证证书地址                                                                                                                 | `https://www.googleapis.com/oauth2/v1/certs`                                                     |
+| client_x509_cert_url          | 是  | 输出   | GCP凭证项目x509证书地址                                                                                                           | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com` |
+| decodeBase64                    | 否  | 输出   | 在保存到存储桶之前解码 base64 文件内容的配置。 (保存有二进制内容的文件时)。 `true` 是唯一允许的正值。 其他正值，如 `"True"，"1"<code> 是不允许的。 默认值为 <code>false`      | `true`, `false`                                                                                  |
 | encodeBase64                    | N  | 输出   | 在返回内容之前对 base64 文件内容进行编码的配置。 (在打开带有二进制内容的文件时有用)。 `true` 是唯一允许的正值。 其他正值，如 `"True"，"1"<code> 是不允许的。 默认值为 <code>false` | `true`, `false`                                                                                  |
 
 ## 绑定支持
 
-字段名为 `ttlInSeconds`。
+该组件支持如下操作的 **输出绑定** ：
 
-- `create` : [Create file](#create-file)
-- `get` : [Get file](#get-file)
-- `delete` : [Delete file](#delete-file)
-- `list`: [List file](#list-files)
+- `create` : [创建文件](#create-file)
+- `get` : [获取文件](#get-file)
+- `delete` ：[删除文件](#delete-file)
+- `list`：[列出文件](#list-files)
 
 ### 创建文件
 
@@ -117,7 +117,7 @@ spec:
 
 {{< /tabs >}}
 
-##### 保存文本到指定文件
+##### 将文本保存到指定文件
 
 {{< tabs Windows Linux >}}
 
@@ -226,9 +226,9 @@ spec:
 }
 ```
 
-The metadata parameters are:
+元数据参数包括：
 
-- `key` - the name of the object
+- `key` - 对象的名称
 
 
 #### 示例

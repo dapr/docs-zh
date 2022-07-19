@@ -1,6 +1,6 @@
 ---
-type: docs
-title: "Bindings component specs"
+type: 文档
+title: "绑定组件"
 linkTitle: "绑定"
 weight: 3000
 description: 支持与Dapr衔接的外部绑定
@@ -14,10 +14,10 @@ no_list: true
 
 表格标题：
 
-> `Status`: [Component certification]({{<ref "certification-lifecycle.md">}}) status
+> `状态`： [组件认证]({{<ref "certification-lifecycle.md">}}) 状态
   - [Alpha]({{<ref "certification-lifecycle.md#alpha">}})
   - [Beta]({{<ref "certification-lifecycle.md#beta">}})
-  - [Stable]({{<ref "certification-lifecycle.md#stable">}}) > `Since`: defines from which Dapr Runtime version, the component is in the current status
+  - [Stable]({{<ref "certification-lifecycle.md#stable">}}) > `Since`: 定义自哪个 Dapr 运行时版本开始，组件处于当前的状态。
 
 > `组件版本`：代表组件的版本
 ### 通用
@@ -34,7 +34,7 @@ no_list: true
 | [本地存储]({{< ref localstorage.md >}})                   |                |       ✅        | Alpha  | v1   | 1.1 |
 | [MQTT]({{< ref mqtt.md >}})                           |       ✅        |       ✅        | Alpha  | v1   | 1.0 |
 | [MySQL]({{< ref mysql.md >}})                         |                |       ✅        | Alpha  | v1   | 1.0 |
-| [PostgreSql]({{< ref postgres.md >}})                 |                |       ✅        | Alpha  | v1   | 1.0 |
+| [PostgreSQL]({{< ref postgres.md >}})                 |                |       ✅        | Alpha  | v1   | 1.0 |
 | [Postmark]({{< ref postmark.md >}})                   |                |       ✅        | Alpha  | v1   | 1.0 |
 | [RabbitMQ]({{< ref rabbitmq.md >}})                   |       ✅        |       ✅        | Alpha  | v1   | 1.0 |
 | [Redis]({{< ref redis.md >}})                         |                |       ✅        | Alpha  | v1   | 1.0 |
@@ -45,11 +45,11 @@ no_list: true
 
 ### Alibaba Cloud
 
-| Name                                                       | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
-| ---------------------------------------------------------- |:--------------:|:--------------:| ----- | ---- | --- |
-| [Alibaba Cloud DingTalk]({{< ref alicloud-dingtalk.md >}}) |       ✅        |       ✅        | Alpha | v1   | 1.2 |
-| [Alibaba Cloud OSS]({{< ref alicloudoss.md >}})            |                |       ✅        | Alpha | v1   | 1.0 |
-| [阿里云 Tablestore]({{< ref alicloudtablestore.md >}})        |                |       ✅        | Alpha | v1   | 1.5 |
+| Name                                                | 输入<br>绑定 | 输出<br>绑定 | 状态    | 组件版本 | 自从  |
+| --------------------------------------------------- |:--------------:|:--------------:| ----- | ---- | --- |
+| [阿里云钉钉]({{< ref alicloud-dingtalk.md >}})           |       ✅        |       ✅        | Alpha | v1   | 1.2 |
+| [阿里云OSS]({{< ref alicloudoss.md >}})                |                |       ✅        | Alpha | v1   | 1.0 |
+| [阿里云 Tablestore]({{< ref alicloudtablestore.md >}}) |                |       ✅        | Alpha | v1   | 1.5 |
 
 ### Amazon Web Services (AWS)
 
@@ -73,12 +73,12 @@ no_list: true
 
 | Name                                                          | 输入<br>绑定 | 输出<br>绑定 | 状态     | 组件版本 | 自从  |
 | ------------------------------------------------------------- |:--------------:|:--------------:| ------ | ---- | --- |
-| [Azure Blob Storage]({{< ref blobstorage.md >}})              |                |       ✅        | Alpha  | v1   | 1.0 |
-| [Azure CosmSDB]({{< ref cosmosdb.md >}})                      |                |       ✅        | Alpha  | v1   | 1.0 |
+| [Azure Blob Storage]({{< ref blobstorage.md >}})              |                |       ✅        | Beta   | v1   | 1.0 |
+| [Azure CosmSDB]({{< ref cosmosdb.md >}})                      |                |       ✅        | Beta   | v1   | 1.0 |
 | [Azure CosmosDBGremlinAPI]({{< ref cosmosdbgremlinapi.md >}}) |                |       ✅        | Alpha  | v1   | 1.5 |
 | [Azure Event Grid]({{< ref eventgrid.md >}})                  |       ✅        |       ✅        | Alpha  | v1   | 1.0 |
-| [Azure Event Hubs]({{< ref eventhubs.md >}})                  |       ✅        |       ✅        | Alpha  | v1   | 1.0 |
-| [Azure Service Bus Queues]({{< ref servicebusqueues.md >}})   |       ✅        |       ✅        | Alpha  | v1   | 1.0 |
+| [Azure Event Hubs]({{< ref eventhubs.md >}})                  |       ✅        |       ✅        | Beta   | v1   | 1.0 |
+| [Azure Service Bus Queues]({{< ref servicebusqueues.md >}})   |       ✅        |       ✅        | Beta   | v1   | 1.0 |
 | [Azure SignalR]({{< ref signalr.md >}})                       |                |       ✅        | Alpha  | v1   | 1.0 |
 | [Azure Storage Queues]({{< ref storagequeues.md >}})          |       ✅        |       ✅        | Stable | v1   | 1.0 |
 

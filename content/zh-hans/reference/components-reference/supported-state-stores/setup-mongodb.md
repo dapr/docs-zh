@@ -58,10 +58,10 @@ spec:
 
 | 字段               |      必填       | 详情                               | 示例                                                                    |
 | ---------------- |:-------------:| -------------------------------- | --------------------------------------------------------------------- |
-| server           | Y<sup>*</sup> | 使用 DNS SRV 记录时要连接的服务器            | `"server.example.com"`                                                |
+| 服务器              | Y<sup>*</sup> | 使用 DNS SRV 记录时要连接的服务器            | `"server.example.com"`                                                |
 | host             | Y<sup>*</sup> | 要连接的主机                           | `"mongo-mongodb.default.svc.cluster.local:27017"`                     |
-| username         |       N       | 用于连接的用户的用户名 (适用于 `host`)         | `"admin"`                                                             |
-| password         |       N       | 用于连接的用户的密码 (适用于 `host`)          | `"password"`                                                          |
+| username         |       否       | 用于连接的用户的用户名 (适用于 `host`)         | `"admin"`                                                             |
+| password         |       否       | 用于连接的用户的密码 (适用于 `host`)          | `"password"`                                                          |
 | databaseName     |       N       | 要使用的数据库名称。 默认值为 `"daprStore"`    | `"daprStore"`                                                         |
 | collectionName   |       N       | 要使用的收藏名称 默认值为 `"daprCollection"` | `"daprCollection"`                                                    |
 | writeconcern     |       N       | 要使用的写入保证                         | `"majority"`                                                          |

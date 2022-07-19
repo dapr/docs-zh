@@ -1,9 +1,9 @@
 ---
 type: docs
-title: "操作方法: 设置 Azure 监视器以搜索日志并收集指标"
+title: "操作方法: 设置 Azure Monitor 以搜索日志并收集指标"
 linkTitle: "Azure Monitor"
 weight: 2000
-description: "使用 Azure Monitor 为 Azure Kubernetes Service(AKS) 启用 Dapr 度量和日志"
+description: "使用 Azure Monitor为 Azure Kubernetes Service(AKS) 启用 Dapr 度量和日志"
 ---
 
 ## 先决条件
@@ -28,7 +28,7 @@ omsagent-smtk7                                                    1/1     Runnin
 ...
 ```
 
-2. 应用 config map 来启用 Prometheus metrics 端点抓取。
+2. 应用 config map 来启用 Prometheus metrics endpoint 抓取。
 
 您可以使用 [azm-config-map.yaml](/docs/azm-config-map.yaml) 来启用 Prometheus 度量端点抓取。
 
@@ -62,11 +62,11 @@ helm install dapr dapr/dapr --namespace dapr-system --set global.logAsJson=true
 
 2. 启用 JSON 格式化日志到 Dapr sidecar 并添加 Prometheus 注释。
 
-> 注意: OMS Agent 仅在 replicaset 具有 Prometheus 注解时才抓取指标。
+> 注意: OMS Agent 仅在 replicaset 具有 Prometheus 注释时才抓取指标。
 
-添加 `dapr.io/log-as-json: "true"` annotation 到 deployment yaml.
+添加 `dapr.io/log-as-json: "true"` annotation 到你的部署yaml.
 
-示例：
+示例:
 ```yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -97,7 +97,7 @@ spec:
 
 ## 用 Azure Monitor 搜索度量和日志
 
-1. 前往 Azure Monitor
+1. 前往Azure Monitor
 
 2. 搜索 Dapr 日志
 

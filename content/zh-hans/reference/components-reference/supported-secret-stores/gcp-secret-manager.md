@@ -53,7 +53,7 @@ spec:
 | ------------------------------- |:--:| -------------- | -------------------------------------------------------------------------------------------------- |
 | type                            | Y  | 账户类型           | `"serviceAccount"`                                                                                 |
 | project_id                      | Y  | 与此组件相关联的项目 ID。 | `"project_id"`                                                                                     |
-| private_key_id                | N  | 私钥ID           | `"privatekey"`                                                                                     |
+| private_key_id                | 否  | 私钥ID           | `"privatekey"`                                                                                     |
 | client_email                    | Y  | 客户端电子邮件地址      | `"client@example.com"`                                                                             |
 | client_id                       | N  | 客户端的 ID        | `"11111111"`                                                                                       |
 | auth_uri                        | N  | 认证URI          | `"https://accounts.google.com/o/oauth2/auth"`                                                      |

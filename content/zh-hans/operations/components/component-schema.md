@@ -1,9 +1,9 @@
 ---
 type: docs
-title: "组件模式"
-linkTitle: "组件模式"
+title: "组件 schema"
+linkTitle: "组件 schema"
 weight: 100
-description: "Dapr 组件的基本模式"
+description: "Dapr 组件的基本 schema"
 ---
 
 Dapr 使用 [CustomResourceDefinition](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/) 定义和注册组件。 所有组件都定义为 CRD，可应用于 Dapr 运行的任何托管环境，而不仅仅是 Kubernetes。
@@ -30,7 +30,7 @@ spec:
 
 | 字段                 | 必填 | 详情                                         | 示例                 |
 | ------------------ |:--:| ------------------------------------------ | ------------------ |
-| apiVersion         | Y  | 您正在调用的 Dapr（以及 Kubernetes，如果适用）API 的版本     | `dapr.io/v1alpha1` |
+| apiVersion         | Y  | 您正在调用的 Dapr 版本(如果适用的话为 Kubernetes) API     | `dapr.io/v1alpha1` |
 | kind               | Y  | CRD的类型。 组件必须始终是 `Component`                | `Component`        |
 | **metadata**       | -  | **有关组件注册的信息**                              |                    |
 | metadata.name      | Y  | 组件的名称                                      | `prod-statestore`  |
@@ -38,9 +38,9 @@ spec:
 | **spec**           | -  | **关于组件资源的详细信息**                            |                    |
 | spec.type          | Y  | 组件类型                                       | `state.redis`      |
 | spec.version       | Y  | 组件版本                                       | `v1`               |
-| spec.initTimeout   | N  | 组件初始化的超时时间。 默认值为 5s                        | `5m`, `1h`, `20s`  |
+| spec.initTimeout   | N  | 组件初始化的超时时间 默认值为 5s                         | `5m`, `1h`, `20s`  |
 | spec.ignoreErrors  | N  | 如果组件加载失败，请告诉 Dapr sidecar 继续初始化。 默认为 false | `false`            |
-| **spec.metadata**  | -  | **特定于组件的配置的键/值对。 查看字段的组件定义**               |                    |
+| **spec.metadata**  | -  | **组件特定配置的键/值。 查看你的组件字段定义**                 |                    |
 
 ### 特殊的元数据值
 
@@ -69,9 +69,9 @@ spec:
 
 ## 深入阅读
 - [组件概念]({{< ref components-concept.md >}})
-- [组件定义中的引用秘密]({{< ref component-secrets.md >}})
+- [组件定义中的引用密钥]({{< ref component-secrets.md >}})
 - [支持的状态存储]({{< ref supported-state-stores >}})
 - [支持的发布/订阅消息代理]({{< ref supported-pubsub >}})
-- [支持的秘密存储]({{< ref supported-secret-stores >}})
-- [已支持的绑定]({{< ref supported-bindings >}})
+- [支持的密钥存储]({{< ref supported-secret-stores >}})
+- [支持的绑定]({{< ref supported-bindings >}})
 - [设置组件作用域]({{< ref component-scopes.md >}})

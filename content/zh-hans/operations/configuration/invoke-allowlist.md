@@ -3,7 +3,7 @@ type: docs
 title: "操作方法：将访问控制列表配置应用于服务调用"
 linkTitle: "服务调用访问控制"
 weight: 4000
-description: "限制 *调用* 应用程序可以通过服务调用在 *被调用* 应用程序上执行的操作"
+description: "限制应用程序可以通过服务调用在\"调用\"应用程序上执行什么操作"
 ---
 
 访问控制可以配置策略，限制*调用*应用程序可以通过服务调用对*被调用*应用程序执行哪些操作。 为了限制来自调用应用程序的特定操作和 HTTP verbs 对被调用应用程序的访问，你可以在配置中定义访问控制策略规范。
@@ -14,7 +14,7 @@ description: "限制 *调用* 应用程序可以通过服务调用在 *被调用
 
 **TrustDomain** - "信任域"是用于管理信任关系的逻辑组。 每个应用程序都分配有一个信任域，可以在访问控制列表策略规范中指定。 如果未定义策略规范或指定了空信任域，则使用默认值 "public"。 此信任域用于在 TLS 证书中生成应用程序的标识。
 
-**App Identity** - Dapr 需要 Sentry 服务来生成 [SPIFFE](https://spiffe.io/) id 给所有应用，并且这个 id 会附加在 TLS 证书中。 SPIFFE id 有如下格式: `**spiffe://\<trustdomain>/ns/\<namespace\>/\<appid\>**`。  对应的规范中，信任域，命名空间 和 app ID 会从 SPIFFE id 的 TLS 证书中提取出来。   这些值会对应上规范中相应的值.。 如果这三者都匹配，则进一步匹配更具体的策略。
+**App Identity** - Dapr 需要 Sentry 服务来生成 [SPIFFE](https://spiffe.io/) id 给所有应用，并且这个 id 会附加在 TLS 证书中。 SPIFFE id 的格式为：`**spiffe://\&#060;trustdomain&#062;/ns/\&#060;namespace\&#062;/\&#060;appid\&#062;**`.  对应的规范中，信任域，命名空间 和 app ID 会从 SPIFFE id 的 TLS 证书中提取出来。   这些值会对应上规范中相应的值.。 如果这三者都匹配，则进一步匹配更具体的策略。
 
 ## 配置属性
 
@@ -349,7 +349,7 @@ spec:
         image: dapriosamples/hello-k8s-python:edge
  ```
 
-## 社区电话会议演示
+## 社区示例
 观看这个[视频](https://youtu. be/j99RN_nxExA? t=1108) ，了解如何为服务调用应用访问控制列表。
 
 <div class="embed-responsive embed-responsive-16by9">

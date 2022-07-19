@@ -7,7 +7,7 @@ description: 开发 Dapr 应用程序的 PHP SDK 包
 no_list: true
 ---
 
-Dapr 提供了帮助开发 PHP 应用程序各种包。 你可以使用他们来创建 PHP 客户端、服务器和 virtual actors。
+Dapr 提供了帮助开发 PHP 应用的 SDK。 你可以使用他们来创建 PHP 客户端、服务器和 virtual actors。
 
 ## 设置
 
@@ -97,11 +97,11 @@ $app->start();
 
 ## 试试吧
 
-用` dapr init `初始化 dapr，然后用` dapr run -a dev -p 3000-php -S 0.0.0.0:3000 `启动项目。
+用` dapr init `初始化dapr，然后用` dapr run -a dev -p 3000-php -S 0.0.0.0:3000 `启动项目。
 
 现在，您可以打开网络浏览器访问[ http://localhost:3000/ hello/world ](http://localhost:3000/hello/world)用您的名字，宠物的名字或您想要的任何名称替换` world `。
 
-恭喜，你已经建立了你的 Dapr 服务！ 我很高兴看到您会怎么做！
+恭喜，你已经建立了你的第一个 Dapr 服务！ 我很高兴看到您会怎么做！
 
 ## 更多信息
 

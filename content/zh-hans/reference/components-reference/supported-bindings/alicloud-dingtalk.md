@@ -6,7 +6,7 @@ description: "有关阿里云钉钉绑定组件的详细文档"
 ---
 
 ## 设置 Dapr 组件
-要设置阿里云钉钉绑定，需要创建一个类型为 `bindings.dingtalk.webhook` 的组件。 看[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})如何创建和应用秘钥配置。 通过[引用 Secrets]({{< ref component-secrets.md >}}) 这个指南可以看到如何在 Dapr 组件中检索和使用 Secret。
+要设置阿里云钉钉绑定，需要创建一个类型为 `bindings.dingtalk.webhook` 的组件。 请参阅 [本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}}) 了解如何创建和应用 secretstore 配置。 有关如何在 Dapr 组件中检索和使用 secret，请参阅 [引用 secrets]({{< ref component-secrets.md >}}) 指南。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -31,15 +31,15 @@ spec:
 ## 元数据字段规范
 | 字段     | 必填 | 绑定支持         | 详情             | 示例                                                           |
 | ------ |:--:| ------------ | -------------- | ------------------------------------------------------------ |
-| id     | Y  | Input/Output | 唯一标识           | `"test_webhook_id"`                                          |
-| url    | Y  | Input/Output | 钉钉的 Webhook    | `"https://oapi.dingtalk.com/robot/send?access_token=******"` |
-| secret | N  | Input/Output | 钉钉 Webhook 的秘钥 | `"****************"`                                         |
+| id     | 是  | Input/Output | 唯一标识           | `"test_webhook_id"`                                          |
+| url    | 是  | Input/Output | 钉钉的 Webhook    | `"https://oapi.dingtalk.com/robot/send?access_token=******"` |
+| secret | 否  | Input/Output | 钉钉 Webhook 的秘钥 | `"****************"`                                         |
 
 ## 绑定支持
 
 此组件支持 **输入和输出** 绑定接口。
 
-字段名为 `ttlInSeconds`。
+该组件支持如下操作的 **输出绑定** ：
 - `create`
 - `get`
 

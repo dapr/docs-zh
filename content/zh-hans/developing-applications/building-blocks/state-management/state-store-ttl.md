@@ -26,7 +26,7 @@ Dapr 允许对每个消息设置生存时间(TTL)。 这意味着应用程序可
 
 请参考 [状态存储组件]({{< ref supported-state-stores >}})的表格中的TTL列。
 
-## Example
+## 示例
 
 消息 TTL 可以设置在元数据中，作为发布请求的一部分：
 

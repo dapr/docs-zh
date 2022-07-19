@@ -43,7 +43,7 @@ spec:
 | region       | Y  | 部署 AWS SSM Parameter Store 实例的特定 AWS 区域 | `"us-east-1"`       |
 | accessKey    | Y  | 要访问此资源的 AWS 访问密钥                        | `"key"`             |
 | secretKey    | Y  | 要访问此资源的 AWS 密钥访问 Key                    | `"secretAccessKey"` |
-| sessionToken | N  | 要使用的 AWS 会话令牌                           | `"sessionToken"`    |
+| sessionToken | 否  | 要使用的 AWS 会话令牌                           | `"sessionToken"`    |
 ## 创建 AWS SSM Parameter Store 实例
 
 参考 AWS 文档设置AWS SSM Parameter Store：https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html。

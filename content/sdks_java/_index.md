@@ -6,10 +6,10 @@ weight: 1000
 description: 开发 Dapr 应用程序的 Java SDK 包
 ---
 
-## 先决条件
+## 前提
 
 - 安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 初始化[ Dapr 环境]({{< ref install-dapr-selfhost.md >}})
 - JDK 11 或更高版本 - 已发布的 jar 与 Java 8 兼容：
     - [AdoptOpenJDK 11 - LTS](https://adoptopenjdk.net/)
     - [Oracle's JDK 15](https://www.oracle.com/java/technologies/javase-downloads.html)
@@ -22,28 +22,28 @@ description: 开发 Dapr 应用程序的 Java SDK 包
 ## 导入 Dapr 的 Java SDK
 
 对于 Maven 项目，请将以下内容添加到 `pom.xml` 文件中：
-```java
+```xml
 <project>
   ...
   <dependencies>
     ...
-     // Dapr's core SDK with all features, except Actors. 
+    <!-- Dapr's core SDK with all features, except Actors. -->
     <dependency>
       <groupId>io.dapr</groupId>
-      <artifactId>dapr-sdk</artifacetId>
-      <version>1.1.0</version>
+      <artifactId>dapr-sdk</artifactId>
+      <version>1.4.0</version>
     </dependency>
-    // Dapr's SDK for Actors (optional).
+    <!-- Dapr's SDK for Actors (optional). -->
     <dependency>
       <groupId>io.dapr</groupId>
       <artifactId>dapr-sdk-actors</artifactId>
-      <version>1.1.0</version>>
+      <version>1.4.0</version>
     </dependency>
-    // Dapr's SDK integration with SpringBoot (optional).
+    <!-- Dapr's SDK integration with SpringBoot (optional). -->
     <dependency>
       <groupId>io.dapr</groupId>
       <artifactId>dapr-sdk-springboot</artifactId>
-      <version>1.1.0</version>>
+      <version>1.4.0</version>
     </dependency>
     ...
   </dependencies>
@@ -57,12 +57,22 @@ description: 开发 Dapr 应用程序的 Java SDK 包
 dependencies {
 ...
     // Dapr's core SDK with all features, except Actors.
-    compile('io.dapr:dapr-sdk:1.1.0'))
+    compile('io.dapr:dapr-sdk:1.4.0')
     // Dapr's SDK for Actors (optional).
-    compile('io.dapr:dapr-sdk-actors:1.1.0')
+    compile('io.dapr:dapr-sdk-actors:1.4.0')
     // Dapr's SDK integration with SpringBoot (optional).
-    compile('io.dapr:dapr-sdk-springboot:1.1.0')
+    compile('io.dapr:dapr-sdk-springboot:1.4.0')
 }
+```
+
+如果您还使用Spring Boot，则可能会遇到一个常见问题，即Dapr SDK使用的OkHttp版本与Spring Boot _材料清单_中指定的版本冲突。 您可以通过在项目中指定兼容的 OkHttp 版本来解决此问题，以匹配 Dapr SDK 使用的版本：
+
+```xml
+<dependency>
+  <groupId>com.squareup.okhttp3</groupId>
+  <artifactId>okhttp</artifactId>
+  <version>1.3.1</version>
+</dependency>
 ```
 
 ## 构建块
@@ -91,7 +101,7 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关服务调用的完整指南，请访问 [如何：调用服务]({{< ref howto-invoke-discover-services.md >}})。
+- 有关服务调用的完整指南，请访问 [操作方法：调用服务]({{< ref howto-invoke-discover-services.md >}})。
 - 请访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/invoke)，获取代码示例和说明，以试用服务调用。
 
 ### 保存 & 获取应用程序状态
@@ -114,8 +124,8 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关状态操作的完整列表，请访问 [如何：获取 & 保存 状态。]({{< ref howto-get-save-state.md >}})。
-- 请访问[Java SDK示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/state)，获取代码示例和说明，以试用状态管理。
+- 有关状态操作的完整列表，请访问[操作方法：获取 & 保存状态]({{< ref howto-get-save-state.md >}})。
+- 请访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/state)，获取代码示例和说明，以试用状态管理。
 
 ### 发布 & 订阅消息
 
@@ -150,7 +160,7 @@ public class SubscriberController {
 
   @Topic(name = "testingtopic", pubsubName = "${myAppProperty:messagebus}")
   @PostMapping(path = "/testingtopic")
-  public Mono<Void> handleMessage(@RequestBody(required = false) CloudEvent cloudEvent) {
+  public Mono<Void> handleMessage(@RequestBody(required = false) CloudEvent<?> cloudEvent) {
     return Mono.fromRunnable(() -> {
       try {
         System.out.println("Subscriber got: " + cloudEvent.getData());
@@ -164,7 +174,7 @@ public class SubscriberController {
 }
 ```
 
-- 有关状态操作的完整列表，请访问 [如何: 发布 & 订阅]({{< ref howto-publish-subscribe.md >}})。
+- 有关状态操作的完整列表，请访问[操作方法: 发布 & 订阅]({{< ref howto-publish-subscribe.md >}})。
 - 请访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/pubsub/http)，获取代码示例和说明，以试用发布订阅。
 
 ### 与输出绑定交互
@@ -182,10 +192,10 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关输出绑定的完整指南，请访问 [如何：使用绑定]({{< ref howto-bindings.md >}})。
+- 有关输出绑定的完整指南，请访问[操作方法：使用绑定]({{< ref howto-bindings.md >}})。
 - 请访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http)，获取代码示例和说明，以试用输出绑定。
 
-### 检索秘密
+### 检索密钥
 
 ```java
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -199,11 +209,11 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关秘密的完整指南，请访问[如何：检索密钥]({{< ref howto-secrets.md >}})。
+- 有关密钥的完整指南，请访问[操作方法：检索密钥]({{< ref howto-secrets.md >}})。
 - 请访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/secrets)，获取代码示例和说明，以试用秘密检索。
 
 ### Actor
-Actor 组件是具有单线程执行能力的隔离、独立的计算和状态单元。 Dapr 提供了一个基于 [虚拟 Actor 模式](https://www.microsoft.com/en-us/research/project/orleans-virtual-actors/)的 actor 实现，它提供了一个单线程编程模型，其中 actor 在不使用时会进行垃圾回收。 通过 Dapr 的实现，您可以根据 Actor 模型编写 Dapr Actor，而 Dapr 则利用底层平台提供的可扩展性和可靠性。
+Actor 是具有单线程执行的隔离、独立的计算和状态单元。 Dapr 提供了一个基于 [虚拟 Actor 模式](https://www.microsoft.com/en-us/research/project/orleans-virtual-actors/)的 actor 实现，它提供了一个单线程编程模型，其中 actor 在不使用时会进行垃圾回收。 通过 Dapr 的实现，您可以根据 Actor 模型编写 Dapr Actor，而 Dapr 则利用底层平台提供的可扩展性和可靠性。
 
 ```java
 import io.dapr.actors.ActorMethod;
@@ -227,6 +237,34 @@ public interface DemoActor {
 
 - 有关 Actor 的完整指南，请访问 [操作方法：在 Dapr 中使用 Actor ]({{< ref howto-actors.md >}})。
 - 请访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/actors)，获取代码示例和说明，以试用 Actor。
+
+### 获取 & 订阅应用程序配置
+
+```java
+import io.dapr.client.DaprClientBuilder;
+import io.dapr.client.DaprPreviewClient;
+import io.dapr.client.domain.ConfigurationItem;
+import io.dapr.client.domain.GetConfigurationRequest;
+import io.dapr.client.domain.SubscribeConfigurationRequest;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+try (DaprPreviewClient client = (new DaprClientBuilder()).buildPreviewClient()) {
+  // Get configuration for a single key
+  Mono<ConfigurationItem> item = client.getConfiguration(CONFIG_STORE_NAME, CONFIG_KEY).block();
+
+// Get Configurations for multiple keys
+  Mono<List<ConfigurationItem>> items =
+          client.getConfiguration(CONFIG_STORE_NAME, CONFIG_KEY_1, CONFIG_KEY_2);
+
+  // Susbcribe to Confifuration changes
+  Flux<List<ConfigurationItem>> outFlux = client.subscribeToConfiguration(CONFIG_STORE_NAME, CONFIG_KEY_1, CONFIG_KEY_2);
+  outFlux.subscribe(configItems -> configItems.forEach(...));
+}
+```
+
+- 有关配置操作的完整列表，请访问[操作方法：从存储管理配置]({{< ref howto-manage-configuration.md >}})。
+- 请访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/configuration)，获取代码示例和说明，以尝试不同的配置操作。
 
 ## 相关链接
 - [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples)

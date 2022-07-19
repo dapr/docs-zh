@@ -59,6 +59,7 @@ kubectl rollout restart statefulsets/dapr-placement-server -n <DAPR_NAMESPACE>
 *注意：控制平面 Sidecar 的 Injector 服务不需要重新部署*
 
 ### 使用 Helm 禁用 mTLS
+*控制平面将继续使用mTLS*
 
 ```bash
 kubectl create ns dapr-system
@@ -71,6 +72,7 @@ helm install \
 ```
 
 ### 使用 CLI 禁用 mTLS
+*控制平面将继续使用mTLS*
 
 ```
 dapr init --kubernetes --enable-mtls=false
@@ -83,10 +85,13 @@ dapr init --kubernetes --enable-mtls=false
 ```
 kubectl logs --selector=app=dapr-sentry --namespace <DAPR_NAMESPACE>
 ```
-
 ### 自带证书
 
 使用 Helm，您可以提供 PEM 编码的根证书，颁发者证书和私钥，这些证书将会填充到 Sentry 服务使用的 Kubernetes 秘密中。
+
+{{% alert title="Avoiding downtime" color="warning" %}}
+为了避免轮换过期证书时出现宕机时间，请确保始终使用相同的私有根密钥对你的证书进行签名。
+{{% /alert %}}
 
 _注意：此示例使用 OpenSSL 命令行工具，这是一个广泛发布的软件包，通过包管理器可以轻松的在 Linux 上安装。 在 Windwos 上，OpenSSL 可以 [使用 chocolatey ](https://community.chocolatey.org/packages/openssl) 安装。 在 MacOS上，可以使用 `brew install openssl` 安装。_
 
@@ -122,6 +127,7 @@ basicConstraints = critical, CA:true, pathlen:0
 运行以下命令生成根证书和密钥：
 
 ```bash
+# skip the following line to reuse an existing root key, required for rotating expiring certificates
 openssl ecparam -genkey -name prime256v1 | openssl ec -out root.key
 openssl req -new -nodes -sha256 -key root.key -out root.csr -config root.conf -extensions v3_req
 openssl x509 -req -sha256 -days 365 -in root.csr -signkey root.key -outform PEM -out root.pem -extfile root.conf -extensions v3_req
@@ -130,6 +136,7 @@ openssl x509 -req -sha256 -days 365 -in root.csr -signkey root.key -outform PEM 
 接下来，运行以下命令生成颁发者证书和密钥：
 
 ```bash
+# skip the following line to reuse an existing issuer key, required for rotating expiring certificates
 openssl ecparam -genkey -name prime256v1 | openssl ec -out issuer.key
 openssl req -new -sha256 -key issuer.key -out issuer.csr -config issuer.conf -extensions v3_req
 openssl x509 -req -in issuer.csr -CA root.pem -CAkey root.key -CAcreateserial -outform PEM -out issuer.pem -days 365 -sha256 -extfile issuer.conf -extensions v3_req
@@ -153,23 +160,101 @@ helm install \
 
 如果根证书或者颁发者证书即将过期，你可以更新他们并重启必要的系统服务。
 
+{{% alert title="Avoiding downtime when rotating certificates" color="warning" %}}
+为了避免在轮换过期证书时出现宕机时间，务必要保证使用与前期证书相同的私有根密钥对你的证书进行签名。 目前使用Dapr生成的自签名证书还做不到这一点。
+{{% /alert %}}
+
+#### Dapr生成的自签名证书
+
+1. 将下列YAML内容保存到文件 (e.g. `clear-trust-bundle.yaml`)中，通过部署该YAML文件来清理Dapr中已经存在的信任包密钥。
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: dapr-trust-bundle
+  labels:
+    app: dapr-sentry
+data:
+```
+
+```bash
+kubectl apply -f `clear-trust-bundle.yaml` -n <DAPR_NAMESPACE>
+```
+
+2. 重启Dapr Sentry 服务。 这将生成一个新的证书包并更新 `dapr-trust-bundle` Kubernetes 密钥对象。
+
+```bash
+kubectl rollout restart -n <DAPR_NAMESPACE> deployment/dapr-sentry
+```
+
+3. 一旦Sentry服务被重启，重启其余的Dapr控制平面去加载新的Dapr信任包。
+
+```bash
+kubectl rollout restart deploy/dapr-operator -n <DAPR_NAMESPACE>
+kubectl rollout restart statefulsets/dapr-placement-server -n <DAPR_NAMESPACE>
+```
+
+4. 重新启动你的Dapr应用程序，以获取最新的信任包。
+
+{{% alert title="Potential application downtime with mTLS enabled." color="warning" %}}
+使用mTLS的服务间调用部署重启将会失败，直到被调用方服务也重新启动完成(从而加载新的Dapr信任包)。 此外，在应用重新启动加载新的Dapr信任包之前，已经就绪的服务将无法指派新的actors(然而已经存在的actors将不受影响)。
+{{% /alert %}}
+
+```bash
+kubectl rollout restart deployment/mydaprservice1 kubectl deployment/myotherdaprservice2
+```
+
+#### 自定义证书(携带您自己的证书)
+
 首先，使用在 [携带您自己的证书](#bringing-your-own-certificates) 中的步骤颁发新证书。
 
-现在，您有了新的证书，您可以更新保存他们的 Kubernetes 秘密。 编辑 Kubernetes secret：
+现在您有了这些新证书，使用Helm去升级这些证书:
 
+```bash
+helm upgrade \
+  --set-file dapr_sentry.tls.issuer.certPEM=issuer.pem \
+  --set-file dapr_sentry.tls.issuer.keyPEM=issuer.key \
+  --set-file dapr_sentry.tls.root.certPEM=root.pem \
+  --namespace dapr-system \
+  dapr \
+  dapr/dapr
 ```
+
+或者，你可以更新保存这些密钥的Kubernetes secret对象:
+
+```bash
 kubectl edit secret dapr-trust-bundle -n <DAPR_NAMESPACE>
 ```
 
 将 Kubernetes secret 中的 `ca.crt`, `issuer.crt` 和 `issuer.key` 键替换为新证书中的相应值。 *__注意：值必须是 base64 编码的__*
 
-如果您使用了不同的私钥对新证书进行签名，重启所有启用了 Dapr 的 Pod。 建议的方法是执行 deployment 的滚动重启：
+如果，你使用**相同的私钥**签发这个新根证书，Dapr Sentry 服务将会自动获取新证书。 你可以使用`kubectl rollout restart` 来实现应用的平滑重启。 不需要将所有部署全部立刻重启，只要在原证书到期之前完成重启即可。
+
+如果你使用了一个**不同的私钥**签发了新根证书, 你必须重启Dapr Sentry服务，然后重启其他Dapr控制平面服务。
+
+```bash
+kubectl rollout restart deploy/dapr-sentry -n <DAPR_NAMESPACE>
+```
+
+一旦 Sentry 已经重新启动，开始运行:
+
+```bash
+kubectl rollout restart deploy/dapr-operator -n <DAPR_NAMESPACE>
+kubectl rollout restart statefulsets/dapr-placement-server -n <DAPR_NAMESPACE>
+```
+
+接下来，你必须重启所有Dapr-enabled pods。 建议的方法是执行 deployment 的滚动重启：
 
 ```
 kubectl rollout restart deploy/myapp
 ```
+
+由于不匹配证书，在所有部署成功部署之前(因为加载了新的Dapr证书)，你可能会经历宕机时间。
+
 ### Kubernetes 视频演示
-观看此视频，了解如何在 Kubernetes 上更新 mTLS 证书 <iframe width="1280" height="720" src="https://www.youtube.com/embed/_U9wJqq-H1g" title="YouTube 视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen mark="crwd-mark"></iframe>
+观看此视频，了解如何在 Kubernetes 上更新 mTLS 证书
+
+<iframe width="1280" height="720" src="https://www.youtube.com/embed/_U9wJqq-H1g" title="YouTube 视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## 自托管
 ### 运行控制平面 Sentry 服务
@@ -299,8 +384,19 @@ step certificate create cluster.local issuer.crt issuer.key --ca ca.crt --ca-key
 
 如果根证书或者颁发者证书即将过期，你可以更新他们并重启必要的系统服务。
 
-首先，使用在 [自带证书](#bringing-your-own-certificates) 中的步骤颁发新证书。
+为了让Dapr生成新证书，首先将`$HOME/.dapr/certs` 目录里的证书删除，然后重启Sentry服务去生成新证书。
 
-将 `ca.crt`, `issuer.crt` 和 `issuer.key` 复制到每个已配置的系统服务的文件系统路径，然后重启进程或容器。 默认情况下，系统服务将在 `/var/run/dapr/credentials` 中查找凭据。
+```bash
+./sentry --issuer-credentials $HOME/.dapr/certs --trust-domain cluster.local --config=./config.yaml
+```
 
-*注意：如果您使用不同的私钥对证书根目录进行了签名，请重新启动 Dapr 实例。*
+为了替换为您自己的证书，首先使用上述在 [携带您自己的证书](#bringing-your-own-certificates)步骤生成新证书。
+
+将 `ca.crt`, `issuer.crt` 和 `issuer.key` 复制到每个已配置的系统服务的文件系统路径，然后重启进程或容器。 默认情况下，系统服务将在 `/var/run/dapr/credentials` 中查找凭据。 上述示例使用`$HOME/.dapr/certs` 作为自定义的路径。
+
+*备注：如果您使用了一个不同的私有秘钥签发这个根证书，需要重启Dapr实例。*
+
+## 关于证书轮换的社区视频
+如果您的证书即将到期，可以观看这个视频演示如何去进行证书轮换。
+
+<iframe width="1280" height="720" src="https://www.youtube.com/watch?v=Hkcx9kBDrAc" title="YouTube 视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

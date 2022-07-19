@@ -12,12 +12,12 @@ Dapr 可以配置为在本地开发者机器或生产 VM 上以自托管模式�
 
 ## 初始化
 
-Dapr 能通过 [Docker]({{< ref self-hosted-with-docker.md >}}) (default) 或者在 [slim-init 模式]({{< ref self-hosted-no-docker.md >}})初始化。 默认 Docker 的设置提供了开箱即用功能，并带有以下的容器和配置：
+Dapr 能通过 [Docker]({{< ref self-hosted-with-docker.md >}}) (default) 或者在 [slim-init 模式]({{< ref self-hosted-no-docker.md >}})初始化。 默认的 Docker 初始通过以下容器和配置提供了开箱即用功能：
 - 一个为状态管理和发布/订阅配置的默认组件的 Redis 容器。
 - 一个用于诊断和追踪的 Zipkin 容器。
-- 默认的 Dapr 配置和组件安装在 `$HOME/.dapr/` (Mac/Linux) 或 `%USERPROFILE%\.dapr\` (Windows)。
+- 默认的 Dapr 配置和组件安装在 `$HOME/.dapr/` (Mac/Linux) 或`%USERPROFILE%\.dapr\` (Windows)。
 
-`dapr-placement` 服务负责管理 actor 分布方案和键范围设置。 此服务不是作为容器启动的，仅当你使用 Dapr actor 功能时才需要。 有关 actor ` Placement ` 服务的更多信息，请阅读 [actor 概述]({{< ref "actors-overview.md" >}})。
+`dapr-placement` 服务负责管理 actor 分布方案和关键范围设置。 此服务不是作为容器启动的，仅当你使用 Dapr actor 功能时才需要。 有关 actor ` Placement ` 服务的更多信息，请阅读 [actor 概述]({{< ref "actors-overview.md" >}})。
 
 <img src="/images/overview-standalone-docker.png" width=1000 alt="自托管 Docker 模式下的 Dapr 图示" />
 

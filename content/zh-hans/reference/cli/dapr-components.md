@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "components CLI 命令参考"
+title: "components CLI 命令参考文档"
 linkTitle: "组件"
 description: "有关 components CLI 命令的详细信息"
 ---
@@ -29,6 +29,6 @@ dapr components [flags]
 ### 示例
 
 ```bash
-# List Kubernetes components
+# 列出 Kubernetes 组件
 dapr components -k
 ```

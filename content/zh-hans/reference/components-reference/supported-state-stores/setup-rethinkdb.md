@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置 RethinkDB 状态储存，请创建一个类型为 `state.rethinkdb`的组件。 请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})，了解如何创建和应用状态存储配置。
+To setup RethinkDB state store, create a component of type `state.rethinkdb`. See [the how-to guide]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}}) to create and apply a state store configuration.
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -36,18 +36,17 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-以上示例将密钥明文存储， 更推荐的方式是使用 Secret 组件， [这里]({{< ref component-secrets.md >}})。
+以上示例将密钥明文存储， It is recommended to use a secret store for the secrets, as described [here]({{< ref component-secrets.md >}}).
 {{% /alert %}}
 
-如果您想要使用 RethinkDB 作为 Actor 存储，请在 yaml 上附上以下内容。
+If you wish to use RethinkDB as an actor store, append the following to the YAML.
 
 ```yaml
   - name: actorStateStore
     value: "true"
 ```
 
-
-RethinkDB 状态存储支持事物，所以它可以被用于持久化 Dapr Actor 状态。 默认情况下，Actor 状态将会被保存到指定数据库的 `daprstate` 表中。
+RethinkDB state store supports transactions, so it can be used to persist Dapr Actor state. By default, the state will be stored in table named `daprstate` in the specified database.
 
 此外，如果可选的 `archive` 元数据被设置为 `true`，在每个状态改变时，RethinkDB 状态存储将在 `daprstate_archive` 表中记录带有时间戳的状态存储。 这允许对 Dapr 管理的状态进行时间序列分析。
 
@@ -57,8 +56,8 @@ RethinkDB 状态存储支持事物，所以它可以被用于持久化 Dapr Acto
 | -------- |:--:| ---------------- | ------------------------------------------------------------------ |
 | address  | Y  | RethinkDB 服务器的地址 | `"127.0.0.1:28015"`, `"rethinkdb.default.svc.cluster.local:28015"` |
 | database | Y  | 要使用的数据库。 仅限字母数字  | `"dapr"`                                                           |
-| table    | N  | 要使用的表名           | `"table"`                                                          |
-| username | N  | 连接使用的用户名         | `"user"`                                                           |
+| table    | 否  | 要使用的表名           | `"table"`                                                          |
+| username | 否  | 连接使用的用户名         | `"user"`                                                           |
 | password | N  | 连接使用的密码          | `"password"`                                                       |
 | archive  | N  | 是否存档表            | `"true"`, `"false"`                                                |
 
@@ -81,8 +80,7 @@ open "http://$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' rethin
 {{% /codetab %}}
 {{% /codetab %}}
 
-
 ## 相关链接
 - [Dapr组件的基本格式]({{< ref component-schema >}})
-- 阅读 [本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}}) 以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- Read [the how-to guide]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}}) for instructions on configuring state store components.
+- [State management building block]({{< ref state-management >}}).

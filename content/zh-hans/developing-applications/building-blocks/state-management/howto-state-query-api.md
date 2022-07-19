@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "操作方法：查询状态"
-linkTitle: "操作方法：查询状态"
+title: "指南：查询状态"
+linkTitle: "指南：查询状态"
 weight: 250
 description: "用于查询状态存储的API"
 ---
@@ -16,13 +16,19 @@ description: "用于查询状态存储的API"
 
 即使状态存储是键/值存储， `value` 也可能是具有自己的层次结构、键和值的 JSON 文档。 查询 API 允许您使用这些键和值来检索相应的文档。
 
-此查询 API 不支持查询存储在状态存储中的执行组件状态。 为此，您需要对特定数据库使用查询 API。 查看 [查询 actor 状态]({{< ref "state-management-overview.md#querying-actor-state" >}}).
+### 限制
+状态查询 API 具有以下限制：
+
+ - 此 API 不支持查询存储在状态存储中的 actor 状态。 为此，您需要对特定数据库使用查询 API。 查看 [查询 actor 状态]({{< ref "state-management-overview.md#querying-actor-state" >}}).
+ - 该 API 不适用于 Dapr [加密状态存储]({{<ref howto-encrypt-state>}})功能。 由于加密是由 Dapr 运行时完成并存储为加密数据，因此这有效地阻止了服务器端查询。
+
+
 
 您可以在 [相关链接]({{< ref "#related-links" >}}) 部分中找到更多信息。
 
 ## 查询状态
 
-您可以通过 HTTP POST/PUT 或 gRPC 提交查询请求。 请求的正文是包含 3 个条目的 JSON 映射： `filter`、 `sort` 和 `pagination`。
+您可以通过 HTTP POST/PUT 或 gRPC 提交查询请求。 请求的正文是包含 3 个条目的 JSON map： `filter`, `sort`, 和 `page`。
 
 `filter` 是可选部分。 它以键/值操作树的形式指定查询条件，其中键是运算符，值是操作数。
 
@@ -39,7 +45,7 @@ description: "用于查询状态存储的API"
 
 `排序` 是可选部分，是 `key：order` 对的有序数组，其中 `key` 是状态存储中的键， `order` 是指示排序顺序的可选字符串： `"ASC"` ，降序 `"DESC"` 。 如果省略，则默认为升序。
 
-`pagination` 是一个可选部分，其中包含 `limit` 和 `token` 参数。 `limit` 设置页面大小。 `token` 是组件返回的迭代令牌，用于后续查询。
+`page` 是可选部分，包含 `limit` 和 `token` 参数。 `limit` 设置页面大小。 `token` 是组件返回的迭代令牌，用于后续查询。
 
 为了获得一些背景知识，此查询请求将转换为本机查询语言，并由状态存储组件执行。
 
@@ -49,7 +55,7 @@ description: "用于查询状态存储的API"
 
 作为数据集，[让我们考虑一个包含员工记录](../query-api-examples/dataset.json) 包含员工 ID、组织、州和城市的员工记录的集合。 请注意，此数据集是一个键/值对数组，其中 `key` 是唯一 ID， `value` 是具有员工记录的 JSON 对象。 为了更好地说明功能，让我们将组织名称 （org） 和员工 ID （id） 作为嵌套的 JSON 人员对象。
 
-首先，您需要创建MongoDB的实例，这是您的状态存储。
+首先，您需要创建 MongoDB 的实例，这是您的状态存储。
 ```bash
 docker run -d --rm -p 27017:27017 --name mongodb mongo:5
 ```
@@ -75,24 +81,22 @@ curl -X POST -H "Content-Type: application/json" -d @query-api-examples/dataset.
 
 现在，您可以运行查询。
 
-### Example 1
+### 示例 1
 
 首先，让我们查找加利福尼亚州的所有员工，并按其员工 ID 降序对他们进行排序。
 
-This is the [query](../query-api-examples/query1.json):
+这是 [查询](../query-api-examples/query1.json)：
 ```json
 {
-    "query": {
-        "filter": {
-            "EQ": { "value.state": "CA" }
-        },
-        "sort": [
-            {
-                "key": "value.person.id",
-                "order": "DESC"
-            }
-        ]
-    }
+    "filter": {
+        "EQ": { "value.state": "CA" }
+    },
+    "sort": [
+        {
+            "key": "value.person.id",
+            "order": "DESC"
+        }
+    ]
 }
 ```
 
@@ -174,17 +178,15 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -InFile query-api
 }
 ```
 
-### Example 2
+### 示例 2
 
 现在，让我们查找"Dev Ops"和"Hardware"组织中的所有员工。
 
-This is the [query](../query-api-examples/query2.json):
+这是 [查询](../query-api-examples/query2.json)：
 ```json
 {
-    "query": {
-        "filter": {
-            "IN": { "value.person.org": [ "Dev Ops", "Hardware" ] }
-        }
+    "filter": {
+        "IN": { "value.person.org": [ "Dev Ops", "Hardware" ] }
     }
 }
 ```
@@ -211,46 +213,44 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -InFile query-api
 
 与前面的示例类似，结果是一个匹配键/值对的数组。
 
-### Example 3
+### 示例 3
 
 在此示例中，让我们查找"Dev Ops"部门的所有员工 以及居住在华盛顿州和加利福尼亚州的"财务"部门的员工。
 
 此外，让我们先按州（按字母降序）对结果进行排序，然后按员工 ID（升序）对结果进行排序。 另外，让我们一次最多处理 3 条记录。
 
-This is the [query](../query-api-examples/query3.json):
+这是 [查询](../query-api-examples/query3.json):
 
 ```json
 {
-    "query": {
-        "filter": {
-            "OR": [
-                {
-                    "EQ": { "value.person.org": "Dev Ops" }
-                },
-                {
-                    "AND": [
-                        {
-                            "EQ": { "value.person.org": "Finance" }
-                        },
-                        {
-                            "IN": { "value.state": [ "CA", "WA" ] }
-                        }
-                    ]
-                }
-            ]
-        },
-        "sort": [
+    "filter": {
+        "OR": [
             {
-                "key": "value.state",
-                "order": "DESC"
+                "EQ": { "value.person.org": "Dev Ops" }
             },
             {
-                "key": "value.person.id"
+                "AND": [
+                    {
+                        "EQ": { "value.person.org": "Finance" }
+                    },
+                    {
+                        "IN": { "value.state": [ "CA", "WA" ] }
+                    }
+                ]
             }
-        ],
-        "pagination": {
-            "limit": 3
+        ]
+    },
+    "sort": [
+        {
+            "key": "value.state",
+            "order": "DESC"
+        },
+        {
+            "key": "value.person.id"
         }
+    ],
+    "page": {
+        "limit": 3
     }
 }
 ```
@@ -329,40 +329,52 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -InFile query-api
 
 ```json
 {
-    "query": {
-        "filter": {
-            "OR": [
-                {
-                    "EQ": { "value.person.org": "Dev Ops" }
-                },
-                {
-                    "AND": [
-                        {
-                            "EQ": { "value.person.org": "Finance" }
-                        },
-                        {
-                            "IN": { "value.state": [ "CA", "WA" ] }
-                        }
-                    ]
-                }
-            ]
-        },
-        "sort": [
+    "filter": {
+        "OR": [
             {
-                "key": "value.state",
-                "order": "DESC"
+                "EQ": { "value.person.org": "Dev Ops" }
             },
             {
-                "key": "value.person.id"
+                "AND": [
+                    {
+                        "EQ": { "value.person.org": "Finance" }
+                    },
+                    {
+                        "IN": { "value.state": [ "CA", "WA" ] }
+                    }
+                ]
             }
-        ],
-        "pagination": {
-            "limit": 3,
-            "token": "3"
+        ]
+    },
+    "sort": [
+        {
+            "key": "value.state",
+            "order": "DESC"
+        },
+        {
+            "key": "value.person.id"
         }
+    ],
+    "page": {
+        "limit": 3,
+        "token": "3"
     }
 }
 ```
+
+{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" >}}
+{{% codetab %}}
+```bash
+curl -s -X POST -H "Content-Type: application/json" -d @query-api-examples/query3-token.json http://localhost:3500/v1.0-alpha1/state/statestore/query | jq .
+```
+{{% /codetab %}}
+{{% codetab %}}
+```powershell
+Invoke-RestMethod -Method Post -ContentType 'application/json' -InFile query-api-examples/query3-token.json -Uri 'http://localhost:3500/v1.0-alpha1/state/statestore/query'
+```
+{{% /codetab %}}
+{{< /tabs >}}
+
 此查询的结果是：
 ```json
 {

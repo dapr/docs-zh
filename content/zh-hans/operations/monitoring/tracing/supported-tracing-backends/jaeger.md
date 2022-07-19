@@ -1,9 +1,9 @@
 ---
 type: docs
-title: "操作方法: 为分布式追踪安装 Jaeger"
+title: "操作方法: 为分布式跟踪安装 Jaeger"
 linkTitle: "Jaeger"
 weight: 3000
-description: "为分布式追踪安装 Jaeger"
+description: "为分布式跟踪安装 Jaeger"
 ---
 
 Dapr 支持 Zipkin 协议。 由于 Jaeger 与 Zipkin 兼容，Zipkin 协议可用于与 Jaeger 通信。
@@ -25,7 +25,7 @@ docker run -d --name jaeger \
 
 接下来，在本地创建以下 YAML 文件：
 
-* **config.yaml**: 注意, 因为我们正在使用 Zipkin 协议 来与 Jaeger 通信, 我们指定 `zipkin` 追踪部分配置设置 `endpointAddress` 来定位 Jaeger 实例。
+* **config.yaml**: 注意, 因为我们正在使用 Zipkin 协议 来与 Jaeger 通信, 我们指定 `zipkin` 追踪部分 配置设置 `endpointAddress` 来定位Jaeger 实例。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -46,11 +46,11 @@ spec:
 dapr run --app-id mynode --app-port 3000 node app.js --config config.yaml
 ```
 
-### 查看追踪
+### 查看 Traces
 要查看分布式追踪，在您的浏览器中请访问 http://localhost:16686，您会看到 Jaeger UI。
 
 ## 配置 Kubernetes
-以下步骤可向您展示如何配置 Dapr 将分布式追踪数据发送给 Jaeger，该数据作为 Dapr 中的容器运行，以及如何查看它们。
+以下步骤可向您展示如何配置 Dapr 将分布式跟踪数据发送给 Jaeger，该数据作为 Dapr 中的容器运行，以及如何查看它们。
 
 ### 设置
 
@@ -78,7 +78,7 @@ spec:
 
 #### 生产
 
-Jaeger 使用 Elasticsearch 作为后端存储，您可以在 k8s 集群中创建一个密钥，以访问具有访问控制的 Elasticsearch 服务器。 参见[配置和部署 Jaeger](https://docs.openshift.com/container-platform/4.9/distr_tracing/distr_tracing_install/distr-tracing-deploying.html)
+Jaeger 使用 Elasticsearch 作为后端存储，您可以在 k8s 集群中创建一个密钥，以访问具有访问控制的 Elasticsearch 服务器。
 
 ```shell
 kubectl create secret generic jaeger-secret --from-literal=ES_PASSWORD='xxx' --from-literal=ES_USERNAME='xxx' -n ${NAMESPACE}
@@ -134,7 +134,7 @@ kubectl apply -f jaeger-operator.yaml
 kubectl wait deploy --selector app.kubernetes.io/name=jaeger --for=condition=available
 ```
 
-接下来，在本地创建以下 YAML 文件：
+接下来，在本地创建以下YAML文件：
 
 * **tracing.yaml**
 
@@ -157,24 +157,24 @@ spec:
 kubectl apply -f tracing.yaml
 ```
 
-为了启用您的 Dapr sidecar 的配置，请在您的 pod spec 模板中添加以下注解：
+为了启用您的 Dapr sidecar 的配置，请在您的pod spec模板中添加以下注释：
 
 ```yml
 annotations:
   dapr.io/config: "tracing"
 ```
 
-就这么简单！ 您的 Dapr sidecar 现已配置为与 Jaeger 一起使用。
+就这么简单！ 您的 Dapr sidecar 现已配置为Jaeger 使用。
 
 ### 查看追踪数据
 
-要查看追踪数据，请连接到 Jaeger 服务并打开 UI：
+要查看 traces 数据，请连接到 Jaeger 服务并打开 UI：
 
 ```bash
 kubectl port-forward svc/jaeger-query 16686
 ```
 
-在您的浏览器中，转到 `http://localhost:16686` 并会看到 Jaeger UI。
+在您的浏览器中，转到 `http://localhost:16686` 并会看到Jaeger UI。
 
 ![jaeger](/images/jaeger_ui.png)
 

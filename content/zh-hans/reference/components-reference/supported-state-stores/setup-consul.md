@@ -44,8 +44,8 @@ spec:
 | ------------- |:--:| --------------------------------------- | ----------------------------------------- |
 | datacenter    | Y  | Datacenter                              | `"dc1"`                                   |
 | httpAddr      | Y  | Consul 服务器地址                            | `"consul.default.svc.cluster.local:8500"` |
-| aclToken      | N  | 请求 ACL 令牌。 默认值 `""`                     | `"token"`                                 |
-| scheme        | N  | Scheme 是Consul服务器的 URI 方案。 默认值 `"http"` | `"http"`                                  |
+| aclToken      | 否  | 请求 ACL 令牌。 默认值 `""`                     | `"token"`                                 |
+| scheme        | 否  | Scheme 是Consul服务器的 URI 方案。 默认值 `"http"` | `"http"`                                  |
 | keyPrefixPath | N  | Consul中的密钥前缀路径. 默认值 `""`                | `"dapr"`                                  |
 
 ## 搭建 Hashicorp Consul

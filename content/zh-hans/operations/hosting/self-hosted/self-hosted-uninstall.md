@@ -2,11 +2,11 @@
 type: docs
 title: "在自托管的环境中卸载 Dapr"
 linkTitle: "卸载 Dapr"
-weight: 60000
+weight: 20000
 description: "从本地机器中删除 Dapr 的步骤"
 ---
 
-下面的 CLI 命令移除Dapr sidecar 二进制文件和 placement 容器：
+下面的 CLI 命令移除 Dapr sidecar 二进制文件和 placement 容器：
 
 ```bash
 dapr uninstall

@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "list CLI 命令参考"
+title: "list CLI 命令参考文档"
 linkTitle: "list"
 description: "有关 list CLI 命令的详细信息"
 ---
@@ -31,12 +31,12 @@ dapr list [flags]
 ### 示例
 
 ```bash
-# List Dapr instances in self-hosted mode
+# 列出自托管模式下的Dapr实例列表
 dapr list
 
-# List Dapr instances in Kubernetes mode
+# 列出Kubernetes模式下的Dpar实例列表
 dapr list -k
 
-# List Dapr instances in JSON format
+# 以JSON格式列出Dapr实例列表
 dapr list -o json
 ```

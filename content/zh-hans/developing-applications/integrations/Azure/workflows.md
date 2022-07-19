@@ -46,7 +46,7 @@ Dapr Workflows 托管一个实现 Dapr 客户端 API 的 gRPC 服务器。
 
 - [已管理连接器](https://docs.microsoft.com/azure/connectors/apis-list#managed-connectors)
 
-## 例子
+## 示例
 
 Dapr Workflows 可用作许多复杂活动的业务流程协调程序。 例如，调用外部终结点、将数据保存到状态存储、将结果发布到其他应用或调用绑定，所有这些都可以通过从工作流本身回调到 Dapr 来完成。
 
@@ -61,7 +61,7 @@ Dapr Workflows 可用作许多复杂活动的业务流程协调程序。 例如�
 
 由于 Dapr 支持许多可插入的状态存储和绑定，因此工作流可以在不同环境（云、边缘或本地）之间移植，而无需用户更改代码 - *因为不涉及任何代码*。
 
-## Get started
+## 开始
 
 前期准备:
 

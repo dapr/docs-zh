@@ -30,14 +30,14 @@ dapr init
 dapr run --app-id myapp --app-port 5000 -- dotnet run
 ```
 
-此命令将同时启动 daprd sidecar 二进制文件，并执行 `dotnet run` 以启动您的应用程序。
+此命令将同时启动 daprd sidecar 程序并执行 `dotnet run` 以启动您的应用程序。
 
 ## 将应用作为进程运行，将 sidecar 作为 Docker 容器运行
 
 如果您在 Docker 容器中运行 Dapr，并且您的应用程序在主机上作为一个进程运行，那么您需要配置一下 Docker 来使用主机网络，这样Dapr和应用程序就可以共享一个 localhost 网络接口。
 
 {{% alert title="Note" color="warning" %}}
-Docker的主机网络驱动只在 Linux 主机上支持。
+Docker 的主机网络驱动只在 Linux 主机上支持。
 {{% /alert %}}
 
 如果您在 Linux 上运行 Docker，运行下述命令以启动 Dapr。
@@ -53,7 +53,7 @@ docker run --net="host" --mount type=bind,source="$(pwd)"/components,target=/com
 
 不建议在同一容器内运行 Dapr 运行时和应用程序。 但是，对于本地开发的场景，可以这样做。
 
-为了做到这一点，你需要编写一个Docker文件，安装 Dapr 运行时、Dapr CLI 和你的应用代码。 然后，您可以使用 Dapr CLI 调用Dapr 运行时和您的应用代码。
+为了做到这一点，你需要编写 Docker 文件，安装 Dapr 运行时、Dapr CLI 和你的应用代码。 然后，您可以使用 Dapr CLI 调用Dapr 运行时和您的应用代码。
 
 下面是实现这一目标的 Docker 文件的例子。
 
@@ -66,6 +66,7 @@ RUN wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh
 ARG DAPR_BUILD_DIR
 COPY $DAPR_BUILD_DIR /opt/dapr
 ENV PATH="/opt/dapr/:${PATH}"
+RUN dapr init --slim
 
 # Install your app
 WORKDIR /app
@@ -85,19 +86,19 @@ CMD ["run", "--app-id", "nodeapp", "--app-port", "3000", "node", "app.js"]
 ```bash
 docker network create my-dapr-network
 ```
-当运行您的 Docker 容器时，您可以通过以下方式将其附加到网络：
+当运行您的 Docker 容器时，您可以通过以下方式将其附加到网络:
 ```bash
 docker run --net=my-dapr-network ...
 ```
-每个容器将在该网络上获得一个唯一的 IP，并能与该网络上的其他容器进行通信。
+每个容器将在该网络上获得一个唯一的IP，并能与该网络上的其他容器进行通信。
 
 ## 使用 Docker-Compose 运行
 
-[Docker Compose](https://docs.docker.com/compose/) 可以用来定义多容器应用配置。 如果您希望在没有 Kubernetes 的情况下，在本地使用 Dapr sidecars 运行多个应用程序，那么建议使用 Docker Compose 定义（`docker-compose.yml`）。
+[Docker Compose](https://docs.docker.com/compose/) 可以用来定义多容器应用配置。 如果您希望在没有 Kubernetes 的情况下，在本地使用 Dapr sidecar 运行多个应用程序，那么建议使用 Docker Compose 定义（`docker-compose.yml`）。
 
 Docker Compose 的语法和工具超出了本文的范围，但是，建议你参考[官方 Docker 文档](https://docs.docker.com/compose/)了解更多细节。
 
-为了使用 Dapr 和 Docker Compose 运行您的应用程序，您需要在您的 `docker-compose.yml` 中定义 sidecar 模式。 例如：
+为了使用 Dapr 和 Docker Compose 运行您的应用程序，您需要在您的`docker-compose.yml`中定义 sidecar 模式。 例如:
 
 ```yaml
 version: '3'
@@ -144,13 +145,13 @@ services:
       - hello-dapr
 ```
 
-> 对于那些在 Linux 主机上运行 Docker 守护进程的用户，如果需要的话，还可以使用 `network_mode: host` 来利用主机联网。
+> 对于那些在 Linux 主机上运行 Docker 守护进程的用户，如果需要的话，还可以使用 `network_mode: host` 来利用主机网络。
 
-要进一步了解如何使用 Docker Compose 运行 Dapr，请参见 [Docker-Compose 样例](https://github.com/dapr/samples/tree/master/hello-docker-compose)。
+要进一步了解如何使用 Docker Compose 运行 Dapr，请参见 [Docker-Compose Sample](https://github.com/dapr/samples/tree/master/hello-docker-compose)。
 
 ## 在 Kubernetes 运行
 
-如果您的部署目标是 Kubernetes，请使用 Dapr 的一流集成。 请参阅 [Dapr on Kubernetes 文档]({{< ref "kubernetes-overview.md" >}})。
+如果您的部署目标是 Kubernetes，请使用 Dapr 的 first-class integration。 请参阅 [Dapr on Kubernetes 文档]({{< ref "kubernetes-overview.md" >}})。
 
 ## 名称解析
 
@@ -160,7 +161,7 @@ services:
 
 Dapr 为不同的组件提供了许多预构建的 Docker 镜像，您应该为所需的二进制、架构和 标签/版本 选择相关镜像。
 
-### 镜像
+### Images
 [Docker Hub](https://hub.docker.com/u/daprio)上，每个 Dapr 组件都有已发布的 Docker 镜像。
 - [daprio/dapr](https://hub.docker.com/r/daprio/dapr) (包含所有Dapr binaries)
 - [daprio/daprd](https://hub.docker.com/r/daprio/daprd)

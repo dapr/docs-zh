@@ -9,7 +9,7 @@ aliases:
 
 ## 配置
 
-要设置阿里云对象存储绑定，请创建一个类型为`bindings.alicloud.os`的组件。 请参阅 [本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}}) 了解如何创建和应用 secretstore 配置。 请参阅本指南 [引用密钥]({{< ref component-secrets.md >}}) 来检索和使用Dapr组件的密钥。
+要设置阿里云对象存储绑定，请创建一个类型为`bindings.alicloud.os`的组件。 请参阅 [本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}}) 了解如何创建和应用 secretstore 配置。 有关如何在 Dapr 组件中检索和使用 secret，请参阅 [引用 secrets]({{< ref component-secrets.md >}}) 指南。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -39,14 +39,14 @@ spec:
 
 | 字段            | 必填 | 绑定支持 | 详情               | 示例                                   |
 | ------------- | -- | ---- | ---------------- | ------------------------------------ |
-| `终结点`         | Y  | 输出   | Alicloud OSS 端点。 | https://oss-cn-hangzhou.aliyuncs.com |
-| `accessKeyID` | Y  | 输出   | 访问密钥 ID 凭据。      |                                      |
-| `accessKey`   | Y  | 输出   | 访问密钥凭据。          |                                      |
-| `bucket`      | Y  | 输出   | 存储桶名称            |                                      |
+| `endpoint`    | 是  | 输出   | Alicloud OSS 端点。 | https://oss-cn-hangzhou.aliyuncs.com |
+| `accessKeyID` | 是  | 输出   | 访问密钥 ID 凭据。      |                                      |
+| `accessKey`   | 是  | 输出   | 访问密钥凭据。          |                                      |
+| `bucket`      | 是  | 输出   | 存储桶名称            |                                      |
 
 ## 绑定支持
 
-字段名为 `ttlInSeconds`。
+该组件支持如下操作的 **输出绑定** ：
 - `create`: [创建对象](#create-object)
 
 
