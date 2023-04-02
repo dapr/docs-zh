@@ -60,7 +60,7 @@ Dapr可以在多种环境中托管，包括在 Windows/Linux/MacOS 机器上的�
 
 您可以使用 [Dapr CLI](https://github.com/dapr/cli#launch-dapr-and-your-app) 在本地机器上运行启用了 Dapr 的应用程序。 下图显示了使用 CLI `init` 命令配置 Dapr 的本地开发环境。 请使用 [入门示例]({{< ref getting-started >}})。
 
-<img src="/images/overview_standalone.png" width=1200 alt="自托管模式下的 Dapr 架构图">
+<img src="/images/overview-standalone.png" width=1200 alt="自托管模式下的 Dapr 架构图">
 
 ### Kubernetes
 
@@ -72,7 +72,7 @@ Dapr有控制平面服务。 在 Kubernetes 中， `dapr-sidecar-injector` 和 `
 
 在 Kubernetes 集群中部署和运行启用 Dapr 的应用程序非常简单，只需向 deployment 方案添加一些注解。 访问 [Kubernetes 文档上的 Dapr]({{< ref kubernetes >}})
 
-<img src="/images/overview_kubernetes.png" width=1200 alt="Kubernetes 模式下的 Dapr 架构图">
+<img src="/images/overview-kubernetes.png" width=1200 alt="Kubernetes 模式下的 Dapr 架构图">
 
 ### 物理机或虚拟机集群
 
