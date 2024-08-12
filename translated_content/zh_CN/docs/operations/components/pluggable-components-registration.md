@@ -38,7 +38,7 @@ Select your environment to begin making your component discoverable.
 {{< tabs "Standalone" "Kubernetes" >}}
 
 {{% codetab %}}
-[uds]: https\://en.wikipedia.org/wiki/Unix\_domain\_socket
+[uds]: https://en.wikipedia.org/wiki/Unix_domain_socket
 
 ## Run the component
 
