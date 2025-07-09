@@ -11,7 +11,7 @@ description: "显示 Dapr 运行时和 CLI 的版本信息。"
 
 ### 支持的平台
 
-- [自托管平台]({{< ref self-hosted >}})
+- [自托管平台]({{% ref self-hosted %}})
 
 ### 用法
 

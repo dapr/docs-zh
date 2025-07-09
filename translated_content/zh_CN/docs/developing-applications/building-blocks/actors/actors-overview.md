@@ -28,7 +28,7 @@ Dapr 包含一个专门实现[虚拟 Actor 模型](https://www.microsoft.com/res
 
 ## Dapr Actors 与 Dapr Workflow
 
-Dapr actors 基于状态管理和服务调用 API 创建具有身份的有状态、长时间运行的对象。[Dapr Workflow]({{< ref workflow-overview.md >}}) 和 Dapr Actors 是相关的，workflow 基于 actor 提供更高层次的抽象来编排一组 actor，实现常见的 workflow 模式并代表您管理 actor 的生命周期。
+Dapr actors 基于状态管理和服务调用 API 创建具有身份的有状态、长时间运行的对象。[Dapr Workflow]({{% ref workflow-overview.md %}}) 和 Dapr Actors 是相关的，workflow 基于 actor 提供更高层次的抽象来编排一组 actor，实现常见的 workflow 模式并代表您管理 actor 的生命周期。
 
 Dapr actors 旨在提供一种在分布式系统中封装状态和行为的方法。actor 可以按需由客户端应用程序激活。当 actor 被激活时，它被分配一个唯一的身份，这使得它能够在多次调用中保持其状态。这使得 actor 在构建有状态、可扩展和容错的分布式应用程序时非常有用。
 
@@ -48,9 +48,9 @@ Dapr actors 旨在提供一种在分布式系统中封装状态和行为的方�
 
 ### 何时使用 Dapr Workflow
 
-当您需要定义和编排涉及多个服务和组件的复杂 workflow 时，您可以使用 Dapr Workflow。例如，使用[前面提到的聊天应用程序示例]({{< ref "#when-to-use-dapr-actors" >}})，您可能会使用 Dapr Workflow 来定义应用程序的整体 workflow，例如如何注册新用户、如何发送和接收消息以及应用程序如何处理错误和异常。
+当您需要定义和编排涉及多个服务和组件的复杂 workflow 时，您可以使用 Dapr Workflow。例如，使用[前面提到的聊天应用程序示例]({{% ref "#when-to-use-dapr-actors" %}})，您可能会使用 Dapr Workflow 来定义应用程序的整体 workflow，例如如何注册新用户、如何发送和接收消息以及应用程序如何处理错误和异常。
 
-[了解有关 Dapr Workflow 的更多信息以及如何在应用程序中使用 workflow。]({{< ref workflow-overview.md >}})
+[了解有关 Dapr Workflow 的更多信息以及如何在应用程序中使用 workflow。]({{% ref workflow-overview.md %}})
 
 ## Actor 类型和 Actor ID
 
@@ -64,7 +64,7 @@ actor 被唯一定义为 actor 类型的一个实例，类似于对象是类的�
 
 Dapr 支持命名空间化的 actor。actor 类型可以部署到不同的命名空间中。您可以在同一命名空间中调用这些 actor 的实例。
 
-[了解有关命名空间化的 actor 及其工作原理的更多信息。]({{< ref namespaced-actors.md >}})
+[了解有关命名空间化的 actor 及其工作原理的更多信息。]({{% ref namespaced-actors.md %}})
 
 ### Actor 生命周期
 
@@ -75,13 +75,13 @@ Dapr 支持命名空间化的 actor。actor 类型可以部署到不同的命名
 
 actor 的状态超出了对象的生命周期，因为状态存储在为 Dapr 运行时配置的状态提供者中。
 
-[了解有关 actor 生命周期的更多信息。]({{< ref "actors-features-concepts.md#actor-lifetime" >}})
+[了解有关 actor 生命周期的更多信息。]({{% ref "actors-features-concepts.md#actor-lifetime" %}})
 
 ### 分布和故障转移
 
 为了提供可扩展性和可靠性，actor 实例在整个集群中分布，Dapr 在整个集群中分布 actor 实例，并自动将它们迁移到健康的节点。
 
-[了解有关 Dapr actor 放置的更多信息。]({{< ref "actors-features-concepts.md#actor-placement-service" >}})
+[了解有关 Dapr actor 放置的更多信息。]({{% ref "actors-features-concepts.md#actor-placement-service" %}})
 
 ### Actor 通信
 
@@ -93,18 +93,18 @@ actor 的状态超出了对象的生命周期，因为状态存储在为 Dapr �
 1. 使用来自放置服务的缓存分区信息，sidecar 确定哪个 actor 服务实例将托管 actor ID **3**。调用被转发到适当的 sidecar。
 1. pod 2 中的 sidecar 实例调用服务实例以调用 actor 并执行 actor 方法。
 
-[了解有关调用 actor 方法的更多信息。]({{< ref "actors-features-concepts.md#actor-communication" >}})
+[了解有关调用 actor 方法的更多信息。]({{% ref "actors-features-concepts.md#actor-communication" %}})
 
 #### 并发
 
 Dapr actor 运行时为访问 actor 方法提供了一个简单的轮流访问模型。轮流访问极大地简化了并发系统，因为不需要同步机制来进行数据访问。
 
-- [了解有关 actor 重入的更多信息]({{< ref "actor-reentrancy.md" >}})
-- [了解有关轮流访问模型的更多信息]({{< ref "actors-features-concepts.md#turn-based-access" >}})
+- [了解有关 actor 重入的更多信息]({{% ref "actor-reentrancy.md" %}})
+- [了解有关轮流访问模型的更多信息]({{% ref "actors-features-concepts.md#turn-based-access" %}})
 
 ### 状态
 
-事务性状态存储可以用于存储 actor 状态。无论您是否打算在 actor 中存储任何状态，您都必须在状态存储组件的元数据部分中将属性 `actorStateStore` 的值指定为 `true`。actor 状态以特定方案存储在事务性状态存储中，允许进行一致的查询。所有 actor 只能使用单个状态存储组件作为状态存储。阅读[状态 API 参考]({{< ref state_api.md >}})和[actors API 参考]({{< ref actors_api.md >}})以了解有关 actor 状态存储的更多信息。
+事务性状态存储可以用于存储 actor 状态。无论您是否打算在 actor 中存储任何状态，您都必须在状态存储组件的元数据部分中将属性 `actorStateStore` 的值指定为 `true`。actor 状态以特定方案存储在事务性状态存储中，允许进行一致的查询。所有 actor 只能使用单个状态存储组件作为状态存储。阅读[状态 API 参考]({{% ref state_api.md %}})和[actors API 参考]({{% ref actors_api.md %}})以了解有关 actor 状态存储的更多信息。
 
 ### Actor 定时器和提醒
 
@@ -118,9 +118,9 @@ actor 可以通过注册定时器或提醒来安排定期工作。
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/0y7ne6teHT4?si=73VqYUUvNfFw3x5_&amp;start=12184" title="YouTube video player" style="padding-bottom:25px;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-- [了解有关 actor 定时器的更多信息。]({{< ref "actors-features-concepts.md#timers" >}})
-- [了解有关 actor 提醒的更多信息。]({{< ref "actors-features-concepts.md#reminders" >}})
-- [了解有关定时器和提醒错误处理及故障转移的更多信息。]({{< ref "actors-features-concepts.md#timers-and-reminders-error-handling" >}})
+- [了解有关 actor 定时器的更多信息。]({{% ref "actors-features-concepts.md#timers" %}})
+- [了解有关 actor 提醒的更多信息。]({{% ref "actors-features-concepts.md#reminders" %}})
+- [了解有关定时器和提醒错误处理及故障转移的更多信息。]({{% ref "actors-features-concepts.md#timers-and-reminders-error-handling" %}})
 
 ## 下一步
 
@@ -128,5 +128,5 @@ actor 可以通过注册定时器或提醒来安排定期工作。
 
 ## 相关链接
 
-- [Actors API 参考]({{< ref actors_api.md >}})
-- 请参阅 [Dapr SDK 文档和示例]({{< ref "developing-applications/sdks/#sdk-languages" >}})。
+- [Actors API 参考]({{% ref actors_api.md %}})
+- 请参阅 [Dapr SDK 文档和示例]({{% ref "developing-applications/sdks/#sdk-languages" %}})。

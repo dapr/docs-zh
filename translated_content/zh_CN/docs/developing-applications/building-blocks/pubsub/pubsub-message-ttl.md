@@ -10,7 +10,7 @@ description: "在发布/订阅消息中使用生存时间。"
 
 Dapr 支持为每条消息设置生存时间 (TTL)。这意味着应用程序可以为每条消息指定生存时间，过期后订阅者将不会收到这些消息。
 
-所有 Dapr [发布/订阅组件]({{< ref supported-pubsub >}}) 都兼容消息 TTL，因为 Dapr 在运行时内处理 TTL 逻辑。只需在发布消息时设置 `ttlInSeconds` 元数据即可。
+所有 Dapr [发布/订阅组件]({{% ref supported-pubsub %}}) 都兼容消息 TTL，因为 Dapr 在运行时内处理 TTL 逻辑。只需在发布消息时设置 `ttlInSeconds` 元数据即可。
 
 在某些组件中，例如 Kafka，可以通过 `retention.ms` 在主题中配置生存时间，详见[文档](https://kafka.apache.org/documentation/#topicconfigs_retention.ms)。使用 Dapr 的消息 TTL，使用 Kafka 的应用程序现在可以为每条消息设置生存时间，而不仅限于每个主题。
 
@@ -39,15 +39,15 @@ Azure Service Bus 支持[实体级别的生存时间](https://docs.microsoft.com
 
 消息 TTL 可以在发布请求的元数据中设置：
 
-{{< tabs curl "Python SDK" "PHP SDK">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="curl" %}}
 ```bash
 curl -X "POST" http://localhost:3500/v1.0/publish/pubsub/TOPIC_A?metadata.ttlInSeconds=120 -H "Content-Type: application/json" -d '{"order-number": "345"}'
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python SDK" %}}
 ```python
 from dapr.clients import DaprClient
 
@@ -65,9 +65,9 @@ with DaprClient() as d:
     # 打印请求
     print(req_data, flush=True)
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="PHP SDK" %}}
 
 ```php
 <?php
@@ -81,15 +81,15 @@ $app->run(function(\DI\FactoryInterface $factory) {
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
-请参阅[本指南]({{< ref pubsub_api.md >}})以获取发布/订阅 API 的参考。
+请参阅[本指南]({{% ref pubsub_api.md %}})以获取发布/订阅 API 的参考。
 
 ## 下一步
 
-- 了解[主题范围]({{< ref pubsub-scopes.md >}})
-- 学习[如何配置具有多个命名空间的发布/订阅组件]({{< ref pubsub-namespaces.md >}})
-- [发布/订阅组件]({{< ref supported-pubsub >}})列表
-- 阅读[API 参考]({{< ref pubsub_api.md >}})
+- 了解[主题范围]({{% ref pubsub-scopes.md %}})
+- 学习[如何配置具有多个命名空间的发布/订阅组件]({{% ref pubsub-namespaces.md %}})
+- [发布/订阅组件]({{% ref supported-pubsub %}})列表
+- 阅读[API 参考]({{% ref pubsub_api.md %}})

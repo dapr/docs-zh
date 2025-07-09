@@ -153,5 +153,5 @@ INFO[0006] dc040bea-6436-4051-9166-c9294f9d2201: 'sequence' 完成，状态为 C
 
 ## 下一步
 
-- [了解更多关于 Dapr 工作流的信息]({{< ref workflow-overview.md >}})
-- [工作流 API 参考]({{< ref workflow_api.md >}})
+- [了解更多关于 Dapr 工作流的信息]({{% ref workflow-overview.md %}})
+- [工作流 API 参考]({{% ref workflow_api.md %}})

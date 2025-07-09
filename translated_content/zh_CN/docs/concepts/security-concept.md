@@ -23,13 +23,13 @@ Dapr通过service-invocation API提供端到端的安全性，支持应用程序
 
 ## service-invocation范围访问策略
 
-Dapr应用程序可以被限定在命名空间中进行部署和安全管理。您可以在不同命名空间的服务之间进行调用。阅读[跨命名空间的service-invocation]({{< ref "service-invocation-namespaces.md" >}})以获取更多信息。
+Dapr应用程序可以被限定在命名空间中进行部署和安全管理。您可以在不同命名空间的服务之间进行调用。阅读[跨命名空间的service-invocation]({{% ref "service-invocation-namespaces.md" %}})以获取更多信息。
 
-Dapr应用程序可以限制哪些操作可以被调用，包括哪些应用程序被允许（或拒绝）调用它。阅读[如何：为service-invocation应用访问控制列表配置]({{< ref invoke-allowlist.md >}})以获取更多信息。
+Dapr应用程序可以限制哪些操作可以被调用，包括哪些应用程序被允许（或拒绝）调用它。阅读[如何：为service-invocation应用访问控制列表配置]({{% ref invoke-allowlist.md %}})以获取更多信息。
 
 ## pubsub主题范围访问策略
 
-对于pubsub组件，您可以限制哪些主题类型和应用程序被允许发布和订阅特定主题。阅读[范围pubsub主题访问]({{< ref "pubsub-scopes.md" >}})以获取更多信息。
+对于pubsub组件，您可以限制哪些主题类型和应用程序被允许发布和订阅特定主题。阅读[范围pubsub主题访问]({{% ref "pubsub-scopes.md" %}})以获取更多信息。
 
 ## 使用mTLS加密数据
 
@@ -58,7 +58,7 @@ Dapr包含一个“默认开启”的自动mTLS，为Dapr sidecar之间的流量
 
 可以通过编辑Dapr部署的默认配置中的`spec.mtls.enabled`字段来开启/关闭mTLS。
 
-[您可以在Kubernetes和自托管模式下进行此操作]({{< ref mtls.md >}})。
+[您可以在Kubernetes和自托管模式下进行此操作]({{% ref mtls.md %}})。
 
 #### 自托管模式下的mTLS
 
@@ -92,8 +92,8 @@ Dapr sidecar通过`localhost`运行在应用程序附近，建议在与应用程
 
 有关配置API令牌安全性的更多详细信息，请阅读：
 
-- [使用API令牌对来自应用程序到Dapr的请求进行身份验证]({{< ref api-token.md >}})。
-- [使用API令牌对来自Dapr到应用程序的请求进行身份验证]({{< ref app-api-token.md >}})
+- [使用API令牌对来自应用程序到Dapr的请求进行身份验证]({{% ref api-token.md %}})。
+- [使用API令牌对来自Dapr到应用程序的请求进行身份验证]({{% ref app-api-token.md %}})
 
 ## 安全的Dapr到控制平面通信
 
@@ -124,11 +124,11 @@ Dapr设计用于让操作员管理mTLS证书并强制执行OAuth策略。
 
 ## mTLS证书部署和轮换
 
-虽然操作员和开发人员可以将自己的证书引入Dapr，但Dapr会自动创建并持久化自签名的根和颁发者证书。阅读[设置和配置mTLS证书]({{< ref mtls.md >}})以获取更多信息。
+虽然操作员和开发人员可以将自己的证书引入Dapr，但Dapr会自动创建并持久化自签名的根和颁发者证书。阅读[设置和配置mTLS证书]({{% ref mtls.md %}})以获取更多信息。
 
 ## 使用OAuth进行中间件端点授权
 
-使用Dapr OAuth 2.0中间件，您可以在Dapr端点上为您的API启用OAuth授权。阅读[使用OAuth配置端点授权]({{< ref oauth.md >}})以获取详细信息。Dapr还有其他中间件组件，您可以用于OpenID Connect和OPA策略。有关更多详细信息，请[阅读支持的中间件]({{< ref supported-middleware.md >}})。
+使用Dapr OAuth 2.0中间件，您可以在Dapr端点上为您的API启用OAuth授权。阅读[使用OAuth配置端点授权]({{% ref oauth.md %}})以获取详细信息。Dapr还有其他中间件组件，您可以用于OpenID Connect和OPA策略。有关更多详细信息，请[阅读支持的中间件]({{% ref supported-middleware.md %}})。
 
 ## 网络安全
 
@@ -144,19 +144,19 @@ Dapr有一套广泛的安全策略，您可以应用于您的应用程序。您�
 
 <img src="/images/security-dapr-API-scoping.png" width=1000>
 
-阅读[如何：选择性启用Dapr sidecar上的Dapr API]({{< ref api-allowlist.md >}})以获取更多信息。
+阅读[如何：选择性启用Dapr sidecar上的Dapr API]({{% ref api-allowlist.md %}})以获取更多信息。
 
 ## secret范围访问策略
 
-为了限制Dapr应用程序对secret的访问，您可以定义secret范围。在应用程序配置中添加一个secret范围策略，具有限制性权限。阅读[如何：使用secret范围]({{< ref secret-scope.md >}})以获取更多信息。
+为了限制Dapr应用程序对secret的访问，您可以定义secret范围。在应用程序配置中添加一个secret范围策略，具有限制性权限。阅读[如何：使用secret范围]({{% ref secret-scope.md %}})以获取更多信息。
 
 ## 组件应用程序范围访问策略和secret使用
 
-Dapr组件可以被命名空间化。这意味着一个Dapr sidecar实例只能访问部署到相同命名空间的组件。阅读[如何：使用命名空间将组件限定到一个或多个应用程序]({{< ref component-scopes.md >}})以获取更多信息。
+Dapr组件可以被命名空间化。这意味着一个Dapr sidecar实例只能访问部署到相同命名空间的组件。阅读[如何：使用命名空间将组件限定到一个或多个应用程序]({{% ref component-scopes.md %}})以获取更多信息。
 
-Dapr通过允许您指定哪些应用程序可以使用特定组件并拒绝其他应用程序来提供组件的应用程序级别范围。阅读[使用范围限制应用程序对组件的访问]({{< ref "component-scopes.md#application-access-to-components-with-scopes" >}})以获取更多信息。
+Dapr通过允许您指定哪些应用程序可以使用特定组件并拒绝其他应用程序来提供组件的应用程序级别范围。阅读[使用范围限制应用程序对组件的访问]({{% ref "component-scopes.md#application-access-to-components-with-scopes" %}})以获取更多信息。
 
-Dapr组件可以使用Dapr的内置secret管理功能来管理secret。阅读[secret存储概述]({{< ref secrets-overview.md >}})和[如何：在组件中引用secret]({{< ref component-secrets.md >}})以获取更多信息。
+Dapr组件可以使用Dapr的内置secret管理功能来管理secret。阅读[secret存储概述]({{% ref secrets-overview.md %}})和[如何：在组件中引用secret]({{% ref component-secrets.md %}})以获取更多信息。
 
 ## 绑定安全性
 
@@ -173,7 +173,7 @@ Dapr组件可以使用Dapr的内置secret管理功能来管理secret。阅读[se
 
 Dapr组件可以使用配置的身份验证方法与底层状态存储进行身份验证。许多状态存储实现使用官方客户端库，这些库通常使用与服务器的安全通信通道。
 
-然而，应用程序状态通常需要在静态时加密，以在企业工作负载或受监管环境中提供更强的安全性。Dapr提供基于AES256的自动客户端状态加密。阅读[如何：加密应用程序状态]({{< ref howto-encrypt-state.md >}})以获取更多信息。
+然而，应用程序状态通常需要在静态时加密，以在企业工作负载或受监管环境中提供更强的安全性。Dapr提供基于AES256的自动客户端状态加密。阅读[如何：加密应用程序状态]({{% ref howto-encrypt-state.md %}})以获取更多信息。
 
 ## Dapr运行时状态
 
@@ -281,8 +281,8 @@ Dapr的威胁模型如下。
 
 ## 报告安全问题
 
-访问[此页面]({{< ref support-security-issues.md >}})向Dapr维护者报告安全问题。
+访问[此页面]({{% ref support-security-issues.md %}})向Dapr维护者报告安全问题。
 
 ## 相关链接
 
-[操作安全]({{< ref "security.md" >}})
+[操作安全]({{% ref "security.md" %}})

@@ -11,7 +11,7 @@ description: "关于 dapr CLI 和 daprd 可执行文件的详细构建信息"
 
 ### 支持的平台
 
-- [本地托管]({{< ref self-hosted >}})
+- [本地托管]({{% ref self-hosted %}})
 
 ### 用法
 

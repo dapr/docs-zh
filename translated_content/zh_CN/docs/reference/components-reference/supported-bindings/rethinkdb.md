@@ -13,7 +13,7 @@ aliases:
 
 为了让用户能够跟踪 actor 状态的变化，此绑定利用 RethinkDB 内置的功能来监控表和事件的变化，包括 `old` 和 `new` 状态。此绑定在 Dapr 状态表上创建一个订阅，并通过 Dapr 输入绑定接口流式传输这些变化。
 
-要设置 RethinkDB 状态变化绑定，请创建一个类型为 `bindings.rethinkdb.statechange` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要设置 RethinkDB 状态变化绑定，请创建一个类型为 `bindings.rethinkdb.statechange` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -47,8 +47,8 @@ spec:
 ## 相关链接
 
 - [将此绑定与 Dapr Pub/Sub 结合使用](https://github.com/mchmarny/dapr-state-store-change-handler)以将状态变化流式传输到主题
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [Bindings 构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [Bindings API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [Bindings 构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [Bindings API 参考]({{% ref bindings_api.md %}})

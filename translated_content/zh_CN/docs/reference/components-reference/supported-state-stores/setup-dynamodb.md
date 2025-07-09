@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 DynamoDB 状态存储，需要创建一个类型为 `state.aws.dynamodb` 的组件。请参考[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+要设置 DynamoDB 状态存储，需要创建一个类型为 `state.aws.dynamodb` 的组件。请参考[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -42,12 +42,12 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例使用明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 主键
 
-要将 DynamoDB 用作 Dapr 状态存储，表必须有一个名为 `key` 的主键。请参考[分区键]({{< ref "setup-dynamodb.md#partition-keys" >}})部分以了解如何更改此设置。
+要将 DynamoDB 用作 Dapr 状态存储，表必须有一个名为 `key` 的主键。请参考[分区键]({{% ref "setup-dynamodb.md#partition-keys" %}})部分以了解如何更改此设置。
 
 ## 规格元数据字段
 
@@ -60,7 +60,7 @@ spec:
 | endpoint          | N  | 组件使用的 AWS 端点。仅用于本地开发。在生产 AWS 上运行时不需要 `endpoint`   | `"http://localhost:4566"`
 | sessionToken      | N  | 使用的 AWS 会话令牌。仅在使用临时安全凭证时需要会话令牌。 | `"TOKEN"`
 | ttlAttributeName  | N  | 应用于 TTL 的表属性名称。 | `"expiresAt"`
-| partitionKey      | N  | 表的主键或分区键属性名称。此字段用于替换默认的主键属性名称 `"key"`。请参阅[分区键]({{< ref "setup-dynamodb.md#partition-keys" >}})部分。  | `"ContractID"`
+| partitionKey      | N  | 表的主键或分区键属性名称。此字段用于替换默认的主键属性名称 `"key"`。请参阅[分区键]({{% ref "setup-dynamodb.md#partition-keys" %}})部分。  | `"ContractID"`
 | actorStateStore      | N  | 将此状态存储视为 actor 的状态存储。默认为 "false" | `"true"`, `"false"`
 
 {{% alert title="重要" color="warning" %}}
@@ -69,7 +69,7 @@ spec:
 
 ## 设置 AWS DynamoDB
 
-有关身份验证相关属性的信息，请参阅[身份验证到 AWS]({{< ref authenticating-aws.md >}})
+有关身份验证相关属性的信息，请参阅[身份验证到 AWS]({{% ref authenticating-aws.md %}})
 
 ## 生存时间（TTL）
 
@@ -159,7 +159,7 @@ $ aws dynamodb get-item \
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
-- [身份验证到 AWS]({{< ref authenticating-aws.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})
+- [身份验证到 AWS]({{% ref authenticating-aws.md %}})

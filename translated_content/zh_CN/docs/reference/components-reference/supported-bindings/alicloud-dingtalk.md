@@ -6,7 +6,7 @@ description: "关于阿里云钉钉绑定组件的详细文档"
 ---
 
 ## 配置 Dapr 组件
-要配置阿里云钉钉绑定组件，请创建一个类型为 `bindings.dingtalk.webhook` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用 secretstore 配置。有关如何引用和使用 Dapr 组件的密钥，请参阅[此指南]({{< ref component-secrets.md >}})。
+要配置阿里云钉钉绑定组件，请创建一个类型为 `bindings.dingtalk.webhook` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用 secretstore 配置。有关如何引用和使用 Dapr 组件的密钥，请参阅[此指南]({{% ref component-secrets.md %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -28,7 +28,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来存储密钥，详情请参阅[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来存储密钥，详情请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 元数据字段说明
@@ -80,8 +80,8 @@ curl -X POST http://localhost:3500/v1.0/bindings/myDingTalk \
 ```
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [Bindings 构建块]({{< ref bindings >}})
-- [操作指南：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [操作指南：使用 bindings 与外部资源接口]({{< ref howto-bindings.md >}})
-- [Bindings API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [Bindings 构建块]({{% ref bindings %}})
+- [操作指南：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [操作指南：使用 bindings 与外部资源接口]({{% ref howto-bindings.md %}})
+- [Bindings API 参考]({{% ref bindings_api.md %}})

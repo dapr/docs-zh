@@ -29,7 +29,7 @@ Dapr 错误代码由前缀、类别和错误本身的简写组成。例如：
 - ERR_STATE_STORE_NOT_FOUND
 - ERR_HEALTH_NOT_READY
 
-> **注意：** [查看 Dapr 中错误代码的完整列表。]({{< ref error-codes-reference.md >}})
+> **注意：** [查看 Dapr 中错误代码的完整列表。]({{% ref error-codes-reference.md %}})
 
 对于未找到的状态存储返回的错误可能如下所示：
 
@@ -49,7 +49,7 @@ Dapr 错误代码由前缀、类别和错误本身的简写组成。例如：
 
 ## Dapr 错误代码指标
 
-指标帮助您查看错误在运行时发生的具体时间。错误代码指标通过 `error_code_total` 端点收集。此端点默认情况下是禁用的。您可以[通过配置文件中的 `recordErrorCodes` 字段启用它]({{< ref "metrics-overview.md#configuring-metrics-for-error-codes" >}})。
+指标帮助您查看错误在运行时发生的具体时间。错误代码指标通过 `error_code_total` 端点收集。此端点默认情况下是禁用的。您可以[通过配置文件中的 `recordErrorCodes` 字段启用它]({{% ref "metrics-overview.md#configuring-metrics-for-error-codes" %}})。
 
 ## 演示
 

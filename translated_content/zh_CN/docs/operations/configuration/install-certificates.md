@@ -12,10 +12,10 @@ Dapr sidecar可以通过配置来信任与外部服务通信所需的证书。�
 
 支持信任证书颁发机构（CA）证书和叶子证书。
 
-{{< tabs Self-hosted Kubernetes >}}
+{{< tabpane text=true >}}
 
 <!--self-hosted-->
-{{% codetab %}}
+{{% tab header="Self-hosted" %}}
 
 当sidecar作为容器运行时，可以进行以下配置。
 
@@ -47,10 +47,10 @@ services:
 
 > **注意：** 当sidecar不在容器内运行时，证书必须直接安装在主机操作系统上。
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--kubernetes-->
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 在Kubernetes上：
 
@@ -94,9 +94,9 @@ spec:
 
 > **注意：** 使用Windows容器时，sidecar容器以管理员权限启动，这是安装证书所需的。这不适用于Linux容器。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 完成这些步骤后，`SSL_CERT_DIR`指向的目录中的所有证书都将被安装。
 
@@ -112,9 +112,9 @@ spec:
 </div>
 
 ## 相关链接
-- [HTTP绑定规范]({{< ref http.md >}})
-- [(Kubernetes) 操作指南：将Pod卷挂载到Dapr sidecar]({{< ref kubernetes-volume-mounts.md >}})
-- [Dapr Kubernetes pod注释规范]({{< ref arguments-annotations-overview.md >}})
+- [HTTP绑定规范]({{% ref http.md %}})
+- [(Kubernetes) 操作指南：将Pod卷挂载到Dapr sidecar]({{% ref kubernetes-volume-mounts.md %}})
+- [Dapr Kubernetes pod注释规范]({{% ref arguments-annotations-overview.md %}})
 
 ## 下一步
 

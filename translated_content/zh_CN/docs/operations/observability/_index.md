@@ -12,7 +12,7 @@ description: 观察和测量组件的消息调用以及网络服务之间的消�
 
 {{% alert title="更多关于Dapr可观测性" color="primary" %}}
 了解更多关于Dapr可观测性的使用方法：
-- 通过支持的[Dapr SDKs]({{< ref sdks >}})来探索可观测性。
-- 查看[可观测性API参考文档]({{< ref health_api.md >}})。
-- 阅读关于Dapr中[可观测性概念的总体概述]({{< ref observability-concept >}})。
+- 通过支持的[Dapr SDKs]({{% ref sdks %}})来探索可观测性。
+- 查看[可观测性API参考文档]({{% ref health_api.md %}})。
+- 阅读关于Dapr中[可观测性概念的总体概述]({{% ref observability-concept %}})。
 {{% /alert %}}

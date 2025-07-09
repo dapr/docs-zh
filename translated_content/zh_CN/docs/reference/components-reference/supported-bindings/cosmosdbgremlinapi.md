@@ -7,7 +7,7 @@ description: "关于 Azure Cosmos DB (Gremlin API) 绑定组件的详细文档"
 
 ## 组件格式
 
-要配置 Azure Cosmos DB (Gremlin API) 绑定，请创建一个类型为 `bindings.azure.cosmosdb.gremlinapi` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要配置 Azure Cosmos DB (Gremlin API) 绑定，请创建一个类型为 `bindings.azure.cosmosdb.gremlinapi` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -27,7 +27,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用了明文形式的字符串作为密钥。建议使用密钥存储来存储密钥，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例使用了明文形式的字符串作为密钥。建议使用密钥存储来存储密钥，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -59,8 +59,8 @@ spec:
 
 ## 相关文档
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [bindings 构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用bindings与外部资源接口]({{< ref howto-bindings.md >}})
-- [bindings API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [bindings 构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用bindings与外部资源接口]({{% ref howto-bindings.md %}})
+- [bindings API 参考]({{% ref bindings_api.md %}})

@@ -8,7 +8,7 @@ description: "创建一个组件定义文件以与secrets构建块交互"
 
 在构建应用程序时，通常需要根据所需的构建块和特定组件创建组件文件定义。
 
-在本教程中，您将创建一个组件定义文件以与[secrets构建块API]({{< ref secrets >}})交互：
+在本教程中，您将创建一个组件定义文件以与[secrets构建块API]({{% ref secrets %}})交互：
 
 - 创建一个本地JSON密钥存储。
 - 使用组件定义文件向Dapr注册密钥存储。
@@ -85,23 +85,23 @@ dapr run --app-id myapp --dapr-http-port 3500 --resources-path .
 
 在一个单独的终端中，运行：
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)">}}
-{{% codetab %}}
+{{< tabpane text=true >}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl http://localhost:3500/v1.0/secrets/my-secret-store/my-secret
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Uri 'http://localhost:3500/v1.0/secrets/my-secret-store/my-secret'
 ```
 
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 **输出：**
 

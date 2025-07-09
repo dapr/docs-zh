@@ -16,9 +16,9 @@ description: "通过服务调用API开始使用Dapr的弹性功能"
 
 在继续入门指南之前，选择您偏好的Dapr SDK语言版本。
 
-{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ### 前提条件
 
@@ -221,10 +221,10 @@ dapr run --app-port 8001 --app-id order-processor --app-protocol http --dapr-htt
 == APP == Order received: {"orderId": 10}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ### 前提条件
 
@@ -351,29 +351,29 @@ Dapr sidecar随后加载位于资源目录中的弹性配置：
 
 在`order-processor`窗口中，停止服务：
 
-{{< tabs "MacOs" "Windows" >}}
+{{< tabpane text=true >}}
 
  <!-- MacOS -->
 
-{{% codetab %}}
+{{% tab header="MacOs" %}}
 
 ```script
 CMD + C
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Windows -->
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 ```script
 CTRL + C
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 
 一旦第一个请求失败，名为`retryForever`的重试策略将被应用：
@@ -448,10 +448,10 @@ dapr run --app-port 5001 --app-id order-processor --resources-path ../../../reso
 == APP == Order received: {"orderId": 10}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab %}}
 
 ### 前提条件
 
@@ -580,29 +580,29 @@ Dapr sidecar随后加载位于资源目录中的弹性配置：
 
 在`order-processor`窗口中，停止服务：
 
-{{< tabs "MacOs" "Windows" >}}
+{{< tabpane text=true >}}
 
  <!-- MacOS -->
 
-{{% codetab %}}
+{{% tab header="MacOs" %}}
 
 ```script
 CMD + C
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Windows -->
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 ```script
 CTRL + C
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 
 一旦第一个请求失败，名为`retryForever`的重试策略将被应用：
@@ -677,10 +677,10 @@ dapr run --app-port 7001 --app-id order-processor --app-protocol http --dapr-htt
 == APP == Order received: {"orderId": 10}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab %}}
 
 ### 前提条件
 
@@ -810,29 +810,29 @@ Dapr sidecar随后加载位于资源目录中的弹性配置：
 
 在`order-processor`窗口中，停止服务：
 
-{{< tabs "MacOs" "Windows" >}}
+{{< tabpane text=true >}}
 
  <!-- MacOS -->
 
-{{% codetab %}}
+{{% tab header="MacOs" %}}
 
 ```script
 CMD + C
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Windows -->
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 ```script
 CTRL + C
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 
 一旦第一个请求失败，名为`retryForever`的重试策略将被应用：
@@ -907,10 +907,10 @@ dapr run --app-id order-processor --resources-path ../../../resources/ --app-por
 == APP == Order received: {"orderId": 10}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab %}}
 
 ### 前提条件
 
@@ -1037,29 +1037,29 @@ Dapr sidecar随后加载位于资源目录中的弹性配置：
 
 在`order-processor`窗口中，停止服务：
 
-{{< tabs "MacOs" "Windows" >}}
+{{< tabpane text=true >}}
 
  <!-- MacOS -->
 
-{{% codetab %}}
+{{% tab header="MacOs" %}}
 
 ```script
 CMD + C
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Windows -->
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 ```script
 CTRL + C
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 
 一旦第一个请求失败，名为`retryForever`的重试策略将被应用：
@@ -1134,9 +1134,9 @@ dapr run --app-port 6001 --app-id order-processor --resources-path ../../../reso
 == APP == Order received: {"orderId": 10}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 告诉我们您的想法！
 我们正在不断努力改进我们的入门指南示例，重视您的反馈。您觉得这个入门指南有帮助吗？您有改进建议吗？

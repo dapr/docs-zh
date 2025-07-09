@@ -11,10 +11,10 @@ description: "作业API构建模块概述"
 作业API不仅帮助您安排作业，Dapr内部还利用调度服务来安排actor提醒。
 
 在Dapr中，作业包括：
-- [作业API构建模块]({{< ref jobs_api.md >}})
-- [调度器控制平面服务]({{< ref "concepts/dapr-services/scheduler.md" >}})
+- [作业API构建模块]({{% ref jobs_api.md %}})
+- [调度器控制平面服务]({{% ref "concepts/dapr-services/scheduler.md" %}})
 
-[查看示例场景。]({{< ref "#scenarios" >}})
+[查看示例场景。]({{% ref "#scenarios" %}})
 
 <img src="/images/scheduler/scheduler-architecture.png" alt="显示调度器控制平面服务和作业API的图示">
 
@@ -27,8 +27,8 @@ description: "作业API构建模块概述"
 所有计划作业的详细信息和用户相关数据都存储在调度器服务的Etcd数据库中。
 您可以使用作业来：
 
-- **延迟您的[pubsub消息传递]({{< ref pubsub-overview.md >}})。** 您可以在未来的特定时间发布消息（例如：一周后，或特定的UTC日期/时间）。
-- **调度应用程序之间的[服务调用]({{< ref service-invocation-overview.md >}})方法。**
+- **延迟您的[pubsub消息传递]({{% ref pubsub-overview.md %}})。** 您可以在未来的特定时间发布消息（例如：一周后，或特定的UTC日期/时间）。
+- **调度应用程序之间的[服务调用]({{% ref service-invocation-overview.md %}})方法。**
 
 ## 场景
 
@@ -61,10 +61,10 @@ Dapr的作业API确保这些场景中表示的任务在没有人工干预的情�
 
 ## 试用作业API
 
-您可以在应用程序中试用作业API。在[Dapr安装完成后]({{< ref install-dapr-cli.md >}})，您可以开始使用作业API，从[如何：调度作业指南]({{< ref howto-schedule-and-handle-triggered-jobs.md >}})开始。
+您可以在应用程序中试用作业API。在[Dapr安装完成后]({{% ref install-dapr-cli.md %}})，您可以开始使用作业API，从[如何：调度作业指南]({{% ref howto-schedule-and-handle-triggered-jobs.md %}})开始。
 
 ## 下一步
 
-- [了解如何使用作业API]({{< ref howto-schedule-and-handle-triggered-jobs.md >}})
-- [了解更多关于调度器控制平面服务的信息]({{< ref "concepts/dapr-services/scheduler.md" >}})
-- [作业API参考]({{< ref jobs_api.md >}})
+- [了解如何使用作业API]({{% ref howto-schedule-and-handle-triggered-jobs.md %}})
+- [了解更多关于调度器控制平面服务的信息]({{% ref "concepts/dapr-services/scheduler.md" %}})
+- [作业API参考]({{% ref jobs_api.md %}})

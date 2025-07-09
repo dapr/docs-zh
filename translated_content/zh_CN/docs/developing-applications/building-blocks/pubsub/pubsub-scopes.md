@@ -8,7 +8,7 @@ description: "通过范围控制将 pub/sub 主题限制为特定应用程序"
 
 ## 介绍
 
-[命名空间或组件范围]({{< ref component-scopes.md >}})可以用来限制组件的访问权限，使其仅对特定应用程序可用。这些应用程序范围的设置确保只有具有特定 ID 的应用程序才能使用该组件。
+[命名空间或组件范围]({{% ref component-scopes.md %}})可以用来限制组件的访问权限，使其仅对特定应用程序可用。这些应用程序范围的设置确保只有具有特定 ID 的应用程序才能使用该组件。
 
 除了这种通用的组件范围外，还可以对 pub/sub 组件进行以下限制：
 - 哪些主题可以被使用（发布或订阅）
@@ -208,7 +208,7 @@ spec:
 
 ## 下一步
 
-- 学习[如何配置具有多个命名空间的 pub/sub 组件]({{< ref pubsub-namespaces.md >}})
-- 了解[消息生存时间]({{< ref pubsub-message-ttl.md >}})
-- [pub/sub 组件列表]({{< ref supported-pubsub >}})
-- 阅读 [API 参考]({{< ref pubsub_api.md >}})
+- 学习[如何配置具有多个命名空间的 pub/sub 组件]({{% ref pubsub-namespaces.md %}})
+- 了解[消息生存时间]({{% ref pubsub-message-ttl.md %}})
+- [pub/sub 组件列表]({{% ref supported-pubsub %}})
+- 阅读 [API 参考]({{% ref pubsub_api.md %}})

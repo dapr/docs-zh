@@ -17,7 +17,7 @@ description: "将弹性策略应用于包括应用程序、组件和actor在内�
 
 使用`apps`目标，您可以将`retry`、`timeout`和`circuitBreaker`策略应用于Dapr应用程序之间的服务调用。在`targets/apps`下，策略应用于每个目标服务的`app-id`。当sidecar之间的通信出现故障时，这些策略将被调用，如下图所示。
 
-> Dapr提供了[内置的服务调用重试]({{< ref "service-invocation-overview.md#retries" >}})，因此任何应用的`retry`策略都是额外的。
+> Dapr提供了[内置的服务调用重试]({{% ref "service-invocation-overview.md#retries" %}})，因此任何应用的`retry`策略都是额外的。
 
 <img src="/images/resiliency_svc_invocation.png" width=1000 alt="显示服务调用弹性的图示" />
 
@@ -132,5 +132,5 @@ spec:
 ## 下一步
 
 尝试其中一个弹性快速入门：
-- [弹性：服务到服务]({{< ref resiliency-serviceinvo-quickstart.md >}})
-- [弹性：状态管理]({{< ref resiliency-state-quickstart.md >}})
+- [弹性：服务到服务]({{% ref resiliency-serviceinvo-quickstart.md %}})
+- [弹性：状态管理]({{% ref resiliency-state-quickstart.md %}})

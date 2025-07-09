@@ -23,7 +23,7 @@ description: "配置API构建模块的概述"
 <img src="/images/configuration-api-overview.png" width=900>
 
 {{% alert title="注意" color="primary" %}}
-配置API不应与[Dapr sidecar和控制平面配置]({{< ref "configuration-overview" >}})混淆，后者用于在Dapr sidecar实例或已安装的Dapr控制平面上设置策略和参数。
+配置API不应与[Dapr sidecar和控制平面配置]({{% ref "configuration-overview" %}})混淆，后者用于在Dapr sidecar实例或已安装的Dapr控制平面上设置策略和参数。
 {{% /alert %}}
 
 ## 试用配置
@@ -34,11 +34,11 @@ description: "配置API构建模块的概述"
 
 | 快速入门 | 描述 |
 | ---------- | ----------- |
-| [配置快速入门]({{< ref configuration-quickstart.md >}}) | 使用配置API获取配置项或订阅配置更改。 |
+| [配置快速入门]({{% ref configuration-quickstart.md %}}) | 使用配置API获取配置项或订阅配置更改。 |
 
 ### 直接在应用中开始使用配置API
 
-想要跳过快速入门？没问题。您可以直接在应用程序中尝试配置构建模块以读取和管理配置数据。在[Dapr安装完成]({{< ref "getting-started/_index.md" >}})后，您可以从[配置操作指南]({{< ref howto-manage-configuration.md >}})开始使用配置API。
+想要跳过快速入门？没问题。您可以直接在应用程序中尝试配置构建模块以读取和管理配置数据。在[Dapr安装完成]({{% ref "getting-started/_index.md" %}})后，您可以从[配置操作指南]({{% ref howto-manage-configuration.md %}})开始使用配置API。
 
 ## 观看演示
 
@@ -48,4 +48,4 @@ description: "配置API构建模块的概述"
 
 ## 下一步
 请参阅以下指南：
-- [操作指南：从配置存储读取应用程序配置]({{< ref howto-manage-configuration.md >}})
+- [操作指南：从配置存储读取应用程序配置]({{% ref howto-manage-configuration.md %}})

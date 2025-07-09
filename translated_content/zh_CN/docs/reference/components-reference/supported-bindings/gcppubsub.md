@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 GCP Pub/Sub 绑定，您需要创建一个类型为 `bindings.gcp.pubsub` 的组件。有关如何创建和应用绑定配置的信息，请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})。
+要设置 GCP Pub/Sub 绑定，您需要创建一个类型为 `bindings.gcp.pubsub` 的组件。有关如何创建和应用绑定配置的信息，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -48,7 +48,7 @@ spec:
     value: "input, output"
 ```
 {{% alert title="警告" color="warning" %}}
-上述示例使用了明文字符串作为密钥。建议使用密钥存储来保护这些信息，详情请参阅[此处]({{< ref component-secrets.md >}})。
+上述示例使用了明文字符串作为密钥。建议使用密钥存储来保护这些信息，详情请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 元数据字段说明
@@ -79,8 +79,8 @@ spec:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

@@ -21,7 +21,7 @@ Wasm 二进制文件必须是使用 WebAssembly 系统接口（WASI）编译的�
 
 您还可以重用现有的二进制文件。例如，[Wasm 语言运行时](https://github.com/vmware-labs/webassembly-language-runtimes)分发已经编译为 WASI 的解释器（包括 PHP、Python 和 Ruby）。
 
-Wasm 二进制文件可以从 URL 加载。例如，URL `file://rewrite.wasm` 会从进程的当前目录加载 `rewrite.wasm`。在 Kubernetes 上，请参阅[如何：将 Pod 卷挂载到 Dapr sidecar]({{< ref kubernetes-volume-mounts.md >}})以配置可以包含 Wasm 二进制文件的文件系统挂载。也可以从远程 URL 获取 Wasm 二进制文件。在这种情况下，URL 必须准确指向一个 Wasm 二进制文件。例如：
+Wasm 二进制文件可以从 URL 加载。例如，URL `file://rewrite.wasm` 会从进程的当前目录加载 `rewrite.wasm`。在 Kubernetes 上，请参阅[如何：将 Pod 卷挂载到 Dapr sidecar]({{% ref kubernetes-volume-mounts.md %}})以配置可以包含 Wasm 二进制文件的文件系统挂载。也可以从远程 URL 获取 Wasm 二进制文件。在这种情况下，URL 必须准确指向一个 Wasm 二进制文件。例如：
 - `http://example.com/rewrite.wasm`，或
 - `https://example.com/rewrite.wasm`。
 
@@ -34,12 +34,12 @@ Wasm 输出绑定支持使用 [wasi-http](https://github.com/WebAssembly/wasi-ht
 * [TypeScript](https://github.com/dev-wasm/dev-wasm-ts/tree/main/http)
 
 {{% alert title="注意" color="primary" %}}
-如果您只想进行 HTTP 调用，使用 [service-invocation API]({{< ref howto-invoke-non-dapr-endpoints.md >}}) 更简单。然而，如果您需要添加自己的逻辑 - 例如，过滤或调用多个 API 端点 - 请考虑使用 Wasm。
+如果您只想进行 HTTP 调用，使用 [service-invocation API]({{% ref howto-invoke-non-dapr-endpoints.md %}}) 更简单。然而，如果您需要添加自己的逻辑 - 例如，过滤或调用多个 API 端点 - 请考虑使用 Wasm。
 {{% /alert %}}
 
 ## 组件格式
 
-要配置 Wasm 绑定，请创建一个类型为 `bindings.wasm` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要配置 Wasm 绑定，请创建一个类型为 `bindings.wasm` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -108,8 +108,8 @@ $ curl -X POST http://localhost:3500/v1.0/bindings/wasm -d'
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [bindings 构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [bindings API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [bindings 构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [bindings API 参考]({{% ref bindings_api.md %}})

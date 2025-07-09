@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-为了设置MongoDB状态存储，您需要创建一个类型为`state.mongodb`的组件。请参考[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+为了设置MongoDB状态存储，您需要创建一个类型为`state.mongodb`的组件。请参考[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -47,7 +47,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret以明文字符串形式使用。建议按照[此处]({{< ref component-secrets.md >}})所述使用secret存储。
+上述示例中，secret以明文字符串形式使用。建议按照[此处]({{% ref component-secrets.md %}})所述使用secret存储。
 {{% /alert %}}
 
 ### actor状态存储和事务支持
@@ -83,9 +83,9 @@ spec:
 
 ## 设置MongoDB
 
-{{< tabs "Self-Hosted" "Kubernetes" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 您可以使用Docker在本地运行单个MongoDB实例：
 
 ```sh
@@ -95,9 +95,9 @@ docker run --name some-mongo -d -p 27017:27017 mongo
 然后，您可以在`localhost:27017`与服务器交互。如果在组件定义中未指定`databaseName`值，请确保创建一个名为`daprStore`的数据库。
 
 为了将MongoDB状态存储用于事务和作为actor状态存储，您需要将MongoDB作为副本集运行。有关如何使用Docker创建3节点副本集，请参阅[官方文档](https://www.mongodb.com/compatibility/deploying-a-mongodb-cluster-with-docker)。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 您可以使用[Bitnami打包的Helm chart](https://github.com/bitnami/charts/tree/main/bitnami/mongodb/)方便地在Kubernetes上安装MongoDB。请参阅Helm chart文档以了解如何部署MongoDB，无论是作为独立服务器还是与副本集（使用事务和actor所需）一起。
 这会将MongoDB安装到`default`命名空间中。
 要与MongoDB交互，请使用：`kubectl get svc mongo-mongodb`查找服务。
@@ -105,16 +105,16 @@ docker run --name some-mongo -d -p 27017:27017 mongo
 `mongo-mongodb.default.svc.cluster.local:27017`
 按照屏幕上的说明获取MongoDB的root密码。
 用户名通常默认为`admin`。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### TTL和清理
 
-此状态存储支持Dapr存储记录的[生存时间（TTL）]({{< ref state-store-ttl.md >}})。使用Dapr存储数据时，您可以设置`ttlInSeconds`元数据属性以指示数据何时应被视为“过期”。
+此状态存储支持Dapr存储记录的[生存时间（TTL）]({{% ref state-store-ttl.md %}})。使用Dapr存储数据时，您可以设置`ttlInSeconds`元数据属性以指示数据何时应被视为“过期”。
 
 ## 相关链接
 
-- [Dapr组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

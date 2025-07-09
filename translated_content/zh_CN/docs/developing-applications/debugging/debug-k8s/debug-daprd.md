@@ -10,12 +10,12 @@ description: "如何在 Kubernetes 集群上调试 Dapr sidecar (daprd)"
 
 有时我们需要了解 Dapr sidecar (daprd) 的运行情况，特别是在诊断 Dapr 应用程序时，怀疑 Dapr 本身是否存在问题。此外，您可能正在为 Kubernetes 上的 Dapr 开发新功能，并需要调试您的代码。
 
-本指南介绍如何使用 Dapr 的内置调试功能来调试 Kubernetes pod 中的 Dapr sidecar。要了解如何查看日志和排查 Kubernetes 中的 Dapr 问题，请参阅[配置和查看 Dapr 日志指南]({{< ref "logs-troubleshooting.md#logs-in-kubernetes-mode" >}})。
+本指南介绍如何使用 Dapr 的内置调试功能来调试 Kubernetes pod 中的 Dapr sidecar。要了解如何查看日志和排查 Kubernetes 中的 Dapr 问题，请参阅[配置和查看 Dapr 日志指南]({{% ref "logs-troubleshooting.md#logs-in-kubernetes-mode" %}})。
 
 ## 前提条件
 
-- 请参阅[本指南]({{< ref kubernetes-deploy.md >}})了解如何将 Dapr 部署到您的 Kubernetes 集群。
-- 按照[本指南]({{< ref "debug-dapr-services.md">}})构建您将在下一步中部署的 Dapr 调试二进制文件。
+- 请参阅[本指南]({{% ref kubernetes-deploy.md %}})了解如何将 Dapr 部署到您的 Kubernetes 集群。
+- 按照[本指南]({{% ref "debug-dapr-services.md" %}})构建您将在下一步中部署的 Dapr 调试二进制文件。
 
 ## 初始化 Dapr 调试模式
 
@@ -25,7 +25,7 @@ description: "如何在 Kubernetes 集群上调试 Dapr sidecar (daprd)"
 dapr uninstall -k
 ```
 
-我们将使用 'helm' 来安装 Dapr 调试二进制文件。有关更多信息，请参阅[使用 Helm 安装]({{< ref "kubernetes-deploy.md#install-with-helm-advanced" >}})。
+我们将使用 'helm' 来安装 Dapr 调试二进制文件。有关更多信息，请参阅[使用 Helm 安装]({{% ref "kubernetes-deploy.md#install-with-helm-advanced" %}})。
 
 首先配置一个名为 `values.yml` 的值文件，选项如下：
 
@@ -144,7 +144,7 @@ kubectl delete pod <podId>
 
 ## 相关链接
 
-- [Kubernetes 上的 Dapr 概述]({{< ref kubernetes-overview >}})
-- [将 Dapr 部署到 Kubernetes 集群]({{< ref kubernetes-deploy >}})
-- [在 Kubernetes 上调试 Dapr 服务]({{< ref debug-dapr-services >}})
+- [Kubernetes 上的 Dapr 概述]({{% ref kubernetes-overview %}})
+- [将 Dapr 部署到 Kubernetes 集群]({{% ref kubernetes-deploy %}})
+- [在 Kubernetes 上调试 Dapr 服务]({{% ref debug-dapr-services %}})
 - [Dapr Kubernetes 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)

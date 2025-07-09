@@ -6,7 +6,7 @@ weight: 3000
 description: "了解 Dapr 中的 API 日志记录工作原理以及如何查看日志"
 ---
 
-API 日志记录可以让您查看应用程序对 Dapr sidecar 的 API 调用情况。这对于监控应用程序行为或进行调试非常有用。您还可以将 Dapr API 日志记录与 Dapr 日志事件结合使用（参见[配置和查看 Dapr 日志]({{< ref "logs-troubleshooting.md" >}})），以便更好地利用日志记录功能。
+API 日志记录可以让您查看应用程序对 Dapr sidecar 的 API 调用情况。这对于监控应用程序行为或进行调试非常有用。您还可以将 Dapr API 日志记录与 Dapr 日志事件结合使用（参见[配置和查看 Dapr 日志]({{% ref "logs-troubleshooting.md" %}})），以便更好地利用日志记录功能。
 
 ## 概述
 
@@ -80,7 +80,7 @@ time="2022-03-16T18:32:03.359097916Z" level=info msg="HTTP API Called" method="P
 
 ## API 日志记录配置
 
-使用 [Dapr 配置规范]({{< ref "configuration-overview.md" >}}#sidecar-configuration)，您可以配置 Dapr 运行时中 API 日志记录的默认行为。
+使用 [Dapr 配置规范]({{% ref "configuration-overview.md" %}}#sidecar-configuration)，您可以配置 Dapr 运行时中 API 日志记录的默认行为。
 
 ### 默认启用 API 日志记录
 

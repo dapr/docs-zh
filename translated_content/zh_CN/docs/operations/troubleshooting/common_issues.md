@@ -19,7 +19,7 @@ description: "运行 Dapr 应用程序时遇到的常见问题和问题"
 
 请通过以下步骤进行排查：
 
-1. [确保容器正确运行。]({{< ref "install-dapr-selfhost.md#step-4-verify-containers-are-running" >}})
+1. [确保容器正确运行。]({{% ref "install-dapr-selfhost.md#step-4-verify-containers-are-running" %}})
 2. 在 Docker Desktop 中，确认已选择 **允许使用默认 Docker 套接字（需要密码）** 选项。
 
    <img src="/images/docker-desktop-setting.png" width=800 style="padding-bottom:15px;">
@@ -73,7 +73,7 @@ spec:
 
   如果是这种情况，重启 pod 将解决问题。
 
-- 如果您在私有 GKE 集群上部署 Dapr，sidecar 注入在没有额外步骤的情况下不起作用。请参阅 [设置 Google Kubernetes Engine 集群]({{< ref setup-gke.md >}})。
+- 如果您在私有 GKE 集群上部署 Dapr，sidecar 注入在没有额外步骤的情况下不起作用。请参阅 [设置 Google Kubernetes Engine 集群]({{% ref setup-gke.md %}})。
 
   为了进一步诊断任何问题，请检查 Dapr sidecar 注入器的日志：
 
@@ -142,9 +142,9 @@ kubectl describe pod <name-of-pod>
 
 要诊断根本原因：
 
-- 显著增加存活探测延迟 - [链接]({{< ref "arguments-annotations-overview.md" >}})
-- 将 sidecar 的日志级别设置为调试 - [链接]({{< ref "logs-troubleshooting.md#setting-the-sidecar-log-level" >}})
-- 观察日志以获取有意义的信息 - [链接]({{< ref "logs-troubleshooting.md#viewing-logs-on-kubernetes" >}})
+- 显著增加存活探测延迟 - [链接]({{% ref "arguments-annotations-overview.md" %}})
+- 将 sidecar 的日志级别设置为调试 - [链接]({{% ref "logs-troubleshooting.md#setting-the-sidecar-log-level" %}})
+- 观察日志以获取有意义的信息 - [链接]({{% ref "logs-troubleshooting.md#viewing-logs-on-kubernetes" %}})
 
 > 解决问题后，请记得将存活检查延迟和日志级别配置回您期望的值。
 
@@ -159,7 +159,7 @@ kubectl get components
 ```
 
 如果没有状态存储组件，则意味着您需要设置一个。
-访问 [这里]({{< ref "state-management" >}}) 了解更多详细信息。
+访问 [这里]({{% ref "state-management" %}}) 了解更多详细信息。
 
 如果一切设置正确，请确保您获得了正确的凭据。
 搜索 Dapr 运行时日志并查找任何状态存储错误：
@@ -179,7 +179,7 @@ kubectl get components
 ```
 
 如果没有 pub/sub 组件，则意味着您需要设置一个。
-访问 [这里]({{< ref "pubsub" >}}) 了解更多详细信息。
+访问 [这里]({{% ref "pubsub" %}}) 了解更多详细信息。
 
 如果一切设置正确，请确保您获得了正确的凭据。
 搜索 Dapr 运行时日志并查找任何 pub/sub 错误：
@@ -200,7 +200,7 @@ kubectl logs <name-of-pod> daprd
 ## 调用 Dapr 时收到 404 未找到响应
 
 这意味着您正在尝试调用一个不存在的 Dapr API 端点或 URL 格式错误。
-查看 Dapr API 参考 [这里]({{< ref "api" >}}) 并确保您正在调用正确的端点。
+查看 Dapr API 参考 [这里]({{% ref "api" %}}) 并确保您正在调用正确的端点。
 
 ## 我没有看到来自其他服务的任何传入事件或调用
 
@@ -219,7 +219,7 @@ annotations:
 ## 我的 Dapr 启用的应用程序行为不正确
 
 首先要做的是检查 Dapr API 返回的 HTTP 错误代码（如果有）。
-如果仍然找不到问题，请尝试为 Dapr 运行时启用 `debug` 日志级别。请参阅 [这里]({{< ref "logs.md" >}}) 了解如何操作。
+如果仍然找不到问题，请尝试为 Dapr 运行时启用 `debug` 日志级别。请参阅 [这里]({{% ref "logs.md" %}}) 了解如何操作。
 
 您可能还需要查看您自己进程的错误日志。如果在 Kubernetes 上运行，找到包含您的应用程序的 pod，并执行以下操作：
 
@@ -249,9 +249,9 @@ export DAPR_HOST_IP=127.0.0.1
 
 这通常是由于以下问题之一
 
-- 您可能在本地定义了 `NAMESPACE` 环境变量或将组件部署到 Kubernetes 中的不同命名空间。检查您的应用程序和组件部署到哪个命名空间。阅读 [将组件限定到一个或多个应用程序]({{< ref "component-scopes.md" >}}) 了解更多信息。
-- 您可能没有在 Dapr `run` 命令中提供 `--resources-path` 或没有将组件放入操作系统的默认组件文件夹中。阅读 [定义组件]({{< ref "get-started-component.md" >}}) 了解更多信息。
-- 您的组件 YAML 文件中可能存在语法问题。使用组件 [YAML 示例]({{< ref "components.md" >}}) 检查您的组件 YAML。
+- 您可能在本地定义了 `NAMESPACE` 环境变量或将组件部署到 Kubernetes 中的不同命名空间。检查您的应用程序和组件部署到哪个命名空间。阅读 [将组件限定到一个或多个应用程序]({{% ref "component-scopes.md" %}}) 了解更多信息。
+- 您可能没有在 Dapr `run` 命令中提供 `--resources-path` 或没有将组件放入操作系统的默认组件文件夹中。阅读 [定义组件]({{% ref "get-started-component.md" %}}) 了解更多信息。
+- 您的组件 YAML 文件中可能存在语法问题。使用组件 [YAML 示例]({{% ref "components.md" %}}) 检查您的组件 YAML。
 
 ## 服务调用失败，我的 Dapr 服务缺少 appId（macOS）
 

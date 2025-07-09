@@ -16,7 +16,7 @@ description: "如何在组件定义中安全地引用secret"
 
 ### 支持的secret存储
 
-访问[此链接]({{< ref "howto-secrets.md" >}})查看Dapr支持的所有secret存储，以及如何配置和使用它们的信息。
+访问[此链接]({{% ref "howto-secrets.md" %}})查看Dapr支持的所有secret存储，以及如何配置和使用它们的信息。
 
 ## 引用secret
 
@@ -60,7 +60,7 @@ auth:
   secretStore: <SECRET_STORE_NAME>
 ```
 
-`SECRET_STORE_NAME`是配置的[secret存储组件]({{< ref supported-secret-stores >}})的名称。在Kubernetes中运行并使用Kubernetes secret存储时，字段`auth.SecretStore`默认为`kubernetes`，可以留空。
+`SECRET_STORE_NAME`是配置的[secret存储组件]({{% ref supported-secret-stores %}})的名称。在Kubernetes中运行并使用Kubernetes secret存储时，字段`auth.SecretStore`默认为`kubernetes`，可以留空。
 
 上述组件定义告诉Dapr从定义的`secretStore`中提取名为`redis-secret`的secret，并将secret中嵌入的`redis-password` key关联的值分配给组件中的`redisPassword`字段。此情况的一个用途是当你的代码正在构建一个连接字符串时，例如将URL、secret以及其他必要信息组合成一个字符串。
 
@@ -121,7 +121,7 @@ auth:
 
 ## 限制对secret的访问
 
-Dapr可以使用其配置限制对secret存储中secret的访问。阅读[如何使用secret范围]({{< ref "secrets-scopes.md" >}})和[如何限制从secret存储中读取的secret]({{< ref "secret-scope.md" >}})以获取更多信息。这是使用Dapr限制对secret访问的推荐方法。
+Dapr可以使用其配置限制对secret存储中secret的访问。阅读[如何使用secret范围]({{% ref "secrets-scopes.md" %}})和[如何限制从secret存储中读取的secret]({{% ref "secret-scope.md" %}})以获取更多信息。这是使用Dapr限制对secret访问的推荐方法。
 
 ## Kubernetes权限
 
@@ -168,5 +168,5 @@ roleRef:
 
 ## 相关链接
 
-- [使用secret范围]({{< ref "secrets-scopes.md" >}})
-- [限制从secret存储中读取的secret]({{< ref "secret-scope.md" >}})
+- [使用secret范围]({{% ref "secrets-scopes.md" %}})
+- [限制从secret存储中读取的secret]({{% ref "secret-scope.md" %}})

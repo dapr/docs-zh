@@ -11,7 +11,7 @@ description: "关于发布命令行工具的详细信息"
 
 ### 支持的平台
 
-- [自托管]({{< ref self-hosted >}})
+- [自托管]({{% ref self-hosted %}})
 
 ### 用法
 

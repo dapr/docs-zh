@@ -71,6 +71,6 @@ spec:
 
 ## 下一步
 - 了解更多关于实现：
-  - [绑定]({{< ref go-bindings >}})
-  - [状态存储]({{< ref go-state-store >}})
-  - [发布/订阅]({{< ref go-pub-sub >}})
+  - [绑定]({{% ref go-bindings %}})
+  - [状态存储]({{% ref go-state-store %}})
+  - [发布/订阅]({{% ref go-pub-sub %}})

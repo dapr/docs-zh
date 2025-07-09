@@ -66,11 +66,11 @@ Dapr 加密构建块包括两种组件：
 
 | 快速入门/教程 | 描述 |
 | ------------------- | ----------- |
-| [加密快速入门]({{< ref cryptography-quickstart.md >}}) | 使用加密 API 使用 RSA 和 AES 密钥加密和解密消息和大文件。 |
+| [加密快速入门]({{% ref cryptography-quickstart.md %}}) | 使用加密 API 使用 RSA 和 AES 密钥加密和解密消息和大文件。 |
 
 ### 直接在您的应用程序中开始使用加密
 
-想要跳过快速入门？没问题。您可以直接在应用程序中试用加密构建块来加密和解密您的应用程序。在 [安装 Dapr]({{< ref "getting-started/_index.md" >}}) 后，您可以从 [加密操作指南]({{< ref howto-cryptography.md >}}) 开始使用加密 API。
+想要跳过快速入门？没问题。您可以直接在应用程序中试用加密构建块来加密和解密您的应用程序。在 [安装 Dapr]({{% ref "getting-started/_index.md" %}}) 后，您可以从 [加密操作指南]({{% ref howto-cryptography.md %}}) 开始使用加密 API。
 
 ## 演示
 
@@ -83,6 +83,6 @@ Dapr 加密构建块包括两种组件：
 {{< button text="使用加密 API >>" page="howto-cryptography.md" >}}
 
 ## 相关链接
-- [加密概述]({{< ref cryptography-overview.md >}})
-- [加密组件规范]({{< ref supported-cryptography >}})
-- [加密 API 参考文档]({{< ref cryptography_api >}})
+- [加密概述]({{% ref cryptography-overview.md %}})
+- [加密组件规范]({{% ref supported-cryptography %}})
+- [加密 API 参考文档]({{% ref cryptography_api %}})

@@ -9,9 +9,9 @@ aliases:
 
 ## 组件格式
 
-要配置 Kafka 绑定，需创建一个 `bindings.kafka` 类型的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。有关使用 `secretKeyRef` 的详细信息，请查看[如何在组件中引用 secret]({{< ref component-secrets.md >}})的指南。
+要配置 Kafka 绑定，需创建一个 `bindings.kafka` 类型的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。有关使用 `secretKeyRef` 的详细信息，请查看[如何在组件中引用 secret]({{% ref component-secrets.md %}})的指南。
 
-所有组件的元数据字段值可以使用[模板化的元数据值]({{< ref "component-schema.md#templated-metadata-values" >}})，这些值会在 Dapr sidecar 启动时进行解析。例如，您可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同命名空间中使用相同的 `appId` 和主题，如[本文]({{< ref "howto-namespace.md#with-namespace-consumer-groups">}})中所述。
+所有组件的元数据字段值可以使用[模板化的元数据值]({{% ref "component-schema.md#templated-metadata-values" %}})，这些值会在 Dapr sidecar 启动时进行解析。例如，您可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同命名空间中使用相同的 `appId` 和主题，如[本文]({{% ref "howto-namespace.md#with-namespace-consumer-groups" %}})中所述。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -79,7 +79,7 @@ spec:
 | `authRequired` | N | *已弃用* | 启用与 Kafka brokers 的 [SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) 认证。 | `"true"`, `"false"` |
 | `authType`            | Y | 输入/输出 | 配置或禁用认证。支持的值：`none`、`password`、`mtls` 或 `oidc` | `"password"`, `"none"` |
 | `saslUsername` | N | 输入/输出 | 用于认证的 SASL 用户名。仅当 `authRequired` 设置为 `"true"` 时需要。 | `"adminuser"` |
-| `saslPassword` | N | 输入/输出 | 用于认证的 SASL 密码。可以是 `secretKeyRef` 以使用[secret 引用]({{< ref component-secrets.md >}})。仅当 `authRequired` 设置为 `"true"` 时需要。 | `""`, `"KeFg23!"` |
+| `saslPassword` | N | 输入/输出 | 用于认证的 SASL 密码。可以是 `secretKeyRef` 以使用[secret 引用]({{% ref component-secrets.md %}})。仅当 `authRequired` 设置为 `"true"` 时需要。 | `""`, `"KeFg23!"` |
 | `saslMechanism` | N | 输入/输出 | 您想要使用的 SASL 认证机制。仅当 `authtype` 设置为 `"password"` 时需要。如果未提供，默认为 `PLAINTEXT`，这可能会导致某些服务（如 Amazon Managed Service for Kafka）中断。 | `"SHA-512", "SHA-256", "PLAINTEXT"` |
 | `initialOffset`   | N | 输入 | 如果之前没有提交偏移量，则使用的初始偏移量。应为 "newest" 或 "oldest"。默认为 "newest"。 | `"oldest"` |
 | `maxMessageBytes` | N | 输入/输出 | 单个 Kafka 消息允许的最大字节大小。默认为 1024。 | `"2048"` |
@@ -115,7 +115,7 @@ spec:
 
 ## 认证
 
-Kafka 支持多种认证方案，Dapr 支持几种：SASL 密码、mTLS、OIDC/OAuth2。[了解更多关于 Kafka 绑定和 Kafka pub/sub 组件的认证方法]({{< ref "setup-apache-kafka.md#authentication" >}})。
+Kafka 支持多种认证方案，Dapr 支持几种：SASL 密码、mTLS、OIDC/OAuth2。[了解更多关于 Kafka 绑定和 Kafka pub/sub 组件的认证方法]({{% ref "setup-apache-kafka.md#authentication" %}})。
 
 ## 指定分区键
 
@@ -145,8 +145,8 @@ curl -X POST http://localhost:3500/v1.0/bindings/myKafka \
 
 ## 相关链接
 
-- [Dapr 组件的基本 schema]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本 schema]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

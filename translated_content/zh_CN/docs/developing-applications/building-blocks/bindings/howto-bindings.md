@@ -10,15 +10,15 @@ weight: 300
 
 <img src="/images/howto-bindings/kafka-output-binding.png" width=1000 alt="示例服务的绑定图示">
 
-本指南以Kafka绑定为例。您可以从[绑定组件列表]({{< ref setup-bindings >}})中选择您偏好的绑定规范。在本指南中：
+本指南以Kafka绑定为例。您可以从[绑定组件列表]({{% ref setup-bindings %}})中选择您偏好的绑定规范。在本指南中：
 
 1. 示例中调用了`/binding`端点，使用`checkout`作为要调用的绑定名称。
 2. 负载放在必需的`data`字段中，可以是任何JSON可序列化的值。
-3. `operation`字段指定绑定需要执行的操作。例如，[Kafka绑定支持`create`操作]({{< ref "kafka.md#binding-support" >}})。
-   - 您可以查看[每个输出绑定支持的操作（特定于每个组件）]({{< ref supported-bindings >}})。
+3. `operation`字段指定绑定需要执行的操作。例如，[Kafka绑定支持`create`操作]({{% ref "kafka.md#binding-support" %}})。
+   - 您可以查看[每个输出绑定支持的操作（特定于每个组件）]({{% ref supported-bindings %}})。
 
 {{% alert title="注意" color="primary" %}}
-如果您还没有尝试过，[请尝试绑定快速入门]({{< ref bindings-quickstart.md >}})，以快速了解如何使用bindings API。
+如果您还没有尝试过，[请尝试绑定快速入门]({{% ref bindings-quickstart.md %}})，以快速了解如何使用bindings API。
 
 {{% /alert %}}
 
@@ -31,11 +31,11 @@ weight: 300
 - 您将发布消息的主题
 - 代理
 
-在创建绑定组件时，[指定绑定的支持`direction`]({{< ref "bindings_api.md#binding-direction-optional" >}})。
+在创建绑定组件时，[指定绑定的支持`direction`]({{% ref "bindings_api.md#binding-direction-optional" %}})。
 
-{{< tabs "Self-Hosted (CLI)" Kubernetes >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted (CLI)" %}}
 
 使用`dapr run`的`--resources-path`标志指向您的自定义资源目录。
 
@@ -65,9 +65,9 @@ spec:
     value: output
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 要将以下`binding.yaml`文件部署到Kubernetes集群中，运行`kubectl apply -f binding.yaml`。
 
@@ -97,17 +97,17 @@ spec:
     value: output
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 发送事件（输出绑定）
 
 下面的代码示例利用Dapr SDK在运行的Dapr实例上调用输出绑定端点。
 
-{{< tabs ".NET" Java Python Go JavaScript>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 //依赖项
@@ -145,9 +145,9 @@ namespace EventService
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 //依赖项
@@ -183,9 +183,9 @@ public class OrderProcessingServiceApplication {
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 #依赖项
@@ -211,9 +211,9 @@ while True:
     
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 //依赖项
@@ -249,9 +249,9 @@ func main() {
     
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 //依赖项
@@ -291,9 +291,9 @@ function sleep(ms) {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 您还可以使用HTTP调用输出绑定端点：
 
@@ -309,6 +309,6 @@ curl -X POST -H 'Content-Type: application/json' http://localhost:3601/v1.0/bind
 
 ## 参考资料
 
-- [绑定API]({{< ref bindings_api.md >}})
-- [绑定组件]({{< ref bindings >}})
-- [绑定详细规格]({{< ref supported-bindings >}})
+- [绑定API]({{% ref bindings_api.md %}})
+- [绑定组件]({{% ref bindings %}})
+- [绑定详细规格]({{% ref supported-bindings %}})

@@ -10,7 +10,7 @@ Dapr 支持通过 Dapr 控制平面的 Sentry 服务对 Dapr 实例之间的通�
 
 Dapr 允许操作员和开发人员使用自己的证书，或者让 Dapr 自动创建并保存自签名的根证书和颁发者证书。
 
-有关 mTLS 的详细信息，请阅读[安全概念部分]({{< ref "security-concept.md" >}})。
+有关 mTLS 的详细信息，请阅读[安全概念部分]({{% ref "security-concept.md" %}})。
 
 如果没有提供自定义证书，Dapr 会自动创建并保存有效期为一年的自签名证书。
 在 Kubernetes 中，证书会保存到 Dapr 系统 pod 所在命名空间的 secret 中，仅对它们可访问。
@@ -389,9 +389,9 @@ spec:
 
 除了 Dapr 配置，您还需要为每个 Dapr sidecar 实例提供 TLS 证书。您可以在运行 Dapr 实例之前设置以下环境变量来实现：
 
-{{< tabs "Linux/MacOS" Windows >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 ```bash
 export DAPR_TRUST_ANCHORS=`cat $HOME/.dapr/certs/ca.crt`
 export DAPR_CERT_CHAIN=`cat $HOME/.dapr/certs/issuer.crt`
@@ -399,9 +399,9 @@ export DAPR_CERT_KEY=`cat $HOME/.dapr/certs/issuer.key`
 export NAMESPACE=default
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 ```powershell
 $env:DAPR_TRUST_ANCHORS=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\ca.crt)
 $env:DAPR_CERT_CHAIN=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\issuer.crt)
@@ -409,9 +409,9 @@ $env:DAPR_CERT_KEY=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\issuer.key)
 $env:NAMESPACE="default"
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 如果使用 Dapr CLI，请将 Dapr 指向上面的配置文件以启用 mTLS 运行 Dapr 实例：
 

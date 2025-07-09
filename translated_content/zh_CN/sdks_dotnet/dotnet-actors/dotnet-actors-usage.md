@@ -241,4 +241,4 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
 ## 下一步
 
-尝试[运行和使用虚拟actor示例]({{< ref dotnet-actors-howto.md >}})。
+尝试[运行和使用虚拟actor示例]({{% ref dotnet-actors-howto.md %}})。

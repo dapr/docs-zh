@@ -11,12 +11,12 @@ aliases:
 {{% alert title="注意" color="primary" %}}
 这是 PostgreSQL 状态存储组件的 v2 版，包含了一些性能和可靠性方面的改进。建议新应用使用 v2。
 
-PostgreSQL v2 状态存储组件与 [v1 组件]({{< ref setup-postgresql-v1.md >}}) 不兼容，数据无法在两个版本之间迁移。v2 组件不支持状态存储查询 API。
+PostgreSQL v2 状态存储组件与 [v1 组件]({{% ref setup-postgresql-v1.md %}}) 不兼容，数据无法在两个版本之间迁移。v2 组件不支持状态存储查询 API。
 
 目前没有计划弃用 v1 组件。
 {{% /alert %}}
 
-此组件允许使用 PostgreSQL (Postgres) 作为 Dapr 的状态存储，采用 "v2" 组件。请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+此组件允许使用 PostgreSQL (Postgres) 作为 Dapr 的状态存储，采用 "v2" 组件。请参阅[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -58,7 +58,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用明文字符串作为 secret。建议按照[此处]({{< ref component-secrets.md >}})所述使用 secret 存储。
+上述示例使用明文字符串作为 secret。建议按照[此处]({{% ref component-secrets.md %}})所述使用 secret 存储。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -114,9 +114,9 @@ AWS 身份验证令牌将在其到期时间之前动态旋转。
 
 ## 设置 PostgreSQL
 
-{{< tabs "Self-Hosted" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 
 1. 运行一个 PostgreSQL 实例。您可以使用以下命令在 Docker 中运行本地 PostgreSQL 实例：
 
@@ -135,18 +135,18 @@ AWS 身份验证令牌将在其到期时间之前动态旋转。
     CREATE DATABASE my_dapr;
     ```
   
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% /tabs %}}
+{{% /tabpane %}}
 
 ## 高级
 
 ### v1 和 v2 之间的差异
 
-PostgreSQL 状态存储 v2 在 Dapr 1.13 中引入。[现有的 v1]({{< ref setup-postgresql-v1.md >}}) 仍然可用，并且没有被弃用。
+PostgreSQL 状态存储 v2 在 Dapr 1.13 中引入。[现有的 v1]({{% ref setup-postgresql-v1.md %}}) 仍然可用，并且没有被弃用。
 
 在 v2 组件中，表结构发生了显著变化，目的是提高性能和可靠性。最显著的是，Dapr 存储的值现在是 _BYTEA_ 类型，这允许更快的查询，并且在某些情况下比以前使用的 _JSONB_ 列更节省空间。  
-然而，由于此更改，v2 组件不支持 [Dapr 状态存储查询 API]({{< ref howto-state-query-api.md >}})。
+然而，由于此更改，v2 组件不支持 [Dapr 状态存储查询 API]({{% ref howto-state-query-api.md %}})。
 
 此外，在 v2 组件中，ETags 现在是随机 UUID，这确保了与其他 PostgreSQL 兼容数据库（如 CockroachDB）的更好兼容性。
 
@@ -165,7 +165,7 @@ SELECT *, convert_from(value, 'utf-8') FROM state;
 
 ### TTL 和清理
 
-此状态存储支持 Dapr 存储的记录的 [生存时间 (TTL)]({{< ref state-store-ttl.md >}})。使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性，以指示数据在多少秒后应被视为 "过期"。
+此状态存储支持 Dapr 存储的记录的 [生存时间 (TTL)]({{% ref state-store-ttl.md %}})。使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性，以指示数据在多少秒后应被视为 "过期"。
 
 由于 PostgreSQL 没有内置的 TTL 支持，这在 Dapr 中通过在状态表中添加一列来实现，该列指示数据何时应被视为 "过期"。即使它们仍然物理存储在数据库中，"过期" 的记录也不会返回给调用者。后台 "垃圾收集器" 定期扫描状态表以查找过期的行并删除它们。
 
@@ -176,6 +176,6 @@ SELECT *, convert_from(value, 'utf-8') FROM state;
 
 ## 相关链接
 
-- [Dapr 组件的基本模式]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本模式]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

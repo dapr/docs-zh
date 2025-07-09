@@ -11,13 +11,13 @@ aliases:
 ---
 
 {{% alert title="注意" color="primary" %}}
-从 Dapr 1.13 开始，您可以使用 [PostgreSQL v2]({{< ref setup-postgresql-v2.md >}}) 状态存储组件，该组件在性能和可靠性方面有所提升。  
+从 Dapr 1.13 开始，您可以使用 [PostgreSQL v2]({{% ref setup-postgresql-v2.md %}}) 状态存储组件，该组件在性能和可靠性方面有所提升。  
 v2 组件与 v1 不兼容，数据无法在两个组件之间迁移。v2 组件不支持状态存储查询 API。
 
 目前没有计划弃用 v1 组件。
 {{% /alert %}}
 
-此组件允许使用 PostgreSQL (Postgres) 作为 Dapr 的状态存储，采用 "v1" 组件。请参考[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+此组件允许使用 PostgreSQL (Postgres) 作为 Dapr 的状态存储，采用 "v1" 组件。请参考[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -58,7 +58,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用明文字符串作为 secret。建议按照[此处]({{< ref component-secrets.md >}})所述使用 secret 存储。
+上述示例使用明文字符串作为 secret。建议按照[此处]({{% ref component-secrets.md %}})所述使用 secret 存储。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -114,9 +114,9 @@ AWS 身份验证令牌将在其到期时间之前动态旋转。
 
 ## 设置 PostgreSQL
 
-{{< tabs "Self-Hosted" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 
 1. 运行一个 PostgreSQL 实例。您可以使用以下命令在 Docker CE 中运行本地 PostgreSQL 实例：
 
@@ -135,15 +135,15 @@ AWS 身份验证令牌将在其到期时间之前动态旋转。
     CREATE DATABASE my_dapr;
     ```
   
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% /tabs %}}
+{{% /tabpane %}}
 
 ## 高级
 
 ### TTL 和清理
 
-此状态存储支持 Dapr 存储的记录的 [生存时间 (TTL)]({{< ref state-store-ttl.md >}})。在使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性以指示数据在多少秒后应被视为 "过期"。
+此状态存储支持 Dapr 存储的记录的 [生存时间 (TTL)]({{% ref state-store-ttl.md %}})。在使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性以指示数据在多少秒后应被视为 "过期"。
 
 由于 PostgreSQL 没有内置的 TTL 支持，这在 Dapr 中通过在状态表中添加一列来实现，该列指示数据何时应被视为 "过期"。即使记录仍然物理存储在数据库中，"过期" 的记录也不会返回给调用者。后台 "垃圾收集器" 定期扫描状态表以查找过期行并删除它们。
 
@@ -162,6 +162,6 @@ CREATE INDEX expiredate_idx
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

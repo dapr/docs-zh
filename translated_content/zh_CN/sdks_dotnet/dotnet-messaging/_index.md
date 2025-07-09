@@ -10,4 +10,4 @@ description: 快速上手使用 Dapr Messaging .NET SDK
 
 未来的 Dapr .NET SDK 版本将会把现有的消息功能从 Dapr.Client 迁移到 Dapr.Messaging 包中。这一变更将在发布说明、文档和相关的技术说明中提前告知。
 
-要开始使用，请查看 [Dapr Messaging]({{< ref dotnet-messaging-pubsub-howto.md >}}) 指南，并参考[最佳实践文档]({{< ref dotnet-messaging-pubsub-usage.md >}})以获取更多指导。
+要开始使用，请查看 [Dapr Messaging]({{% ref dotnet-messaging-pubsub-howto.md %}}) 指南，并参考[最佳实践文档]({{% ref dotnet-messaging-pubsub-usage.md %}})以获取更多指导。

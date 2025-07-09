@@ -8,7 +8,7 @@ description: 了解如何使用 Docker-Compose 进行本地开发
 
 ## Docker-Compose
 
-*这可以看作是 [.NET 伴侣指南：使用 Docker 的 Dapr 自托管指南]({{< ref self-hosted-with-docker.md >}}) 的补充。*
+*这可以看作是 [.NET 伴侣指南：使用 Docker 的 Dapr 自托管指南]({{% ref self-hosted-with-docker.md %}}) 的补充。*
 
 `docker-compose` 是 Docker Desktop 附带的一个命令行工具，您可以用它同时运行多个容器。它提供了一种自动化管理多个容器生命周期的方法，为面向 Kubernetes 的应用程序提供类似于生产环境的开发体验。
 

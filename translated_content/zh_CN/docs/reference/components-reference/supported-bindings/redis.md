@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 Redis 绑定，需创建一个类型为 `bindings.redis` 的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要设置 Redis 绑定，需创建一个类型为 `bindings.redis` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -31,7 +31,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用了明文字符串作为秘密。建议使用秘密存储，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例使用了明文字符串作为秘密。建议使用秘密存储，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -41,10 +41,10 @@ spec:
 | `redisHost` | Y | 输出 |  Redis 主机地址 | `"localhost:6379"` |
 | `redisPassword` | N | 输出 | Redis 密码 | `"password"` |
 | `redisUsername` | N | 输出 | Redis 主机的用户名。默认为空。确保您的 Redis 服务器版本为 6 或更高，并已正确创建 ACL 规则。 | `"username"` |
-| `useEntraID` | N | 输出 | 实现 Azure Cache for Redis 的 EntraID 支持。启用此功能之前： <ul><li>必须以 `"server:port"` 的形式指定 `redisHost` 名称</li><li>必须启用 TLS</li></ul> 更多信息请参见[创建 Redis 实例 > Azure Cache for Redis]({{< ref "#create-a-redis-instance" >}})部分。 | `"true"`, `"false"` |
+| `useEntraID` | N | 输出 | 实现 Azure Cache for Redis 的 EntraID 支持。启用此功能之前： <ul><li>必须以 `"server:port"` 的形式指定 `redisHost` 名称</li><li>必须启用 TLS</li></ul> 更多信息请参见[创建 Redis 实例 > Azure Cache for Redis]({{% ref "#create-a-redis-instance" %}})部分。 | `"true"`, `"false"` |
 | `enableTLS` | N | 输出 |  如果 Redis 实例支持带有公共证书的 TLS，则可以配置启用或禁用 TLS。默认为 `"false"` | `"true"`, `"false"` |
-| `clientCert`        | N | 输出        | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，并且 `enableTLS` 必须设置为 true。建议使用秘密存储，如[此处]({{< ref component-secrets.md >}})所述  | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
-| `clientKey`        | N | 输出        | 客户端私钥的内容，与 `clientCert` 一起用于身份验证。建议使用秘密存储，如[此处]({{< ref component-secrets.md >}})所述  | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
+| `clientCert`        | N | 输出        | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，并且 `enableTLS` 必须设置为 true。建议使用秘密存储，如[此处]({{% ref component-secrets.md %}})所述  | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
+| `clientKey`        | N | 输出        | 客户端私钥的内容，与 `clientCert` 一起用于身份验证。建议使用秘密存储，如[此处]({{% ref component-secrets.md %}})所述  | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
 | `failover`           | N | 输出         | 启用故障转移配置的属性。需要设置 sentinalMasterName。默认为 `"false"` | `"true"`, `"false"`
 | `sentinelMasterName` | N | 输出         | 哨兵主名称。参见 [Redis Sentinel 文档](https://redis.io/docs/reference/sentinel-clients/) | `""`,  `"127.0.0.1:6379"`
 | `redeliverInterval`  | N | 输出        | 检查待处理消息以重新传递的间隔。默认为 `"60s"`。`"0"` 禁用重新传递。 | `"30s"`
@@ -164,14 +164,14 @@ Dapr 可以使用任何 Redis 实例 - 容器化的、在本地开发机器上�
 
 *注意：Dapr 不支持 Redis >= 7。建议使用 Redis 6*
 
-{{< tabs "自托管" "Kubernetes" "AWS" "Azure" "GCP" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="自托管" %}}
 Dapr CLI 将自动为您创建和设置一个 Redis Streams 实例。
 当您运行 `dapr init` 时，Redis 实例将通过 Docker 安装，并且组件文件将创建在默认目录中。(`$HOME/.dapr/components` 目录 (Mac/Linux) 或 `%USERPROFILE%\.dapr\components` 在 Windows 上)。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 您可以使用 [Helm](https://helm.sh/) 在我们的 Kubernetes 集群中快速创建一个 Redis 实例。此方法需要[安装 Helm](https://github.com/helm/helm#install)。
 
 1. 将 Redis 安装到您的集群中。
@@ -200,13 +200,13 @@ Dapr CLI 将自动为您创建和设置一个 Redis Streams 实例。
         - name: redisPassword
           value: "lhDOkwTlp0"
     ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="AWS" %}}
 [AWS Redis](https://aws.amazon.com/redis/)
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Azure" %}}
 1. [使用官方 Microsoft 文档创建 Azure Cache for Redis 实例。](https://docs.microsoft.com/azure/azure-cache-for-redis/quickstart-create-redis)
 
 1. 一旦您的实例创建完成，从 Azure 门户获取主机名（FQDN）和您的访问密钥。
@@ -223,7 +223,7 @@ Dapr CLI 将自动为您创建和设置一个 Redis Streams 实例。
 
 1. 将 `redisHost` 键设置为 `[HOST NAME FROM PREVIOUS STEP]:6379`，并将 `redisPassword` 键设置为您之前保存的密钥。
 
-   **注意：** 在生产级应用程序中，请遵循[秘密管理]({{< ref component-secrets.md >}})说明以安全管理您的秘密。
+   **注意：** 在生产级应用程序中，请遵循[秘密管理]({{% ref component-secrets.md %}})说明以安全管理您的秘密。
 
 1. 启用 EntraID 支持：
    - 在您的 Azure Redis 服务器上启用 Entra ID 身份验证。这可能需要几分钟。
@@ -231,15 +231,15 @@ Dapr CLI 将自动为您创建和设置一个 Redis Streams 实例。
 
 1. 将 `enableTLS` 设置为 `"true"` 以支持 TLS。
 
-> **注意：**`useEntraID` 假设您的 UserPrincipal（通过 AzureCLICredential）或 SystemAssigned 托管身份具有 RedisDataOwner 角色权限。如果使用用户分配的身份，[您需要指定 `azureClientID` 属性]({{< ref "howto-mi.md#set-up-identities-in-your-component" >}})。
+> **注意：**`useEntraID` 假设您的 UserPrincipal（通过 AzureCLICredential）或 SystemAssigned 托管身份具有 RedisDataOwner 角色权限。如果使用用户分配的身份，[您需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="GCP" %}}
 [GCP Cloud MemoryStore](https://cloud.google.com/memorystore/)
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 {{% alert title="注意" color="primary" %}}
 Dapr CLI 在自托管模式下作为 `dapr init` 命令的一部分自动部署本地 redis 实例。
@@ -247,7 +247,7 @@ Dapr CLI 在自托管模式下作为 `dapr init` 命令的一部分自动部署�
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

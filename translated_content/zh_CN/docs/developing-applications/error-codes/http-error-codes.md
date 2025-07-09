@@ -17,5 +17,5 @@ weight: 30
 
 ## 相关内容
 
-- [错误代码参考列表]({{< ref error-codes-reference.md >}})
-- [处理 gRPC 错误代码]({{< ref grpc-error-codes.md >}})
+- [错误代码参考列表]({{% ref error-codes-reference.md %}})
+- [处理 gRPC 错误代码]({{% ref grpc-error-codes.md %}})

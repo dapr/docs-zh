@@ -43,14 +43,14 @@ description: 为 Dapr .NET SDK 贡献的指南
 
 `examples` 目录包含用户可以运行的代码示例，以尝试各种 Dapr .NET SDK 包和扩展的特定功能。在编写新的和更新的示例时，请记住：
 
-- 所有示例应可在 Windows、Linux 和 MacOS 上运行。虽然 .NET Core 代码在操作系统之间是一致的，但任何前/后示例命令应通过 [codetabs]({{< ref "contributing-docs.md#tabbed-content" >}}) 提供选项
+- 所有示例应可在 Windows、Linux 和 MacOS 上运行。虽然 .NET Core 代码在操作系统之间是一致的，但任何前/后示例命令应通过 [tabpane]({{% ref "contributing-docs.md#tabbed-content" %}}) 提供选项
 - 包含下载/安装任何所需先决条件的步骤。一个全新操作系统安装的用户应该能够开始示例并完成它而不会出错。链接到外部下载页面是可以的。
 
 ## 文档
 
 `daprdocs` 目录包含渲染到 [Dapr Docs](https://docs.dapr.io) 网站的 markdown 文件。当文档网站构建时，此仓库被克隆并配置，以便其内容与文档内容一起渲染。在编写文档时，请记住：
 
-   - 除了这些规则外，还应遵循 [文档指南]({{< ref contributing-docs.md >}}) 中的所有规则。
+   - 除了这些规则外，还应遵循 [文档指南]({{% ref contributing-docs.md %}}) 中的所有规则。
    - 所有文件和目录应以 `dotnet-` 为前缀，以确保所有文件/目录名称在所有 Dapr 文档中都是全局唯一的。
 
 所有 pull request 应努力包括代码中的 XML 文档，清楚地指明功能的作用和原因，以及对已发布文档的更改，以便为其他开发人员澄清你的更改如何改进 Dapr 框架。

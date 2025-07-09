@@ -11,7 +11,7 @@ aliases:
 
 该状态存储组件适用于 [Microsoft SQL Server](https://learn.microsoft.com/sql/) 和 [Azure SQL](https://learn.microsoft.com/azure/azure-sql/)。
 
-要配置此状态存储，请创建一个类型为 `state.sqlserver` 的组件。请参考[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+要配置此状态存储，请创建一个类型为 `state.sqlserver` 的组件。请参考[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -57,10 +57,10 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，具体方法请参见[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，具体方法请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-如果希望将 SQL Server 用作 [actor 状态存储]({{< ref "state_api.md#configuring-state-store-for-actors" >}})，请在元数据中添加以下内容：
+如果希望将 SQL Server 用作 [actor 状态存储]({{% ref "state_api.md#configuring-state-store-for-actors" %}})，请在元数据中添加以下内容：
 
 ```yaml
   - name: actorStateStore
@@ -99,7 +99,7 @@ spec:
 | `keyLength`          | N        | 键的最大长度。如果 "keyType" 不是 `string`，则忽略。默认为 `"200"` | `"200"`
 | `schema`             | N        | 要使用的模式。默认为 `"dbo"` | `"dapr"`,`"dbo"`
 | `indexedProperties`  | N        | 索引属性列表，作为包含 JSON 文档的字符串。 |  `'[{"column": "transactionid", "property": "id", "type": "int"}, {"column": "customerid", "property": "customer", "type": "nvarchar(100)"}]'`
-| `actorStateStore` | N | 指示 Dapr 应为 actor 状态存储配置此组件（[更多信息]({{< ref "state_api.md#configuring-state-store-for-actors" >}})）。 | `"true"`
+| `actorStateStore` | N | 指示 Dapr 应为 actor 状态存储配置此组件（[更多信息]({{% ref "state_api.md#configuring-state-store-for-actors" %}})）。 | `"true"`
 | `cleanupIntervalInSeconds` | N | 清理具有过期 TTL 的行的间隔（以秒为单位）。默认值：`"3600"`（即 1 小时）。将此值设置为 <=0 可禁用定期清理。 | `"1800"`, `"-1"`
 
 ## 创建 Microsoft SQL Server/Azure SQL 实例
@@ -122,7 +122,7 @@ spec:
 
 ### TTL 和清理
 
-此状态存储支持 Dapr 存储的记录的 [生存时间 (TTL)]({{< ref state-store-ttl.md >}})。使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性，以指示数据在多少秒后应被视为“过期”。
+此状态存储支持 Dapr 存储的记录的 [生存时间 (TTL)]({{% ref state-store-ttl.md %}})。使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性，以指示数据在多少秒后应被视为“过期”。
 
 由于 SQL Server 没有内置的 TTL 支持，Dapr 通过在状态表中添加一列来实现这一点，该列指示数据何时应被视为“过期”。即使“过期”记录仍然物理存储在数据库中，也不会返回给调用者。后台“垃圾收集器”定期扫描状态表以查找过期的行并删除它们。
 
@@ -139,6 +139,6 @@ CREATE CLUSTERED INDEX expiredate_idx ON state(ExpireDate ASC)
 
 ## 相关链接
 
-- [Dapr 组件的基本模式]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取有关配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本模式]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取有关配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

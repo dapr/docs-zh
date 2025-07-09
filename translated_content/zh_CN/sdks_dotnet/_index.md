@@ -16,8 +16,8 @@ Dapr 提供多种包以协助 .NET 应用程序的开发。通过这些包，您
 
 ## 先决条件
 
-- 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 已初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
+- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - 已安装 [.NET 6](https://dotnet.microsoft.com/download)、[.NET 8](https://dotnet.microsoft.com/download) 或 [.NET 9](https://dotnet.microsoft.com/download)
 
 {{% alert title="注意" color="primary" %}}
@@ -40,7 +40,7 @@ dotnet add package Dapr.Client
 
 | SDK 示例 | 描述 |
 | ----------- | ----------- |
-| [快速入门]({{< ref quickstarts >}}) | 使用 .NET SDK 在几分钟内体验 Dapr 的 API 构建块。 |
+| [快速入门]({{% ref quickstarts %}}) | 使用 .NET SDK 在几分钟内体验 Dapr 的 API 构建块。 |
 | [SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples) | 克隆 SDK 仓库以尝试一些示例并开始使用。 |
 | [发布/订阅教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub) | 查看 Dapr .NET SDK 如何与其他 Dapr SDK 一起工作以启用发布/订阅应用程序。 |
 
@@ -51,7 +51,7 @@ dotnet add package Dapr.Client
     <div class="card-body">
       <h5 class="card-title"><b>客户端</b></h5>
       <p class="card-text">创建与 Dapr sidecar 和其他 Dapr 应用程序交互的 .NET 客户端。</p>
-      <a href="{{< ref dotnet-client >}}" class="stretched-link"></a>
+      <a href="{{% ref dotnet-client %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
@@ -65,28 +65,28 @@ dotnet add package Dapr.Client
     <div class="card-body">
       <h5 class="card-title"><b>Actors</b></h5>
       <p class="card-text">在 .NET 中创建具有状态、提醒/计时器和方法的虚拟 actor。</p>
-      <a href="{{< ref dotnet-actors >}}" class="stretched-link"></a>
+      <a href="{{% ref dotnet-actors %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>工作流</b></h5>
       <p class="card-text">创建和管理与其他 Dapr API 一起工作的工作流。</p>
-      <a href="{{< ref dotnet-workflow >}}" class="stretched-link"></a>
+      <a href="{{% ref dotnet-workflow %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>作业</b></h5>
       <p class="card-text">创建和管理 .NET 中作业的调度和编排。</p>
-      <a href="{{< ref dotnet-jobs >}}" class="stretched-link"></a>
+      <a href="{{% ref dotnet-jobs %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>AI</b></h5>
       <p class="card-text">在 .NET 中创建和管理 AI 操作</p>
-      <a href="{{< ref dotnet-ai >}}" class="stretched-link"></a>
+      <a href="{{% ref dotnet-ai %}}" class="stretched-link"></a>
     </div>
   </div>
 </div>
@@ -100,7 +100,7 @@ dotnet add package Dapr.Client
     <div class="card-body">
       <h5 class="card-title"><b>开发</b></h5>
       <p class="card-text">了解 .NET Dapr 应用程序的本地开发选项</p>
-      <a href="{{< ref dotnet-development >}}" class="stretched-link"></a>
+      <a href="{{% ref dotnet-development %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">

@@ -54,7 +54,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串来存储 secret。建议使用 secret 存储来保护这些信息，具体方法请参阅[这里]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串来存储 secret。建议使用 secret 存储来保护这些信息，具体方法请参阅[这里]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -187,5 +187,5 @@ curl -l 'http://<host>:<dapr-http-port>/configuration/mypostgresql/subscribe?key
 
 ## 相关链接
 
-- [Dapr 组件的基本模式]({{< ref component-schema >}})
-- [配置构建块]({{< ref configuration-api-overview >}})
+- [Dapr 组件的基本模式]({{% ref component-schema %}})
+- [配置构建块]({{% ref configuration-api-overview %}})

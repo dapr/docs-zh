@@ -18,11 +18,11 @@ description: "使用键值对持久化状态"
 
 状态存储组件是Dapr用于与数据库通信的资源。
 
-在本指南中，我们将使用Redis状态存储，但您也可以选择[支持列表]({{< ref supported-state-stores >}})中的其他状态存储。
+在本指南中，我们将使用Redis状态存储，但您也可以选择[支持列表]({{% ref supported-state-stores %}})中的其他状态存储。
 
-{{< tabs "Self-Hosted (CLI)" Kubernetes>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted (CLI)" %}}
 
 当您在selfhost模式下运行`dapr init`时，Dapr会在您的本地机器上创建一个默认的Redis `statestore.yaml`并运行一个Redis状态存储，位置如下：
 
@@ -31,11 +31,11 @@ description: "使用键值对持久化状态"
 
 通过使用`statestore.yaml`组件，您可以在不更改应用程序代码的情况下轻松更换底层组件。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
-要将其部署到Kubernetes集群中，请在下面的YAML中填写您的[状态存储组件]({{< ref supported-state-stores >}})的`metadata`连接详细信息，保存为`statestore.yaml`，然后运行`kubectl apply -f statestore.yaml`。
+要将其部署到Kubernetes集群中，请在下面的YAML中填写您的[状态存储组件]({{% ref supported-state-stores %}})的`metadata`连接详细信息，保存为`statestore.yaml`，然后运行`kubectl apply -f statestore.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -52,11 +52,11 @@ spec:
     value: ""
 ```
 
-请参阅[如何在Kubernetes上设置不同的状态存储]({{< ref "setup-state-store" >}})以获取更多信息。
+请参阅[如何在Kubernetes上设置不同的状态存储]({{% ref "setup-state-store" %}})以获取更多信息。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 {{% alert title="重要" color="warning" %}}
 请务必设置一个`app-id`，因为状态键会以此值为前缀。如果您不设置`app-id`，系统会在运行时为您生成一个。下次运行命令时，会生成一个新的`app-id`，您将无法再访问之前保存的状态。
@@ -66,9 +66,9 @@ spec:
 
 以下示例展示了如何使用Dapr状态管理API保存和检索单个键/值对。
 
-{{< tabs ".NET" Java Python Go JavaScript "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 
@@ -113,9 +113,9 @@ namespace EventService
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 依赖项
@@ -161,9 +161,9 @@ public class OrderProcessingServiceApplication {
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 mvn spring-boot:run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 # 依赖项
@@ -194,9 +194,9 @@ while True:
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 -- python3 OrderProcessingService.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 // 依赖项
@@ -242,9 +242,9 @@ func main() {
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 go run OrderProcessingService.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 // 依赖项
@@ -298,9 +298,9 @@ main();
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 npm start
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 启动一个Dapr sidecar：
 
@@ -322,9 +322,9 @@ curl http://localhost:3601/v1.0/state/statestore/order_1
 
 重新启动您的sidecar并尝试再次检索状态，以观察状态与应用程序分开持久化。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 启动一个Dapr sidecar：
 
@@ -346,17 +346,17 @@ Invoke-RestMethod -Uri 'http://localhost:3601/v1.0/state/statestore/order_1'
 
 重新启动您的sidecar并尝试再次检索状态，以观察状态与应用程序分开持久化。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 删除状态
 
 以下是利用Dapr SDK删除状态的代码示例。
 
-{{< tabs ".NET" Java Python Go JavaScript "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 依赖项
@@ -384,9 +384,9 @@ namespace EventService
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 依赖项
@@ -414,9 +414,9 @@ public class OrderProcessingServiceApplication {
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 mvn spring-boot:run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 # 依赖项
@@ -437,9 +437,9 @@ with DaprClient() as client:
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 -- python3 OrderProcessingService.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 // 依赖项
@@ -472,9 +472,9 @@ func main() {
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 go run OrderProcessingService.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 // 依赖项
@@ -503,9 +503,9 @@ main();
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 npm start
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 使用上面相同的Dapr实例运行：
 
@@ -515,9 +515,9 @@ curl -X DELETE 'http://localhost:3601/v1.0/state/statestore/order_1'
 
 尝试再次获取状态。注意没有返回值。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 使用上面相同的Dapr实例运行：
 
@@ -527,17 +527,17 @@ Invoke-RestMethod -Method Delete -Uri 'http://localhost:3601/v1.0/state/statesto
 
 尝试再次获取状态。注意没有返回值。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 保存和检索多个状态
 
 以下是利用Dapr SDK保存和检索多个状态的代码示例。
 
-{{< tabs ".NET" Java Python Go JavaScript "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 依赖项
@@ -591,9 +591,9 @@ namespace EventService
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 依赖项
@@ -624,9 +624,9 @@ public class OrderProcessingServiceApplication {
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 mvn spring-boot:run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 # 依赖项
@@ -650,9 +650,9 @@ with DaprClient() as client:
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 -- python3 OrderProcessingService.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 // 依赖项
@@ -700,9 +700,9 @@ func main() {
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 go run OrderProcessingService.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 // 依赖项
@@ -742,9 +742,9 @@ main();
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 npm start
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 使用上面相同的Dapr实例，将两个键/值对保存到您的状态存储中：
 
@@ -758,9 +758,9 @@ curl -X POST -H "Content-Type: application/json" -d '[{ "key": "order_1", "value
 curl -X POST -H "Content-Type: application/json" -d '{"keys":["order_1", "order_2"]}' http://localhost:3601/v1.0/state/statestore/bulk
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 使用上面相同的Dapr实例，将两个键/值对保存到您的状态存储中：
 
@@ -774,21 +774,21 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '[{ "key": 
 Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '{"keys":["order_1", "order_2"]}' -Uri 'http://localhost:3601/v1.0/state/statestore/bulk'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 执行状态事务
 
 {{% alert title="注意" color="primary" %}}
-状态事务需要支持多项事务的状态存储。请参阅[支持的状态存储页面]({{< ref supported-state-stores >}})以获取完整列表。
+状态事务需要支持多项事务的状态存储。请参阅[支持的状态存储页面]({{% ref supported-state-stores %}})以获取完整列表。
 {{% /alert %}}
 
 以下是利用Dapr SDK执行状态事务的代码示例。
 
-{{< tabs ".NET" Java Python Go JavaScript "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 依赖项
@@ -838,9 +838,9 @@ namespace EventService
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 依赖项
@@ -891,8 +891,8 @@ public class OrderProcessingServiceApplication {
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 mvn spring-boot:run
 ```
 
-{{% /codetab %}}
-{{% codetab %}}
+{{% /tab %}}
+{{% tab header="Python" %}}
 ```python
 # 依赖项
 import random
@@ -936,9 +936,9 @@ while True:
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 -- python3 OrderProcessingService.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 // 依赖项
@@ -1009,9 +1009,9 @@ func main() {
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 go run OrderProcessingService.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 // 依赖项
@@ -1069,9 +1069,9 @@ main();
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 npm start
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 使用上面相同的Dapr实例，执行两个状态事务：
 
@@ -1085,9 +1085,9 @@ curl -X POST -H "Content-Type: application/json" -d '{"operations": [{"operation
 curl -X POST -H "Content-Type: application/json" -d '{"keys":["order_1", "order_2"]}' http://localhost:3601/v1.0/state/statestore/bulk
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 使用上面相同的Dapr实例，将两个键/值对保存到您的状态存储中：
 
@@ -1101,12 +1101,12 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '{"operatio
 Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '{"keys":["order_1", "order_2"]}' -Uri 'http://localhost:3601/v1.0/state/statestore/bulk'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 
-- 阅读完整的[状态API参考]({{< ref state_api.md >}})
-- 尝试使用[Dapr SDK]({{< ref sdks >}})
-- 构建一个[有状态服务]({{< ref howto-stateful-service.md >}})
+- 阅读完整的[状态API参考]({{% ref state_api.md %}})
+- 尝试使用[Dapr SDK]({{% ref sdks %}})
+- 构建一个[有状态服务]({{% ref howto-stateful-service.md %}})

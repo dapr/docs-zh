@@ -29,7 +29,7 @@ description: bindings API 模块的概述
 bindings 的开发独立于 Dapr 运行时。您可以[查看并贡献 bindings](https://github.com/dapr/components-contrib/tree/master/bindings)。
 
 {{% alert title="注意" color="primary" %}}
-如果您正在使用 HTTP Binding，建议使用[service-invocation]({{< ref service_invocation_api.md >}}) 代替。阅读[如何：使用 HTTP 调用非 Dapr 端点]({{< ref "howto-invoke-non-dapr-endpoints.md" >}})以获取更多信息。
+如果您正在使用 HTTP Binding，建议使用[service-invocation]({{% ref service_invocation_api.md %}}) 代替。阅读[如何：使用 HTTP 调用非 Dapr 端点]({{% ref "howto-invoke-non-dapr-endpoints.md" %}})以获取更多信息。
 {{% /alert %}}
 
 ## 输入 bindings
@@ -48,11 +48,11 @@ bindings 的开发独立于 Dapr 运行时。您可以[查看并贡献 bindings]
    - gRPC proto 库获取传入事件。
 
 {{% alert title="注意" color="primary" %}}
-在启动时，Dapr 会向应用程序发送[一个 OPTIONS 请求]({{< ref "bindings_api.md#invoking-service-code-through-input-bindings" >}})以获取所有定义的输入 bindings。如果应用程序想要订阅 binding，Dapr 期望返回状态码为 2xx 或 405。
+在启动时，Dapr 会向应用程序发送[一个 OPTIONS 请求]({{% ref "bindings_api.md#invoking-service-code-through-input-bindings" %}})以获取所有定义的输入 bindings。如果应用程序想要订阅 binding，Dapr 期望返回状态码为 2xx 或 405。
 
 {{% /alert %}}
 
-阅读[使用输入 bindings 创建事件驱动应用程序指南]({{< ref howto-triggers.md >}})以开始使用输入 bindings。
+阅读[使用输入 bindings 创建事件驱动应用程序指南]({{% ref howto-triggers.md %}})以开始使用输入 bindings。
 
 ## 输出 bindings
 
@@ -72,7 +72,7 @@ bindings 的开发独立于 Dapr 运行时。您可以[查看并贡献 bindings]
    - `"delete"`
    - `"exec"` 
 
-阅读[使用输出 bindings 与外部资源交互指南]({{< ref howto-bindings.md >}})以开始使用输出 bindings。
+阅读[使用输出 bindings 与外部资源交互指南]({{% ref howto-bindings.md %}})以开始使用输出 bindings。
 
 ## binding 方向（可选）
 
@@ -86,7 +86,7 @@ bindings 的开发独立于 Dapr 运行时。您可以[查看并贡献 bindings]
 强烈建议所有输入 bindings 应该包含 `direction` 属性。
 {{% /alert %}}
 
-[查看 bindings `direction` 元数据的完整示例。]({{< ref "bindings_api.md#binding-direction-optional" >}})
+[查看 bindings `direction` 元数据的完整示例。]({{% ref "bindings_api.md#binding-direction-optional" %}})
 
 ## 试用 bindings
 
@@ -96,17 +96,17 @@ bindings 的开发独立于 Dapr 运行时。您可以[查看并贡献 bindings]
 
 | 快速入门/教程 | 描述 |
 | ------------------- | ----------- |
-| [bindings 快速入门]({{< ref bindings-quickstart.md >}}) | 使用输入 bindings 处理外部系统的事件，并使用输出 bindings 调用操作。 |
+| [bindings 快速入门]({{% ref bindings-quickstart.md %}}) | 使用输入 bindings 处理外部系统的事件，并使用输出 bindings 调用操作。 |
 | [bindings 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/bindings) | 演示如何使用 Dapr 创建到其他组件的输入和输出 bindings。使用 bindings 连接到 Kafka。 |
 
 ### 直接在您的应用程序中开始使用 bindings
 
-想要跳过快速入门？没问题。您可以直接在应用程序中试用 bindings 模块，以调用输出 bindings 和触发输入 bindings。在[Dapr 安装完成后]({{< ref "getting-started/_index.md" >}})，您可以从[输入 bindings 如何指南]({{< ref howto-triggers.md >}})开始使用 bindings API。
+想要跳过快速入门？没问题。您可以直接在应用程序中试用 bindings 模块，以调用输出 bindings 和触发输入 bindings。在[Dapr 安装完成后]({{% ref "getting-started/_index.md" %}})，您可以从[输入 bindings 如何指南]({{% ref howto-triggers.md %}})开始使用 bindings API。
 
 ## 下一步
 
 - 请遵循以下指南：
-  - [如何：使用输入 bindings 从不同资源触发服务]({{< ref howto-triggers.md >}})
-  - [如何：使用输出 bindings 与外部资源交互]({{< ref howto-bindings.md >}})
+  - [如何：使用输入 bindings 从不同资源触发服务]({{% ref howto-triggers.md %}})
+  - [如何：使用输出 bindings 与外部资源交互]({{% ref howto-bindings.md %}})
 - 尝试[bindings 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/bindings/README.md)以体验绑定到 Kafka 队列。
-- 阅读[bindings API 规范]({{< ref bindings_api.md >}})
+- 阅读[bindings API 规范]({{% ref bindings_api.md %}})

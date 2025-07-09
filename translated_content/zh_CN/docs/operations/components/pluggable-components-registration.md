@@ -10,7 +10,7 @@ description: "学习如何注册一个可插拔组件"
 
 ## 组件注册过程
 
-[使用 gRPC 的可插拔组件]({{< ref pluggable-components-overview >}})通常作为容器或进程运行，需要通过[Unix 域套接字][uds]（简称 UDS）与 Dapr 运行时通信。它们会通过以下步骤自动被发现并注册到运行时中：
+[使用 gRPC 的可插拔组件]({{% ref pluggable-components-overview %}})通常作为容器或进程运行，需要通过[Unix 域套接字][uds]（简称 UDS）与 Dapr 运行时通信。它们会通过以下步骤自动被发现并注册到运行时中：
 
 1. 组件监听放置在共享卷上的[Unix 域套接字][uds]。
 2. Dapr 运行时列出共享卷中的所有[Unix 域套接字][uds]。
@@ -35,9 +35,9 @@ description: "学习如何注册一个可插拔组件"
 
 选择您的环境以开始使您的组件可被发现。
 
-{{< tabs "Standalone" "Kubernetes" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Standalone" %}}
 [uds]: https://en.wikipedia.org/wiki/Unix_domain_socket
 
 ## 运行组件
@@ -58,11 +58,11 @@ description: "学习如何注册一个可插拔组件"
 
 ## 定义组件
 
-使用[组件规范]({{< ref component-schema.md >}})定义您的组件。组件的 `spec.type` 值是通过以下两个部分与 `.` 连接而成的：
+使用[组件规范]({{% ref component-schema.md %}})定义您的组件。组件的 `spec.type` 值是通过以下两个部分与 `.` 连接而成的：
 1. 组件的 API（`state`、`pubsub`、`bindings` 等）
 2. 组件的**名称**，它是从[Unix 域套接字][uds]文件名中派生的，不包括文件扩展名。
 
-您需要为可插拔组件的[Unix 域套接字][uds]公开的每个 API 定义一个[组件规范]({{< ref component-schema.md >}})。前面示例中的 Unix 域套接字 `my-component.sock` 公开了一个名为 `my-component` 的可插拔组件，具有 `state` 和 `pubsub` API。需要两个组件规范，每个规范在其自己的 YAML 文件中，放置在 `resources-path` 中：一个用于 `state.my-component`，另一个用于 `pubsub.my-component`。
+您需要为可插拔组件的[Unix 域套接字][uds]公开的每个 API 定义一个[组件规范]({{% ref component-schema.md %}})。前面示例中的 Unix 域套接字 `my-component.sock` 公开了一个名为 `my-component` 的可插拔组件，具有 `state` 和 `pubsub` API。需要两个组件规范，每个规范在其自己的 YAML 文件中，放置在 `resources-path` 中：一个用于 `state.my-component`，另一个用于 `pubsub.my-component`。
 
 例如，`state.my-component` 的组件规范可以是：
 
@@ -85,7 +85,7 @@ spec:
 
 ## 运行 Dapr
 
-[初始化 Dapr]({{< ref get-started-api.md >}})，并确保您的组件文件放置在正确的文件夹中。
+[初始化 Dapr]({{% ref get-started-api.md %}})，并确保您的组件文件放置在正确的文件夹中。
 
 {{% alert title="注意" color="primary" %}}
 Dapr 1.9.0 是支持可插拔组件的最低版本。从 1.11.0 版本开始，支持可插拔组件的容器自动注入。
@@ -105,9 +105,9 @@ curl -X POST -H "Content-Type: application/json" -d '[{ "key": "name", "value": 
 curl http://localhost:$PORT/v1.0/state/prod-mystore/name
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 [uds]: https://en.wikipedia.org/wiki/Unix_domain_socket
 
@@ -117,7 +117,7 @@ curl http://localhost:$PORT/v1.0/state/prod-mystore/name
 
 ## 在 Kubernetes 集群上部署 Dapr
 
-按照[在 Kubernetes 集群上部署 Dapr]({{< ref kubernetes-deploy.md >}})文档中提供的步骤进行操作。
+按照[在 Kubernetes 集群上部署 Dapr]({{% ref kubernetes-deploy.md %}})文档中提供的步骤进行操作。
 
 ## 在您的部署中添加可插拔组件容器
 
@@ -197,7 +197,7 @@ spec:
 
 ## 定义组件
 
-可插拔组件使用[组件规范]({{< ref component-schema.md >}})定义。组件 `type` 是从套接字名称（不带文件扩展名）派生的。在以下示例 YAML 中，替换：
+可插拔组件使用[组件规范]({{% ref component-schema.md %}})定义。组件 `type` 是从套接字名称（不带文件扩展名）派生的。在以下示例 YAML 中，替换：
 
 - `your_socket_goes_here` 为您的组件套接字名称（无扩展名）
 - `your_component_type` 为您的组件类型
@@ -223,7 +223,7 @@ scopes:
 ```
 当您希望 Dapr 的 sidecar 注入器处理可插拔组件的容器和卷注入时，`dapr.io/component-container` 注释在 Kubernetes 上是必需的。至少，您需要 `name` 和 `image` 属性，以便 Dapr 的 sidecar 注入器成功将容器添加到应用程序的 pod 中。Unix 域套接字的卷由 Dapr 的 sidecar 注入器自动创建和挂载。
 
-[范围]({{< ref component-scopes >}})您的组件，以确保只有目标应用程序可以连接到可插拔组件，因为它只会在其部署中运行。否则，运行时在初始化组件时会失败。
+[范围]({{% ref component-scopes %}})您的组件，以确保只有目标应用程序可以连接到可插拔组件，因为它只会在其部署中运行。否则，运行时在初始化组件时会失败。
 
 就是这样！**[将创建的清单应用到您的 Kubernetes 集群](https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-apply)**，并通过 Dapr API 调用状态存储 API。
 
@@ -241,8 +241,8 @@ curl -X POST -H "Content-Type: application/json" -d '[{ "key": "name", "value": 
 curl http://localhost:$PORT/v1.0/state/prod-mystore/name
 ```
 
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## 下一步
 

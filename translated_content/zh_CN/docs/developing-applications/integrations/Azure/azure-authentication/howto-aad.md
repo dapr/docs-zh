@@ -37,9 +37,9 @@ APP_ID=$(az ad app create --display-name "${APP_NAME}"  | jq -r .appId)
 
 选择传递凭据的方式。
 
-{{< tabs "客户端密钥" "PFX 证书">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="客户端密钥" %}}
 
 要创建一个**客户端密钥**，运行以下命令。
 
@@ -67,9 +67,9 @@ az ad app credential reset \
 - `password` 是 `azureClientSecret` 的值（这是随机生成的）
 - `tenant` 是 `azureTenantId` 的值
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="PFX 证书" %}}
 对于 **PFX (PKCS#12) 证书**，运行以下命令以创建自签名证书：
 
 ```sh
@@ -101,9 +101,9 @@ az ad app credential reset \
 
 > **注意：** 虽然生成的文件具有 `.pem` 扩展名，但它包含编码为 PFX (PKCS#12) 的证书和私钥。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 创建服务主体
 

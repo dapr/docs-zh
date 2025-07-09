@@ -12,15 +12,15 @@ Dapr Python SDK 提供了一个用于创建 Dapr 服务的内置 gRPC 服务器�
 
 您可以通过以下命令下载并安装 Dapr gRPC 服务器扩展：
 
-{{< tabs 稳定版 开发版>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="稳定版" %}}
 ```bash
 pip install dapr-ext-grpc
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="开发版" %}}
 {{% alert title="注意" color="warning" %}}
 开发包包含与 Dapr 运行时预发布版本兼容的功能和行为。在安装 `dapr-dev` 包之前，请确保卸载任何稳定版本的 Python SDK 扩展。
 {{% /alert %}}
@@ -28,9 +28,9 @@ pip install dapr-ext-grpc
 ```bash
 pip3 install dapr-ext-grpc-dev
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 示例
 

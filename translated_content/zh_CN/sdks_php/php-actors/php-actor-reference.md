@@ -21,18 +21,18 @@ actor代理有四种模式可供选择。每种模式都有不同的优缺点，
 
 可以通过`dapr.actors.proxy.generation`配置键进行设置。
 
-{{< tabs "GENERATED" "GENERATED_CACHED" "ONLY_EXISTING" "DYNAMIC" >}}
-{{% codetab %}}
+{{< tabpane text=true >}}
+{{% tab header="GENERATED" %}}
 
 这是默认模式。在此模式下，每个请求都会生成一个类并通过`eval`执行。主要用于开发环境，不建议在生产中使用。
 
-{{% /codetab %}}
-{{% codetab %}}
+{{% /tab %}}
+{{% tab header="GENERATED_CACHED" %}}
 
 这与`ProxyModes::GENERATED`相同，但类会存储在一个临时文件中，因此不需要在每个请求时重新生成。由于无法判断何时更新缓存的类，因此不建议在开发中使用，但在无法手动生成文件时可以使用。
 
-{{% /codetab %}}
-{{% codetab %}}
+{{% /tab %}}
+{{% tab header="ONLY_EXISTING" %}}
 
 在此模式下，如果代理类不存在，则会抛出异常。这对于不希望在生产中生成代码的情况很有用。您必须确保类已生成并预加载/自动加载。
 
@@ -99,13 +99,13 @@ return [
 ];
 ```
 
-{{% /codetab %}}
-{{% codetab %}}
+{{% /tab %}}
+{{% tab header="DYNAMIC" %}}
 
 在此模式下，代理满足接口契约，但实际上并不实现接口本身（意味着`instanceof`将为`false`）。此模式利用PHP中的一些特性，适用于无法`eval`或生成代码的情况。
 
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 ### 请求
 

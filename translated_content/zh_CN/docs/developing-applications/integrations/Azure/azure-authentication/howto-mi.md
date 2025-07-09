@@ -21,7 +21,7 @@ description: "学习如何使用托管身份"
 以上是全部内容。
 
 {{% alert title="注意" color="primary" %}}
-在您的组件 YAML 中，如果使用用户分配身份，您只需要 [`azureClientId` 属性]({{< ref "authenticating-azure.md#authenticating-with-managed-identities-mi" >}})。否则，您可以省略此属性，默认使用系统管理身份。
+在您的组件 YAML 中，如果使用用户分配身份，您只需要 [`azureClientId` 属性]({{% ref "authenticating-azure.md#authenticating-with-managed-identities-mi" %}})。否则，您可以省略此属性，默认使用系统管理身份。
 {{% /alert %}}
 
 ## 授予服务访问权限
@@ -48,7 +48,7 @@ description: "学习如何使用托管身份"
 }
 ```
 
-请注意 **`principalId`** 值，这是为您的身份创建的 [服务主体 ID]({{< ref "howto-aad.md#create-a-service-principal" >}})。使用它来授予您的 Azure 资源组件访问权限。
+请注意 **`principalId`** 值，这是为您的身份创建的 [服务主体 ID]({{% ref "howto-aad.md#create-a-service-principal" %}})。使用它来授予您的 Azure 资源组件访问权限。
 
 {{% alert title="Azure Container Apps 中的托管身份" color="primary" %}}
 每个容器应用都有一个完全不同的系统管理身份，这使得在多个应用之间处理所需的角色分配非常难以管理。
@@ -68,10 +68,10 @@ description: "学习如何使用托管身份"
 
 以下示例演示了在 Azure KeyVault secrets 组件中设置系统管理或用户分配身份。
 
-{{< tabs "系统管理" "用户分配" "Kubernetes" >}}
+{{< tabpane text=true >}}
 
  <!-- system managed -->
-{{% codetab %}}
+{{% tab header="系统管理" %}}
 
 如果您使用 Azure KeyVault 组件设置系统管理身份，YAML 将如下所示：
 
@@ -90,10 +90,10 @@ spec:
 
 在此示例中，系统管理身份查找服务身份并与 `mykeyvault` 保管库通信。接下来，授予您的系统管理身份访问所需服务的权限。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- user assigned -->
-{{% codetab %}}
+{{% tab header="用户分配" %}}
 
 如果您使用 Azure KeyVault 组件设置用户分配身份，YAML 将如下所示：
 
@@ -114,16 +114,16 @@ spec:
 
 一旦您在组件 YAML 中设置了 `azureClientId` 属性，您就可以授予您的用户分配身份访问您的服务。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- k8s -->
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 有关 Kubernetes 或 AKS 中的组件配置，请参阅 [工作负载身份指南。](https://learn.microsoft.com/azure/aks/workload-identity-overview?tabs=dotnet)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 故障排除
 

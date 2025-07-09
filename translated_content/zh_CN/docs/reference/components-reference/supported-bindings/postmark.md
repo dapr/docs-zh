@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式指南
 
-要配置 Postmark 绑定，需创建一个类型为 `bindings.postmark` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要配置 Postmark 绑定，需创建一个类型为 `bindings.postmark` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -31,7 +31,7 @@ spec:
     value: "Hello!" # 可选
 ```
 {{% alert title="警告" color="warning" %}}
-上述示例使用明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例使用明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 元数据字段说明
@@ -71,8 +71,8 @@ spec:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [操作指南：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [操作指南：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [操作指南：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [操作指南：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

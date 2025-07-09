@@ -7,11 +7,11 @@ description: "在 Kubernetes 配置中添加 Dapr 注解"
 
 ### 描述
 
-在 Kubernetes 配置中添加 Dapr 注解。这允许您在部署文件中添加或更改 Dapr 注解。有关每个可用注解的详细说明，请参见 [Kubernetes 注解]({{< ref arguments-annotations-overview >}})。
+在 Kubernetes 配置中添加 Dapr 注解。这允许您在部署文件中添加或更改 Dapr 注解。有关每个可用注解的详细说明，请参见 [Kubernetes 注解]({{% ref arguments-annotations-overview %}})。
 
 ### 支持的平台
 
-- [Kubernetes]({{< ref kubernetes >}})
+- [Kubernetes]({{% ref kubernetes %}})
 
 ### 用法
 

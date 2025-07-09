@@ -107,4 +107,4 @@ $app->start();
 ## 更多信息
 
 - [Packagist](https://packagist.org/packages/dapr/php-sdk)
-- [Dapr SDK 序列化]({{< ref sdk-serialization.md >}})
+- [Dapr SDK 序列化]({{% ref sdk-serialization.md %}})

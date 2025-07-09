@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要配置 Azure SignalR 绑定，请创建一个类型为 `bindings.azure.signalr` 的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要配置 Azure SignalR 绑定，请创建一个类型为 `bindings.azure.signalr` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -27,7 +27,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用了明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例使用了明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -41,7 +41,7 @@ spec:
 
 ### Microsoft Entra ID 认证
 
-Azure SignalR 绑定组件支持所有 Microsoft Entra ID 认证机制。请参考[认证到 Azure 的文档]({{< ref authenticating-azure.md >}})以了解更多关于根据您选择的 Microsoft Entra ID 认证机制的相关组件元数据字段。
+Azure SignalR 绑定组件支持所有 Microsoft Entra ID 认证机制。请参考[认证到 Azure 的文档]({{% ref authenticating-azure.md %}})以了解更多关于根据您选择的 Microsoft Entra ID 认证机制的相关组件元数据字段。
 
 您可以通过以下两种方式使用 Microsoft Entra ID 认证此组件：
 
@@ -91,8 +91,8 @@ Azure SignalR 绑定组件支持所有 Microsoft Entra ID 认证机制。请参�
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [Bindings 构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [Bindings API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [Bindings 构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [Bindings API 参考]({{% ref bindings_api.md %}})

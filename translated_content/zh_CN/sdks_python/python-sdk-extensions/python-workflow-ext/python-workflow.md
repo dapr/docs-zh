@@ -23,10 +23,10 @@ Dapr Workflow 目前处于 alpha 阶段。
 - 工作流和工作流活动的注册
 
 ## 先决条件
-- 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 已初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
+- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - 已安装 [Python 3.8+](https://www.python.org/downloads/)
-- 已安装 [Dapr Python 包]({{< ref "python#installation" >}}) 和 [工作流扩展]({{< ref "python-workflow/_index.md" >}})
+- 已安装 [Dapr Python 包]({{% ref "python#installation" %}}) 和 [工作流扩展]({{% ref "python-workflow/_index.md" %}})
 - 确保您使用的是最新的 proto 绑定（proto 绑定是用于定义服务接口的协议缓冲区文件）
 
 ## 设置环境
@@ -181,5 +181,5 @@ def main():
 ```
 
 ## 下一步
-- [了解更多关于 Dapr 工作流的信息]({{< ref workflow-overview.md >}})
-- [工作流 API 参考]({{< ref workflow_api.md >}})
+- [了解更多关于 Dapr 工作流的信息]({{% ref workflow-overview.md %}})
+- [工作流 API 参考]({{% ref workflow_api.md %}})

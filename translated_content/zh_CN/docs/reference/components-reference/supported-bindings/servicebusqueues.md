@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 Azure Service Bus Queues 绑定，请创建一个类型为 `bindings.azure.servicebusqueues` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要设置 Azure Service Bus Queues 绑定，请创建一个类型为 `bindings.azure.servicebusqueues` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ### 连接字符串认证
 
@@ -60,7 +60,7 @@ spec:
   #   value: "input, output"
 ```
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来存储这些敏感信息，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来存储这些敏感信息，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -92,7 +92,7 @@ spec:
 
 ### Microsoft Entra ID 认证
 
-Azure Service Bus Queues 绑定组件支持使用所有 Microsoft Entra ID 机制进行认证，包括托管身份。有关更多信息以及根据选择的 Microsoft Entra ID 认证机制提供的相关组件元数据字段，请参阅[认证到 Azure 的文档]({{< ref authenticating-azure.md >}})。
+Azure Service Bus Queues 绑定组件支持使用所有 Microsoft Entra ID 机制进行认证，包括托管身份。有关更多信息以及根据选择的 Microsoft Entra ID 认证机制提供的相关组件元数据字段，请参阅[认证到 Azure 的文档]({{% ref authenticating-azure.md %}})。
 
 #### 示例配置
 
@@ -135,7 +135,7 @@ Azure Service Bus 消息通过附加上下文元数据扩展了 Dapr 消息格�
 
 ### 发送带有元数据的消息
 
-要在发送消息时设置 Azure Service Bus 元数据，请在 HTTP 请求或 gRPC 元数据上设置查询参数，如[此处]({{< ref "bindings_api.md" >}})所述。
+要在发送消息时设置 Azure Service Bus 元数据，请在 HTTP 请求或 gRPC 元数据上设置查询参数，如[此处]({{% ref "bindings_api.md" %}})所述。
 
 - `metadata.MessageId`
 - `metadata.CorrelationId`
@@ -178,9 +178,9 @@ Azure Service Bus 消息通过附加上下文元数据扩展了 Dapr 消息格�
 
 要在消息级别设置生存时间，请在绑定调用期间使用请求体中的 `metadata` 部分：字段名称为 `ttlInSeconds`。
 
-{{< tabs "Linux">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
 
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myServiceBusQueue \
@@ -195,9 +195,9 @@ curl -X POST http://localhost:3500/v1.0/bindings/myServiceBusQueue \
         "operation": "create"
       }'
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 调度消息
 
@@ -207,9 +207,9 @@ curl -X POST http://localhost:3500/v1.0/bindings/myServiceBusQueue \
 
 支持的时间戳格式为 [RFC1123](https://www.rfc-editor.org/rfc/rfc1123) 和 [RFC3339](https://www.rfc-editor.org/rfc/rfc3339)。
 
-{{< tabs "Linux">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
 
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myServiceBusQueue \
@@ -225,14 +225,14 @@ curl -X POST http://localhost:3500/v1.0/bindings/myServiceBusQueue \
       }'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

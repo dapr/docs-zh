@@ -11,7 +11,7 @@ description: "关于 status CLI 命令的详细信息"
 
 ### 支持的平台类型
 
-- [Kubernetes]({{< ref kubernetes >}})
+- [Kubernetes]({{% ref kubernetes %}})
 
 ### 用法
 

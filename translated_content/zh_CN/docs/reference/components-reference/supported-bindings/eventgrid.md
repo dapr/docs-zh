@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 Azure Event Grid 绑定，需创建一个类型为 `bindings.azure.eventgrid` 的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要设置 Azure Event Grid 绑定，需创建一个类型为 `bindings.azure.eventgrid` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 有关 Azure Event Grid 的更多信息，请访问[此处](https://docs.microsoft.com/azure/event-grid/)。
 
@@ -52,7 +52,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -98,12 +98,12 @@ spec:
 
 | 事件源 | Dapr 组件 |
 | ------------- | --------------- |
-| [Azure Blob 存储](https://learn.microsoft.com/azure/storage/blobs/) | [Azure Blob 存储绑定]({{< ref blobstorage.md >}}) <br/>[Azure Blob 存储状态存储]({{< ref setup-azure-blobstorage.md >}}) |
-| [Azure Redis 缓存](https://learn.microsoft.com/azure/azure-cache-for-redis/cache-overview) | [Redis 绑定]({{< ref redis.md >}}) <br/>[Redis pub/sub]({{< ref setup-redis-pubsub.md >}}) |
-| [Azure Event Hubs](https://learn.microsoft.com/azure/event-hubs/event-hubs-about) | [Azure Event Hubs pub/sub]({{< ref setup-azure-eventhubs.md >}}) <br/>[Azure Event Hubs 绑定]({{< ref eventhubs.md >}}) |
-| [Azure IoT Hub](https://learn.microsoft.com/azure/iot-hub/iot-concepts-and-iot-hub) | [Azure Event Hubs pub/sub]({{< ref setup-azure-eventhubs.md >}}) <br/>[Azure Event Hubs 绑定]({{< ref eventhubs.md >}}) |
-| [Azure Service Bus](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview) | [Azure Service Bus 绑定]({{< ref servicebusqueues.md >}}) <br/>[Azure Service Bus pub/sub 主题]({{< ref setup-azure-servicebus-topics.md >}}) 和 [队列]({{< ref setup-azure-servicebus-queues.md >}}) |
-| [Azure SignalR 服务](https://learn.microsoft.com/azure/azure-signalr/signalr-overview) | [SignalR 绑定]({{< ref signalr.md >}}) |
+| [Azure Blob 存储](https://learn.microsoft.com/azure/storage/blobs/) | [Azure Blob 存储绑定]({{% ref blobstorage.md %}}) <br/>[Azure Blob 存储状态存储]({{% ref setup-azure-blobstorage.md %}}) |
+| [Azure Redis 缓存](https://learn.microsoft.com/azure/azure-cache-for-redis/cache-overview) | [Redis 绑定]({{% ref redis.md %}}) <br/>[Redis pub/sub]({{% ref setup-redis-pubsub.md %}}) |
+| [Azure Event Hubs](https://learn.microsoft.com/azure/event-hubs/event-hubs-about) | [Azure Event Hubs pub/sub]({{% ref setup-azure-eventhubs.md %}}) <br/>[Azure Event Hubs 绑定]({{% ref eventhubs.md %}}) |
+| [Azure IoT Hub](https://learn.microsoft.com/azure/iot-hub/iot-concepts-and-iot-hub) | [Azure Event Hubs pub/sub]({{% ref setup-azure-eventhubs.md %}}) <br/>[Azure Event Hubs 绑定]({{% ref eventhubs.md %}}) |
+| [Azure Service Bus](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview) | [Azure Service Bus 绑定]({{% ref servicebusqueues.md %}}) <br/>[Azure Service Bus pub/sub 主题]({{% ref setup-azure-servicebus-topics.md %}}) 和 [队列]({{% ref setup-azure-servicebus-queues.md %}}) |
+| [Azure SignalR 服务](https://learn.microsoft.com/azure/azure-signalr/signalr-overview) | [SignalR 绑定]({{% ref signalr.md %}}) |
 
 ## Microsoft Entra ID 凭据
 
@@ -315,8 +315,8 @@ $ kubectl delete pod nginx-nginx-ingress-controller-649df94867-fp6mg
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

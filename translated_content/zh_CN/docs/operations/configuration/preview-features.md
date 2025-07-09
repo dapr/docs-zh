@@ -6,7 +6,7 @@ weight: 7000
 description: "如何指定和启用预览功能"
 ---
 
-在 Dapr 中，[预览功能]({{< ref support-preview-features >}})在首次发布时被视为实验功能。这些预览功能需要您明确选择启用才能使用。您需要在 Dapr 的配置文件中进行此选择。
+在 Dapr 中，[预览功能]({{% ref support-preview-features %}})在首次发布时被视为实验功能。这些预览功能需要您明确选择启用才能使用。您需要在 Dapr 的配置文件中进行此选择。
 
 预览功能是通过在运行应用程序实例时设置配置来启用的。
 
@@ -40,10 +40,10 @@ spec:
       enabled: true
 ```
 
-{{< tabs Self-hosted Kubernetes >}}
+{{< tabpane text=true >}}
 
 <!--self-hosted-->
-{{% codetab %}}
+{{% tab header="Self-hosted" %}}
 
 要在本地运行 Dapr 时启用预览功能，可以更新默认配置或使用 `dapr run` 指定单独的配置文件。
 
@@ -57,10 +57,10 @@ spec:
 dapr run --app-id myApp --config ./previewConfig.yaml ./app
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--kubernetes-->
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 在 Kubernetes 模式下，必须通过配置组件来提供配置。使用与上面相同的配置，通过 `kubectl` 应用：
 
@@ -100,9 +100,9 @@ spec:
         imagePullPolicy: Always
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 

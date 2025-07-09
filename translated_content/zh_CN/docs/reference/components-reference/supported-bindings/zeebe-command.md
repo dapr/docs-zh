@@ -7,7 +7,7 @@ description: "关于 Zeebe 命令绑定组件的详细文档"
 
 ## 组件格式说明
 
-要配置 Zeebe 命令绑定，请创建一个类型为 `bindings.zeebe.command` 的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要配置 Zeebe 命令绑定，请创建一个类型为 `bindings.zeebe.command` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 有关 Zeebe 的更多信息，请查看[此处](https://docs.camunda.io/docs/components/zeebe/zeebe-overview/)的文档。
 
@@ -146,9 +146,9 @@ Zeebe 在此绑定中使用的客户端底层依赖 gRPC。请查阅 [gRPC API �
 
 绑定返回一个包含以下信息的 JSON：
 
-{{< tabs "BPMN" "DMN" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="BPMN" %}}
 
 ```json
 {
@@ -168,9 +168,9 @@ Zeebe 在此绑定中使用的客户端底层依赖 gRPC。请查阅 [gRPC API �
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="DMN" %}}
 
 ```json
 {
@@ -203,9 +203,9 @@ Zeebe 在此绑定中使用的客户端底层依赖 gRPC。请查阅 [gRPC API �
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 响应值为：
 
@@ -243,9 +243,9 @@ Zeebe 在此绑定中使用的客户端底层依赖 gRPC。请查阅 [gRPC API �
 
 要执行 `create-instance` 操作，请通过 `POST` 方法调用 Zeebe 命令绑定，并使用以下 JSON 正文：
 
-{{< tabs "通过 BPMN 流程 ID" "通过流程定义键" "同步执行" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="通过 BPMN 流程 ID" %}}
 
 ```json
 {
@@ -261,9 +261,9 @@ Zeebe 在此绑定中使用的客户端底层依赖 gRPC。请查阅 [gRPC API �
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="通过流程定义键" %}}
 
 ```json
 {
@@ -279,9 +279,9 @@ Zeebe 在此绑定中使用的客户端底层依赖 gRPC。请查阅 [gRPC API �
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="同步执行" %}}
 
 ```json
 {
@@ -300,9 +300,9 @@ Zeebe 在此绑定中使用的客户端底层依赖 gRPC。请查阅 [gRPC API �
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 数据参数为：
 
@@ -665,8 +665,8 @@ Zeebe 在此绑定中使用的客户端底层依赖 gRPC。请查阅 [gRPC API �
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [Bindings 构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [Bindings API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [Bindings 构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [Bindings API 参考]({{% ref bindings_api.md %}})

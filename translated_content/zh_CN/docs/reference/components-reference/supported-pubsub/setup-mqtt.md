@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要配置MQTT pub/sub，您需要创建一个类型为`pubsub.mqtt`的组件。请参阅[pub/sub broker组件文件]({{< ref setup-pubsub.md >}})以了解ConsumerID的自动生成方式。阅读[操作指南：发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})以了解如何创建和应用pub/sub配置。
+要配置MQTT pub/sub，您需要创建一个类型为`pubsub.mqtt`的组件。请参阅[pub/sub broker组件文件]({{% ref setup-pubsub.md %}})以了解ConsumerID的自动生成方式。阅读[操作指南：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用pub/sub配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -33,7 +33,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，详情请参阅[这里]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，详情请参阅[这里]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -41,7 +41,7 @@ spec:
 | 字段              | 必需 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
 | url    | Y  | MQTT broker的地址。可以使用`secretKeyRef`来引用密钥。<br> 对于非TLS通信，使用**`tcp://`** URI方案。<br> 对于TLS通信，使用**`ssl://`** URI方案。 | `"tcp://[username][:password]@host.domain[:port]"`
-| consumerID | N | 用于连接到MQTT broker的消费者连接的客户端ID。默认为Dapr应用ID。<br>注意：如果未设置`producerID`，则在此值后附加`-consumer`用于消费者连接 | 可以设置为字符串值（如上例中的`"channel1"`）或字符串格式值（如`"{podName}"`等）。[查看可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| consumerID | N | 用于连接到MQTT broker的消费者连接的客户端ID。默认为Dapr应用ID。<br>注意：如果未设置`producerID`，则在此值后附加`-consumer`用于消费者连接 | 可以设置为字符串值（如上例中的`"channel1"`）或字符串格式值（如`"{podName}"`等）。[查看可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | producerID | N | 用于连接到MQTT broker的生产者连接的客户端ID。默认为`{consumerID}-producer`。 | `"myMqttProducerApp"`
 | qos    | N  | 表示消息的服务质量级别（QoS）（[更多信息](https://www.hivemq.com/blog/mqtt-essentials-part-6-mqtt-quality-of-service-levels/)）。默认为`1`。 |`0`, `1`, `2`
 | retain | N  | 定义broker是否将消息保存为指定主题的最后已知良好值。默认为`"false"`。  | `"true"`, `"false"`
@@ -54,13 +54,13 @@ spec:
 
 MQTT pub/sub组件不支持内置的重试策略。这意味着sidecar只会向服务发送一次消息。如果服务标记消息为未处理，则消息不会被确认回broker。只有当broker重新发送消息时，才会重试。
 
-要使Dapr使用更复杂的重试策略，可以将[重试弹性策略]({{< ref "policies.md#retries" >}})应用于MQTT pub/sub组件。
+要使Dapr使用更复杂的重试策略，可以将[重试弹性策略]({{% ref "policies.md#retries" %}})应用于MQTT pub/sub组件。
 
 两种重试方式之间有一个关键区别：
 
 1. 未确认消息的重新传递完全依赖于broker。Dapr不保证这一点。一些broker如[emqx](https://www.emqx.io/)、[vernemq](https://vernemq.com/)等支持它，但它不是[MQTT3规范](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html#_Toc398718103)的一部分。
 
-2. 使用[重试弹性策略]({{< ref "policies.md#retries" >}})使得同一个Dapr sidecar重试重新传递消息。因此是同一个Dapr sidecar和同一个应用接收相同的消息。
+2. 使用[重试弹性策略]({{% ref "policies.md#retries" %}})使得同一个Dapr sidecar重试重新传递消息。因此是同一个Dapr sidecar和同一个应用接收相同的消息。
 
 ### 使用TLS进行通信
 
@@ -123,16 +123,16 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，详情请参阅[这里]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，详情请参阅[这里]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 注意，在这种情况下，每次Dapr重启时，consumer ID的值都是随机的，因此我们也将`cleanSession`设置为true。
 
 ## 创建MQTT broker
 
-{{< tabs "Self-Hosted" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 您可以[使用Docker本地运行](https://hub.docker.com/_/eclipse-mosquitto)MQTT broker：
 
 ```bash
@@ -140,9 +140,9 @@ docker run -d -p 1883:1883 -p 9001:9001 --name mqtt eclipse-mosquitto:1.6
 ```
 
 然后您可以使用客户端端口与服务器交互：`mqtt://localhost:1883`
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 您可以在kubernetes中使用以下yaml运行MQTT broker：
 
 ```yaml
@@ -196,12 +196,12 @@ spec:
 ```
 
 然后您可以使用客户端端口与服务器交互：`tcp://mqtt-broker.default.svc.cluster.local:1883`
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
-- [Dapr组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})以获取配置pub/sub组件的说明
-- [Pub/Sub构建块]({{< ref pubsub >}})
+- [Dapr组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})以获取配置pub/sub组件的说明
+- [Pub/Sub构建块]({{% ref pubsub %}})

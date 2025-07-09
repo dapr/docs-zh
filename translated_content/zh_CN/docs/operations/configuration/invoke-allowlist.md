@@ -77,7 +77,7 @@ SPIFFE ID的格式为：`**spiffe://\<trustdomain>/ns/\<namespace\>/\<appid\>**`
 
 ## 示例场景
 
-以下是使用访问控制列表进行服务调用的一些示例场景。请参阅[配置指南]({{< ref "configuration-concept.md" >}})以了解应用程序sidecar的可用配置设置。
+以下是使用访问控制列表进行服务调用的一些示例场景。请参阅[配置指南]({{% ref "configuration-concept.md" %}})以了解应用程序sidecar的可用配置设置。
 
 ### 场景1：
 
@@ -243,7 +243,7 @@ spec:
 
 在这些示例中，您将学习如何将访问控制应用于[hello world](https://github.com/dapr/quickstarts/tree/master/tutorials)教程。
 
-访问控制列表依赖于Dapr [Sentry服务]({{< ref "security-concept.md" >}})生成带有SPIFFE ID的TLS证书进行身份验证。这意味着Sentry服务要么在本地运行，要么部署到您的托管环境中，例如Kubernetes集群。
+访问控制列表依赖于Dapr [Sentry服务]({{% ref "security-concept.md" %}})生成带有SPIFFE ID的TLS证书进行身份验证。这意味着Sentry服务要么在本地运行，要么部署到您的托管环境中，例如Kubernetes集群。
 
 下面的`nodeappconfig`示例展示了如何**拒绝**来自`pythonapp`的`neworder`方法的访问，其中Python应用程序位于`myDomain`信任域和`default`命名空间中。Node.js应用程序位于`public`信任域中。
 
@@ -295,7 +295,7 @@ spec:
 
 #### 先决条件
 
-- 熟悉在自托管模式下运行启用mTLS的[Sentry服务]({{< ref "mtls.md" >}})
+- 熟悉在自托管模式下运行启用mTLS的[Sentry服务]({{% ref "mtls.md" %}})
 - 克隆[hello world](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world/README.md)教程
 
 #### 运行Node.js应用程序
@@ -304,7 +304,7 @@ spec:
 
     {{< tabs "Linux/MacOS" Windows >}}
 
-    {{% codetab %}}
+    {{% tab %}}
 
       ```bash
       export DAPR_TRUST_ANCHORS=`cat $HOME/.dapr/certs/ca.crt`
@@ -313,9 +313,9 @@ spec:
       export NAMESPACE=default
       ```
 
-    {{% /codetab %}}
+    {{% /tab %}}
 
-    {{% codetab %}}
+    {{% tab %}}
 
       ```powershell
       $env:DAPR_TRUST_ANCHORS=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\ca.crt)
@@ -324,7 +324,7 @@ spec:
       $env:NAMESPACE="default"
       ```
 
-    {{% /codetab %}}
+    {{% /tab %}}
     
     {{< /tabs >}}
 
@@ -346,7 +346,7 @@ spec:
 
    {{< tabs "Linux/MacOS" Windows >}}
 
-   {{% codetab %}}
+   {{% tab %}}
 
     ```bash
     export DAPR_TRUST_ANCHORS=`cat $HOME/.dapr/certs/ca.crt`
@@ -354,9 +354,9 @@ spec:
     export DAPR_CERT_KEY=`cat $HOME/.dapr/certs/issuer.key`
     export NAMESPACE=default
    ```
-   {{% /codetab %}}
+   {{% /tab %}}
 
-   {{% codetab %}}
+   {{% tab %}}
 
    ```powershell
    $env:DAPR_TRUST_ANCHORS=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\ca.crt)
@@ -365,7 +365,7 @@ spec:
    $env:NAMESPACE="default"
    ```
   
-   {{% /codetab %}}
+   {{% /tab %}}
 
    {{< /tabs >}}
 
@@ -386,12 +386,12 @@ spec:
 
 #### 先决条件
 
-- 熟悉在自托管模式下运行启用mTLS的[Sentry服务]({{< ref "mtls.md" >}})
+- 熟悉在自托管模式下运行启用mTLS的[Sentry服务]({{% ref "mtls.md" %}})
 - 克隆[hello world](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world/README.md)教程
 
 #### 配置Node.js和Python应用程序
 
-您可以创建并应用上述[`nodeappconfig.yaml`](#nodeappconfigyaml)和[`pythonappconfig.yaml`](#pythonappconfigyaml)配置文件，如[配置]({{< ref "configuration-concept.md" >}})中所述。
+您可以创建并应用上述[`nodeappconfig.yaml`](#nodeappconfigyaml)和[`pythonappconfig.yaml`](#pythonappconfigyaml)配置文件，如[配置]({{% ref "configuration-concept.md" %}})中所述。
 
 例如，下面的Kubernetes Deployment展示了Python应用程序如何在默认命名空间中使用此`pythonappconfig`配置文件部署到Kubernetes。
 

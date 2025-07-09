@@ -59,10 +59,10 @@ description: "处理重大变更和弃用"
 
 | 功能               |   弃用公告   | 移除       |
 |-----------------------|-----------------------|------------------------- |
-| GET /v1.0/shutdown API（用户应使用 [POST API]({{< ref kubernetes-job.md >}}) 代替） | 1.2.0 | 1.4.0 |
+| GET /v1.0/shutdown API（用户应使用 [POST API]({{% ref kubernetes-job.md %}}) 代替） | 1.2.0 | 1.4.0 |
 | Java 域构建器类已弃用（用户应使用 [setters](https://github.com/dapr/java-sdk/issues/587) 代替） | Java SDK 1.3.0 | Java SDK 1.5.0 |
-| 当未指定内容类型时，服务调用将不再提供默认的 `application/json` 内容类型头。如果您的调用应用程序依赖于此头，则必须明确 [设置内容类型头]({{< ref "service_invocation_api.md#request-contents" >}})。 | 1.7.0 | 1.9.0 |
-| 使用 `invoke` 方法的 gRPC 服务调用已弃用。请改用代理模式服务调用。请参阅 [How-To: Invoke services using gRPC ]({{< ref howto-invoke-services-grpc.md >}}) 以使用代理模式。| 1.9.0 | 1.10.0 |
+| 当未指定内容类型时，服务调用将不再提供默认的 `application/json` 内容类型头。如果您的调用应用程序依赖于此头，则必须明确 [设置内容类型头]({{% ref "service_invocation_api.md#request-contents" %}})。 | 1.7.0 | 1.9.0 |
+| 使用 `invoke` 方法的 gRPC 服务调用已弃用。请改用代理模式服务调用。请参阅 [How-To: Invoke services using gRPC ]({{% ref howto-invoke-services-grpc.md %}}) 以使用代理模式。| 1.9.0 | 1.10.0 |
 | CLI 标志 `--app-ssl`（在 Dapr CLI 和 daprd 中）已弃用，建议使用 `--app-protocol`，值为 `https` 或 `grpcs`。[daprd:6158](https://github.com/dapr/dapr/issues/6158) [cli:1267](https://github.com/dapr/cli/issues/1267)| 1.11.0 | 1.13.0 |
 | Hazelcast PubSub 组件 | 1.9.0 | 1.11.0 |
 | Twitter Binding 组件 | 1.10.0 | 1.11.0 |
@@ -71,5 +71,5 @@ description: "处理重大变更和弃用"
 
 ## 相关链接
 
-- 阅读 [版本政策]({{< ref support-versioning.md >}})
-- 阅读 [支持的发布]({{< ref support-release-policy.md >}})
+- 阅读 [版本政策]({{% ref support-versioning.md %}})
+- 阅读 [支持的发布]({{% ref support-release-policy.md %}})

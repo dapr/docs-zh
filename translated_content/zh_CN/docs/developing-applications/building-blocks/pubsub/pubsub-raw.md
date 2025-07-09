@@ -6,7 +6,7 @@ weight: 2200
 description: "了解何时可能不使用CloudEvents以及如何禁用它们。"
 ---
 
-在将Dapr集成到您的应用程序时，由于兼容性原因或某些应用程序不使用Dapr，某些服务可能仍需要通过不封装在CloudEvents中的pub/sub消息进行通信。这些消息被称为“原始”pub/sub消息。Dapr允许应用程序[发布和订阅原始事件]({{< ref "pubsub-cloudevents.md#publishing-raw-messages" >}})，这些事件未封装在CloudEvent中以实现兼容性。
+在将Dapr集成到您的应用程序时，由于兼容性原因或某些应用程序不使用Dapr，某些服务可能仍需要通过不封装在CloudEvents中的pub/sub消息进行通信。这些消息被称为“原始”pub/sub消息。Dapr允许应用程序[发布和订阅原始事件]({{% ref "pubsub-cloudevents.md#publishing-raw-messages" %}})，这些事件未封装在CloudEvent中以实现兼容性。
 
 ## 发布原始消息
 
@@ -20,15 +20,15 @@ Dapr应用程序可以将原始事件发布到pub/sub主题中，而不需要Clo
 
 要禁用CloudEvent封装，请在发布请求中将`rawPayload`元数据设置为`true`。这样，订阅者可以接收这些消息而无需解析CloudEvent架构。
 
-{{< tabs curl "Python SDK" "PHP SDK">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="curl" %}}
 ```bash
 curl -X "POST" http://localhost:3500/v1.0/publish/pubsub/TOPIC_A?metadata.rawPayload=true -H "Content-Type: application/json" -d '{"order-number": "345"}'
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python SDK" %}}
 ```python
 from dapr.clients import DaprClient
 
@@ -46,9 +46,9 @@ with DaprClient() as d:
     # 打印请求
     print(req_data, flush=True)
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="PHP SDK" %}}
 
 ```php
 <?php
@@ -62,9 +62,9 @@ $app->run(function(\DI\FactoryInterface $factory) {
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 订阅原始消息
 
@@ -76,9 +76,9 @@ Dapr应用程序还可以订阅来自不使用CloudEvent封装的现有pub/sub�
 
 在以编程方式订阅时，添加`rawPayload`的额外元数据条目，以便Dapr sidecar自动将负载封装到与当前Dapr SDK兼容的CloudEvent中。
 
-{{< tabs "Python" "PHP SDK" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 import flask
@@ -108,8 +108,8 @@ def ds_subscriber():
 app.run()
 ```
 
-{{% /codetab %}}
-{{% codetab %}}
+{{% /tab %}}
+{{% tab header="PHP SDK" %}}
 
 ```php
 <?php
@@ -132,9 +132,9 @@ $app->post('/dsstatus', function(
 
 $app->start();
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 声明式订阅原始事件
 
@@ -159,6 +159,6 @@ scopes:
 
 ## 下一步
 
-- 了解更多关于[发布和订阅消息]({{< ref pubsub-overview.md >}})
-- [pub/sub组件]({{< ref supported-pubsub >}})列表
-- 阅读[API参考]({{< ref pubsub_api.md >}})
+- 了解更多关于[发布和订阅消息]({{% ref pubsub-overview.md %}})
+- [pub/sub组件]({{% ref supported-pubsub %}})列表
+- 阅读[API参考]({{% ref pubsub_api.md %}})

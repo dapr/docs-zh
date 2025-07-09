@@ -15,8 +15,8 @@ Dapr Rust-SDK 目前处于 Alpha 阶段。我们正在努力将其推向稳定�
 
 ## 前提条件
 
-- 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 已初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
+- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - 已安装 [Rust](https://www.rust-lang.org/tools/install)
 
 ## 引入客户端库
@@ -46,7 +46,7 @@ let mut client = dapr::Client::<dapr::client::TonicClient>::connect(addr,
 
 ## 功能模块
 
-Rust SDK 允许您与 [Dapr 功能模块]({{< ref building-blocks >}}) 进行交互。
+Rust SDK 允许您与 [Dapr 功能模块]({{% ref building-blocks %}}) 进行交互。
 
 ### 服务调用
 
@@ -60,7 +60,7 @@ let response = client
     .unwrap();
 ```
 
-有关服务调用的完整指南，请访问 [如何：调用服务]({{< ref howto-invoke-discover-services.md >}})。
+有关服务调用的完整指南，请访问 [如何：调用服务]({{% ref howto-invoke-discover-services.md %}})。
 
 ### 状态管理
 
@@ -84,7 +84,7 @@ client.delete_state(store_name, state_key, None).await?;
 
 > **注意：** `save_state` 方法目前执行的是批量保存，但未来可能会进行重构
 
-有关状态管理的完整指南，请访问 [如何：保存和获取状态]({{< ref howto-get-save-state.md >}})。
+有关状态管理的完整指南，请访问 [如何：保存和获取状态]({{% ref howto-get-save-state.md %}})。
 
 ### 发布消息
 
@@ -101,7 +101,7 @@ client
     .await?;
 ```
 
-有关发布/订阅的完整指南，请访问 [如何：发布和订阅]({{< ref howto-publish-subscribe.md >}})。
+有关发布/订阅的完整指南，请访问 [如何：发布和订阅]({{% ref howto-publish-subscribe.md %}})。
 
 ## 相关链接
 

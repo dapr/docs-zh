@@ -44,7 +44,7 @@ spec:
 - 任何以 `DAPR_` 前缀开头的变量
 
 ## 相关链接
-- [Secrets 构建块]({{< ref secrets >}})
-- [操作指南：检索 secret]({{< ref "howto-secrets.md" >}})
-- [操作指南：在 Dapr 组件中引用 secret]({{< ref component-secrets.md >}})
-- [Secrets API 参考]({{< ref secrets_api.md >}})
+- [Secrets 构建块]({{% ref secrets %}})
+- [操作指南：检索 secret]({{% ref "howto-secrets.md" %}})
+- [操作指南：在 Dapr 组件中引用 secret]({{% ref component-secrets.md %}})
+- [Secrets API 参考]({{% ref secrets_api.md %}})

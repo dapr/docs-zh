@@ -11,26 +11,26 @@ aliases:
 在 Kubernetes 上设置 Dapr 时，你可以使用 Dapr CLI 或 Helm。
 
 {{% alert title="混合集群" color="primary" %}}
-Dapr CLI 和 Dapr Helm chart 默认会部署到带有标签 `kubernetes.io/os=linux` 的节点上。如果你的应用程序需要，你也可以将 Dapr 部署到 Windows 节点。更多信息请参见[部署到混合 Linux/Windows Kubernetes 集群]({{< ref kubernetes-hybrid-clusters >}})。
+Dapr CLI 和 Dapr Helm chart 默认会部署到带有标签 `kubernetes.io/os=linux` 的节点上。如果你的应用程序需要，你也可以将 Dapr 部署到 Windows 节点。更多信息请参见[部署到混合 Linux/Windows Kubernetes 集群]({{% ref kubernetes-hybrid-clusters %}})。
 {{% /alert %}}
 
-{{< tabs "Dapr CLI" "Helm" >}}
+{{< tabpane text=true >}}
  <!-- Dapr CLI -->
-{{% codetab %}}
+{{% tab header="Dapr CLI" %}}
 ## 使用 Dapr CLI 安装
 
-你可以使用 [Dapr CLI]({{< ref install-dapr-cli.md >}}) 在 Kubernetes 集群中安装 Dapr。
+你可以使用 [Dapr CLI]({{% ref install-dapr-cli.md %}}) 在 Kubernetes 集群中安装 Dapr。
 
 ### 先决条件
 
 - 安装：
-   - [Dapr CLI]({{< ref install-dapr-cli.md >}})
+   - [Dapr CLI]({{% ref install-dapr-cli.md %}})
    - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - 创建一个带有 Dapr 的 Kubernetes 集群。以下是一些有用的链接：
-   - [设置 KiNd 集群]({{< ref setup-kind.md >}})
-   - [设置 Minikube 集群]({{< ref setup-minikube.md >}})
-   - [设置 Azure Kubernetes 服务集群]({{< ref setup-aks.md >}})
-   - [设置 GKE 集群]({{< ref setup-gke.md >}})
+   - [设置 KiNd 集群]({{% ref setup-kind.md %}})
+   - [设置 Minikube 集群]({{% ref setup-minikube.md %}})
+   - [设置 Azure Kubernetes 服务集群]({{% ref setup-aks.md %}})
+   - [设置 GKE 集群]({{% ref setup-gke.md %}})
    - [设置 Amazon 弹性 Kubernetes 服务](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
 
 ### 安装选项
@@ -131,7 +131,7 @@ export DAPR_HELM_REPO_PASSWORD="passwd_xxx"
 ```
 #### 在高可用模式下安装
 
-你可以在 `dapr-system` 命名空间中运行每个控制平面 pod 的三个副本以用于[生产场景]({{< ref kubernetes-production.md >}})。
+你可以在 `dapr-system` 命名空间中运行每个控制平面 pod 的三个副本以用于[生产场景]({{% ref kubernetes-production.md %}})。
 
 ```bash
 dapr init -k --enable-ha=true
@@ -147,7 +147,7 @@ dapr init -k -n mynamespace
 
 #### 禁用 mTLS
 
-Dapr 默认使用 [mTLS]({{< ref "security-concept.md#sidecar-to-sidecar-communication" >}}) 初始化。你可以通过以下方式禁用它：
+Dapr 默认使用 [mTLS]({{% ref "security-concept.md#sidecar-to-sidecar-communication" %}}) 初始化。你可以通过以下方式禁用它：
 
 ```bash
 dapr init -k --enable-mtls=false
@@ -169,10 +169,10 @@ dapr init -k --wait --timeout 600
 dapr uninstall -k
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Helm -->
-{{% codetab %}}
+{{% tab header="Helm" %}}
 
 ## 使用 Helm 安装
 
@@ -186,10 +186,10 @@ dapr uninstall -k
    - [Helm v3](https://helm.sh/docs/intro/install/)
    - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - 创建一个带有 Dapr 的 Kubernetes 集群。以下是一些有用的链接：
-   - [设置 KiNd 集群]({{< ref setup-kind.md >}})
-   - [设置 Minikube 集群]({{< ref setup-minikube.md >}})
-   - [设置 Azure Kubernetes 服务集群]({{< ref setup-aks.md >}})
-   - [设置 GKE 集群]({{< ref setup-gke.md >}})
+   - [设置 KiNd 集群]({{% ref setup-kind.md %}})
+   - [设置 Minikube 集群]({{% ref setup-minikube.md %}})
+   - [设置 Azure Kubernetes 服务集群]({{% ref setup-aks.md %}})
+   - [设置 GKE 集群]({{% ref setup-gke.md %}})
    - [设置 Amazon 弹性 Kubernetes 服务](https://docs.aws.amazon.com/eks/latest/userguide/getting-started.html)
 
 ### 添加并安装 Dapr Helm chart
@@ -241,7 +241,7 @@ dapr uninstall -k
     --wait
    ```
    
-有关使用 Helm 安装和升级 Dapr 的更多信息，请参见[生产就绪部署的 Kubernetes 指南]({{< ref kubernetes-production.md >}})。
+有关使用 Helm 安装和升级 Dapr 的更多信息，请参见[生产就绪部署的 Kubernetes 指南]({{% ref kubernetes-production.md %}})。
 
 ### （可选）将 Dapr 仪表板作为控制平面的一部分安装
 
@@ -284,12 +284,12 @@ helm uninstall dapr --namespace dapr-system
 
 ### 更多信息
 
-- 阅读[生产环境的 Kubernetes 指南]({{< ref kubernetes-production.md >}})以获取推荐的 Helm chart 值
+- 阅读[生产环境的 Kubernetes 指南]({{% ref kubernetes-production.md %}})以获取推荐的 Helm chart 值
 - [Dapr Helm chart 的更多细节](https://github.com/dapr/dapr/blob/master/charts/dapr/README.md)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 使用基于 Mariner 的镜像
 
@@ -299,9 +299,9 @@ helm uninstall dapr --namespace dapr-system
 
 要使用基于 Mariner 的 Dapr 镜像，你需要在 Docker 标签中添加 `-mariner`。例如，`ghcr.io/dapr/dapr:latest` 是基于 *distroless* 的 Docker 镜像，而 `ghcr.io/dapr/dapr:latest-mariner` 是基于 Mariner 的。也有固定到特定版本的标签可用，例如 `{{% dapr-latest-version short="true" %}}-mariner`。
 
-{{< tabs "Dapr CLI" "Helm" >}}
+{{< tabpane text=true >}}
  <!-- Dapr CLI -->
-{{% codetab %}}
+{{% tab header="Dapr CLI" %}}
 
 在 Dapr CLI 中，你可以使用 `--image-variant` 标志切换到使用基于 Mariner 的镜像。
 
@@ -309,10 +309,10 @@ helm uninstall dapr --namespace dapr-system
 dapr init -k --image-variant mariner
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Helm -->
-{{% codetab %}}
+{{% tab header="Helm" %}}
 
 在 Kubernetes 和 Helm 中，你可以通过设置 `global.tag` 选项并添加 `-mariner` 来使用基于 Mariner 的镜像。例如：
 
@@ -325,12 +325,12 @@ helm upgrade --install dapr dapr/dapr \
   --wait
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
-- [使用 Helm 参数和其他细节部署 Dapr]({{< ref "kubernetes-production.md#deploy-dapr-with-helm" >}})
-- [在 Kubernetes 上升级 Dapr]({{< ref kubernetes-upgrade.md >}})
-- [Kubernetes 生产指南]({{< ref kubernetes-production.md >}})
-- [配置 state 存储和 pubsub 消息代理]({{< ref "getting-started/tutorials/configure-state-pubsub.md" >}})
+- [使用 Helm 参数和其他细节部署 Dapr]({{% ref "kubernetes-production.md#deploy-dapr-with-helm" %}})
+- [在 Kubernetes 上升级 Dapr]({{% ref kubernetes-upgrade.md %}})
+- [Kubernetes 生产指南]({{% ref kubernetes-production.md %}})
+- [配置 state 存储和 pubsub 消息代理]({{% ref "getting-started/tutorials/configure-state-pubsub.md" %}})

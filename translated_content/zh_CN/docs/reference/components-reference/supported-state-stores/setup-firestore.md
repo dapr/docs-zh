@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 GCP Firestore 状态存储组件，请创建一个类型为 `state.gcp.firestore` 的组件。请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+要设置 GCP Firestore 状态存储组件，请创建一个类型为 `state.gcp.firestore` 的组件。请参阅[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -49,7 +49,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来保护这些信息，具体方法请参阅[此处]({{< ref component-secrets.md >}})。
+上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来保护这些信息，具体方法请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -75,21 +75,21 @@ spec:
 
 ## 设置 GCP Firestore
 
-{{< tabs "Self-Hosted" "Google Cloud" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 您可以使用 GCP Datastore 模拟器在本地运行，具体步骤请参阅[此处](https://cloud.google.com/datastore/docs/tools/datastore-emulator)。
 
 然后，您可以通过 `http://localhost:8432` 与服务器交互。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Google Cloud" %}}
 按照[此处](https://cloud.google.com/datastore/docs/quickstart)的说明在 Google Cloud 上设置 Firestore。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取有关配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取有关配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

@@ -7,7 +7,7 @@ aliases:
 - /zh-hans/developing-applications/middleware/supported-middleware/middleware-oauth2/
 ---
 
-OAuth2 [HTTP中间件]({{< ref middleware.md >}})在Web API上启用[OAuth2授权码流程](https://tools.ietf.org/html/rfc6749#section-4.1)，无需修改应用程序代码。这种设计将身份验证和授权问题与应用程序分离开来，使应用程序操作员可以独立采用和配置身份验证/授权提供者，而不影响应用程序的代码。
+OAuth2 [HTTP中间件]({{% ref middleware.md %}})在Web API上启用[OAuth2授权码流程](https://tools.ietf.org/html/rfc6749#section-4.1)，无需修改应用程序代码。这种设计将身份验证和授权问题与应用程序分离开来，使应用程序操作员可以独立采用和配置身份验证/授权提供者，而不影响应用程序的代码。
 
 ## 组件格式
 
@@ -39,7 +39,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串来表示secret。建议使用secret存储来安全地存储这些secret，具体方法请参见[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串来表示secret。建议使用secret存储来安全地存储这些secret，具体方法请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -57,7 +57,7 @@ spec:
 
 ## Dapr配置
 
-要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中引用。请参阅[中间件处理管道]({{< ref "middleware.md#customize-processing-pipeline">}})。
+要应用中间件，必须在[配置]({{% ref configuration-concept.md %}})中引用。请参阅[中间件处理管道]({{% ref "middleware.md#customize-processing-pipeline" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -73,8 +73,8 @@ spec:
 
 ## 相关链接
 
-- [使用OAuth配置API授权]({{< ref oauth >}})
+- [使用OAuth配置API授权]({{% ref oauth %}})
 - [中间件OAuth示例（交互式）](https://github.com/dapr/samples/tree/master/middleware-oauth-google)
-- [中间件]({{< ref middleware.md >}})
-- [配置概念]({{< ref configuration-concept.md >}})
-- [配置概览]({{< ref configuration-overview.md >}})
+- [中间件]({{% ref middleware.md %}})
+- [配置概念]({{% ref configuration-concept.md %}})
+- [配置概览]({{% ref configuration-overview.md %}})

@@ -33,7 +33,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串来表示 secret。建议使用 secret 存储来安全地存储这些敏感信息，具体方法请参见[这里]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串来表示 secret。建议使用 secret 存储来安全地存储这些敏感信息，具体方法请参见[这里]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -58,7 +58,7 @@ spec:
 
 ## Dapr 配置
 
-要应用中间件，必须在 [配置]({{< ref configuration-concept.md >}})中引用。请参阅 [中间件管道]({{< ref "middleware.md#customize-processing-pipeline">}})。
+要应用中间件，必须在 [配置]({{% ref configuration-concept.md %}})中引用。请参阅 [中间件管道]({{% ref "middleware.md#customize-processing-pipeline" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -73,6 +73,6 @@ spec:
 ```
 
 ## 相关链接
-- [中间件]({{< ref middleware.md >}})
-- [配置概念]({{< ref configuration-concept.md >}})
-- [配置概览]({{< ref configuration-overview.md >}})
+- [中间件]({{% ref middleware.md %}})
+- [配置概念]({{% ref configuration-concept.md %}})
+- [配置概览]({{% ref configuration-overview.md %}})

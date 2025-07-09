@@ -11,8 +11,8 @@ description: "关于卸载 CLI 命令的详细信息"
 
 ### 支持的平台
 
-- [自托管]({{< ref self-hosted >}})
-- [Kubernetes]({{< ref kubernetes >}})
+- [自托管]({{% ref self-hosted %}})
+- [Kubernetes]({{% ref kubernetes %}})
 
 ### 用法
 

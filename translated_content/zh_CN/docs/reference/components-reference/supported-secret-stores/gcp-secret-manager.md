@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 GCP Secret Manager 的机密存储，创建一个类型为 `secretstores.gcp.secretmanager` 的组件。请参阅[本指南]({{< ref "setup-secret-store#apply-the-configuration" >}})了解如何创建和应用机密存储配置。请参阅本指南了解如何[引用机密]({{< ref component-secrets.md >}})以使用 Dapr 组件检索和使用机密。
+要设置 GCP Secret Manager 的机密存储，创建一个类型为 `secretstores.gcp.secretmanager` 的组件。请参阅[本指南]({{% ref "setup-secret-store#apply-the-configuration" %}})了解如何创建和应用机密存储配置。请参阅本指南了解如何[引用机密]({{% ref component-secrets.md %}})以使用 Dapr 组件检索和使用机密。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -43,7 +43,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串来存储机密。建议使用本地机密存储，例如 [Kubernetes 机密存储]({{< ref kubernetes-secret-store.md >}})或[本地文件]({{< ref file-secret-store.md >}})来安全地管理密钥。
+上述示例中使用了明文字符串来存储机密。建议使用本地机密存储，例如 [Kubernetes 机密存储]({{% ref kubernetes-secret-store.md %}})或[本地文件]({{% ref file-secret-store.md %}})来安全地管理密钥。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -63,7 +63,7 @@ spec:
 
 ## 可选的每请求元数据属性
 
-GCP Secret Manager 组件支持以下[可选查询参数]({{< ref "secrets_api#query-parameters" >}})：
+GCP Secret Manager 组件支持以下[可选查询参数]({{% ref "secrets_api#query-parameters" %}})：
 
 查询参数 | 描述
 --------- | -----------
@@ -74,7 +74,7 @@ GCP Secret Manager 组件支持以下[可选查询参数]({{< ref "secrets_api#q
 请参考 GCP 文档以设置 GCP Secret Manager：https://cloud.google.com/secret-manager/docs/quickstart。
 
 ## 相关链接
-- [机密构建块]({{< ref secrets >}})
-- [操作指南：检索机密]({{< ref "howto-secrets.md" >}})
-- [操作指南：在 Dapr 组件中引用机密]({{< ref component-secrets.md >}})
-- [机密 API 参考]({{< ref secrets_api.md >}})
+- [机密构建块]({{% ref secrets %}})
+- [操作指南：检索机密]({{% ref "howto-secrets.md" %}})
+- [操作指南：在 Dapr 组件中引用机密]({{% ref component-secrets.md %}})
+- [机密 API 参考]({{% ref secrets_api.md %}})

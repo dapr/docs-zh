@@ -48,9 +48,9 @@ Dapr 使用标准的 W3C 跟踪上下文头。
 
 这些是 Dapr 为 HTTP 和 gRPC 生成和传播的特定跟踪上下文头。
 
-{{< tabs "HTTP" "gRPC" >}}
+{{< tabpane text=true >}}
  <!-- HTTP -->
-{{% codetab %}}
+{{% tab header="HTTP" %}}
 
 在从 HTTP 响应传播跟踪上下文头到 HTTP 请求时复制这些头：
 
@@ -74,19 +74,19 @@ tracestate: congo=t61rcWkgMzE
 
 [了解更多关于 tracestate 字段的详细信息](https://www.w3.org/TR/trace-context/#tracestate-header)。
 
-{{% /codetab %}}
+{{% /tab %}}
 
 
  <!-- gRPC -->
-{{% codetab %}}
+{{% tab header="gRPC" %}}
 
 在 gRPC API 调用中，跟踪上下文通过 `grpc-trace-bin` 头传递。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
-- [了解更多关于 Dapr 中的分布式跟踪]({{< ref tracing-overview.md >}})
+- [了解更多关于 Dapr 中的分布式跟踪]({{% ref tracing-overview.md %}})
 - [W3C 跟踪上下文规范](https://www.w3.org/TR/trace-context/)

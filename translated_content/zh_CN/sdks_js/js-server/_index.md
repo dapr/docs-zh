@@ -12,8 +12,8 @@ Dapr 服务器使您能够接收来自 Dapr sidecar 的通信，并访问其面�
 
 ## 准备条件
 
-- 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
+- 初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - [最新的 LTS 版本的 Node 或更高版本](https://nodejs.org/en/)
 
 ## 安装和导入 Dapr 的 JS SDK
@@ -160,7 +160,7 @@ npm run start:dapr-grpc
 
 ## 构建块
 
-JavaScript 服务器 SDK 允许您与所有 [Dapr 构建块]({{< ref building-blocks >}}) 进行接口交互，重点是 sidecar 到应用程序的功能。
+JavaScript 服务器 SDK 允许您与所有 [Dapr 构建块]({{% ref building-blocks %}}) 进行接口交互，重点是 sidecar 到应用程序的功能。
 
 ### 调用 API
 
@@ -204,7 +204,7 @@ start().catch((e) => {
 });
 ```
 
-> 有关服务调用的完整指南，请访问 [如何：调用服务]({{< ref howto-invoke-discover-services.md >}})。
+> 有关服务调用的完整指南，请访问 [如何：调用服务]({{% ref howto-invoke-discover-services.md %}})。
 
 ### PubSub API
 
@@ -267,7 +267,7 @@ async function start() {
 }
 ```
 
-> 有关状态操作的完整列表，请访问 [如何：发布和订阅]({{< ref howto-publish-subscribe.md >}})。
+> 有关状态操作的完整列表，请访问 [如何：发布和订阅]({{% ref howto-publish-subscribe.md %}})。
 
 #### 使用 SUCCESS/RETRY/DROP 状态订阅
 
@@ -597,7 +597,7 @@ start().catch((e) => {
 });
 ```
 
-> 有关输出绑定的完整指南，请访问 [如何：使用绑定]({{< ref howto-bindings.md >}})。
+> 有关输出绑定的完整指南，请访问 [如何：使用绑定]({{% ref howto-bindings.md %}})。
 
 ### Configuration API
 

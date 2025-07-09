@@ -14,7 +14,7 @@ Kitex 绑定主要利用其通用调用功能。可以从官方文档中了解�
 
 ## 组件格式
 
-要设置 Kitex 绑定，创建一个类型为 `bindings.kitex` 的组件。请参阅[如何：使用输出绑定与外部资源接口]({{< ref "howto-bindings.md#1-create-a-binding" >}})指南，了解如何创建和应用绑定配置。
+要设置 Kitex 绑定，创建一个类型为 `bindings.kitex` 的组件。请参阅[如何：使用输出绑定与外部资源接口]({{% ref "howto-bindings.md#1-create-a-binding" %}})指南，了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -83,8 +83,8 @@ spec:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

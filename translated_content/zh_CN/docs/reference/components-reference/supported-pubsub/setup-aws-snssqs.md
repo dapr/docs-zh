@@ -74,7 +74,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用明文字符串作为secret。建议使用[secret存储来存储secret]({{< ref component-secrets.md >}})。
+上述示例使用明文字符串作为secret。建议使用[secret存储来存储secret]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -84,7 +84,7 @@ spec:
 | accessKey          | Y  | 具有适当权限的AWS账户/角色的ID，用于SNS和SQS（见下文） | `"AKIAIOSFODNN7EXAMPLE"`
 | secretKey          | Y  | AWS用户/角色的secret。如果使用`AssumeRole`访问，还需要提供`sessionToken` |`"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"`
 | region             | Y  | SNS/SQS资产所在或将创建的AWS区域。请参阅[此页面](https://aws.amazon.com/about-aws/global-infrastructure/regional-product-services/?p=ugi&l=na)以获取有效区域。确保SNS和SQS在该区域可用 | `"us-east-1"`
-| consumerID       | N | 消费者ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者ID的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供`consumerID`，Dapr运行时将其设置为Dapr应用程序ID（`appID`）值。请参阅[pub/sub broker组件文件]({{< ref setup-pubsub.md >}})以了解如何自动生成ConsumerID。 | 可以设置为字符串值（如上例中的`"channel1"`）或字符串格式值（如`"{podName}"`等）。[查看您可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| consumerID       | N | 消费者ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者ID的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供`consumerID`，Dapr运行时将其设置为Dapr应用程序ID（`appID`）值。请参阅[pub/sub broker组件文件]({{% ref setup-pubsub.md %}})以了解如何自动生成ConsumerID。 | 可以设置为字符串值（如上例中的`"channel1"`）或字符串格式值（如`"{podName}"`等）。[查看您可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | endpoint          | N  | 组件使用的AWS端点。仅用于本地开发，例如使用[localstack](https://github.com/localstack/localstack)。在生产AWS上运行时不需要`endpoint` | `"http://localhost:4566"`
 | sessionToken      | N  | 要使用的AWS会话令牌。仅在使用临时安全凭证时需要会话令牌 | `"TOKEN"`
 | messageReceiveLimit | N  | 消息接收的次数，在处理该消息失败后，一旦达到该次数，将导致从队列中删除该消息。如果指定了`sqsDeadLettersQueueName`，`messageReceiveLimit`是消息接收的次数，在处理该消息失败后，一旦达到该次数，将导致将消息移动到SQS死信队列。默认值：`10` | `10`
@@ -155,9 +155,9 @@ Dapr创建的SNS主题和SQS队列名称符合[AWS规范](https://docs.aws.amazo
 
 ## 创建SNS/SQS实例
 
-{{< tabs "Self-Hosted" "Kubernetes" "AWS" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 对于本地开发，[localstack项目](https://github.com/localstack/localstack)用于集成AWS SNS/SQS。按照[这些说明](https://github.com/localstack/localstack#running)运行localstack。
 
 要从命令行使用Docker本地运行localstack，请应用以下命令：
@@ -168,7 +168,7 @@ docker run --rm -it -p 4566:4566 -p 4571:4571 -e SERVICES="sts,sns,sqs" -e AWS_D
 
 为了在您的pub/sub绑定中使用localstack，您需要在组件元数据中提供`endpoint`配置。在生产AWS上运行时不需要`endpoint`。
 
-请参阅[认证到AWS]({{< ref authenticating-aws.md >}})以获取有关认证相关属性的信息。
+请参阅[认证到AWS]({{% ref authenticating-aws.md %}})以获取有关认证相关属性的信息。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -190,9 +190,9 @@ spec:
       value: us-east-1
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 要在Kubernetes上运行localstack，您可以应用以下配置。然后可以通过DNS名称`http://localstack.default.svc.cluster.local:4566`（假设这是应用于默认命名空间）访问localstack，应将其用作`endpoint`。
 
 ```yaml
@@ -236,9 +236,9 @@ spec:
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="AWS" %}}
 为了在AWS中运行，创建或分配一个具有SNS和SQS服务权限的IAM用户，策略如下：
 
 ```json
@@ -305,15 +305,15 @@ spec:
 ```
 
 在上述示例中，您在EKS集群上运行应用程序，并进行动态资产创建（默认Dapr行为）。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
-- [Dapr组件的基本架构]({{< ref component-schema >}})
-- [Pub/Sub构建块概述和操作指南]({{< ref pubsub >}})
-- [认证到AWS]({{< ref authenticating-aws.md >}})
+- [Dapr组件的基本架构]({{% ref component-schema %}})
+- [Pub/Sub构建块概述和操作指南]({{% ref pubsub %}})
+- [认证到AWS]({{% ref authenticating-aws.md %}})
 - AWS文档：
   - [AWS SQS作为SNS的订阅者](https://docs.aws.amazon.com/sns/latest/dg/sns-sqs-as-subscriber.html)
   - [AWS SNS API参考](https://docs.aws.amazon.com/sns/latest/api/Welcome.html)

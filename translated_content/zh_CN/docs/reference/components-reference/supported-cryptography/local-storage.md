@@ -37,7 +37,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保存密钥，具体方法请参见[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保存密钥，具体方法请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -56,4 +56,4 @@ spec:
 使用组件时，您可以将密钥引用为 `mykey1.pem` 和 `mykey2`。
 
 ## 相关链接
-[加密构建块]({{< ref cryptography >}})
+[加密构建块]({{% ref cryptography %}})

@@ -52,7 +52,7 @@ description: >
         - 👎 反对
 1. 对于错误
     - 检查这不是环境问题。例如，如果在Kubernetes上运行，请确保先决条件已到位。（state存储、bindings等）
-    - 您拥有尽可能多的数据。这通常以日志和/或堆栈跟踪的形式出现。如果在Kubernetes或其他环境中运行，请查看Dapr服务（运行时、operator、placement服务）的日志。有关如何获取日志的更多详细信息，请参阅[此处]({{< ref "logs-troubleshooting.md" >}})。
+    - 您拥有尽可能多的数据。这通常以日志和/或堆栈跟踪的形式出现。如果在Kubernetes或其他环境中运行，请查看Dapr服务（运行时、operator、placement服务）的日志。有关如何获取日志的更多详细信息，请参阅[此处]({{% ref "logs-troubleshooting.md" %}})。
 1. 对于提案
     - 许多对Dapr运行时的更改可能需要对API进行更改。在这种情况下，讨论潜在功能的最佳地点是主要的[Dapr代码库](https://github.com/dapr/dapr)。
     - 其他示例可能包括bindings、state存储或全新的组件。
@@ -63,12 +63,12 @@ description: >
 
 1. 确保已提出问题（错误或提案），以设定您即将进行的贡献的期望。
 1. 分叉相关代码库并创建新分支
-    - 一些Dapr代码库支持[Codespaces]({{< ref codespaces.md >}})，为您提供即时环境以构建和测试您的更改。
+    - 一些Dapr代码库支持[Codespaces]({{% ref codespaces.md %}})，为您提供即时环境以构建和测试您的更改。
 	- 有关设置Dapr开发环境的更多信息，请参阅[开发Dapr文档](https://github.com/dapr/dapr/blob/master/docs/development/developing-dapr.md)。
 1. 创建您的更改
     - 代码更改需要测试
 1. 更新相关文档以反映更改
-1. 使用[DCO签署]({{< ref "contributing-overview.md#developer-certificate-of-origin-signing-your-work" >}})提交并打开PR
+1. 使用[DCO签署]({{% ref "contributing-overview.md#developer-certificate-of-origin-signing-your-work" %}})提交并打开PR
 1. 等待CI过程完成并确保所有检查通过
 1. 项目的维护者将被分配，您可以在几天内期待审查
 

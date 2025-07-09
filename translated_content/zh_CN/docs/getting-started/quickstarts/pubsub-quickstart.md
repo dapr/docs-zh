@@ -6,7 +6,7 @@ weight: 72
 description: "开始使用 Dapr 的发布和订阅构建块"
 ---
 
-我们来了解一下 Dapr 的[发布和订阅 (Pub/sub) 构建块]({{< ref pubsub >}})。在这个快速入门中，您将运行发布者和订阅者微服务，以演示 Dapr 如何实现 Pub/sub 模式。
+我们来了解一下 Dapr 的[发布和订阅 (Pub/sub) 构建块]({{% ref pubsub %}})。在这个快速入门中，您将运行发布者和订阅者微服务，以演示 Dapr 如何实现 Pub/sub 模式。
 
 1. 使用发布者服务，开发者可以不断地将消息发布到某个主题。
 1. [Pub/sub 组件](https://docs.dapr.io/concepts/components-concept/#pubsub-brokers) 会对这些消息进行排队或代理。我们下面的示例使用 Redis，您也可以使用 RabbitMQ、Kafka 等。
@@ -16,16 +16,16 @@ description: "开始使用 Dapr 的发布和订阅构建块"
 
 您可以通过以下两种方式尝试此 Pub/sub 快速入门：
 
-- [使用多应用运行模板文件同时运行此示例中的所有应用程序]({{< ref "#run-using-multi-app-run" >}})，或
-- [一次运行一个应用程序]({{< ref "#run-one-application-at-a-time" >}})
+- [使用多应用运行模板文件同时运行此示例中的所有应用程序]({{% ref "#run-using-multi-app-run" %}})，或
+- [一次运行一个应用程序]({{% ref "#run-one-application-at-a-time" %}})
 
 ## 使用多应用运行
 
 在继续快速入门之前，请选择您偏好的 Dapr SDK 语言。
 
-{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ### 步骤 1：先决条件
 
@@ -74,7 +74,7 @@ cd ..
 ```bash
 dapr run -f .
 ```
-> **注意**：由于 Windows 中未定义 Python3.exe，您可能需要在运行 `dapr run -f .` 之前将 [`dapr.yaml`]({{< ref "#dapryaml-multi-app-run-template-file" >}}) 文件中的 `python3` 更改为 `python`。
+> **注意**：由于 Windows 中未定义 Python3.exe，您可能需要在运行 `dapr run -f .` 之前将 [`dapr.yaml`]({{% ref "#dapryaml-multi-app-run-template-file" %}}) 文件中的 `python3` 更改为 `python`。
 
 **预期输出**
 
@@ -105,14 +105,14 @@ Exited App successfully
 ### 发生了什么？
 
 当您在 Dapr 安装期间运行 `dapr init` 时，以下 YAML 文件已在 `.dapr/components` 目录中生成：
-- [`dapr.yaml` 多应用运行模板文件]({{< ref "#dapryaml-multi-app-run-template-file" >}})
-- [`pubsub.yaml` 组件文件]({{< ref "#pubsubyaml-component-file" >}})
+- [`dapr.yaml` 多应用运行模板文件]({{% ref "#dapryaml-multi-app-run-template-file" %}})
+- [`pubsub.yaml` 组件文件]({{% ref "#pubsubyaml-component-file" %}})
 
-在此快速入门中运行 `dapr run -f .` 启动了 [订阅者]({{< ref "#order-processor-subscriber" >}}) 和 [发布者]({{< ref "#checkout-publisher" >}}) 应用程序。
+在此快速入门中运行 `dapr run -f .` 启动了 [订阅者]({{% ref "#order-processor-subscriber" %}}) 和 [发布者]({{% ref "#checkout-publisher" %}}) 应用程序。
 
 ##### `dapr.yaml` 多应用运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{< ref multi-app-dapr-run >}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -157,7 +157,7 @@ spec:
 
 ##### `order-processor` 订阅者
 
-在 `order-processor` 订阅者中，您订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
+在 `order-processor` 订阅者中，您订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
 
 ```py
 # 注册 Dapr pub/sub 订阅
@@ -186,7 +186,7 @@ app.run(port=5001)
 
 ##### `checkout` 发布者
 
-在 `checkout` 发布者中，您将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
+在 `checkout` 发布者中，您将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
 
 ```python
 with DaprClient() as client:
@@ -199,10 +199,10 @@ with DaprClient() as client:
     )
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ### 步骤 1：先决条件
 
@@ -278,14 +278,14 @@ Exited App successfully
 ### 发生了什么？
 
 当您在 Dapr 安装期间运行 `dapr init` 时，以下 YAML 文件已在 `.dapr/components` 目录中生成：
-- [`dapr.yaml` 多应用运行模板文件]({{< ref "#dapryaml-multi-app-run-template-file" >}})
-- [`pubsub.yaml` 组件文件]({{< ref "#pubsubyaml-component-file" >}})
+- [`dapr.yaml` 多应用运行模板文件]({{% ref "#dapryaml-multi-app-run-template-file" %}})
+- [`pubsub.yaml` 组件文件]({{% ref "#pubsubyaml-component-file" %}})
 
-在此快速入门中运行 `dapr run -f .` 启动了 [订阅者]({{< ref "#order-processor-subscriber" >}}) 和 [发布者]({{< ref "#checkout-publisher" >}}) 应用程序。
+在此快速入门中运行 `dapr run -f .` 启动了 [订阅者]({{% ref "#order-processor-subscriber" %}}) 和 [发布者]({{% ref "#checkout-publisher" %}}) 应用程序。
 
 ##### `dapr.yaml` 多应用运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{< ref multi-app-dapr-run >}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -330,7 +330,7 @@ spec:
 
 ##### `order-processor` 订阅者
 
-在 `order-processor` 订阅者中，您订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
+在 `order-processor` 订阅者中，您订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
 
 ```js
 server.pubsub.subscribe("orderpubsub", "orders", (data) => console.log("Subscriber received: " + JSON.stringify(data)));
@@ -338,7 +338,7 @@ server.pubsub.subscribe("orderpubsub", "orders", (data) => console.log("Subscrib
 
 ##### `checkout` 发布者
 
-在 `checkout` 发布者服务中，您将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
+在 `checkout` 发布者服务中，您将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
 
 ```js
 const client = new DaprClient();
@@ -347,10 +347,10 @@ await client.pubsub.publish(PUBSUB_NAME, PUBSUB_TOPIC, order);
 console.log("Published data: " + JSON.stringify(order));
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ### 步骤 1：先决条件
 
@@ -429,14 +429,14 @@ Exited App successfully
 ### 发生了什么？
 
 当您在 Dapr 安装期间运行 `dapr init` 时，以下 YAML 文件已在 `.dapr/components` 目录中生成：
-- [`dapr.yaml` 多应用运行模板文件]({{< ref "#dapryaml-multi-app-run-template-file" >}})
-- [`pubsub.yaml` 组件文件]({{< ref "#pubsubyaml-component-file" >}})
+- [`dapr.yaml` 多应用运行模板文件]({{% ref "#dapryaml-multi-app-run-template-file" %}})
+- [`pubsub.yaml` 组件文件]({{% ref "#pubsubyaml-component-file" %}})
 
-在此快速入门中运行 `dapr run -f .` 启动了 [订阅者]({{< ref "#order-processor-subscriber" >}}) 和 [发布者]({{< ref "#checkout-publisher" >}}) 应用程序。
+在此快速入门中运行 `dapr run -f .` 启动了 [订阅者]({{% ref "#order-processor-subscriber" %}}) 和 [发布者]({{% ref "#checkout-publisher" %}}) 应用程序。
 
 ##### `dapr.yaml` 多应用运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{< ref multi-app-dapr-run >}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -481,7 +481,7 @@ spec:
 
 ##### `order-processor` 订阅者
 
-在 `order-processor` 订阅者中，您订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
+在 `order-processor` 订阅者中，您订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
 
 ```cs
 // Dapr 订阅在 [Topic] 中将 orders 主题路由到此路由
@@ -495,7 +495,7 @@ public record Order([property: JsonPropertyName("orderId")] int OrderId);
 
 ##### `checkout` 发布者
 
-在 `checkout` 发布者中，您将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
+在 `checkout` 发布者中，您将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
 
 ```cs
 using var client = new DaprClientBuilder().Build();
@@ -503,10 +503,10 @@ await client.PublishEventAsync("orderpubsub", "orders", order);
 Console.WriteLine("Published data: " + order);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ### 步骤 1：先决条件
 
@@ -585,14 +585,14 @@ Exited App successfully
 ### 发生了什么？
 
 当您在 Dapr 安装期间运行 `dapr init` 时，以下 YAML 文件已在 `.dapr/components` 目录中生成：
-- [`dapr.yaml` 多应用运行模板文件]({{< ref "#dapryaml-multi-app-run-template-file" >}})
-- [`pubsub.yaml` 组件文件]({{< ref "#pubsubyaml-component-file" >}})
+- [`dapr.yaml` 多应用运行模板文件]({{% ref "#dapryaml-multi-app-run-template-file" %}})
+- [`pubsub.yaml` 组件文件]({{% ref "#pubsubyaml-component-file" %}})
 
-在此快速入门中运行 `dapr run -f .` 启动了 [订阅者]({{< ref "#order-processor-subscriber" >}}) 和 [发布者]({{< ref "#checkout-publisher" >}}) 应用程序。
+在此快速入门中运行 `dapr run -f .` 启动了 [订阅者]({{% ref "#order-processor-subscriber" %}}) 和 [发布者]({{% ref "#checkout-publisher" %}}) 应用程序。
 
 ##### `dapr.yaml` 多应用运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{< ref multi-app-dapr-run >}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -637,7 +637,7 @@ spec:
 
 ##### `order-processor` 订阅者
 
-在 `order-processor` 订阅者中，您订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
+在 `order-processor` 订阅者中，您订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
 
 ```java
 @Topic(name = "orders", pubsubName = "orderpubsub")
@@ -656,7 +656,7 @@ public Mono<ResponseEntity> getCheckout(@RequestBody(required = false) CloudEven
 
 ##### `checkout` 发布者
 
-在 `checkout` 发布者中，您将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
+在 `checkout` 发布者中，您将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
 
 ```java
 DaprClient client = new DaprClientBuilder().build();
@@ -667,10 +667,10 @@ client.publishEvent(
 logger.info("Published data: " + order.getOrderId());
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ### 步骤 1：先决条件
 
@@ -745,14 +745,14 @@ Exited App successfully
 ### 发生了什么？
 
 当您在 Dapr 安装期间运行 `dapr init` 时，以下 YAML 文件已在 `.dapr/components` 目录中生成：
-- [`dapr.yaml` 多应用运行模板文件]({{< ref "#dapryaml-multi-app-run-template-file" >}})
-- [`pubsub.yaml` 组件文件]({{< ref "#pubsubyaml-component-file" >}})
+- [`dapr.yaml` 多应用运行模板文件]({{% ref "#dapryaml-multi-app-run-template-file" %}})
+- [`pubsub.yaml` 组件文件]({{% ref "#pubsubyaml-component-file" %}})
 
-在此快速入门中运行 `dapr run -f .` 启动了 [订阅者]({{< ref "#order-processor-subscriber" >}}) 和 [发布者]({{< ref "#checkout-publisher" >}}) 应用程序。
+在此快速入门中运行 `dapr run -f .` 启动了 [订阅者]({{% ref "#order-processor-subscriber" %}}) 和 [发布者]({{% ref "#checkout-publisher" %}}) 应用程序。
 
 ##### `dapr.yaml` 多应用运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{< ref multi-app-dapr-run >}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -797,7 +797,7 @@ spec:
 
 ##### `order-processor` 订阅者
 
-在 `order-processor` 订阅者中，您订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
+在 `order-processor` 订阅者中，您订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
 
 ```go
 func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {
@@ -808,7 +808,7 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 
 ##### `checkout` 发布者
 
-在 `checkout` 发布者中，您将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
+在 `checkout` 发布者中，您将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
 
 ```go
 client, err := dapr.NewClient()
@@ -820,17 +820,17 @@ if err := client.PublishEvent(ctx, PUBSUB_NAME, PUBSUB_TOPIC, []byte(order)); er
 fmt.Println("Published data: ", order)
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 一次运行一个应用程序
 
 在继续快速入门之前，请选择您偏好的 Dapr SDK 语言。
 
-{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ### 步骤 1：先决条件
 
@@ -872,7 +872,7 @@ dapr run --app-id order-processor --resources-path ../../../components/ --app-po
 
 > **注意**：由于 Windows 中未定义 Python3.exe，您可能需要使用 `python app.py` 而不是 `python3 app.py`。
 
-在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
+在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
 
 ```py
 # 注册 Dapr pub/sub 订阅
@@ -921,7 +921,7 @@ dapr run --app-id checkout --resources-path ../../../components/ -- python3 app.
 
 > **注意**：由于 Windows 中未定义 Python3.exe，您可能需要使用 `python app.py` 而不是 `python3 app.py`。
 
-在 `checkout` 发布者中，我们将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
+在 `checkout` 发布者中，我们将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
 
 ```python
 with DaprClient() as client:
@@ -1000,10 +1000,10 @@ spec:
 - `spec/metadata` 定义了与组件实例的连接。
 - `scopes` 指定哪个应用程序可以使用该组件。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ### 步骤 1：先决条件
 
@@ -1048,7 +1048,7 @@ npm install
 dapr run --app-port 5002 --app-id order-processing --app-protocol http --dapr-http-port 3501 --resources-path ../../../components -- npm run start
 ```
 
-在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
+在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
 
 ```js
 server.pubsub.subscribe("orderpubsub", "orders", (data) => console.log("Subscriber received: " + JSON.stringify(data)));
@@ -1079,7 +1079,7 @@ npm install
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 --resources-path ../../../components -- npm run start
 ```
 
-在 `checkout` 发布者服务中，我们将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
+在 `checkout` 发布者服务中，我们将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
 
 ```js
 const client = new DaprClient();
@@ -1156,10 +1156,10 @@ spec:
 - `spec/metadata` 定义了与组件实例的连接。
 - `scopes` 指定哪个应用程序可以使用该组件。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ### 步骤 1：先决条件
 
@@ -1200,7 +1200,7 @@ dotnet build
 dapr run --app-id order-processor --resources-path ../../../components --app-port 7006 -- dotnet run
 ```
 
-在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
+在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
 
 ```cs
 // Dapr 订阅在 [Topic] 中将 orders 主题路由到此路由
@@ -1233,7 +1233,7 @@ dotnet build
 dapr run --app-id checkout --resources-path ../../../components -- dotnet run
 ```
 
-在 `checkout` 发布者中，我们将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
+在 `checkout` 发布者中，我们将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
 
 ```cs
 using var client = new DaprClientBuilder().Build();
@@ -1307,10 +1307,10 @@ spec:
 - `spec/metadata` 定义了与组件实例的连接。
 - `scopes` 指定哪个应用程序可以使用该组件。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ### 步骤 1：先决条件
 
@@ -1353,7 +1353,7 @@ mvn clean install
 dapr run --app-port 8080 --app-id order-processor --resources-path ../../../components -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
 ```
 
-在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
+在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
 
 ```java
 @Topic(name = "orders", pubsubName = "orderpubsub")
@@ -1390,7 +1390,7 @@ mvn clean install
 dapr run --app-id checkout --resources-path ../../../components -- java -jar target/CheckoutService-0.0.1-SNAPSHOT.jar
 ```
 
-在 `checkout` 发布者中，我们将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
+在 `checkout` 发布者中，我们将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
 
 ```java
 DaprClient client = new DaprClientBuilder().build();
@@ -1470,10 +1470,10 @@ scopes:
 - `spec/metadata` 定义了与组件实例的连接。
 - `scopes` 指定哪个应用程序可以使用该组件。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ### 步骤 1：先决条件
 
@@ -1513,7 +1513,7 @@ go build .
 dapr run --app-port 6005 --app-id order-processor-sdk --app-protocol http --dapr-http-port 3501 --resources-path ../../../components -- go run .
 ```
 
-在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
+在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。这使您的应用程序代码能够通过 Dapr sidecar 与 Redis 组件实例通信。
 
 ```go
 func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {
@@ -1542,7 +1542,7 @@ go build .
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 --resources-path ../../../components -- go run .
 ```
 
-在 `checkout` 发布者中，我们将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{< ref "#pubsubyaml-component-file" >}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
+在 `checkout` 发布者中，我们将 orderId 消息发布到名为 `orderpubsub` 的 Redis 实例 [(如 `pubsub.yaml` 组件中定义的)]({{% ref "#pubsubyaml-component-file" %}}) 和主题 `orders`。服务一启动，它就会在循环中发布：
 
 ```go
 client, err := dapr.NewClient()
@@ -1626,9 +1626,9 @@ scopes:
 - `spec/metadata` 定义了与组件实例的连接。
 - `scopes` 指定哪个应用程序可以使用该组件。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 告诉我们您的想法！
 我们正在不断努力改进我们的快速入门示例，并重视您的反馈。您觉得这个快速入门有帮助吗？您有改进的建议吗？
@@ -1643,6 +1643,6 @@ scopes:
   - [.NET](https://github.com/dapr/quickstarts/tree/master/pub_sub/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/pub_sub/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/pub_sub/go/http)
-- 了解更多关于 [Pub/sub 作为 Dapr 构建块]({{< ref pubsub-overview >}})
+- 了解更多关于 [Pub/sub 作为 Dapr 构建块]({{% ref pubsub-overview %}})
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

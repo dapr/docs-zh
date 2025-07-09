@@ -11,7 +11,7 @@ aliases:
 `HTTPEndpoint` 是一种 Dapr 资源，用于让 Dapr 应用程序能够调用非 Dapr 的端点。
 
 {{% alert title="注意" color="primary" %}}
-HTTPEndpoint 资源可以被限制在特定的[命名空间]({{< ref isolation-concept.md >}})中，并通过作用域来限制对特定应用程序集的访问。
+HTTPEndpoint 资源可以被限制在特定的[命名空间]({{% ref isolation-concept.md %}})中，并通过作用域来限制对特定应用程序集的访问。
 {{% /alert %}}
 
 ## 格式
@@ -59,4 +59,4 @@ auth: # 可选
 
 ## 相关链接
 
-[了解如何调用非 Dapr 端点。]({{< ref howto-invoke-non-dapr-endpoints.md >}})
+[了解如何调用非 Dapr 端点。]({{% ref howto-invoke-non-dapr-endpoints.md %}})

@@ -113,7 +113,7 @@ mvn spring-boot:test-run
 
 ## 利用 Spring 和 Spring Boot 编程模型与 Dapr
 
-Java SDK 允许您与所有 [Dapr 构建块]({{< ref building-blocks >}}) 接口。但如果您想利用 Spring 和 Spring Boot 编程模型，可以使用 `dapr-spring-boot-starter` 集成。这包括 Spring Data 的实现（`KeyValueTemplate` 和 `CrudRepository`）以及用于生产和消费消息的 `DaprMessagingTemplate`（类似于 [Spring Kafka](https://spring.io/projects/spring-kafka)、[Spring Pulsar](https://spring.io/projects/spring-pulsar) 和 [Spring AMQP for RabbitMQ](https://spring.io/projects/spring-amqp)）。
+Java SDK 允许您与所有 [Dapr 构建块]({{% ref building-blocks %}}) 接口。但如果您想利用 Spring 和 Spring Boot 编程模型，可以使用 `dapr-spring-boot-starter` 集成。这包括 Spring Data 的实现（`KeyValueTemplate` 和 `CrudRepository`）以及用于生产和消费消息的 `DaprMessagingTemplate`（类似于 [Spring Kafka](https://spring.io/projects/spring-kafka)、[Spring Pulsar](https://spring.io/projects/spring-pulsar) 和 [Spring AMQP for RabbitMQ](https://spring.io/projects/spring-amqp)）。
 
 ## 使用 Spring Data `CrudRepository` 和 `KeyValueTemplate`
 

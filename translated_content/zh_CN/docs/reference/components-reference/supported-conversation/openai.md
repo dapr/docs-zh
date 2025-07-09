@@ -26,7 +26,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，具体方法请参见[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，具体方法请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据说明
@@ -39,4 +39,4 @@ spec:
 
 ## 相关链接
 
-- [conversation API概述]({{< ref conversation-overview.md >}})
+- [conversation API概述]({{% ref conversation-overview.md %}})

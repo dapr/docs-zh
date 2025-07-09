@@ -12,7 +12,7 @@ Dapr 捕获的指标和追踪信息可以通过 OpenTelemetry Collector 的 Data
 
 您可以使用 OpenTelemetry Collector 的 Datadog 导出器来配置 Dapr，为 Kubernetes 集群中的每个应用程序创建追踪，并将这些追踪信息收集到 Datadog 中。
 
-> 在开始之前，请先[设置 OpenTelemetry Collector]({{< ref "open-telemetry-collector.md#setting-opentelemetry-collector" >}})。
+> 在开始之前，请先[设置 OpenTelemetry Collector]({{% ref "open-telemetry-collector.md#setting-opentelemetry-collector" %}})。
 
 1. 在 `datadog` 导出器的配置部分，将您的 Datadog API 密钥添加到 `./deploy/opentelemetry-collector-generic-datadog.yaml` 文件中：
     ```yaml

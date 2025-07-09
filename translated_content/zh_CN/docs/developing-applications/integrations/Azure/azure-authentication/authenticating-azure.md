@@ -117,7 +117,7 @@ Microsoft Entra ID 基于 OAuth 2.0 等开放标准，允许服务（应用程�
 |-----------------|----------|----------------------------|------------------------------------------|
 | `azureClientId` | N        | 客户端 ID（应用程序 ID） | `"c7dd251f-811f-4ba2-a905-acd4d3f8f08b"` |
 
-[使用托管身份]({{< ref howto-mi.md >}})，通常推荐使用 `azureClientId` 字段。使用系统分配的身份时该字段是可选的，但使用用户分配的身份时可能是必需的。
+[使用托管身份]({{% ref howto-mi.md %}})，通常推荐使用 `azureClientId` 字段。使用系统分配的身份时该字段是可选的，但使用用户分配的身份时可能是必需的。
 
 #### 在 AKS 上使用工作负载身份进行身份验证
 
@@ -140,9 +140,9 @@ Microsoft Entra ID 基于 OAuth 2.0 等开放标准，允许服务（应用程�
 
 在此示例中，您将设置一个使用 Microsoft Entra ID 进行身份验证的 Azure 密钥保管库 secret 存储组件。
 
-{{< tabs "自托管" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="自托管" %}}
 
 要使用 **客户端密钥**，请在组件目录中创建一个名为 `azurekeyvault.yaml` 的文件，并填写上述设置过程中的详细信息：
 
@@ -187,9 +187,9 @@ spec:
   - name: azureCertificateFile
     value : "[pfx_certificate_file_fully_qualified_local_path]"
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 在 Kubernetes 中，您将客户端密钥或证书存储到 Kubernetes Secret Store 中，然后在 YAML 文件中引用它们。
 
 要使用 **客户端密钥**：
@@ -284,9 +284,9 @@ spec:
     kubectl apply -f azurekeyvault.yaml
     ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 
@@ -296,7 +296,7 @@ spec:
 
 - [Microsoft Entra ID 应用凭据：Azure CLI 参考](https://docs.microsoft.com/cli/azure/ad/app/credential)
 - [Azure 托管服务身份 (MSI) 概述](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
-- [Secrets 构建块]({{< ref secrets >}})
-- [操作指南：检索 secret]({{< ref "howto-secrets.md" >}})
-- [操作指南：在 Dapr 组件中引用 secret]({{< ref component-secrets.md >}})
-- [Secrets API 参考]({{< ref secrets_api.md >}})
+- [Secrets 构建块]({{% ref secrets %}})
+- [操作指南：检索 secret]({{% ref "howto-secrets.md" %}})
+- [操作指南：在 Dapr 组件中引用 secret]({{% ref component-secrets.md %}})
+- [Secrets API 参考]({{% ref secrets_api.md %}})

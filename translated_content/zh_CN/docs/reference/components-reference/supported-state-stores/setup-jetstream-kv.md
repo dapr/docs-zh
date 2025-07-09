@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 JetStream KV 状态存储，请创建一个类型为 `state.jetstream` 的组件。有关如何创建和应用状态存储配置的详细步骤，请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})。
+要设置 JetStream KV 状态存储，请创建一个类型为 `state.jetstream` 的组件。有关如何创建和应用状态存储配置的详细步骤，请参阅[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -31,7 +31,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为 secret。建议使用 secret 存储来保护这些信息，具体方法请参阅[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串作为 secret。建议使用 secret 存储来保护这些信息，具体方法请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段说明
@@ -45,9 +45,9 @@ spec:
 
 ## 创建 NATS 服务器
 
-{{< tabs "Self-Hosted" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 您可以使用 Docker 在本地运行启用 JetStream 的 NATS 服务器：
 
 ```bash
@@ -55,9 +55,9 @@ docker run -d -p 4222:4222 nats:latest -js
 ```
 
 然后，您可以通过客户端端口与服务器交互：`localhost:4222`。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 通过使用 [helm](https://github.com/nats-io/k8s/tree/main/helm/charts/nats#jetstream) 在 Kubernetes 上安装 NATS JetStream：
 
 ```bash
@@ -66,9 +66,9 @@ helm install my-nats nats/nats
 ```
 
 这会在 `default` 命名空间中安装 NATS 服务器。要与 NATS 交互，请使用以下命令查找服务：`kubectl get svc my-nats`。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 创建 JetStream KV 桶
 
@@ -79,9 +79,9 @@ nats kv add <bucketName>
 ```
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})
 - [JetStream 文档](https://docs.nats.io/nats-concepts/jetstream)
 - [键值存储文档](https://docs.nats.io/nats-concepts/jetstream/key-value-store)
 - [NATS CLI](https://github.com/nats-io/natscli)

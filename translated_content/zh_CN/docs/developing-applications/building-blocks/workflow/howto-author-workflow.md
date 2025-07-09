@@ -9,7 +9,7 @@ description: "学习如何使用Dapr工作流引擎开发和编写工作流"
 本文提供了如何编写由Dapr工作流引擎执行的工作流的高级概述。
 
 {{% alert title="注意" color="primary" %}}
-如果您还没有尝试过，[请尝试工作流快速入门]({{< ref workflow-quickstart.md >}})，以快速了解如何使用工作流。
+如果您还没有尝试过，[请尝试工作流快速入门]({{% ref workflow-quickstart.md %}})，以快速了解如何使用工作流。
 
 {{% /alert %}}
 
@@ -27,11 +27,11 @@ Dapr sidecar不加载任何工作流定义。相反，sidecar仅负责驱动工�
 
 ## 编写工作流任务
 
-[工作流任务]({{< ref "workflow-features-concepts.md#workflow-activites" >}})是工作流中的基本工作单元，是在业务流程中被编排的任务。
+[工作流任务]({{% ref "workflow-features-concepts.md#workflow-activites" %}})是工作流中的基本工作单元，是在业务流程中被编排的任务。
 
-{{< tabs Python JavaScript ".NET" Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 <!--python-->
 
@@ -46,9 +46,9 @@ def hello_act(ctx: WorkflowActivityContext, input):
 
 [查看上下文中的`hello_act`工作流任务。](https://github.com/dapr/python-sdk/blob/master/examples/demo_workflow/app.py#LL40C1-L43C59)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 <!--javascript-->
 
@@ -76,9 +76,9 @@ export default class WorkflowActivityContext {
 
 [查看上下文中的工作流任务。](https://github.com/dapr/js-sdk/blob/main/src/workflow/runtime/WorkflowActivityContext.ts)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 <!--csharp-->
 
@@ -144,9 +144,9 @@ public class ProcessPaymentActivity : WorkflowActivity<PaymentRequest, object>
 
 [查看完整的`ProcessPaymentActivity.cs`工作流任务示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Activities/ProcessPaymentActivity.cs)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 <!--java-->
 
@@ -186,9 +186,9 @@ public class DemoWorkflowActivity implements WorkflowActivity {
 
 [查看上下文中的Java SDK工作流任务示例。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowActivity.java)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 <!--go-->
 
@@ -208,17 +208,17 @@ func TestActivity(ctx workflow.ActivityContext) (any, error) {
 
 [查看上下文中的Go SDK工作流任务示例。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 编写工作流
 
 接下来，在工作流中注册并调用任务。
 
-{{< tabs Python JavaScript ".NET" Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 <!--python-->
 
@@ -236,9 +236,9 @@ def hello_world_wf(ctx: DaprWorkflowContext, input):
 
 [查看上下文中的`hello_world_wf`工作流。](https://github.com/dapr/python-sdk/blob/master/examples/demo_workflow/app.py#LL32C1-L38C51)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 <!--javascript-->
 
@@ -280,9 +280,9 @@ export default class WorkflowRuntime {
 
 [查看上下文中的`WorkflowRuntime`。](https://github.com/dapr/js-sdk/blob/main/src/workflow/runtime/WorkflowRuntime.ts)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 <!--csharp-->
 
@@ -322,9 +322,9 @@ export default class WorkflowRuntime {
 
 [查看`OrderProcessingWorkflow.cs`中的完整工作流示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Workflows/OrderProcessingWorkflow.cs)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 <!--java-->
 
@@ -352,9 +352,9 @@ public class DemoWorkflowWorker {
 
 [查看上下文中的Java SDK工作流。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowWorker.java)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 <!--go-->
 
@@ -383,17 +383,17 @@ func TestWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 
 [查看上下文中的Go SDK工作流。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 编写应用程序
 
 最后，使用工作流编写应用程序。
 
-{{< tabs Python JavaScript ".NET" Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 <!--python-->
 
@@ -402,8 +402,8 @@ func TestWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 - 一个名为`DaprClient`的Python包，用于接收Python SDK功能。
 - 一个带有扩展的构建器，称为：
   - `WorkflowRuntime`：允许您注册工作流和工作流任务
-  - `DaprWorkflowContext`：允许您[创建工作流]({{< ref "#write-the-workflow" >}})
-  - `WorkflowActivityContext`：允许您[创建工作流任务]({{< ref "#write-the-workflow-activities" >}})
+  - `DaprWorkflowContext`：允许您[创建工作流]({{% ref "#write-the-workflow" %}})
+  - `WorkflowActivityContext`：允许您[创建工作流任务]({{% ref "#write-the-workflow-activities" %}})
 - API调用。在下面的示例中，这些调用启动、暂停、恢复、清除和终止工作流。
 
 ```python
@@ -479,9 +479,9 @@ if __name__ == '__main__':
     main()
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 <!--javascript-->
 
@@ -489,8 +489,8 @@ if __name__ == '__main__':
 
 - 一个带有扩展的构建器，称为：
   - `WorkflowRuntime`：允许您注册工作流和工作流任务
-  - `DaprWorkflowContext`：允许您[创建工作流]({{< ref "#write-the-workflow" >}})
-  - `WorkflowActivityContext`：允许您[创建工作流任务]({{< ref "#write-the-workflow-activities" >}})
+  - `DaprWorkflowContext`：允许您[创建工作流]({{% ref "#write-the-workflow" %}})
+  - `WorkflowActivityContext`：允许您[创建工作流任务]({{% ref "#write-the-workflow-activities" %}})
 - API调用。在下面的示例中，这些调用启动、终止、获取状态、暂停、恢复、引发事件和清除工作流。
 
 ```javascript
@@ -626,9 +626,9 @@ export default class DaprWorkflowClient {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 <!--csharp-->
 
@@ -696,9 +696,9 @@ app.MapGet("/orders/{orderId}", async (string orderId, DaprWorkflowClient client
 app.Run();
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 <!--java-->
 
@@ -743,9 +743,9 @@ public class DemoWorkflow extends Workflow {
 
 [查看上下文中的完整Java SDK工作流示例。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflow.java)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 <!--go-->
 
@@ -1074,9 +1074,9 @@ func TestActivity(ctx workflow.ActivityContext) (any, error) {
 
 [查看上下文中的完整Go SDK工作流示例。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 {{% alert title="重要" color="warning" %}}
 由于基于重放的工作流的执行方式，您将编写在任务内部执行I/O和与系统交互的逻辑。同时，工作流方法仅用于编排这些任务。
@@ -1090,8 +1090,8 @@ func TestActivity(ctx workflow.ActivityContext) (any, error) {
 {{< button text="管理工作流 >>" page="howto-manage-workflow.md" >}}
 
 ## 相关链接
-- [工作流概述]({{< ref workflow-overview.md >}})
-- [工作流API参考]({{< ref workflow_api.md >}})
+- [工作流概述]({{% ref workflow-overview.md %}})
+- [工作流API参考]({{% ref workflow_api.md %}})
 - 尝试完整的SDK示例：
   - [Python示例](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
   - [JavaScript示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow)

@@ -6,14 +6,14 @@ weight: 6000
 description: 管理和运行工作流
 ---
 
-现在您已经在应用程序中[编写了工作流及其活动]({{< ref howto-author-workflow.md >}})，您可以使用HTTP API调用来启动、终止和获取工作流的信息。有关更多信息，请阅读[工作流API参考]({{< ref workflow_api.md >}})。
+现在您已经在应用程序中[编写了工作流及其活动]({{% ref howto-author-workflow.md %}})，您可以使用HTTP API调用来启动、终止和获取工作流的信息。有关更多信息，请阅读[工作流API参考]({{% ref workflow_api.md %}})。
 
-{{< tabs Python JavaScript ".NET" Java Go HTTP >}}
+{{< tabpane text=true >}}
 
 <!--Python-->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
-在代码中管理您的工作流。在[编写工作流]({{< ref "howto-author-workflow.md#write-the-application" >}})指南中的工作流示例中，工作流通过以下API在代码中注册：
+在代码中管理您的工作流。在[编写工作流]({{% ref "howto-author-workflow.md#write-the-application" %}})指南中的工作流示例中，工作流通过以下API在代码中注册：
 - **start_workflow**: 启动工作流的一个实例
 - **get_workflow**: 获取工作流状态的信息
 - **pause_workflow**: 暂停或挂起一个工作流实例，稍后可以恢复
@@ -57,12 +57,12 @@ d.purge_workflow(instance_id=instanceId, workflow_component=workflowComponent)
 d.terminate_workflow(instance_id=instanceId, workflow_component=workflowComponent)
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--JavaScript-->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
-在代码中管理您的工作流。在[编写工作流]({{< ref "howto-author-workflow.md#write-the-application" >}})指南中的工作流示例中，工作流通过以下API在代码中注册：
+在代码中管理您的工作流。在[编写工作流]({{% ref "howto-author-workflow.md#write-the-application" %}})指南中的工作流示例中，工作流通过以下API在代码中注册：
 - **client.workflow.start**: 启动工作流的一个实例
 - **client.workflow.get**: 获取工作流状态的信息
 - **client.workflow.pause**: 暂停或挂起一个工作流实例，稍后可以恢复
@@ -128,12 +128,12 @@ start().catch((e) => {
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--NET-->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
-在代码中管理您的工作流。在[编写工作流]({{< ref "howto-author-workflow.md#write-the-application" >}})指南中的`OrderProcessingWorkflow`示例中，工作流在代码中注册。您现在可以启动、终止并获取正在运行的工作流的信息：
+在代码中管理您的工作流。在[编写工作流]({{% ref "howto-author-workflow.md#write-the-application" %}})指南中的`OrderProcessingWorkflow`示例中，工作流在代码中注册。您现在可以启动、终止并获取正在运行的工作流的信息：
 
 ```csharp
 string orderId = "exampleOrderId";
@@ -164,10 +164,10 @@ await daprClient.ResumeWorkflowAsync(orderId, workflowComponent);
 await daprClient.PurgeWorkflowAsync(orderId, workflowComponent);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--Java-->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 在代码中管理您的工作流。[在Java SDK中的工作流示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/)中，工作流通过以下API在代码中注册：
 
@@ -229,10 +229,10 @@ public class DemoWorkflowClient {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--Go-->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 在代码中管理您的工作流。[在Go SDK中的工作流示例](https://github.com/dapr/go-sdk/tree/main/examples/workflow)中，工作流通过以下API在代码中注册：
 
@@ -308,12 +308,12 @@ type RaiseEventWorkflowRequest struct {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--HTTP-->
-{{% codetab %}}
+{{% tab header="HTTP" %}}
 
-使用HTTP调用管理您的工作流。下面的示例将[编写工作流示例]({{< ref "howto-author-workflow.md#write-the-workflow" >}})中的属性与一个随机实例ID号结合使用。
+使用HTTP调用管理您的工作流。下面的示例将[编写工作流示例]({{% ref "howto-author-workflow.md#write-the-workflow" %}})中的属性与一个随机实例ID号结合使用。
 
 ### 启动工作流
 
@@ -375,14 +375,14 @@ POST http://localhost:3500/v1.0/workflows/dapr/12345678/purge
 GET http://localhost:3500/v1.0/workflows/dapr/12345678
 ```
 
-在[工作流API参考指南]({{< ref workflow_api.md >}})中了解更多关于这些HTTP调用的信息。
+在[工作流API参考指南]({{% ref workflow_api.md %}})中了解更多关于这些HTTP调用的信息。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
-- [尝试工作流快速入门]({{< ref workflow-quickstart.md >}})
+- [尝试工作流快速入门]({{% ref workflow-quickstart.md %}})
 - 尝试完整的SDK示例：
   - [Python示例](https://github.com/dapr/python-sdk/blob/master/examples/demo_workflow/app.py)
   - [JavaScript示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow)
@@ -390,4 +390,4 @@ GET http://localhost:3500/v1.0/workflows/dapr/12345678
   - [Java示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)
   - [Go示例](https://github.com/dapr/go-sdk/tree/main/examples/workflow)
 
-- [工作流API参考]({{< ref workflow_api.md >}})
+- [工作流API参考]({{% ref workflow_api.md %}})

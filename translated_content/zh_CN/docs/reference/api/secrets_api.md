@@ -38,7 +38,7 @@ GET http://localhost:<daprPort>/v1.0/secrets/<secret-store-name>/<name>?metadata
 - Hashicorp Vault、GCP Secret Manager 和 AWS Secret Manager 支持 `version_id` 参数
 - 只有 AWS Secret Manager 支持 `version_stage` 参数
 - 只有 Kubernetes Secrets 支持 `namespace` 参数
-请查阅每个 [secret 存储的文档]({{< ref supported-secret-stores.md >}}) 以获取支持的参数列表。
+请查阅每个 [secret 存储的文档]({{% ref supported-secret-stores.md %}}) 以获取支持的参数列表。
 
 ### HTTP 响应
 
@@ -48,7 +48,7 @@ GET http://localhost:<daprPort>/v1.0/secrets/<secret-store-name>/<name>?metadata
 
 如果 secret 存储仅具有名称/值语义，将返回一个 JSON 负载，其中 secret 的名称作为字段，secret 的值作为值。
 
-[查看支持 secret 中多个键和名称/值语义的 secret 存储的分类]({{< ref supported-secret-stores.md >}})。
+[查看支持 secret 中多个键和名称/值语义的 secret 存储的分类]({{% ref supported-secret-stores.md %}})。
 
 ##### secret 中有多个键的响应（例如 Kubernetes）：
 

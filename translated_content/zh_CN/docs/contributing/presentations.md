@@ -20,7 +20,7 @@ brew install --cask font-space-grotesk
 ## 如何进行 Dapr 演讲
 
 - 首先下载 [Dapr 演示文稿](/presentations/dapr-slidedeck.pptx.zip)，其中包含您进行 Dapr 演讲所需的幻灯片和图表。
-- 接下来，查看文档以确保您理解 [概念]({{< ref concepts >}})。
+- 接下来，查看文档以确保您理解 [概念]({{% ref concepts %}})。
 - 使用 Dapr [快速入门](https://github.com/dapr/quickstarts) 和 [示例](https://github.com/dapr/samples) 仓库，展示如何使用 Dapr。
 
 ## 过往的 Dapr 演讲

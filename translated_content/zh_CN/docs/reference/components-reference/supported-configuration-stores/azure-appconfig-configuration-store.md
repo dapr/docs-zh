@@ -45,7 +45,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来存储 secret，详见[此处]({{< ref component-secrets.md >}})。
+上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来存储 secret，详见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -63,12 +63,12 @@ spec:
 
 ## 使用连接字符串进行身份验证
 
-通过连接字符串访问应用配置实例，该字符串可在 Azure 门户中获取。由于连接字符串包含敏感信息，建议将其视为 secret 并[使用 secret 存储]({{< ref component-secrets.md >}})。
+通过连接字符串访问应用配置实例，该字符串可在 Azure 门户中获取。由于连接字符串包含敏感信息，建议将其视为 secret 并[使用 secret 存储]({{% ref component-secrets.md %}})。
 
 ## 使用 Microsoft Entra ID 进行身份验证
 
 Azure 应用配置组件还支持使用 Microsoft Entra ID 进行身份验证。在启用此组件之前：
-- 阅读[Azure 身份验证]({{< ref authenticating-azure.md >}})文档。
+- 阅读[Azure 身份验证]({{% ref authenticating-azure.md %}})文档。
 - 创建一个 Microsoft Entra ID 应用程序（也称为服务主体）。
 - 或者，为您的应用程序平台创建托管身份。
 
@@ -86,7 +86,7 @@ Azure 应用配置组件还支持使用 Microsoft Entra ID 进行身份验证。
    将 `host` 键设置为 `[Endpoint]` 或将 `connectionString` 键设置为您之前保存的值。
    
    {{% alert title="注意" color="primary" %}}
-   在生产环境中，请遵循[秘密管理]({{< ref component-secrets.md >}})说明以安全管理您的 secret。
+   在生产环境中，请遵循[秘密管理]({{% ref component-secrets.md %}})说明以安全管理您的 secret。
    {{% /alert %}}
 
 ## Azure 应用配置请求元数据 
@@ -104,5 +104,5 @@ GET curl http://localhost:<daprPort>/v1.0/configuration/<store-name>?key=<key na
 ```
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [配置构建块]({{< ref configuration-api-overview >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [配置构建块]({{% ref configuration-api-overview %}})

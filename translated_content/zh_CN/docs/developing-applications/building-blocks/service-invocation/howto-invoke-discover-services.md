@@ -11,7 +11,7 @@ weight: 20
 <img src="/images/building-block-service-invocation-example.png" width=1000 height=500 alt="示例服务的服务调用图示">
 
 {{% alert title="注意" color="primary" %}}
-如果您还没有尝试过，[请先查看服务调用快速入门]({{< ref serviceinvocation-quickstart.md >}})，以快速了解如何使用服务调用API。
+如果您还没有尝试过，[请先查看服务调用快速入门]({{% ref serviceinvocation-quickstart.md %}})，以快速了解如何使用服务调用API。
 
 {{% /alert %}}
 
@@ -19,9 +19,9 @@ weight: 20
 
 Dapr允许您为应用程序分配一个全局唯一的ID。无论应用程序有多少实例，该ID都代表应用程序的状态。
 
-{{< tabs Python JavaScript ".NET" Java Go Kubernetes >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- python3 checkout/app.py
@@ -37,9 +37,9 @@ dapr run --app-id checkout --app-protocol https --dapr-http-port 3500 -- python3
 dapr run --app-id order-processor --app-port 8001 --app-protocol https --dapr-http-port 3501 -- python3 order-processor/app.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- npm start
@@ -55,9 +55,9 @@ dapr run --app-id checkout --dapr-http-port 3500 --app-protocol https -- npm sta
 dapr run --app-id order-processor --app-port 5001 --dapr-http-port 3501 --app-protocol https -- npm start
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- dotnet run
@@ -73,9 +73,9 @@ dapr run --app-id checkout --dapr-http-port 3500 --app-protocol https -- dotnet 
 dapr run --app-id order-processor --app-port 7001 --dapr-http-port 3501 --app-protocol https -- dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- java -jar target/CheckoutService-0.0.1-SNAPSHOT.jar
@@ -91,9 +91,9 @@ dapr run --app-id checkout --dapr-http-port 3500 --app-protocol https -- java -j
 dapr run --app-id order-processor --app-port 9001 --dapr-http-port 3501 --app-protocol https -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```bash
 dapr run --app-id checkout --dapr-http-port 3500 -- go run .
@@ -109,9 +109,9 @@ dapr run --app-id checkout --dapr-http-port 3500 --app-protocol https -- go run 
 dapr run --app-id order-processor --app-port 6006 --dapr-http-port 3501 --app-protocol https -- go run .
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 ### 在Kubernetes中部署时设置app-id
 
@@ -141,11 +141,11 @@ spec:
 ...
 ```
 
-如果您的应用程序使用TLS连接，您可以通过`app-protocol: "https"`注解告诉Dapr通过TLS调用您的应用程序（完整列表[在此]({{< ref arguments-annotations-overview.md >}})）。请注意，Dapr不会验证应用程序提供的TLS证书。
+如果您的应用程序使用TLS连接，您可以通过`app-protocol: "https"`注解告诉Dapr通过TLS调用您的应用程序（完整列表[在此]({{% ref arguments-annotations-overview.md %}})）。请注意，Dapr不会验证应用程序提供的TLS证书。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 调用服务
 
@@ -153,9 +153,9 @@ spec:
 
 以下是利用Dapr SDK进行服务调用的代码示例。
 
-{{< tabs Python JavaScript ".NET" Java  Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 # 依赖
@@ -179,9 +179,9 @@ while True:
     logging.info('Result: ' + str(result))
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 // 依赖
@@ -213,9 +213,9 @@ function sleep(ms) {
 main();
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 依赖
@@ -254,9 +254,9 @@ namespace EventService
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 依赖
@@ -309,9 +309,9 @@ public class CheckoutServiceApplication {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 package main
@@ -365,9 +365,9 @@ func main() {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 其他URL格式
 
@@ -416,7 +416,7 @@ curl 'http://dapr-app-id:checkout@localhost:3602/checkout/100?basket=1234&key=ab
 
 ### 命名空间
 
-在[支持命名空间的平台]({{< ref "service_invocation_api.md#namespace-supported-platforms" >}})上运行时，您可以在应用程序ID中包含目标应用程序的命名空间。例如，按照`<app>.<namespace>`格式，使用`checkout.production`。
+在[支持命名空间的平台]({{% ref "service_invocation_api.md#namespace-supported-platforms" %}})上运行时，您可以在应用程序ID中包含目标应用程序的命名空间。例如，按照`<app>.<namespace>`格式，使用`checkout.production`。
 
 在此示例中，使用命名空间调用服务将如下所示：
 
@@ -424,7 +424,7 @@ curl 'http://dapr-app-id:checkout@localhost:3602/checkout/100?basket=1234&key=ab
 curl http://localhost:3602/v1.0/invoke/checkout.production/method/checkout/100 -X POST
 ```
 
-有关命名空间的更多信息，请参阅[跨命名空间API规范]({{< ref "service_invocation_api.md#cross-namespace-invocation" >}})。
+有关命名空间的更多信息，请参阅[跨命名空间API规范]({{% ref "service_invocation_api.md#cross-namespace-invocation" %}})。
 
 ## 查看跟踪和日志
 
@@ -434,9 +434,9 @@ curl http://localhost:3602/v1.0/invoke/checkout.production/method/checkout/100 -
 - 允许您可视化服务之间的调用图并记录错误，
 - 可选地，记录有效负载体。
 
-有关跟踪和日志的更多信息，请参阅[可观察性]({{< ref observability-concept.md >}})文章。
+有关跟踪和日志的更多信息，请参阅[可观察性]({{% ref observability-concept.md %}})文章。
 
 ## 相关链接
 
-- [服务调用概述]({{< ref service-invocation-overview.md >}})
-- [服务调用API规范]({{< ref service_invocation_api.md >}})
+- [服务调用概述]({{% ref service-invocation-overview.md %}})
+- [服务调用API规范]({{% ref service_invocation_api.md %}})

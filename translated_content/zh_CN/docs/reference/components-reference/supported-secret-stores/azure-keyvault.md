@@ -10,8 +10,8 @@ aliases:
 ## 组件格式
 
 要设置 Azure Key Vault 密钥存储，创建一个类型为 `secretstores.azure.keyvault` 的组件。
-- 请参阅[密钥存储组件指南]({{< ref "setup-secret-store.md#apply-the-configuration" >}})以了解如何创建和应用密钥存储配置。
-- 请参阅[引用密钥的指南]({{< ref component-secrets.md >}})以使用 Dapr 组件检索和使用密钥。
+- 请参阅[密钥存储组件指南]({{% ref "setup-secret-store.md#apply-the-configuration" %}})以了解如何创建和应用密钥存储配置。
+- 请参阅[引用密钥的指南]({{% ref component-secrets.md %}})以使用 Dapr 组件检索和使用密钥。
 - 请参阅下面的[配置组件部分](#configure-the-component)。
 
 ```yaml
@@ -39,7 +39,7 @@ spec:
 ## 通过 Microsoft Entra ID 进行身份验证
 
 Azure Key Vault 密钥存储组件仅支持通过 Microsoft Entra ID 进行身份验证。在启用此组件之前，请确保：
-1. 阅读[Azure 身份验证]({{< ref authenticating-azure.md >}})文档。
+1. 阅读[Azure 身份验证]({{% ref authenticating-azure.md %}})文档。
 2. 创建一个 Microsoft Entra ID 应用程序（也称为服务主体）。
 3. 或者，为您的应用程序平台创建一个托管身份。
 
@@ -49,13 +49,13 @@ Azure Key Vault 密钥存储组件仅支持通过 Microsoft Entra ID 进行身�
 |--------------------|:--------:|---------|---------|
 | `vaultName` | Y | Azure Key Vault 的名称 | `"mykeyvault"` |
 | `azureEnvironment` | N | 如果使用不同的 Azure 云，则为 Azure 环境的可选名称 | `"AZUREPUBLICCLOUD"`（默认值），`"AZURECHINACLOUD"`，`"AZUREUSGOVERNMENTCLOUD"`，`"AZUREGERMANCLOUD"` |
-| 身份验证元数据 | | 有关更多信息，请参阅[Azure 身份验证]({{< ref authenticating-azure.md >}})
+| 身份验证元数据 | | 有关更多信息，请参阅[Azure 身份验证]({{% ref authenticating-azure.md %}})
 
-此外，您必须提供[Azure 身份验证]({{< ref authenticating-azure.md >}})文档中解释的身份验证字段。
+此外，您必须提供[Azure 身份验证]({{% ref authenticating-azure.md %}})文档中解释的身份验证字段。
 
 ## 可选的每请求元数据属性
 
-从此密钥存储检索密钥时，可以提供以下[可选查询参数]({{< ref "secrets_api#query-parameters" >}})：
+从此密钥存储检索密钥时，可以提供以下[可选查询参数]({{% ref "secrets_api#query-parameters" %}})：
 
 查询参数 | 描述
 --------- | -----------
@@ -70,7 +70,7 @@ Azure Key Vault 密钥存储组件仅支持通过 Microsoft Entra ID 进行身�
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
 - [jq](https://stedolan.github.io/jq/download/)
 - 您正在使用 bash 或 zsh shell
-- 您已根据[Azure 身份验证]({{< ref authenticating-azure.md >}})中的说明创建了一个 Microsoft Entra ID 应用程序（服务主体）。您将需要以下值：
+- 您已根据[Azure 身份验证]({{% ref authenticating-azure.md %}})中的说明创建了一个 Microsoft Entra ID 应用程序（服务主体）。您将需要以下值：
 
    | 值 | 描述 |
    | ----- | ----------- |
@@ -127,13 +127,13 @@ Azure Key Vault 密钥存储组件仅支持通过 Microsoft Entra ID 进行身�
 
 ### 配置组件
 
-{{< tabs "Self-Hosted" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 
 #### 使用客户端密钥
 
-要使用**客户端密钥**，请在组件目录中创建一个名为 `azurekeyvault.yaml` 的文件。使用以下模板，填写[您创建的 Microsoft Entra ID 应用程序]({{< ref authenticating-azure.md >}})：
+要使用**客户端密钥**，请在组件目录中创建一个名为 `azurekeyvault.yaml` 的文件。使用以下模板，填写[您创建的 Microsoft Entra ID 应用程序]({{% ref authenticating-azure.md %}})：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -156,7 +156,7 @@ spec:
 
 #### 使用证书
 
-如果您想使用保存在本地磁盘上的**证书**，请使用以下模板。填写[您创建的 Microsoft Entra ID 应用程序]({{< ref authenticating-azure.md >}})的详细信息：
+如果您想使用保存在本地磁盘上的**证书**，请使用以下模板。填写[您创建的 Microsoft Entra ID 应用程序]({{% ref authenticating-azure.md %}})的详细信息：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -176,10 +176,10 @@ spec:
   - name: azureCertificateFile
     value : "[pfx_certificate_file_fully_qualified_local_path]"
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
-在 Kubernetes 中，您将客户端密钥或证书存储到 Kubernetes 密钥存储中，然后在 YAML 文件中引用它们。在开始之前，您需要[您创建的 Microsoft Entra ID 应用程序]({{< ref authenticating-azure.md >}})的详细信息。
+{{% tab header="Kubernetes" %}}
+在 Kubernetes 中，您将客户端密钥或证书存储到 Kubernetes 密钥存储中，然后在 YAML 文件中引用它们。在开始之前，您需要[您创建的 Microsoft Entra ID 应用程序]({{% ref authenticating-azure.md %}})的详细信息。
 
 #### 使用客户端密钥
 
@@ -321,15 +321,15 @@ spec:
 
 然而，当通过 Microsoft Entra ID 工作负载身份使用**托管身份**时，`azureClientId` 是不必要的且无效。要使用的 Azure 身份是从与 Azure 身份关联的服务帐户推断出来的。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 参考
 
-- [Azure 身份验证]({{< ref authenticating-azure.md >}})
+- [Azure 身份验证]({{% ref authenticating-azure.md %}})
 - [Azure CLI: keyvault 命令](https://docs.microsoft.com/cli/azure/keyvault?view=azure-cli-latest#az-keyvault-create)
-- [密钥构建块]({{< ref secrets >}})
-- [如何：检索密钥]({{< ref "howto-secrets.md" >}})
-- [如何：在 Dapr 组件中引用密钥]({{< ref component-secrets.md >}})
-- [密钥 API 参考]({{< ref secrets_api.md >}})
+- [密钥构建块]({{% ref secrets %}})
+- [如何：检索密钥]({{% ref "howto-secrets.md" %}})
+- [如何：在 Dapr 组件中引用密钥]({{% ref component-secrets.md %}})
+- [密钥 API 参考]({{% ref secrets_api.md %}})

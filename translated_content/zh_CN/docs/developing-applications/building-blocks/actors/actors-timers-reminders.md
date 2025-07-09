@@ -103,12 +103,12 @@ POST/PUT http://localhost:3500/v1.0/actors/<actorType>/<actorId>/timers/<name>
 DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/timers/<name>
 ```
 
-有关更多详细信息，请参阅 [api 规范]({{< ref "actors_api.md#invoke-timer" >}})。
+有关更多详细信息，请参阅 [api 规范]({{% ref "actors_api.md#invoke-timer" %}})。
 
 ## actor 提醒
 
 {{% alert title="注意" color="primary" %}}
-在 Dapr v1.15 中，actor 提醒默认存储在 [Scheduler 服务]({{< ref "scheduler.md#actor-reminders" >}})中。
+在 Dapr v1.15 中，actor 提醒默认存储在 [Scheduler 服务]({{% ref "scheduler.md#actor-reminders" %}})中。
 {{% /alert %}}
 
 提醒是一种在指定时间触发 actor 上*持久*回调的机制。它们的功能类似于定时器。但与定时器不同，提醒在所有情况下都会被触发，直到 actor 明确取消注册它们或 actor 被明确删除或调用次数耗尽。具体来说，提醒在 actor 停用和故障转移期间被触发，因为 Dapr actor 运行时使用 Dapr actor 状态提供程序持久化关于 actor 提醒的信息。
@@ -119,7 +119,7 @@ DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/timers/<name>
 POST/PUT http://localhost:3500/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 ```
 
-提醒的请求结构与 actor 的相同。请参阅 [actor 定时器示例]({{< ref "#actor-timers" >}})。
+提醒的请求结构与 actor 的相同。请参阅 [actor 定时器示例]({{% ref "#actor-timers" %}})。
 
 ### 检索 actor 提醒
 
@@ -137,9 +137,9 @@ GET http://localhost:3500/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 ```
 
-如果 actor 提醒被触发且应用程序未向运行时返回 2** 代码（例如，由于连接问题），actor 提醒将重试最多三次，每次尝试之间的退避间隔为一秒。可能会根据任何可选应用的 [actor 弹性策略]({{< ref "policies.md#overriding-default-retries" >}})进行额外的重试。
+如果 actor 提醒被触发且应用程序未向运行时返回 2** 代码（例如，由于连接问题），actor 提醒将重试最多三次，每次尝试之间的退避间隔为一秒。可能会根据任何可选应用的 [actor 弹性策略]({{% ref "policies.md#overriding-default-retries" %}})进行额外的重试。
 
-有关更多详细信息，请参阅 [api 规范]({{< ref "actors_api.md#invoke-reminder" >}})。
+有关更多详细信息，请参阅 [api 规范]({{% ref "actors_api.md#invoke-reminder" %}})。
 
 ## 错误处理
 
@@ -190,5 +190,5 @@ protobuf 序列化将在 Dapr 1.14 中成为默认格式
 
 ## 相关链接
 
-- [actor API 参考]({{< ref actors_api.md >}})
-- [actor 概述]({{< ref actors-overview.md >}})
+- [actor API 参考]({{% ref actors_api.md %}})
+- [actor 概述]({{% ref actors-overview.md %}})

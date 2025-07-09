@@ -14,7 +14,7 @@ description: "通过订阅死信主题来处理无法投递的消息"
 
 当配置了死信主题时，任何无法投递到应用程序的消息都会被放置在死信主题中，以便转发到处理这些消息的订阅。这可以是同一个应用程序或完全不同的应用程序。
 
-即使底层系统不支持，Dapr 也为其所有的 pubsub 组件启用了死信主题。例如，[AWS SNS 组件]({{< ref "setup-aws-snssqs" >}})有一个死信队列，[RabbitMQ]({{< ref "setup-rabbitmq" >}})有死信主题。您需要确保正确配置这些组件。
+即使底层系统不支持，Dapr 也为其所有的 pubsub 组件启用了死信主题。例如，[AWS SNS 组件]({{% ref "setup-aws-snssqs" %}})有一个死信队列，[RabbitMQ]({{% ref "setup-rabbitmq" %}})有死信主题。您需要确保正确配置这些组件。
 
 下图展示了死信主题的工作原理。首先，消息从 `orders` 主题的发布者发送。Dapr 代表订阅者应用程序接收消息，但 `orders` 主题的消息未能投递到应用程序的 `/checkout` 端点，即使经过重试也是如此。由于投递失败，消息被转发到 `poisonMessages` 主题，该主题将其投递到 `/failedMessages` 端点进行处理，在这种情况下是在同一个应用程序上。`failedMessages` 处理代码可以选择丢弃消息或重新发送新消息。
 
@@ -70,7 +70,7 @@ app.get('/dapr/subscribe', (_req, res) => {
 ## 重试和死信主题
 
 默认情况下，当设置了死信主题时，任何失败的消息会立即进入死信主题。因此，建议在订阅中使用死信主题时始终设置重试策略。
-要在将消息发送到死信主题之前启用消息重试，请对 pubsub 组件应用 [重试策略]({{< ref "policies.md#retries" >}})。
+要在将消息发送到死信主题之前启用消息重试，请对 pubsub 组件应用 [重试策略]({{% ref "policies.md#retries" %}})。
 
 此示例显示了如何为 `pubsub` pubsub 组件设置名为 `pubsubRetry` 的常量重试策略，每 5 秒应用一次，最多尝试投递 10 次。
 
@@ -121,5 +121,5 @@ scopes:
 
 ## 下一步
 
-- 有关弹性策略的更多信息，请阅读[弹性概述]({{< ref resiliency-overview.md >}})。
-- 有关主题订阅的更多信息，请阅读[声明式、流式和编程订阅方法]({{< ref "pubsub-overview.md#message-subscription" >}})。
+- 有关弹性策略的更多信息，请阅读[弹性概述]({{% ref resiliency-overview.md %}})。
+- 有关主题订阅的更多信息，请阅读[声明式、流式和编程订阅方法]({{% ref "pubsub-overview.md#message-subscription" %}})。

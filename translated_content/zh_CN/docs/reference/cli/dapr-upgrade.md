@@ -17,7 +17,7 @@ description: "关于升级 CLI 命令的详细信息"
 
 ### 支持的平台
 
-- [Kubernetes]({{< ref kubernetes >}})
+- [Kubernetes]({{% ref kubernetes %}})
 
 ### 用法
 
@@ -68,4 +68,4 @@ dapr init -k --image-registry docker.io/username/<directory-name>
 
 ### 相关链接
 
-- [在 Kubernetes 集群上升级 Dapr]({{< ref kubernetes-upgrade.md >}})
+- [在 Kubernetes 集群上升级 Dapr]({{% ref kubernetes-upgrade.md %}})

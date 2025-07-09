@@ -30,16 +30,16 @@ spec:
 ...
 ```
 
-数据库的类型由 `type` 字段决定，连接字符串和其他元数据信息放在 `.metadata` 部分。即使元数据值可以包含明文的密钥，仍建议使用 [密钥存储]({{< ref component-secrets.md >}})。
+数据库的类型由 `type` 字段决定，连接字符串和其他元数据信息放在 `.metadata` 部分。即使元数据值可以包含明文的密钥，仍建议使用 [密钥存储]({{% ref component-secrets.md %}})。
 
-请参考[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何配置状态存储组件。
+请参考[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何配置状态存储组件。
 
 ## 支持的状态存储
 
-请访问[此参考]({{< ref supported-state-stores >}})查看 Dapr 中支持的所有状态存储。
+请访问[此参考]({{% ref supported-state-stores %}})查看 Dapr 中支持的所有状态存储。
 
 ## 相关主题
-- [组件概念]({{< ref components-concept.md >}})
-- [状态管理概述]({{< ref state-management >}})
-- [状态管理 API 规范]({{< ref state_api.md >}})
-- [支持的状态存储]({{< ref supported-state-stores >}})
+- [组件概念]({{% ref components-concept.md %}})
+- [状态管理概述]({{% ref state-management %}})
+- [状态管理 API 规范]({{% ref state_api.md %}})
+- [支持的状态存储]({{% ref supported-state-stores %}})

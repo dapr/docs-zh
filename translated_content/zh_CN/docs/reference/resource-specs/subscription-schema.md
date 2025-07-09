@@ -9,7 +9,7 @@ description: "Dapr 订阅的基本规范"
 `Subscription` Dapr 资源允许您使用外部组件的 YAML 文件以声明方式订阅主题。
 
 {{% alert title="注意" color="primary" %}}
-任何订阅都可以限制在特定的[命名空间]({{< ref isolation-concept.md >}})内，并通过作用域限制访问特定的应用程序。
+任何订阅都可以限制在特定的[命名空间]({{% ref isolation-concept.md %}})内，并通过作用域限制访问特定的应用程序。
 {{% /alert %}}
 
 本指南介绍了两种订阅 API 版本：
@@ -85,7 +85,7 @@ scopes:
 | bulksubscribe | N | 启用批量订阅功能。 | `true`, `false` |
 
 ## 相关链接
-- [了解更多关于声明性订阅方法的信息]({{< ref "subscription-methods.md#declarative-subscriptions" >}})
-- [了解更多关于死信主题的信息]({{< ref pubsub-deadletter.md >}})
-- [了解更多关于路由消息的信息]({{< ref "howto-route-messages.md#declarative-subscription" >}})
-- [了解更多关于批量订阅的信息]({{< ref pubsub-bulk.md >}})
+- [了解更多关于声明性订阅方法的信息]({{% ref "subscription-methods.md#declarative-subscriptions" %}})
+- [了解更多关于死信主题的信息]({{% ref pubsub-deadletter.md %}})
+- [了解更多关于路由消息的信息]({{% ref "howto-route-messages.md#declarative-subscription" %}})
+- [了解更多关于批量订阅的信息]({{% ref pubsub-bulk.md %}})

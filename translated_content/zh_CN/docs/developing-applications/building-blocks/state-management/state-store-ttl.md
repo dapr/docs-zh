@@ -8,7 +8,7 @@ description: "管理具有 TTL 的状态。"
 
 Dapr 允许为每个状态设置生存时间 (TTL)。这意味着应用程序可以为存储的每个状态指定一个生存时间，过期后将无法检索这些状态。
 
-对于[支持的状态存储]({{< ref supported-state-stores >}})，只需在发布消息时设置 `ttlInSeconds` 元数据。其他状态存储将忽略此值。对于某些状态存储，您可以为每个表或容器指定默认的过期时间。
+对于[支持的状态存储]({{% ref supported-state-stores %}})，只需在发布消息时设置 `ttlInSeconds` 元数据。其他状态存储将忽略此值。对于某些状态存储，您可以为每个表或容器指定默认的过期时间。
 
 ## 原生状态 TTL 支持
 
@@ -28,15 +28,15 @@ Dapr 允许为每个状态设置生存时间 (TTL)。这意味着应用程序可
 
 ## 支持的组件
 
-请参阅[状态存储组件指南]({{< ref supported-state-stores >}})中的 TTL 列。
+请参阅[状态存储组件指南]({{% ref supported-state-stores %}})中的 TTL 列。
 
 ## 示例
 
 您可以在状态存储请求的元数据中设置状态 TTL：
 
-{{< tabs Python ".NET" Go "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 <!--python-->
 
@@ -62,9 +62,9 @@ with DaprClient() as client:
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 -- python3 OrderProcessingService.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 <!--dotnet-->
 
@@ -88,9 +88,9 @@ await client.SaveStateAsync(storeName, stateKeyName, state, metadata: new Dictio
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 <!--go-->
 
@@ -115,29 +115,29 @@ if err := client.SaveState(ctx, store, "key1", []byte("hello world"), md); err !
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 go run .
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '[{ "key": "order_1", "value": "250", "metadata": { "ttlInSeconds": "120" } }]' http://localhost:3601/v1.0/state/statestore
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '[{"key": "order_1", "value": "250", "metadata": {"ttlInSeconds": "120"}}]' -Uri 'http://localhost:3601/v1.0/state/statestore'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
-- 查看[状态 API 参考指南]({{< ref state_api.md >}})。
-- 学习[如何使用键值对持久化状态]({{< ref howto-get-save-state.md >}})。
-- [状态存储组件]({{< ref supported-state-stores >}})列表。
-- 阅读[API 参考]({{< ref state_api.md >}})。
+- 查看[状态 API 参考指南]({{% ref state_api.md %}})。
+- 学习[如何使用键值对持久化状态]({{% ref howto-get-save-state.md %}})。
+- [状态存储组件]({{% ref supported-state-stores %}})列表。
+- 阅读[API 参考]({{% ref state_api.md %}})。

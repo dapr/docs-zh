@@ -34,7 +34,7 @@ spec:
 
 如果在 Kubernetes 上运行，请将组件应用到您的集群中。
 
-> **注意：** 在生产环境中，切勿在 Dapr 组件文件中放置密码或秘密。有关使用 secret 存储安全存储和检索秘密的信息，请参阅 [设置 Secret Store]({{< ref setup-secret-store >}})
+> **注意：** 在生产环境中，切勿在 Dapr 组件文件中放置密码或秘密。有关使用 secret 存储安全存储和检索秘密的信息，请参阅 [设置 Secret Store]({{% ref setup-secret-store %}})
 
 ### 绑定方向（可选）
 
@@ -201,7 +201,7 @@ Dapr 将 `jsonObject` 并行发送到名为 "storage" 和 "queue" 的输出绑�
 
 此端点允许您调用 Dapr 输出绑定。Dapr bindings 支持各种操作，例如 `create`。
 
-请参阅每个绑定的[不同规范]({{< ref supported-bindings >}})以查看支持的操作列表。
+请参阅每个绑定的[不同规范]({{% ref supported-bindings %}})以查看支持的操作列表。
 
 ### HTTP 请求
 

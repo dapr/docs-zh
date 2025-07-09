@@ -9,7 +9,7 @@ aliases:
 
 [Sentinel](https://github.com/alibaba/sentinel-golang) 是一个强大的容错组件，专注于流量管理，涵盖流量控制、流量整形、并发限制、熔断降级和自适应系统保护等多个领域，以确保微服务的可靠性和弹性。
 
-Sentinel [HTTP 中间件]({{< ref middleware.md >}}) 使 Dapr 可以利用 Sentinel 的强大功能来保护您的应用程序。您可以参考 [Sentinel Wiki](https://github.com/alibaba/sentinel-golang/wiki) 以获取有关 Sentinel 的更多详细信息。
+Sentinel [HTTP 中间件]({{% ref middleware.md %}}) 使 Dapr 可以利用 Sentinel 的强大功能来保护您的应用程序。您可以参考 [Sentinel Wiki](https://github.com/alibaba/sentinel-golang/wiki) 以获取有关 Sentinel 的更多详细信息。
 
 ## 组件格式
 
@@ -60,11 +60,11 @@ spec:
 POST/GET/PUT/DELETE:Dapr HTTP API 请求路径
 ```
 
-所有具体的 HTTP API 信息可以在 [Dapr API 参考]{{< ref "api" >}} 中找到。在上述示例配置中，`resource` 字段被设置为 **POST:/v1.0/invoke/nodeapp/method/neworder**。
+所有具体的 HTTP API 信息可以在 [Dapr API 参考]{{% ref "api" %}} 中找到。在上述示例配置中，`resource` 字段被设置为 **POST:/v1.0/invoke/nodeapp/method/neworder**。
 
 ## Dapr 配置
 
-要应用中间件，必须在 [configuration]({{< ref configuration-concept.md >}}) 中引用。请参阅 [中间件管道]({{< ref "middleware.md#customize-processing-pipeline">}})。
+要应用中间件，必须在 [configuration]({{% ref configuration-concept.md %}}) 中引用。请参阅 [中间件管道]({{% ref "middleware.md#customize-processing-pipeline" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -81,6 +81,6 @@ spec:
 ## 相关链接
 
 - [Sentinel Github](https://github.com/alibaba/sentinel-golang)
-- [中间件]({{< ref middleware.md >}})
-- [Dapr 配置]({{< ref configuration-concept.md >}})
-- [配置概述]({{< ref configuration-overview.md >}})
+- [中间件]({{% ref middleware.md %}})
+- [Dapr 配置]({{% ref configuration-concept.md %}})
+- [配置概述]({{% ref configuration-overview.md %}})

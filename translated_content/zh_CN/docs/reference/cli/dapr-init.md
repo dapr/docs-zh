@@ -11,8 +11,8 @@ description: "关于 init CLI 命令的详细信息"
 
 ### 支持的平台
 
-- [本地托管]({{< ref self-hosted >}})
-- [Kubernetes]({{< ref kubernetes >}})
+- [本地托管]({{% ref self-hosted %}})
+- [Kubernetes]({{% ref kubernetes %}})
 
 ### 用法
 
@@ -50,9 +50,9 @@ dapr init [flags]
 
 ### 示例
 
-{{< tabs "本地托管" "Kubernetes" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="本地托管" %}}
 
 **安装**
 
@@ -64,7 +64,7 @@ dapr init [flags]
 dapr init
 ```
 
-Dapr 也可以在没有 Docker 的情况下运行[精简本地托管模式]({{< ref self-hosted-no-docker.md >}})。
+Dapr 也可以在没有 Docker 的情况下运行[精简本地托管模式]({{% ref self-hosted-no-docker.md %}})。
 
 ```bash
 dapr init -s
@@ -82,7 +82,7 @@ dapr init --runtime-version 1.13.4
 
 **安装带有镜像变体**
 
-您还可以安装带有特定镜像变体的 Dapr，例如：[mariner]({{< ref "kubernetes-deploy.md#using-mariner-based-images" >}})。
+您还可以安装带有特定镜像变体的 Dapr，例如：[mariner]({{% ref "kubernetes-deploy.md#using-mariner-based-images" %}})。
 
 ```bash
 dapr init --image-variant mariner
@@ -157,9 +157,9 @@ docker ps
 dapr uninstall --all --network mynet
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 ```bash
 dapr init -k
@@ -200,6 +200,6 @@ dapr init -k --image-registry docker.io/username
 dapr init -k --image-registry docker.io/username/<directory-name>
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}

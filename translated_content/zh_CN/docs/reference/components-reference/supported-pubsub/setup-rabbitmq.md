@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 RabbitMQ 的发布/订阅功能，请创建一个类型为 `pubsub.rabbitmq` 的组件。请参阅 [pub/sub broker 组件文件]({{< ref setup-pubsub.md >}}) 以了解消费者ID（ConsumerID）是如何自动生成的。阅读 [How-to: 发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) 以了解如何创建和应用 pub/sub 配置。
+要设置 RabbitMQ 的发布/订阅功能，请创建一个类型为 `pubsub.rabbitmq` 的组件。请参阅 [pub/sub broker 组件文件]({{% ref setup-pubsub.md %}}) 以了解消费者ID（ConsumerID）是如何自动生成的。阅读 [How-to: 发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}}) 以了解如何创建和应用 pub/sub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -69,7 +69,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用明文字符串作为 secrets。建议使用 secret 存储来存储 secrets，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例使用明文字符串作为 secrets。建议使用 secret 存储来存储 secrets，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -81,7 +81,7 @@ spec:
 | hostname | N* | RabbitMQ 主机名。*与 connectionString 字段互斥 | `localhost` |
 | username | N* | RabbitMQ 用户名。*与 connectionString 字段互斥 | `username` |
 | password | N* | RabbitMQ 密码。*与 connectionString 字段互斥 | `password` |
-| consumerID         | N        | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时会将其设置为 Dapr 应用程序 ID (`appID`) 的值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| consumerID         | N        | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时会将其设置为 Dapr 应用程序 ID (`appID`) 的值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | durable            | N        | 是否使用 [持久化](https://www.rabbitmq.com/queues.html#durability) 队列。默认为 `"false"`  | `"true"`，`"false"`
 | deletedWhenUnused  | N        | 队列是否应配置为 [自动删除](https://www.rabbitmq.com/queues.html) 默认为 `"true"` | `"true"`，`"false"`
 | autoAck  | N        | 队列消费者是否应 [自动确认](https://www.rabbitmq.com/confirms.html) 消息。默认为 `"false"` | `"true"`，`"false"`
@@ -166,7 +166,7 @@ spec:
 RabbitMQ pub/sub 组件不支持内置的重试策略。这意味着 sidecar 仅将消息发送到服务一次。当服务返回结果时，无论消息是否正确处理，消息都将被标记为已消费。请注意，这在所有 Dapr PubSub 组件中都是常见的，而不仅仅是 RabbitMQ。
 当 `autoAck` 设置为 `false` 且 `requeueInFailure` 设置为 `true` 时，Dapr 可以尝试第二次重新传递消息。
 
-要使 Dapr 使用更复杂的重试策略，您可以将 [重试弹性策略]({{< ref "policies.md#retries" >}}) 应用于 RabbitMQ pub/sub 组件。
+要使 Dapr 使用更复杂的重试策略，您可以将 [重试弹性策略]({{% ref "policies.md#retries" %}}) 应用于 RabbitMQ pub/sub 组件。
 
 两种重试消息的方法之间有一个关键区别：
 
@@ -175,9 +175,9 @@ RabbitMQ pub/sub 组件不支持内置的重试策略。这意味着 sidecar 仅
 
 ## 创建 RabbitMQ 服务器
 
-{{< tabs "Self-Hosted" "Kubernetes" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 您可以使用 Docker 在本地运行 RabbitMQ 服务器：
 
 ```bash
@@ -185,9 +185,9 @@ docker run -d --hostname my-rabbit --name some-rabbit rabbitmq:3
 ```
 
 然后，您可以使用客户端端口与服务器交互：`localhost:5672`。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 在 Kubernetes 上安装 RabbitMQ 的最简单方法是使用 [Helm chart](https://github.com/helm/charts/tree/master/stable/rabbitmq)：
 
 ```bash
@@ -201,9 +201,9 @@ helm install rabbitmq stable/rabbitmq
 例如，如果使用上述示例进行安装，RabbitMQ 服务器客户端地址将是：
 
 `rabbitmq.default.svc.cluster.local:5672`
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 使用主题交换路由消息
 
@@ -284,9 +284,9 @@ spec:
 
 ### 编程优先级队列示例
 
-{{< tabs Python JavaScript Go>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 @app.route('/dapr/subscribe', methods=['GET'])
@@ -304,9 +304,9 @@ def subscribe():
     return jsonify(subscriptions)
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 const express = require('express')
@@ -332,9 +332,9 @@ app.get('/dapr/subscribe', (req, res) => {
 })
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 package main
@@ -375,25 +375,25 @@ func configureSubscribeHandler(w http.ResponseWriter, _ *http.Request) {
 	json.NewEncoder(w).Encode(t)
 }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 发布消息时设置优先级
 
 要在消息上设置优先级，请将发布元数据键 `maxPriority` 添加到发布端点或 SDK 方法。
 
-{{< tabs "HTTP API (Bash)" Python JavaScript Go>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl -X POST http://localhost:3601/v1.0/publish/order-pub-sub/orders?metadata.priority=3 -H "Content-Type: application/json" -d '{"orderId": "100"}'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 with DaprClient() as client:
@@ -405,28 +405,28 @@ with DaprClient() as client:
             metadata= { 'priority': '3' })
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 await client.pubsub.publish(PUBSUB_NAME, TOPIC_NAME, orderId, { 'priority': '3' });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 client.PublishEvent(ctx, PUBSUB_NAME, TOPIC_NAME, []byte(strconv.Itoa(orderId)), map[string]string{"priority": "3"})
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 使用仲裁队列
 
-默认情况下，Dapr 创建 `经典` 队列。要创建 `仲裁` 队列，请将以下元数据添加到您的 pub/sub [订阅]({{< ref subscription-schema.md >}})
+默认情况下，Dapr 创建 `经典` 队列。要创建 `仲裁` 队列，请将以下元数据添加到您的 pub/sub [订阅]({{% ref subscription-schema.md %}})
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -453,7 +453,7 @@ spec:
 ## 单一活动消费者
 
 RabbitMQ [单一活动消费者](https://www.rabbitmq.com/docs/consumers#single-active-consumer) 设置确保一次只有一个消费者从队列中处理消息，并在活动消费者被取消或失败时切换到另一个注册的消费者。当消息必须按到达队列的确切顺序消费且不支持多实例分布式处理时，可能需要这种方法。
-当 Dapr 在队列上启用此选项时，Dapr 运行时的一个实例将是单一活动消费者。为了在故障情况下允许另一个应用程序实例接管，Dapr 运行时必须 [探测应用程序的健康状况]({{< ref "app-health.md" >}}) 并从 pub/sub 组件中取消订阅。
+当 Dapr 在队列上启用此选项时，Dapr 运行时的一个实例将是单一活动消费者。为了在故障情况下允许另一个应用程序实例接管，Dapr 运行时必须 [探测应用程序的健康状况]({{% ref "app-health.md" %}}) 并从 pub/sub 组件中取消订阅。
 
 {{% alert title="注意" color="primary" %}}
 这种模式将阻止应用程序扩展，因为只有一个实例可以处理负载。虽然对于 Dapr 与遗留或敏感应用程序的集成可能很有趣，但如果您需要可扩展性，您应该考虑允许分布式处理的设计。
@@ -475,6 +475,6 @@ spec:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}}) 在相关链接部分
-- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) 以获取有关配置 pub/sub 组件的说明
-- [Pub/Sub 构建块]({{< ref pubsub >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}}) 在相关链接部分
+- 阅读 [本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}}) 以获取有关配置 pub/sub 组件的说明
+- [Pub/Sub 构建块]({{% ref pubsub %}})

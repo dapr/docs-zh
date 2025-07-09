@@ -10,7 +10,7 @@ description: "在自托管模式下，如何通过 Docker 部署和运行 Dapr"
 
 ## 前提条件
 
-- [Dapr CLI]({{< ref install-dapr-cli.md >}})
+- [Dapr CLI]({{% ref install-dapr-cli.md %}})
 - [Docker](https://docs.docker.com/get-docker/)
 - [Docker-Compose](https://docs.docker.com/compose/install/)（可选）
 
@@ -24,7 +24,7 @@ dapr init
 
 ## 以进程形式运行应用和 sidecar
 
-使用 [`dapr run` CLI 命令]({{< ref dapr-run.md >}}) 启动 Dapr sidecar 和您的应用程序：
+使用 [`dapr run` CLI 命令]({{% ref dapr-run.md %}}) 启动 Dapr sidecar 和您的应用程序：
 
 ```bash
 dapr run --app-id myapp --app-port 5000 -- dotnet run
@@ -160,11 +160,11 @@ services:
 ## 在 Kubernetes 上运行
 
 如果您的部署目标是 Kubernetes，请使用 Dapr 的一流集成。请参阅
-[Dapr 在 Kubernetes 上的文档]({{< ref "kubernetes-overview.md" >}})。
+[Dapr 在 Kubernetes 上的文档]({{% ref "kubernetes-overview.md" %}})。
 
 ## 名称解析
 
-Dapr 默认使用 mDNS 作为自托管模式下的名称解析组件进行服务调用。如果您在虚拟机上运行 Dapr 或 mDNS 不可用的地方运行 Dapr，则可以使用 [HashiCorp Consul]({{< ref setup-nr-consul.md >}}) 组件进行名称解析。
+Dapr 默认使用 mDNS 作为自托管模式下的名称解析组件进行服务调用。如果您在虚拟机上运行 Dapr 或 mDNS 不可用的地方运行 Dapr，则可以使用 [HashiCorp Consul]({{% ref setup-nr-consul.md %}}) 组件进行名称解析。
 
 ## Docker 镜像
 

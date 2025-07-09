@@ -12,15 +12,15 @@ Dapr Python SDK 通过 `dapr-ext-fastapi` 扩展实现与 FastAPI 的集成。
 
 您可以通过以下命令下载并安装 Dapr FastAPI 扩展：
 
-{{< tabs 稳定版 开发版 >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="稳定版" %}}
 ```bash
 pip install dapr-ext-fastapi
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="开发版" %}}
 {{% alert title="注意" color="warning" %}}
 开发版包含与 Dapr 运行时预发布版本兼容的功能。在安装 `dapr-dev` 包之前，请先卸载任何稳定版本的 Python SDK 扩展。
 {{% /alert %}}
@@ -28,9 +28,9 @@ pip install dapr-ext-fastapi
 ```bash
 pip install dapr-ext-fastapi-dev
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 示例
 

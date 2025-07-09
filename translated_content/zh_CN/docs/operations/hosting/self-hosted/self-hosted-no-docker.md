@@ -8,7 +8,7 @@ description: "在本地机器上未安装 Docker 的情况下部署和运行 Dap
 
 ## 前提条件
 
-- [安装 Dapr CLI]({{< ref "install-dapr-selfhost.md#installing-dapr-cli" >}})
+- [安装 Dapr CLI]({{% ref "install-dapr-selfhost.md#installing-dapr-cli" %}})
 
 ## 初始化无容器的 Dapr
 
@@ -22,9 +22,9 @@ dapr init --slim
 - `daprd`
 - `placement`
 
-`placement` 二进制文件用于在 Dapr 自托管安装中启用 [actor]({{< ref "actors-overview.md" >}})。
+`placement` 二进制文件用于在 Dapr 自托管安装中启用 [actor]({{% ref "actors-overview.md" %}})。
 
-在 slim init 模式下，不会安装用于状态管理或消息发布/订阅的默认组件（如 Redis）。这意味着，除了 [服务调用]({{< ref "service-invocation-overview.md" >}}) 外，安装时没有其他内置功能可用。您可以根据需要设置自己的环境和自定义组件。
+在 slim init 模式下，不会安装用于状态管理或消息发布/订阅的默认组件（如 Redis）。这意味着，除了 [服务调用]({{% ref "service-invocation-overview.md" %}}) 外，安装时没有其他内置功能可用。您可以根据需要设置自己的环境和自定义组件。
 
 如果配置了状态存储，则可以进行基于 actor 的服务调用，具体说明请参见以下章节。
 
@@ -39,16 +39,16 @@ dapr init --slim
 
 要启用 actor placement：
 - 在本地运行 placement 服务。
-- 启用支持 ETags 的 [事务性状态存储]({{< ref "supported-state-stores.md" >}}) 以使用 actor。例如，[在自托管模式下配置的 Redis](https://redis.io/topics/quickstart)。
+- 启用支持 ETags 的 [事务性状态存储]({{% ref "supported-state-stores.md" %}}) 以使用 actor。例如，[在自托管模式下配置的 Redis](https://redis.io/topics/quickstart)。
 
 默认情况下，`placement` 二进制文件安装在：
 
 - 对于 Linux/MacOS: `/$HOME/.dapr/bin`
 - 对于 Windows: `%USERPROFILE%\.dapr\bin`
 
-{{< tabs "Linux/MacOS" "Windows">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 
 ```bash
 $ $HOME/.dapr/bin/placement
@@ -64,9 +64,9 @@ INFO[0001] leader is established.                        instance=Nicoletaz-L10.
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 在 Windows 上运行独立的 placement 时，指定端口 6050：
 
@@ -84,14 +84,14 @@ time="2022-10-17T14:56:56.8232286-05:00" level=info msg="leader is established."
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 现在，要运行启用了 actor 的应用程序，您可以参考以下示例：
 - [java-sdk](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/actors)
 - [python-sdk](https://github.com/dapr/python-sdk/tree/master/examples/demo_actor)
-- [dotnet-sdk]({{< ref "dotnet-actors-howto.md" >}})
+- [dotnet-sdk]({{% ref "dotnet-actors-howto.md" %}})
 
 更新状态存储配置文件以匹配您的 Redis 主机和密码设置。
 
@@ -104,8 +104,8 @@ time="2022-10-17T14:56:56.8232286-05:00" level=info msg="leader is established."
 
 ## 清理
 
-完成后，请按照 [在自托管环境中卸载 Dapr]({{< ref self-hosted-uninstall >}}) 的步骤移除二进制文件。
+完成后，请按照 [在自托管环境中卸载 Dapr]({{% ref self-hosted-uninstall %}}) 的步骤移除二进制文件。
 
 ## 下一步
-- 使用默认的 [Docker]({{< ref install-dapr-selfhost.md >}}) 或在 [airgap 环境]({{< ref self-hosted-airgap.md >}}) 中运行 Dapr
-- [在自托管模式下升级 Dapr]({{< ref self-hosted-upgrade >}})
+- 使用默认的 [Docker]({{% ref install-dapr-selfhost.md %}}) 或在 [airgap 环境]({{% ref self-hosted-airgap.md %}}) 中运行 Dapr
+- [在自托管模式下升级 Dapr]({{% ref self-hosted-upgrade %}})

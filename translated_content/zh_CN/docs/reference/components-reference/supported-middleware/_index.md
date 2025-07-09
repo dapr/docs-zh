@@ -9,7 +9,7 @@ aliases:
 - /zh-hans/developing-applications/middleware/supported-middleware/
 ---
 
-下表展示了Dapr支持的中间件组件。[了解如何定制处理流程并配置中间件组件。]({{< ref "middleware.md" >}})
+下表展示了Dapr支持的中间件组件。[了解如何定制处理流程并配置中间件组件。]({{% ref "middleware.md" %}})
 
 {{< partial "components/description.html" >}}
 

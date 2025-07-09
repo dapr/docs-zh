@@ -77,7 +77,7 @@ curl -X POST http://localhost:3500/v1.0/actors/x-wing/33/method/fly \
 
 #### TTL
 
-启用 [`ActorStateTTL` 功能]({{< ref "support-preview-features.md" >}})后，actor 客户端可以在事务元数据中设置 `ttlInSeconds` 字段，以便状态在指定秒数后过期。如果未设置 `ttlInSeconds` 字段，状态将不会过期。
+启用 [`ActorStateTTL` 功能]({{% ref "support-preview-features.md" %}})后，actor 客户端可以在事务元数据中设置 `ttlInSeconds` 字段，以便状态在指定秒数后过期。如果未设置 `ttlInSeconds` 字段，状态将不会过期。
 
 在构建启用此功能的 actor 应用程序时请记住；目前，所有 actor SDK 都会在本地缓存中保留 actor 状态，即使状态已过期。这意味着即使 TTL 已过期，actor 状态也不会从本地缓存中移除，直到 actor 重新启动或停用。此行为将在未来版本中更改。
 
@@ -110,7 +110,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/state
 
 #### 示例
 
-> 注意，以下示例使用了 `ttlInSeconds` 字段，这需要启用 [`ActorStateTTL` 功能]({{< ref "support-preview-features.md" >}})。
+> 注意，以下示例使用了 `ttlInSeconds` 字段，这需要启用 [`ActorStateTTL` 功能]({{% ref "support-preview-features.md" %}})。
 
 ```shell
 curl -X POST http://localhost:3500/v1.0/actors/stormtrooper/50/state \
@@ -380,7 +380,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/actors/<actorType>/<actorId>/timers/<n
 ```
 
 #### 计时器请求体：
-计时器请求体的格式与[actor 提醒]({{< ref "#reminder-request-body" >}})相同。例如：
+计时器请求体的格式与[actor 提醒]({{% ref "#reminder-request-body" %}})相同。例如：
 
 以下指定了 3 秒的 `dueTime` 和 7 秒的周期。
 

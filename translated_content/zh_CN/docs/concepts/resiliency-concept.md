@@ -17,7 +17,7 @@ Dapr允许您为应用程序定义和应用容错的弹性策略。您可以为�
 - 重试/退避
 - 断路器
 
-这些策略可以在调用具有[弹性规范]({{< ref resiliency-overview >}})的组件时应用于任何Dapr API调用。
+这些策略可以在调用具有[弹性规范]({{% ref resiliency-overview %}})的组件时应用于任何Dapr API调用。
 
 ## 应用健康检查
 <img src="/images/observability-app-health.webp" width="800" alt="显示应用健康功能的图表。启用应用健康运行Dapr会导致Dapr定期探测应用的健康状况">
@@ -26,21 +26,21 @@ Dapr允许您为应用程序定义和应用容错的弹性策略。您可以为�
 
 Dapr提供了一种通过探测来检查应用程序健康状况并对状态变化做出反应的机制。当检测到应用不健康时，Dapr会停止为该应用分配新任务。
 
-阅读更多关于如何将[应用健康检查]({{< ref app-health >}})应用于您的应用程序。
+阅读更多关于如何将[应用健康检查]({{% ref app-health %}})应用于您的应用程序。
 
 ## Sidecar健康检查
 <img src="/images/sidecar-health.png" width="800" alt="显示应用健康功能的图表。启用应用健康运行Dapr会导致Dapr定期探测应用的健康状况">
 
-Dapr提供了一种通过[HTTP `/healthz` 端点]({{< ref health_api.md >}})来确定其健康状况的方法。通过此端点，*daprd*进程或sidecar可以：
+Dapr提供了一种通过[HTTP `/healthz` 端点]({{% ref health_api.md %}})来确定其健康状况的方法。通过此端点，*daprd*进程或sidecar可以：
 
 - 检查其健康状况
 - 确定其准备就绪状态和存活状态
 
-阅读更多关于如何将[dapr健康检查]({{< ref sidecar-health >}})应用于您的应用程序。
+阅读更多关于如何将[dapr健康检查]({{% ref sidecar-health %}})应用于您的应用程序。
 
 ## 下一步
 
-- [了解更多关于弹性]({{< ref resiliency-overview.md >}})
+- [了解更多关于弹性]({{% ref resiliency-overview.md %}})
 - 尝试其中一个弹性快速入门：
-  - [弹性：服务到服务]({{< ref resiliency-serviceinvo-quickstart.md >}})
-  - [弹性：状态管理]({{< ref resiliency-state-quickstart.md >}})
+  - [弹性：服务到服务]({{% ref resiliency-serviceinvo-quickstart.md %}})
+  - [弹性：状态管理]({{% ref resiliency-state-quickstart.md %}})

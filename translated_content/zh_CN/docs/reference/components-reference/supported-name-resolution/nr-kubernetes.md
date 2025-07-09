@@ -7,9 +7,9 @@ description: 详细介绍 Kubernetes DNS 名称解析组件
 
 ## 配置格式
 
-一般情况下，[Kubernetes 模式]({{< ref kubernetes >}})下的 Kubernetes DNS 名称解析由 Dapr 自动配置。除非需要对 Kubernetes 名称解析组件进行特定的覆盖，否则无需额外配置即可使用 Kubernetes DNS 作为名称解析提供者。
+一般情况下，[Kubernetes 模式]({{% ref kubernetes %}})下的 Kubernetes DNS 名称解析由 Dapr 自动配置。除非需要对 Kubernetes 名称解析组件进行特定的覆盖，否则无需额外配置即可使用 Kubernetes DNS 作为名称解析提供者。
 
-如果需要进行覆盖，可以在 [Dapr 配置]({{< ref configuration-overview.md >}}) CRD 中，添加一个 `nameResolution` 规范，并将 `component` 字段设置为 `"kubernetes"`。其他配置字段可以根据需要在 `configuration` 映射中设置，如下所示。
+如果需要进行覆盖，可以在 [Dapr 配置]({{% ref configuration-overview.md %}}) CRD 中，添加一个 `nameResolution` 规范，并将 `component` 字段设置为 `"kubernetes"`。其他配置字段可以根据需要在 `configuration` 映射中设置，如下所示。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -39,5 +39,5 @@ spec:
 
 ## 相关链接
 
-- [服务调用构建块]({{< ref service-invocation >}})
+- [服务调用构建块]({{% ref service-invocation %}})
 - [Kubernetes DNS 文档](https://kubernetes.io/docs/concepts/services-networking/dns-pod-service/)

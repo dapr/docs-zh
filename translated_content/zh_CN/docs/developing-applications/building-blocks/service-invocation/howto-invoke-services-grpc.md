@@ -8,7 +8,7 @@ weight: 30
 
 本文介绍如何通过 Dapr 使用 gRPC 进行服务间通信。
 
-通过 Dapr 的 gRPC 代理功能，您可以使用现有的基于 proto 的 gRPC 服务，并让流量通过 Dapr sidecar。这为开发人员带来了以下 [Dapr 服务调用]({{< ref service-invocation-overview.md >}}) 的优势：
+通过 Dapr 的 gRPC 代理功能，您可以使用现有的基于 proto 的 gRPC 服务，并让流量通过 Dapr sidecar。这为开发人员带来了以下 [Dapr 服务调用]({{% ref service-invocation-overview.md %}}) 的优势：
 
 1. 双向认证
 2. 跟踪
@@ -126,9 +126,9 @@ ctx = metadata.AppendToOutgoingContext(ctx, "dapr-app-id", "server")
 
 所有 gRPC 支持的语言都允许添加元数据。以下是一些示例：
 
-{{< tabs Java ".NET" Python JavaScript Ruby "C++">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 ```java
 Metadata headers = new Metadata();
 Metadata.Key<String> jwtKey = Metadata.Key.of("dapr-app-id", "server");
@@ -137,9 +137,9 @@ GreeterService.ServiceBlockingStub stub = GreeterService.newBlockingStub(channel
 stub = MetadataUtils.attachHeaders(stub, header);
 stub.SayHello(new HelloRequest() { Name = "Darth Malak" });
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 ```csharp
 var metadata = new Metadata
 {
@@ -148,39 +148,39 @@ var metadata = new Metadata
 
 var call = client.SayHello(new HelloRequest { Name = "Darth Nihilus" }, metadata);
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 ```python
 metadata = (('dapr-app-id', 'server'),)
 response = stub.SayHello(request={ name: 'Darth Revan' }, metadata=metadata)
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 ```javascript
 const metadata = new grpc.Metadata();
 metadata.add('dapr-app-id', 'server');
 
 client.sayHello({ name: "Darth Malgus" }, metadata)
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Ruby" %}}
 ```ruby
 metadata = { 'dapr-app-id' : 'server' }
 response = service.sayHello({ 'name': 'Darth Bane' }, metadata)
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="C++" %}}
 ```c++
 grpc::ClientContext context;
 context.AddMetadata("dapr-app-id", "server");
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 使用 Dapr CLI 运行客户端
 
@@ -223,11 +223,11 @@ spec:
 
 `dapr.io/app-protocol: "grpc"` 注解告诉 Dapr 使用 gRPC 调用应用。
 
-如果您的应用使用 TLS 连接，您可以通过 `app-protocol: "grpcs"` 注解告诉 Dapr 通过 TLS 调用您的应用（完整列表[在此]({{< ref arguments-annotations-overview.md >}})）。注意，Dapr 不会验证应用提供的 TLS 证书。
+如果您的应用使用 TLS 连接，您可以通过 `app-protocol: "grpcs"` 注解告诉 Dapr 通过 TLS 调用您的应用（完整列表[在此]({{% ref arguments-annotations-overview.md %}})）。注意，Dapr 不会验证应用提供的 TLS 证书。
 
 ### 命名空间
 
-在[支持命名空间的平台]({{< ref "service_invocation_api.md#namespace-supported-platforms" >}})上运行时，您可以在应用 ID 中包含目标应用的命名空间：`myApp.production`
+在[支持命名空间的平台]({{% ref "service_invocation_api.md#namespace-supported-platforms" %}})上运行时，您可以在应用 ID 中包含目标应用的命名空间：`myApp.production`
 
 例如，在不同命名空间中调用 gRPC 服务器：
 
@@ -235,13 +235,13 @@ spec:
 ctx = metadata.AppendToOutgoingContext(ctx, "dapr-app-id", "server.production")
 ```
 
-有关命名空间的更多信息，请参阅[跨命名空间 API 规范]({{< ref "service_invocation_api.md#cross-namespace-invocation" >}})。
+有关命名空间的更多信息，请参阅[跨命名空间 API 规范]({{% ref "service_invocation_api.md#cross-namespace-invocation" %}})。
 
 ## 第三步：查看跟踪和日志
 
 上面的示例展示了如何直接调用本地或 Kubernetes 中运行的不同服务。Dapr 输出指标、跟踪和日志信息，允许您可视化服务之间的调用图、记录错误并可选地记录负载体。
 
-有关跟踪和日志的更多信息，请参阅[可观测性]({{< ref observability-concept.md >}})文章。
+有关跟踪和日志的更多信息，请参阅[可观测性]({{% ref observability-concept.md %}})文章。
 
 ## 流式 RPC 的代理
 
@@ -249,24 +249,24 @@ ctx = metadata.AppendToOutgoingContext(ctx, "dapr-app-id", "server.production")
 
 例如：
 
-{{< tabs Go Java ".NET" Python JavaScript Ruby "C++">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 ```go
 ctx = metadata.AppendToOutgoingContext(ctx, "dapr-app-id", "server")
 ctx = metadata.AppendToOutgoingContext(ctx, "dapr-stream", "true")
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 ```java
 Metadata headers = new Metadata();
 Metadata.Key<String> jwtKey = Metadata.Key.of("dapr-app-id", "server");
 Metadata.Key<String> jwtKey = Metadata.Key.of("dapr-stream", "true");
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 ```csharp
 var metadata = new Metadata
 {
@@ -274,42 +274,42 @@ var metadata = new Metadata
 	{ "dapr-stream", "true" }
 };
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 ```python
 metadata = (('dapr-app-id', 'server'), ('dapr-stream', 'true'),)
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 ```javascript
 const metadata = new grpc.Metadata();
 metadata.add('dapr-app-id', 'server');
 metadata.add('dapr-stream', 'true');
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Ruby" %}}
 ```ruby
 metadata = { 'dapr-app-id' : 'server' }
 metadata = { 'dapr-stream' : 'true' }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="C++" %}}
 ```c++
 grpc::ClientContext context;
 context.AddMetadata("dapr-app-id", "server");
 context.AddMetadata("dapr-stream", "true");
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 流式 gRPC 和弹性
 
-在代理流式 gRPC 时，由于其长时间存在的特性，[弹性]({{< ref "resiliency-overview.md" >}})策略仅应用于“初始握手”。因此：
+在代理流式 gRPC 时，由于其长时间存在的特性，[弹性]({{% ref "resiliency-overview.md" %}})策略仅应用于“初始握手”。因此：
 
 - 如果流在初始握手后中断，Dapr 不会自动重新建立。您的应用将被通知流已结束，并需要重新创建它。
 - 重试策略仅影响初始连接“握手”。如果您的弹性策略包括重试，Dapr 将检测到建立与目标应用的初始连接失败，并将重试直到成功（或直到策略中定义的重试次数耗尽）。
@@ -317,8 +317,8 @@ context.AddMetadata("dapr-stream", "true");
 
 ## 相关链接
 
-* [服务调用概述]({{< ref service-invocation-overview.md >}})
-* [服务调用 API 规范]({{< ref service_invocation_api.md >}})
+* [服务调用概述]({{% ref service-invocation-overview.md %}})
+* [服务调用 API 规范]({{% ref service_invocation_api.md %}})
 * [gRPC 代理社区通话视频](https://youtu.be/B_vkXqptpXY?t=70)
 
 ## 社区通话演示

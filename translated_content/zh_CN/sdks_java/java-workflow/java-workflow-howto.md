@@ -243,5 +243,5 @@ Exiting DemoWorkflowClient.
    5. 然后工作流客户端退出。
 
 ## 下一步
-- [了解更多关于 Dapr 工作流的信息]({{< ref workflow-overview.md >}})
-- [工作流 API 参考]({{< ref workflow_api.md >}})
+- [了解更多关于 Dapr 工作流的信息]({{% ref workflow-overview.md %}})
+- [工作流 API 参考]({{% ref workflow_api.md %}})

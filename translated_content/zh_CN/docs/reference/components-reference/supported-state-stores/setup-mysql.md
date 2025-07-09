@@ -11,7 +11,7 @@ aliases:
 
 MySQL 状态存储组件允许连接到 MySQL 和 MariaDB 数据库。在本文档中，"MySQL" 代表这两个数据库。
 
-要设置 MySQL 状态存储，请创建一个类型为 `state.mysql` 的组件。请参考[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+要设置 MySQL 状态存储，请创建一个类型为 `state.mysql` 的组件。请参考[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -40,7 +40,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 使用了明文字符串。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中，secret 使用了明文字符串。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 如果希望将 MySQL 用作 actor 存储，请在 yaml 中添加以下配置。
@@ -67,9 +67,9 @@ spec:
 
 Dapr 可以使用任何 MySQL 实例 - 无论是容器化的 MySQL 实例、在本地开发机器上运行的，还是云服务提供的 MySQL 实例。
 
-{{< tabs "Self-Hosted" "Kubernetes" "Azure" "AWS" "GCP" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 <!-- Self-Hosted -->
 
 运行一个 MySQL 实例。您可以使用以下命令在 Docker CE 中运行本地 MySQL 实例：
@@ -80,9 +80,9 @@ Dapr 可以使用任何 MySQL 实例 - 无论是容器化的 MySQL 实例、在�
 docker run --name dapr-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d mysql:latest
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 <!-- Kubernetes -->
 
 我们可以使用 [Helm](https://helm.sh/) 在我们的 Kubernetes 集群中快速创建一个 MySQL 实例。此方法需要[安装 Helm](https://github.com/helm/helm#install)。
@@ -103,32 +103,32 @@ docker run --name dapr-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d
 
 1. 使用密码构建您的连接字符串。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Azure" %}}
 <!-- Azure -->
 
 [Azure MySQL](http://bit.ly/AzureMySQL)
 
 如果您使用 [Azure 上的 MySQL](http://bit.ly/AzureMySQLSSL)，请参阅 Azure [关于 SSL 数据库连接的文档](http://bit.ly/MySQLSSL)，了解如何下载所需的证书。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="AWS" %}}
 <!-- AWS -->
 
 [AWS MySQL](https://aws.amazon.com/rds/mysql/)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="GCP" %}}
 <!-- GCP -->
 
 [GCP MySQL](https://cloud.google.com/sql/docs/mysql/features)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 非 SSL 连接
 
@@ -140,7 +140,7 @@ docker run --name dapr-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d
 
 ### TTL 和清理
 
-此状态存储支持 Dapr 存储的记录的[生存时间 (TTL)]({{< ref state-store-ttl.md >}})。使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性以指示数据何时应被视为 "过期"。
+此状态存储支持 Dapr 存储的记录的[生存时间 (TTL)]({{% ref state-store-ttl.md %}})。使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性以指示数据何时应被视为 "过期"。
 
 由于 MySQL 没有内置的 TTL 支持，这在 Dapr 中通过在状态表中添加一列来实现，指示数据何时应被视为 "过期"。即使数据仍然物理存储在数据库中，"过期" 的记录也不会返回给调用者。后台 "垃圾收集器" 定期扫描状态表以删除过期的行。
 
@@ -150,6 +150,6 @@ docker run --name dapr-mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw -d
 - 如果您不打算在 Dapr 和 MySQL 状态存储中使用 TTL，您应考虑将 `cleanupIntervalInSeconds` 设置为 <= 0（例如 `0` 或 `-1`）以禁用定期清理并减少数据库的负载。
 
 ## 相关链接
-- [Dapr 组件的基本 schema]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本 schema]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

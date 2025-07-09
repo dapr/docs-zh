@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 KubeMQ 绑定，需创建一个类型为 `bindings.kubemq` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要设置 KubeMQ 绑定，需创建一个类型为 `bindings.kubemq` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -46,9 +46,9 @@ spec:
 
 ## 创建 KubeMQ 代理
 
-{{< tabs "Self-Hosted" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 1. [获取 KubeMQ 密钥](https://docs.kubemq.io/getting-started/quick-start#obtain-kubemq-license-key)。
 2. 等待电子邮件确认您的密钥
 
@@ -59,9 +59,9 @@ docker run -d -p 8080:8080 -p 50000:50000 -p 9090:9090 -e KUBEMQ_TOKEN=<your-key
 ```
 然后，您可以通过客户端端口与服务器交互：`localhost:50000`
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 1. [获取 KubeMQ 密钥](https://docs.kubemq.io/getting-started/quick-start#obtain-kubemq-license-key)。
 2. 等待电子邮件确认您的密钥
 
@@ -74,24 +74,24 @@ kubectl apply -f https://deploy.kubemq.io/init
 ```bash
 kubectl apply -f https://deploy.kubemq.io/key/<your-key>
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 安装 KubeMQ CLI
 请访问 [KubeMQ CLI](https://github.com/kubemq-io/kubemqctl/releases) 并下载最新版本的 CLI。
 
 ## 浏览 KubeMQ 仪表板
 
-{{< tabs "Self-Hosted" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 <!-- IGNORE_LINKS -->
 打开浏览器并导航到 [http://localhost:8080](http://localhost:8080)
 <!-- END_IGNORE -->
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 安装 KubeMQCTL 后，运行以下命令：
 
 ```bash
@@ -102,17 +102,17 @@ kubemqctl get dashboard
 ```bash
 kubectl port-forward svc/kubemq-cluster-api -n kubemq 8080:8080
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## KubeMQ 文档
 访问 [KubeMQ 文档](https://docs.kubemq.io/) 了解更多信息。
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

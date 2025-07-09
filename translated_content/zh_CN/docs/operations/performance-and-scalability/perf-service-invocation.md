@@ -18,7 +18,7 @@ Dapr由两个主要部分组成：数据平面和控制平面。数据平面是�
 * Sentry（可选，控制平面）
 * Placement（可选，控制平面）
 
-更多信息请参见[Dapr自托管模式概述]({{< ref self-hosted-overview.md >}})。
+更多信息请参见[Dapr自托管模式概述]({{% ref self-hosted-overview.md %}})。
 
 ### Kubernetes组件
 
@@ -28,7 +28,7 @@ Dapr由两个主要部分组成：数据平面和控制平面。数据平面是�
 * Operator（控制平面）
 * sidecar注入器（控制平面）
 
-更多信息请参见[Dapr在Kubernetes上的概述]({{< ref kubernetes-overview.md >}})。
+更多信息请参见[Dapr在Kubernetes上的概述]({{% ref kubernetes-overview.md %}})。
 
 ## Dapr v1.0的性能总结
 
@@ -36,7 +36,7 @@ Dapr由两个主要部分组成：数据平面和控制平面。数据平面是�
 
 通过服务调用，您可以实现从HTTP到HTTP、HTTP到gRPC、gRPC到HTTP和gRPC到gRPC的调用。Dapr在sidecar之间的通信中始终使用gRPC，但保留了应用程序调用时使用的协议语义。服务调用是与Dapr actor通信的底层机制。
 
-更多信息请参见[服务调用概述]({{< ref service-invocation-overview.md >}})。
+更多信息请参见[服务调用概述]({{% ref service-invocation-overview.md %}})。
 
 ### Kubernetes性能测试设置
 
@@ -77,7 +77,7 @@ Dapr控制平面在非高可用模式下运行时使用总共0.009 vCPU和61.6 M
 ### 数据平面性能
 
 Dapr sidecar每秒处理1000个请求时使用0.48 vCPU和23Mb内存。
-在端到端的调用中，Dapr sidecar（客户端和服务器）在第90百分位延迟中增加约1.40 ms，在第99百分位延迟中增加约2.10 ms。端到端是指从一个应用程序发出请求到另一个应用程序接收响应的全过程。这在[此图]({{< ref service-invocation-overview.md >}})的步骤1-7中显示。
+在端到端的调用中，Dapr sidecar（客户端和服务器）在第90百分位延迟中增加约1.40 ms，在第99百分位延迟中增加约2.10 ms。端到端是指从一个应用程序发出请求到另一个应用程序接收响应的全过程。这在[此图]({{% ref service-invocation-overview.md %}})的步骤1-7中显示。
 
 这种性能与常用的服务网格相当或更好。
 

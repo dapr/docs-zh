@@ -65,5 +65,5 @@ func main() {
 
 ## 相关链接
 
-- [在 Kubernetes 上部署 Dapr]({{< ref kubernetes-deploy.md >}})
-- [在 Kubernetes 上升级 Dapr]({{< ref kubernetes-upgrade.md >}})
+- [在 Kubernetes 上部署 Dapr]({{% ref kubernetes-deploy.md %}})
+- [在 Kubernetes 上升级 Dapr]({{% ref kubernetes-upgrade.md %}})

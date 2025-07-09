@@ -8,7 +8,7 @@ weight: 20
 
 以下表格列出了 Dapr 运行时返回的错误代码。
 错误代码会在 HTTP 请求的响应体中或 gRPC 状态响应的 `ErrorInfo` 部分返回（如果存在）。
-我们正在努力根据 [更丰富的错误模型]({{< ref "grpc-error-codes.md#richer-grpc-error-model" >}}) 来改进所有 gRPC 错误响应。没有对应 gRPC 代码的错误代码表示这些错误尚未更新到此模型。
+我们正在努力根据 [更丰富的错误模型]({{% ref "grpc-error-codes.md#richer-grpc-error-model" %}}) 来改进所有 gRPC 错误响应。没有对应 gRPC 代码的错误代码表示这些错误尚未更新到此模型。
 
 ### 演员 API
 
@@ -188,6 +188,6 @@ weight: 20
 
 ## 下一步
 
-- [处理 HTTP 错误代码]({{< ref http-error-codes.md >}})
-- [处理 gRPC 错误代码]({{< ref grpc-error-codes.md >}})
+- [处理 HTTP 错误代码]({{% ref http-error-codes.md %}})
+- [处理 gRPC 错误代码]({{% ref grpc-error-codes.md %}})
 `

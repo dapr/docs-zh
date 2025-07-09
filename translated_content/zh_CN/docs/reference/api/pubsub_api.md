@@ -58,8 +58,8 @@ curl -X POST http://localhost:3500/v1.0/publish/pubsubName/deathStarStatus \
 
 参数 | 描述
 --------- | -----------
-`metadata.ttlInSeconds` | 消息过期的秒数，如[此处所述]({{< ref pubsub-message-ttl.md >}})
-`metadata.rawPayload` | 布尔值，决定 Dapr 是否应在不将事件包装为 CloudEvent 的情况下发布事件，如[此处所述]({{< ref pubsub-raw.md >}})
+`metadata.ttlInSeconds` | 消息过期的秒数，如[此处所述]({{% ref pubsub-message-ttl.md %}})
+`metadata.rawPayload` | 布尔值，决定 Dapr 是否应在不将事件包装为 CloudEvent 的情况下发布事件，如[此处所述]({{% ref pubsub-raw.md %}})
 
 > 根据每个 pubsub 组件，还可以使用其他元数据参数。
 
@@ -112,7 +112,7 @@ curl -X POST http://localhost:3500/v1.0-alpha1/publish/bulk/pubsubName/deathStar
 |`daprPort`|Dapr 端口|
 |`pubsubname`|发布/订阅组件的名称|
 |`topic`|主题的名称|
-|`metadata`|[元数据]({{< ref "pubsub_api.md#metadata" >}})的查询参数|
+|`metadata`|[元数据]({{% ref "pubsub_api.md#metadata" %}})的查询参数|
 
 ### 元数据
 
@@ -199,11 +199,11 @@ GET http://localhost:<appPort>/dapr/subscribe
 
 参数 | 描述
 --------- | -----------
-`rawPayload` | 布尔值，订阅不符合 CloudEvent 规范的事件，如[此处所述]({{< ref pubsub-raw.md >}})
+`rawPayload` | 布尔值，订阅不符合 CloudEvent 规范的事件，如[此处所述]({{% ref pubsub-raw.md %}})
 
 ### 提供路由以供 Dapr 传递主题事件
 
-为了传递主题事件，将使用订阅响应中指定的路由对用户代码进行 `POST` 调用。在 `routes` 下，您可以提供[在接收到消息主题时匹配特定条件到特定路径的规则。]({{< ref "howto-route-messages.md" >}}) 您还可以为没有特定匹配的任何规则提供默认路由。
+为了传递主题事件，将使用订阅响应中指定的路由对用户代码进行 `POST` 调用。在 `routes` 下，您可以提供[在接收到消息主题时匹配特定条件到特定路径的规则。]({{% ref "howto-route-messages.md" %}}) 您还可以为没有特定匹配的任何规则提供默认路由。
 
 以下示例说明了这一点，考虑到主题 `newOrder` 的订阅和端口 3000 上的路由 `orders`：`POST http://localhost:3000/orders`
 
@@ -259,7 +259,7 @@ HTTP 状态 | 描述
 
 - 需要在发送要订阅的主题列表时选择 `bulkSubscribe`
 - 可选地，可以配置 `maxMessagesCount` 和/或 `maxAwaitDurationMs`
-有关如何选择的更多详细信息，请参阅[批量发送和接收消息]({{< ref pubsub-bulk.md >}})指南。
+有关如何选择的更多详细信息，请参阅[批量发送和接收消息]({{% ref pubsub-bulk.md %}})指南。
 
 #### 批量订阅的预期 HTTP 响应
 
@@ -304,5 +304,5 @@ Dapr 发布/订阅遵循 [CloudEvents 1.0 版本](https://github.com/cloudevents
 
 ## 相关链接
 
-* [如何发布和消费主题]({{< ref howto-publish-subscribe.md >}})
+* [如何发布和消费主题]({{% ref howto-publish-subscribe.md %}})
 * [发布/订阅示例](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)

@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式说明
 
-要设置 Zookeeper 状态存储，您需要创建一个类型为 `state.zookeeper` 的组件。请参考[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+要设置 Zookeeper 状态存储，您需要创建一个类型为 `state.zookeeper` 的组件。请参考[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -33,7 +33,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串来表示 secret。建议使用 secret 存储来安全地管理这些 secret，详情请参阅[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串来表示 secret。建议使用 secret 存储来安全地管理这些 secret，详情请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -48,9 +48,9 @@ spec:
 
 ## 设置 Zookeeper
 
-{{< tabs "Self-Hosted" "Kubernetes" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 您可以使用 Docker 在本地运行 Zookeeper：
 
 ```
@@ -58,9 +58,9 @@ docker run --name some-zookeeper --restart always -d zookeeper
 ```
 
 然后可以使用 `localhost:2181` 与服务器交互。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 在 Kubernetes 上安装 Zookeeper 的最简单方法是使用 [Helm chart](https://github.com/helm/charts/tree/master/incubator/zookeeper)：
 
 ```
@@ -74,11 +74,11 @@ helm install zookeeper incubator/zookeeper
 例如，如果使用上述示例进行安装，Zookeeper 主机地址将是：
 
 `zookeeper.default.svc.cluster.local:2181`
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

@@ -16,7 +16,7 @@ description: "如何在 Kubernetes 集群上调试 Dapr 控制平面"
 
 ### 前置条件
 
-- 熟悉[本指南]({{< ref kubernetes-deploy.md >}})以了解如何将 Dapr 部署到您的 Kubernetes 集群。
+- 熟悉[本指南]({{% ref kubernetes-deploy.md %}})以了解如何将 Dapr 部署到您的 Kubernetes 集群。
 - 设置您的[开发环境](https://github.com/dapr/dapr/blob/master/docs/development/developing-dapr.md)
 - [Helm](https://github.com/helm/helm/releases)
 
@@ -109,6 +109,6 @@ Forwarding from [::1]:40000 -> 40000
 
 ## 相关链接
 
-- [Kubernetes 上的 Dapr 概述]({{< ref kubernetes-overview >}})
-- [将 Dapr 部署到 Kubernetes 集群]({{< ref kubernetes-deploy >}})
+- [Kubernetes 上的 Dapr 概述]({{% ref kubernetes-overview %}})
+- [将 Dapr 部署到 Kubernetes 集群]({{% ref kubernetes-deploy %}})
 - [Dapr Kubernetes 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)

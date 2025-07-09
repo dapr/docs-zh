@@ -95,9 +95,9 @@ Kiam 和 Kube2IAM 都通过拦截对[实例元数据服务](https://docs.aws.ama
 
 ### 在本地以独立模式运行 dapr 时认证到 AWS
 
-{{< tabs "Linux/MacOS" "Windows" >}}
+{{< tabpane text=true >}}
  <!-- linux -->
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 
 在独立模式下运行 Dapr（或直接运行 Dapr 运行时）时，您可以将环境变量注入到进程中，如以下示例：
 
@@ -119,16 +119,16 @@ AWS_PROFILE=myprofile daprd...
 
 您可以使用任何[支持的环境变量](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html#envvars-list)以这种方式配置 Dapr。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- windows -->
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 在 Windows 上，需要在启动 `dapr` 或 `daprd` 命令之前设置环境变量，像在 Linux/MacOS 中那样内联设置是不支持的。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 如果使用基于 AWS SSO 的配置文件认证到 AWS
 
@@ -136,9 +136,9 @@ AWS_PROFILE=myprofile daprd...
 - [AwsHelper](https://pypi.org/project/awshelper/) 
 - [aws-sso-util](https://github.com/benkehoe/aws-sso-util)
 
-{{< tabs "Linux/MacOS" "Windows" >}}
+{{< tabpane text=true >}}
  <!-- linux -->
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 
 如果使用 AwsHelper，像这样启动 Dapr：
 
@@ -151,16 +151,16 @@ AWS_PROFILE=myprofile awshelper dapr run...
 ```bash
 AWS_PROFILE=myprofile awshelper daprd...
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- windows -->
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 在 Windows 上，需要在启动 `awshelper` 命令之前设置环境变量，像在 Linux/MacOS 中那样内联设置是不支持的。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 

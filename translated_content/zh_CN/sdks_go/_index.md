@@ -18,11 +18,11 @@ cascade:
 {{< card title="**客户端**">}}
   使用 Go 客户端 SDK 来调用公共 Dapr API。
 
-  [**了解更多关于 Go 客户端 SDK 的信息**]({{< ref go-client >}})
+  [**了解更多关于 Go 客户端 SDK 的信息**]({{% ref go-client %}})
 {{< /card >}}
 {{< card title="**服务**">}}
   使用 Dapr 服务（回调）SDK 创建可被 Dapr 调用的服务。
 
-  [**了解更多关于 Go 服务（回调）SDK 的信息**]({{< ref go-service >}})
+  [**了解更多关于 Go 服务（回调）SDK 的信息**]({{% ref go-service %}})
 {{< /card >}}
 {{< /cardpane >}}

@@ -6,12 +6,12 @@ weight: 2000
 description: "使用 Secret 存储构建块安全地检索 Secret"
 ---
 
-在了解了[Dapr Secret 构建块的功能]({{< ref secrets-overview >}})后，接下来学习如何在服务中使用它。本指南将演示如何调用 Secret API，并从配置的 Secret 存储中将 Secret 检索到应用程序代码中。
+在了解了[Dapr Secret 构建块的功能]({{% ref secrets-overview %}})后，接下来学习如何在服务中使用它。本指南将演示如何调用 Secret API，并从配置的 Secret 存储中将 Secret 检索到应用程序代码中。
 
 <img src="/images/howto-secrets/secrets-mgmt-overview.png" width=1000 alt="示例服务的 Secret 管理示意图。">
 
 {{% alert title="提示" color="primary" %}}
-如果您还没有尝试过，[请先查看 Secret 管理快速入门]({{< ref secrets-quickstart.md >}})，以快速了解如何使用 Secret API。
+如果您还没有尝试过，[请先查看 Secret 管理快速入门]({{% ref secrets-quickstart.md %}})，以快速了解如何使用 Secret API。
 {{% /alert %}}
 
 ## 配置 Secret 存储
@@ -19,7 +19,7 @@ description: "使用 Secret 存储构建块安全地检索 Secret"
 在应用程序代码中检索 Secret 之前，您需要先配置一个 Secret 存储组件。此示例配置了一个使用本地 JSON 文件存储 Secret 的 Secret 存储。
 
 {{% alert title="警告" color="warning" %}}
-在生产环境中，不建议使用本地 Secret 存储。[请查看其他安全管理 Secret 的方案]({{< ref supported-secret-stores >}})。
+在生产环境中，不建议使用本地 Secret 存储。[请查看其他安全管理 Secret 的方案]({{% ref supported-secret-stores %}})。
 {{% /alert %}}
 
 在项目目录中，创建一个名为 `secrets.json` 的文件，内容如下：
@@ -53,8 +53,8 @@ Secret 存储 JSON 的路径是相对于您执行 `dapr run` 命令的位置。
 
 更多信息：
 
-- 查看如何[配置不同类型的 Secret 存储]({{< ref setup-secret-store >}})。
-- 查看[支持的 Secret 存储]({{< ref supported-secret-stores >}})以了解不同 Secret 存储解决方案的具体细节。
+- 查看如何[配置不同类型的 Secret 存储]({{% ref setup-secret-store %}})。
+- 查看[支持的 Secret 存储]({{% ref supported-secret-stores %}})以了解不同 Secret 存储解决方案的具体细节。
 
 ## 获取 Secret
 
@@ -64,15 +64,15 @@ Secret 存储 JSON 的路径是相对于您执行 `dapr run` 命令的位置。
 curl http://localhost:3601/v1.0/secrets/localsecretstore/secret
 ```
 
-查看[完整的 API 参考]({{< ref secrets_api.md >}})。
+查看[完整的 API 参考]({{% ref secrets_api.md %}})。
 
 ## 从代码中调用 Secret API
 
 现在您已经设置了本地 Secret 存储，可以通过 Dapr 从应用程序代码中获取 Secret。以下是利用 Dapr SDK 检索 Secret 的代码示例。
 
-{{< tabs ".NET" Java Python Go JavaScript>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 依赖项
@@ -103,9 +103,9 @@ namespace EventService
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 依赖项
@@ -136,9 +136,9 @@ public class OrderProcessingServiceApplication {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 # 依赖项 
@@ -166,9 +166,9 @@ with DaprClient() as client:
     logging.info(sorted(secret.secrets.items()))
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 // 依赖项 
@@ -204,9 +204,9 @@ func main() {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 // 依赖项 
@@ -233,13 +233,13 @@ async function main() {
 main();
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
-- 查看[Dapr Secret API 功能]({{< ref secrets-overview >}})。
-- 学习如何[使用 Secret 范围]({{< ref secrets-scopes >}})
-- 阅读[Secret API 参考]({{< ref secrets_api >}})并查看[支持的 Secret]({{< ref supported-secret-stores >}})。
-- 学习如何[设置不同的 Secret 存储组件]({{< ref setup-secret-store >}})以及如何[在组件中引用 Secret]({{< ref component-secrets >}})。
+- 查看[Dapr Secret API 功能]({{% ref secrets-overview %}})。
+- 学习如何[使用 Secret 范围]({{% ref secrets-scopes %}})
+- 阅读[Secret API 参考]({{% ref secrets_api %}})并查看[支持的 Secret]({{% ref supported-secret-stores %}})。
+- 学习如何[设置不同的 Secret 存储组件]({{% ref setup-secret-store %}})以及如何[在组件中引用 Secret]({{% ref component-secrets %}})。

@@ -28,7 +28,7 @@ const client = new DaprClient({
 });
 ```
 
-> 有关如何使用Client的更多详细信息，请参见[JavaScript Client]({{< ref js-client >}})。
+> 有关如何使用Client的更多详细信息，请参见[JavaScript Client]({{% ref js-client %}})。
 
 ### DaprServer
 
@@ -47,7 +47,7 @@ const server = new DaprServer({
 });
 ```
 
-> 有关如何使用Server的更多详细信息，请参见[JavaScript Server]({{< ref js-server >}})。
+> 有关如何使用Server的更多详细信息，请参见[JavaScript Server]({{% ref js-server %}})。
 
 ## 自定义LoggerService
 

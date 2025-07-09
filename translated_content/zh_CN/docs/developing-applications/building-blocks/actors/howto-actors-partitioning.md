@@ -8,7 +8,7 @@ aliases:
   - "/zh-hans/developing-applications/building-blocks/actors/actors-background"
 ---
 
-[actor提醒]({{< ref "actors-timers-reminders.md#actor-reminders" >}})在sidecar重启后仍然持久化并继续触发。注册了多个提醒的应用程序可能会遇到以下问题：
+[actor提醒]({{% ref "actors-timers-reminders.md#actor-reminders" %}})在sidecar重启后仍然持久化并继续触发。注册了多个提醒的应用程序可能会遇到以下问题：
 
 - 提醒注册和注销的吞吐量低
 - 基于state存储单个记录大小限制的提醒注册数量有限
@@ -30,9 +30,9 @@ aliases:
 
 与其他actor配置元素类似，actor运行时通过actor的`GET /dapr/config`端点提供适当的配置来分区actor提醒。选择您偏好的语言以获取actor运行时配置示例。
 
-{{< tabs ".NET" JavaScript Python Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 <!--dotnet-->
 
@@ -57,11 +57,11 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-[查看.NET SDK中注册actor的文档]({{< ref "dotnet-actors-usage.md#registring-actors" >}})。
+[查看.NET SDK中注册actor的文档]({{% ref "dotnet-actors-usage.md#registring-actors" %}})。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 <!--javascript-->
 
 ```js
@@ -89,11 +89,11 @@ await actor.registerActorReminder(
 await actor.unregisterActorReminder("reminder-id");
 ```
 
-[查看使用JavaScript SDK编写actor的文档]({{< ref "js-actors.md#registering-actors" >}})。
+[查看使用JavaScript SDK编写actor的文档]({{% ref "js-actors.md#registering-actors" %}})。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 <!--python-->
 
@@ -109,11 +109,11 @@ ActorRuntime.set_actor_config(
 )
 ```
 
-[查看使用Python SDK运行actor的文档]({{< ref "python-actor.md" >}})
+[查看使用Python SDK运行actor的文档]({{% ref "python-actor.md" %}})
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 <!--java-->
 
 ```java
@@ -125,11 +125,11 @@ ActorRuntime.getInstance().getConfig().setActorScanInterval(Duration.ofSeconds(3
 ActorRuntime.getInstance().getConfig().setRemindersStoragePartitions(7);
 ```
 
-[查看使用Java SDK编写actor的文档]({{< ref "java.md#actors" >}})。
+[查看使用Java SDK编写actor的文档]({{% ref "java.md#actors" %}})。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 <!--go-->
 
 ```go
@@ -160,9 +160,9 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 
 [查看使用Go SDK的actor示例](https://github.com/dapr/go-sdk/tree/main/examples/actor)。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 以下是一个有效的提醒分区配置示例：
 
@@ -192,5 +192,5 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 
 ## 相关链接
 
-- [actor API参考]({{< ref actors_api.md >}})
-- [actor概述]({{< ref actors-overview.md >}})
+- [actor API参考]({{% ref actors_api.md %}})
+- [actor概述]({{% ref actors-overview.md %}})

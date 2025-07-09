@@ -15,9 +15,9 @@ Dapr提供了一个专用的机密API，允许开发者从机密存储中检索�
 
 在继续快速入门之前，请选择您偏好的编程语言对应的Dapr SDK。
 
-{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ### 前置条件
 
@@ -122,10 +122,10 @@ Order-processor输出：
 == APP == INFO:root:Fetched Secret: {'secret': 'YourPasskeyHere'}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ### 前置条件
 
@@ -235,10 +235,10 @@ Order-processor输出：
 == APP == Fetched Secret: {"secret":"YourPasskeyHere"}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ### 前置条件
 
@@ -346,10 +346,10 @@ Order-processor输出：
 == APP == Fetched Secret: [secret, YourPasskeyHere]
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ### 前置条件
 
@@ -454,10 +454,10 @@ Order-processor输出：
 == APP == Fetched Secret: {secret=YourPasskeyHere}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ### 前置条件
 
@@ -561,9 +561,9 @@ Order-processor输出：
 == APP == Fetched Secret:  YourPasskeyHere
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 告诉我们您的想法！
 
@@ -579,6 +579,6 @@ Order-processor输出：
   - [.NET](https://github.com/dapr/quickstarts/tree/master/secrets_management/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/secrets_management/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/http)
-- 了解更多关于[机密管理构建块]({{< ref secrets-overview >}})
+- 了解更多关于[机密管理构建块]({{% ref secrets-overview %}})
 
 {{< button text="探索Dapr教程  >>" page="getting-started/tutorials/_index.md" >}}

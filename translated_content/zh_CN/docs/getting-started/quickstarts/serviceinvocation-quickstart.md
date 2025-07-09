@@ -11,18 +11,18 @@ description: "开始使用 Dapr 的服务调用模块"
 <img src="/images/serviceinvocation-quickstart/service-invocation-overview.png" width=800 alt="显示服务调用步骤的图示" style="padding-bottom:25px;">
 
 Dapr 提供了多种服务调用的方法，您可以根据具体需求进行选择。在本教程中，您将启用结账服务，通过 HTTP 代理调用订单处理服务中的方法，具体步骤如下：
-- [使用多应用程序运行模板文件同时运行本示例中的所有应用程序]({{< ref "#run-using-multi-app-run" >}})，或
-- [一次运行一个应用程序]({{< ref "#run-one-application-at-a-time" >}})
+- [使用多应用程序运行模板文件同时运行本示例中的所有应用程序]({{% ref "#run-using-multi-app-run" %}})，或
+- [一次运行一个应用程序]({{% ref "#run-one-application-at-a-time" %}})
 
-在[概述文章]({{< ref service-invocation-overview.md >}})中了解更多关于 Dapr 服务调用方法的信息。
+在[概述文章]({{% ref service-invocation-overview.md %}})中了解更多关于 Dapr 服务调用方法的信息。
 
 ## 使用多应用程序运行
 
 在继续本教程之前，请选择您偏好的编程语言。
 
-{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ### 步骤 1：准备工作
 
@@ -67,7 +67,7 @@ cd ..
 ```bash
 dapr run -f .
 ```
-> **注意**：在 Windows 中，由于未定义 Python3.exe，您可能需要在运行 `dapr run -f .` 之前将 [`dapr.yaml`]({{< ref "#dapryaml-multi-app-run-template-file" >}}) 文件中的 `python3` 更改为 `python`
+> **注意**：在 Windows 中，由于未定义 Python3.exe，您可能需要在运行 `dapr run -f .` 之前将 [`dapr.yaml`]({{% ref "#dapryaml-multi-app-run-template-file" %}}) 文件中的 `python3` 更改为 `python`
 
 **预期输出**
 
@@ -117,11 +117,11 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本教程中运行 `dapr run -f .` 使用 `dapr.yaml` 多应用程序运行模板文件启动了 [订阅者]({{< ref "#order-processor-service" >}}) 和 [发布者]({{< ref "#checkout-service" >}}) 应用程序。
+在本教程中运行 `dapr run -f .` 使用 `dapr.yaml` 多应用程序运行模板文件启动了 [订阅者]({{% ref "#order-processor-service" %}}) 和 [发布者]({{% ref "#checkout-service" %}}) 应用程序。
 
 ##### `dapr.yaml` 多应用程序运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用程序运行模板文件]({{< ref multi-app-dapr-run >}}) 将启动项目中的所有应用程序。在本教程中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用程序运行模板文件]({{% ref multi-app-dapr-run %}}) 将启动项目中的所有应用程序。在本教程中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -165,10 +165,10 @@ result = requests.post(
 )
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ### 步骤 1：准备工作
 
@@ -262,11 +262,11 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本教程中运行 `dapr run -f .` 使用 `dapr.yaml` 多应用程序运行模板文件启动了 [订阅者]({{< ref "#order-processor-service" >}}) 和 [发布者]({{< ref "#checkout-service" >}}) 应用程序。
+在本教程中运行 `dapr run -f .` 使用 `dapr.yaml` 多应用程序运行模板文件启动了 [订阅者]({{% ref "#order-processor-service" %}}) 和 [发布者]({{% ref "#checkout-service" %}}) 应用程序。
 
 ##### `dapr.yaml` 多应用程序运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用程序运行模板文件]({{< ref multi-app-dapr-run >}}) 将启动项目中的所有应用程序。在本教程中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用程序运行模板文件]({{% ref multi-app-dapr-run %}}) 将启动项目中的所有应用程序。在本教程中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -305,10 +305,10 @@ const res = await axios.post(`${DAPR_HOST}:${DAPR_HTTP_PORT}/orders`, order , ax
 console.log("Order passed: " + res.config.data);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ### 步骤 1：准备工作
 
@@ -406,11 +406,11 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本教程中运行 `dapr run -f .` 使用 `dapr.yaml` 多应用程序运行模板文件启动了 [订阅者]({{< ref "#order-processor-service" >}}) 和 [发布者]({{< ref "#checkout-service" >}}) 应用程序。
+在本教程中运行 `dapr run -f .` 使用 `dapr.yaml` 多应用程序运行模板文件启动了 [订阅者]({{% ref "#order-processor-service" %}}) 和 [发布者]({{% ref "#checkout-service" %}}) 应用程序。
 
 ##### `dapr.yaml` 多应用程序运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用程序运行模板文件]({{< ref multi-app-dapr-run >}}) 将启动项目中的所有应用程序。在本教程中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用程序运行模板文件]({{% ref multi-app-dapr-run %}}) 将启动项目中的所有应用程序。在本教程中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -450,10 +450,10 @@ var response = await client.PostAsync($"{baseURL}/orders", content);
     Console.WriteLine("Order passed: " + order);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ### 步骤 1：准备工作
 
@@ -550,11 +550,11 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本教程中运行 `dapr run -f .` 使用 `dapr.yaml` 多应用程序运行模板文件启动了 [订阅者]({{< ref "#order-processor-service" >}}) 和 [发布者]({{< ref "#checkout-service" >}}) 应用程序。
+在本教程中运行 `dapr run -f .` 使用 `dapr.yaml` 多应用程序运行模板文件启动了 [订阅者]({{% ref "#order-processor-service" %}}) 和 [发布者]({{% ref "#checkout-service" %}}) 应用程序。
 
 ##### `dapr.yaml` 多应用程序运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用程序运行模板文件]({{< ref multi-app-dapr-run >}}) 将启动项目中的所有应用程序。在本教程中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用程序运行模板文件]({{% ref multi-app-dapr-run %}}) 将启动项目中的所有应用程序。在本教程中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -591,10 +591,10 @@ HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandle
 System.out.println("Order passed: "+ orderId)
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ### 步骤 1：准备工作
 
@@ -688,11 +688,11 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本教程中运行 `dapr run -f .` 使用 `dapr.yaml` 多应用程序运行模板文件启动了 [订阅者]({{< ref "#order-processor-service" >}}) 和 [发布者]({{< ref "#checkout-service" >}}) 应用程序。
+在本教程中运行 `dapr run -f .` 使用 `dapr.yaml` 多应用程序运行模板文件启动了 [订阅者]({{% ref "#order-processor-service" %}}) 和 [发布者]({{% ref "#checkout-service" %}}) 应用程序。
 
 ##### `dapr.yaml` 多应用程序运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用程序运行模板文件]({{< ref multi-app-dapr-run >}}) 将启动项目中的所有应用程序。在本教程中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用程序运行模板文件]({{% ref multi-app-dapr-run %}}) 将启动项目中的所有应用程序。在本教程中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -730,7 +730,7 @@ req.Header.Add("dapr-app-id", "order-processor")
 response, err := client.Do(req)
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 {{% /tabs %}}
 
@@ -738,9 +738,9 @@ response, err := client.Do(req)
 
 在继续本教程之前，请选择您偏好的编程语言。
 
-{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ### 步骤 1：准备工作
 
@@ -830,7 +830,7 @@ result = requests.post(
 
 ### 步骤 5：使用多应用程序运行
 
-您可以使用 [多应用程序运行模板]({{< ref multi-app-dapr-run >}}) 运行本教程中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用程序运行两个单独的 `dapr run` 命令，只需运行以下命令：
+您可以使用 [多应用程序运行模板]({{% ref multi-app-dapr-run %}}) 运行本教程中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用程序运行两个单独的 `dapr run` 命令，只需运行以下命令：
 
 ```sh
 dapr run -f .
@@ -876,10 +876,10 @@ Dapr 在任何 Dapr 实例上调用应用程序。在代码中，边车编程模
 == APP == Order received: {"orderId": 10}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ### 步骤 1：准备工作
 
@@ -960,7 +960,7 @@ console.log("Order passed: " + res.config.data);
 
 ### 步骤 5：使用多应用程序运行
 
-您可以使用 [多应用程序运行模板]({{< ref multi-app-dapr-run >}}) 运行本教程中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用程序运行两个单独的 `dapr run` 命令，只需运行以下命令：
+您可以使用 [多应用程序运行模板]({{% ref multi-app-dapr-run %}}) 运行本教程中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用程序运行两个单独的 `dapr run` 命令，只需运行以下命令：
 
 ```sh
 dapr run -f .
@@ -1006,10 +1006,10 @@ Dapr 在任何 Dapr 实例上调用应用程序。在代码中，边车编程模
 == APP == Order received: {"orderId": 10}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ### 步骤 1：准备工作
 
@@ -1095,7 +1095,7 @@ var response = await client.PostAsync($"{baseURL}/orders", content);
 
 ### 步骤 5：使用多应用程序运行
 
-您可以使用 [多应用程序运行模板]({{< ref multi-app-dapr-run >}}) 运行本教程中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用程序运行两个单独的 `dapr run` 命令，只需运行以下命令：
+您可以使用 [多应用程序运行模板]({{% ref multi-app-dapr-run %}}) 运行本教程中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用程序运行两个单独的 `dapr run` 命令，只需运行以下命令：
 
 ```sh
 dapr run -f .
@@ -1141,10 +1141,10 @@ Dapr 在任何 Dapr 实例上调用应用程序。在代码中，边车编程模
 == APP == Order received: Order { OrderId: 10 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ### 步骤 1：准备工作
 
@@ -1226,7 +1226,7 @@ System.out.println("Order passed: "+ orderId)
 
 ### 步骤 5：使用多应用程序运行
 
-您可以使用 [多应用程序运行模板]({{< ref multi-app-dapr-run >}}) 运行本教程中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用程序运行两个单独的 `dapr run` 命令，只需运行以下命令：
+您可以使用 [多应用程序运行模板]({{% ref multi-app-dapr-run %}}) 运行本教程中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用程序运行两个单独的 `dapr run` 命令，只需运行以下命令：
 
 ```sh
 dapr run -f .
@@ -1272,10 +1272,10 @@ Dapr 在任何 Dapr 实例上调用应用程序。在代码中，边车编程模
 == APP == Order received: 10
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ### 步骤 1：准备工作
 
@@ -1357,7 +1357,7 @@ response, err := client.Do(req)
 
 ### 步骤 5：使用多应用程序运行
 
-您可以使用 [多应用程序运行模板]({{< ref multi-app-dapr-run >}}) 运行本教程中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用程序运行两个单独的 `dapr run` 命令，只需运行以下命令：
+您可以使用 [多应用程序运行模板]({{% ref multi-app-dapr-run %}}) 运行本教程中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用程序运行两个单独的 `dapr run` 命令，只需运行以下命令：
 
 ```sh
 dapr run -f .
@@ -1403,7 +1403,7 @@ Dapr 在任何 Dapr 实例上调用应用程序。在代码中，边车编程模
 == APP == Order received :  {"orderId":10}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 {{% /tabs %}}
 
@@ -1414,9 +1414,9 @@ Dapr 在任何 Dapr 实例上调用应用程序。在代码中，边车编程模
 
 ## 下一步
 
-- 了解有关 [作为 Dapr 构建块的服务调用]({{< ref service-invocation-overview.md >}}) 的更多信息
+- 了解有关 [作为 Dapr 构建块的服务调用]({{% ref service-invocation-overview.md %}}) 的更多信息
 - 了解更多关于如何使用以下方式调用 Dapr 的服务调用：
-    - [HTTP]({{< ref howto-invoke-discover-services.md >}})，或
-    - [gRPC]({{< ref howto-invoke-services-grpc.md >}})
+    - [HTTP]({{% ref howto-invoke-discover-services.md %}})，或
+    - [gRPC]({{% ref howto-invoke-services-grpc.md %}})
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

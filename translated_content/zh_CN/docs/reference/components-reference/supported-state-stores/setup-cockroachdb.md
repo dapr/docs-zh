@@ -46,7 +46,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串来存储 secret。建议使用 secret 存储来保护 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中使用了明文字符串来存储 secret。建议使用 secret 存储来保护 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -63,9 +63,9 @@ spec:
 
 ## 设置 CockroachDB
 
-{{< tabs "Self-Hosted" "Kubernetes" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 
 1. 运行一个 CockroachDB 实例。您可以使用以下命令在 Docker CE 中运行 CockroachDB 的本地实例：
 
@@ -82,19 +82,19 @@ spec:
     ```bash
     docker exec -it roach1 ./cockroach sql --insecure -e 'create database dapr_test'
     ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 在 Kubernetes 上安装 CockroachDB 的最简单方法是使用 [CockroachDB Operator](https://github.com/cockroachdb/cockroach-operator)：
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% /tabs %}}
+{{% /tabpane %}}
 
 ## 高级
 
 ### TTL 和清理
 
-此状态存储支持 Dapr 存储记录的[生存时间 (TTL)]({{< ref state-store-ttl.md >}})。使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性，以指示数据在多少秒后应被视为“过期”。
+此状态存储支持 Dapr 存储记录的[生存时间 (TTL)]({{% ref state-store-ttl.md %}})。使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性，以指示数据在多少秒后应被视为“过期”。
 
 由于 CockroachDB 没有内置的 TTL 支持，您可以通过在状态表中添加一列来实现这一点，该列指示数据何时应被视为“过期”。即使“过期”记录仍然物理存储在数据库中，也不会返回给调用者。后台“垃圾收集器”定期扫描状态表以删除过期的行。
 
@@ -104,6 +104,6 @@ spec:
 - 如果您不打算在 Dapr 和 CockroachDB 状态存储中使用 TTL，您应考虑将 `cleanupIntervalInSeconds` 设置为 <= 0（例如 `0` 或 `-1`）以禁用定期清理并减少数据库的负载。
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取有关配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取有关配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

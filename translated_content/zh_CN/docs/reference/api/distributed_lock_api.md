@@ -21,7 +21,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/lock/<storename>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | `metadata.name` 字段的组件文件。请参阅[组件模式]({{< ref component-schema.md >}})
+`storename` | `metadata.name` 字段的组件文件。请参阅[组件模式]({{% ref component-schema.md %}})
 
 #### 查询参数
 
@@ -95,7 +95,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/unlock/<storename>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | `metadata.name` 字段的组件文件。请参阅[组件模式]({{< ref component-schema.md >}})
+`storename` | `metadata.name` 字段的组件文件。请参阅[组件模式]({{% ref component-schema.md %}})
 
 #### 查询参数
 

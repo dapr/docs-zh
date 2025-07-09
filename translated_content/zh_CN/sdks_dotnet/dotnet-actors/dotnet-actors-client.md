@@ -111,4 +111,4 @@ Dapr.Actors.ActorMethodInvocationException: 远程 actor 方法异常，详细�
 
 ## 下一步
 
-[了解如何使用 `ActorHost` 编写和运行 actor]({{< ref dotnet-actors-usage.md >}})。
+[了解如何使用 `ActorHost` 编写和运行 actor]({{% ref dotnet-actors-usage.md %}})。

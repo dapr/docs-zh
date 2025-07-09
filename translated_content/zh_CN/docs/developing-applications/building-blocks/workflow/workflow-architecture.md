@@ -6,14 +6,14 @@ weight: 4000
 description: "Dapr 工作流引擎架构"
 ---
 
-[Dapr 工作流]({{< ref "workflow-overview.md" >}}) 允许开发者使用多种编程语言的普通代码定义工作流。工作流引擎运行在 Dapr sidecar 内部，并协调作为应用程序一部分部署的工作流代码。本文描述了：
+[Dapr 工作流]({{% ref "workflow-overview.md" %}}) 允许开发者使用多种编程语言的普通代码定义工作流。工作流引擎运行在 Dapr sidecar 内部，并协调作为应用程序一部分部署的工作流代码。本文描述了：
 
 - Dapr 工作流引擎的架构
 - 工作流引擎如何与应用程序代码交互
 - 工作流引擎如何融入整体 Dapr 架构
 - 不同的工作流后端如何与工作流引擎协作
 
-有关如何在应用程序中编写 Dapr 工作流的更多信息，请参见 [如何：编写工作流]({{< ref "workflow-overview.md" >}})。
+有关如何在应用程序中编写 Dapr 工作流的更多信息，请参见 [如何：编写工作流]({{% ref "workflow-overview.md" %}})。
 
 Dapr 工作流引擎的内部支持来自于 Dapr 的 actor 运行时。下图展示了 Kubernetes 模式下的 Dapr 工作流架构：
 
@@ -84,7 +84,7 @@ Dapr 工作流引擎的内部支持来自于 Dapr 的 actor 运行时。下图�
 | `metadata` | 以 JSON blob 形式包含有关工作流的元信息，包括收件箱的长度、历史的长度以及表示工作流生成的 64 位整数（用于实例 ID 被重用的情况）。长度信息用于确定在加载或保存工作流状态更新时需要读取或写入哪些键。 |
 
 {{% alert title="警告" color="warning" %}}
-在 [Dapr 工作流引擎的 Alpha 版本]({{< ref support-preview-features.md >}}) 中，工作流 actor 状态将在工作流完成后仍保留在状态存储中。创建大量工作流可能导致存储使用不受限制。在未来的版本中，将引入数据保留策略，可以自动清除旧工作流状态的状态存储。
+在 [Dapr 工作流引擎的 Alpha 版本]({{% ref support-preview-features.md %}}) 中，工作流 actor 状态将在工作流完成后仍保留在状态存储中。创建大量工作流可能导致存储使用不受限制。在未来的版本中，将引入数据保留策略，可以自动清除旧工作流状态的状态存储。
 {{% /alert %}}
 
 下图展示了工作流 actor 的典型生命周期。
@@ -122,7 +122,7 @@ Dapr 工作流引擎的内部支持来自于 Dapr 的 actor 运行时。下图�
 
 ### 提醒使用和执行保证
 
-Dapr 工作流通过使用 [actor 提醒]({{< ref "howto-actors.md#actor-timers-and-reminders" >}}) 来确保工作流的容错性，以从瞬态系统故障中恢复。在调用应用程序工作流代码之前，工作流或活动 actor 将创建一个新的提醒。如果应用程序代码执行没有中断，提醒将被删除。然而，如果托管相关工作流或活动的节点或 sidecar 崩溃，提醒将重新激活相应的 actor 并重试执行。
+Dapr 工作流通过使用 [actor 提醒]({{% ref "howto-actors.md#actor-timers-and-reminders" %}}) 来确保工作流的容错性，以从瞬态系统故障中恢复。在调用应用程序工作流代码之前，工作流或活动 actor 将创建一个新的提醒。如果应用程序代码执行没有中断，提醒将被删除。然而，如果托管相关工作流或活动的节点或 sidecar 崩溃，提醒将重新激活相应的 actor 并重试执行。
 
 <img src="/images/workflow-overview/workflow-actor-reminder-flow.png" width=600 alt="展示调用工作流 actor 过程的图示"/>
 
@@ -134,9 +134,9 @@ Dapr 工作流通过使用 [actor 提醒]({{< ref "howto-actors.md#actor-timers-
 
 Dapr 工作流在内部使用 actor 来驱动工作流的执行。像任何 actor 一样，这些内部工作流 actor 将其状态存储在配置的状态存储中。任何支持 actor 的状态存储都隐式支持 Dapr 工作流。
 
-如 [工作流 actor]({{< ref "workflow-architecture.md#workflow-actors" >}}) 部分所述，工作流通过追加到历史日志中增量保存其状态。工作流的历史日志分布在多个状态存储键中，以便每个“检查点”只需追加最新的条目。
+如 [工作流 actor]({{% ref "workflow-architecture.md#workflow-actors" %}}) 部分所述，工作流通过追加到历史日志中增量保存其状态。工作流的历史日志分布在多个状态存储键中，以便每个“检查点”只需追加最新的条目。
 
-每个检查点的大小由工作流在进入空闲状态之前调度的并发操作数决定。[顺序工作流]({{< ref "workflow-overview.md#task-chaining" >}}) 因此将对状态存储进行较小的批量更新，而 [扇出/扇入工作流]({{< ref "workflow-overview.md#fan-outfan-in" >}}) 将需要更大的批量。批量的大小还受到工作流 [调用活动]({{< ref "workflow-features-concepts.md#workflow-activities" >}}) 或 [子工作流]({{< ref "workflow-features-concepts.md#child-workflows" >}}) 时输入和输出大小的影响。
+每个检查点的大小由工作流在进入空闲状态之前调度的并发操作数决定。[顺序工作流]({{% ref "workflow-overview.md#task-chaining" %}}) 因此将对状态存储进行较小的批量更新，而 [扇出/扇入工作流]({{% ref "workflow-overview.md#fan-outfan-in" %}}) 将需要更大的批量。批量的大小还受到工作流 [调用活动]({{% ref "workflow-features-concepts.md#workflow-activities" %}}) 或 [子工作流]({{% ref "workflow-features-concepts.md#child-workflows" %}}) 时输入和输出大小的影响。
 
 <img src="/images/workflow-overview/workflow-state-store-interactions.png" width=600 alt="工作流 actor 状态存储交互图示"/>
 
@@ -201,7 +201,7 @@ spec:
 - 集群中过多活动提醒导致的延迟。
 - 集群中高 CPU 使用率导致的延迟。
 
-有关工作流 actor 设计如何影响执行延迟的更多详细信息，请参见 [提醒使用和执行保证部分]({{< ref "workflow-architecture.md#reminder-usage-and-execution-guarantees" >}})。
+有关工作流 actor 设计如何影响执行延迟的更多详细信息，请参见 [提醒使用和执行保证部分]({{% ref "workflow-architecture.md#reminder-usage-and-execution-guarantees" %}})。
 
 ## 下一步
 
@@ -209,9 +209,9 @@ spec:
 
 ## 相关链接
 
-- [工作流概述]({{< ref workflow-overview.md >}})
-- [工作流 API 参考]({{< ref workflow_api.md >}})
-- [尝试工作流快速入门]({{< ref workflow-quickstart.md >}})
+- [工作流概述]({{% ref workflow-overview.md %}})
+- [工作流 API 参考]({{% ref workflow_api.md %}})
+- [尝试工作流快速入门]({{% ref workflow-quickstart.md %}})
 - 尝试以下示例：
    - [Python](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
    - [JavaScript 示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow)

@@ -27,17 +27,17 @@ description: >
 
 ## 使用Dapr实现应用程序的可观测性
 
-当您利用Dapr API构建块进行服务间调用、发布/订阅消息传递和其他API时，Dapr在[分布式追踪]({{< ref tracing >}})方面提供了优势。由于这种服务间通信通过Dapr运行时（或“sidecar”）流动，Dapr处于一个独特的位置，可以减轻应用程序级别检测的负担。
+当您利用Dapr API构建块进行服务间调用、发布/订阅消息传递和其他API时，Dapr在[分布式追踪]({{% ref tracing %}})方面提供了优势。由于这种服务间通信通过Dapr运行时（或“sidecar”）流动，Dapr处于一个独特的位置，可以减轻应用程序级别检测的负担。
 
 ### 分布式追踪
 
-Dapr可以使用广泛采用的[Open Telemetry (OTEL)](https://opentelemetry.io/)和[Zipkin](https://zipkin.io)协议[配置以发出追踪数据]({{< ref setup-tracing.md >}})。这使得它可以轻松集成到多个可观测性工具中。
+Dapr可以使用广泛采用的[Open Telemetry (OTEL)](https://opentelemetry.io/)和[Zipkin](https://zipkin.io)协议[配置以发出追踪数据]({{% ref setup-tracing.md %}})。这使得它可以轻松集成到多个可观测性工具中。
 
 <img src="/images/observability-tracing.png" width=1000 alt="使用Dapr的分布式追踪">
 
 ### 自动追踪上下文生成
 
-Dapr使用[W3C追踪]({{< ref tracing >}})规范作为追踪上下文的一部分，包含在Open Telemetry (OTEL)中，用于生成和传播应用程序的上下文头或传播用户提供的上下文头。这意味着您可以默认获得Dapr的追踪功能。
+Dapr使用[W3C追踪]({{% ref tracing %}})规范作为追踪上下文的一部分，包含在Open Telemetry (OTEL)中，用于生成和传播应用程序的上下文头或传播用户提供的上下文头。这意味着您可以默认获得Dapr的追踪功能。
 
 ## Dapr sidecar和控制平面的可观测性
 
@@ -50,25 +50,25 @@ Dapr使用[W3C追踪]({{< ref tracing >}})规范作为追踪上下文的一部�
 
 ### 日志记录
 
-Dapr生成[日志]({{< ref logs.md >}})以：
+Dapr生成[日志]({{% ref logs.md %}})以：
 - 提供对sidecar操作的可见性
 - 帮助用户识别问题并进行调试
 
-日志事件包含由Dapr系统服务生成的警告、错误、信息和调试消息。您还可以配置Dapr将日志发送到收集器，如[Open Telemetry Collector]({{< ref otel-collector >}})、[Fluentd]({{< ref fluentd.md >}})、[New Relic]({{< ref "operations/observability/logging/newrelic.md" >}})、[Azure Monitor]({{< ref azure-monitor.md >}})和其他可观测性工具，以便可以搜索和分析日志以提供见解。
+日志事件包含由Dapr系统服务生成的警告、错误、信息和调试消息。您还可以配置Dapr将日志发送到收集器，如[Open Telemetry Collector]({{% ref otel-collector %}})、[Fluentd]({{% ref fluentd.md %}})、[New Relic]({{% ref "operations/observability/logging/newrelic.md" %}})、[Azure Monitor]({{% ref azure-monitor.md %}})和其他可观测性工具，以便可以搜索和分析日志以提供见解。
 
 ### 指标
 
-指标是一系列测量值和计数，随着时间的推移被收集和存储。[Dapr指标]({{< ref metrics >}})提供监控能力，以理解Dapr sidecar和控制平面的行为。例如，Dapr sidecar和用户应用程序之间的指标显示调用延迟、流量失败、请求错误率等。
+指标是一系列测量值和计数，随着时间的推移被收集和存储。[Dapr指标]({{% ref metrics %}})提供监控能力，以理解Dapr sidecar和控制平面的行为。例如，Dapr sidecar和用户应用程序之间的指标显示调用延迟、流量失败、请求错误率等。
 
 Dapr [控制平面指标](https://github.com/dapr/dapr/blob/master/docs/development/dapr-metrics.md)显示sidecar注入失败和控制平面服务的健康状况，包括CPU使用率、actor放置的数量等。
 
 ### 健康检查
 
-Dapr sidecar公开了一个HTTP端点用于[健康检查]({{< ref sidecar-health.md >}})。通过这个API，用户代码或托管环境可以探测Dapr sidecar以确定其状态并识别sidecar准备就绪的问题。
+Dapr sidecar公开了一个HTTP端点用于[健康检查]({{% ref sidecar-health.md %}})。通过这个API，用户代码或托管环境可以探测Dapr sidecar以确定其状态并识别sidecar准备就绪的问题。
 
-相反，Dapr可以配置为探测[您的应用程序的健康状况]({{< ref app-health.md >}})，并对应用程序健康状况的变化做出反应，包括停止pub/sub订阅和短路服务调用。
+相反，Dapr可以配置为探测[您的应用程序的健康状况]({{% ref app-health.md %}})，并对应用程序健康状况的变化做出反应，包括停止pub/sub订阅和短路服务调用。
 
 ## 下一步
 
-- [了解更多关于使用Dapr进行开发的可观测性]({{< ref tracing >}})
-- [了解更多关于使用Dapr进行操作的可观测性]({{< ref tracing >}})
+- [了解更多关于使用Dapr进行开发的可观测性]({{% ref tracing %}})
+- [了解更多关于使用Dapr进行操作的可观测性]({{% ref tracing %}})

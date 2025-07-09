@@ -7,7 +7,7 @@ weight: 1400
 ---
 
 {{% alert title="Alpha" color="primary" %}}
-会话API目前为[alpha]({{< ref "certification-lifecycle.md#certification-levels" >}})阶段。
+会话API目前为[alpha]({{% ref "certification-lifecycle.md#certification-levels" %}})阶段。
 {{% /alert %}}
 
 Dapr提供了一种API，用于与大型语言模型（LLMs）进行交互。通过提示缓存和模糊化个人身份信息（PII）等功能，提升了性能和安全性。
@@ -24,7 +24,7 @@ POST /v1.0-alpha1/conversation/<llm-name>/converse
 
 | 参数 | 描述 |
 | --------- | ----------- |
-| `llm-name` | LLM组件的名称。[查看所有可用会话组件的列表。]({{< ref supported-conversation >}})
+| `llm-name` | LLM组件的名称。[查看所有可用会话组件的列表。]({{% ref supported-conversation %}})
 
 ### 请求体
 
@@ -70,4 +70,4 @@ RESPONSE  = {
 
 ## 下一步
 
-[会话API概述]({{< ref conversation-overview.md >}})
+[会话API概述]({{% ref conversation-overview.md %}})

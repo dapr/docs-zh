@@ -8,7 +8,7 @@ aliases:
 ---
 
 ## 组件格式
-要配置 JetStream 的发布/订阅功能，需要创建一个类型为 `pubsub.jetstream` 的组件。请参考 [pubsub broker 组件文件]({{< ref setup-pubsub.md >}}) 以了解 ConsumerID 的自动生成方式。阅读 [发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) 以获取创建和应用 pubsub 配置的步骤。
+要配置 JetStream 的发布/订阅功能，需要创建一个类型为 `pubsub.jetstream` 的组件。请参考 [pubsub broker 组件文件]({{% ref setup-pubsub.md %}}) 以了解 ConsumerID 的自动生成方式。阅读 [发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}}) 以获取创建和应用 pubsub 配置的步骤。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -103,9 +103,9 @@ spec:
 
 ## 创建 NATS 服务器
 
-{{< tabs "Self-Hosted" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 您可以使用 Docker 在本地运行启用 JetStream 的 NATS 服务器：
 
 ```bash
@@ -113,9 +113,9 @@ docker run -d -p 4222:4222 nats:latest -js
 ```
 
 然后，您可以通过客户端端口与服务器交互：`localhost:4222`。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 使用 [helm](https://github.com/nats-io/k8s/tree/main/helm/charts/nats#jetstream) 在 Kubernetes 上安装 NATS JetStream：
 
 ```bash
@@ -131,9 +131,9 @@ kubectl get svc my-nats
 
 有关 helm chart 设置的更多信息，请参阅 [Helm chart 文档](https://helm.sh/docs/helm/helm_install/)。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 创建 JetStream
 
@@ -169,9 +169,9 @@ spec:
 ```
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) 了解配置 pubsub 组件的说明
-- [Pub/Sub 构建块]({{< ref pubsub >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读 [本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}}) 了解配置 pubsub 组件的说明
+- [Pub/Sub 构建块]({{% ref pubsub %}})
 - [JetStream 文档](https://docs.nats.io/nats-concepts/jetstream)
 - [NATS CLI](https://github.com/nats-io/natscli)
 

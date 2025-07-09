@@ -44,7 +44,7 @@ description: "pubsub API 的基本构建块概述"
 
 <img src="/images/pubsub-overview-publish-API.png" width=1000 style="padding-bottom:25px;">
 
-[查看 Dapr 支持的 pubsub 组件的完整列表]({{< ref supported-pubsub >}})。
+[查看 Dapr 支持的 pubsub 组件的完整列表]({{% ref supported-pubsub %}})。
 
 ## 特性
 
@@ -52,15 +52,15 @@ pubsub API 构建块为您的应用程序带来了多个特性。
 
 ### 使用 Cloud Events 发送消息
 
-为了启用消息路由并为服务之间的每条消息提供额外的上下文，Dapr 使用 [CloudEvents 1.0 规范](https://github.com/cloudevents/spec/tree/v1.0) 作为其消息格式。任何应用程序通过 Dapr 发送到主题的消息都会自动包装在 Cloud Events 信封中，使用 [`Content-Type` 头值]({{< ref "pubsub-overview.md#content-types" >}}) 作为 `datacontenttype` 属性。
+为了启用消息路由并为服务之间的每条消息提供额外的上下文，Dapr 使用 [CloudEvents 1.0 规范](https://github.com/cloudevents/spec/tree/v1.0) 作为其消息格式。任何应用程序通过 Dapr 发送到主题的消息都会自动包装在 Cloud Events 信封中，使用 [`Content-Type` 头值]({{% ref "pubsub-overview.md#content-types" %}}) 作为 `datacontenttype` 属性。
 
-有关更多信息，请阅读 [使用 CloudEvents 进行消息传递]({{< ref pubsub-cloudevents.md >}})，或 [发送不带 CloudEvents 的原始消息]({{< ref pubsub-raw.md >}})。
+有关更多信息，请阅读 [使用 CloudEvents 进行消息传递]({{% ref pubsub-cloudevents.md %}})，或 [发送不带 CloudEvents 的原始消息]({{% ref pubsub-raw.md %}})。
 
 ### 与不使用 Dapr 和 CloudEvents 的应用程序通信
 
 如果您的一个应用程序使用 Dapr 而另一个不使用，您可以为发布者或订阅者禁用 CloudEvent 包装。这允许在无法一次性采用 Dapr 的应用程序中部分采用 Dapr pubsub。
 
-有关更多信息，请阅读 [如何在没有 CloudEvents 的情况下使用 pubsub]({{< ref pubsub-raw.md >}})。
+有关更多信息，请阅读 [如何在没有 CloudEvents 的情况下使用 pubsub]({{% ref pubsub-raw.md %}})。
 
 ### 设置消息内容类型
 
@@ -83,34 +83,34 @@ Dapr 应用程序可以通过支持相同功能的三种订阅类型订阅已发
 | **流式** | 订阅在**用户代码**中定义。流式订阅是动态的，意味着它们允许在运行时添加或删除订阅。它们不需要应用程序中的订阅端点（这是编程式和声明式订阅所需的），使其易于在代码中配置。流式订阅也不需要应用程序配置 sidecar 来接收消息。由于消息被发送到消息处理程序代码，因此流式订阅中没有路由或批量订阅的概念。 |
 | **编程式** | 订阅在**用户代码**中定义。编程式方法实现了静态订阅，并需要在代码中有一个端点。|
 
-有关更多信息，请阅读 [关于订阅类型的订阅]({{< ref subscription-methods.md >}})。
+有关更多信息，请阅读 [关于订阅类型的订阅]({{% ref subscription-methods.md %}})。
 
 ### 重新加载主题订阅
 
 要重新加载以编程方式或声明式定义的主题订阅，需要重新启动 Dapr sidecar。
-通过启用 [`HotReload` 功能门]({{< ref "support-preview-features.md" >}})，可以使 Dapr sidecar 动态重新加载更改的声明式主题订阅，而无需重新启动。
+通过启用 [`HotReload` 功能门]({{% ref "support-preview-features.md" %}})，可以使 Dapr sidecar 动态重新加载更改的声明式主题订阅，而无需重新启动。
 主题订阅的热重载目前是一个预览功能。
 重新加载订阅时，正在传输的消息不受影响。
 
 ### 消息路由
 
-Dapr 提供 [基于内容的路由](https://www.enterpriseintegrationpatterns.com/ContentBasedRouter.html) 模式。[Pubsub 路由]({{< ref howto-route-messages.md >}}) 是此模式的实现，允许开发人员使用表达式根据其内容将 [CloudEvents](https://cloudevents.io) 路由到应用程序中的不同 URI/路径和事件处理程序。如果没有路由匹配，则使用可选的默认路由。随着您的应用程序扩展以支持多个事件版本或特殊情况，这很有用。
+Dapr 提供 [基于内容的路由](https://www.enterpriseintegrationpatterns.com/ContentBasedRouter.html) 模式。[Pubsub 路由]({{% ref howto-route-messages.md %}}) 是此模式的实现，允许开发人员使用表达式根据其内容将 [CloudEvents](https://cloudevents.io) 路由到应用程序中的不同 URI/路径和事件处理程序。如果没有路由匹配，则使用可选的默认路由。随着您的应用程序扩展以支持多个事件版本或特殊情况，这很有用。
 
 此功能适用于声明式和编程式订阅方法。
 
-有关消息路由的更多信息，请阅读 [Dapr pubsub API 参考]({{< ref "pubsub_api.md#provide-routes-for-dapr-to-deliver-topic-events" >}})
+有关消息路由的更多信息，请阅读 [Dapr pubsub API 参考]({{% ref "pubsub_api.md#provide-routes-for-dapr-to-deliver-topic-events" %}})
 
 ### 使用死信主题处理失败的消息
 
-有时，由于各种可能的问题，例如生产者或消费者应用程序中的错误条件或导致应用程序代码出现问题的意外状态更改，消息无法被处理。Dapr 允许开发人员设置死信主题来处理无法传递到应用程序的消息。此功能适用于所有 pubsub 组件，并防止消费者应用程序无休止地重试失败的消息。有关更多信息，请阅读 [死信主题]({{< ref "pubsub-deadletter.md">}})
+有时，由于各种可能的问题，例如生产者或消费者应用程序中的错误条件或导致应用程序代码出现问题的意外状态更改，消息无法被处理。Dapr 允许开发人员设置死信主题来处理无法传递到应用程序的消息。此功能适用于所有 pubsub 组件，并防止消费者应用程序无休止地重试失败的消息。有关更多信息，请阅读 [死信主题]({{% ref "pubsub-deadletter.md" %}})
 
 ### 启用外发模式
 
-Dapr 使开发人员能够使用外发模式在事务性状态存储和任何消息代理之间实现单一事务。有关更多信息，请阅读 [如何启用事务性外发消息]({{< ref howto-outbox.md >}})
+Dapr 使开发人员能够使用外发模式在事务性状态存储和任何消息代理之间实现单一事务。有关更多信息，请阅读 [如何启用事务性外发消息]({{% ref howto-outbox.md %}})
 
 ### 命名空间消费者组
 
-Dapr 通过 [命名空间消费者组]({{< ref howto-namespace >}}) 解决大规模多租户问题。只需在组件元数据中包含 `"{namespace}"` 值，即可允许具有相同 `app-id` 的多个命名空间的应用程序发布和订阅相同的消息代理。
+Dapr 通过 [命名空间消费者组]({{% ref howto-namespace %}}) 解决大规模多租户问题。只需在组件元数据中包含 `"{namespace}"` 值，即可允许具有相同 `app-id` 的多个命名空间的应用程序发布和订阅相同的消息代理。
 
 ### 至少一次保证
 
@@ -133,26 +133,26 @@ Dapr 处理消费者组和竞争消费者模式的负担。在竞争消费者模
 
 并非所有 Dapr pubsub 组件都支持竞争消费者模式。目前，以下（非详尽）pubsub 组件支持此功能：
 
-- [Apache Kafka]({{< ref setup-apache-kafka >}})
-- [Azure Service Bus Queues]({{< ref setup-azure-servicebus-queues >}})
-- [RabbitMQ]({{< ref setup-rabbitmq >}})
-- [Redis Streams]({{< ref setup-redis-pubsub >}})
+- [Apache Kafka]({{% ref setup-apache-kafka %}})
+- [Azure Service Bus Queues]({{% ref setup-azure-servicebus-queues %}})
+- [RabbitMQ]({{% ref setup-rabbitmq %}})
+- [Redis Streams]({{% ref setup-redis-pubsub %}})
 
 ### 为增强安全性设置主题范围
 
-默认情况下，与 pubsub 组件实例关联的所有主题消息对配置了该组件的每个应用程序都是可用的。您可以使用 Dapr 主题范围限制哪个应用程序可以发布或订阅主题。有关更多信息，请阅读：[pubsub 主题范围]({{< ref pubsub-scopes.md >}})。
+默认情况下，与 pubsub 组件实例关联的所有主题消息对配置了该组件的每个应用程序都是可用的。您可以使用 Dapr 主题范围限制哪个应用程序可以发布或订阅主题。有关更多信息，请阅读：[pubsub 主题范围]({{% ref pubsub-scopes.md %}})。
 
 ### 消息生存时间（TTL）
 
-Dapr 可以在每条消息的基础上设置超时消息，这意味着如果消息未从 pubsub 组件中读取，则消息将被丢弃。此超时消息可防止未读消息的积累。如果消息在队列中的时间超过配置的 TTL，则标记为死信。有关更多信息，请阅读 [pubsub 消息 TTL]({{< ref pubsub-message-ttl.md >}})。
+Dapr 可以在每条消息的基础上设置超时消息，这意味着如果消息未从 pubsub 组件中读取，则消息将被丢弃。此超时消息可防止未读消息的积累。如果消息在队列中的时间超过配置的 TTL，则标记为死信。有关更多信息，请阅读 [pubsub 消息 TTL]({{% ref pubsub-message-ttl.md %}})。
 
 ### 发布和订阅批量消息
 
-Dapr 支持在单个请求中发送和接收多条消息。当编写需要发送或接收大量消息的应用程序时，使用批量操作可以通过减少请求总数来实现高吞吐量。有关更多信息，请阅读 [pubsub 批量消息]({{< ref pubsub-bulk.md >}})。
+Dapr 支持在单个请求中发送和接收多条消息。当编写需要发送或接收大量消息的应用程序时，使用批量操作可以通过减少请求总数来实现高吞吐量。有关更多信息，请阅读 [pubsub 批量消息]({{% ref pubsub-bulk.md %}})。
 
 ### 使用 StatefulSets 扩展订阅者
 
-在 Kubernetes 上运行时，使用 StatefulSets 结合 `{podName}` 标记，订阅者可以为每个实例拥有一个粘性 `consumerID`。请参阅 [如何使用 StatefulSets 水平扩展订阅者]({{< ref "howto-subscribe-statefulset.md" >}})。
+在 Kubernetes 上运行时，使用 StatefulSets 结合 `{podName}` 标记，订阅者可以为每个实例拥有一个粘性 `consumerID`。请参阅 [如何使用 StatefulSets 水平扩展订阅者]({{% ref "howto-subscribe-statefulset.md" %}})。
 
 ## 试用 pubsub
 
@@ -162,16 +162,16 @@ Dapr 支持在单个请求中发送和接收多条消息。当编写需要发送
 
 | 快速入门/教程 | 描述 |
 | ------------------- | ----------- |
-| [Pubsub 快速入门]({{< ref pubsub-quickstart.md >}}) | 使用发布和订阅 API 发送和接收消息。 |
+| [Pubsub 快速入门]({{% ref pubsub-quickstart.md %}}) | 使用发布和订阅 API 发送和接收消息。 |
 | [Pubsub 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub) | 演示如何使用 Dapr 启用 pubsub 应用程序。使用 Redis 作为 pubsub 组件。|
 
 ### 直接在您的应用中开始使用 pubsub
 
-想要跳过快速入门？没问题。您可以直接在应用程序中试用 pubsub 构建块来发布消息并订阅主题。在 [安装 Dapr]({{< ref "getting-started/_index.md" >}}) 后，您可以从 [pubsub 如何指南]({{< ref howto-publish-subscribe.md >}}) 开始使用 pubsub API。
+想要跳过快速入门？没问题。您可以直接在应用程序中试用 pubsub 构建块来发布消息并订阅主题。在 [安装 Dapr]({{% ref "getting-started/_index.md" %}}) 后，您可以从 [pubsub 如何指南]({{% ref howto-publish-subscribe.md %}}) 开始使用 pubsub API。
 
 ## 下一步
 
-- 了解 [使用 CloudEvents 进行消息传递]({{< ref pubsub-cloudevents.md >}}) 以及何时可能需要 [发送不带 CloudEvents 的消息]({{< ref pubsub-raw.md >}})。
-- 遵循 [如何：配置具有多个命名空间的 pubsub 组件]({{< ref pubsub-namespaces.md >}})。
-- 查看 [pubsub 组件]({{< ref setup-pubsub >}}) 列表。
-- 阅读 [API 参考]({{< ref pubsub_api.md >}})。
+- 了解 [使用 CloudEvents 进行消息传递]({{% ref pubsub-cloudevents.md %}}) 以及何时可能需要 [发送不带 CloudEvents 的消息]({{% ref pubsub-raw.md %}})。
+- 遵循 [如何：配置具有多个命名空间的 pubsub 组件]({{% ref pubsub-namespaces.md %}})。
+- 查看 [pubsub 组件]({{% ref setup-pubsub %}}) 列表。
+- 阅读 [API 参考]({{% ref pubsub_api.md %}})。

@@ -10,7 +10,7 @@ description: 开始使用 Dapr 工作流构建块
 在快速入门中，Redis 目前用作工作流的状态存储组件。然而，Redis 不支持事务回滚，因此不建议在生产环境中用作 actor 状态存储。
 {{% /alert %}}
 
-让我们来了解一下 Dapr 的[工作流构建块]({{< ref workflow-overview.md >}})。在这个快速入门中，您将创建一个简单的控制台应用程序，演示 Dapr 的工作流编程模型和管理 API。
+让我们来了解一下 Dapr 的[工作流构建块]({{% ref workflow-overview.md %}})。在这个快速入门中，您将创建一个简单的控制台应用程序，演示 Dapr 的工作流编程模型和管理 API。
 
 在本指南中，您将：
 
@@ -21,10 +21,10 @@ description: 开始使用 Dapr 工作流构建块
 <img src="/images/workflow-quickstart-overview.png" width=800 style="padding-bottom:15px;">
 
 在继续快速入门之前，请选择您偏好的 Dapr SDK 语言版本。
-{{< tabs "Python" "JavaScript" ".NET" "Java" Go >}}
+{{< tabpane text=true >}}
 
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 `order-processor` 控制台应用程序启动并管理 `order_processing_workflow`，该工作流模拟从商店购买商品。工作流由五个独特的工作流活动或任务组成：
 
@@ -74,7 +74,7 @@ cd ..
 
 ### 步骤 3：运行订单处理器应用程序
 
-在终端中，使用 [Multi-App Run]({{< ref multi-app-dapr-run >}}) 启动订单处理器应用程序及其 Dapr 边车。从 `python/sdk` 目录运行以下命令：
+在终端中，使用 [Multi-App Run]({{% ref multi-app-dapr-run %}}) 启动订单处理器应用程序及其 Dapr 边车。从 `python/sdk` 目录运行以下命令：
 
 ```bash
 dapr run -f .
@@ -270,10 +270,10 @@ if __name__ == '__main__':
         message=f'Order {order_id} has completed!'))
     return OrderResult(processed=True) 
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 `order-processor` 控制台应用程序启动并管理订单处理工作流的生命周期，该工作流在状态存储中存储和检索数据。工作流由四个工作流活动或任务组成：
 
@@ -317,7 +317,7 @@ npm run build
 
 ### 步骤 3：运行订单处理器应用程序
 
-在终端中，使用 [Multi-App Run]({{< ref multi-app-dapr-run >}}) 启动订单处理器应用程序及其 Dapr 边车。从 `javascript/sdk` 目录运行以下命令：
+在终端中，使用 [Multi-App Run]({{% ref multi-app-dapr-run %}}) 启动订单处理器应用程序及其 Dapr 边车。从 `javascript/sdk` 目录运行以下命令：
 
 ```bash
 dapr run -f .
@@ -488,10 +488,10 @@ start().catch((e) => {
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 `order-processor` 控制台应用程序启动并管理订单处理工作流的生命周期，该工作流在状态存储中存储和检索数据。工作流由四个工作流活动或任务组成：
 
@@ -541,7 +541,7 @@ cd ..
 
 ### 步骤 3：运行订单处理器应用程序
 
-在终端中，使用 [Multi-App Run]({{< ref multi-app-dapr-run >}}) 启动订单处理器应用程序及其 Dapr 边车。从 `csharp/sdk` 目录运行以下命令：
+在终端中，使用 [Multi-App Run]({{% ref multi-app-dapr-run %}}) 启动订单处理器应用程序及其 Dapr 边车。从 `csharp/sdk` 目录运行以下命令：
 
 ```bash
 dapr run -f .
@@ -749,10 +749,10 @@ class OrderProcessingWorkflow : Workflow<OrderPayload, OrderResult>
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/BxiKpEmchgQ?start=2564" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 `order-processor` 控制台应用程序启动并管理订单处理工作流的生命周期，该工作流在状态存储中存储和检索数据。工作流由四个工作流活动或任务组成：
 
@@ -804,7 +804,7 @@ cd ..
 
 ### 步骤 3：运行订单处理器应用程序
 
-在终端中，使用 [Multi-App Run]({{< ref multi-app-dapr-run >}}) 启动订单处理器应用程序及其 Dapr 边车。从 `java/sdk` 目录运行以下命令：
+在终端中，使用 [Multi-App Run]({{% ref multi-app-dapr-run %}}) 启动订单处理器应用程序及其 Dapr 边车。从 `java/sdk` 目录运行以下命令：
 
 ```bash
 cd workflows/java/sdk
@@ -1096,10 +1096,10 @@ public class OrderProcessingWorkflow extends Workflow {
 - [`ProcessPaymentActivity`](https://github.com/dapr/quickstarts/tree/master/workflows/java/sdk/order-processor/src/main/java/io/dapr/quickstarts/workflows/activities/ProcessPaymentActivity.java)
 - [`UpdateInventoryActivity`](https://github.com/dapr/quickstarts/tree/master/workflows/java/sdk/order-processor/src/main/java/io/dapr/quickstarts/workflows/activities/UpdateInventoryActivity.java)
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 `order-processor` 控制台应用程序启动并管理 `OrderProcessingWorkflow` 工作流，该工作流模拟从商店购买商品。工作流由五个独特的工作流活动或任务组成：
 
@@ -1137,7 +1137,7 @@ cd workflows/go/sdk
 
 ### 步骤 3：运行订单处理器应用程序
 
-在终端中，使用 [Multi-App Run]({{< ref multi-app-dapr-run >}}) 启动订单处理器应用程序及其 Dapr 边车。从 `go/sdk` 目录运行以下命令：
+在终端中，使用 [Multi-App Run]({{% ref multi-app-dapr-run %}}) 启动订单处理器应用程序及其 Dapr 边车。从 `go/sdk` 目录运行以下命令：
 
 ```bash
 dapr run -f .
@@ -1339,10 +1339,10 @@ func restockInventory(daprClient client.Client, inventory []InventoryItem) error
 
 同时，`OrderProcessingWorkflow` 及其活动在 [`workflow.go`](https://github.com/dapr/quickstarts/workflows/go/sdk/order-processor/workflow.go) 中定义为方法
 
-{{% /codetab %}}
+{{% /tab %}}
 
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 告诉我们您的想法！
 
@@ -1352,8 +1352,8 @@ func restockInventory(daprClient client.Client, inventory []InventoryItem) error
 
 ## 下一步
 
-- 使用任何编程语言设置 Dapr 工作流，使用 [HTTP 而不是 SDK]({{< ref howto-manage-workflow.md >}})
+- 使用任何编程语言设置 Dapr 工作流，使用 [HTTP 而不是 SDK]({{% ref howto-manage-workflow.md %}})
 - 通过更深入的 [.NET SDK 示例工作流](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow) 进行学习
-- 了解有关 [工作流作为 Dapr 构建块]({{< ref workflow-overview >}}) 的更多信息
+- 了解有关 [工作流作为 Dapr 构建块]({{% ref workflow-overview %}}) 的更多信息
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

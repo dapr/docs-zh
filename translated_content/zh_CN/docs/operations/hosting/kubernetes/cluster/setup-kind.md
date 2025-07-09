@@ -151,7 +151,7 @@ description: >
    ```
 
 ## 相关链接
-- [尝试 Dapr 快速入门]({{< ref quickstarts.md >}})
-- 学习如何[在您的集群上部署 Dapr]({{< ref kubernetes-deploy.md >}})
-- [在 Kubernetes 上升级 Dapr]({{< ref kubernetes-upgrade.md >}})
-- [Kubernetes 生产指南]({{< ref kubernetes-production.md >}})
+- [尝试 Dapr 快速入门]({{% ref quickstarts.md %}})
+- 学习如何[在您的集群上部署 Dapr]({{% ref kubernetes-deploy.md %}})
+- [在 Kubernetes 上升级 Dapr]({{% ref kubernetes-upgrade.md %}})
+- [Kubernetes 生产指南]({{% ref kubernetes-production.md %}})

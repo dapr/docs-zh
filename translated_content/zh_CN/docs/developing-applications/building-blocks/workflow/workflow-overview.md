@@ -33,19 +33,19 @@ Dapr 工作流可以应用于以下场景：
 - 工作流中的基本工作单元
 - 用于调用其他（Dapr）服务、与状态存储交互以及发布订阅代理。
 
-[了解更多关于工作流活动的信息。]({{< ref "workflow-features-concepts.md##workflow-activities" >}})
+[了解更多关于工作流活动的信息。]({{% ref "workflow-features-concepts.md##workflow-activities" %}})
 
 ### 子工作流
 
 除了活动之外，您还可以编写工作流以调度其他工作流作为子工作流。子工作流具有独立于启动它的父工作流的实例 ID、历史记录和状态，除了终止父工作流会终止由其创建的所有子工作流这一事实。子工作流还支持自动重试策略。
 
-[了解更多关于子工作流的信息。]({{< ref "workflow-features-concepts.md#child-workflows" >}})
+[了解更多关于子工作流的信息。]({{% ref "workflow-features-concepts.md#child-workflows" %}})
 
 ### 定时器和提醒
 
 与 Dapr actor 相同，您可以为任何时间范围安排类似提醒的持久延迟。
 
-[了解更多关于工作流定时器]({{< ref "workflow-features-concepts.md#durable-timers" >}})和[提醒]({{< ref "workflow-architecture.md#reminder-usage-and-execution-guarantees" >}})
+[了解更多关于工作流定时器]({{% ref "workflow-features-concepts.md#durable-timers" %}})和[提醒]({{% ref "workflow-architecture.md#reminder-usage-and-execution-guarantees" %}})
 
 ### 使用 HTTP 调用管理工作流
 
@@ -57,13 +57,13 @@ Dapr 工作流可以应用于以下场景：
 - 通过 POST 请求从您的状态存储中清除
 - 通过 GET 请求查询工作流状态
 
-[了解更多关于如何使用 HTTP 调用管理工作流的信息。]({{< ref workflow_api.md >}})
+[了解更多关于如何使用 HTTP 调用管理工作流的信息。]({{% ref workflow_api.md %}})
 
 ## 工作流模式
 
 Dapr 工作流简化了微服务架构中复杂的、有状态的协调需求。以下部分描述了可以从 Dapr 工作流中受益的几种应用程序模式。
 
-了解更多关于[不同类型的工作流模式]({{< ref workflow-patterns.md >}})
+了解更多关于[不同类型的工作流模式]({{% ref workflow-patterns.md %}})
 
 ## 工作流 SDK
 
@@ -89,7 +89,7 @@ Dapr 工作流 _编写 SDK_ 是特定语言的 SDK，包含用于实现工作流
 
 | 快速入门/教程 | 描述 |
 | ------------------- | ----------- |
-| [工作流快速入门]({{< ref workflow-quickstart.md >}}) | 运行一个包含四个工作流活动的工作流应用程序，查看 Dapr 工作流的实际应用 |
+| [工作流快速入门]({{% ref workflow-quickstart.md %}}) | 运行一个包含四个工作流活动的工作流应用程序，查看 Dapr 工作流的实际应用 |
 | [工作流 Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow) | 了解如何使用 Python `dapr-ext-workflow` 包创建和调用 Dapr 工作流。 |
 | [工作流 JavaScript SDK 示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow) | 了解如何使用 JavaScript SDK 创建和调用 Dapr 工作流。 |
 | [工作流 .NET SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow) | 了解如何使用 ASP.NET Core web API 创建和调用 Dapr 工作流。 |
@@ -98,7 +98,7 @@ Dapr 工作流 _编写 SDK_ 是特定语言的 SDK，包含用于实现工作流
 
 ### 直接在您的应用中开始使用工作流
 
-想要跳过快速入门？没问题。您可以直接在您的应用程序中试用工作流构建块。在[Dapr 安装完成后]({{< ref install-dapr-cli.md >}})，您可以开始使用工作流，从[如何编写工作流]({{< ref howto-author-workflow.md >}})开始。
+想要跳过快速入门？没问题。您可以直接在您的应用程序中试用工作流构建块。在[Dapr 安装完成后]({{% ref install-dapr-cli.md %}})，您可以开始使用工作流，从[如何编写工作流]({{% ref howto-author-workflow.md %}})开始。
 
 ## 限制
 
@@ -116,7 +116,7 @@ Dapr 工作流 _编写 SDK_ 是特定语言的 SDK，包含用于实现工作流
 
 ## 相关链接
 
-- [工作流 API 参考]({{< ref workflow_api.md >}})
+- [工作流 API 参考]({{% ref workflow_api.md %}})
 - 试用完整的 SDK 示例：
   - [Python 示例](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
   - [JavaScript 示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow)

@@ -55,7 +55,7 @@ Kubernetes `Deployments` 每个集群安装一次。根据可用资源，Kuberne
 ## 开始使用 Dapr Shared
 
 {{% alert title="先决条件" color="primary" %}}
-在安装 Dapr Shared 之前，请确保您已在集群中[安装 Dapr]({{< ref "kubernetes-deploy.md" >}})。
+在安装 Dapr Shared 之前，请确保您已在集群中[安装 Dapr]({{% ref "kubernetes-deploy.md" %}})。
 {{% /alert %}}
 
 如果您想开始使用 Dapr Shared，可以通过安装官方 Helm Chart 创建一个新的 Dapr Shared 实例：

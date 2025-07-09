@@ -186,4 +186,4 @@ description: "如何在 Kubernetes 中安装 Fluentd、Elastic Search 和 Kibana
 * [Elastic search helm chart](https://github.com/elastic/helm-charts/tree/master/elasticsearch)
 * [Kibana helm chart](https://github.com/elastic/helm-charts/tree/master/kibana)
 * [Kibana 查询语言](https://www.elastic.co/guide/en/kibana/current/kuery-query.html)
-* [使用日志进行故障排除]({{< ref "logs-troubleshooting.md" >}})
+* [使用日志进行故障排除]({{% ref "logs-troubleshooting.md" %}})

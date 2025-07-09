@@ -22,7 +22,7 @@ dapr run --app-id nodeapp --app-port 3000 --dapr-http-port 3500 app.js
 
 ## 先决条件
 
-- 安装 [Dapr 扩展]({{< ref vscode-dapr-extension.md >}})。您将在后续步骤中使用它提供的 [tasks](https://code.visualstudio.com/docs/editor/tasks)。
+- 安装 [Dapr 扩展]({{% ref vscode-dapr-extension.md %}})。您将在后续步骤中使用它提供的 [tasks](https://code.visualstudio.com/docs/editor/tasks)。
 - 可选地克隆 [hello world 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world)
 
 ## 步骤 1：配置 launch.json
@@ -30,7 +30,7 @@ dapr run --app-id nodeapp --app-port 3000 --dapr-http-port 3500 app.js
 文件 `.vscode/launch.json` 包含 VS Code 调试运行的 [启动配置](https://code.visualstudio.com/Docs/editor/debugging#_launch-configurations)。该文件定义了用户开始调试时将启动什么以及如何配置。每种编程语言的配置都可以在 [Visual Studio Code marketplace](https://marketplace.visualstudio.com/VSCode) 中找到。
 
 {{% alert title="生成调试配置" color="primary" %}}
-[Dapr VSCode 扩展]({{< ref vscode-dapr-extension.md >}}) 提供内置的脚手架来为您生成 `launch.json` 和 `tasks.json`。
+[Dapr VSCode 扩展]({{% ref vscode-dapr-extension.md %}}) 提供内置的脚手架来为您生成 `launch.json` 和 `tasks.json`。
 
 {{< button text="了解更多" page="vscode-dapr-extension#scaffold-dapr-components" >}}
 {{% /alert %}}
@@ -195,6 +195,6 @@ dapr run --app-id nodeapp --app-port 3000 --dapr-http-port 3500 app.js
 
 ## 相关链接
 
-- [Visual Studio Code 扩展概述]({{< ref vscode-dapr-extension.md >}})
+- [Visual Studio Code 扩展概述]({{% ref vscode-dapr-extension.md %}})
 - [Visual Studio Code 调试](https://code.visualstudio.com/docs/editor/debugging)
 `

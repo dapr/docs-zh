@@ -13,9 +13,9 @@ Dapr运行时，会将其配置的命名空间与加载的组件的命名空间�
 ## 命名空间
 命名空间可以用来限制组件对特定Dapr实例的访问。
 
-{{< tabs "Self-Hosted" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 在自托管模式下，开发者可以通过设置`NAMESPACE`环境变量来为Dapr实例指定命名空间。
 如果设置了`NAMESPACE`环境变量，Dapr将不会加载任何在其元数据中未指定相同命名空间的组件。
 
@@ -48,9 +48,9 @@ Windows:
 setx NAMESPACE "production"
 # 像往常一样运行Dapr
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 让我们考虑以下在Kubernetes中的组件：
 
 ```yaml
@@ -68,14 +68,14 @@ spec:
 ```
 
 在这个例子中，Redis组件仅对运行在`production`命名空间内的Dapr实例可访问。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 {{% alert title="注意" color="primary" %}}
 应用于命名空间"A"的组件YAML可以*引用*命名空间"B"中的实现。例如，命名空间"production-A"中的Redis组件YAML可以将Redis主机地址指向部署在命名空间"production-B"中的Redis实例。
 
-参见[配置具有多个命名空间的Pub/Sub组件]({{< ref "pubsub-namespaces.md" >}})以获取示例。
+参见[配置具有多个命名空间的Pub/Sub组件]({{% ref "pubsub-namespaces.md" %}})以获取示例。
 {{% /alert %}}
 
 ## 应用程序对具有范围的组件的访问
@@ -107,13 +107,13 @@ scopes:
 </div>
 
 ## 使用命名空间进行服务调用
-阅读[跨命名空间的服务调用]({{< ref "service-invocation-namespaces.md" >}})以获取有关在服务之间调用时使用命名空间的更多信息。
+阅读[跨命名空间的服务调用]({{% ref "service-invocation-namespaces.md" %}})以获取有关在服务之间调用时使用命名空间的更多信息。
 
 ## 使用命名空间进行pub/sub
-阅读[配置具有多个命名空间的Pub/Sub组件]({{< ref "pubsub-namespaces.md" >}})以获取有关在pub/sub中使用命名空间的更多信息。
+阅读[配置具有多个命名空间的Pub/Sub组件]({{% ref "pubsub-namespaces.md" %}})以获取有关在pub/sub中使用命名空间的更多信息。
 
 ## 相关链接
 
-- [配置具有多个命名空间的Pub/Sub组件]({{< ref "pubsub-namespaces.md" >}})
-- [使用secret范围]({{< ref "secrets-scopes.md" >}})
-- [限制可以从secret存储中读取的secret]({{< ref "secret-scope.md" >}})
+- [配置具有多个命名空间的Pub/Sub组件]({{% ref "pubsub-namespaces.md" %}})
+- [使用secret范围]({{% ref "secrets-scopes.md" %}})
+- [限制可以从secret存储中读取的secret]({{% ref "secret-scope.md" %}})

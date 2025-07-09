@@ -21,9 +21,9 @@ description: 修改默认 Dapr actor 运行时配置行为
 
 ## 示例
 
-{{< tabs ".NET" JavaScript Python Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 ```csharp
 // 在 Startup.cs 中
 public void ConfigureServices(IServiceCollection services)
@@ -59,11 +59,11 @@ public void ConfigureServices(IServiceCollection services)
     services.AddSingleton<BankService>();
 }
 ```
-[查看 .NET SDK 文档以注册 actor]({{< ref "dotnet-actors-usage.md#registring-actors" >}})。
+[查看 .NET SDK 文档以注册 actor]({{% ref "dotnet-actors-usage.md#registring-actors" %}})。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 <!--javascript-->
 
@@ -93,11 +93,11 @@ const server = new DaprServer(serverHost, serverPort, daprHost, daprPort, client
 const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP, clientOptions);
 ```
 
-[查看使用 JavaScript SDK 编写 actor 的文档]({{< ref "js-actors.md#registering-actors" >}})。
+[查看使用 JavaScript SDK 编写 actor 的文档]({{% ref "js-actors.md#registering-actors" %}})。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 <!--python-->
 
@@ -117,11 +117,11 @@ ActorRuntime.set_actor_config(
 )
 ```
 
-[查看使用 Python SDK 运行 actor 的文档]({{< ref "python-actor.md" >}})
+[查看使用 Python SDK 运行 actor 的文档]({{% ref "python-actor.md" %}})
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 <!--java-->
 
@@ -137,11 +137,11 @@ ActorRuntime.getInstance().getConfig().setActorReentrancyConfig(false, null);
 ActorRuntime.getInstance().getConfig().setRemindersStoragePartitions(7);
 ```
 
-[查看使用 Java SDK 编写 actor 的文档]({{< ref "java.md#actors" >}})。
+[查看使用 Java SDK 编写 actor 的文档]({{% ref "java.md#actors" %}})。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 <!--go-->
 
 ```go
@@ -191,9 +191,9 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 
 [查看使用 Go SDK 的 actor 示例](https://github.com/dapr/go-sdk/tree/main/examples/actor)。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 
@@ -201,6 +201,6 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 
 ## 相关链接
 
-- 参考 [Dapr SDK 文档和示例]({{< ref "developing-applications/sdks/#sdk-languages" >}})。
-- [actor API 参考]({{< ref actors_api.md >}})
-- [actor 概述]({{< ref actors-overview.md >}})
+- 参考 [Dapr SDK 文档和示例]({{% ref "developing-applications/sdks/#sdk-languages" %}})。
+- [actor API 参考]({{% ref actors_api.md %}})
+- [actor 概述]({{% ref actors-overview.md %}})

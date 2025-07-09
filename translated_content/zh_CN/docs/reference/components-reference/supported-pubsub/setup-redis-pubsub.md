@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 Redis Streams pub/sub，创建一个类型为 `pubsub.redis` 的组件。请参阅 [pub/sub broker 组件文件]({{< ref setup-pubsub.md >}}) 了解 ConsumerID 是如何自动生成的。阅读 [操作指南：发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) 了解如何创建和应用 pub/sub 配置。
+要设置 Redis Streams pub/sub，创建一个类型为 `pubsub.redis` 的组件。请参阅 [pub/sub broker 组件文件]({{% ref setup-pubsub.md %}}) 了解 ConsumerID 是如何自动生成的。阅读 [操作指南：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}}) 了解如何创建和应用 pub/sub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -33,7 +33,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，具体方法请参阅 [此处]({{< ref component-secrets.md >}})。
+上述示例使用了明文字符串作为密钥。建议使用密钥存储来保护密钥，具体方法请参阅 [此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -43,11 +43,11 @@ spec:
 | redisHost          | Y        | Redis 主机的连接字符串。如果 `"redisType"` 是 `"cluster"`，可以是多个主机用逗号分隔，或仅一个主机 | `localhost:6379`, `redis-master.default.svc.cluster.local:6379`
 | redisPassword      | N        | Redis 主机的密码。无默认值。可以是 `secretKeyRef` 以使用密钥引用 | `""`, `"KeFg23!"`
 | redisUsername      | N        | Redis 主机的用户名。默认为空。确保您的 Redis 服务器版本为 6 或更高，并正确创建了 ACL 规则。 | `""`, `"default"`
-| consumerID         | N        | 消费者组 ID。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
-| useEntraID | N | 实现对 Azure Cache for Redis 的 EntraID 支持。启用此功能之前：<ul><li>必须以 `"server:port"` 的形式指定 `redisHost` 名称</li><li>必须启用 TLS</li></ul> 了解更多关于此设置的信息，请参阅 [创建 Redis 实例 > Azure Cache for Redis]({{< ref "#setup-redis" >}}) | `"true"`, `"false"` |
+| consumerID         | N        | 消费者组 ID。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
+| useEntraID | N | 实现对 Azure Cache for Redis 的 EntraID 支持。启用此功能之前：<ul><li>必须以 `"server:port"` 的形式指定 `redisHost` 名称</li><li>必须启用 TLS</li></ul> 了解更多关于此设置的信息，请参阅 [创建 Redis 实例 > Azure Cache for Redis]({{% ref "#setup-redis" %}}) | `"true"`, `"false"` |
 | enableTLS          | N        | 如果 Redis 实例支持带有公共证书的 TLS，可以配置为启用或禁用。默认为 `"false"` | `"true"`, `"false"` |
-| clientCert        | N        | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，并且 `enableTLS` 必须设置为 true。建议使用密钥存储，如 [此处]({{< ref component-secrets.md >}}) 所述 | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
-| clientKey        | N        | 客户端私钥的内容，与 `clientCert` 一起用于身份验证。建议使用密钥存储，如 [此处]({{< ref component-secrets.md >}}) 所述 | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
+| clientCert        | N        | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，并且 `enableTLS` 必须设置为 true。建议使用密钥存储，如 [此处]({{% ref component-secrets.md %}}) 所述 | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
+| clientKey        | N        | 客户端私钥的内容，与 `clientCert` 一起用于身份验证。建议使用密钥存储，如 [此处]({{% ref component-secrets.md %}}) 所述 | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
 | redeliverInterval  | N        | 检查待处理消息以重新传递的间隔。可以使用 Go duration 字符串（例如 "ms", "s", "m"）或毫秒数。默认为 `"60s"`。`"0"` 禁用重新传递。 | `"30s"`, `"5000"`
 | processingTimeout  | N        | 消息在尝试重新传递之前必须挂起的时间量。可以使用 Go duration 字符串（例如 "ms", "s", "m"）或毫秒数。默认为 `"15s"`。`"0"` 禁用重新传递。 | `"60s"`, `"600000"`
 | queueDepth         | N        | 处理消息的队列大小。默认为 `"100"`。 | `"1000"`
@@ -74,14 +74,14 @@ spec:
 
 Dapr 可以使用任何 Redis 实例 - 无论是容器化的、在本地开发机器上运行的，还是托管的云服务，只要 Redis 的版本是 5.x 或 6.x。
 
-{{< tabs "Self-Hosted" "Kubernetes" "AWS" "Azure" "GCP" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 Dapr CLI 会自动为您创建并设置一个 Redis Streams 实例。
 当您运行 `dapr init` 时，Redis 实例将通过 Docker 安装，并且组件文件将创建在默认目录中。(`$HOME/.dapr/components` 目录 (Mac/Linux) 或 `%USERPROFILE%\.dapr\components` 在 Windows 上)。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 您可以使用 [Helm](https://helm.sh/) 快速在 Kubernetes 集群中创建一个 Redis 实例。此方法需要 [安装 Helm](https://github.com/helm/helm#install)。
 
 1. 将 Redis 安装到您的集群中。
@@ -110,13 +110,13 @@ Dapr CLI 会自动为您创建并设置一个 Redis Streams 实例。
         - name: redisPassword
           value: "lhDOkwTlp0"
     ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="AWS" %}}
 [AWS Redis](https://aws.amazon.com/redis/)
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Azure" %}}
 1. [使用官方 Microsoft 文档创建 Azure Cache for Redis 实例。](https://docs.microsoft.com/azure/azure-cache-for-redis/quickstart-create-redis)
 
 1. 一旦您的实例创建完成，从 Azure 门户获取主机名（FQDN）和您的访问密钥。
@@ -133,7 +133,7 @@ Dapr CLI 会自动为您创建并设置一个 Redis Streams 实例。
 
 1. 将 `redisHost` 键设置为 `[上一步中的主机名]:6379`，并将 `redisPassword` 键设置为您之前保存的密钥。
 
-   **注意：** 在生产级应用程序中，请按照 [密钥管理]({{< ref component-secrets.md >}}) 指南安全地管理您的密钥。
+   **注意：** 在生产级应用程序中，请按照 [密钥管理]({{% ref component-secrets.md %}}) 指南安全地管理您的密钥。
 
 1. 启用 EntraID 支持：
    - 在您的 Azure Redis 服务器上启用 Entra ID 身份验证。这可能需要几分钟。
@@ -141,21 +141,21 @@ Dapr CLI 会自动为您创建并设置一个 Redis Streams 实例。
 
 1. 将 `enableTLS` 设置为 `"true"` 以支持 TLS。
 
-> **注意：**`useEntraID` 假设您的 UserPrincipal（通过 AzureCLICredential）或 SystemAssigned 托管身份具有 RedisDataOwner 角色权限。如果使用用户分配的身份，[您需要指定 `azureClientID` 属性]({{< ref "howto-mi.md#set-up-identities-in-your-component" >}})。
+> **注意：**`useEntraID` 假设您的 UserPrincipal（通过 AzureCLICredential）或 SystemAssigned 托管身份具有 RedisDataOwner 角色权限。如果使用用户分配的身份，[您需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="GCP" %}}
 [GCP Cloud MemoryStore](https://cloud.google.com/memorystore/)
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 {{% alert title="注意" color="primary" %}}
 Dapr CLI 在 selfhost 模式下作为 `dapr init` 命令的一部分自动部署本地 redis 实例。
 {{% /alert %}}
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) 以获取配置 pub/sub 组件的说明
-- [Pub/Sub 构建块]({{< ref pubsub >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读 [本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}}) 以获取配置 pub/sub 组件的说明
+- [Pub/Sub 构建块]({{% ref pubsub %}})

@@ -57,7 +57,7 @@ AKS Edge Essentials 不自带默认存储类，这可能会导致在部署 Dapr 
 
 ## 相关链接
 
-- 了解更多关于 [AKS 的 Dapr 扩展]({{< ref azure-kubernetes-service-extension >}})
+- 了解更多关于 [AKS 的 Dapr 扩展]({{% ref azure-kubernetes-service-extension %}})
    - [安装 AKS 的 Dapr 扩展](https://learn.microsoft.com/azure/aks/dapr)
    - [配置 AKS 的 Dapr 扩展](https://learn.microsoft.com/azure/aks/dapr-settings)
    - [使用 AKS 的 Dapr 扩展部署和运行工作流](https://learn.microsoft.com/azure/aks/dapr-workflow)

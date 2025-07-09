@@ -7,7 +7,7 @@ description: Redis 锁组件的详细介绍
 
 ## 组件格式
 
-要配置 Redis 锁，需要创建一个类型为 `lock.redis` 的组件。请参阅[本指南]({{< ref "howto-use-distributed-lock" >}})了解如何创建锁。
+要配置 Redis 锁，需要创建一个类型为 `lock.redis` 的组件。请参阅[本指南]({{% ref "howto-use-distributed-lock" %}})了解如何创建锁。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -73,7 +73,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上面的示例中，secret 是以明文字符串形式使用的。建议使用 secret 存储来保存这些 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上面的示例中，secret 是以明文字符串形式使用的。建议使用 secret 存储来保存这些 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -83,7 +83,7 @@ spec:
 | redisHost          | Y    | Redis 主机的连接字符串  | `localhost:6379`, `redis-master.default.svc.cluster.local:6379`
 | redisPassword      | N    | Redis 主机的密码。无默认值。可以是 `secretKeyRef` 以使用 secret 引用  | `""`, `"KeFg23!"`
 | redisUsername      | N    | Redis 主机的用户名。默认为空。确保您的 Redis 服务器版本为 6 或更高，并正确创建了 ACL 规则。 | `""`, `"default"`
-| useEntraID | N | 为 Azure Cache for Redis 实现 EntraID 支持。启用此功能之前：<ul><li>`redisHost` 名称必须以 `"server:port"` 的形式指定</li><li>必须启用 TLS</li></ul> 在[创建 Redis 实例 > Azure Cache for Redis]({{< ref "#setup-redis" >}})下了解有关此设置的更多信息 | `"true"`, `"false"` |
+| useEntraID | N | 为 Azure Cache for Redis 实现 EntraID 支持。启用此功能之前：<ul><li>`redisHost` 名称必须以 `"server:port"` 的形式指定</li><li>必须启用 TLS</li></ul> 在[创建 Redis 实例 > Azure Cache for Redis]({{% ref "#setup-redis" %}})下了解有关此设置的更多信息 | `"true"`, `"false"` |
 | enableTLS          | N    | 如果 Redis 实例支持带有公共证书的 TLS，可以配置为启用或禁用。默认为 `"false"` | `"true"`, `"false"`
 | maxRetries         | N    | 放弃前的最大重试次数。默认为 `3` | `5`, `10`
 | maxRetryBackoff    | N    | 每次重试之间的最大退避时间。默认为 `2` 秒；`"-1"` 禁用退避。 | `3000000000`
@@ -110,13 +110,13 @@ spec:
 
 Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上运行的或托管的云服务。
 
-{{< tabs "Self-Hosted" "Kubernetes" "AWS" "Azure" "GCP" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 当您运行 `dapr init` 时，会自动创建一个作为 Docker 容器的 Redis 实例
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 您可以使用 [Helm](https://helm.sh/) 在我们的 Kubernetes 集群中快速创建一个 Redis 实例。此方法需要[安装 Helm](https://github.com/helm/helm#install)。
 
 1. 将 Redis 安装到您的集群中。请注意，我们显式设置了一个镜像标签以获取版本大于 5 的版本，这是 Dapr 的 pubsub 功能所需的。如果您打算仅将 Redis 用作状态存储（而不是用于 pubsub），则无需设置镜像版本。
@@ -143,13 +143,13 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
         - name: redisPassword
           value: lhDOkwTlp0
     ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="AWS" %}}
 [AWS Redis](https://aws.amazon.com/redis/)
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Azure" %}}
 1. [使用官方 Microsoft 文档创建 Azure Cache for Redis 实例。](https://docs.microsoft.com/azure/azure-cache-for-redis/quickstart-create-redis)
 
 1. 创建实例后，从 Azure 门户获取主机名（FQDN）和访问密钥。
@@ -166,7 +166,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 1. 将 `redisHost` 键设置为 `[HOST NAME FROM PREVIOUS STEP]:6379`，并将 `redisPassword` 键设置为您之前保存的密钥。
 
-   **注意：** 在生产环境中，请遵循[秘密管理]({{< ref component-secrets.md >}})说明以安全管理您的 secret。
+   **注意：** 在生产环境中，请遵循[秘密管理]({{% ref component-secrets.md %}})说明以安全管理您的 secret。
 
 1. 启用 EntraID 支持：
    - 在您的 Azure Redis 服务器上启用 Entra ID 身份验证。这可能需要几分钟。
@@ -174,16 +174,16 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 1. 将 `enableTLS` 设置为 `"true"` 以支持 TLS。
 
-> **注意：**`useEntraID` 假定您的 UserPrincipal（通过 AzureCLICredential）或 SystemAssigned 托管身份具有 RedisDataOwner 角色权限。如果使用用户分配的身份，[您需要指定 `azureClientID` 属性]({{< ref "howto-mi.md#set-up-identities-in-your-component" >}})。
+> **注意：**`useEntraID` 假定您的 UserPrincipal（通过 AzureCLICredential）或 SystemAssigned 托管身份具有 RedisDataOwner 角色权限。如果使用用户分配的身份，[您需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="GCP" %}}
 [GCP Cloud MemoryStore](https://cloud.google.com/memorystore/)
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [分布式锁构建块]({{< ref distributed-lock-api-overview >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [分布式锁构建块]({{% ref distributed-lock-api-overview %}})

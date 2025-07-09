@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 Azure Blob 存储状态存储，请创建一个类型为 `state.azure.blobstorage` 的组件。请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+要设置 Azure Blob 存储状态存储，请创建一个类型为 `state.azure.blobstorage` 的组件。请参阅[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -30,14 +30,14 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 使用了明文字符串。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中，secret 使用了明文字符串。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 版本控制
 
 Dapr 提供了两个版本的 Azure Blob 存储状态存储组件：`v1` 和 `v2`。建议所有新应用程序使用 `v2`。`v1` 被视为遗留版本，仅为与现有应用程序的兼容性而保留。
 
-在 `v1` 中，存在一个长期的实现问题，即组件错误地忽略了[键前缀]({{< ref howto-share-state.md >}})，导致 `keyPrefix` 始终被设置为 `none`。  
+在 `v1` 中，存在一个长期的实现问题，即组件错误地忽略了[键前缀]({{% ref howto-share-state.md %}})，导致 `keyPrefix` 始终被设置为 `none`。  
 更新后的 `v2` 组件修复了此问题，使状态存储能够正确地使用 `keyPrefix` 属性。
 
 虽然 `v1` 和 `v2` 具有相同的元数据字段，但它们在其他方面不兼容，`v1` 到 `v2` 没有自动数据迁移路径。
@@ -83,7 +83,7 @@ Dapr 提供了两个版本的 Azure Blob 存储状态存储组件：`v1` 和 `v2
 >
 > 您还必须在 Azure CLI 中通过 Azure 进行身份验证。
 
-1. 要开始使用 Microsoft Entra ID 进行 Blob 存储状态存储组件的身份验证，请确保您已创建 Microsoft Entra ID 应用程序和服务主体，如[身份验证到 Azure]({{< ref authenticating-azure.md >}})文档中所述。  
+1. 要开始使用 Microsoft Entra ID 进行 Blob 存储状态存储组件的身份验证，请确保您已创建 Microsoft Entra ID 应用程序和服务主体，如[身份验证到 Azure]({{% ref authenticating-azure.md %}})文档中所述。  
   完成后，设置一个变量以存储您创建的服务主体的 ID：
 
   ```sh
@@ -108,7 +108,7 @@ Dapr 提供了两个版本的 Azure Blob 存储状态存储组件：`v1` 和 `v2
     --scope "${RG_ID}/providers/Microsoft.Storage/storageAccounts/${STORAGE_ACCOUNT_NAME}"
   ```
 
-当使用 Microsoft Entra ID 对您的组件进行身份验证时，不需要 `accountKey` 字段。请根据[身份验证到 Azure]({{< ref authenticating-azure.md >}})文档，在组件的元数据中指定所需的凭据（如果有）。
+当使用 Microsoft Entra ID 对您的组件进行身份验证时，不需要 `accountKey` 字段。请根据[身份验证到 Azure]({{% ref authenticating-azure.md %}})文档，在组件的元数据中指定所需的凭据（如果有）。
 
 例如：
 
@@ -170,6 +170,6 @@ Azure Blob 存储状态并发是通过使用 `ETag` 实现的，具体请参见 
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

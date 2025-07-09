@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要配置 RethinkDB 状态存储，创建一个类型为 `state.rethinkdb` 的组件。请参阅[操作指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})以创建和应用状态存储配置。
+要配置 RethinkDB 状态存储，创建一个类型为 `state.rethinkdb` 的组件。请参阅[操作指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})以创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -35,7 +35,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 如果可选的 `archive` 元数据设置为 `true`，则每次状态更改时，RethinkDB 状态存储还将在 `daprstate_archive` 表中记录带有时间戳的状态更改。这允许对 Dapr 管理的状态进行时间序列分析。
@@ -53,9 +53,9 @@ spec:
 
 ## 设置 RethinkDB
 
-{{< tabs "Self-Hosted" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 您可以使用 Docker 在本地运行 [RethinkDB](https://rethinkdb.com/)：
 
 ```
@@ -67,10 +67,10 @@ docker run --name rethinkdb -v "$PWD:/rethinkdb-data" -d rethinkdb:latest
 ```shell
 open "http://$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' rethinkdb):8080"
 ```
-{{% /codetab %}}
-{{% /codetab %}}
+{{% /tab %}}
+{{% /tabpane %}}
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[操作指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取配置状态存储组件的说明。
-- [状态管理构建块]({{< ref state-management >}})。
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[操作指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取配置状态存储组件的说明。
+- [状态管理构建块]({{% ref state-management %}})。

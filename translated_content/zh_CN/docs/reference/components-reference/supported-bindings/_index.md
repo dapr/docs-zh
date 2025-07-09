@@ -9,7 +9,7 @@ aliases:
 no_list: true
 ---
 
-下表列出了 Dapr 构建块支持的输入和输出绑定。[了解如何为 Dapr 设置不同的输入和输出绑定组件。]({{< ref setup-bindings.md >}})
+下表列出了 Dapr 构建块支持的输入和输出绑定。[了解如何为 Dapr 设置不同的输入和输出绑定组件。]({{% ref setup-bindings.md %}})
 
 {{< partial "components/description.html" >}}
 

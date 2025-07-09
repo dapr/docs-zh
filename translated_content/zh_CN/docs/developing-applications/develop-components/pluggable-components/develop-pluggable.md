@@ -6,7 +6,7 @@ weight: 1100
 description: "学习如何编写和实现可插拔组件"
 ---
 
-在本指南中，您将学习实现可插拔组件的原因和方法。要了解如何配置和注册可插拔组件，请参阅[如何：注册可插拔组件]({{< ref pluggable-components-registration.md >}})。
+在本指南中，您将学习实现可插拔组件的原因和方法。要了解如何配置和注册可插拔组件，请参阅[如何：注册可插拔组件]({{% ref pluggable-components-registration.md %}})。
 
 ## 实现可插拔组件
 
@@ -25,10 +25,10 @@ description: "学习如何编写和实现可插拔组件"
 
 | 组件 | 类型 | gRPC 定义 | 内置参考实现 | 文档 |
 | :---------: | :--------: | :--------------: | :----------------------------------------------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 状态存储 | `state` | [state.proto](https://github.com/dapr/dapr/blob/master/dapr/proto/components/v1/state.proto) | [Redis](https://github.com/dapr/components-contrib/tree/master/state/redis) | [概念]({{< ref "state-management-overview" >}}), [如何]({{< ref "howto-get-save-state" >}}), [API 规范]({{< ref "state_api" >}}) |
-| 发布订阅 | `pubsub` | [pubsub.proto](https://github.com/dapr/dapr/blob/master/dapr/proto/components/v1/pubsub.proto) | [Redis](https://github.com/dapr/components-contrib/tree/master/pubsub/redis) | [概念]({{< ref "pubsub-overview" >}}), [如何]({{< ref "howto-publish-subscribe" >}}), [API 规范]({{< ref "pubsub_api" >}}) |
-| 绑定 | `bindings` | [bindings.proto](https://github.com/dapr/dapr/blob/master/dapr/proto/components/v1/bindings.proto) | [Kafka](https://github.com/dapr/components-contrib/tree/master/bindings/kafka) | [概念]({{< ref "bindings-overview" >}}), [输入如何]({{< ref "howto-triggers" >}}), [输出如何]({{< ref "howto-bindings" >}}), [API 规范]({{< ref "bindings_api" >}}) |
-| 密钥存储 | `secretstores` | [secretstore.proto](https://github.com/dapr/dapr/blob/master/dapr/proto/components/v1/secretstore.proto) | [Hashicorp/Vault](https://github.com/dapr/components-contrib/blob/master/secretstores/hashicorp/vault/vault.go) | [概念]({{< ref "secrets-overview" >}}), [如何-secrets]({{< ref "howto-secrets" >}}), [API 规范]({{< ref "secrets_api" >}}) |
+| 状态存储 | `state` | [state.proto](https://github.com/dapr/dapr/blob/master/dapr/proto/components/v1/state.proto) | [Redis](https://github.com/dapr/components-contrib/tree/master/state/redis) | [概念]({{% ref "state-management-overview" %}}), [如何]({{% ref "howto-get-save-state" %}}), [API 规范]({{% ref "state_api" %}}) |
+| 发布订阅 | `pubsub` | [pubsub.proto](https://github.com/dapr/dapr/blob/master/dapr/proto/components/v1/pubsub.proto) | [Redis](https://github.com/dapr/components-contrib/tree/master/pubsub/redis) | [概念]({{% ref "pubsub-overview" %}}), [如何]({{% ref "howto-publish-subscribe" %}}), [API 规范]({{% ref "pubsub_api" %}}) |
+| 绑定 | `bindings` | [bindings.proto](https://github.com/dapr/dapr/blob/master/dapr/proto/components/v1/bindings.proto) | [Kafka](https://github.com/dapr/components-contrib/tree/master/bindings/kafka) | [概念]({{% ref "bindings-overview" %}}), [输入如何]({{% ref "howto-triggers" %}}), [输出如何]({{% ref "howto-bindings" %}}), [API 规范]({{% ref "bindings_api" %}}) |
+| 密钥存储 | `secretstores` | [secretstore.proto](https://github.com/dapr/dapr/blob/master/dapr/proto/components/v1/secretstore.proto) | [Hashicorp/Vault](https://github.com/dapr/components-contrib/blob/master/secretstores/hashicorp/vault/vault.go) | [概念]({{% ref "secrets-overview" %}}), [如何-secrets]({{% ref "howto-secrets" %}}), [API 规范]({{% ref "secrets_api" %}}) |
 
 以下是可插拔组件状态存储的 gRPC 服务定义片段（[state.proto]）：
 
@@ -120,13 +120,13 @@ service StateStore {
 | ETag 无效 | `codes.InvalidArgument` | 状态存储 |  |
 | 批量删除行不匹配 | `codes.Internal` | 状态存储 |  |
 
-在 [状态管理概述]({{< ref "state-management-overview.md#concurrency" >}})中了解更多关于并发要求的信息。
+在 [状态管理概述]({{% ref "state-management-overview.md#concurrency" %}})中了解更多关于并发要求的信息。
 
 以下示例演示了如何在您自己的可插拔组件中返回错误，并根据需要更改消息。
 
-{{< tabs ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 > **重要提示：** 为了使用 .NET 进行错误映射，首先安装 [`Google.Api.CommonProtos` NuGet 包](https://www.nuget.org/packages/Google.Api.CommonProtos/)。
 
@@ -199,10 +199,10 @@ metadata.Add("grpc-status-details-bin", status.ToByteArray());
 throw new RpcException(new Grpc.Core.Status(baseStatusCode, "fake-err-msg"), metadata);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 就像 [Dapr Java SDK](https://github.com/tmacam/dapr-java-sdk/) 一样，Java 可插拔组件 SDK 使用 [Project Reactor](https://projectreactor.io/)，它为 Java 提供了异步 API。
 
@@ -256,10 +256,10 @@ final Status status = Status.newBuilder()
 return Mono.error(StatusProto.toStatusException(status));
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 **ETag 不匹配**
 
@@ -301,12 +301,12 @@ br.Metadata = map[string]string{
 st, err := st.WithDetails(br)
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 
 - 使用此[示例代码](https://github.com/dapr/samples/tree/master/pluggable-components-dotnet-template)开始开发 .NET 可插拔组件
-- [查看可插拔组件概述]({{< ref pluggable-components-overview.md >}})
-- [了解如何注册您的可插拔组件]({{< ref pluggable-components-registration >}})
+- [查看可插拔组件概述]({{% ref pluggable-components-overview.md %}})
+- [了解如何注册您的可插拔组件]({{% ref pluggable-components-registration %}})

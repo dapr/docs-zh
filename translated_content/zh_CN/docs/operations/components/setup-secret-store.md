@@ -32,7 +32,7 @@ spec:
 
 Secret 存储的类型由 `type` 字段指定，连接字符串和其他元数据信息放在 `.metadata` 部分。
 
-不同的[支持的 Secret 存储]({{< ref supported-secret-stores >}})会有不同的特定字段需要配置。例如，配置使用 AWS Secrets Manager 的 Secret 存储时，文件格式如下：
+不同的[支持的 Secret 存储]({{% ref supported-secret-stores %}})会有不同的特定字段需要配置。例如，配置使用 AWS Secrets Manager 的 Secret 存储时，文件格式如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -61,27 +61,27 @@ spec:
 
 创建组件的 YAML 文件后，请根据您的托管环境按照以下说明应用它：
 
-{{< tabs "Self-Hosted" "Kubernetes" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 在本地运行时，创建一个包含 YAML 文件的 `components` 目录，并使用 `--resources-path` 标志提供给 `dapr run` 命令。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 在 Kubernetes 中部署时，假设您的组件文件名为 `secret-store.yaml`，运行：
 
 ```bash
 kubectl apply -f secret-store.yaml
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 支持的 Secret 存储
 
-访问 [Secret 存储参考]({{< ref supported-secret-stores >}}) 以获取支持的 Secret 存储的完整列表。
+访问 [Secret 存储参考]({{% ref supported-secret-stores %}}) 以获取支持的 Secret 存储的完整列表。
 
 ## 相关链接
 
-- [支持的 Secret 存储组件]({{< ref supported-secret-stores >}})
-- [Secrets 构建块]({{< ref secrets >}})
+- [支持的 Secret 存储组件]({{% ref supported-secret-stores %}})
+- [Secrets 构建块]({{% ref secrets %}})

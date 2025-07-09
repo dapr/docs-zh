@@ -14,7 +14,7 @@ description: "在状态存储和发布/订阅消息代理之间提交单个事�
 1. 向账户数据库写入新的用户记录。
 2. 发送账户成功创建的通知消息。
 
-通过 Dapr 的 Outbox 支持，您可以在调用 Dapr 的[事务 API]({{< ref "state_api.md#state-transactions" >}})时通知订阅者应用程序的状态何时被创建或更新。
+通过 Dapr 的 Outbox 支持，您可以在调用 Dapr 的[事务 API]({{% ref "state_api.md#state-transactions" %}})时通知订阅者应用程序的状态何时被创建或更新。
 
 下图概述了 Outbox 功能的工作原理：
 
@@ -26,12 +26,12 @@ description: "在状态存储和发布/订阅消息代理之间提交单个事�
 
 ## 要求
 
-Outbox 功能可以与 Dapr 支持的任何[事务性状态存储]({{< ref supported-state-stores >}})一起使用。所有[发布/订阅代理]({{< ref supported-pubsub >}})都支持 Outbox 功能。
+Outbox 功能可以与 Dapr 支持的任何[事务性状态存储]({{% ref supported-state-stores %}})一起使用。所有[发布/订阅代理]({{% ref supported-pubsub %}})都支持 Outbox 功能。
 
-[了解更多关于您可以使用的事务方法。]({{< ref "howto-get-save-state.md#perform-state-transactions" >}})
+[了解更多关于您可以使用的事务方法。]({{% ref "howto-get-save-state.md#perform-state-transactions" %}})
 
 {{% alert title="注意" color="primary" %}} 
-建议与竞争消费者模式（例如，[Apache Kafka]({{< ref setup-apache-kafka>}})）一起使用的消息代理减少重复事件的可能性。
+建议与竞争消费者模式（例如，[Apache Kafka]({{% ref setup-apache-kafka %}})）一起使用的消息代理减少重复事件的可能性。
 {{% /alert %}}
 
 ## 启用 Outbox 模式
@@ -116,11 +116,11 @@ spec:
 
 如果您为同一键启用了两个或多个 `outbox.projection` 状态项，则使用第一个定义的项，其他项将被忽略。
 
-[了解更多关于默认和自定义 CloudEvent 消息。]({{< ref pubsub-cloudevents.md >}})
+[了解更多关于默认和自定义 CloudEvent 消息。]({{% ref pubsub-cloudevents.md %}})
 
-{{< tabs Python JavaScript ".NET" Java Go HTTP >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 <!--python-->
 
@@ -161,9 +161,9 @@ async def main():
 - 第一个操作被写入状态存储，消息未写入消息代理。
 - 第二个操作值被发布到配置的发布/订阅主题。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 <!--javascript-->
 
@@ -215,9 +215,9 @@ main().catch(err => {
 - 第一个操作被写入状态存储，消息未写入消息代理。
 - 第二个操作值被发布到配置的发布/订阅主题。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 <!--dotnet-->
 
@@ -265,9 +265,9 @@ public class Program
 - 第一个操作被写入状态存储，消息未写入消息代理。
 - 第二个操作值被发布到配置的发布/订阅主题。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 <!--java-->
 
@@ -316,9 +316,9 @@ public class Main {
 - 第一个操作被写入状态存储，消息未写入消息代理。
 - 第二个操作值被发布到配置的发布/订阅主题。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 <!--go-->
 
@@ -354,9 +354,9 @@ err := testClient.ExecuteStateTransaction(ctx, store, meta, ops)
 - 第一个操作被写入状态存储，消息未写入消息代理。
 - 第二个操作值被发布到配置的发布/订阅主题。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP" %}}
 
 <!--http-->
 
@@ -399,17 +399,17 @@ curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
 - 第一个操作被写入状态存储，消息未写入消息代理。
 - 第二个操作值被发布到配置的发布/订阅主题。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 覆盖 Dapr 生成的 CloudEvent 字段
 
-您可以使用自定义 CloudEvent 元数据覆盖发布的 Outbox 事件上的[Dapr 生成的 CloudEvent 字段]({{< ref "pubsub-cloudevents.md#dapr-generated-cloudevents-example" >}})。
+您可以使用自定义 CloudEvent 元数据覆盖发布的 Outbox 事件上的[Dapr 生成的 CloudEvent 字段]({{% ref "pubsub-cloudevents.md#dapr-generated-cloudevents-example" %}})。
 
-{{< tabs Python JavaScript ".NET" Java Go HTTP >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 <!--python-->
 
@@ -448,9 +448,9 @@ async def execute_state_transaction():
 if __name__ == "__main__":
     asyncio.run(execute_state_transaction())
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 <!--javascript-->
 
@@ -488,9 +488,9 @@ async function executeStateTransaction() {
 
 executeStateTransaction();
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 <!--csharp-->
 
@@ -539,9 +539,9 @@ public class StateOperationExample
     }
 }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 <!--java-->
 
@@ -587,9 +587,9 @@ public class StateOperationExample {
     }
 }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 <!--go-->
 
@@ -636,9 +636,9 @@ func main() {
 	log.Println("状态事务已执行。")
 }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP" %}}
 
 <!--http-->
 
@@ -665,9 +665,9 @@ curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
       }'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 {{% alert title="注意" color="primary" %}}
 `data` CloudEvent 字段仅供 Dapr 使用，且不可自定义。

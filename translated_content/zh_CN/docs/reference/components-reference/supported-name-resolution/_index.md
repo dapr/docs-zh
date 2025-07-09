@@ -9,7 +9,7 @@ no_list: true
 
 以下组件用于为服务调用模块提供名称解析功能。
 
-名称解析组件可以通过[配置]({{< ref configuration-overview.md >}})进行设置。
+名称解析组件可以通过[配置]({{% ref configuration-overview.md %}})进行设置。
 
 {{< partial "components/description.html" >}}
 

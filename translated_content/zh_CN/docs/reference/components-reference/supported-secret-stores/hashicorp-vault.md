@@ -9,7 +9,7 @@ aliases:
 
 ## 如何创建 Vault 组件
 
-要设置 HashiCorp Vault 密钥存储，请创建一个类型为 `secretstores.hashicorp.vault` 的组件。请参阅[本指南]({{< ref "setup-secret-store.md#apply-the-configuration" >}})以了解如何创建和应用密钥存储配置。请参阅本指南以了解如何[引用密钥]({{< ref component-secrets.md >}})以使用 Dapr 组件检索和使用密钥。
+要设置 HashiCorp Vault 密钥存储，请创建一个类型为 `secretstores.hashicorp.vault` 的组件。请参阅[本指南]({{% ref "setup-secret-store.md#apply-the-configuration" %}})以了解如何创建和应用密钥存储配置。请参阅本指南以了解如何[引用密钥]({{% ref component-secrets.md %}})以使用 Dapr 组件检索和使用密钥。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -46,7 +46,7 @@ spec:
     value: "map"
 ```
 {{% alert title="警告" color="warning" %}}
-上述示例中，密钥以明文形式使用。建议使用本地密钥存储，如[Kubernetes 密钥存储]({{< ref kubernetes-secret-store.md >}})或[本地文件]({{< ref file-secret-store.md >}})来引导安全密钥存储。
+上述示例中，密钥以明文形式使用。建议使用本地密钥存储，如[Kubernetes 密钥存储]({{% ref kubernetes-secret-store.md %}})或[本地文件]({{% ref file-secret-store.md %}})来引导安全密钥存储。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -68,7 +68,7 @@ spec:
 
 ## 每个请求的可选元数据属性
 
-以下[可选查询参数]({{< ref "secrets_api#query-parameters" >}})可以提供给 Hashicorp Vault 密钥存储组件：
+以下[可选查询参数]({{% ref "secrets_api#query-parameters" %}})可以提供给 Hashicorp Vault 密钥存储组件：
 
 查询参数 | 描述
 --------- | -----------
@@ -76,17 +76,17 @@ spec:
 
 ## 设置 Hashicorp Vault 实例
 
-{{< tabs "Self-Hosted" "Kubernetes" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 使用 Vault 文档设置 Hashicorp Vault：https://www.vaultproject.io/docs/install/index.html。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 对于 Kubernetes，您可以使用 Helm Chart：<https://github.com/hashicorp/vault-helm>。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 每个密钥的多个键值
 
@@ -147,7 +147,7 @@ spec:
 ```
 
 ## 相关链接
-- [密钥构建块]({{< ref secrets >}})
-- [操作指南：检索密钥]({{< ref "howto-secrets.md" >}})
-- [操作指南：在 Dapr 组件中引用密钥]({{< ref component-secrets.md >}})
-- [密钥 API 参考]({{< ref secrets_api.md >}})
+- [密钥构建块]({{% ref secrets %}})
+- [操作指南：检索密钥]({{% ref "howto-secrets.md" %}})
+- [操作指南：在 Dapr 组件中引用密钥]({{% ref component-secrets.md %}})
+- [密钥 API 参考]({{% ref secrets_api.md %}})

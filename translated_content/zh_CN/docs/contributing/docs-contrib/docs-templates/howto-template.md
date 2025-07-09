@@ -22,7 +22,7 @@ description: 创建操作指南的建议模板和指导
 此模板仅为建议。可以根据文档的目的进行调整。
 {{% /alert %}}
 
-了解更多关于[贡献 Dapr 文档]({{< ref contributing-docs.md >}})的信息，例如[前置内容]({{< ref "contributing-docs.md#front-matter" >}})和[短代码]({{< ref "contributing-docs.md#shortcodes" >}})。
+了解更多关于[贡献 Dapr 文档]({{% ref contributing-docs.md %}})的信息，例如[前置内容]({{% ref "contributing-docs.md#front-matter" %}})和[短代码]({{% ref "contributing-docs.md#shortcodes" %}})。
 
 ### 模板
 

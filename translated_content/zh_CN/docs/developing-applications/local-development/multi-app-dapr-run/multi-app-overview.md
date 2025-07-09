@@ -17,9 +17,9 @@ description: 使用一个CLI命令运行多个应用程序
 
 多应用运行模板文件描述了如何启动多个应用程序，类似于您运行多个单独的CLI `run`命令。默认情况下，此模板文件名为`dapr.yaml`。
 
-{{< tabs 自托管 Kubernetes>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="自托管" %}}
 <!--selfhosted-->
 
 ## 多应用运行模板文件
@@ -46,7 +46,7 @@ apps:
     command: ["go","run", "app.go"]
 ```
 
-有关模板属性的更深入示例和解释，请参见[多应用模板]({{< ref multi-app-template.md >}})。
+有关模板属性的更深入示例和解释，请参见[多应用模板]({{% ref multi-app-template.md %}})。
 
 ## 资源和配置文件的位置
 
@@ -89,9 +89,9 @@ apps:
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/s1p9MNl4VGo?start=2456" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 <!--kubernetes-->
 
 ## 多应用运行模板文件
@@ -136,7 +136,7 @@ apps:
 > - 如果未指定`containerImage`字段，`dapr run -k -f`会产生错误。
 > - `createService`字段定义了一个基本的Kubernetes服务（ClusterIP或LoadBalancer），目标是模板中指定的`--app-port`。如果未指定`createService`，则应用程序无法从集群外部访问。
 
-有关模板属性的更深入示例和解释，请参见[多应用模板]({{< ref multi-app-template.md >}})。
+有关模板属性的更深入示例和解释，请参见[多应用模板]({{% ref multi-app-template.md %}})。
 
 ## 日志
 
@@ -161,12 +161,12 @@ apps:
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/nWatANwaAik?si=O8XR-TUaiY0gclgO&amp;start=1024" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 
-- [了解多应用运行模板文件结构及其属性]({{< ref multi-app-template.md >}})
-- [尝试使用服务调用快速入门的自托管多应用运行模板]({{< ref serviceinvocation-quickstart.md >}})
+- [了解多应用运行模板文件结构及其属性]({{% ref multi-app-template.md %}})
+- [尝试使用服务调用快速入门的自托管多应用运行模板]({{% ref serviceinvocation-quickstart.md %}})
 - [尝试使用`hello-kubernetes`教程的Kubernetes多应用运行模板](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)

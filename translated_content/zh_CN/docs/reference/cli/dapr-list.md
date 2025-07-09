@@ -11,8 +11,8 @@ description: "关于 list CLI 命令的详细信息"
 
 ### 支持的平台
 
-- [本地托管]({{< ref self-hosted >}})
-- [Kubernetes]({{< ref kubernetes >}})
+- [本地托管]({{% ref self-hosted %}})
+- [Kubernetes]({{% ref kubernetes %}})
 
 ### 用法
 

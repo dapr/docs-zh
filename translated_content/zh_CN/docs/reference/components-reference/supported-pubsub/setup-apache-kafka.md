@@ -9,9 +9,9 @@ aliases:
 
 ## 组件格式
 
-要设置 Apache Kafka 的发布/订阅功能，您需要创建一个类型为 `pubsub.kafka` 的组件。请参阅 [pub/sub broker 组件文件]({{< ref setup-pubsub.md >}}) 了解 ConsumerID 是如何自动生成的。阅读 [如何：发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) 了解如何创建和应用发布/订阅配置。
+要设置 Apache Kafka 的发布/订阅功能，您需要创建一个类型为 `pubsub.kafka` 的组件。请参阅 [pub/sub broker 组件文件]({{% ref setup-pubsub.md %}}) 了解 ConsumerID 是如何自动生成的。阅读 [如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}}) 了解如何创建和应用发布/订阅配置。
 
-所有组件的元数据字段值可以使用 [模板化的元数据值]({{< ref "component-schema.md#templated-metadata-values" >}})，这些值会在 Dapr sidecar 启动时解析。例如，您可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同命名空间中使用相同的 `appId` 和主题，如 [本文]({{< ref "howto-namespace.md#with-namespace-consumer-groups">}}) 所述。
+所有组件的元数据字段值可以使用 [模板化的元数据值]({{% ref "component-schema.md#templated-metadata-values" %}})，这些值会在 Dapr sidecar 启动时解析。例如，您可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同命名空间中使用相同的 `appId` 和主题，如 [本文]({{% ref "howto-namespace.md#with-namespace-consumer-groups" %}}) 所述。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -72,7 +72,7 @@ spec:
     value: false
 ```
 
-> 有关使用 `secretKeyRef` 的详细信息，请参阅 [如何在组件中引用 secrets]({{< ref component-secrets.md >}}) 的指南。
+> 有关使用 `secretKeyRef` 的详细信息，请参阅 [如何在组件中引用 secrets]({{% ref component-secrets.md %}}) 的指南。
 
 ## 规格元数据字段
 
@@ -80,12 +80,12 @@ spec:
 |--------------------|:--------:|---------|---------|
 | brokers             | Y | 逗号分隔的 Kafka brokers 列表。 | `"localhost:9092,dapr-kafka.myapp.svc.cluster.local:9093"`
 | consumerGroup       | N | 监听的 kafka 消费者组。发布到主题的每条记录都会传递给订阅该主题的每个消费者组中的一个消费者。如果提供了 `consumerGroup` 的值，则忽略 `consumerID` 的任何值 - 将为 `consumerID` 设置消费者组和随机唯一标识符的组合。 | `"group1"`
-| consumerID       | N | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。如果提供了 `consumerGroup` 的值，则忽略 `consumerID` 的任何值 - 将为 `consumerID` 设置消费者组和随机唯一标识符的组合。  | 可以设置为字符串值（例如上例中的 `"channel1"`）或字符串格式值（例如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| consumerID       | N | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。如果提供了 `consumerGroup` 的值，则忽略 `consumerID` 的任何值 - 将为 `consumerID` 设置消费者组和随机唯一标识符的组合。  | 可以设置为字符串值（例如上例中的 `"channel1"`）或字符串格式值（例如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | clientID            | N | 用户提供的字符串，随每个请求发送到 Kafka brokers，用于日志记录、调试和审计。默认为 Kubernetes 模式的 `"namespace.appID"` 或 Self-Hosted 模式的 `"appID"`。 | `"my-namespace.my-dapr-app"`，`"my-dapr-app"`
 | authRequired        | N | *已弃用* 启用 [SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) 认证与 Kafka brokers。 | `"true"`，`"false"`
 | authType            | Y | 配置或禁用认证。支持的值：`none`，`password`，`mtls`，`oidc` 或 `awsiam` | `"password"`，`"none"`
 | saslUsername        | N | 用于认证的 SASL 用户名。仅在 `authType` 设置为 `"password"` 时需要。 | `"adminuser"`
-| saslPassword        | N | 用于认证的 SASL 密码。可以是 `secretKeyRef` 以使用 [secret 引用]({{< ref component-secrets.md >}})。仅在 `authType` 设置为 `"password"` 时需要。 | `""`，`"KeFg23!"`
+| saslPassword        | N | 用于认证的 SASL 密码。可以是 `secretKeyRef` 以使用 [secret 引用]({{% ref component-secrets.md %}})。仅在 `authType` 设置为 `"password"` 时需要。 | `""`，`"KeFg23!"`
 | saslMechanism      | N | 您希望使用的 SASL 认证机制。仅在 `authType` 设置为 `"password"` 时需要。默认为 `PLAINTEXT` | `"SHA-512", "SHA-256", "PLAINTEXT"`
 | initialOffset       | N | 如果没有先前提交的偏移量，则使用的初始偏移量。应为 "newest" 或 "oldest"。默认为 "newest"。 | `"oldest"`
 | maxMessageBytes     | N | 允许的单个 Kafka 消息的最大字节大小。默认为 1024。 | `2048`
@@ -122,7 +122,7 @@ spec:
 | sessionTimeout | N | 使用 Kafka 的组管理功能时用于检测客户端故障的超时时间。如果 broker 在此会话超时之前未收到任何来自消费者的心跳，则消费者将被移除并启动重新平衡。默认为 "10s"。 | `"20s"` |
 | escapeHeaders | N | 启用对消费者接收到的消息头值的 URL 转义。允许接收通常不允许在 HTTP 头中使用的特殊字符内容。默认为 `false`。 | `true` |
 
-上面的 `secretKeyRef` 引用了一个 [kubernetes secrets store]({{< ref kubernetes-secret-store.md >}}) 以访问 tls 信息。访问 [此处]({{< ref setup-secret-store.md >}}) 了解有关如何配置 secret store 组件的更多信息。
+上面的 `secretKeyRef` 引用了一个 [kubernetes secrets store]({{% ref kubernetes-secret-store.md %}}) 以访问 tls 信息。访问 [此处]({{% ref setup-secret-store.md %}}) 了解有关如何配置 secret store 组件的更多信息。
 
 #### 注意
 使用 Azure EventHubs 和 Kafka 时，元数据 `version` 必须设置为 `1.0.0`。
@@ -446,7 +446,7 @@ Apache Kafka 组件支持使用批量 Pub/sub API 在单个操作中发送和接
 
 ### 配置批量订阅
 
-订阅主题时，您可以配置 `bulkSubscribe` 选项。有关更多详细信息，请参阅 [批量订阅消息]({{< ref "pubsub-bulk#subscribing-messages-in-bulk" >}})。了解更多关于 [批量订阅 API]({{< ref pubsub-bulk.md >}}) 的信息。
+订阅主题时，您可以配置 `bulkSubscribe` 选项。有关更多详细信息，请参阅 [批量订阅消息]({{% ref "pubsub-bulk#subscribing-messages-in-bulk" %}})。了解更多关于 [批量订阅 API]({{% ref pubsub-bulk.md %}}) 的信息。
 
 Apache Kafka 支持以下批量元数据选项：
 
@@ -498,9 +498,9 @@ curl -X POST http://localhost:3500/v1.0/publish/myKafka/myTopic?metadata.correla
 - `__timestamp`：消息的时间戳
 
 您可以在消费者端点中访问它们，如下所示：
-{{< tabs "Python (FastAPI)" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python (FastAPI)" %}}
 
 ```python
 from fastapi import APIRouter, Body, Response, status
@@ -532,8 +532,8 @@ app.include_router(router)
 
 ```
 
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## 接收带有特殊字符的消息头
 
@@ -591,15 +591,15 @@ spec:
 ### 发布 Avro 消息
 为了向 Kafka pub/sub 组件指示消息应使用 Avro 序列化，必须在 `metadata` 中设置 `valueSchemaType` 为 `Avro`。
 
-{{< tabs curl "Python SDK">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="curl" %}}
 ```bash
 curl -X "POST" http://localhost:3500/v1.0/publish/pubsub/my-topic?metadata.rawPayload=true&metadata.valueSchemaType=Avro -H "Content-Type: application/json" -d '{"order_number": "345", "created_date": 1704861365986}'
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python SDK" %}}
 ```python
 from dapr.clients import DaprClient
 
@@ -618,17 +618,17 @@ with DaprClient() as d:
     # 打印请求
     print(req_data, flush=True)
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 
 ### 订阅 Avro 主题
 为了向 Kafka pub/sub 组件指示消息应使用 Avro 进行反序列化，必须在订阅元数据中设置 `valueSchemaType` 为 `Avro`。
 
-{{< tabs "Python (FastAPI)" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python (FastAPI)" %}}
 
 ```python
 from fastapi import APIRouter, Body, Response, status
@@ -659,7 +659,7 @@ app.include_router(router)
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 {{< /tabs >}} 
 
@@ -667,21 +667,21 @@ app.include_router(router)
 
 ## 创建一个 Kafka 实例
 
-{{< tabs "Self-Hosted" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 您可以使用 [这个](https://github.com/wurstmeister/kafka-docker) Docker 镜像在本地运行 Kafka。
 要在没有 Docker 的情况下运行，请参阅 [此处](https://kafka.apache.org/quickstart) 的入门指南。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 要在 Kubernetes 上运行 Kafka，您可以使用任何 Kafka operator，例如 [Strimzi](https://strimzi.io/quickstarts/)。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 
 ## 相关链接
-- [Dapr 组件的基本模式]({{< ref component-schema >}})
-- 阅读 [本指南]({{< ref "howto-publish-subscribe.md##step-1-setup-the-pubsub-component" >}}) 了解配置 pub/sub 组件的说明
-- [Pub/Sub 构建块]({{< ref pubsub >}})
+- [Dapr 组件的基本模式]({{% ref component-schema %}})
+- 阅读 [本指南]({{% ref "howto-publish-subscribe.md##step-1-setup-the-pubsub-component" %}}) 了解配置 pub/sub 组件的说明
+- [Pub/Sub 构建块]({{% ref pubsub %}})

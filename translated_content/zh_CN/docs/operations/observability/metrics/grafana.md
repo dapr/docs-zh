@@ -8,27 +8,27 @@ description: "在Grafana仪表板中查看Dapr指标的方法。"
 
 ## 可用的仪表板
 
-{{< tabs "系统服务" "sidecar" "actor" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="系统服务" %}}
 `grafana-system-services-dashboard.json`模板展示了Dapr系统组件的状态，包括dapr-operator、dapr-sidecar-injector、dapr-sentry和dapr-placement：
 
 <img src="/images/grafana-system-service-dashboard.png" alt="系统服务仪表板的截图" width=1200>
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="sidecar" %}}
 `grafana-sidecar-dashboard.json`模板展示了Dapr sidecar 的状态，包括sidecar 的健康状况/资源使用情况、HTTP和gRPC的吞吐量/延迟、actor、mTLS等：
 
 <img src="/images/grafana-sidecar-dashboard.png" alt="sidecar仪表板的截图" width=1200>
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="actor" %}}
 `grafana-actor-dashboard.json`模板展示了Dapr sidecar 的状态、actor 调用的吞吐量/延迟、timer/reminder触发器和基于回合的并发性：
 
 <img src="/images/grafana-actor-dashboard.png" alt="actor仪表板的截图" width=1200>
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 前提条件
 

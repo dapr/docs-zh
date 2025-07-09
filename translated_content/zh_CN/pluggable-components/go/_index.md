@@ -13,8 +13,8 @@ Dapr 提供了一些工具包，帮助开发者创建 Go 可插拔组件。
 ## 前置条件
 
 - [Go 1.19](https://go.dev/dl/) 或更高版本
-- [Dapr 1.9 CLI]({{< ref install-dapr-cli.md >}}) 或更高版本
-- 已初始化的 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- [Dapr 1.9 CLI]({{% ref install-dapr-cli.md %}}) 或更高版本
+- 已初始化的 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - Linux、Mac 或 Windows（使用 WSL）
 
 {{% alert title="注意" color="primary" %}}
@@ -59,12 +59,12 @@ func main() {
 
 ## 实现和注册组件
 
-- [实现一个输入/输出绑定组件]({{< ref go-bindings >}})
-- [实现一个发布/订阅组件]({{< ref go-pub-sub >}})
-- [实现一个状态存储组件]({{< ref go-state-store >}})
+- [实现一个输入/输出绑定组件]({{% ref go-bindings %}})
+- [实现一个发布/订阅组件]({{% ref go-pub-sub %}})
+- [实现一个状态存储组件]({{% ref go-state-store %}})
 
 {{% alert title="注意" color="primary" %}}
-每种类型的组件只能注册一个到单个服务中。然而，[同一类型的多个组件可以分布在多个服务中]({{< ref go-advanced >}})。
+每种类型的组件只能注册一个到单个服务中。然而，[同一类型的多个组件可以分布在多个服务中]({{% ref go-advanced %}})。
 {{% /alert %}}
 
 ## 本地测试组件
@@ -162,8 +162,8 @@ docker build -f Dockerfile -t <image name>:<tag> .
 {{% /alert %}}
 
 ## 下一步
-- [使用可插拔组件 Go SDK 的高级技术]({{< ref go-advanced >}})
+- [使用可插拔组件 Go SDK 的高级技术]({{% ref go-advanced %}})
 - 了解更多关于实现：
-  - [绑定]({{< ref go-bindings >}})
-  - [状态]({{< ref go-state-store >}})
-  - [发布/订阅]({{< ref go-pub-sub >}})
+  - [绑定]({{% ref go-bindings %}})
+  - [状态]({{% ref go-state-store %}})
+  - [发布/订阅]({{% ref go-pub-sub %}})

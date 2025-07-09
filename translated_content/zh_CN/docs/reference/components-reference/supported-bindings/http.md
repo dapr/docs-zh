@@ -9,7 +9,7 @@ aliases:
 
 ## 替代方法
 
-[服务调用 API]({{< ref service_invocation_api.md >}}) 允许调用非 Dapr 的 HTTP 端点，并且是推荐的方法。阅读 ["如何：使用 HTTP 调用非 Dapr 端点"]({{< ref howto-invoke-non-dapr-endpoints.md >}}) 以获取更多信息。
+[服务调用 API]({{% ref service_invocation_api.md %}}) 允许调用非 Dapr 的 HTTP 端点，并且是推荐的方法。阅读 ["如何：使用 HTTP 调用非 Dapr 端点"]({{% ref howto-invoke-non-dapr-endpoints.md %}}) 以获取更多信息。
 
 ## 设置 Dapr 组件
 
@@ -86,7 +86,7 @@ spec:
 
 {{% alert title="注意" color="primary" %}}
 元数据字段 **MTLSRootCA**、**MTLSClientCert** 和 **MTLSClientKey** 用于配置 (m)TLS 认证。
-使用 mTLS 认证时，必须提供这三个字段。有关更多详细信息，请参阅 [mTLS]({{< ref "#using-mtls-or-enabling-client-tls-authentication-along-with-https" >}})。您也可以仅提供 **MTLSRootCA**，以启用与自定义 CA 签名证书的 **HTTPS** 连接。有关更多详细信息，请参阅 [HTTPS]({{< ref "#install-the-ssl-certificate-in-the-sidecar" >}}) 部分。
+使用 mTLS 认证时，必须提供这三个字段。有关更多详细信息，请参阅 [mTLS]({{% ref "#using-mtls-or-enabling-client-tls-authentication-along-with-https" %}})。您也可以仅提供 **MTLSRootCA**，以启用与自定义 CA 签名证书的 **HTTPS** 连接。有关更多详细信息，请参阅 [HTTPS]({{% ref "#install-the-ssl-certificate-in-the-sidecar" %}}) 部分。
 {{% /alert %}}
 
 ## 绑定支持
@@ -149,43 +149,43 @@ spec:
 
 **请求基本 URL**
 
-{{< tabs Windows Linux >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 ```bash
 curl -d "{ \"operation\": \"get\" }" \
       http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
 ```bash
 curl -d '{ "operation": "get" }' \
       http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 **请求特定路径**
 
-{{< tabs Windows Linux >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 ```sh
 curl -d "{ \"operation\": \"get\", \"metadata\": { \"path\": \"/things/1234\" } }" \
       http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
 ```sh
 curl -d '{ "operation": "get", "metadata": { "path": "/things/1234" } }' \
       http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 发送和更新数据
 
@@ -211,30 +211,30 @@ curl -d '{ "operation": "get", "metadata": { "path": "/things/1234" } }' \
 
 **发布新记录**
 
-{{< tabs Windows Linux >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 ```sh
 curl -d "{ \"operation\": \"post\", \"data\": \"YOUR_BASE_64_CONTENT\", \"metadata\": { \"path\": \"/things\" } }" \
       http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
 ```sh
 curl -d '{ "operation": "post", "data": "YOUR_BASE_64_CONTENT", "metadata": { "path": "/things" } }' \
       http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 使用 HTTPS
 
 通过配置 Dapr sidecar 信任服务器的 SSL 证书，HTTP 绑定也可以与 HTTPS 端点一起使用。
 
 1. 将绑定 URL 更新为使用 `https` 而不是 `http`。
-1. 如果需要添加自定义 TLS 证书，请参考 [如何：在 Dapr sidecar 中安装证书]({{< ref install-certificates >}})，在 sidecar 中安装 TLS 证书。
+1. 如果需要添加自定义 TLS 证书，请参考 [如何：在 Dapr sidecar 中安装证书]({{% ref install-certificates %}})，在 sidecar 中安装 TLS 证书。
 
 ### 示例
 
@@ -256,9 +256,9 @@ spec:
 
 #### 在 sidecar 中安装 TLS 证书
 
-{{< tabs Self-Hosted Kubernetes >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 当 sidecar 未在容器内运行时，可以直接在主机操作系统上安装 TLS 证书。
 
 以下是 sidecar 作为容器运行时的示例。SSL 证书位于主机计算机的 `/tmp/ssl/cert.pem`。
@@ -284,11 +284,11 @@ services:
       - my-app
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
-sidecar 可以从多种来源读取 TLS 证书。请参阅 [如何：将 Pod 卷挂载到 Dapr sidecar]({{< ref kubernetes-volume-mounts >}}) 以了解更多信息。在此示例中，我们将 TLS 证书存储为 Kubernetes secret。
+sidecar 可以从多种来源读取 TLS 证书。请参阅 [如何：将 Pod 卷挂载到 Dapr sidecar]({{% ref kubernetes-volume-mounts %}}) 以了解更多信息。在此示例中，我们将 TLS 证书存储为 Kubernetes secret。
 
 ```bash
 kubectl create secret generic myapp-cert --from-file /tmp/ssl/cert.pem
@@ -327,32 +327,32 @@ spec:
 ...
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 #### 安全地调用绑定
 
-{{< tabs Windows Linux >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 ```bash
 curl -d "{ \"operation\": \"get\" }" \
       https://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
 ```bash
 curl -d '{ "operation": "get" }' \
       https://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 {{% alert title="注意" color="primary" %}}
-HTTPS 绑定支持也可以通过 **MTLSRootCA** 元数据选项进行配置。这将把指定的证书添加到绑定的受信任证书列表中。两种方法没有特定的偏好。虽然 **MTLSRootCA** 选项易于使用且不需要对 sidecar 进行任何更改，但它仅接受一个证书。如果您需要信任多个证书，则需要 [按照上述步骤在 sidecar 中安装它们]({{< ref "#install-the-ssl-certificate-in-the-sidecar" >}})。
+HTTPS 绑定支持也可以通过 **MTLSRootCA** 元数据选项进行配置。这将把指定的证书添加到绑定的受信任证书列表中。两种方法没有特定的偏好。虽然 **MTLSRootCA** 选项易于使用且不需要对 sidecar 进行任何更改，但它仅接受一个证书。如果您需要信任多个证书，则需要 [按照上述步骤在 sidecar 中安装它们]({{% ref "#install-the-ssl-certificate-in-the-sidecar" %}})。
 {{% /alert %}}
 
 ## 使用 mTLS 或启用客户端 TLS 认证以及 HTTPS
@@ -378,9 +378,9 @@ HTTPS 绑定支持也可以通过 **MTLSRootCA** 元数据选项进行配置。�
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
-- [如何：在 Dapr sidecar 中安装证书]({{< ref install-certificates >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})
+- [如何：在 Dapr sidecar 中安装证书]({{% ref install-certificates %}})

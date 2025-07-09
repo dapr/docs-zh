@@ -81,9 +81,9 @@ dapr run --app-id wfapp --dapr-grpc-port 4001 --dapr-http-port 3500
 
 运行以下命令以启动工作流。
 
-{{< tabs "Linux/MacOS" "Windows">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 
 ```bash
 curl -i -X POST http://localhost:3500/v1.0/workflows/dapr/OrderProcessingWorkflow/start?instanceID=12345678 \
@@ -91,9 +91,9 @@ curl -i -X POST http://localhost:3500/v1.0/workflows/dapr/OrderProcessingWorkflo
   -d '{"Name": "Paperclips", "TotalCost": 99.95, "Quantity": 1}'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 ```powershell
 curl -i -X POST http://localhost:3500/v1.0/workflows/dapr/OrderProcessingWorkflow/start?instanceID=12345678 `
@@ -101,9 +101,9 @@ curl -i -X POST http://localhost:3500/v1.0/workflows/dapr/OrderProcessingWorkflo
   -d '{"Name": "Paperclips", "TotalCost": 99.95, "Quantity": 1}'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 如果成功，您应该会看到如下响应：
 
@@ -173,5 +173,5 @@ info: WorkflowConsoleApp.Activities.NotifyActivity[0]
 
 ## 下一步
 
-- [尝试 Dapr 工作流快速入门]({{< ref workflow-quickstart.md >}})
-- [了解更多关于 Dapr 工作流的信息]({{< ref workflow-overview.md >}})
+- [尝试 Dapr 工作流快速入门]({{% ref workflow-quickstart.md %}})
+- [了解更多关于 Dapr 工作流的信息]({{% ref workflow-overview.md %}})

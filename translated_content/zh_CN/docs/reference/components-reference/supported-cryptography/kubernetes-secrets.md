@@ -28,7 +28,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串形式的secrets。建议使用secret存储来保存secrets，具体方法请参见[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串形式的secrets。建议使用secret存储来保存secrets，具体方法请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -40,4 +40,4 @@ spec:
 
 
 ## 相关链接
-[加密构建块]({{< ref cryptography >}})
+[加密构建块]({{% ref cryptography %}})
