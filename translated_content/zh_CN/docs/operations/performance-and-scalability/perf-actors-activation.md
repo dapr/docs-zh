@@ -26,7 +26,7 @@ Dapr 边车中的 actor API 负责识别注册了特定 actor 类型的主机，
 
 本次测试通过 Dapr 的 HTTP API 直接调用 actor。
 
-有关更多信息，请参见 [actor 概述]({{< ref actors-overview.md >}})。
+有关更多信息，请参见 [actor 概述]({{% ref actors-overview.md %}})。
 
 ### Kubernetes 性能测试设置
 
@@ -55,4 +55,4 @@ Dapr 边车中的 actor API 负责识别注册了特定 actor 类型的主机，
 
 ## 相关链接
 
-* 有关更多信息，请参见 [Kubernetes 上的 Dapr 概述]({{< ref kubernetes-overview.md >}})
+* 有关更多信息，请参见 [Kubernetes 上的 Dapr 概述]({{% ref kubernetes-overview.md %}})

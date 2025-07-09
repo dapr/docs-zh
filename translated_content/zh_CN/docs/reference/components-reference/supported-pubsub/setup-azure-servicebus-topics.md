@@ -10,10 +10,10 @@ aliases:
 
 ## 组件格式
 
-要配置 Azure Service Bus Topics pub/sub，需创建一个类型为 `pubsub.azure.servicebus.topics` 的组件。请参考 [pub/sub broker 组件文件]({{< ref setup-pubsub.md >}}) 了解 ConsumerID 的自动生成方式。阅读 [发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) 以获取创建和应用 pub/sub 配置的步骤。
+要配置 Azure Service Bus Topics pub/sub，需创建一个类型为 `pubsub.azure.servicebus.topics` 的组件。请参考 [pub/sub broker 组件文件]({{% ref setup-pubsub.md %}}) 了解 ConsumerID 的自动生成方式。阅读 [发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}}) 以获取创建和应用 pub/sub 配置的步骤。
 
 > 此组件使用 Azure Service Bus 的主题功能；请查看官方文档了解 [主题和队列](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions) 的区别。  
-> 如需使用队列，请参阅 [Azure Service Bus Queues pubsub 组件]({{< ref "setup-azure-servicebus-queues" >}})。
+> 如需使用队列，请参阅 [Azure Service Bus Queues pubsub 组件]({{% ref "setup-azure-servicebus-queues" %}})。
 
 ### 连接字符串认证
 
@@ -66,7 +66,7 @@ spec:
 > __注意：__ 上述设置适用于使用此组件的所有主题。
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为 secret。建议使用 secret 存储来保护 secret，具体方法请参阅[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串作为 secret。建议使用 secret 存储来保护 secret，具体方法请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -75,7 +75,7 @@ spec:
 |--------------------|:--------:|---------|---------|
 | `connectionString`   | 是  | Service Bus 的共享访问策略连接字符串。除非使用 Microsoft Entra ID 认证，否则必需。 | 见上例
 | `namespaceName`| 否 | 设置 Service Bus 命名空间地址的参数，作为完全限定的域名。使用 Microsoft Entra ID 认证时必需。 | `"namespace.servicebus.windows.net"` |
-| `consumerID`         | 否        | 消费者 ID 用于将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| `consumerID`         | 否        | 消费者 ID 用于将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | `timeoutInSec`       | 否  | 发送消息和管理操作的超时时间。默认：`60` |`30`
 | `handlerTimeoutInSec`| 否  | 调用应用程序处理程序的超时时间。默认：`60` | `30`
 | `lockRenewalInSec`      | 否  | 定义缓冲消息锁将被续订的频率。默认：`20`。 | `20`
@@ -94,7 +94,7 @@ spec:
 
 ### Microsoft Entra ID 认证
 
-Azure Service Bus Topics pubsub 组件支持使用所有 Microsoft Entra ID 机制进行认证，包括托管身份。有关更多信息以及根据选择的 Microsoft Entra ID 认证机制提供的相关组件元数据字段，请参阅 [Azure 认证文档]({{< ref authenticating-azure.md >}})。
+Azure Service Bus Topics pubsub 组件支持使用所有 Microsoft Entra ID 机制进行认证，包括托管身份。有关更多信息以及根据选择的 Microsoft Entra ID 认证机制提供的相关组件元数据字段，请参阅 [Azure 认证文档]({{% ref authenticating-azure.md %}})。
 
 #### 示例配置
 
@@ -175,6 +175,6 @@ Azure Service Bus 消息通过附加上下文元数据扩展了 Dapr 消息格�
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [Pub/Sub 构建块]({{< ref pubsub >}})
-- 阅读[本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})以获取配置 pub/sub 组件的说明
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [Pub/Sub 构建块]({{% ref pubsub %}})
+- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})以获取配置 pub/sub 组件的说明

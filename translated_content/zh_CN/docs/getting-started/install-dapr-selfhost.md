@@ -28,37 +28,37 @@ Dapr 的配置过程包括：
 {{% /alert %}}
 
 {{% alert title="Docker" color="primary" %}}
-推荐的开发环境需要 [Docker](https://docs.docker.com/install/)。虽然您可以[在没有 Docker 依赖的情况下配置 Dapr]({{< ref self-hosted-no-docker.md >}})，但本指南的下一步假设您使用推荐的 Docker 开发环境。
+推荐的开发环境需要 [Docker](https://docs.docker.com/install/)。虽然您可以[在没有 Docker 依赖的情况下配置 Dapr]({{% ref self-hosted-no-docker.md %}})，但本指南的下一步假设您使用推荐的 Docker 开发环境。
 
-您也可以安装 [Podman](https://podman.io/) 代替 Docker。阅读更多关于[使用 Podman 配置 Dapr]({{< ref dapr-init.md >}})的信息。
+您也可以安装 [Podman](https://podman.io/) 代替 Docker。阅读更多关于[使用 Podman 配置 Dapr]({{% ref dapr-init.md %}})的信息。
 {{% /alert %}}
 
 ### 步骤 1：打开具有管理员权限的终端
 
-{{< tabs "Linux/MacOS" "Windows">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 
 如果您在运行 Docker 命令时使用 `sudo`，或者安装路径是 `/usr/local/bin`（默认安装路径），则需要在此快速入门中使用 `sudo`。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 以管理员身份运行 Windows Terminal 或命令提示符。
 
 1. 右键单击 Windows Terminal 或命令提示符图标。
 2. 选择 **以管理员身份运行**。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 步骤 2：运行 init CLI 命令
 
-{{< tabs "Linux/MacOS" "Windows">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 
 安装最新的 Dapr 运行时二进制文件：
 
@@ -76,9 +76,9 @@ sudo dapr init
 1. 导航到 **Docker Desktop** > **Settings** > **Advanced**。
 2. 选中 **允许使用默认 Docker 套接字（需要密码）** 复选框。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 安装最新的 Dapr 运行时二进制文件：
 
@@ -86,16 +86,16 @@ sudo dapr init
 dapr init
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 **预期输出：**
 
 <img src="/images/install-dapr-selfhost/dapr-init-output.png" style=
 "padding-bottom: 5px" >
 
-[如果您遇到任何关于 Docker 未安装或未运行的错误消息，请参阅故障排除指南。]({{< ref "common_issues.md#dapr-cant-connect-to-docker-when-installing-the-dapr-cli" >}})
+[如果您遇到任何关于 Docker 未安装或未运行的错误消息，请参阅故障排除指南。]({{% ref "common_issues.md#dapr-cant-connect-to-docker-when-installing-the-dapr-cli" %}})
 
 ### 步骤 3：验证 Dapr 版本
 
@@ -132,9 +132,9 @@ docker ps
 - 在 Windows 上，位于 `%UserProfile%\.dapr`
 - 在 Linux/MacOS 上，位于 `~/.dapr`
 
-{{< tabs "Linux/MacOS" "Windows">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 
 ```bash
 ls $HOME/.dapr
@@ -146,9 +146,9 @@ ls $HOME/.dapr
 
 <br>
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 您可以使用 PowerShell 或命令行进行验证。如果使用 PowerShell，运行：
 ```powershell
 explorer "$env:USERPROFILE\.dapr"
@@ -163,15 +163,15 @@ explorer "%USERPROFILE%\.dapr"
 
 <img src="/images/install-dapr-selfhost/windows-view-components.png" width=600>
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 <br>
 
 ### 精简初始化
 
-要安装没有任何默认配置文件或 Docker 容器的 CLI，请使用 `--slim` 标志。[了解更多关于 `init` 命令及其标志的信息。]({{< ref dapr-init.md >}})
+要安装没有任何默认配置文件或 Docker 容器的 CLI，请使用 `--slim` 标志。[了解更多关于 `init` 命令及其标志的信息。]({{% ref dapr-init.md %}})
 
 ```bash
 dapr init --slim

@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要配置 Azure Event Hubs 绑定，需要创建一个类型为 `bindings.azure.eventhubs` 的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要配置 Azure Event Hubs 绑定，需要创建一个类型为 `bindings.azure.eventhubs` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 请参考[此处](https://docs.microsoft.com/azure/event-hubs/event-hubs-dotnet-framework-getstarted-send)了解如何设置 Event Hub。
 
@@ -63,7 +63,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -71,8 +71,8 @@ spec:
 | 字段              | 必需 | 绑定支持 | 详情 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
 | `eventHub` | Y* | 输入/输出 | Event Hubs hub 的名称 ("topic")。如果使用 Microsoft Entra ID 认证或连接字符串不包含 `EntityPath` 值，则必需 | `mytopic` |
-| `connectionString`    | Y*  | 输入/输出 | Event Hub 或 Event Hub 命名空间的连接字符串。<br>* 与 `eventHubNamespace` 字段互斥。<br>* 在不使用 [Microsoft Entra ID 认证]({{< ref "authenticating-azure.md" >}}) 时必需 | `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={EventHub}"` 或 `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key}"`
-| `eventHubNamespace` | Y* | 输入/输出 | Event Hub 命名空间名称。<br>* 与 `connectionString` 字段互斥。<br>* 在使用 [Microsoft Entra ID 认证]({{< ref "authenticating-azure.md" >}}) 时必需 | `"namespace"`
+| `connectionString`    | Y*  | 输入/输出 | Event Hub 或 Event Hub 命名空间的连接字符串。<br>* 与 `eventHubNamespace` 字段互斥。<br>* 在不使用 [Microsoft Entra ID 认证]({{% ref "authenticating-azure.md" %}}) 时必需 | `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={EventHub}"` 或 `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key}"`
+| `eventHubNamespace` | Y* | 输入/输出 | Event Hub 命名空间名称。<br>* 与 `connectionString` 字段互斥。<br>* 在使用 [Microsoft Entra ID 认证]({{% ref "authenticating-azure.md" %}}) 时必需 | `"namespace"`
 | `enableEntityManagement` | N | 输入/输出 | 允许管理 EventHub 命名空间和存储账户的布尔值。默认值：`false` | `"true"`, `"false"`
 | `enableInOrderMessageDelivery` | N | 输入/输出 | 允许消息按发布顺序传递的布尔值。这假设在发布或发送时设置了 `partitionKey` 以确保跨分区的顺序。默认值：`false` | `"true"`, `"false"`
 | `resourceGroupName` | N | 输入/输出 | Event Hub 命名空间所属的资源组名称。启用实体管理时必需 | `"test-rg"`
@@ -88,7 +88,7 @@ spec:
 
 ### Microsoft Entra ID 认证
 
-Azure Event Hubs pub/sub 组件支持使用所有 Microsoft Entra ID 机制进行认证。有关更多信息以及根据选择的 Microsoft Entra ID 认证机制提供的相关组件元数据字段，请参阅[认证到 Azure 的文档]({{< ref authenticating-azure.md >}})。
+Azure Event Hubs pub/sub 组件支持使用所有 Microsoft Entra ID 机制进行认证。有关更多信息以及根据选择的 Microsoft Entra ID 认证机制提供的相关组件元数据字段，请参阅[认证到 Azure 的文档]({{% ref authenticating-azure.md %}})。
 
 ## 绑定支持
 
@@ -134,8 +134,8 @@ Azure IoT Hub 提供了一个[与 Event Hubs 兼容的端点](https://docs.micro
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

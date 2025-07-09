@@ -77,7 +77,7 @@ spec:
 
 ### 为授权码模式定义自定义管道
 
-要使用 OAuth 中间件（授权码模式），您需要使用 [Dapr 配置]({{< ref "configuration-overview" >}}) 创建一个 [自定义管道]({{< ref "middleware.md" >}})，如下所示：
+要使用 OAuth 中间件（授权码模式），您需要使用 [Dapr 配置]({{% ref "configuration-overview" %}}) 创建一个 [自定义管道]({{% ref "middleware.md" %}})，如下所示：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -123,7 +123,7 @@ spec:
 
 ### 为客户端凭证模式定义自定义管道
 
-要使用 OAuth 中间件（客户端凭证模式），您需要使用 [Dapr 配置]({{< ref "configuration-overview.md" >}}) 创建一个 [自定义管道]({{< ref "middleware.md" >}})，如下所示：
+要使用 OAuth 中间件（客户端凭证模式），您需要使用 [Dapr 配置]({{% ref "configuration-overview.md" %}}) 创建一个 [自定义管道]({{% ref "middleware.md" %}})，如下所示：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

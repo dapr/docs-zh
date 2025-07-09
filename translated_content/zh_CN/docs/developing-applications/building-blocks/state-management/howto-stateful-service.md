@@ -21,7 +21,7 @@ description: "通过状态管理构建可扩展、可复制的服务"
 
 通过`statestore.yaml`组件，您可以轻松替换底层组件而无需更改应用程序代码。
 
-查看[支持的状态存储列表]({{< ref supported-state-stores >}})。
+查看[支持的状态存储列表]({{% ref supported-state-stores %}})。
 
 ### Kubernetes
 

@@ -10,14 +10,14 @@ no_list: true
 Dapr 客户端包使您能够从 .NET 应用程序与其他 Dapr 应用程序进行交互。
 
 {{% alert title="注意" color="primary" %}}
- 如果您还没有这样做，[请尝试其中一个快速入门]({{< ref quickstarts >}})，以快速了解如何使用 Dapr .NET SDK 和 API 构建块。
+ 如果您还没有这样做，[请尝试其中一个快速入门]({{% ref quickstarts %}})，以快速了解如何使用 Dapr .NET SDK 和 API 构建块。
 
 {{% /alert %}}
 
 
 ## 构建块
 
-.NET SDK 允许您与所有 [Dapr 构建块]({{< ref building-blocks >}})进行接口交互。
+.NET SDK 允许您与所有 [Dapr 构建块]({{% ref building-blocks %}})进行接口交互。
 
 ### 调用服务
 
@@ -25,14 +25,14 @@ Dapr 客户端包使您能够从 .NET 应用程序与其他 Dapr 应用程序进
 您可以使用 `DaprClient` 或 `System.Net.Http.HttpClient` 来调用服务。
 
 {{% alert title="注意" color="primary" %}}
- 您还可以[使用命名的 `HTTPEndpoint` 或非 Dapr 环境的 FQDN URL 调用非 Dapr 端点]({{< ref "howto-invoke-non-dapr-endpoints.md#using-an-httpendpoint-resource-or-fqdn-url-for-non-dapr-endpoints" >}})。
+ 您还可以[使用命名的 `HTTPEndpoint` 或非 Dapr 环境的 FQDN URL 调用非 Dapr 端点]({{% ref "howto-invoke-non-dapr-endpoints.md#using-an-httpendpoint-resource-or-fqdn-url-for-non-dapr-endpoints" %}})。
 
 {{% /alert %}}
 
 
-{{< tabs SDK HTTP>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="SDK" %}}
 ```csharp
 using var client = new DaprClientBuilder().
                 UseTimeout(TimeSpan.FromSeconds(2)). // 可选：设置超时
@@ -43,9 +43,9 @@ var data = new { id = "17", amount = 99m };
 var account = await client.InvokeMethodAsync<object, Account>("routing", "deposit", data, cancellationToken);
 Console.WriteLine("返回: id:{0} | 余额:{1}", account.Id, account.Balance);
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP" %}}
 ```csharp
 var client = DaprClient.CreateInvokeHttpClient(appId: "routing");
 
@@ -57,8 +57,8 @@ var response = await client.PostAsJsonAsync("/deposit", deposit, cancellationTok
 var account = await response.Content.ReadFromJsonAsync<Account>(cancellationToken: cancellationToken);
 Console.WriteLine("返回: id:{0} | 余额:{1}", account.Id, account.Balance);
 ```
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 #### gRPC
 您可以使用 `DaprClient` 通过 gRPC 调用服务。
@@ -74,7 +74,7 @@ await client.MyMethodAsync(new Empty(), options);
 Assert.Equal(StatusCode.DeadlineExceeded, ex.StatusCode);
 ```
 
-- 有关服务调用的完整指南，请访问 [如何：调用服务]({{< ref howto-invoke-discover-services.md >}})。
+- 有关服务调用的完整指南，请访问 [如何：调用服务]({{% ref howto-invoke-discover-services.md %}})。
 
 ### 保存和获取应用程序状态
 
@@ -117,7 +117,7 @@ foreach (var account in queryResponse.Results)
 }
 ```
 
-- 有关状态操作的完整列表，请访问 [如何：获取和保存状态]({{< ref howto-get-save-state.md >}})。
+- 有关状态操作的完整列表，请访问 [如何：获取和保存状态]({{% ref howto-get-save-state.md %}})。
 
 ### 发布消息
 
@@ -129,7 +129,7 @@ await client.PublishEventAsync(pubsubName, "deposit", eventData, cancellationTok
 Console.WriteLine("已发布存款事件!");
 ```
 
-- 有关状态操作的完整列表，请访问 [如何：发布和订阅]({{< ref howto-publish-subscribe.md >}})。
+- 有关状态操作的完整列表，请访问 [如何：发布和订阅]({{% ref howto-publish-subscribe.md %}})。
 - 访问 [.NET SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Client/PublishSubscribe) 获取代码示例和尝试 pub/sub 的说明
 
 ### 与输出绑定交互
@@ -150,13 +150,13 @@ var email = new
 await client.InvokeBindingAsync("send-email", "create", email);
 ```
 
-- 有关输出绑定的完整指南，请访问 [如何：使用绑定]({{< ref howto-bindings.md >}})。
+- 有关输出绑定的完整指南，请访问 [如何：使用绑定]({{% ref howto-bindings.md %}})。
 
 ### 检索秘密
 
-{{< tabs Multi-value-secret Single-value-secret >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Multi-value-secret" %}}
 
 ```csharp
 var client = new DaprClientBuilder().Build();
@@ -166,9 +166,9 @@ var secrets = await client.GetSecretAsync("mysecretstore", "key-value-pair-secre
 Console.WriteLine($"获取秘密键: {string.Join(", ", secrets.Keys)}");
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Single-value-secret" %}}
 
 ```csharp
 var client = new DaprClientBuilder().Build();
@@ -184,11 +184,11 @@ var value = data["single-value-secret"]
 Console.WriteLine("获取了一个秘密值，我不会打印它，因为它是秘密!");
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
-- 有关秘密的完整指南，请访问 [如何：检索秘密]({{< ref howto-secrets.md >}})。
+- 有关秘密的完整指南，请访问 [如何：检索秘密]({{% ref howto-secrets.md %}})。
 
 ### 获取配置键
 ```csharp

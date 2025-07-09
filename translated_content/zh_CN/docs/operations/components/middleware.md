@@ -13,7 +13,7 @@ Dapr 允许通过串联一系列中间件组件来定义自定义处理管道。
 
 ## 配置 API 中间件管道
 
-启动时，Dapr sidecar 会为传入的 HTTP 调用构建一个中间件处理管道。默认情况下，管道由[追踪]({{< ref tracing-overview.md >}})和 CORS 中间件组成。可以通过 Dapr [configuration]({{< ref configuration-concept.md >}}) 配置的其他中间件按定义顺序添加到管道中。该管道适用于所有 Dapr API 端点，包括 state、pubsub、service-invocation、bindings、secret、configuration、分布式锁等。
+启动时，Dapr sidecar 会为传入的 HTTP 调用构建一个中间件处理管道。默认情况下，管道由[追踪]({{% ref tracing-overview.md %}})和 CORS 中间件组成。可以通过 Dapr [configuration]({{% ref configuration-concept.md %}}) 配置的其他中间件按定义顺序添加到管道中。该管道适用于所有 Dapr API 端点，包括 state、pubsub、service-invocation、bindings、secret、configuration、分布式锁等。
 
 请求在路由到用户代码之前会依次经过所有定义的中间件组件，然后在返回给客户端之前以相反的顺序再次经过这些中间件，如下图所示。
 
@@ -21,7 +21,7 @@ Dapr 允许通过串联一系列中间件组件来定义自定义处理管道。
 
 在使用 `httpPipeline` 配置调用 Dapr HTTP API 时，HTTP 中间件组件会被执行。
 
-以下配置示例定义了一个自定义管道，使用了 [OAuth 2.0 中间件]({{< ref middleware-oauth2.md >}}) 和 [大写中间件组件]({{< ref middleware-uppercase.md >}})。在这种情况下，所有请求在转发到用户代码之前都通过 OAuth 2.0 协议进行授权，并转换为大写文本。
+以下配置示例定义了一个自定义管道，使用了 [OAuth 2.0 中间件]({{% ref middleware-oauth2.md %}}) 和 [大写中间件组件]({{% ref middleware-uppercase.md %}})。在这种情况下，所有请求在转发到用户代码之前都通过 OAuth 2.0 协议进行授权，并转换为大写文本。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -38,7 +38,7 @@ spec:
         type: middleware.http.uppercase
 ```
 
-与其他组件一样，中间件组件可以在[支持的中间件参考]({{< ref supported-middleware >}})和[`dapr/components-contrib` 仓库](https://github.com/dapr/components-contrib/tree/master/middleware/http)中找到。
+与其他组件一样，中间件组件可以在[支持的中间件参考]({{% ref supported-middleware %}})和[`dapr/components-contrib` 仓库](https://github.com/dapr/components-contrib/tree/master/middleware/http)中找到。
 
 {{< button page="supported-middleware" text="查看所有中间件组件">}}
 
@@ -67,7 +67,7 @@ spec:
 
 ## 相关链接
 
-- [了解如何编写中间件组件]({{< ref develop-middleware.md >}})
-- [组件架构]({{< ref component-schema.md >}})
-- [配置概述]({{< ref configuration-overview.md >}})
+- [了解如何编写中间件组件]({{% ref develop-middleware.md %}})
+- [组件架构]({{% ref component-schema.md %}})
+- [配置概述]({{% ref configuration-overview.md %}})
 - [API 中间件示例](https://github.com/dapr/samples/tree/master/middleware-oauth-google)

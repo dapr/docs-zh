@@ -9,13 +9,13 @@ description: 如何使用 Dapr Python SDK 快速上手
 Dapr 客户端包使您能够从 Python 应用程序与其他 Dapr 应用程序进行交互。
 
 {{% alert title="注意" color="primary" %}}
- 如果您还没有尝试过，[请尝试其中一个快速入门]({{< ref quickstarts >}})，以快速了解如何使用 Dapr Python SDK 和 API 构建块。
+ 如果您还没有尝试过，[请尝试其中一个快速入门]({{% ref quickstarts %}})，以快速了解如何使用 Dapr Python SDK 和 API 构建块。
 
 {{% /alert %}}
 
 ## 准备工作
 
-在开始之前，[安装 Dapr Python 包]({{< ref "python#installation" >}})。
+在开始之前，[安装 Dapr Python 包]({{% ref "python#installation" %}})。
 
 ## 导入客户端包
 
@@ -128,7 +128,7 @@ except DaprGrpcError as err:
 
 ## 构建块
 
-Python SDK 允许您与所有 [Dapr 构建块]({{< ref building-blocks >}}) 进行接口交互。
+Python SDK 允许您与所有 [Dapr 构建块]({{% ref building-blocks %}}) 进行接口交互。
 
 ### 调用服务
 
@@ -151,7 +151,7 @@ HTTP API 调用的基本端点在 `DAPR_HTTP_ENDPOINT` 环境变量中指定。
 
 gRPC 调用的基本端点是用于客户端初始化的端点（[如上所述](#initialising-the-client)）。
 
-- 有关服务调用的完整指南，请访问 [How-To: Invoke a service]({{< ref howto-invoke-discover-services.md >}})。
+- 有关服务调用的完整指南，请访问 [How-To: Invoke a service]({{% ref howto-invoke-discover-services.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/invoke-simple) 以获取代码示例和尝试服务调用的说明。
 
 ### 保存和获取应用程序状态
@@ -170,7 +170,7 @@ with DaprClient() as d:
     d.delete_state(store_name="statestore", key="key1")
 ```
 
-- 有关状态操作的完整列表，请访问 [How-To: Get & save state]({{< ref howto-get-save-state.md >}})。
+- 有关状态操作的完整列表，请访问 [How-To: Get & save state]({{% ref howto-get-save-state.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/state_store) 以获取代码示例和尝试状态管理的说明。
 
 ### 查询应用程序状态 (Alpha)
@@ -200,7 +200,7 @@ with DaprClient() as d:
         )
 ```
 
-- 有关状态存储查询选项的完整列表，请访问 [How-To: Query state]({{< ref howto-state-query-api.md >}})。
+- 有关状态存储查询选项的完整列表，请访问 [How-To: Query state]({{% ref howto-state-query-api.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/state_store_query) 以获取代码示例和尝试状态存储查询的说明。
 
 ### 发布和订阅
@@ -239,7 +239,7 @@ def mytopic_important(event: v1.Event) -> None:
           ' content_type="{event.content_type}"',flush=True)
 ```
 
-- 有关 pub/sub 的更多信息，请访问 [How-To: Publish & subscribe]({{< ref howto-publish-subscribe.md >}})。
+- 有关 pub/sub 的更多信息，请访问 [How-To: Publish & subscribe]({{% ref howto-publish-subscribe.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/pubsub-simple) 以获取代码示例和尝试 pub/sub 的说明。
 
 #### 流式消息订阅
@@ -348,7 +348,7 @@ if __name__ == '__main__':
     main()
 ```
 
-- 有关 pub/sub 的更多信息，请访问 [How-To: Publish & subscribe]({{< ref howto-publish-subscribe.md >}})。
+- 有关 pub/sub 的更多信息，请访问 [How-To: Publish & subscribe]({{% ref howto-publish-subscribe.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/pubsub-simple) 以获取代码示例和尝试流式 pub/sub 的说明。
 
 ### 与输出绑定交互
@@ -360,7 +360,7 @@ with DaprClient() as d:
     resp = d.invoke_binding(binding_name='kafkaBinding', operation='create', data='{"message":"Hello World"}')
 ```
 
-- 有关输出绑定的完整指南，请访问 [How-To: Use bindings]({{< ref howto-bindings.md >}})。
+- 有关输出绑定的完整指南，请访问 [How-To: Use bindings]({{% ref howto-bindings.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/invoke-binding) 以获取代码示例和尝试输出绑定的说明。
 
 ### 检索秘密
@@ -372,7 +372,7 @@ with DaprClient() as d:
     resp = d.get_secret(store_name='localsecretstore', key='secretKey')
 ```
 
-- 有关秘密的完整指南，请访问 [How-To: Retrieve secrets]({{< ref howto-secrets.md >}})。
+- 有关秘密的完整指南，请访问 [How-To: Retrieve secrets]({{% ref howto-secrets.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/secret_store) 以获取代码示例和尝试检索秘密的说明。
 
 ### 配置
@@ -417,7 +417,7 @@ async def executeConfiguration():
 asyncio.run(executeConfiguration())
 ```
 
-- 了解有关通过 [How-To: Manage configuration]({{< ref howto-manage-configuration.md >}}) 指南管理配置的更多信息。
+- 了解有关通过 [How-To: Manage configuration]({{% ref howto-manage-configuration.md %}}) 指南管理配置的更多信息。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/configuration) 以获取代码示例和尝试配置的说明。
 
 ### 分布式锁
@@ -448,7 +448,7 @@ def main():
         print('我们仍然尝试解锁它，并得到了 [%s]' % unlock_result.status)
 ```
 
-- 了解有关使用分布式锁的更多信息：[How-To: Use a lock]({{< ref howto-use-distributed-lock.md >}})。
+- 了解有关使用分布式锁的更多信息：[How-To: Use a lock]({{% ref howto-use-distributed-lock.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/blob/master/examples/distributed_lock) 以获取代码示例和尝试分布式锁的说明。
 
 ### 加密
@@ -482,7 +482,7 @@ def main():
         print(decrypt_bytes.decode())  # The secret is "passw0rd"
 ```
 
-- 有关状态操作的完整列表，请访问 [How-To: Use the cryptography APIs]({{< ref howto-cryptography.md >}})。
+- 有关状态操作的完整列表，请访问 [How-To: Use the cryptography APIs]({{% ref howto-cryptography.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/crypto) 以获取代码示例和尝试加密的说明。
 
 ### 工作流
@@ -563,8 +563,8 @@ def main():
 ```
 
 - 了解有关编写和管理工作流的更多信息： 
-  - [How-To: Author a workflow]({{< ref howto-author-workflow.md >}})。
-  - [How-To: Manage a workflow]({{< ref howto-manage-workflow.md >}})。
+  - [How-To: Author a workflow]({{% ref howto-author-workflow.md %}})。
+  - [How-To: Manage a workflow]({{% ref howto-manage-workflow.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/blob/master/examples/demo_workflow/app.py) 以获取代码示例和尝试 Dapr 工作流的说明。
 
 ## 相关链接

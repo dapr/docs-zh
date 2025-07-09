@@ -48,10 +48,10 @@ spec:
 
 默认情况下，安装 Dapr 控制平面系统服务时会有一个名为 `daprsystem` 的单一配置文件。此配置文件应用全局控制平面设置，并在 Dapr 部署到 Kubernetes 时设置。
 
-[了解更多关于配置选项的信息。]({{< ref "configuration-overview.md" >}})
+[了解更多关于配置选项的信息。]({{% ref "configuration-overview.md" %}})
 
 {{% alert title="重要" color="warning" %}}
-Dapr 应用程序和控制平面配置不应与 [配置构建块 API]({{< ref configuration-api-overview >}}) 混淆，后者使应用程序能够从配置存储组件中检索键/值数据。
+Dapr 应用程序和控制平面配置不应与 [配置构建块 API]({{% ref configuration-api-overview %}}) 混淆，后者使应用程序能够从配置存储组件中检索键/值数据。
 {{% /alert %}}
 
 ## 下一步

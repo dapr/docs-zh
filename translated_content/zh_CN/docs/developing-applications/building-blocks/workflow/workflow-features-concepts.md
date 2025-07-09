@@ -6,10 +6,10 @@ weight: 2000
 description: "详细了解 Dapr 工作流的功能和概念"
 ---
 
-在您已经从高层次了解了[工作流构建块]({{< ref workflow-overview.md >}})之后，让我们深入探讨 Dapr 工作流引擎和 SDK 所包含的功能和概念。Dapr 工作流在所有支持的语言中都提供了几个核心功能和概念。
+在您已经从高层次了解了[工作流构建块]({{% ref workflow-overview.md %}})之后，让我们深入探讨 Dapr 工作流引擎和 SDK 所包含的功能和概念。Dapr 工作流在所有支持的语言中都提供了几个核心功能和概念。
 
 {{% alert title="注意" color="primary" %}}
-有关工作流状态管理的更多信息，请参阅[工作流架构指南]({{< ref workflow-architecture.md >}})。
+有关工作流状态管理的更多信息，请参阅[工作流架构指南]({{% ref workflow-architecture.md %}})。
 {{% /alert %}}
 
 ## 工作流
@@ -17,14 +17,14 @@ description: "详细了解 Dapr 工作流的功能和概念"
 Dapr 工作流是您编写的函数，用于定义一系列按特定顺序执行的任务。Dapr 工作流引擎负责调度和执行这些任务，包括管理故障和重试。如果托管工作流的应用程序在多台机器上扩展，工作流引擎还可以在多台机器上负载均衡工作流及其任务的执行。
 
 工作流可以调度多种类型的任务，包括：
-- 用于执行自定义逻辑的[活动]({{< ref "workflow-features-concepts.md#workflow-activities" >}})
-- 用于将工作流休眠任意时间长度的[持久计时器]({{< ref "workflow-features-concepts.md#durable-timers" >}})
-- 用于将较大的工作流分解为较小部分的[子工作流]({{< ref "workflow-features-concepts.md#child-workflows" >}})
-- 用于阻塞工作流直到接收到外部事件信号的[外部事件等待器]({{< ref "workflow-features-concepts.md#external-events" >}})。这些任务在其相应的部分中有更详细的描述。
+- 用于执行自定义逻辑的[活动]({{% ref "workflow-features-concepts.md#workflow-activities" %}})
+- 用于将工作流休眠任意时间长度的[持久计时器]({{% ref "workflow-features-concepts.md#durable-timers" %}})
+- 用于将较大的工作流分解为较小部分的[子工作流]({{% ref "workflow-features-concepts.md#child-workflows" %}})
+- 用于阻塞工作流直到接收到外部事件信号的[外部事件等待器]({{% ref "workflow-features-concepts.md#external-events" %}})。这些任务在其相应的部分中有更详细的描述。
 
 ### 工作流标识
 
-每个您定义的工作流都有一个类型名称，工作流的每次执行都需要一个唯一的_实例 ID_。工作流实例 ID 可以由您的应用程序代码生成，这在工作流对应于业务实体（如文档或作业）时很有用，或者可以是自动生成的 UUID。工作流的实例 ID 对于调试以及使用[工作流 API]({{< ref workflow_api.md >}})管理工作流非常有用。
+每个您定义的工作流都有一个类型名称，工作流的每次执行都需要一个唯一的_实例 ID_。工作流实例 ID 可以由您的应用程序代码生成，这在工作流对应于业务实体（如文档或作业）时很有用，或者可以是自动生成的 UUID。工作流的实例 ID 对于调试以及使用[工作流 API]({{% ref workflow_api.md %}})管理工作流非常有用。
 
 在任何给定时间，只能存在一个具有给定 ID 的工作流实例。然而，如果一个工作流实例完成或失败，其 ID 可以被新的工作流实例重用。但请注意，新工作流实例实际上会在配置的状态存储中替换旧的实例。
 
@@ -44,12 +44,12 @@ Dapr 工作流通过使用一种称为[事件溯源](https://learn.microsoft.com
 通过这种重放技术，工作流能够从任何“等待”点恢复执行，就像它从未从内存中卸载过一样。即使是先前运行的局部变量的值也可以恢复，而无需工作流引擎了解它们存储了什么数据。这种恢复状态的能力使 Dapr 工作流具有_持久性_和_容错性_。
 
 {{% alert title="注意" color="primary" %}}
-这里描述的工作流重放行为要求工作流函数代码是_确定性的_。确定性的工作流函数在提供完全相同的输入时采取完全相同的操作。[了解有关确定性工作流代码限制的更多信息。]({{< ref "workflow-features-concepts.md#workflow-determinism-and-code-restraints" >}})
+这里描述的工作流重放行为要求工作流函数代码是_确定性的_。确定性的工作流函数在提供完全相同的输入时采取完全相同的操作。[了解有关确定性工作流代码限制的更多信息。]({{% ref "workflow-features-concepts.md#workflow-determinism-and-code-restraints" %}})
 {{% /alert %}}
 
 ### 无限循环和永恒工作流
 
-如[工作流重放]({{< ref "#workflow-replay" >}})部分所述，工作流维护其所有操作的仅写事件溯源历史日志。为了避免资源使用失控，工作流必须限制其调度的操作数量。例如，确保您的工作流不会：
+如[工作流重放]({{% ref "#workflow-replay" %}})部分所述，工作流维护其所有操作的仅写事件溯源历史日志。为了避免资源使用失控，工作流必须限制其调度的操作数量。例如，确保您的工作流不会：
 
 - 在其实现中使用无限循环
 - 调度数千个任务。
@@ -70,9 +70,9 @@ Dapr 工作流通过使用一种称为[事件溯源](https://learn.microsoft.com
 
 ### 更新工作流代码
 
-由于工作流是长时间运行且持久的，因此更新工作流代码必须非常小心。如[工作流确定性]({{< ref "#workflow-determinism-and-code-restraints" >}})限制部分所述，工作流代码必须是确定性的。如果系统中有任何未完成的工作流实例，更新工作流代码必须保留这种确定性。否则，更新工作流代码可能会导致下次这些工作流执行时出现运行时故障。
+由于工作流是长时间运行且持久的，因此更新工作流代码必须非常小心。如[工作流确定性]({{% ref "#workflow-determinism-and-code-restraints" %}})限制部分所述，工作流代码必须是确定性的。如果系统中有任何未完成的工作流实例，更新工作流代码必须保留这种确定性。否则，更新工作流代码可能会导致下次这些工作流执行时出现运行时故障。
 
-[查看已知限制]({{< ref "#limitations" >}})
+[查看已知限制]({{% ref "#limitations" %}})
 
 ## 工作流活动
 
@@ -94,7 +94,7 @@ Dapr 工作流引擎保证每个被调用的活动在工作流的执行过程中
 
 子工作流的返回值是其输出。如果子工作流因异常而失败，则该异常会像活动任务失败时一样显示给父工作流。子工作流还支持自动重试策略。
 
-终止父工作流会终止由工作流实例创建的所有子工作流。有关更多信息，请参阅[终止工作流 API]({{< ref "workflow_api.md#terminate-workflow-request" >}})。
+终止父工作流会终止由工作流实例创建的所有子工作流。有关更多信息，请参阅[终止工作流 API]({{% ref "workflow_api.md#terminate-workflow-request" %}})。
 
 ## 持久计时器
 
@@ -106,7 +106,7 @@ Dapr 工作流允许您为任何时间范围安排类似提醒的持久延迟，
 
 ## 重试策略
 
-工作流支持活动和子工作流的持久重试策略。工作流重试策略与[Dapr 弹性策略]({{< ref "resiliency-overview.md" >}})在以下方面是分开的和不同的。
+工作流支持活动和子工作流的持久重试策略。工作流重试策略与[Dapr 弹性策略]({{% ref "resiliency-overview.md" %}})在以下方面是分开的和不同的。
 
 - 工作流重试策略由工作流作者在代码中配置，而 Dapr 弹性策略由应用程序操作员在 YAML 中配置。
 - 工作流重试策略是持久的，并在应用程序重启时保持其状态，而 Dapr 弹性策略不是持久的，必须在应用程序重启后重新应用。
@@ -115,10 +115,10 @@ Dapr 工作流允许您为任何时间范围安排类似提醒的持久延迟，
 重试在内部使用持久计时器实现。这意味着工作流在等待重试触发时可以安全地从内存中卸载，从而节省系统资源。这也意味着重试之间的延迟可以任意长，包括分钟、小时甚至天。
 
 {{% alert title="注意" color="primary" %}}
-重试策略执行的操作会保存到工作流的历史记录中。在工作流已经执行后，必须小心不要更改重试策略的行为。否则，工作流在重放时可能会表现出意外行为。有关更多信息，请参阅[更新工作流代码]({{< ref "#updating-workflow-code" >}})的说明。
+重试策略执行的操作会保存到工作流的历史记录中。在工作流已经执行后，必须小心不要更改重试策略的行为。否则，工作流在重放时可能会表现出意外行为。有关更多信息，请参阅[更新工作流代码]({{% ref "#updating-workflow-code" %}})的说明。
 {{% /alert %}}
 
-可以同时使用工作流重试策略和 Dapr 弹性策略。例如，如果工作流活动使用 Dapr 客户端调用服务，则 Dapr 客户端使用配置的弹性策略。有关示例的更多信息，请参阅[快速入门：服务到服务的弹性]({{< ref "resiliency-serviceinvo-quickstart.md" >}})。但是，如果活动本身因任何原因失败，包括耗尽弹性策略的重试次数，则工作流的弹性策略会启动。
+可以同时使用工作流重试策略和 Dapr 弹性策略。例如，如果工作流活动使用 Dapr 客户端调用服务，则 Dapr 客户端使用配置的弹性策略。有关示例的更多信息，请参阅[快速入门：服务到服务的弹性]({{% ref "resiliency-serviceinvo-quickstart.md" %}})。但是，如果活动本身因任何原因失败，包括耗尽弹性策略的重试次数，则工作流的弹性策略会启动。
 
 {{% alert title="注意" color="primary" %}}
 同时使用工作流重试策略和弹性策略可能会导致意外行为。例如，如果工作流活动耗尽其配置的重试策略，工作流引擎仍会根据工作流重试策略重试该活动。这可能导致活动被重试的次数超过预期。
@@ -142,7 +142,7 @@ Dapr 工作流允许您为任何时间范围安排类似提醒的持久延迟，
 
 工作流还可以等待同名的多个外部事件信号，在这种情况下，它们会以先进先出 (FIFO) 的方式分派给相应的工作流任务。如果工作流接收到外部事件信号，但尚未创建“等待外部事件”任务，则事件将保存到工作流的历史记录中，并在工作流请求事件后立即消费。
 
-了解有关[外部系统交互]({{< ref "workflow-patterns.md#external-system-interaction" >}})的更多信息。
+了解有关[外部系统交互]({{% ref "workflow-patterns.md#external-system-interaction" %}})的更多信息。
 
 ## 工作流后端
 
@@ -160,7 +160,7 @@ Dapr 工作流依赖于 Go 的持久任务框架（即 [durabletask-go](https://
 
 工作流状态可以从状态存储中清除，清除其所有历史记录并删除与特定工作流实例相关的所有元数据。清除功能用于已运行到 `COMPLETED`、`FAILED` 或 `TERMINATED` 状态的工作流。
 
-在[工作流 API 参考指南]({{< ref workflow_api.md >}})中了解更多信息。
+在[工作流 API 参考指南]({{% ref workflow_api.md %}})中了解更多信息。
 
 ## 限制
 
@@ -175,9 +175,9 @@ Dapr 工作流依赖于 Go 的持久任务框架（即 [durabletask-go](https://
 
 例如，不要这样做：
 
-{{< tabs ".NET" Java JavaScript Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 不要这样做！
@@ -186,9 +186,9 @@ Guid newIdentifier = Guid.NewGuid();
 string randomString = GetRandomString();
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 不要这样做！
@@ -197,9 +197,9 @@ UUID newIdentifier = UUID.randomUUID();
 String randomString = getRandomString();
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 // 不要这样做！
@@ -208,24 +208,24 @@ const newIdentifier = uuidv4();
 const randomString = getRandomString();
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 // 不要这样做！
 const currentTime = time.Now()
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 这样做：
 
-{{< tabs ".NET" Java JavaScript Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 这样做！！
@@ -234,9 +234,9 @@ Guid newIdentifier = context.NewGuid();
 string randomString = await context.CallActivityAsync<string>("GetRandomString");
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 这样做！！
@@ -245,9 +245,9 @@ Guid newIdentifier = context.newGuid();
 String randomString = context.callActivity(GetRandomString.class.getName(), String.class).await();
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 // 这样做！！
@@ -255,17 +255,17 @@ const currentTime = context.getCurrentUtcDateTime();
 const randomString = yield context.callActivity(getRandomString);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 const currentTime = ctx.CurrentUTCDateTime()
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 #### 工作流函数必须仅_间接_与外部状态交互。
 外部数据包括任何不存储在工作流状态中的数据。工作流不得与全局变量、环境变量、文件系统交互或进行网络调用。
@@ -274,18 +274,18 @@ const currentTime = ctx.CurrentUTCDateTime()
 
 例如，不要这样做：
 
-{{< tabs ".NET" Java JavaScript Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 不要这样做！
 string configuration = Environment.GetEnvironmentVariable("MY_CONFIGURATION")!;
 string data = await new HttpClient().GetStringAsync("https://example.com/api/data");
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 不要这样做！
@@ -295,9 +295,9 @@ HttpRequest request = HttpRequest.newBuilder().uri(new URI("https://postman-echo
 HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 // 不要这样做！
@@ -314,24 +314,24 @@ fetch('https://postman-echo.com/get')
   });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 // 不要这样做！
 resp, err := http.Get("http://example.com/api/data")
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 这样做：
 
-{{< tabs ".NET" Java JavaScript Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 这样做！！
@@ -339,9 +339,9 @@ string configuration = workflowInput.Configuration; // 假想的工作流输入�
 string data = await context.CallActivityAsync<string>("MakeHttpCall", "https://example.com/api/data");
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 这样做！！
@@ -349,9 +349,9 @@ String configuration = ctx.getInput(InputType.class).getConfiguration(); // 假�
 String data = ctx.callActivity(MakeHttpCall.class, "https://example.com/api/data", String.class).await();
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 // 这样做！！
@@ -359,9 +359,9 @@ const configuration = workflowInput.getConfiguration(); // 假想的工作流输
 const data = yield ctx.callActivity(makeHttpCall, "https://example.com/api/data");
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 // 这样做！！
@@ -369,8 +369,8 @@ err := ctx.CallActivity(MakeHttpCallActivity, workflow.ActivityInput("https://ex
 
 ```
 
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 #### 工作流函数必须仅在工作流调度线程上执行。
 每种语言 SDK 的实现要求所有工作流函数操作在函数被调度的同一线程（goroutine 等）上运行。工作流函数绝不能：
@@ -381,18 +381,18 @@ err := ctx.CallActivity(MakeHttpCallActivity, workflow.ActivityInput("https://ex
 
 例如，不要这样做：
 
-{{< tabs ".NET" Java JavaScript Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 不要这样做！
 Task t = Task.Run(() => context.CallActivityAsync("DoSomething"));
 await context.CreateTimer(5000).ConfigureAwait(false);
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 不要这样做！
@@ -402,15 +402,15 @@ new Thread(() -> {
 ctx.createTimer(Duration.ofSeconds(5)).await();
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 不要将 JavaScript 工作流声明为 `async`。Node.js 运行时不保证异步函数是确定性的。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 // 不要这样做！
@@ -420,15 +420,15 @@ go func() {
 err := ctx.CreateTimer(time.Second).Await(nil)
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 这样做：
 
-{{< tabs ".NET" Java JavaScript Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 // 这样做！！
@@ -436,9 +436,9 @@ Task t = context.CallActivityAsync("DoSomething");
 await context.CreateTimer(5000).ConfigureAwait(true);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 // 这样做！！
@@ -446,15 +446,15 @@ ctx.callActivity(DoSomethingActivity.class.getName()).await();
 ctx.createTimer(Duration.ofSeconds(5)).await();
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 由于 Node.js 运行时不保证异步函数是确定性的，因此始终将 JavaScript 工作流声明为同步生成器函数。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 // 这样做！
@@ -462,9 +462,9 @@ task := ctx.CallActivity(DoSomething)
 task.Await(nil)
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 更新工作流代码
 
@@ -488,9 +488,9 @@ task.Await(nil)
 
 ## 相关链接
 
-- [使用快速入门尝试 Dapr 工作流]({{< ref workflow-quickstart.md >}})
-- [工作流概述]({{< ref workflow-overview.md >}})
-- [工作流 API 参考]({{< ref workflow_api.md >}})
+- [使用快速入门尝试 Dapr 工作流]({{% ref workflow-quickstart.md %}})
+- [工作流概述]({{% ref workflow-overview.md %}})
+- [工作流 API 参考]({{% ref workflow_api.md %}})
 - 尝试以下示例：
    - [Python](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
    - [JavaScript](https://github.com/dapr/js-sdk/tree/main/examples/workflow)

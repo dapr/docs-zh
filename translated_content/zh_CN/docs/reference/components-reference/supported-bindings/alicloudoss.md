@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要配置阿里云对象存储绑定，请创建一个类型为 `bindings.alicloud.oss` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用secretstore配置。有关如何[引用secrets]({{< ref component-secrets.md >}})以检索和使用Dapr组件的secret，请参阅此指南。
+要配置阿里云对象存储绑定，请创建一个类型为 `bindings.alicloud.oss` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用secretstore配置。有关如何[引用secrets]({{% ref component-secrets.md %}})以检索和使用Dapr组件的secret，请参阅此指南。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -31,7 +31,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为secrets。建议使用secret store来存储secrets，详情请见[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串作为secrets。建议使用secret store来存储secrets，详情请见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 元数据字段说明
@@ -68,48 +68,48 @@ spec:
 
 **保存到随机生成的UUID文件**
 
-{{< tabs "Windows" "Linux/MacOS" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 ```bash
 curl -d "{ \"operation\": \"create\", \"data\": \"Hello World\" }" http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 
 ```bash
 curl -d '{ "operation": "create", "data": "Hello World" }' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 <br />
 
 **保存到特定文件**
-{{< tabs "Windows" "Linux/MacOS" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 ```bash
 curl -d "{ \"operation\": \"create\", \"data\": \"Hello World\", \"metadata\": { \"key\": \"my-key\" } }" http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 
 ```bash
 curl -d '{ "operation": "create", "data": "Hello World", "metadata": { "key": "my-key" } }' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 {{% alert title="注意" color="primary" %}}
 在Windows CMD中需要对`"`字符进行转义。
@@ -133,7 +133,7 @@ curl -d '{ "operation": "create", "data": "Hello World", "metadata": { "key": "m
 
 ## 相关链接
 
-- [Bindings构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用bindings与外部资源接口]({{< ref howto-bindings.md >}})
-- [Bindings API参考]({{< ref bindings_api.md >}})
+- [Bindings构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用bindings与外部资源接口]({{% ref howto-bindings.md %}})
+- [Bindings API参考]({{% ref bindings_api.md %}})

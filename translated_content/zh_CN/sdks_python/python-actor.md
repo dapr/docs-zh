@@ -10,10 +10,10 @@ Dapr actor 包使您能够从 Python 应用程序与 Dapr 虚拟 actor 交互。
 
 ## 先决条件
 
-- 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 已初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
+- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - 已安装 [Python 3.8+](https://www.python.org/downloads/)
-- 已安装 [Dapr Python 包]({{< ref "python#installation" >}})
+- 已安装 [Dapr Python 包]({{% ref "python#installation" %}})
 
 ## actor 接口
 
@@ -33,8 +33,8 @@ class DemoActorInterface(ActorInterface):
 actor 服务负责托管虚拟 actor。它是一个从基类 `Actor` 派生并实现 actor 接口中定义的类。
 
 可以使用以下 Dapr actor 扩展之一创建 actor：
-   - [FastAPI actor 扩展]({{< ref python-fastapi.md >}})
-   - [Flask actor 扩展]({{< ref python-flask.md >}})
+   - [FastAPI actor 扩展]({{% ref python-fastapi.md %}})
+   - [Flask actor 扩展]({{% ref python-flask.md %}})
 
 ## actor 客户端
 

@@ -45,7 +45,7 @@ Dapr 提供了两种注册和创建组件的方法：
 1. 创建服务脚手架
 1. 定义服务
 
-了解更多关于[如何开发和实现可插拔组件]({{< ref develop-pluggable.md >}})
+了解更多关于[如何开发和实现可插拔组件]({{% ref develop-pluggable.md %}})
 
 ### 为组件利用多个构建块
 
@@ -55,11 +55,11 @@ Dapr 提供了两种注册和创建组件的方法：
 
 ## 如何使可插拔组件投入使用
 
-内置组件和可插拔组件有一个共同点：都需要一个[组件规范]({{< ref "components-concept.md#component-specification" >}})。内置组件不需要任何额外步骤即可使用：Dapr 已准备好自动使用它们。
+内置组件和可插拔组件有一个共同点：都需要一个[组件规范]({{% ref "components-concept.md#component-specification" %}})。内置组件不需要任何额外步骤即可使用：Dapr 已准备好自动使用它们。
 
 相反，可插拔组件在与 Dapr 通信之前需要额外的步骤。您需要首先运行组件并促进 Dapr-组件通信以启动注册过程。
 
 ## 下一步
 
-- [实现可插拔组件]({{< ref develop-pluggable.md >}})
-- [可插拔组件注册]({{< ref "pluggable-components-registration" >}})
+- [实现可插拔组件]({{% ref develop-pluggable.md %}})
+- [可插拔组件注册]({{% ref "pluggable-components-registration" %}})

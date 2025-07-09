@@ -17,7 +17,7 @@ description: "了解如何控制同时调用您应用程序的请求和事件数
 - `middleware.http.ratelimit`：限制每秒的请求数量
 - `app-max-concurrency`：限制在任意时间点的最大并发请求（和事件）数量。
 
-有关该方法的更多信息，请参见[速率限制中间件]({{< ref middleware-rate-limit.md >}})。
+有关该方法的更多信息，请参见[速率限制中间件]({{% ref middleware-rate-limit.md %}})。
 
 ## 演示
 
@@ -35,10 +35,10 @@ description: "了解如何控制同时调用您应用程序的请求和事件数
 
 选择您希望配置 `app-max-concurrency` 的方式。
 
-{{< tabs "CLI" Kubernetes >}}
+{{< tabpane text=true >}}
 
  <!-- CLI -->
-{{% codetab %}}
+{{% tab header="CLI" %}}
 
 要在本地开发环境中使用 Dapr CLI 设置并发限制，请添加 `app-max-concurrency` 标志：
 
@@ -48,10 +48,10 @@ dapr run --app-max-concurrency 1 --app-port 5000 python ./app.py
 
 上述示例将您的应用程序变成一个顺序处理服务。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Kubernetes -->
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 要在 Kubernetes 中配置并发限制，请将以下注释添加到您的 pod：
 
@@ -80,9 +80,9 @@ spec:
 #...
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 限制
 
@@ -91,7 +91,7 @@ spec:
 
 ## 相关链接
 
-[参数和注释]({{< ref arguments-annotations-overview.md >}})
+[参数和注释]({{% ref arguments-annotations-overview.md %}})
 
 ## 下一步
 

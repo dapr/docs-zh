@@ -10,7 +10,7 @@ Dapr 使用 Zipkin API 集成了 [OpenTelemetry (OTEL) Collector](https://github
 
 ## 前提条件
 
-- [在 Kubernetes 上安装 Dapr]({{< ref kubernetes >}})
+- [在 Kubernetes 上安装 Dapr]({{% ref kubernetes %}})
 - [设置一个应用程序洞察资源](https://docs.microsoft.com/azure/azure-monitor/app/create-new-resource)并记录下你的应用程序洞察仪器密钥。
 
 ## 配置 OTEL Collector 以推送数据到应用程序洞察
@@ -80,4 +80,4 @@ spec:
 
 ## 相关链接
 - 尝试 [可观测性快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability/README.md)
-- 了解如何设置 [跟踪配置选项]({{< ref "configuration-overview.md#tracing" >}})
+- 了解如何设置 [跟踪配置选项]({{% ref "configuration-overview.md#tracing" %}})

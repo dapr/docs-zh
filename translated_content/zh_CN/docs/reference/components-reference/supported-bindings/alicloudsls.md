@@ -9,7 +9,7 @@ aliases:
 
 ## 组件配置格式
 
-要配置一个阿里云SLS绑定，请创建一个类型为`bindings.alicloud.sls`的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})以了解如何创建和应用绑定配置。
+要配置一个阿里云SLS绑定，请创建一个类型为`bindings.alicloud.sls`的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})以了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -67,25 +67,25 @@ spec:
 
 #### 示例
 
-{{< tabs "Windows" "Linux/MacOS" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 ```bash
 curl -X POST -H "Content-Type: application/json" -d "{\"metadata\":{\"project\":\"project-name\",\"logstore\":\"logstore-name\",\"topic\":\"topic-name\",\"source\":\"source-name\"},\"data\":{\"log-filed\":\"log info\"}" http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Linux/MacOS" %}}
 
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{"metadata":{"project":"project-name","logstore":"logstore-name","topic":"topic-name","source":"source-name"},"data":{"log-filed":"log info"}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 <br />
 
@@ -94,7 +94,7 @@ curl -X POST -H "Content-Type: application/json" -d '{"metadata":{"project":"pro
 
 ## 相关链接
 
-- [bindings构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用bindings与外部资源接口]({{< ref howto-bindings.md >}})
-- [bindings API参考]({{< ref bindings_api.md >}})
+- [bindings构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用bindings与外部资源接口]({{% ref howto-bindings.md %}})
+- [bindings API参考]({{% ref bindings_api.md %}})

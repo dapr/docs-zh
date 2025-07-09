@@ -127,6 +127,6 @@ aws eks --region [your_aws_region] update-kubeconfig --name [your_eks_cluster_na
 
 - [了解更多关于EKS集群的信息](https://docs.aws.amazon.com/eks/latest/userguide/clusters.html)
 - [了解更多关于eksctl的信息](https://eksctl.io/getting-started/)
-- [尝试一个Dapr快速入门]({{< ref quickstarts.md >}})
-- 了解如何[在您的集群上部署Dapr]({{< ref kubernetes-deploy.md >}})
-- [Kubernetes生产指南]({{< ref kubernetes-production.md >}})
+- [尝试一个Dapr快速入门]({{% ref quickstarts.md %}})
+- 了解如何[在您的集群上部署Dapr]({{% ref kubernetes-deploy.md %}})
+- [Kubernetes生产指南]({{% ref kubernetes-production.md %}})

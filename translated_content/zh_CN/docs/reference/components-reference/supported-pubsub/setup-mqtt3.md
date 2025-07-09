@@ -10,7 +10,7 @@ aliases:
 
 ## 组件格式
 
-要配置一个MQTT3发布/订阅组件，请创建一个类型为`pubsub.mqtt3`的组件。请参阅[发布/订阅代理组件文件]({{< ref setup-pubsub.md >}})以了解如何自动生成ConsumerID。阅读[操作指南：发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})以了解如何创建和应用发布/订阅配置。
+要配置一个MQTT3发布/订阅组件，请创建一个类型为`pubsub.mqtt3`的组件。请参阅[发布/订阅代理组件文件]({{% ref setup-pubsub.md %}})以了解如何自动生成ConsumerID。阅读[操作指南：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用发布/订阅配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -35,7 +35,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来管理密钥，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来管理密钥，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -43,7 +43,7 @@ spec:
 | 字段              | 必需 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
 | `url`    | Y  | MQTT broker的地址。可以使用`secretKeyRef`来引用密钥。<br> 对于非TLS通信，使用**`tcp://`** URI方案。<br> 对于TLS通信，使用**`ssl://`** URI方案。 | `"tcp://[username][:password]@host.domain[:port]"`
-| `consumerID` | N | 用于连接到MQTT broker的客户端ID。默认为Dapr应用ID。 | 可以设置为字符串值（如上例中的`"channel1"`）或字符串格式值（如`"{podName}"`等）。[查看您可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| `consumerID` | N | 用于连接到MQTT broker的客户端ID。默认为Dapr应用ID。 | 可以设置为字符串值（如上例中的`"channel1"`）或字符串格式值（如`"{podName}"`等）。[查看您可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | `retain` | N  | 定义消息是否由broker保存为指定主题的最后已知良好值。默认为`"false"`。 | `"true"`，`"false"`
 | `cleanSession` | N | 如果为`"true"`，则在连接消息中设置`clean_session`标志到MQTT broker（[更多信息](http://www.steves-internet-guide.com/mqtt-clean-sessions-example/)）。默认为`"false"`。 | `"true"`，`"false"`
 | `caCert` | 使用TLS时必需 | 用于验证服务器TLS证书的PEM格式的证书颁发机构（CA）证书。 | 参见下面的示例
@@ -118,18 +118,18 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来管理密钥，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来管理密钥，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 请注意，在这种情况下，每次Dapr重启时，consumer ID的值都是随机的，因此您也应该将`cleanSession`设置为`true`。
 
-建议使用[StatefulSets]({{< ref "howto-subscribe-statefulset.md" >}})进行共享订阅。
+建议使用[StatefulSets]({{% ref "howto-subscribe-statefulset.md" %}})进行共享订阅。
 
 ## 创建一个MQTT3 broker
 
-{{< tabs "Self-Hosted" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 您可以使用Docker在本地运行一个像emqx这样的MQTT broker：
 
 ```bash
@@ -137,9 +137,9 @@ docker run -d -p 1883:1883 --name mqtt emqx:latest
 ```
 
 然后您可以使用客户端端口与服务器交互：`tcp://localhost:1883`
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 您可以使用以下yaml在Kubernetes中运行一个MQTT3 broker：
 
 ```yaml
@@ -186,12 +186,12 @@ spec:
 ```
 
 然后您可以使用客户端端口与服务器交互：`tcp://mqtt-broker.default.svc.cluster.local:1883`
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
-- [Dapr组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})以获取配置发布/订阅组件的说明
-- [发布/订阅构建块]({{< ref pubsub >}})
+- [Dapr组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})以获取配置发布/订阅组件的说明
+- [发布/订阅构建块]({{% ref pubsub %}})

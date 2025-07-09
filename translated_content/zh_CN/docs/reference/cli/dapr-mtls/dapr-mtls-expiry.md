@@ -12,7 +12,7 @@ weight: 2000
 
 ### 支持的平台
 
-- [Kubernetes]({{< ref kubernetes >}})
+- [Kubernetes]({{% ref kubernetes %}})
 
 ### 用法
 

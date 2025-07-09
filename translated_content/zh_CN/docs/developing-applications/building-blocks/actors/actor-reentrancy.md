@@ -29,9 +29,9 @@ Actor A -> Actor B -> Actor A
 
 要启用actor重入，必须提供适当的配置。这是通过actor的`GET /dapr/config`端点完成的，类似于其他actor配置元素。
 
-{{< tabs ".NET" JavaScript Python Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 <!--dotnet-->
 
 ```csharp
@@ -53,9 +53,9 @@ public class Startup
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 <!--javascript-->
 
 ```js
@@ -72,9 +72,9 @@ const clientOptions = {
 };
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 <!--python-->
 
 ```python
@@ -100,18 +100,18 @@ def do_something_reentrant():
 	# 在这里调用另一个actor，重入将自动处理
 	return
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 <!--java-->
 
 ```
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 以下是一个用Golang编写的actor代码片段，通过HTTP API提供重入配置。重入尚未包含在Go SDK中。
 
@@ -167,9 +167,9 @@ func reentrantCallHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 演示
 
@@ -185,5 +185,5 @@ func reentrantCallHandler(w http.ResponseWriter, r *http.Request) {
 
 ## 相关链接
 
-- [actor API参考]({{< ref actors_api.md >}})
-- [actor概述]({{< ref actors-overview.md >}})
+- [actor API参考]({{% ref actors_api.md %}})
+- [actor概述]({{% ref actors-overview.md %}})

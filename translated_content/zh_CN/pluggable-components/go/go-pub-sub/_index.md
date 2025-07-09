@@ -105,7 +105,7 @@ func main() {
 ```
 
 ## 下一步
-- [使用可插拔组件 Go SDK 的高级技术]({{< ref go-advanced >}})
+- [使用可插拔组件 Go SDK 的高级技术]({{% ref go-advanced %}})
 - 了解更多关于实现：
-  - [bindings]({{< ref go-bindings >}})
-  - [state]({{< ref go-state-store >}})
+  - [bindings]({{% ref go-bindings %}})
+  - [state]({{% ref go-state-store %}})

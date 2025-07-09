@@ -6,7 +6,7 @@ weight: 78
 description: 开始使用 Dapr 的配置模块
 ---
 
-接下来，我们将介绍 Dapr 的[配置模块]({{< ref configuration-api-overview.md >}})。配置项通常具有动态特性，并且与应用程序的需求紧密相关。配置项是包含配置信息的键/值对，例如：
+接下来，我们将介绍 Dapr 的[配置模块]({{% ref configuration-api-overview.md %}})。配置项通常具有动态特性，并且与应用程序的需求紧密相关。配置项是包含配置信息的键/值对，例如：
 - 应用程序 ID
 - 分区键
 - 数据库名称等
@@ -19,9 +19,9 @@ description: 开始使用 Dapr 的配置模块
 
 在继续快速入门之前，请选择您偏好的 Dapr SDK 语言版本。
 
-{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ### 前提条件
 
@@ -139,10 +139,10 @@ if unsubscribed == True:
     print("App unsubscribed from config changes", flush=True)
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ### 前提条件
 
@@ -260,10 +260,10 @@ setTimeout(() => {
 },
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ### 前提条件
 
@@ -379,10 +379,10 @@ try
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ### 前提条件
 
@@ -497,10 +497,10 @@ if (unsubscribe.getIsUnsubscribed()) {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ### 前提条件
 
@@ -616,9 +616,9 @@ case <-ctx.Done():
 	}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 演示
 
@@ -640,6 +640,6 @@ case <-ctx.Done():
   - [.NET](https://github.com/dapr/quickstarts/tree/master/configuration/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/configuration/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/configuration/go/http)
-- 了解更多关于[配置模块]({{< ref configuration-api-overview >}})的信息
+- 了解更多关于[配置模块]({{% ref configuration-api-overview %}})的信息
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

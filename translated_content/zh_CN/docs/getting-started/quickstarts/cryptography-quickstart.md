@@ -10,7 +10,7 @@ description: 开始使用 Dapr 加密构建块
 加密构建块目前处于**初始阶段**。
 {{% /alert %}}
 
-我们来了解一下 Dapr 的[加密构建块]({{< ref cryptography >}})。在这个快速入门中，您将创建一个应用程序，使用 Dapr 加密 API 来加密和解密数据。您将：
+我们来了解一下 Dapr 的[加密构建块]({{% ref cryptography %}})。在这个快速入门中，您将创建一个应用程序，使用 Dapr 加密 API 来加密和解密数据。您将：
 
 - 加密并解密一个短字符串（使用 RSA 密钥），在内存中读取结果，使用 Go 的字节切片格式。
 - 加密并解密一个大文件（使用 AES 密钥），通过流的方式将加密和解密的数据存储到文件中。
@@ -23,10 +23,10 @@ description: 开始使用 Dapr 加密构建块
 
 目前，您可以使用 Go SDK 体验加密 API。
 
-{{< tabs "JavaScript" "Go" >}}
+{{< tabpane text=true >}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 > 此快速入门包括一个名为 `crypto-quickstart` 的 JavaScript 应用程序。
 
@@ -225,10 +225,10 @@ async function encryptDecryptStream(client) {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 > 此快速入门包括一个名为 `crypto-quickstart` 的 Go 应用程序。
 
@@ -466,10 +466,10 @@ func encryptDecryptFile(client dapr.Client) {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 观看演示
 
@@ -485,7 +485,7 @@ func encryptDecryptFile(client dapr.Client) {
 
 ## 下一步
 
-- 通过 [更多使用加密 API 加密和解密的示例]({{< ref howto-cryptography.md >}}) 进行学习
-- 了解更多关于 [作为 Dapr 构建块的加密技术]({{< ref cryptography-overview.md >}})
+- 通过 [更多使用加密 API 加密和解密的示例]({{% ref howto-cryptography.md %}}) 进行学习
+- 了解更多关于 [作为 Dapr 构建块的加密技术]({{% ref cryptography-overview.md %}})
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

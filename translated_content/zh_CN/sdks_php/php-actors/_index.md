@@ -7,7 +7,7 @@ description: 如何构建actor
 no_list: true
 ---
 
-如果你对actor模式不熟悉，学习actor模式的最佳地方是[Actor概述]({{< ref actors-overview.md >}})。
+如果你对actor模式不熟悉，学习actor模式的最佳地方是[Actor概述]({{% ref actors-overview.md %}})。
 
 在PHP SDK中，actor分为客户端和actor（也称为运行时）两部分。作为actor的客户端，你需要通过`ActorProxy`类与远程actor进行交互。此类通过几种配置策略之一动态生成代理类。
 
@@ -89,9 +89,9 @@ class CountState extends \Dapr\Actors\ActorState {
 
 Dapr期望在启动时知道服务可能托管的actor。你需要将其添加到配置中：
 
-{{< tabs "生产环境" "开发环境" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="生产环境" %}}
 
 如果你想利用预编译的依赖注入，你需要使用工厂：
 
@@ -117,8 +117,8 @@ $app = \Dapr\App::create(
 $app->start();
 ```
 
-{{% /codetab %}}
-{{% codetab %}}
+{{% /tab %}}
+{{% tab header="开发环境" %}}
 
 ```php
 <?php
@@ -140,5 +140,5 @@ $app = \Dapr\App::create(configure: fn(\DI\ContainerBuilder $builder) => $builde
 $app->start();
 ```
 
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}

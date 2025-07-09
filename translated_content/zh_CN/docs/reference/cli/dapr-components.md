@@ -11,7 +11,7 @@ description: "components CLI 命令的详细说明"
 
 ### 支持的平台
 
-- [Kubernetes]({{< ref kubernetes >}})
+- [Kubernetes]({{% ref kubernetes %}})
 
 ### 用法
 

@@ -6,13 +6,13 @@ weight: 50000
 description: "配置调度器以持久化其数据库，使其在重启时具有弹性"
 ---
 
-[调度器]({{< ref scheduler.md >}})服务负责将任务写入其嵌入的Etcd数据库并调度执行。
+[调度器]({{% ref scheduler.md %}})服务负责将任务写入其嵌入的Etcd数据库并调度执行。
 默认情况下，调度器服务数据库会将数据写入大小为`1Gb`的持久卷声明（Persistent Volume Claim），使用集群的默认[存储类](https://kubernetes.io/docs/concepts/storage/storage-classes/)。
 这意味着在大多数Kubernetes部署中运行调度器服务不需要额外参数，但如果没有默认的StorageClass或在生产环境中运行时，您将需要进行[额外的配置](#storage-class)。
 
 {{% alert title="警告" color="warning" %}}
 调度器的默认存储大小为`1Gi`，这对于大多数生产部署来说可能不够。
-请注意，当启用[SchedulerReminders]({{< ref support-preview-features.md >}})预览功能时，调度器会用于[actor提醒]({{< ref actors-timers-reminders.md >}})、[工作流]({{< ref workflow-overview.md >}})以及[任务API]({{< ref jobs_api.md >}})。
+请注意，当启用[SchedulerReminders]({{% ref support-preview-features.md %}})预览功能时，调度器会用于[actor提醒]({{% ref actors-timers-reminders.md %}})、[工作流]({{% ref workflow-overview.md %}})以及[任务API]({{% ref jobs_api.md %}})。
 您可能需要考虑重新安装Dapr，并将调度器存储增加到至少`16Gi`或更多。
 有关更多信息，请参见下面的[ETCD存储磁盘大小](#etcd-storage-disk-size)部分。
 {{% /alert %}}
@@ -30,8 +30,8 @@ error running scheduler: etcdserver: mvcc: database space exceeded
 ```
 
 确定存储大小的安全上限并不是一门精确的科学，主要取决于应用程序任务的数量、持久性和数据负载大小。
-[任务API]({{< ref jobs_api.md >}})和[actor提醒]({{< ref actors-timers-reminders.md >}})（启用[SchedulerReminders]({{< ref support-preview-features.md >}})预览功能时）会根据应用程序的使用情况进行映射。
-工作流（启用[SchedulerReminders]({{< ref support-preview-features.md >}})预览功能时）会创建大量的任务作为actor提醒，但这些任务是短暂的，与每个工作流执行的生命周期相匹配。
+[任务API]({{% ref jobs_api.md %}})和[actor提醒]({{% ref actors-timers-reminders.md %}})（启用[SchedulerReminders]({{% ref support-preview-features.md %}})预览功能时）会根据应用程序的使用情况进行映射。
+工作流（启用[SchedulerReminders]({{% ref support-preview-features.md %}})预览功能时）会创建大量的任务作为actor提醒，但这些任务是短暂的，与每个工作流执行的生命周期相匹配。
 工作流创建的任务的数据负载通常为空或很小。
 
 调度器使用Etcd作为其存储后端数据库。
@@ -43,18 +43,18 @@ error running scheduler: etcdserver: mvcc: database space exceeded
 如果您需要增加**现有**调度器的存储大小，请参见下面的[增加现有调度器存储大小](#increase-existing-scheduler-storage-size)部分。
 要增加**新**Dapr安装的存储大小（在此示例中为`16Gi`），您可以使用以下命令：
 
-{{< tabs "Dapr CLI" "Helm" >}}
+{{< tabpane text=true >}}
  <!-- Dapr CLI -->
-{{% codetab %}}
+{{% tab header="Dapr CLI" %}}
 
 ```bash
 dapr init -k --set dapr_scheduler.cluster.storageSize=16Gi --set dapr_scheduler.etcdSpaceQuota=16Gi
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Helm -->
-{{% codetab %}}
+{{% tab header="Helm" %}}
 
 ```bash
 helm upgrade --install dapr dapr/dapr \
@@ -66,8 +66,8 @@ helm upgrade --install dapr dapr/dapr \
 --wait
 ```
 
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 #### 增加现有调度器存储大小
 
@@ -141,21 +141,21 @@ kubectl edit pvc -n dapr-system dapr-scheduler-data-dir-dapr-scheduler-server-0 
 一旦存储类可用，您可以使用以下命令安装Dapr，并将调度器配置为使用存储类（将`my-storage-class`替换为存储类的名称）：
 
 {{% alert title="注意" color="primary" %}}
-如果Dapr已经安装，则需要完全[卸载]({{< ref dapr-uninstall.md >}})控制平面，以便调度器`StatefulSet`可以使用新的持久卷重新创建。
+如果Dapr已经安装，则需要完全[卸载]({{% ref dapr-uninstall.md %}})控制平面，以便调度器`StatefulSet`可以使用新的持久卷重新创建。
 {{% /alert %}}
 
-{{< tabs "Dapr CLI" "Helm" >}}
+{{< tabpane text=true >}}
  <!-- Dapr CLI -->
-{{% codetab %}}
+{{% tab header="Dapr CLI" %}}
 
 ```bash
 dapr init -k --set dapr_scheduler.cluster.storageClassName=my-storage-class
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Helm -->
-{{% codetab %}}
+{{% tab header="Helm" %}}
 
 ```bash
 helm upgrade --install dapr dapr/dapr \
@@ -166,8 +166,8 @@ helm upgrade --install dapr dapr/dapr \
 --wait
 ```
 
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## 临时存储
 
@@ -175,21 +175,21 @@ helm upgrade --install dapr dapr/dapr \
 这在非生产部署或测试中很有用，在这些情况下存储不可用或不需要。
 
 {{% alert title="注意" color="primary" %}}
-如果Dapr已经安装，则需要完全[卸载]({{< ref dapr-uninstall.md >}})控制平面，以便调度器`StatefulSet`可以在没有持久卷的情况下重新创建。
+如果Dapr已经安装，则需要完全[卸载]({{% ref dapr-uninstall.md %}})控制平面，以便调度器`StatefulSet`可以在没有持久卷的情况下重新创建。
 {{% /alert %}}
 
-{{< tabs "Dapr CLI" "Helm" >}}
+{{< tabpane text=true >}}
  <!-- Dapr CLI -->
-{{% codetab %}}
+{{% tab header="Dapr CLI" %}}
 
 ```bash
 dapr init -k --set dapr_scheduler.cluster.inMemoryStorage=true
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Helm -->
-{{% codetab %}}
+{{% tab header="Helm" %}}
 
 ```bash
 helm upgrade --install dapr dapr/dapr \
@@ -200,5 +200,5 @@ helm upgrade --install dapr dapr/dapr \
 --wait
 ```
 
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}

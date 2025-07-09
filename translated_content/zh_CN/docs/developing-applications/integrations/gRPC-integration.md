@@ -8,19 +8,19 @@ description: "在你的应用中使用 Dapr gRPC API"
 
 Dapr 提供了用于本地调用的 HTTP 和 gRPC API。[gRPC](https://grpc.io/) 适用于低延迟、高性能的场景，并通过 proto 客户端进行语言集成。
 
-[在 Dapr SDK 文档中查找自动生成的客户端列表]({{< ref sdks >}})。
+[在 Dapr SDK 文档中查找自动生成的客户端列表]({{% ref sdks %}})。
 
 Dapr 运行时提供了一个 [proto 服务](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/dapr.proto)，应用可以通过 gRPC 与其通信。
 
-除了通过 gRPC 调用 Dapr，Dapr 还支持通过代理方式进行服务到服务的调用。[在 gRPC 服务调用指南中了解更多]({{< ref howto-invoke-services-grpc.md >}})。
+除了通过 gRPC 调用 Dapr，Dapr 还支持通过代理方式进行服务到服务的调用。[在 gRPC 服务调用指南中了解更多]({{% ref howto-invoke-services-grpc.md %}})。
 
 本指南演示了如何使用 Go SDK 配置和调用 Dapr 的 gRPC。
 
 ## 配置 Dapr 通过 gRPC 与应用通信
 
-{{< tabs "自托管" "Kubernetes">}}
+{{< tabpane text=true >}}
 <!--selfhosted-->
-{{% codetab %}}
+{{% tab header="自托管" %}}
 
 在自托管模式下运行时，使用 `--app-protocol` 标志指定 Dapr 使用 gRPC 与应用通信。
 
@@ -30,10 +30,10 @@ dapr run --app-protocol grpc --app-port 5005 node app.js
 
 这使 Dapr 通过端口 `5005` 使用 gRPC 与应用进行通信。
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--k8s-->
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 在 Kubernetes 上，在你的部署 YAML 中设置以下注解：
 
@@ -62,9 +62,9 @@ spec:
 ...
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 使用 gRPC 调用 Dapr
 
@@ -224,9 +224,9 @@ spec:
 
 ## 运行应用
 
-{{< tabs "自托管" "Kubernetes">}}
+{{< tabpane text=true >}}
 <!--selfhosted-->
-{{% codetab %}}
+{{% tab header="自托管" %}}
 
 要在本地运行，使用 Dapr CLI：
 
@@ -234,16 +234,16 @@ spec:
 dapr run --app-id goapp --app-port 50001 --app-protocol grpc go run main.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--k8s-->
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 在 Kubernetes 上，如上所述，在你的 pod 规范模板中设置所需的 `dapr.io/app-protocol: "grpc"` 和 `dapr.io/app-port: "50001` 注解。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
     
 
 ## 其他语言
@@ -253,5 +253,5 @@ dapr run --app-id goapp --app-port 50001 --app-protocol grpc go run main.go
 使用 [protoc](https://developers.google.com/protocol-buffers/docs/downloads) 工具，你可以为其他语言（如 Ruby、C++、Rust 等）生成 Dapr 客户端。
 
 ## 相关主题
-- [服务调用构建块]({{< ref service-invocation >}})
-- [服务调用 API 规范]({{< ref service_invocation_api.md >}})
+- [服务调用构建块]({{% ref service-invocation %}})
+- [服务调用 API 规范]({{% ref service_invocation_api.md %}})

@@ -12,15 +12,15 @@ Dapr Python SDK 使用 `flask-dapr` 扩展来实现与 Flask 的集成。
 
 您可以通过以下命令下载并安装 Dapr Flask 扩展：
 
-{{< tabs 稳定版 开发版>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="稳定版" %}}
 ```bash
 pip install flask-dapr
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="开发版" %}}
 {{% alert title="注意" color="warning" %}}
 开发版包含与 Dapr 运行时预发布版本兼容的功能和行为。在安装 `dapr-dev` 包之前，请确保卸载任何已安装的稳定版 Python SDK 扩展。
 {{% /alert %}}
@@ -28,9 +28,9 @@ pip install flask-dapr
 ```bash
 pip install flask-dapr-dev
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 示例
 

@@ -8,7 +8,7 @@ aliases:
 ---
 
 ## 组件格式
-要设置 RocketMQ pub/sub，创建一个类型为 `pubsub.rocketmq` 的组件。请参阅 [pub/sub broker 组件文件]({{< ref setup-pubsub.md >}}) 了解 ConsumerID 是如何自动生成的。阅读 [如何：发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) 了解如何创建和应用 pub/sub 配置。
+要设置 RocketMQ pub/sub，创建一个类型为 `pubsub.rocketmq` 的组件。请参阅 [pub/sub broker 组件文件]({{% ref setup-pubsub.md %}}) 了解 ConsumerID 是如何自动生成的。阅读 [如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}}) 了解如何创建和应用 pub/sub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -40,7 +40,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 使用了明文字符串。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中，secret 使用了明文字符串。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -49,7 +49,7 @@ spec:
 | instanceName                          |    N     | 实例名称                                                | `time.Now().String()`                                       | `dapr-rocketmq-test`                                         |
 | consumerGroup                         |    N     | 消费者组名称。建议使用。如果 `producerGroup` 为 `null`，则使用 `groupName`。 |                                                             | `dapr-rocketmq-test-g-c `                                    |
 | producerGroup (consumerID)            |    N     | 生产者组名称。建议使用。如果 `producerGroup` 为 `null`，则使用 `consumerID`。如果 `consumerID` 也为 null，则使用 `groupName`。 |                                                             | `dapr-rocketmq-test-g-p`                                     |
-| consumerID        |    N     | 消费者 ID（消费者标签）用于将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，一条消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| consumerID        |    N     | 消费者 ID（消费者标签）用于将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，一条消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | groupName                             |    N     | 消费者/生产者组名称。**已弃用**。               |                                                             | `dapr-rocketmq-test-g`                                       |
 | nameSpace                             |    N     | RocketMQ 命名空间                                           |                                                             | `dapr-rocketmq`                                              |
 | nameServerDomain                      |    N     | RocketMQ 名称服务器域名                                  |                                                             | `https://my-app.net:8080/nsaddr`                             |
@@ -156,6 +156,6 @@ http://localhost:3500/v1.0/publish/myRocketMQ/myTopic?metadata.rocketmq-sharding
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [Pub/Sub 构建块]({{< ref pubsub >}})
-- 阅读[本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}})以获取有关配置 pub/sub 组件的说明
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [Pub/Sub 构建块]({{% ref pubsub %}})
+- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})以获取有关配置 pub/sub 组件的说明

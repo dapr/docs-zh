@@ -93,6 +93,6 @@ metadata:
 
 ## 相关链接
 
-- [安全概述]({{< ref "security-concept.md" >}})
+- [安全概述]({{% ref "security-concept.md" %}})
 - [状态存储查询 API 实现指南](https://github.com/dapr/components-contrib/blob/master/state/README.md#implementing-state-query-api)
-- [状态存储组件]({{< ref "supported-state-stores.md" >}})
+- [状态存储组件]({{% ref "supported-state-stores.md" %}})

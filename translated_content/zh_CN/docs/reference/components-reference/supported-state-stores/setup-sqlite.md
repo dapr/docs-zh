@@ -69,7 +69,7 @@ spec:
 
 ### TTL 和清理
 
-此状态存储支持 Dapr 存储记录的 [生存时间 (TTL)]({{< ref state-store-ttl.md >}})。使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性以指示数据何时应被视为“过期”。
+此状态存储支持 Dapr 存储记录的 [生存时间 (TTL)]({{% ref state-store-ttl.md %}})。使用 Dapr 存储数据时，您可以设置 `ttlInSeconds` 元数据属性以指示数据何时应被视为“过期”。
 
 由于 SQLite 没有内置的 TTL 支持，Dapr 通过在状态表中添加一列来实现这一功能，该列指示数据何时应被视为“过期”。即使记录仍然物理存储在数据库中，过期的记录也不会返回给调用者。后台“垃圾收集器”会定期扫描状态表以查找过期行并删除它们。
 
@@ -99,6 +99,6 @@ SQLite 最适合所有客户端在同一个本地挂载的磁盘上访问数据�
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读 [本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}}) 以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读 [本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}}) 以获取配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

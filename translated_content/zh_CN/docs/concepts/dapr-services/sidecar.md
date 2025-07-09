@@ -6,7 +6,7 @@ weight: 100
 description: "Dapr sidecar 进程概述"
 ---
 
-Dapr 采用 [sidecar 模式]({{< ref "concepts/overview.md#sidecar-architecture" >}})，这意味着 Dapr API 运行在一个独立的进程中，即 Dapr sidecar，并与您的应用程序一起运行。Dapr sidecar 进程命名为 `daprd`，并根据托管环境以不同的方式启动。
+Dapr 采用 [sidecar 模式]({{% ref "concepts/overview.md#sidecar-architecture" %}})，这意味着 Dapr API 运行在一个独立的进程中，即 Dapr sidecar，并与您的应用程序一起运行。Dapr sidecar 进程命名为 `daprd`，并根据托管环境以不同的方式启动。
 
 Dapr sidecar 提供以下功能：
 
@@ -25,19 +25,19 @@ Dapr sidecar 提供以下功能：
 
 在 [自托管模式]({{<ref self-hosted>}}) 下安装 Dapr 时，`daprd` 二进制文件会被下载并放置在用户主目录下（Linux/macOS 为 `$HOME/.dapr/bin`，Windows 为 `%USERPROFILE%\.dapr\bin\`）。
 
-在自托管模式下，使用 Dapr CLI 的 [`run` 命令]({{< ref dapr-run.md >}}) 会启动 `daprd` 可执行文件，并运行您提供的应用程序可执行文件。这是在本地进行开发和测试等场景中运行 Dapr sidecar 的推荐方式。
+在自托管模式下，使用 Dapr CLI 的 [`run` 命令]({{% ref dapr-run.md %}}) 会启动 `daprd` 可执行文件，并运行您提供的应用程序可执行文件。这是在本地进行开发和测试等场景中运行 Dapr sidecar 的推荐方式。
 
 您可以在 [Dapr run 命令参考]({{<ref dapr-run>}}) 中找到 CLI 提供的用于配置 sidecar 的各种参数。
 
 ## 在 Kubernetes 中使用 `dapr-sidecar-injector`
 
-在 [Kubernetes]({{< ref kubernetes.md >}}) 上，Dapr 控制平面包括 [dapr-sidecar-injector 服务]({{< ref kubernetes-overview.md >}})，它监视带有 `dapr.io/enabled` 注释的新 pod，并在 pod 内注入一个包含 `daprd` 进程的容器。在这种情况下，可以通过注释传递 sidecar 参数，如 [此表]({{<ref arguments-annotations-overview>}}) 中的 **Kubernetes 注释** 列所述。
+在 [Kubernetes]({{% ref kubernetes.md %}}) 上，Dapr 控制平面包括 [dapr-sidecar-injector 服务]({{% ref kubernetes-overview.md %}})，它监视带有 `dapr.io/enabled` 注释的新 pod，并在 pod 内注入一个包含 `daprd` 进程的容器。在这种情况下，可以通过注释传递 sidecar 参数，如 [此表]({{<ref arguments-annotations-overview>}}) 中的 **Kubernetes 注释** 列所述。
 
 ## 直接运行 sidecar
 
 在大多数情况下，您不需要显式运行 `daprd`，因为 sidecar 要么由 [CLI]({{<ref cli-overview>}})（自托管模式）启动，要么由 dapr-sidecar-injector 服务（Kubernetes）启动。对于高级用例（如调试、脚本化部署等），可以直接启动 `daprd` 进程。
 
-要获取所有可用参数的详细列表，请运行 `daprd --help` 或查看 [此表]({{< ref arguments-annotations-overview.md >}})，该表概述了 `daprd` 参数与 CLI 参数和 Kubernetes 注释的关系。
+要获取所有可用参数的详细列表，请运行 `daprd --help` 或查看 [此表]({{% ref arguments-annotations-overview.md %}})，该表概述了 `daprd` 参数与 CLI 参数和 Kubernetes 注释的关系。
 
 ### 示例
 

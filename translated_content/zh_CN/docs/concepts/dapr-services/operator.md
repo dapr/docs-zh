@@ -5,11 +5,11 @@ linkTitle: "Operator"
 description: "Dapr Operator 服务概述"
 ---
 
-在 [Kubernetes 模式]({{< ref kubernetes >}})下运行 Dapr 时，一个运行 Dapr Operator 服务的 pod 负责管理 [Dapr 组件]({{< ref components >}})的更新，并为 Dapr 提供 Kubernetes 服务端点。
+在 [Kubernetes 模式]({{% ref kubernetes %}})下运行 Dapr 时，一个运行 Dapr Operator 服务的 pod 负责管理 [Dapr 组件]({{% ref components %}})的更新，并为 Dapr 提供 Kubernetes 服务端点。
 
 ## 运行 Operator 服务
 
-Operator 服务是 `dapr init -k` 部署过程的一部分，或者可以通过 Dapr Helm charts 部署。有关在 Kubernetes 上运行 Dapr 的更多信息，请访问 [Kubernetes 托管页面]({{< ref kubernetes >}})。
+Operator 服务是 `dapr init -k` 部署过程的一部分，或者可以通过 Dapr Helm charts 部署。有关在 Kubernetes 上运行 Dapr 的更多信息，请访问 [Kubernetes 托管页面]({{% ref kubernetes %}})。
 
 ## 其他配置选项
 
@@ -17,7 +17,7 @@ Operator 服务提供了一些额外的配置选项。
 
 ### 注入器监控功能
 
-Operator 服务包含一个 _注入器监控功能_，它会定期检查 Kubernetes 集群中所有运行的 pod，确保那些标记了 `dapr.io/enabled=true` 的 pod 中正确注入了 Dapr sidecar。这个功能主要用于解决 [注入器服务]({{< ref sidecar-injector >}})未能成功将 sidecar（`daprd` 容器）注入 pod 的问题。
+Operator 服务包含一个 _注入器监控功能_，它会定期检查 Kubernetes 集群中所有运行的 pod，确保那些标记了 `dapr.io/enabled=true` 的 pod 中正确注入了 Dapr sidecar。这个功能主要用于解决 [注入器服务]({{% ref sidecar-injector %}})未能成功将 sidecar（`daprd` 容器）注入 pod 的问题。
 
 注入器监控功能在以下情况下可能会很有帮助：
 

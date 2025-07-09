@@ -7,7 +7,7 @@ aliases:
 - /zh-hans/developing-applications/middleware/supported-middleware/middleware-routerchecker/
 ---
 
-RouterChecker HTTP [中间件]({{< ref middleware.md >}}) 组件通过正则表达式来验证 HTTP 请求路由的有效性，防止无效路由进入 Dapr 集群。RouterChecker 组件能够过滤掉不良请求，从而减少遥测和日志数据中的噪音。
+RouterChecker HTTP [中间件]({{% ref middleware.md %}}) 组件通过正则表达式来验证 HTTP 请求路由的有效性，防止无效路由进入 Dapr 集群。RouterChecker 组件能够过滤掉不良请求，从而减少遥测和日志数据中的噪音。
 
 ## 组件格式
 
@@ -50,7 +50,7 @@ FAIL /v1.0/invoke/demo.default/method/"$(curl
 
 ## Dapr 配置
 
-要应用中间件，必须在[配置]({{< ref configuration-concept.md >}})中引用。请参阅[中间件管道]({{< ref "middleware.md#customize-processing-pipeline">}})。
+要应用中间件，必须在[配置]({{% ref configuration-concept.md %}})中引用。请参阅[中间件管道]({{% ref "middleware.md#customize-processing-pipeline" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -66,6 +66,6 @@ spec:
 
 ## 相关链接
 
-- [中间件]({{< ref middleware.md >}})
-- [配置概念]({{< ref configuration-concept.md >}})
-- [配置概览]({{< ref configuration-overview.md >}})
+- [中间件]({{% ref middleware.md %}})
+- [配置概念]({{% ref configuration-concept.md %}})
+- [配置概览]({{% ref configuration-overview.md %}})

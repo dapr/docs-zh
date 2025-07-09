@@ -6,7 +6,7 @@ weight: 2000
 description: "学习如何使用作业API来调度和处理触发的作业"
 ---
 
-现在您已经了解了[作业构建块]({{< ref jobs-overview.md >}})提供的功能，让我们来看一个如何使用API的示例。下面的代码示例描述了一个为数据库备份应用程序调度作业并在触发时处理它们的应用程序，也就是作业因到达其到期时间而被返回到应用程序的时间。
+现在您已经了解了[作业构建块]({{% ref jobs-overview.md %}})提供的功能，让我们来看一个如何使用API的示例。下面的代码示例描述了一个为数据库备份应用程序调度作业并在触发时处理它们的应用程序，也就是作业因到达其到期时间而被返回到应用程序的时间。
 
 <!-- 
 如果可能，包含一个图表或图像。
@@ -14,15 +14,15 @@ description: "学习如何使用作业API来调度和处理触发的作业"
 
 ## 启动调度器服务
 
-当您[在本地托管模式或Kubernetes上运行`dapr init`]({{< ref install-dapr-selfhost.md >}})时，Dapr调度器服务会启动。
+当您[在本地托管模式或Kubernetes上运行`dapr init`]({{% ref install-dapr-selfhost.md %}})时，Dapr调度器服务会启动。
 
 ## 设置作业API
 
 在您的代码中，配置并调度应用程序内的作业。
 
-{{< tabs ".NET" "Go" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 <!-- .NET -->
 
@@ -104,9 +104,9 @@ await daprJobsClient.ScheduleJobAsync("prod-db-backup", DaprJobSchedule.FromDura
     serializedJobData, repeats: 10);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 <!--go-->
 
@@ -258,17 +258,17 @@ func prodDBBackupHandler(ctx context.Context, job *common.JobEvent) error {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 运行Dapr sidecar
 
 一旦您在应用程序中设置了作业API，在终端窗口中使用以下命令运行Dapr sidecar。
 
-{{< tabs "Go" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```bash
 dapr run --app-id=distributed-scheduler \
@@ -280,11 +280,11 @@ dapr run --app-id=distributed-scheduler \
                 go run ./main.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 
-- [了解更多关于调度器控制平面服务的信息]({{< ref "concepts/dapr-services/scheduler.md" >}})
-- [作业API参考]({{< ref jobs_api.md >}})
+- [了解更多关于调度器控制平面服务的信息]({{% ref "concepts/dapr-services/scheduler.md" %}})
+- [作业API参考]({{% ref jobs_api.md %}})

@@ -12,8 +12,8 @@ Dapr 客户端使您能够与 Dapr sidecar 进行通信，并访问其面向客�
 
 ## 前置条件
 
-- 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 已初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
+- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - [最新的 LTS 版本的 Node.js 或更高版本](https://nodejs.org/en/)
 
 ## 安装和导入 Dapr 的 JS SDK
@@ -148,7 +148,7 @@ const clientProxy = await clientSidecar.proxy.create<GreeterClient>(GreeterClien
 
 ## 构建块
 
-JavaScript 客户端 SDK 允许您与所有 [Dapr 构建块]({{< ref building-blocks >}}) 进行接口交互，重点是客户端到 sidecar 的功能。
+JavaScript 客户端 SDK 允许您与所有 [Dapr 构建块]({{% ref building-blocks %}}) 进行接口交互，重点是客户端到 sidecar 的功能。
 
 ### 调用 API
 
@@ -188,7 +188,7 @@ start().catch((e) => {
 });
 ```
 
-> 有关服务调用的完整指南，请访问 [如何：调用服务]({{< ref howto-invoke-discover-services.md >}})。
+> 有关服务调用的完整指南，请访问 [如何：调用服务]({{% ref howto-invoke-discover-services.md %}})。
 
 ### 状态管理 API
 
@@ -261,7 +261,7 @@ start().catch((e) => {
 });
 ```
 
-> 有关状态操作的完整列表，请访问 [如何：获取和保存状态]({{< ref howto-get-save-state.md >}})。
+> 有关状态操作的完整列表，请访问 [如何：获取和保存状态]({{% ref howto-get-save-state.md %}})。
 
 #### 查询状态 API
 
@@ -417,7 +417,7 @@ start().catch((e) => {
 });
 ```
 
-> 有关输出绑定的完整指南，请访问 [如何：使用绑定]({{< ref howto-bindings.md >}})。
+> 有关输出绑定的完整指南，请访问 [如何：使用绑定]({{% ref howto-bindings.md %}})。
 
 ### Secret API
 
@@ -448,7 +448,7 @@ start().catch((e) => {
 });
 ```
 
-> 有关 secrets 的完整指南，请访问 [如何：检索 secrets]({{< ref howto-secrets.md >}})。
+> 有关 secrets 的完整指南，请访问 [如何：检索 secrets]({{% ref howto-secrets.md %}})。
 
 ### Configuration API
 
@@ -616,7 +616,7 @@ start().catch((e) => {
 });
 ```
 
-> 有关 cryptography 的完整指南，请访问 [如何：Cryptography]({{< ref howto-cryptography.md >}})。
+> 有关 cryptography 的完整指南，请访问 [如何：Cryptography]({{% ref howto-cryptography.md %}})。
 
 ### 分布式锁 API
 
@@ -665,7 +665,7 @@ start().catch((e) => {
 });
 ```
 
-> 有关分布式锁的完整指南，请访问 [如何：使用分布式锁]({{< ref howto-use-distributed-lock.md >}})。
+> 有关分布式锁的完整指南，请访问 [如何：使用分布式锁]({{% ref howto-use-distributed-lock.md %}})。
 
 ### Workflow API
 

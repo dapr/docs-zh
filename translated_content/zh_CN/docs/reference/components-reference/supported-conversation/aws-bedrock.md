@@ -26,7 +26,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret以明文字符串形式使用。建议使用secret存储来保护secret，详情请参阅[此处]({{< ref component-secrets.md >}})。
+上述示例中，secret以明文字符串形式使用。建议使用secret存储来保护secret，详情请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -39,4 +39,4 @@ spec:
 
 ## 相关链接
 
-- [conversation API概述]({{< ref conversation-overview.md >}})
+- [conversation API概述]({{% ref conversation-overview.md %}})

@@ -25,9 +25,9 @@ Dapr 工作流简化了微服务架构中复杂且有状态的协调需求。以
 
 Dapr 工作流通过允许您在所选编程语言中将任务链模式简洁地实现为简单函数来解决这些复杂性，如以下示例所示。
 
-{{< tabs Python JavaScript ".NET" Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 <!--python-->
 
 ```python
@@ -70,9 +70,9 @@ def error_handler(ctx, error):
 
 > **注意** 工作流重试策略将在 Python SDK 的未来版本中提供。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 <!--javascript-->
 
 ```javascript
@@ -144,9 +144,9 @@ start().catch((e) => {
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 <!--dotnet-->
 
 ```csharp
@@ -177,9 +177,9 @@ catch (TaskFailedException) // 任务失败会作为 TaskFailedException 显示
 
 > **注意** 在上面的示例中，`"Step1"`、`"Step2"`、`"Step3"` 和 `"MyCompensation"` 代表工作流活动，它们是您代码中实际实现工作流步骤的函数。为了简洁起见，这些活动实现未包含在此示例中。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 <!--java-->
 
 ```java
@@ -232,9 +232,9 @@ public class ChainWorkflow extends Workflow {
     }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 <!--go-->
 
 ```go
@@ -283,9 +283,9 @@ func Step3(ctx workflow.ActivityContext) (any, error) {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 如您所见，工作流被表达为所选编程语言中的简单语句序列。这使得组织中的任何工程师都可以快速理解端到端的流程，而不必了解端到端的系统架构。
 
@@ -303,7 +303,7 @@ func Step3(ctx workflow.ActivityContext) (any, error) {
 
 <img src="/images/workflow-overview/workflows-fanin-fanout.png" width=800 alt="显示扇出/扇入工作流模式如何工作的图示">
 
-除了[前一个模式]({{< ref "workflow-patterns.md#task-chaining" >}})中提到的挑战外，在手动实现扇出/扇入模式时还有几个重要问题需要考虑：
+除了[前一个模式]({{% ref "workflow-patterns.md#task-chaining" %}})中提到的挑战外，在手动实现扇出/扇入模式时还有几个重要问题需要考虑：
 
 - 如何控制并行度？
 - 如何知道何时触发后续聚合步骤？
@@ -311,9 +311,9 @@ func Step3(ctx workflow.ActivityContext) (any, error) {
 
 Dapr 工作流提供了一种将扇出/扇入模式表达为简单函数的方法，如以下示例所示：
 
-{{< tabs Python JavaScript ".NET" Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 <!--python-->
 
 ```python
@@ -351,9 +351,9 @@ def process_results(ctx, final_result: int):
     print(f'最终结果: {final_result}.')
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 <!--javascript-->
 
 ```javascript
@@ -459,9 +459,9 @@ start().catch((e) => {
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 <!--dotnet-->
 
 ```csharp
@@ -484,9 +484,9 @@ int sum = parallelTasks.Sum(t => t.Result);
 await context.CallActivityAsync("PostResults", sum);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 <!--java-->
 
 ```java
@@ -510,9 +510,9 @@ public class FaninoutWorkflow extends Workflow {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 <!--go-->
 
 ```go
@@ -576,9 +576,9 @@ func ProcessResults(ctx workflow.ActivityContext) (any, error) {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 此示例的关键要点是：
 
@@ -590,9 +590,9 @@ func ProcessResults(ctx workflow.ActivityContext) (any, error) {
 
 可以进一步使用简单的、特定语言的构造来限制并发度。下面的示例代码说明了如何将扇出的程度限制为仅 5 个并发活动执行：
 
-{{< tabs ".NET" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 <!-- .NET -->
 ```csharp
 
@@ -620,9 +620,9 @@ var sum = results.Sum(t => t);
 await context.CallActivityAsync("PostResults", sum);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 以这种方式限制并发度对于限制对共享资源的争用可能很有用。例如，如果活动需要调用具有自身并发限制的外部资源（如数据库或外部 API），则确保不超过指定数量的活动同时调用该资源可能很有用。
 
@@ -714,11 +714,11 @@ curl http://localhost:3500/v1.0/workflows/dapr/12345678
 
 根据业务需求，可能只有一个监控器，也可能有多个监控器，每个业务实体（例如股票）一个。此外，休眠时间可能需要根据情况进行更改。这些要求使得使用基于 cron 的调度系统不切实际。
 
-Dapr 工作流通过允许您实现_永恒工作流_本地支持此模式。Dapr 工作流公开了一个 _continue-as-new_ API，工作流作者可以使用该 API 从头开始使用新输入重新启动工作流函数，而不是编写无限循环（[这是一种反模式]({{< ref "workflow-features-concepts.md#infinite-loops-and-eternal-workflows" >}})）。
+Dapr 工作流通过允许您实现_永恒工作流_本地支持此模式。Dapr 工作流公开了一个 _continue-as-new_ API，工作流作者可以使用该 API 从头开始使用新输入重新启动工作流函数，而不是编写无限循环（[这是一种反模式]({{% ref "workflow-features-concepts.md#infinite-loops-and-eternal-workflows" %}})）。
 
-{{< tabs Python JavaScript ".NET" Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 <!--python-->
 
 ```python
@@ -763,9 +763,9 @@ def send_alert(ctx, message: str):
     print(f'*** Alert: {message}')
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 <!--javascript-->
 
 ```javascript
@@ -791,9 +791,9 @@ const statusMonitorWorkflow: TWorkflow = async function* (ctx: WorkflowContext):
   };
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 <!--dotnet-->
 
 ```csharp
@@ -832,9 +832,9 @@ public override async Task<object> RunAsync(WorkflowContext context, MyEntitySta
 
 > 此示例假设您有一个预定义的 `MyEntityState` 类，其中包含一个布尔 `IsHealthy` 属性。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 <!--java-->
 
 ```java
@@ -874,9 +874,9 @@ public class MonitorWorkflow extends Workflow {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 <!--go-->
 
 ```go
@@ -927,9 +927,9 @@ func SendAlert(ctx workflow.ActivityContext) (any, error) {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 实现监控模式的工作流可以永远循环，也可以通过不调用 _continue-as-new_ 来优雅地终止自身。
 
@@ -939,9 +939,9 @@ func SendAlert(ctx workflow.ActivityContext) (any, error) {
 
 ## 外部系统交互
 
-在某些情况下，工作流可能需要暂停并等待外部系统执行某些操作。例如，工作流可能需要暂停并等待接收到付款。在这种情况下，支付系统可能会在收到付款时将事件发布到 pub/sub 主题，并且该主题上的侦听器可以使用[触发事件工作流 API]({{< ref "howto-manage-workflow.md#raise-an-event" >}})向工作流触发事件。
+在某些情况下，工作流可能需要暂停并等待外部系统执行某些操作。例如，工作流可能需要暂停并等待接收到付款。在这种情况下，支付系统可能会在收到付款时将事件发布到 pub/sub 主题，并且该主题上的侦听器可以使用[触发事件工作流 API]({{% ref "howto-manage-workflow.md#raise-an-event" %}})向工作流触发事件。
 
-另一个非常常见的场景是工作流需要暂停并等待人类，例如在批准采购订单时。Dapr 工作流通过[外部事件]({{< ref "workflow-features-concepts.md#external-events" >}})功能支持此事件模式。
+另一个非常常见的场景是工作流需要暂停并等待人类，例如在批准采购订单时。Dapr 工作流通过[外部事件]({{% ref "workflow-features-concepts.md#external-events" %}})功能支持此事件模式。
 
 以下是涉及人类的采购订单工作流示例：
 
@@ -957,9 +957,9 @@ func SendAlert(ctx workflow.ActivityContext) (any, error) {
 
 以下示例代码显示了如何使用 Dapr 工作流实现此模式。
 
-{{< tabs Python JavaScript ".NET" Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 <!--python-->
 
 ```python
@@ -1016,9 +1016,9 @@ def place_order(_, order: Order) -> None:
     print(f'*** 下订单: {order}')
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 <!--javascript-->
 
 ```javascript
@@ -1156,9 +1156,9 @@ start().catch((e) => {
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 <!--dotnet-->
 
 ```csharp
@@ -1200,9 +1200,9 @@ public override async Task<OrderResult> RunAsync(WorkflowContext context, OrderP
 
 > **注意** 在上面的示例中，`RequestApprovalActivity` 是要调用的工作流活动的名称，`ApprovalResult` 是由工作流应用程序定义的枚举。为了简洁起见，这些定义未包含在示例代码中。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 <!--java-->
 
 ```java
@@ -1237,9 +1237,9 @@ public class ExternalSystemInteractionWorkflow extends Workflow {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 <!--go-->
 
 ```go
@@ -1294,15 +1294,15 @@ func PlaceOrder(ctx workflow.ActivityContext) (any, error) {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
-恢复工作流执行的事件的代码在工作流之外。可以使用[触发事件]({{< ref "howto-manage-workflow.md#raise-an-event" >}})工作流管理 API 将工作流事件传递给等待的工作流实例，如以下示例所示：
+恢复工作流执行的事件的代码在工作流之外。可以使用[触发事件]({{% ref "howto-manage-workflow.md#raise-an-event" %}})工作流管理 API 将工作流事件传递给等待的工作流实例，如以下示例所示：
 
-{{< tabs Python JavaScript ".NET" Java Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 <!--python-->
 
 ```python
@@ -1317,9 +1317,9 @@ with DaprClient() as d:
         event_data=asdict(Approval("Jane Doe")))
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 <!--javascript-->
 
 ```javascript
@@ -1330,9 +1330,9 @@ import { DaprClient } from "@dapr/dapr";
   }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 <!--dotnet-->
 
 ```csharp
@@ -1344,9 +1344,9 @@ await daprClient.RaiseWorkflowEventAsync(
     eventData: ApprovalResult.Approved);
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 <!--java-->
 
 ```java
@@ -1354,9 +1354,9 @@ System.out.println("**SendExternalMessage: RestartEvent**");
 client.raiseEvent(restartingInstanceId, "RestartEvent", "RestartEventPayload");
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 <!--go-->
 
 ```go
@@ -1380,9 +1380,9 @@ func raiseEvent() {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 外部事件不必由人类直接触发。它们也可以由其他系统触发。例如，工作流可能需要暂停并等待接收到付款。在这种情况下，支付系统可能会在收到付款时将事件发布到 pub/sub 主题，并且该主题上的侦听器可以使用触发事件工作流 API 向工作流触发事件。
 
@@ -1392,9 +1392,9 @@ func raiseEvent() {
 
 ## 相关链接
 
-- [使用快速入门尝试 Dapr 工作流]({{< ref workflow-quickstart.md >}})
-- [工作流概述]({{< ref workflow-overview.md >}})
-- [工作流 API 参考]({{< ref workflow_api.md >}})
+- [使用快速入门尝试 Dapr 工作流]({{% ref workflow-quickstart.md %}})
+- [工作流概述]({{% ref workflow-overview.md %}})
+- [工作流 API 参考]({{% ref workflow_api.md %}})
 - 尝试以下示例：
    - [Python](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
    - [JavaScript](https://github.com/dapr/js-sdk/tree/main/examples/workflow)

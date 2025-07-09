@@ -19,7 +19,7 @@ aliases:
 
 ## 创建自定义 Kubernetes secret 存储组件
 
-要设置 Kubernetes secret 存储，请创建一个类型为 `secretstores.kubernetes` 的组件。请参阅[本指南]({{< ref "setup-secret-store.md#apply-the-configuration" >}})了解如何创建和应用 secretstore 配置。请参阅本指南了解如何[引用 secret]({{< ref component-secrets.md >}})以检索和使用 Dapr 组件的 secret。
+要设置 Kubernetes secret 存储，请创建一个类型为 `secretstores.kubernetes` 的组件。请参阅[本指南]({{% ref "setup-secret-store.md#apply-the-configuration" %}})了解如何创建和应用 secretstore 配置。请参阅本指南了解如何[引用 secret]({{% ref component-secrets.md %}})以检索和使用 Dapr 组件的 secret。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -42,15 +42,15 @@ spec:
 
 ## 可选的每请求元数据参数
 
-可以为 Kubernetes secret 存储组件提供以下[可选查询参数]({{< ref "secrets_api#query-parameters" >}})：
+可以为 Kubernetes secret 存储组件提供以下[可选查询参数]({{% ref "secrets_api#query-parameters" %}})：
 
 查询参数 | 描述
 --------- | -----------
 `metadata.namespace`| secret 的命名空间。如果未指定，则使用 pod 的命名空间。
 
 ## 相关链接
-- [Secrets 构建块]({{< ref secrets >}})
-- [操作指南：检索 secret]({{< ref "howto-secrets.md" >}})
-- [操作指南：在 Dapr 组件中引用 secret]({{< ref component-secrets.md >}})
-- [Secrets API 参考]({{< ref secrets_api.md >}})
+- [Secrets 构建块]({{% ref secrets %}})
+- [操作指南：检索 secret]({{% ref "howto-secrets.md" %}})
+- [操作指南：在 Dapr 组件中引用 secret]({{% ref component-secrets.md %}})
+- [Secrets API 参考]({{% ref secrets_api.md %}})
 - [操作指南：使用 secret 范围]({{<ref secrets-scopes.md>}})

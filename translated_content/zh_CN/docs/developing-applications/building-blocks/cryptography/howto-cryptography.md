@@ -6,7 +6,7 @@ weight: 2000
 description: "学习如何加密和解密文件"
 ---
 
-在您了解了[Dapr作为加密构建块]({{< ref cryptography-overview.md >}})之后，让我们通过使用SDK来学习如何使用加密API。
+在您了解了[Dapr作为加密构建块]({{% ref cryptography-overview.md %}})之后，让我们通过使用SDK来学习如何使用加密API。
 
 {{% alert title="注意" color="primary" %}}
 Dapr加密功能目前处于alpha测试阶段。
@@ -15,9 +15,9 @@ Dapr加密功能目前处于alpha测试阶段。
 
 ## 加密
 
-{{< tabs "Python" "JavaScript" ".NET" "Go" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 <!--Python-->
 
@@ -47,9 +47,9 @@ def encrypt_decrypt_string(dapr: DaprClient):
     print(f'加密后的消息长度为 {len(encrypt_bytes)} 字节')
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 <!--JavaScript-->
 
@@ -87,9 +87,9 @@ await pipeline(
 );
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 <!-- .NET -->
 在您的项目中使用Dapr SDK和gRPC API，您可以加密字符串或字节数组中的数据：
@@ -107,9 +107,9 @@ var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 var encryptedBytesResult = await client.EncryptAsync(componentName, plaintextBytes, keyName, new EncryptionOptions(KeyWrapAlgorithm.Rsa));
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 <!--go-->
 
@@ -186,15 +186,15 @@ if err != nil {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 解密
 
-{{< tabs "Python" "JavaScript" ".NET" "Go" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 <!--python-->
 
@@ -225,9 +225,9 @@ def encrypt_decrypt_string(dapr: DaprClient):
     assert message == decrypt_bytes.decode()
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 <!--JavaScript-->
 
@@ -251,9 +251,9 @@ await pipeline(
 );
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 <!-- .NET -->
 要解密字符串，请在您的项目中使用'解密Async' gRPC API。
@@ -274,9 +274,9 @@ public async Task<string> DecryptBytesAsync(byte[] encryptedBytes)
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 <!--go-->
 
@@ -291,9 +291,9 @@ out, err := sdkClient.Decrypt(context.Background(), rf, dapr.EncryptOptions{
 })
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
-[加密组件规范]({{< ref supported-cryptography >}})
+[加密组件规范]({{% ref supported-cryptography %}})

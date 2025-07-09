@@ -13,7 +13,7 @@ Dapr CLI 是执行各种 Dapr 相关任务的主要工具。您可以使用它�
 - 列出正在运行的服务。
 - 运行 Dapr 仪表板。
 
-Dapr CLI 可在 [自托管]({{< ref self-hosted >}}) 和 [Kubernetes]({{< ref Kubernetes >}}) 环境中使用。
+Dapr CLI 可在 [自托管]({{% ref self-hosted %}}) 和 [Kubernetes]({{% ref Kubernetes %}}) 环境中使用。
 
 {{% alert title="开始之前" color="primary" %}}
 请在 Docker Desktop 的高级选项中确认已启用默认的 Docker socket。如果您在 Windows 上使用 WSL 集成，则此选项不可用。
@@ -22,9 +22,9 @@ Dapr CLI 可在 [自托管]({{< ref self-hosted >}}) 和 [Kubernetes]({{< ref Ku
 
 ### 步骤 1：安装 Dapr CLI
 
-{{< tabs Linux Windows MacOS Binaries>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
 
 #### 从终端安装
 
@@ -58,9 +58,9 @@ wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O 
 wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | DAPR_INSTALL_DIR="$HOME/dapr" /bin/bash -s {{% dapr-latest-version cli="true" %}}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 #### 从命令提示符安装
 
@@ -123,9 +123,9 @@ winget install Dapr.CLI.Preview
 3. 按照安装提示接受许可和安装目录。所选文件夹将添加到用户 PATH 环境变量。默认值设置为 `$Env:SystemDrive\dapr`。
 4. 点击 `Install` 开始安装。安装完成后，您将看到最终消息。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="MacOS" %}}
 
 ### 从终端安装
 
@@ -184,9 +184,9 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
 curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | DAPR_INSTALL_DIR="$HOME/dapr" -s {{% dapr-latest-version cli="true" %}}
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Binaries" %}}
 每个 Dapr CLI 版本都包括各种操作系统和架构。您可以手动下载并安装这些二进制版本。
 
 1. 从最新的 [Dapr 版本](https://github.com/dapr/cli/releases) 下载所需的 Dapr CLI。
@@ -197,9 +197,9 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
      - 创建一个名为 `C:\dapr` 的目录。
      - 通过编辑系统环境变量，将新创建的目录添加到用户 PATH。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 步骤 2：验证安装
 

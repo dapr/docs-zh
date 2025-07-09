@@ -7,11 +7,11 @@ description: "关于运行 CLI 命令的详细信息"
 
 ### 描述
 
-运行 Dapr，并且可以选择同时运行您的应用程序。完整的 daprd 参数、CLI 参数和 Kubernetes 注释的对比列表可以在[这里]({{< ref arguments-annotations-overview.md >}})找到。
+运行 Dapr，并且可以选择同时运行您的应用程序。完整的 daprd 参数、CLI 参数和 Kubernetes 注释的对比列表可以在[这里]({{% ref arguments-annotations-overview.md %}})找到。
 
 ### 支持的平台
 
-- [本地部署]({{< ref self-hosted >}})
+- [本地部署]({{% ref self-hosted %}})
 
 ### 用法
 
@@ -27,7 +27,7 @@ dapr run [flags] [command]
 | `--app-max-concurrency`        |                      | `unlimited`                                                                        | 应用程序的并发级别；默认是无限制                                       |
 | `--app-port`, `-p`             | `APP_PORT`           |                                                                                    | 您的应用程序正在监听的端口                                                            |
 | `--app-protocol`, `-P` | | `http` | Dapr 用于与应用程序通信的协议。有效值为：`http`、`grpc`、`https`（带 TLS 的 HTTP）、`grpcs`（带 TLS 的 gRPC）、`h2c`（HTTP/2 明文） |
-| `--resources-path`, `-d`      |                      | Linux/Mac: `$HOME/.dapr/components` <br/>Windows: `%USERPROFILE%\.dapr\components`   | 资源目录的路径。如果您已将资源组织到多个文件夹中（例如，一个文件夹中的组件，另一个文件夹中的弹性策略），您可以定义多个资源路径。请参见下面的[示例]({{< ref "#examples" >}})。                                                                 |
+| `--resources-path`, `-d`      |                      | Linux/Mac: `$HOME/.dapr/components` <br/>Windows: `%USERPROFILE%\.dapr\components`   | 资源目录的路径。如果您已将资源组织到多个文件夹中（例如，一个文件夹中的组件，另一个文件夹中的弹性策略），您可以定义多个资源路径。请参见下面的[示例]({{% ref "#examples" %}})。                                                                 |
 | `--app-channel-address` | | `127.0.0.1` | 应用程序监听的网络地址 |
 | `--runtime-path`                  |        |  | Dapr 运行时安装路径 |
 | `--config`, `-c`               |                      | Linux/Mac: `$HOME/.dapr/config.yaml` <br/>Windows: `%USERPROFILE%\.dapr\config.yaml` | Dapr 配置文件                                                                            |
@@ -36,7 +36,7 @@ dapr run [flags] [command]
 | `--dapr-http-port`, `-H`       | `DAPR_HTTP_PORT`     | `3500`                                                                             | Dapr 监听的 HTTP 端口                                                                  |
 | `--enable-profiling`           |                      | `false`                                                                            | 通过 HTTP 端点启用 "pprof" 性能分析                                                        |
 | `--help`, `-h`                 |                      |                                                                                    | 打印帮助信息                                                                              |
-| `--run-file`, `-f`                 |                      |  Linux/MacOS: `$HOME/.dapr/dapr.yaml`                              | 使用多应用程序运行模板文件同时运行多个应用程序。目前处于[alpha]({{< ref "support-preview-features.md" >}})阶段，仅在 Linux/MacOS 上可用                                                                     |
+| `--run-file`, `-f`                 |                      |  Linux/MacOS: `$HOME/.dapr/dapr.yaml`                              | 使用多应用程序运行模板文件同时运行多个应用程序。目前处于[alpha]({{% ref "support-preview-features.md" %}})阶段，仅在 Linux/MacOS 上可用                                                                     |
 | `--image`                      |                      |                                                                                    | 使用自定义 Docker 镜像。格式为 Docker Hub 的 `repository/image`，或自定义注册表的 `example.com/repository/image`。 |
 | `--log-level`                  |                      | `info`                                                                             | 日志详细程度。有效值为：`debug`、`info`、`warn`、`error`、`fatal` 或 `panic`           |
 | `--enable-api-logging`         |                      | `false`                                                                            | 启用从应用程序到 Dapr 的所有 API 调用的日志记录      |
@@ -52,7 +52,7 @@ dapr run [flags] [command]
 | `--unix-domain-socket`, `-u`   |                      |                                                                                    |  Unix 域套接字目录挂载的路径。如果指定，与 Dapr sidecar 的通信使用 Unix 域套接字，与使用 TCP 端口相比，具有更低的延迟和更高的吞吐量。在 Windows 上不可用。 |
 | `--dapr-http-max-request-size` |                      | `4`                                                                                | 请求体的最大大小，以 MB 为单位。 |
 | `--dapr-http-read-buffer-size` |                      | `4`                                                                                | HTTP 读取缓冲区的最大大小，以 KB 为单位。这也限制了 HTTP 头的最大大小。默认值为 4 KB |
-| `--kubernetes`, `-k`             |            |                                                                                    | 在 Kubernetes 上运行 Dapr，并用于 [Kubernetes 上的多应用程序运行模板文件]({{< ref multi-app-dapr-run >}})。                                                            |
+| `--kubernetes`, `-k`             |            |                                                                                    | 在 Kubernetes 上运行 Dapr，并用于 [Kubernetes 上的多应用程序运行模板文件]({{% ref multi-app-dapr-run %}})。                                                            |
 | `--components-path`, `-d`      |                      | Linux/Mac: `$HOME/.dapr/components` <br/>Windows: `%USERPROFILE%\.dapr\components` | **已弃用**，建议使用 `--resources-path`                                                      |
 
 ### 示例

@@ -9,7 +9,7 @@ aliases:
 
 ## 组件配置格式
 
-要设置 Azure Cosmos DB 绑定，请创建一个类型为 `bindings.azure.cosmosdb` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要设置 Azure Cosmos DB 绑定，请创建一个类型为 `bindings.azure.cosmosdb` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -33,7 +33,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -50,7 +50,7 @@ spec:
 
 ### Microsoft Entra 身份认证
 
-Azure Cosmos DB 绑定组件支持使用所有 Microsoft Entra 身份认证机制。有关更多信息以及根据选择的 Microsoft Entra 身份认证机制提供的相关组件元数据字段，请参阅[认证到 Azure 的文档]({{< ref authenticating-azure.md >}})。
+Azure Cosmos DB 绑定组件支持使用所有 Microsoft Entra 身份认证机制。有关更多信息以及根据选择的 Microsoft Entra 身份认证机制提供的相关组件元数据字段，请参阅[认证到 Azure 的文档]({{% ref authenticating-azure.md %}})。
 
 您可以在[下面的部分](#setting-up-cosmos-db-for-authenticating-with-azure-ad)阅读有关使用 Azure AD 认证设置 Cosmos DB 的更多信息。
 
@@ -66,7 +66,7 @@ Azure Cosmos DB 在单个 Azure Cosmos DB 帐户中的所有数据库之间共�
 
 因此，必须采取一些策略来避免同时建立新的 Azure Cosmos DB 连接：
 
-- 确保应用程序的 sidecar 仅在需要时加载 Azure Cosmos DB 组件，以避免不必要的数据库连接。这可以通过[将组件限定到特定应用程序]({{< ref component-scopes.md >}}#application-access-to-components-with-scopes)来实现。
+- 确保应用程序的 sidecar 仅在需要时加载 Azure Cosmos DB 组件，以避免不必要的数据库连接。这可以通过[将组件限定到特定应用程序]({{% ref component-scopes.md %}}#application-access-to-components-with-scopes)来实现。
 - 选择按顺序部署或启动应用程序的部署策略，以最大限度地减少对 Azure Cosmos DB 帐户的新连接突发。
 - 避免为不相关的数据库或系统（即使在 Dapr 之外）重用同一个 Azure Cosmos DB 帐户。不同的 Azure Cosmos DB 帐户具有不同的速率限制。
 - 增加 `initTimeout` 值，以允许组件在 sidecar 初始化期间重试连接到 Azure Cosmos DB，最长可达 5 分钟。默认值为 `5s`，应增加。当使用 Kubernetes 时，增加此值可能还需要更新您的[就绪和存活探针](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)。
@@ -92,7 +92,7 @@ spec:
 
 先决条件：
 
-- 您需要根据[认证到 Azure]({{< ref authenticating-azure.md >}})页面中的说明创建一个服务主体。您需要服务主体的 ID 以用于下面的命令（请注意，这与应用程序的客户端 ID 或您在元数据中使用的 `azureClientId` 值不同）。
+- 您需要根据[认证到 Azure]({{% ref authenticating-azure.md %}})页面中的说明创建一个服务主体。您需要服务主体的 ID 以用于下面的命令（请注意，这与应用程序的客户端 ID 或您在元数据中使用的 `azureClientId` 值不同）。
 - [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
 - [jq](https://stedolan.github.io/jq/download/)
 - 以下脚本针对 bash 或 zsh shell 进行了优化
@@ -126,8 +126,8 @@ az cosmosdb sql role assignment create \
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

@@ -12,7 +12,7 @@ Dapr 通过版本控制方案为未来的运行时、API 和组件的变化做�
 ## 版本控制
 版本控制是为计算机软件的每个独特状态分配唯一版本名称或版本号的过程。
 - 版本控制提供兼容性、明确的变更控制，并处理变更，尤其是重大变更。
-- Dapr 力求保持向后兼容性。如果需要重大变更，将会[提前宣布]({{< ref "support-release-policy#feature-and-deprecations" >}})。
+- Dapr 力求保持向后兼容性。如果需要重大变更，将会[提前宣布]({{% ref "support-release-policy#feature-and-deprecations" %}})。
 - 废弃的功能将在多个版本中逐步淘汰，新旧功能将并行工作。
 
 版本控制涉及以下 Dapr 仓库：dapr、CLI、稳定语言 SDK、dashboard、components-contrib、quickstarts、helm-charts 和文档。
@@ -37,13 +37,13 @@ API 的重大变更定义可以在[这里](https://github.com/microsoft/api-guid
 - 实验性 API 包含一个“alpha”后缀以表示其 alpha 状态。例如 v1.0alpha、v2.0alpha 等。
 
 ## Dapr 运行时
-Dapr 发布使用 `MAJOR.MINOR.PATCH` 版本控制。例如 1.0.0。阅读[支持的发布]({{< ref support-release-policy.md >}})以了解更多关于发布版本控制的信息。
+Dapr 发布使用 `MAJOR.MINOR.PATCH` 版本控制。例如 1.0.0。阅读[支持的发布]({{% ref support-release-policy.md %}})以了解更多关于发布版本控制的信息。
 
 ## Helm Charts
-[helm-charts 仓库](https://github.com/dapr/helm-charts)中的 Helm charts 与 Dapr 运行时版本一致。Helm charts 用于[Kubernetes 部署]({{< ref "kubernetes-deploy#install-with-helm-advanced" >}})
+[helm-charts 仓库](https://github.com/dapr/helm-charts)中的 Helm charts 与 Dapr 运行时版本一致。Helm charts 用于[Kubernetes 部署]({{% ref "kubernetes-deploy#install-with-helm-advanced" %}})
 
 ## 语言 SDK、CLI 和 dashboard
-Dapr 语言 SDK、CLI 和 dashboard 独立于 Dapr 运行时进行版本控制，并可以在不同的时间表上发布。请参阅此[表格]({{< ref "support-release-policy#supported-versions" >}})以显示 SDK、CLI、dashboard 和运行时版本之间的兼容性。每个新的运行时发布都会列出相应支持的 SDK、CLI 和 Dashboard。
+Dapr 语言 SDK、CLI 和 dashboard 独立于 Dapr 运行时进行版本控制，并可以在不同的时间表上发布。请参阅此[表格]({{% ref "support-release-policy#supported-versions" %}})以显示 SDK、CLI、dashboard 和运行时版本之间的兼容性。每个新的运行时发布都会列出相应支持的 SDK、CLI 和 Dashboard。
 
 SDK、CLI 和 Dashboard 的版本控制遵循 `MAJOR.MINOR.PATCH` 格式。当 SDK 中存在非向后兼容的更改时（例如，更改客户端方法的参数），主版本会递增。次版本用于新功能和错误修复，补丁版本在出现错误或安全热修复时递增。
 
@@ -55,14 +55,14 @@ SDK 中的示例和例子与该仓库的版本一致。
 [components-contrib](https://github.com/dapr/components-contrib/) 仓库发布是所有内部组件的统一版本。也就是说，components-contrib 仓库发布的版本由其内部所有组件的模式组成。如果没有组件更改，Dapr 的新版本并不意味着 components-contrib 有新的发布。
 
 注意：组件具有生产使用生命周期状态：Alpha、Beta 和 Stable。这些状态与其版本控制无关。支持的组件表显示了它们的版本和状态。
-* [state store 组件列表]({{< ref supported-state-stores.md >}})
-* [pub/sub 组件列表]({{< ref supported-pubsub.md >}})
-* [binding 组件列表]({{< ref supported-bindings.md >}})
-* [secret store 组件列表]({{< ref supported-secret-stores.md >}})
-* [configuration store 组件列表]({{< ref supported-configuration-stores.md >}})
-* [lock 组件列表]({{< ref supported-locks.md >}})
-* [cryptography 组件列表]({{< ref supported-cryptography.md >}})
-* [middleware 组件列表]({{< ref supported-middleware.md >}})
+* [state store 组件列表]({{% ref supported-state-stores.md %}})
+* [pub/sub 组件列表]({{% ref supported-pubsub.md %}})
+* [binding 组件列表]({{% ref supported-bindings.md %}})
+* [secret store 组件列表]({{% ref supported-secret-stores.md %}})
+* [configuration store 组件列表]({{% ref supported-configuration-stores.md %}})
+* [lock 组件列表]({{% ref supported-locks.md %}})
+* [cryptography 组件列表]({{% ref supported-cryptography.md %}})
+* [middleware 组件列表]({{% ref supported-middleware.md %}})
 
 有关组件版本控制的更多信息，请阅读[组件的版本 2 及以后](https://github.com/dapr/components-contrib/blob/master/docs/developing-component.md#version-2-and-beyond-of-a-component)
 
@@ -107,5 +107,5 @@ spec:
 [Samples 仓库](https://github.com/dapr/samples)中的示例根据示例维护者的情况逐个版本控制。与运行时发布（多个版本之前）非常不一致或超过 1 年未维护的示例将被移除。
 
 ## 相关链接
-* 阅读[支持的发布]({{< ref support-release-policy.md >}})
-* 阅读[重大变更和弃用政策]({{< ref breaking-changes-and-deprecations.md >}})
+* 阅读[支持的发布]({{% ref support-release-policy.md %}})
+* 阅读[重大变更和弃用政策]({{% ref breaking-changes-and-deprecations.md %}})

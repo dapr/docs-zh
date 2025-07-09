@@ -8,12 +8,12 @@ description: 如何使用 Dapr JavaScript SDK 快速上手 actor
 
 Dapr actors 包允许您通过 JavaScript 应用程序与 Dapr 虚拟 actor 交互。以下示例展示了如何使用 JavaScript SDK 与虚拟 actor 进行交互。
 
-有关 Dapr actor 的详细介绍，请访问 [actor 概述页面]({{< ref actors-overview >}})。
+有关 Dapr actor 的详细介绍，请访问 [actor 概述页面]({{% ref actors-overview %}})。
 
 ## 前置条件
 
-- 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 已初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
+- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - [最新的 LTS 版本的 Node 或更高版本](https://nodejs.org/en/)
 - [已安装 JavaScript NPM 包](https://www.npmjs.com/package/@dapr/dapr)
 
@@ -195,7 +195,7 @@ JS SDK 支持 actor 通过注册定时器或提醒来在自身上安排周期性
 
 这种区别允许用户在轻量级但无状态的定时器与更耗资源但有状态的提醒之间进行权衡。
 
-定时器和提醒的调度接口是相同的。有关调度配置的更深入了解，请参阅 [actor 定时器和提醒文档]({{< ref "howto-actors.md#actor-timers-and-reminders" >}})。
+定时器和提醒的调度接口是相同的。有关调度配置的更深入了解，请参阅 [actor 定时器和提醒文档]({{% ref "howto-actors.md#actor-timers-and-reminders" %}})。
 
 ### Actor 定时器
 
@@ -255,4 +255,4 @@ export default class ParkingSensorImpl extends AbstractActor implements ParkingS
 }
 ```
 
-有关 actor 的完整指南，请访问 [如何：在 Dapr 中使用虚拟 actor]({{< ref howto-actors.md >}})。
+有关 actor 的完整指南，请访问 [如何：在 Dapr 中使用虚拟 actor]({{% ref howto-actors.md %}})。

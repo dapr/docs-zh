@@ -9,7 +9,7 @@ aliases:
   - /zh-hans/concepts/middleware-concept/
 ---
 
-Dapr 允许通过将一系列中间件组件链接在一起来定义自定义处理管道。在本指南中，您将学习如何创建一个中间件组件。要了解如何配置已有的中间件组件，请参阅[配置中间件组件]({{< ref middleware.md >}})
+Dapr 允许通过将一系列中间件组件链接在一起来定义自定义处理管道。在本指南中，您将学习如何创建一个中间件组件。要了解如何配置已有的中间件组件，请参阅[配置中间件组件]({{% ref middleware.md %}})
 
 ## 编写自定义 HTTP 中间件
 
@@ -48,6 +48,6 @@ func (m *customMiddleware) GetHandler(metadata middleware.Metadata) (func(next h
 
 ## 相关链接
 
-- [组件模式]({{< ref component-schema.md >}})
-- [配置概述]({{< ref configuration-overview.md >}})
+- [组件模式]({{% ref component-schema.md %}})
+- [配置概述]({{% ref configuration-overview.md %}})
 - [API 中间件示例](https://github.com/dapr/samples/tree/master/middleware-oauth-google)

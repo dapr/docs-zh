@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要配置 Apache Pulsar 的发布/订阅(pub/sub)功能，需要创建一个类型为 `pubsub.pulsar` 的组件。请参阅 [pub/sub broker 组件文件]({{< ref setup-pubsub.md >}}) 以了解 ConsumerID 的自动生成方式。阅读 [操作指南：发布和订阅]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) 以了解如何创建和应用 pub/sub 配置。
+要配置 Apache Pulsar 的发布/订阅(pub/sub)功能，需要创建一个类型为 `pubsub.pulsar` 的组件。请参阅 [pub/sub broker 组件文件]({{% ref setup-pubsub.md %}}) 以了解 ConsumerID 的自动生成方式。阅读 [操作指南：发布和订阅]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}}) 以了解如何创建和应用 pub/sub 配置。
 
 有关 Apache Pulsar 的更多信息，请[阅读官方文档](https://pulsar.apache.org/docs/en/concepts-overview/)。
 
@@ -65,7 +65,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上面的示例使用了明文字符串作为 secret。建议使用 [secret 存储]({{< ref component-secrets.md >}}) 来存储 secret。此组件支持将 `token` 参数和其他敏感数据存储为 Kubernetes Secrets。
+上面的示例使用了明文字符串作为 secret。建议使用 [secret 存储]({{% ref component-secrets.md %}}) 来存储 secret。此组件支持将 `token` 参数和其他敏感数据存储为 Kubernetes Secrets。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -75,7 +75,7 @@ spec:
 | host               | Y  | Pulsar broker 的地址。默认值为 `"localhost:6650"` | `"localhost:6650"` 或 `"http://pulsar-pj54qwwdpz4b-pulsar.ap-sg.public.pulsar.com:8080"`|
 | enableTLS          | N  | 是否启用 TLS。默认值: `"false"` | `"true"`, `"false"` |
 | tenant             | N  | 主题的租户。租户是 Pulsar 多租户的关键，并跨集群分布。默认值: `"public"` | `"public"` |
-| consumerID         | N  | 用于设置订阅名称或消费者 ID。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| consumerID         | N  | 用于设置订阅名称或消费者 ID。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | namespace          | N  | 主题的管理单元，作为相关主题的分组机制。默认值: `"default"` | `"default"`
 | persistent         | N  | Pulsar 支持两种类型的主题：[持久化](https://pulsar.apache.org/docs/en/concepts-architecture-overview#persistent-storage) 和 [非持久化](https://pulsar.apache.org/docs/en/concepts-messaging/#non-persistent-topics)。持久化主题的所有消息都存储在磁盘上，而非持久化主题的数据不会存储到磁盘。
 | disableBatching | N | 是否禁用批处理。启用批处理时，默认批处理延迟为 10 毫秒，默认批处理大小为 1000 条消息，设置 `disableBatching: true` 将使生产者单独发送消息。默认值: `"false"` | `"true"`, `"false"`|
@@ -165,7 +165,7 @@ spec:
 
 ### 启用消息传递重试
 
-Pulsar pub/sub 组件没有内置的重试策略支持。这意味着 sidecar 仅向服务发送一次消息，失败时不会重试。要使 Dapr 使用更复杂的重试策略，您可以将 [重试弹性策略]({{< ref "policies.md#retries" >}}) 应用于 Pulsar pub/sub 组件。请注意，这将是同一个 Dapr sidecar 重试将消息重新传递到同一个应用实例，而不是其他实例。
+Pulsar pub/sub 组件没有内置的重试策略支持。这意味着 sidecar 仅向服务发送一次消息，失败时不会重试。要使 Dapr 使用更复杂的重试策略，您可以将 [重试弹性策略]({{% ref "policies.md#retries" %}}) 应用于 Pulsar pub/sub 组件。请注意，这将是同一个 Dapr sidecar 重试将消息重新传递到同一个应用实例，而不是其他实例。
 
 ### 延迟队列
 
@@ -244,7 +244,7 @@ spec:
 
 #### 从值启用发布者加密
 
-> 注意：建议 [从 secret 引用公钥]({{< ref component-secrets.md >}})。
+> 注意：建议 [从 secret 引用公钥]({{% ref component-secrets.md %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -265,7 +265,7 @@ spec:
 
 #### 从值启用消费者加密
 
-> 注意：建议 [从 secret 引用公钥和私钥]({{< ref component-secrets.md >}})。
+> 注意：建议 [从 secret 引用公钥和私钥]({{% ref component-secrets.md %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -326,9 +326,9 @@ curl -X POST http://localhost:3500/v1.0/publish/myPlusar/myTopic?metadata.correl
 
 ## 创建一个 Pulsar 实例
 
-{{< tabs "Self-Hosted" "Kubernetes">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 
 ```
 docker run -it \
@@ -341,16 +341,16 @@ docker run -it \
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 请参考以下 [Helm chart](https://pulsar.apache.org/docs/helm-overview) 文档。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
-- [Dapr 组件的基本 schema]({{< ref component-schema >}})
-- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) 了解配置 pub/sub 组件的说明
-- [Pub/Sub 构建块]({{< ref pubsub >}})
+- [Dapr 组件的基本 schema]({{% ref component-schema %}})
+- 阅读 [本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}}) 了解配置 pub/sub 组件的说明
+- [Pub/Sub 构建块]({{% ref pubsub %}})

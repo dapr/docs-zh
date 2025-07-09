@@ -150,25 +150,25 @@ ORDER BY
 
 使用以下命令执行查询：
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl -s -X POST -H "Content-Type: application/json" -d @query-api-examples/query1.json http://localhost:3500/v1.0-alpha1/state/statestore/query | jq .
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Method Post -ContentType 'application/json' -InFile query-api-examples/query1.json -Uri 'http://localhost:3500/v1.0-alpha1/state/statestore/query'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 查询结果是一个按请求顺序排列的匹配键/值对数组：
 
@@ -250,25 +250,25 @@ SELECT * FROM c WHERE
 
 使用以下命令执行查询：
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl -s -X POST -H "Content-Type: application/json" -d @query-api-examples/query2.json http://localhost:3500/v1.0-alpha1/state/statestore/query | jq .
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Method Post -ContentType 'application/json' -InFile query-api-examples/query2.json -Uri 'http://localhost:3500/v1.0-alpha1/state/statestore/query'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 与前一个示例类似，结果是一个匹配键/值对的数组。
 
@@ -331,25 +331,25 @@ LIMIT 3
 
 使用以下命令执行查询：
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl -s -X POST -H "Content-Type: application/json" -d @query-api-examples/query3.json http://localhost:3500/v1.0-alpha1/state/statestore/query | jq .
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Method Post -ContentType 'application/json' -InFile query-api-examples/query3.json -Uri 'http://localhost:3500/v1.0-alpha1/state/statestore/query'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 成功执行后，状态存储返回一个包含匹配记录列表和分页令牌的JSON对象：
 
@@ -434,25 +434,25 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -InFile query-api
 }
 ```
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl -s -X POST -H "Content-Type: application/json" -d @query-api-examples/query3-token.json http://localhost:3500/v1.0-alpha1/state/statestore/query | jq .
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Method Post -ContentType 'application/json' -InFile query-api-examples/query3-token.json -Uri 'http://localhost:3500/v1.0-alpha1/state/statestore/query'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 此查询的结果是：
 
@@ -506,14 +506,14 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -InFile query-api
 
 状态查询API有以下限制：
 
-- 要查询存储在状态存储中的actor状态，您需要使用特定数据库的查询API。请参阅[查询actor状态]({{< ref "state-management-overview.md#querying-actor-state" >}})。
-- 该API不适用于Dapr[加密状态存储]({{< ref howto-encrypt-state >}})功能。由于加密是由Dapr运行时完成并存储为加密数据，因此这实际上阻止了服务器端查询。
+- 要查询存储在状态存储中的actor状态，您需要使用特定数据库的查询API。请参阅[查询actor状态]({{% ref "state-management-overview.md#querying-actor-state" %}})。
+- 该API不适用于Dapr[加密状态存储]({{% ref howto-encrypt-state %}})功能。由于加密是由Dapr运行时完成并存储为加密数据，因此这实际上阻止了服务器端查询。
 
-您可以在[相关链接]({{< ref "#related-links" >}})部分找到更多信息。
+您可以在[相关链接]({{% ref "#related-links" %}})部分找到更多信息。
 
 ## 相关链接
 
-- 请参阅[查询API参考]({{< ref "state_api.md#state-query" >}})。
-- 查看[实现查询支持的状态存储组件]({{< ref supported-state-stores.md >}})。
+- 请参阅[查询API参考]({{% ref "state_api.md#state-query" %}})。
+- 查看[实现查询支持的状态存储组件]({{% ref supported-state-stores.md %}})。
 - 查看[状态存储查询API实现指南](https://github.com/dapr/components-contrib/blob/master/state/README.md#implementing-state-query-api)。
-- 查看如何[查询Redis状态存储]({{< ref "setup-redis.md#querying-json-objects" >}})。
+- 查看如何[查询Redis状态存储]({{% ref "setup-redis.md#querying-json-objects" %}})。

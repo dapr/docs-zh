@@ -47,21 +47,21 @@ Dapr JavaScript SDK包含两个主要组件：
     <div class="card-body">
       <h5 class="card-title"><b>客户端</b></h5>
       <p class="card-text">创建一个JavaScript客户端，与Dapr sidecar和其他Dapr应用进行交互（例如，发布事件，支持输出绑定等）。</p>
-      <a href="{{< ref js-client >}}" class="stretched-link"></a>
+      <a href="{{% ref js-client %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>服务器</b></h5>
       <p class="card-text">创建一个JavaScript服务器，让Dapr sidecar与您的应用进行交互（例如，订阅事件，支持输入绑定等）。</p>
-      <a href="{{< ref js-server >}}" class="stretched-link"></a>
+      <a href="{{% ref js-server %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>虚拟演员</b></h5>
       <p class="card-text">创建具有状态、提醒/计时器和方法的虚拟演员。</p>
-      <a href="{{< ref js-actors >}}" class="stretched-link"></a>
+      <a href="{{% ref js-actors %}}" class="stretched-link"></a>
     </div>
   </div>
 </div>
@@ -71,14 +71,14 @@ Dapr JavaScript SDK包含两个主要组件：
     <div class="card-body">
       <h5 class="card-title"><b>日志</b></h5>
       <p class="card-text">配置和自定义SDK的日志功能。</p>
-      <a href="{{< ref js-logger >}}" class="stretched-link"></a>
+      <a href="{{% ref js-logger %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>示例</b></h5>
       <p class="card-text">获取JavaScript SDK的源代码并尝试一些示例以快速入门。</p>
-      <a href="{{< ref js-examples >}}" class="stretched-link"></a>
+      <a href="{{% ref js-examples %}}" class="stretched-link"></a>
     </div>
   </div>
 </div>

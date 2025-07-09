@@ -8,7 +8,7 @@ description: "配置超时、重试和断路器的弹性策略"
 
 在 `policies` 下定义超时、重试和断路器策略。每个策略都有一个名称，以便您可以在弹性规范的 `targets` 部分中引用它们。
 
-> 注意：Dapr 为某些 API 提供默认的重试机制。[请参阅此处]({{< ref "#overriding-default-retries" >}})了解如何使用用户定义的重试策略覆盖默认重试逻辑。
+> 注意：Dapr 为某些 API 提供默认的重试机制。[请参阅此处]({{% ref "#overriding-default-retries" %}})了解如何使用用户定义的重试策略覆盖默认重试逻辑。
 
 ## 超时
 
@@ -38,7 +38,7 @@ spec:
 通过 `retries`，您可以为失败的操作定义重试策略，包括由于触发定义的超时或断路器策略而失败的请求。
 
 {{% alert title="Pub/sub 组件重试与入站弹性" color="warning" %}}
-每个 [pub/sub 组件]({{< ref supported-pubsub >}}) 都有其内置的重试行为。显式应用 Dapr 弹性策略不会覆盖这些内置重试机制。相反，重试策略补充了内置重试机制，这可能导致消息的重复聚集。
+每个 [pub/sub 组件]({{% ref supported-pubsub %}}) 都有其内置的重试行为。显式应用 Dapr 弹性策略不会覆盖这些内置重试机制。相反，重试策略补充了内置重试机制，这可能导致消息的重复聚集。
 {{% /alert %}}
 
 以下重试选项是可配置的：
@@ -198,7 +198,7 @@ spec:
 
 #### 默认策略和内置重试如何协同工作
 
-在 [内置重试]({{< ref "policies.md#Override Default Retries" >}}) 的情况下，默认策略不会阻止内置重试策略运行。两者一起使用，但仅在特定情况下。
+在 [内置重试]({{% ref "policies.md#Override Default Retries" %}}) 的情况下，默认策略不会阻止内置重试策略运行。两者一起使用，但仅在特定情况下。
 
 对于服务和 actor 调用，内置重试专门处理连接到远程 sidecar 的问题（如有必要）。由于这些对于 Dapr 运行时的稳定性至关重要，因此它们不会被禁用**除非**为操作专门引用了命名策略。在某些情况下，可能会有来自内置重试和默认重试策略的额外重试，但这可以防止过于弱的默认策略降低 sidecar 的可用性/成功率。
 
@@ -323,5 +323,5 @@ spec:
 ## 下一步
 
 尝试其中一个弹性快速入门：
-- [弹性：服务到服务]({{< ref resiliency-serviceinvo-quickstart.md >}})
-- [弹性：状态管理]({{< ref resiliency-state-quickstart.md >}})
+- [弹性：服务到服务]({{% ref resiliency-serviceinvo-quickstart.md %}})
+- [弹性：状态管理]({{% ref resiliency-state-quickstart.md %}})

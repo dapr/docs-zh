@@ -15,7 +15,7 @@ SQLite名称解析组件可以作为mDNS的替代方案，适用于在单节点�
 
 ## 配置格式
 
-名称解析通过[Dapr配置]({{< ref configuration-overview.md >}})进行设置。
+名称解析通过[Dapr配置]({{% ref configuration-overview.md %}})进行设置。
 
 在配置YAML中，将`spec.nameResolution.component`属性设置为`"sqlite"`，然后在`spec.nameResolution.configuration`字典中传递配置选项。
 
@@ -51,4 +51,4 @@ spec:
 
 ## 相关链接
 
-- [服务调用构建块]({{< ref service-invocation >}})
+- [服务调用构建块]({{% ref service-invocation %}})

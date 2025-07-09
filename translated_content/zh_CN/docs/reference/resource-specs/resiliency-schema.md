@@ -9,7 +9,7 @@ description: "Dapr 弹性资源的基本说明"
 Dapr 的弹性资源使您能够定义和应用容错策略。这些弹性说明会在 Dapr sidecar 启动时生效。
 
 {{% alert title="注意" color="primary" %}}
-任何弹性资源都可以限制在特定的[命名空间]({{< ref isolation-concept.md >}})中，并通过作用域限制对特定应用程序集的访问。
+任何弹性资源都可以限制在特定的[命名空间]({{% ref isolation-concept.md %}})中，并通过作用域限制对特定应用程序集的访问。
 {{% /alert %}}
 
 ## 格式
@@ -64,8 +64,8 @@ targets: # 必需
 
 | 字段              | 必需 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
-| policies | Y | 弹性策略的配置，包括： <br><ul><li>`timeouts`</li><li>`retries`</li><li>`circuitBreakers`</li></ul> <br> [查看所有内置策略的更多示例]({{< ref policies.md >}}) | timeout: `general`<br>retry: `retryForever`<br>circuit breaker: `simpleCB` |
-| targets | Y | 使用弹性策略的应用程序、actor 或组件的配置。 <br>[在弹性目标指南中查看更多示例]({{< ref targets.md >}})  | `apps` <br>`components`<br>`actors` |
+| policies | Y | 弹性策略的配置，包括： <br><ul><li>`timeouts`</li><li>`retries`</li><li>`circuitBreakers`</li></ul> <br> [查看所有内置策略的更多示例]({{% ref policies.md %}}) | timeout: `general`<br>retry: `retryForever`<br>circuit breaker: `simpleCB` |
+| targets | Y | 使用弹性策略的应用程序、actor 或组件的配置。 <br>[在弹性目标指南中查看更多示例]({{% ref targets.md %}})  | `apps` <br>`components`<br>`actors` |
 
 ## 相关链接
-[了解更多关于弹性策略和目标的信息]({{< ref resiliency-overview.md >}})
+[了解更多关于弹性策略和目标的信息]({{% ref resiliency-overview.md %}})

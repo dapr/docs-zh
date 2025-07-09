@@ -11,7 +11,7 @@ description: "学习如何获取应用程序配置并订阅更改"
 <img src="/images/building-block-configuration-example.png" width=1000 alt="示例服务获取配置的图示">
 
 {{% alert title="注意" color="primary" %}}
-如果您还没有试过，请尝试[配置快速入门]({{< ref configuration-quickstart.md >}})，快速了解如何使用配置API。
+如果您还没有试过，请尝试[配置快速入门]({{% ref configuration-quickstart.md %}})，快速了解如何使用配置API。
 
 {{% /alert %}}
 
@@ -41,7 +41,7 @@ MSET orderId1 "101||1" orderId2 "102||1"
 
 ## 配置Dapr配置存储
 
-将以下组件文件保存到您机器上的[默认组件文件夹]({{< ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" >}})。您可以将其用作Dapr组件YAML：
+将以下组件文件保存到您机器上的[默认组件文件夹]({{% ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" %}})。您可以将其用作Dapr组件YAML：
 
 - 对于Kubernetes使用`kubectl`。
 - 使用Dapr CLI运行时。
@@ -70,9 +70,9 @@ spec:
 
 以下示例展示了如何使用Dapr配置API获取已保存的配置项。
 
-{{< tabs ".NET" Java Python Go JavaScript "HTTP API (BASH)" "HTTP API (Powershell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 //依赖项
@@ -98,9 +98,9 @@ namespace ConfigurationApi
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 //依赖项
@@ -131,9 +131,9 @@ public static void main(String[] args) throws Exception {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 #依赖项
@@ -148,9 +148,9 @@ with DaprClient() as d:
         print(f"Got key={configuration.items[0].key} value={configuration.items[0].value} version={configuration.items[0].version}")
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 package main
@@ -178,9 +178,9 @@ func main() {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```js
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
@@ -210,9 +210,9 @@ async function main() {
 main().catch((e) => console.error(e));
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (BASH)" %}}
 
 启动一个Dapr sidecar：
 
@@ -226,9 +226,9 @@ dapr run --app-id orderprocessing --dapr-http-port 3601
 curl http://localhost:3601/v1.0/configuration/configstore?key=orderId1
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Powershell)" %}}
 
 启动一个Dapr sidecar：
 
@@ -242,17 +242,17 @@ dapr run --app-id orderprocessing --dapr-http-port 3601
 Invoke-RestMethod -Uri 'http://localhost:3601/v1.0/configuration/configstore?key=orderId1'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 订阅配置项更新
 
 以下是利用SDK订阅使用`configstore`存储组件的键`[orderId1, orderId2]`的代码示例。
 
-{{< tabs ".NET" "ASP.NET Core" Java Python Go JavaScript>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 using System;
@@ -288,9 +288,9 @@ await foreach (var items in subscribe.Source)
 dapr run --app-id orderprocessing -- dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="ASP.NET Core" %}}
 
 ```csharp
 using System;
@@ -343,9 +343,9 @@ namespace ConfigurationApi
 dapr run --app-id orderprocessing -- dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 import io.dapr.client.DaprClientBuilder;
@@ -391,9 +391,9 @@ public static void main(String[] args) throws Exception {
 dapr run --app-id orderprocessing -- -- mvn spring-boot:run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 #依赖项
@@ -424,9 +424,9 @@ executeConfiguration()
 dapr run --app-id orderprocessing -- python3 OrderProcessingService.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 package main
@@ -463,9 +463,9 @@ func main() {
 dapr run --app-id orderprocessing -- go run main.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```js
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
@@ -509,9 +509,9 @@ main().catch((e) => console.error(e));
 dapr run --app-id orderprocessing --app-protocol grpc --dapr-grpc-port 3500 -- node index.js
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 取消订阅配置项更新
 
@@ -519,9 +519,9 @@ dapr run --app-id orderprocessing --app-protocol grpc --dapr-grpc-port 3500 -- n
 
 以下是展示如何使用取消订阅API取消订阅配置更新的代码示例。
 
-{{< tabs ".NET" Java Python Go JavaScript "HTTP API (BASH)" "HTTP API (Powershell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 ```csharp
 using System;
 using System.Collections.Generic;
@@ -546,9 +546,9 @@ async Task unsubscribe(string subscriptionId)
   }
 }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 ```java
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.DaprClient;
@@ -578,9 +578,9 @@ public static void main(String[] args) throws Exception {
     }
 }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 ```python
 import asyncio
 import time
@@ -592,9 +592,9 @@ with DaprClient() as d:
   isSuccess = d.unsubscribe_configuration(store_name='configstore', id=subscriptionID)
   print(f"Unsubscribed successfully? {isSuccess}", flush=True)
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 ```go
 package main
 
@@ -624,9 +624,9 @@ func main() {
   }
 }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 ```js
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
 
@@ -663,22 +663,22 @@ async function main() {
 
 main().catch((e) => console.error(e));
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (BASH)" %}}
 ```bash
 curl 'http://localhost:<DAPR_HTTP_PORT>/v1.0/configuration/configstore/<subscription-id>/unsubscribe'
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Powershell)" %}}
 ```powershell
 Invoke-RestMethod -Uri 'http://localhost:<DAPR_HTTP_PORT>/v1.0/configuration/configstore/<subscription-id>/unsubscribe'
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 
-* 阅读[配置API概述]({{< ref configuration-api-overview.md >}})
+* 阅读[配置API概述]({{% ref configuration-api-overview.md %}})

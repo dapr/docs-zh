@@ -13,8 +13,8 @@ Dapr 客户端包使您能够从 Go 应用程序与其他 Dapr 应用程序进�
 
 在开始之前，您需要确保以下条件已满足：
 
-- 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 已初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
+- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - [已安装 Go](https://golang.org/doc/install)
 
 ## 导入客户端包
@@ -66,7 +66,7 @@ if err != nil {
 
 ## 构建块
 
-Go SDK 允许您与所有 [Dapr 构建块]({{< ref building-blocks >}})进行交互。
+Go SDK 允许您与所有 [Dapr 构建块]({{% ref building-blocks %}})进行交互。
 
 ### 服务调用
 
@@ -87,7 +87,7 @@ content := &dapr.DataContent{
 resp, err = client.InvokeMethodWithContent(ctx, "app-id", "method-name", "post", content)
 ```
 
-有关服务调用的完整指南，请访问 [如何调用服务]({{< ref howto-invoke-discover-services.md >}})。
+有关服务调用的完整指南，请访问 [如何调用服务]({{% ref howto-invoke-discover-services.md %}})。
 
 ### 状态管理
 
@@ -222,7 +222,7 @@ for _, account := range queryResponse {
 
 > **注意：** 查询状态 API 目前处于 alpha 阶段
 
-有关状态管理的完整指南，请访问 [如何保存和获取状态]({{< ref howto-get-save-state.md >}})。
+有关状态管理的完整指南，请访问 [如何保存和获取状态]({{% ref howto-get-save-state.md %}})。
 
 ### 发布消息
 要将数据发布到主题上，Dapr Go 客户端提供了一个简单的方法：
@@ -244,11 +244,11 @@ if res.Error != nil {
 }
 ```
 
-有关发布/订阅的完整指南，请访问 [如何发布和订阅]({{< ref howto-publish-subscribe.md >}})。
+有关发布/订阅的完整指南，请访问 [如何发布和订阅]({{% ref howto-publish-subscribe.md %}})。
 
 ### 工作流
 
-您可以使用 Go SDK 创建 [工作流]({{< ref workflow-overview.md >}})。例如，从一个简单的工作流活动开始：
+您可以使用 Go SDK 创建 [工作流]({{% ref workflow-overview.md %}})。例如，从一个简单的工作流活动开始：
 
 ```go
 func TestActivity(ctx workflow.ActivityContext) (any, error) {
@@ -285,7 +285,7 @@ func TestWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 }
 ```
 
-然后编写将使用您创建的工作流的应用程序。有关完整的演练，请参阅 [如何编写工作流指南]({{< ref howto-author-workflow.md >}})。
+然后编写将使用您创建的工作流的应用程序。有关完整的演练，请参阅 [如何编写工作流指南]({{% ref howto-author-workflow.md %}})。
 
 尝试 [Go SDK 工作流示例](https://github.com/dapr/go-sdk/blob/main/examples/workflow)。
 
@@ -313,7 +313,7 @@ in := &dapr.InvokeBindingRequest{
 out, err := client.InvokeBinding(ctx, in)
 ```
 
-有关输出绑定的完整指南，请访问 [如何使用绑定]({{< ref howto-bindings.md >}})。
+有关输出绑定的完整指南，请访问 [如何使用绑定]({{% ref howto-bindings.md %}})。
 
 ### Actor
 
@@ -375,7 +375,7 @@ func main() {
 }
 ```
 
-有关 actor 的完整指南，请访问 [actor 构建块文档]({{< ref actors >}})。
+有关 actor 的完整指南，请访问 [actor 构建块文档]({{% ref actors %}})。
 
 ### Secret 管理
 
@@ -412,7 +412,7 @@ func main() {
 }
 ```
 
-有关 secret 的完整指南，请访问 [如何检索 secret]({{< ref howto-secrets.md >}})。
+有关 secret 的完整指南，请访问 [如何检索 secret]({{% ref howto-secrets.md %}})。
 
 ### 分布式锁
 
@@ -447,7 +447,7 @@ func main() {
 }
 ```
 
-有关分布式锁的完整指南，请访问 [如何使用锁]({{< ref howto-use-distributed-lock.md >}})。
+有关分布式锁的完整指南，请访问 [如何使用锁]({{% ref howto-use-distributed-lock.md %}})。
 
 ### 配置
 
@@ -478,7 +478,7 @@ go func() {
 }()
 ```
 
-有关配置的完整指南，请访问 [如何从存储管理配置]({{< ref howto-manage-configuration.md >}})。
+有关配置的完整指南，请访问 [如何从存储管理配置]({{% ref howto-manage-configuration.md %}})。
 
 ### 加密
 
@@ -509,7 +509,7 @@ out, err := client.Decrypt(context.Background(), rf, dapr.EncryptOptions{
 })
 ```
 
-有关加密的完整指南，请访问 [如何使用加密 API]({{< ref howto-cryptography.md >}})。
+有关加密的完整指南，请访问 [如何使用加密 API]({{% ref howto-cryptography.md %}})。
 
 ## 相关链接
 [Go SDK 示例](https://github.com/dapr/go-sdk/tree/main/examples)

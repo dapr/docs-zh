@@ -9,9 +9,9 @@ aliases:
 
 WebAssembly是一种安全执行由其他语言编译的代码的方法。运行时会执行WebAssembly模块（Wasm），这些模块通常是带有`.wasm`扩展名的二进制文件。
 
-Wasm [HTTP中间件]({{< ref middleware.md >}})允许您使用编译为Wasm二进制文件的自定义逻辑来处理传入请求或提供响应。换句话说，您可以使用未预编译到`daprd`二进制文件中的外部文件来扩展Dapr。Dapr嵌入了[wazero](https://wazero.io)以在不使用CGO的情况下实现这一点。
+Wasm [HTTP中间件]({{% ref middleware.md %}})允许您使用编译为Wasm二进制文件的自定义逻辑来处理传入请求或提供响应。换句话说，您可以使用未预编译到`daprd`二进制文件中的外部文件来扩展Dapr。Dapr嵌入了[wazero](https://wazero.io)以在不使用CGO的情况下实现这一点。
 
-Wasm二进制文件可以从URL加载。例如，使用URL `file://rewrite.wasm`可以从进程的当前目录加载`rewrite.wasm`文件。在Kubernetes环境中，您可以参考[如何：将Pod卷挂载到Dapr sidecar]({{< ref kubernetes-volume-mounts.md >}})来配置可以包含Wasm模块的文件系统挂载。也可以从远程URL获取Wasm二进制文件。在这种情况下，URL必须精确指向一个Wasm二进制文件。例如：
+Wasm二进制文件可以从URL加载。例如，使用URL `file://rewrite.wasm`可以从进程的当前目录加载`rewrite.wasm`文件。在Kubernetes环境中，您可以参考[如何：将Pod卷挂载到Dapr sidecar]({{% ref kubernetes-volume-mounts.md %}})来配置可以包含Wasm模块的文件系统挂载。也可以从远程URL获取Wasm二进制文件。在这种情况下，URL必须精确指向一个Wasm二进制文件。例如：
 - `http://example.com/rewrite.wasm`，或
 - `https://example.com/rewrite.wasm`。
 
@@ -43,7 +43,7 @@ spec:
 
 ## Dapr配置
 
-要应用中间件，必须在[configuration]({{< ref configuration-concept.md >}})中引用它。请参阅[中间件管道]({{< ref "middleware.md#customize-processing-pipeline">}})。
+要应用中间件，必须在[configuration]({{% ref configuration-concept.md %}})中引用它。请参阅[中间件管道]({{% ref "middleware.md#customize-processing-pipeline" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -57,7 +57,7 @@ spec:
       type: middleware.http.wasm
 ```
 
-*注意*：WebAssembly中间件使用的资源比本地中间件多。这可能导致资源限制比在本地代码中更快达到。生产环境中应[控制最大并发]({{< ref control-concurrency.md >}})。
+*注意*：WebAssembly中间件使用的资源比本地中间件多。这可能导致资源限制比在本地代码中更快达到。生产环境中应[控制最大并发]({{% ref control-concurrency.md %}})。
 
 ### 生成Wasm
 
@@ -148,7 +148,7 @@ func main() {
 
 ## 相关链接
 
-- [中间件]({{< ref middleware.md >}})
-- [配置概念]({{< ref configuration-concept.md >}})
-- [配置概览]({{< ref configuration-overview.md >}})
-- [控制最大并发]({{< ref control-concurrency.md >}})
+- [中间件]({{% ref middleware.md %}})
+- [配置概念]({{% ref configuration-concept.md %}})
+- [配置概览]({{% ref configuration-overview.md %}})
+- [控制最大并发]({{% ref control-concurrency.md %}})

@@ -7,9 +7,9 @@ description: "如何使用 OpenTelemetry Collector 将追踪事件推送到 Jaeg
 ---
 
 Dapr 支持通过 OpenTelemetry (OTLP) 和 Zipkin 协议进行追踪信息的写入。然而，由于 Jaeger 对 Zipkin 的支持已被弃用，建议使用 OTLP。虽然 Jaeger 可以直接支持 OTLP，但在生产环境中，推荐使用 OpenTelemetry Collector 从 Dapr 收集追踪信息并发送到 Jaeger。这样可以让您的应用程序更高效地处理数据，并利用重试、批处理和加密等功能。更多信息请阅读 Open Telemetry Collector [文档](https://opentelemetry.io/docs/collector/#when-to-use-a-collector)。
-{{< tabs Self-hosted Kubernetes >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-hosted" %}}
 <!-- self-hosted -->
 ## 在自托管模式下配置 Jaeger
 
@@ -53,9 +53,9 @@ dapr run --app-id myapp --app-port 3000 node app.js --config config.yaml
 ### 查看追踪信息
 
 要在浏览器中查看追踪信息，请访问 `http://localhost:16686` 查看 Jaeger UI。
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 <!-- kubernetes -->
 ## 在 Kubernetes 上使用 OpenTelemetry Collector 配置 Jaeger
 
@@ -63,7 +63,7 @@ dapr run --app-id myapp --app-port 3000 node app.js --config config.yaml
 
 ### 前提条件
 
-- [在 Kubernetes 上安装 Dapr]({{< ref kubernetes >}})
+- [在 Kubernetes 上安装 Dapr]({{% ref kubernetes %}})
 - 使用 Jaeger Kubernetes Operator [设置 Jaeger](https://www.jaegertracing.io/docs/1.49/operator/)
 
 ### 设置 OpenTelemetry Collector 推送到 Jaeger
@@ -130,9 +130,9 @@ kubectl port-forward svc/jaeger-query 16686 -n observability
 在您的浏览器中，访问 `http://localhost:16686`，您将看到 Jaeger UI。
 
 ![jaeger](/images/jaeger_ui.png)
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 ## 参考资料
 
 - [Jaeger 入门](https://www.jaegertracing.io/docs/1.49/getting-started/)

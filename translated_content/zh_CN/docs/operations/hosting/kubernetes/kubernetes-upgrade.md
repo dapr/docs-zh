@@ -9,20 +9,20 @@ description: "按照这些步骤在 Kubernetes 上升级 Dapr，确保顺利升�
 您可以通过 Dapr CLI 或 Helm 来升级 Kubernetes 集群上的 Dapr 控制平面。
 
 {{% alert title="注意" color="primary" %}}
-请参阅 [Dapr 版本政策]({{< ref "support-release-policy.md#upgrade-paths" >}}) 以获取 Dapr 升级路径的指导。
+请参阅 [Dapr 版本政策]({{% ref "support-release-policy.md#upgrade-paths" %}}) 以获取 Dapr 升级路径的指导。
 {{% /alert %}}
 
-{{< tabs "Dapr CLI" "Helm" >}}
+{{< tabpane text=true >}}
  <!-- Dapr CLI -->
-{{% codetab %}}
+{{% tab header="Dapr CLI" %}}
 ## 使用 Dapr CLI 升级
 
-您可以使用 [Dapr CLI]({{< ref install-dapr-cli.md >}}) 来升级 Dapr。
+您可以使用 [Dapr CLI]({{% ref install-dapr-cli.md %}}) 来升级 Dapr。
 
 ### 前提条件
 
-- [安装 Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 一个现有的 [运行 Dapr 的 Kubernetes 集群]({{< ref cluster >}})
+- [安装 Dapr CLI]({{% ref install-dapr-cli.md %}})
+- 一个现有的 [运行 Dapr 的 Kubernetes 集群]({{% ref cluster %}})
 
 ### 将现有集群升级到 {{% dapr-latest-version long="true" %}}
 
@@ -53,10 +53,10 @@ CustomResourceDefinition "configurations.dapr.io" 无效：spec.preserveUnknownF
 
 1. 继续执行 `dapr upgrade --runtime-version {{% dapr-latest-version long="true" %}} -k` 命令。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Helm -->
-{{% codetab %}}
+{{% tab header="Helm" %}}
 ## 使用 Helm 升级
 
 您可以使用 Helm v3 chart 来升级 Dapr。
@@ -66,7 +66,7 @@ CustomResourceDefinition "configurations.dapr.io" 无效：spec.preserveUnknownF
 ### 前提条件
 
 - [安装 Helm v3](https://github.com/helm/helm/releases)
-- 一个现有的 [运行 Dapr 的 Kubernetes 集群]({{< ref cluster >}})
+- 一个现有的 [运行 Dapr 的 Kubernetes 集群]({{% ref cluster %}})
 
 ### 将现有集群升级到 {{% dapr-latest-version long="true" %}}
 
@@ -112,16 +112,16 @@ CustomResourceDefinition "configurations.dapr.io" 无效：spec.preserveUnknownF
    kubectl rollout restart deploy/<DEPLOYMENT-NAME>
    ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 升级现有 Dapr 部署以启用高可用模式
 
-[通过一些额外步骤在现有 Dapr 部署中启用高可用模式。]({{< ref "kubernetes-production.md#enabling-high-availability-in-an-existing-dapr-deployment" >}})
+[通过一些额外步骤在现有 Dapr 部署中启用高可用模式。]({{% ref "kubernetes-production.md#enabling-high-availability-in-an-existing-dapr-deployment" %}})
 
 ## 相关链接
 
-- [Kubernetes 上的 Dapr]({{< ref kubernetes-overview.md >}})
-- [更多关于使用 Helm 升级 Dapr 的信息]({{< ref "kubernetes-production.md#upgrade-dapr-with-helm" >}})
-- [Dapr 生产指南]({{< ref kubernetes-production.md >}})
+- [Kubernetes 上的 Dapr]({{% ref kubernetes-overview.md %}})
+- [更多关于使用 Helm 升级 Dapr 的信息]({{% ref "kubernetes-production.md#upgrade-dapr-with-helm" %}})
+- [Dapr 生产指南]({{% ref kubernetes-production.md %}})

@@ -8,7 +8,7 @@ weight: 40
 
 本文介绍如何通过Dapr使用HTTP调用非Dapr端点。
 
-通过Dapr的服务调用API，您可以与使用或不使用Dapr的端点进行通信。使用Dapr调用非Dapr端点不仅提供了一致的API，还带来了以下[Dapr服务调用]({{< ref service-invocation-overview.md >}})的优势：
+通过Dapr的服务调用API，您可以与使用或不使用Dapr的端点进行通信。使用Dapr调用非Dapr端点不仅提供了一致的API，还带来了以下[Dapr服务调用]({{% ref service-invocation-overview.md %}})的优势：
 
 - 应用弹性策略
 - 通过跟踪和指标实现调用的可观测性
@@ -45,7 +45,7 @@ weight: 40
 ## 使用HTTPEndpoint资源或FQDN URL调用非Dapr端点
 在与Dapr应用程序或非Dapr应用程序通信时，有两种方法可以调用非Dapr端点。Dapr应用程序可以通过以下方式之一调用非Dapr端点：
 
-- 使用命名的`HTTPEndpoint`资源，定义一个`HTTPEndpoint`资源类型。请参阅[HTTPEndpoint参考]({{< ref httpendpoints-schema.md >}})中的示例。
+- 使用命名的`HTTPEndpoint`资源，定义一个`HTTPEndpoint`资源类型。请参阅[HTTPEndpoint参考]({{% ref httpendpoints-schema.md %}})中的示例。
 
     ```sh
     localhost:3500/v1.0/invoke/<HTTPEndpoint-name>/method/<my-method>
@@ -68,7 +68,7 @@ weight: 40
     ```
 
 ### 使用appId调用启用Dapr的应用程序
-AppID用于通过`appID`和`my-method`调用Dapr应用程序。阅读[如何：使用HTTP调用服务]({{< ref howto-invoke-discover-services.md >}})指南以获取更多信息。例如：
+AppID用于通过`appID`和`my-method`调用Dapr应用程序。阅读[如何：使用HTTP调用服务]({{% ref howto-invoke-discover-services.md %}})指南以获取更多信息。例如：
 
 ```sh
 localhost:3500/v1.0/invoke/<appID>/method/<my-method>
@@ -79,7 +79,7 @@ curl http://localhost:3602/v1.0/invoke/orderprocessor/method/checkout
 
 ## TLS认证
 
-使用[HTTPEndpoint资源]({{< ref httpendpoints-schema.md >}})允许您根据远程端点的认证要求使用根证书、客户端证书和私钥的任意组合。
+使用[HTTPEndpoint资源]({{% ref httpendpoints-schema.md %}})允许您根据远程端点的认证要求使用根证书、客户端证书和私钥的任意组合。
 
 ### 使用根证书的示例
 
@@ -125,9 +125,9 @@ spec:
 
 ## 相关链接
 
-- [HTTPEndpoint参考]({{< ref httpendpoints-schema.md >}})
-- [服务调用概述]({{< ref service-invocation-overview.md >}})
-- [服务调用API规范]({{< ref service_invocation_api.md >}})
+- [HTTPEndpoint参考]({{% ref httpendpoints-schema.md %}})
+- [服务调用概述]({{% ref service-invocation-overview.md %}})
+- [服务调用API规范]({{% ref service_invocation_api.md %}})
 
 ## 社区电话演示
 观看此[视频](https://youtu.be/BEXJgLsO4hA?t=364)以了解如何使用服务调用来调用非Dapr端点。

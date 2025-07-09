@@ -14,7 +14,7 @@ description: 开始为 Dapr 文档做贡献
 
 在为 Dapr 文档做贡献之前：
 
-- 查看 [关于 Dapr 项目贡献的一般指导]({{< ref contributing-overview>}})。
+- 查看 [关于 Dapr 项目贡献的一般指导]({{% ref contributing-overview %}})。
 - 使用 [Hugo](https://gohugo.io/) 和 [Docsy](https://docsy.dev) 主题安装并设置您的本地环境。请按照库中的 [README.md](https://github.com/dapr/docs/blob/master/README.md#environment-setup) 中的说明进行操作。
 - 分叉并克隆 [文档库](https://github.com/dapr/docs)。
 
@@ -66,9 +66,9 @@ Dapr 文档的分支管理与大多数代码库不同。没有主分支，每个
 
 | 主题类型 | 它是什么？ |
 | ---------- | ----------- |
-| [概念]({{< ref "concept-template.md" >}}) | 回答问题，“这能帮助我解决什么问题？”避免重复 API 或组件规范；提供更多细节。 |
-| [快速入门]({{< ref "quickstart-template.md" >}}) | 提供 "五分钟到 _wow_" 的体验。快速引导读者通过一个功能或 API 以及它在受控示例中的工作方式。 |
-| [操作指南]({{< ref "howto-template.md" >}}) | 提供通过 Dapr 功能或技术的详细、实用的分步指南。鼓励读者尝试自己的场景，而不是快速入门中提供的受控场景。 |
+| [概念]({{% ref "concept-template.md" %}}) | 回答问题，“这能帮助我解决什么问题？”避免重复 API 或组件规范；提供更多细节。 |
+| [快速入门]({{% ref "quickstart-template.md" %}}) | 提供 "五分钟到 _wow_" 的体验。快速引导读者通过一个功能或 API 以及它在受控示例中的工作方式。 |
+| [操作指南]({{% ref "howto-template.md" %}}) | 提供通过 Dapr 功能或技术的详细、实用的分步指南。鼓励读者尝试自己的场景，而不是快速入门中提供的受控场景。 |
 
 ## docs.dapr.io 的要求
 
@@ -191,13 +191,13 @@ Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 符号调整
 ```
 {{</* tabs [Tab1] [Tab2]>}}
 
-{{% codetab %}}
+{{% tab %}}
 [Tab1 的内容]
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab %}}
 [Tab2 的内容]
-{{% /codetab %}}
+{{% /tab %}}
 
 {{< /tabs */>}}
 ```
@@ -209,155 +209,56 @@ Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 符号调整
 ````
 {{</* tabs Windows Linux MacOS>}}
 
-{{% codetab %}}
+{{% tab %}}
 ```powershell
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab %}}
 ```bash
 wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab %}}
 ```bash
 brew install dapr/tap/dapr-cli
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
 {{< /tabs */>}}
 ````
 
 此示例将呈现为：
 
-{{< tabs Windows Linux MacOS>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 ```powershell
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
 
 ```bash
 wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="MacOS" %}}
 
 ```bash
 brew install dapr/tap/dapr-cli
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
-
-### 嵌入代码片段
-
-使用 `code-snippet` 短代码引用 `static/code` 目录中的代码片段。
-
-```
-{{</* code-snippet file="myfile.py" lang="python" */>}}
-```
-
-{{% alert title="警告" color="warning" %}}
-所有 Dapr 示例代码应自包含在单独的文件中，而不是在 markdown 中。使用这些技术突出显示用户应关注的示例代码部分。
-{{% /alert %}}
-
-使用 `lang`（默认 `txt`）参数配置用于语法高亮的语言。
-
-使用 `marker` 参数将嵌入的片段限制为示例文件的一部分。当您只想显示较大文件的一部分时，这很有用。通常，您可以通过以下方式实现：
-
-1. 用注释包围感兴趣的代码。
-1. 将注释文本传递给 `marker`。
-
-下面的短代码和代码示例：
-
-```
-{{</* code-snippet file="./contributing-1.py" lang="python" marker="#SAMPLE" */>}}
-```
-
-```python
-import json
-import time
-
-from dapr.clients import DaprClient
-
-#SAMPLE
-with DaprClient() as d:
-    req_data = {
-        'id': 1,
-        'message': 'hello world'
-    }
-
-    while True:
-        # Create a typed message with content type and body
-        resp = d.invoke_method(
-            'invoke-receiver',
-            'my-method',
-            data=json.dumps(req_data),
-        )
-
-        # Print the response
-        print(resp.content_type, flush=True)
-        print(resp.text(), flush=True)
-
-        time.sleep(2)
-#SAMPLE
-```
-
-将产生以下输出：
-
-{{< code-snippet file="contributing-1.py" lang="python" marker="#SAMPLE" >}}
-
-使用 `replace-key-[token]` 和 `replace-value-[token]` 参数将嵌入的片段限制为示例文件的一部分。当您想要缩略代码示例的一部分时，这很有用。支持多个 `token` 的多个替换。
-
-下面的短代码和代码示例：
-
-```
-{{</* code-snippet file="./contributing-2.py" lang="python" replace-key-imports="#IMPORTS" replace-value-imports="# Import statements"  */>}}
-```
-
-```python
-#IMPORTS
-import json
-import time
-#IMPORTS
-
-from dapr.clients import DaprClient
-
-with DaprClient() as d:
-    req_data = {
-        'id': 1,
-        'message': 'hello world'
-    }
-
-    while True:
-        # Create a typed message with content type and body
-        resp = d.invoke_method(
-            'invoke-receiver',
-            'my-method',
-            data=json.dumps(req_data),
-        )
-
-        # Print the response
-        print(resp.content_type, flush=True)
-        print(resp.text(), flush=True)
-
-        time.sleep(2)
-```
-
-将产生以下输出：
-
-{{< code-snippet file="./contributing-2.py" lang="python" replace-key-imports="#IMPORTS" replace-value-imports="# Import statements"  >}}
+{{< /tabpane >}}
 
 ### YouTube 视频
 
@@ -463,4 +364,4 @@ Dapr 文档支持使用 git 子模块和 Hugo 内置语言支持将语言翻译�
 
 ## 下一步
 
-通过复制并从 [Dapr 文档模板]({{< ref docs-templates >}}) 开始。
+通过复制并从 [Dapr 文档模板]({{% ref docs-templates %}}) 开始。

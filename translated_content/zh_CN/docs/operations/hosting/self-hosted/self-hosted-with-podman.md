@@ -10,7 +10,7 @@ description: "使用 Podman 在自托管模式下部署和运行 Dapr 的方法"
 
 ## 准备工作
 
-- [Dapr CLI]({{< ref install-dapr-cli.md >}})
+- [Dapr CLI]({{% ref install-dapr-cli.md %}})
 - [Podman](https://podman-desktop.io/downloads)
 
 ## 设置 Dapr 环境
@@ -23,7 +23,7 @@ dapr init --container-runtime podman
 
 ## 以进程方式运行应用程序和 sidecar
 
-可以使用 [`dapr run` CLI 命令]({{< ref dapr-run.md >}}) 启动 Dapr sidecar 和您的应用程序：
+可以使用 [`dapr run` CLI 命令]({{% ref dapr-run.md %}}) 启动 Dapr sidecar 和您的应用程序：
 
 ```bash
 dapr run --app-id myapp --app-port 5000 -- dotnet run

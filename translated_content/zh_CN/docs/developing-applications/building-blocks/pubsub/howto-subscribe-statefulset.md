@@ -89,6 +89,6 @@ spec:
 ## 下一步
 
 - 尝试[pubsub教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)。
-- 了解[使用CloudEvents进行消息传递]({{< ref pubsub-cloudevents.md >}})以及何时可能需要[发送不带CloudEvents的消息]({{< ref pubsub-raw.md >}})。
-- 查看[pubsub组件列表]({{< ref setup-pubsub >}})。
-- 阅读[API参考]({{< ref pubsub_api.md >}})。
+- 了解[使用CloudEvents进行消息传递]({{% ref pubsub-cloudevents.md %}})以及何时可能需要[发送不带CloudEvents的消息]({{% ref pubsub-raw.md %}})。
+- 查看[pubsub组件列表]({{% ref setup-pubsub %}})。
+- 阅读[API参考]({{% ref pubsub_api.md %}})。

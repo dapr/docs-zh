@@ -268,5 +268,5 @@ spec:
 
 ## 下一步
 
-- [工作流 API 概述]({{< ref workflow-overview.md >}})
-- [将用户路由到工作流模式]({{< ref workflow-patterns.md >}})
+- [工作流 API 概述]({{% ref workflow-overview.md %}})
+- [将用户路由到工作流模式]({{% ref workflow-patterns.md %}})

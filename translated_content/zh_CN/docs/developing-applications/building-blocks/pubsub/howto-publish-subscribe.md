@@ -13,12 +13,12 @@ description: "学习如何使用一个服务向主题发送消息，并在另一
 
 <img src="/images/pubsub-howto-overview.png" width=1000 alt="示例服务的状态管理图">
 
-Dapr会自动将用户的负载封装在符合CloudEvents v1.0的格式中，并使用`Content-Type`头的值作为`datacontenttype`属性。[了解更多关于CloudEvents的消息。]({{< ref pubsub-cloudevents.md >}})
+Dapr会自动将用户的负载封装在符合CloudEvents v1.0的格式中，并使用`Content-Type`头的值作为`datacontenttype`属性。[了解更多关于CloudEvents的消息。]({{% ref pubsub-cloudevents.md %}})
 
 以下示例展示了如何在您的应用程序中发布和订阅名为`orders`的主题。
 
 {{% alert title="注意" color="primary" %}}
-如果您还没有，请[尝试pubsub快速入门]({{< ref pubsub-quickstart.md >}})，快速了解如何使用pubsub。
+如果您还没有，请[尝试pubsub快速入门]({{% ref pubsub-quickstart.md %}})，快速了解如何使用pubsub。
 
 {{% /alert %}}
 
@@ -26,9 +26,9 @@ Dapr会自动将用户的负载封装在符合CloudEvents v1.0的格式中，并
 
 第一步是设置pubsub组件：
 
-{{< tabs "Self-Hosted (CLI)" Kubernetes >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted (CLI)" %}}
 当您运行`dapr init`时，Dapr会创建一个默认的Redis `pubsub.yaml`并在您的本地机器上运行一个Redis容器，位置如下：
 
 - 在Windows上，位于`%UserProfile%\.dapr\components\pubsub.yaml`
@@ -64,53 +64,53 @@ scopes:
 
 您可以通过创建一个包含该文件的组件目录（在此示例中为`myComponents`）并使用`dapr run` CLI命令的`--resources-path`标志来覆盖此文件。
 
-{{< tabs ".NET" Java Python Go JavaScript >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```bash
 dapr run --app-id myapp --resources-path ./myComponents -- dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```bash
 dapr run --app-id myapp --resources-path ./myComponents -- mvn spring-boot:run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```bash
 dapr run --app-id myapp --resources-path ./myComponents -- python3 app.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```bash
 dapr run --app-id myapp --resources-path ./myComponents -- go run app.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```bash
 dapr run --app-id myapp --resources-path ./myComponents -- npm start
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
-要将其部署到Kubernetes集群中，请填写以下YAML中的[pub/sub组件]({{< ref setup-pubsub >}})的`metadata`连接详细信息，保存为`pubsub.yaml`，然后运行`kubectl apply -f pubsub.yaml`。
+{{% tab %}}
+要将其部署到Kubernetes集群中，请填写以下YAML中的[pub/sub组件]({{% ref setup-pubsub %}})的`metadata`连接详细信息，保存为`pubsub.yaml`，然后运行`kubectl apply -f pubsub.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -146,9 +146,9 @@ scopes:
   - checkout
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 订阅主题
 
@@ -158,7 +158,7 @@ Dapr提供了三种方法来订阅主题：
 - **流式**，在用户代码中定义订阅。
 - **编程式**，在用户代码中定义订阅。
 
-在[声明式、流式和编程式订阅文档]({{< ref subscription-methods.md >}})中了解更多信息。此示例演示了**声明式**订阅。
+在[声明式、流式和编程式订阅文档]({{% ref subscription-methods.md %}})中了解更多信息。此示例演示了**声明式**订阅。
 
 创建一个名为`subscription.yaml`的文件并粘贴以下内容：
 
@@ -187,15 +187,15 @@ scopes:
 {{% alert title="注意" color="primary" %}}
 此功能目前处于预览阶段。
 Dapr可以实现“热重载”声明式订阅，从而在不需要重启的情况下自动拾取更新。
-这通过[`HotReload`功能门]({{< ref "support-preview-features.md" >}})启用。
+这通过[`HotReload`功能门]({{% ref "support-preview-features.md" %}})启用。
 为了防止重新处理或丢失未处理的消息，在Dapr和您的应用程序之间的飞行消息在热重载事件期间不受影响。
 {{% /alert %}}
 
 以下是利用Dapr SDK订阅您在`subscription.yaml`中定义的主题的代码示例。
 
-{{< tabs ".NET" Java Python Go JavaScript>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 //依赖项 
@@ -229,9 +229,9 @@ namespace CheckoutService.controller
 dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002 --app-protocol https dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 //依赖项
@@ -269,9 +269,9 @@ public class CheckoutServiceController {
 dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002 mvn spring-boot:run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 #依赖项
@@ -298,9 +298,9 @@ app.run(6002)
 dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --app-protocol grpc -- python3 CheckoutService.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 //依赖项
@@ -343,9 +343,9 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002 go run CheckoutService.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 //依赖项
@@ -385,9 +385,9 @@ async function start(orderId) {
 dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002 npm start
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 发布消息
 
@@ -399,39 +399,39 @@ dapr run --app-id orderprocessing --dapr-http-port 3601
 
 然后向`orders`主题发布消息：
 
-{{< tabs "Dapr CLI" "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Dapr CLI" %}}
 
 ```bash
 dapr publish --publish-app-id orderprocessing --pubsub order-pub-sub --topic orders --data '{"orderId": "100"}'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl -X POST http://localhost:3601/v1.0/publish/order-pub-sub/orders -H "Content-Type: application/json" -d '{"orderId": "100"}'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '{"orderId": "100"}' -Uri 'http://localhost:3601/v1.0/publish/order-pub-sub/orders'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 以下是利用Dapr SDK发布主题的代码示例。
 
-{{< tabs ".NET" Java Python Go JavaScript>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 //依赖项
@@ -475,9 +475,9 @@ namespace EventService
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 --app-protocol https dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 //依赖项
@@ -525,9 +525,9 @@ public class OrderProcessingServiceApplication {
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 mvn spring-boot:run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 #依赖项  
@@ -562,9 +562,9 @@ while True:
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --app-protocol grpc python3 OrderProcessingService.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 //依赖项
@@ -610,9 +610,9 @@ func main() {
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 go run OrderProcessingService.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 //依赖项
@@ -657,9 +657,9 @@ main();
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 npm start
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 消息确认和重试
 
@@ -674,6 +674,6 @@ dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-g
 ## 下一步
 
 - 尝试[pubsub教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)。
-- 了解[使用CloudEvents进行消息传递]({{< ref pubsub-cloudevents.md >}})以及何时可能需要[发送不带CloudEvents的消息]({{< ref pubsub-raw.md >}})。
-- 查看[pubsub组件]({{< ref setup-pubsub >}})列表。
-- 阅读[API参考]({{< ref pubsub_api.md >}})。
+- 了解[使用CloudEvents进行消息传递]({{% ref pubsub-cloudevents.md %}})以及何时可能需要[发送不带CloudEvents的消息]({{% ref pubsub-raw.md %}})。
+- 查看[pubsub组件]({{% ref setup-pubsub %}})列表。
+- 阅读[API参考]({{% ref pubsub_api.md %}})。

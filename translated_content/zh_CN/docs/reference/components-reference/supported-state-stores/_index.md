@@ -9,7 +9,7 @@ aliases:
 no_list: true
 ---
 
-下表列出了Dapr状态管理模块在不同层次上支持的状态存储。[了解如何为Dapr状态管理配置不同的状态存储。]({{< ref setup-state-store.md >}})
+下表列出了Dapr状态管理模块在不同层次上支持的状态存储。[了解如何为Dapr状态管理配置不同的状态存储。]({{% ref setup-state-store.md %}})
 
 {{< partial "components/description.html" >}}
 

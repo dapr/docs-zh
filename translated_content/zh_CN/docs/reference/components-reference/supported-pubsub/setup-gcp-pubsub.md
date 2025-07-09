@@ -10,7 +10,7 @@ aliases:
 
 ## 创建 Dapr 组件
 
-要配置 GCP pub/sub，需创建一个类型为 `pubsub.gcp.pubsub` 的组件。参考 [pub/sub broker 组件文件]({{< ref setup-pubsub.md >}}) 了解 ConsumerID 的自动生成方式。查看 [发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) 了解如何创建和应用 pub/sub 配置。
+要配置 GCP pub/sub，需创建一个类型为 `pubsub.gcp.pubsub` 的组件。参考 [pub/sub broker 组件文件]({{% ref setup-pubsub.md %}}) 了解 ConsumerID 的自动生成方式。查看 [发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}}) 了解如何创建和应用 pub/sub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -69,7 +69,7 @@ spec:
     value: 10
 ```
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来存储 secret，具体方法请参考[这里]({{< ref component-secrets.md >}})。
+上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来存储 secret，具体方法请参考[这里]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -78,7 +78,7 @@ spec:
 |--------------------|:--------:|---------|---------|
 | projectId     | Y | GCP 项目 ID | `myproject-123`
 | endpoint       | N  | 组件使用的 GCP 端点。仅用于本地开发（例如）与 [GCP Pub/Sub Emulator](https://cloud.google.com/pubsub/docs/emulator) 一起使用。运行 GCP 生产 API 时不需要 `endpoint`。 | `"http://localhost:8085"`
-| `consumerID`         | N        | Consumer ID 将一个或多个消费者组织成一个组。具有相同 consumer ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。`consumerID` 与请求中提供的 `topic` 一起用于构建 Pub/Sub 订阅 ID | 可以设置为字符串值（例如 `"channel1"`）或字符串格式值（例如 `"{podName}"` 等）。[查看可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| `consumerID`         | N        | Consumer ID 将一个或多个消费者组织成一个组。具有相同 consumer ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。`consumerID` 与请求中提供的 `topic` 一起用于构建 Pub/Sub 订阅 ID | 可以设置为字符串值（例如 `"channel1"`）或字符串格式值（例如 `"{podName}"` 等）。[查看可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | identityProjectId | N | 如果 GCP pubsub 项目与身份项目不同，使用此属性指定身份项目 | `"myproject-123"`
 | privateKeyId | N | 如果使用显式凭据，此字段应包含服务账户 JSON 文档中的 `private_key_id` 字段 | `"my-private-key"`
 | privateKey    | N | 如果使用显式凭据，此字段应包含服务账户 JSON 中的 `private_key` 字段 | `-----BEGIN PRIVATE KEY-----MIIBVgIBADANBgkqhkiG9w0B`
@@ -111,9 +111,9 @@ spec:
 
 ## 创建 GCP Pub/Sub
 
-{{< tabs "Self-Hosted" "GCP" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 对于本地开发，使用 [GCP Pub/Sub Emulator](https://cloud.google.com/pubsub/docs/emulator) 来测试 GCP Pub/Sub 组件。按照 [这些说明](https://cloud.google.com/pubsub/docs/emulator#start) 运行 GCP Pub/Sub Emulator。
 
 要在本地使用 Docker 运行 GCP Pub/Sub Emulator，请使用以下 `docker-compose.yaml`：
@@ -151,19 +151,19 @@ spec:
     value: "localhost:8085"
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="GCP" %}}
 
 您可以使用“显式”或“隐式”凭据来配置对 GCP pubsub 实例的访问。如果使用显式，大多数字段是必需的。隐式依赖于 dapr 在映射到具有访问 pubsub 所需权限的 Google 服务账户 (GSA) 的 Kubernetes 服务账户 (KSA) 下运行。在隐式模式下，只需要 `projectId` 属性，其他所有都是可选的。
 
 按照 [此处](https://cloud.google.com/pubsub/docs/quickstart-console) 的说明设置 Google Cloud Pub/Sub 系统。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) 了解配置 pub/sub 组件的说明
-- [Pub/Sub 构建块]({{< ref pubsub >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读 [本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}}) 了解配置 pub/sub 组件的说明
+- [Pub/Sub 构建块]({{% ref pubsub %}})

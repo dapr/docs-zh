@@ -16,9 +16,9 @@ description: "通过Dapr的状态管理API来了解其弹性功能"
 
 在继续快速入门之前，请选择您偏好的Dapr SDK语言。
 
-{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ### 前提条件
 
@@ -88,7 +88,7 @@ pip3 install -r requirements.txt
 dapr run --app-id order-processor --resources-path ../../../resources/ -- python3
 ```
 
-应用程序启动后，`order-processor`服务会将`orderId`键值对写入和读取到`statestore`的Redis实例中[在`statestore.yaml`组件中定义]({{< ref "statemanagement-quickstart.md#statestoreyaml-component-file" >}})。
+应用程序启动后，`order-processor`服务会将`orderId`键值对写入和读取到`statestore`的Redis实例中[在`statestore.yaml`组件中定义]({{% ref "statemanagement-quickstart.md#statestoreyaml-component-file" %}})。
 
 ```bash
 == APP == Saving Order:  { orderId: '1' }
@@ -184,10 +184,10 @@ INFO[0036] Recovered processing operation component[statestore] output.
 == APP == Getting Order:  { orderId: '9' }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ### 前提条件
 
@@ -256,7 +256,7 @@ npm install
 dapr run --app-id order-processor --resources-path ../../../resources/ -- npm start
 ```
 
-应用程序启动后，`order-processor`服务会将`orderId`键值对写入和读取到`statestore`的Redis实例中[在`statestore.yaml`组件中定义]({{< ref "statemanagement-quickstart.md#statestoreyaml-component-file" >}})。
+应用程序启动后，`order-processor`服务会将`orderId`键值对写入和读取到`statestore`的Redis实例中[在`statestore.yaml`组件中定义]({{% ref "statemanagement-quickstart.md#statestoreyaml-component-file" %}})。
 
 ```bash
 == APP == Saving Order:  { orderId: '1' }
@@ -352,10 +352,10 @@ INFO[0036] Recovered processing operation component[statestore] output.
 == APP == Getting Order:  { orderId: '9' }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ### 前提条件
 
@@ -425,7 +425,7 @@ dotnet build
 dapr run --app-id order-processor --resources-path ../../../resources/ -- dotnet run
 ```
 
-应用程序启动后，`order-processor`服务会将`orderId`键值对写入和读取到`statestore`的Redis实例中[在`statestore.yaml`组件中定义]({{< ref "statemanagement-quickstart.md#statestoreyaml-component-file" >}})。
+应用程序启动后，`order-processor`服务会将`orderId`键值对写入和读取到`statestore`的Redis实例中[在`statestore.yaml`组件中定义]({{% ref "statemanagement-quickstart.md#statestoreyaml-component-file" %}})。
 
 ```bash
 == APP == Saving Order:  { orderId: '1' }
@@ -521,10 +521,10 @@ INFO[0036] Recovered processing operation component[statestore] output.
 == APP == Getting Order:  { orderId: '9' }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ### 前提条件
 
@@ -596,7 +596,7 @@ mvn clean install
 dapr run --app-id order-processor --resources-path ../../../resources/ -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
 ```
 
-应用程序启动后，`order-processor`服务会将`orderId`键值对写入和读取到`statestore`的Redis实例中[在`statestore.yaml`组件中定义]({{< ref "statemanagement-quickstart.md#statestoreyaml-component-file" >}})。
+应用程序启动后，`order-processor`服务会将`orderId`键值对写入和读取到`statestore`的Redis实例中[在`statestore.yaml`组件中定义]({{% ref "statemanagement-quickstart.md#statestoreyaml-component-file" %}})。
 
 ```bash
 == APP == Saving Order:  { orderId: '1' }
@@ -692,10 +692,10 @@ INFO[0036] Recovered processing operation component[statestore] output.
 == APP == Getting Order:  { orderId: '9' }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ### 前提条件
 
@@ -764,7 +764,7 @@ go build .
 dapr run --app-id order-processor --resources-path ../../../resources -- go run .
 ```
 
-应用程序启动后，`order-processor`服务会将`orderId`键值对写入和读取到`statestore`的Redis实例中[在`statestore.yaml`组件中定义]({{< ref "statemanagement-quickstart.md#statestoreyaml-component-file" >}})。
+应用程序启动后，`order-processor`服务会将`orderId`键值对写入和读取到`statestore`的Redis实例中[在`statestore.yaml`组件中定义]({{% ref "statemanagement-quickstart.md#statestoreyaml-component-file" %}})。
 
 ```bash
 == APP == Saving Order:  { orderId: '1' }
@@ -860,9 +860,9 @@ INFO[0036] Recovered processing operation component[statestore] output.
 == APP == Getting Order:  { orderId: '9' }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 告诉我们您的想法！
 我们正在不断努力改进我们的快速入门示例，并重视您的反馈。您觉得这个快速入门有帮助吗？您有改进建议吗？
@@ -871,6 +871,6 @@ INFO[0036] Recovered processing operation component[statestore] output.
 
 ## 下一步
 
-了解更多关于[弹性功能]({{< ref resiliency-overview.md >}})及其如何与Dapr的构建块API协作。
+了解更多关于[弹性功能]({{% ref resiliency-overview.md %}})及其如何与Dapr的构建块API协作。
 
 {{< button text="探索Dapr教程  >>" page="getting-started/tutorials/_index.md" >}}

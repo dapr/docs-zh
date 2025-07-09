@@ -17,7 +17,7 @@ Dapr 提供了一个元数据 API，可以返回有关 sidecar 的信息，从�
 ## 元数据 API
 
 ### 组件
-每个加载的组件提供其名称、类型和版本，以及支持的功能信息。这些功能适用于 [state store]({{< ref supported-state-stores.md >}}) 和 [binding]({{< ref supported-bindings.md >}}) 组件类型。下表显示了给定版本的组件类型和能力列表。此列表可能会在将来扩展，仅代表当前已加载组件的能力。
+每个加载的组件提供其名称、类型和版本，以及支持的功能信息。这些功能适用于 [state store]({{% ref supported-state-stores.md %}}) 和 [binding]({{% ref supported-bindings.md %}}) 组件类型。下表显示了给定版本的组件类型和能力列表。此列表可能会在将来扩展，仅代表当前已加载组件的能力。
 
 组件类型 | 能力
 ---------| ----

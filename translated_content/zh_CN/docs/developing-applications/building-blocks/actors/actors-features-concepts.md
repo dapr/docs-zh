@@ -8,7 +8,7 @@ aliases:
   - "/zh-hans/developing-applications/building-blocks/actors/actors-background"
 ---
 
-在您已经从高层次上了解了 [Actor 构建块]({{< ref "actors-overview.md" >}})之后，让我们深入探讨 Dapr 中 Actor 的特性和概念。
+在您已经从高层次上了解了 [Actor 构建块]({{% ref "actors-overview.md" %}})之后，让我们深入探讨 Dapr 中 Actor 的特性和概念。
 
 ## Actor 的生命周期
 
@@ -52,7 +52,7 @@ Dapr 的 Actor 运行时通过 Actor `Placement` 服务为您管理分布方案�
 - 由于 Actor 是随机放置的，因此应预期 Actor 操作总是需要网络通信，包括方法调用数据的序列化和反序列化，从而产生延迟和开销。
 
 {{% alert title="注意" color="primary" %}}
-注意：Dapr 的 Actor Placement 服务仅用于 Actor 放置，因此如果您的服务不使用 Dapr Actor，则不需要。Placement 服务可以在所有 [托管环境]({{< ref hosting >}}) 中运行，包括 selfhost 和 Kubernetes。
+注意：Dapr 的 Actor Placement 服务仅用于 Actor 放置，因此如果您的服务不使用 Dapr Actor，则不需要。Placement 服务可以在所有 [托管环境]({{% ref hosting %}}) 中运行，包括 selfhost 和 Kubernetes。
 {{% /alert %}}
 
 ## Actor 的通信
@@ -65,9 +65,9 @@ POST/GET/PUT/DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/<met
 
 您可以在请求体中为 Actor 方法提供任何数据，请求的响应将在响应体中，这是来自 Actor 调用的数据。
 
-另一种可能更方便的与 Actor 交互的方式是通过 SDK。Dapr 目前支持 [.NET]({{< ref "dotnet-actors" >}})、[Java]({{< ref "java#actors" >}}) 和 [Python]({{< ref "python-actor" >}}) 的 Actor SDK。
+另一种可能更方便的与 Actor 交互的方式是通过 SDK。Dapr 目前支持 [.NET]({{% ref "dotnet-actors" %}})、[Java]({{% ref "java#actors" %}}) 和 [Python]({{% ref "python-actor" %}}) 的 Actor SDK。
 
-有关更多详细信息，请参阅 [Dapr Actor 特性]({{< ref howto-actors.md >}})。
+有关更多详细信息，请参阅 [Dapr Actor 特性]({{% ref howto-actors.md %}})。
 
 ### 并发
 
@@ -99,6 +99,6 @@ Dapr 的 Actor 运行时通过在轮转开始时获取每个 Actor 锁，并在�
 
 ## 相关链接
 
-- [Actor API 参考]({{< ref actors_api.md >}})
-- [Actor 概述]({{< ref actors-overview.md >}})
-- [如何：在 Dapr 中使用虚拟 Actor]({{< ref howto-actors.md >}})
+- [Actor API 参考]({{% ref actors_api.md %}})
+- [Actor 概述]({{% ref actors-overview.md %}})
+- [如何：在 Dapr 中使用虚拟 Actor]({{% ref howto-actors.md %}})

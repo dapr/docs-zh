@@ -9,7 +9,7 @@ aliases:
 
 ## 创建 Dapr 组件
 
-要配置 [Cloudflare Workers KV](https://developers.cloudflare.com/workers/learning/how-kv-works/) 状态存储，您需要创建一个类型为 `state.cloudflare.workerskv` 的组件。请参考[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+要配置 [Cloudflare Workers KV](https://developers.cloudflare.com/workers/learning/how-kv-works/) 状态存储，您需要创建一个类型为 `state.cloudflare.workerskv` 的组件。请参考[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -46,7 +46,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例使用明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -95,9 +95,9 @@ Dapr 可以自动为您管理 Worker，或者您可以自行预配置一个 Work
 为每个 Dapr 组件使用单独的 Worker。不要为不同的 Cloudflare Workers KV 状态存储组件使用相同的 Worker 脚本，也不要为 Dapr 中的不同 Cloudflare 组件使用相同的 Worker 脚本（例如 Workers KV 状态存储和 Queues 绑定）。
 {{% /alert %}}
 
-{{< tabs "让 Dapr 管理 Worker" "手动预配置 Worker 脚本" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="让 Dapr 管理 Worker" %}}
 <!-- 让 Dapr 管理 Worker -->
 
 如果您希望让 Dapr 为您管理 Worker，您需要提供以下 3 个元数据选项：
@@ -113,9 +113,9 @@ Dapr 可以自动为您管理 Worker，或者您可以自行预配置一个 Work
 
 当 Dapr 配置为为您管理 Worker 时，当 Dapr 运行时启动时，它会检查 Worker 是否存在并且是最新的。如果 Worker 不存在，或者使用的是过时版本，Dapr 将自动为您创建或升级它。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="手动预配置 Worker 脚本" %}}
 <!-- 手动预配置 Worker 脚本 -->
 
 如果您不希望授予 Dapr 为您部署 Worker 脚本的权限，您可以手动预配置一个 Worker 供 Dapr 使用。请注意，如果您有多个通过 Worker 与 Cloudflare 服务交互的 Dapr 组件，您需要为每个组件创建一个单独的 Worker。
@@ -171,9 +171,9 @@ Dapr 可以自动为您管理 Worker，或者您可以自行预配置一个 Work
 - **`workerName`**: Worker 脚本的名称。这是您在 `wrangler.toml` 文件中设置的 `name` 属性的值。
 - **`workerUrl`**: 部署的 Worker 的 URL。`npx wrangler` 命令将向您显示完整的 URL，例如 `https://mydaprkv.mydomain.workers.dev`。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 生成 Ed25519 密钥对
 
@@ -185,9 +185,9 @@ Dapr 可以自动为您管理 Worker，或者您可以自行预配置一个 Work
 
 为了让 Dapr 发出持有者令牌，并让您的 Worker 验证它们，您需要生成一个新的 Ed25519 密钥对。以下是使用 OpenSSL 或 step CLI 生成密钥对的示例。
 
-{{< tabs "使用 OpenSSL 生成" "使用 step CLI 生成" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="使用 OpenSSL 生成" %}}
 <!-- 使用 OpenSSL 生成 -->
 
 > 自 OpenSSL 1.1.0 起支持生成 Ed25519 密钥，因此如果您使用的是旧版本的 OpenSSL，以下命令将不起作用。
@@ -208,9 +208,9 @@ openssl pkey -in private.pem -pubout -out public.pem
 > $(brew --prefix)/opt/openssl@3/bin/openssl pkey -in private.pem -pubout -out public.pem
 > ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="使用 step CLI 生成" %}}
 <!-- 使用 step CLI 生成 -->
 
 如果您还没有 step CLI，请按照[官方说明](https://smallstep.com/docs/step-cli/installation)进行安装。
@@ -224,9 +224,9 @@ step crypto keypair \
   --insecure --no-password
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 无论您如何生成密钥对，按照上述说明，您将拥有两个文件：
 
@@ -244,7 +244,7 @@ step crypto keypair \
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取有关配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取有关配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})
 - [Cloudflare Workers KV](https://developers.cloudflare.com/workers/learning/how-kv-works/) 的文档

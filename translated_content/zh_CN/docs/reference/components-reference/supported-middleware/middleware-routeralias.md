@@ -7,7 +7,7 @@ aliases:
 - /zh-hans/developing-applications/middleware/supported-middleware/middleware-routeralias/
 ---
 
-HTTP 路由别名 [中间件]({{< ref middleware.md >}}) 组件允许您将进入 Dapr 的任意 HTTP 路由映射为有效的 Dapr API 端点。
+HTTP 路由别名 [中间件]({{% ref middleware.md %}}) 组件允许您将进入 Dapr 的任意 HTTP 路由映射为有效的 Dapr API 端点。
 
 ## 组件格式
 
@@ -41,7 +41,7 @@ spec:
 
 ## Dapr 配置
 
-要使用中间件，必须在 [配置]({{< ref configuration-concept.md >}}) 中进行引用。参见 [中间件管道]({{< ref "middleware.md#customize-processing-pipeline">}})。
+要使用中间件，必须在 [配置]({{% ref configuration-concept.md %}}) 中进行引用。参见 [中间件管道]({{% ref "middleware.md#customize-processing-pipeline" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -57,6 +57,6 @@ spec:
 
 ## 相关链接
 
-- [中间件]({{< ref middleware.md >}})
-- [配置概念]({{< ref configuration-concept.md >}})
-- [配置概览]({{< ref configuration-overview.md >}})
+- [中间件]({{% ref middleware.md %}})
+- [配置概念]({{% ref configuration-concept.md %}})
+- [配置概览]({{% ref configuration-overview.md %}})

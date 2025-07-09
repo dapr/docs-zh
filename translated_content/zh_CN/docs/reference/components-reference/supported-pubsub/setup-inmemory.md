@@ -26,6 +26,6 @@ spec:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) 以获取配置 pub/sub 组件的说明
-- [Pub/Sub 构建块]({{< ref pubsub >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}}) 以获取配置 pub/sub 组件的说明
+- [Pub/Sub 构建块]({{% ref pubsub %}})

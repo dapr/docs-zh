@@ -7,7 +7,7 @@ aliases:
 - /zh-hans/developing-applications/middleware/supported-middleware/middleware-bearer/
 ---
 
-Bearer [HTTP 中间件]({{< ref middleware.md >}}) 利用 [OpenID Connect](https://openid.net/connect/) 在 Web API 上验证 [Bearer Token](https://tools.ietf.org/html/rfc6750)，无需修改应用程序代码。此设计将身份验证和授权与应用程序逻辑分离，使应用程序管理员可以配置身份验证和授权提供者，而不影响应用程序的正常运行。
+Bearer [HTTP 中间件]({{% ref middleware.md %}}) 利用 [OpenID Connect](https://openid.net/connect/) 在 Web API 上验证 [Bearer Token](https://tools.ietf.org/html/rfc6750)，无需修改应用程序代码。此设计将身份验证和授权与应用程序逻辑分离，使应用程序管理员可以配置身份验证和授权提供者，而不影响应用程序的正常运行。
 
 ## 组件格式
 
@@ -47,7 +47,7 @@ spec:
 
 ## Dapr 配置
 
-要应用此中间件，必须在 [配置]({{< ref configuration-concept.md >}}) 中进行引用。请参阅 [中间件管道]({{< ref "middleware.md">}})。
+要应用此中间件，必须在 [配置]({{% ref configuration-concept.md %}}) 中进行引用。请参阅 [中间件管道]({{% ref "middleware.md" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -63,6 +63,6 @@ spec:
 
 ## 相关链接
 
-- [中间件]({{< ref middleware.md >}})
-- [配置概念]({{< ref configuration-concept.md >}})
-- [配置概览]({{< ref configuration-overview.md >}})
+- [中间件]({{% ref middleware.md %}})
+- [配置概念]({{% ref configuration-concept.md %}})
+- [配置概览]({{% ref configuration-overview.md %}})

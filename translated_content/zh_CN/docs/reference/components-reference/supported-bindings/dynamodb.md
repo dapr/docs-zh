@@ -9,9 +9,9 @@ aliases:
 
 ## 组件配置格式
 
-要配置 AWS DynamoDB 绑定，请创建一个类型为 `bindings.aws.dynamodb` 的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要配置 AWS DynamoDB 绑定，请创建一个类型为 `bindings.aws.dynamodb` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
-有关身份验证相关属性的信息，请参阅[身份验证到 AWS]({{< ref authenticating-aws.md >}})
+有关身份验证相关属性的信息，请参阅[身份验证到 AWS]({{% ref authenticating-aws.md %}})
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -35,7 +35,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保存密钥，详情请参阅[此处]({{< ref component-secrets.md >}})。
+上述示例中使用了明文字符串作为密钥。建议使用密钥存储来保存密钥，详情请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -60,9 +60,9 @@ spec:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [操作指南：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [操作指南：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
-- [身份验证到 AWS]({{< ref authenticating-aws.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [操作指南：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [操作指南：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})
+- [身份验证到 AWS]({{% ref authenticating-aws.md %}})

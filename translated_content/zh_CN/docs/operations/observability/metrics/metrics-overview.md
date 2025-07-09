@@ -72,7 +72,7 @@ spec:
 
 ## 为错误代码配置指标
 
-您可以通过设置`spec.metrics.recordErrorCodes`为`true`来为[Dapr API错误代码](https://docs.dapr.io/reference/api/error_codes/)启用额外的指标。Dapr API可能会返回标准化的错误代码。[一个名为`error_code_total`的新指标被记录]({{< ref errors-overview.md >}})，它允许监控由应用程序、代码和类别触发的错误代码。有关特定代码和类别，请参见[`errorcodes`包](https://github.com/dapr/dapr/blob/master/pkg/messages/errorcodes/errorcodes.go)。
+您可以通过设置`spec.metrics.recordErrorCodes`为`true`来为[Dapr API错误代码](https://docs.dapr.io/reference/api/error_codes/)启用额外的指标。Dapr API可能会返回标准化的错误代码。[一个名为`error_code_total`的新指标被记录]({{% ref errors-overview.md %}})，它允许监控由应用程序、代码和类别触发的错误代码。有关特定代码和类别，请参见[`errorcodes`包](https://github.com/dapr/dapr/blob/master/pkg/messages/errorcodes/errorcodes.go)。
 
 示例配置：
 ```yaml
@@ -106,7 +106,7 @@ spec:
 
 在使用HTTP调用Dapr时，默认情况下会为每个请求的方法创建指标。这可能导致大量指标，称为高基数，这可能会影响内存使用和CPU。
 
-路径匹配允许您管理和控制Dapr中HTTP指标的基数。通过聚合指标，您可以减少指标事件的数量并报告一个总体数量。[了解更多关于如何在配置中设置基数]({{< ref "configuration-overview.md#metrics" >}})。
+路径匹配允许您管理和控制Dapr中HTTP指标的基数。通过聚合指标，您可以减少指标事件的数量并报告一个总体数量。[了解更多关于如何在配置中设置基数]({{% ref "configuration-overview.md#metrics" %}})。
 
 此配置是选择加入的，并通过Dapr配置`spec.metrics.http.pathMatching`启用。当定义时，它启用路径匹配，这将标准化指定路径的两个指标路径。这减少了唯一指标路径的数量，使指标更易于管理，并以受控方式减少资源消耗。
 
@@ -263,7 +263,7 @@ Dapr使用累积直方图指标将延迟值分组到桶中，其中每个桶包�
 在配置桶的数量之前，请注意您的应用程序产生的默认延迟值。
 ### 根据您的场景自定义延迟桶
 
-通过修改应用程序的[Dapr配置规范]({{< ref configuration-schema.md >}})中的`spec.metrics.latencyDistributionBuckets`字段，定制延迟桶以满足您的需求。
+通过修改应用程序的[Dapr配置规范]({{% ref configuration-schema.md %}})中的`spec.metrics.latencyDistributionBuckets`字段，定制延迟桶以满足您的需求。
 
 例如，如果您对极低的延迟值（1-10ms）不感兴趣，可以将它们分组到一个10ms桶中。同样，您可以将高值分组到一个桶中（1000-5000ms），同时在您最感兴趣的中间范围内保持更多细节。
 
@@ -310,5 +310,5 @@ spec:
 
 ## 参考
 
-* [Howto: 本地运行Prometheus]({{< ref prometheus.md >}})
-* [Howto: 设置Prometheus和Grafana以获取指标]({{< ref grafana.md >}})
+* [Howto: 本地运行Prometheus]({{% ref prometheus.md %}})
+* [Howto: 设置Prometheus和Grafana以获取指标]({{% ref grafana.md %}})

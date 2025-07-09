@@ -56,11 +56,11 @@ spec:
 }
 ```
 
-`multiValued` 标志决定 secret 存储是采用 [名称/值行为还是每个 secret 的多个键值行为]({{< ref "secrets_api.md#response-body" >}})。
+`multiValued` 标志决定 secret 存储是采用 [名称/值行为还是每个 secret 的多个键值行为]({{% ref "secrets_api.md#response-body" %}})。
 
 ### 名称/值语义
 
-如果 `multiValued` 为 `false`，存储将加载 [JSON 文件]({{< ref "#setup-json-file-to-hold-the-secrets" >}}) 并创建一个包含以下键值对的映射：
+如果 `multiValued` 为 `false`，存储将加载 [JSON 文件]({{% ref "#setup-json-file-to-hold-the-secrets" %}}) 并创建一个包含以下键值对的映射：
 
 | 展平的键               | 值                             |
 | ---                   | ---                             |
@@ -97,7 +97,7 @@ $ curl http://localhost:3501/v1.0/secrets/local-secret-store/connectionStrings:s
 
 如果 `multiValued` 为 `true`，secret 存储将启用每个 secret 的多个键值行为：
 - 顶层之后的嵌套结构将被展平。
-- 它将 [相同的 JSON 文件]({{< ref "#setup-json-file-to-hold-the-secrets" >}}) 解析为此表：
+- 它将 [相同的 JSON 文件]({{% ref "#setup-json-file-to-hold-the-secrets" %}}) 解析为此表：
 
 | 键                  | 值                             |
 | ---                 | ---                             |
@@ -106,7 +106,7 @@ $ curl http://localhost:3501/v1.0/secrets/local-secret-store/connectionStrings:s
 
 注意在上表中：
 - `connectionStrings` 现在是一个 JSON 对象，具有两个键：`mysql` 和 `sql`。
-- [名称/值语义映射的表]({{< ref "#namevalue-semantics" >}}) 中的 `connectionStrings:sql` 和 `connectionStrings:mysql` 展平的键丢失。
+- [名称/值语义映射的表]({{% ref "#namevalue-semantics" %}}) 中的 `connectionStrings:sql` 和 `connectionStrings:mysql` 展平的键丢失。
 
 现在在键 `connectionStrings` 上调用 `GET` 请求会成功返回，类似于以下内容：
 
@@ -170,7 +170,7 @@ $ curl http://localhost:3501/v1.0/secrets/local-secret-store/connectionStrings
 这对于模拟像 Vault 或 Kubernetes 这样的 secret 存储非常有用，它们每个 secret 键返回多个键/值对。
 
 ## 相关链接
-- [Secrets 构建块]({{< ref secrets >}})
-- [操作指南：检索 secret]({{< ref "howto-secrets.md" >}})
-- [操作指南：在 Dapr 组件中引用 secret]({{< ref component-secrets.md >}})
-- [Secrets API 参考]({{< ref secrets_api.md >}})
+- [Secrets 构建块]({{% ref secrets %}})
+- [操作指南：检索 secret]({{% ref "howto-secrets.md" %}})
+- [操作指南：在 Dapr 组件中引用 secret]({{% ref component-secrets.md %}})
+- [Secrets API 参考]({{% ref secrets_api.md %}})

@@ -12,16 +12,16 @@ description: "运行 Dapr sidecar 并尝试使用状态管理 API"
 - 读取/获取状态对象。
 - 删除状态对象。
 
-[了解更多关于状态构建块及其工作原理的概念文档]({{< ref state-management >}})。
+[了解更多关于状态构建块及其工作原理的概念文档]({{% ref state-management %}})。
 
 ### 前置条件
 
-- [安装 Dapr CLI]({{< ref install-dapr-cli.md >}})。
-- [运行 `dapr init`]({{< ref install-dapr-selfhost.md>}})。
+- [安装 Dapr CLI]({{% ref install-dapr-cli.md %}})。
+- [运行 `dapr init`]({{% ref install-dapr-selfhost.md %}})。
 
 ### 步骤 1: 运行 Dapr sidecar
 
-[`dapr run`]({{< ref dapr-run.md >}}) 命令通常会运行您的应用程序和一个 Dapr sidecar。在这种情况下，由于您直接与状态管理 API 交互，它只运行 sidecar。
+[`dapr run`]({{% ref dapr-run.md %}}) 命令通常会运行您的应用程序和一个 Dapr sidecar。在这种情况下，由于您直接与状态管理 API 交互，它只运行 sidecar。
 
 启动一个 Dapr sidecar，它将在端口 3500 上监听一个名为 `myapp` 的空白应用程序：
 
@@ -29,7 +29,7 @@ description: "运行 Dapr sidecar 并尝试使用状态管理 API"
 dapr run --app-id myapp --dapr-http-port 3500
 ```
 
-由于上述命令没有定义自定义组件文件夹，Dapr 使用在 [`dapr init` 流程]({{< ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" >}})中创建的默认组件定义。
+由于上述命令没有定义自定义组件文件夹，Dapr 使用在 [`dapr init` 流程]({{% ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" %}})中创建的默认组件定义。
 
 ### 步骤 2: 保存状态
 
@@ -48,48 +48,48 @@ dapr run --app-id myapp --dapr-http-port 3500
 
 使用以下命令保存一个新的状态对象：
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)">}}
-{{% codetab %}}
+{{< tabpane text=true >}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '[{ "key": "name", "value": "Bruce Wayne"}]' http://localhost:3500/v1.0/state/statestore
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '[{ "key": "name", "value": "Bruce Wayne"}]' -Uri 'http://localhost:3500/v1.0/state/statestore'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 步骤 3: 获取状态
 
 使用状态管理 API 和 key `name` 检索您刚刚存储在状态中的对象。在同一个终端窗口中，运行以下命令：
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl http://localhost:3500/v1.0/state/statestore/name 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Uri 'http://localhost:3500/v1.0/state/statestore/name'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 步骤 4: 查看状态如何存储在 Redis 中
 
@@ -130,24 +130,24 @@ exit
 
 在同一个终端窗口中，从状态存储中删除 `name` 状态对象。
 
-{{< tabs "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl -v -X DELETE -H "Content-Type: application/json" http://localhost:3500/v1.0/state/statestore/name
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Method Delete -ContentType 'application/json' -Uri 'http://localhost:3500/v1.0/state/statestore/name'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 {{< button text="下一步：Dapr 快速入门 >>" page="getting-started/quickstarts" >}}

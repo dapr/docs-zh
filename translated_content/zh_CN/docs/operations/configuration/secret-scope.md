@@ -6,11 +6,11 @@ weight: 3000
 description: "通过在现有配置资源中增加限制性权限来定义 secret 范围。"
 ---
 
-除了[定义哪些应用程序可以访问特定组件]({{< ref "component-scopes.md">}})之外，您还可以将命名的 secret 存储组件限制为应用程序的一个或多个 secret。通过定义 `allowedSecrets` 和/或 `deniedSecrets` 列表，可以限制应用程序仅访问特定的 secret。
+除了[定义哪些应用程序可以访问特定组件]({{% ref "component-scopes.md" %}})之外，您还可以将命名的 secret 存储组件限制为应用程序的一个或多个 secret。通过定义 `allowedSecrets` 和/或 `deniedSecrets` 列表，可以限制应用程序仅访问特定的 secret。
 
 有关配置资源的更多信息：
-- [Configuration 概述]({{< ref configuration-overview.md >}})
-- [Configuration 模式]({{< ref configuration-schema.md >}})
+- [Configuration 概述]({{% ref configuration-overview.md %}})
+- [Configuration 模式]({{% ref configuration-schema.md %}})
 
 ## 配置 secret 访问
 
@@ -77,7 +77,7 @@ secrets:
    kubectl apply -f appconfig.yaml
    ```
 
-对于需要拒绝访问 Kubernetes secret 存储的应用程序，请按照[Kubernetes 指南]({{< ref kubernetes-overview >}})，在应用程序 pod 中添加以下注释。
+对于需要拒绝访问 Kubernetes secret 存储的应用程序，请按照[Kubernetes 指南]({{% ref kubernetes-overview %}})，在应用程序 pod 中添加以下注释。
 
 ```yaml
 dapr.io/config: appconfig
@@ -102,7 +102,7 @@ spec:
         allowedSecrets: ["secret1", "secret2"]
 ```
 
-此示例为名为 `vault` 的 secret 存储定义了配置。对 secret 存储的默认访问为 `deny`。同时，应用程序可以根据 `allowedSecrets` 列表访问某些 secret。请按照[sidecar 配置指南]({{< ref "configuration-overview.md#sidecar-configuration" >}})将配置应用到 sidecar。
+此示例为名为 `vault` 的 secret 存储定义了配置。对 secret 存储的默认访问为 `deny`。同时，应用程序可以根据 `allowedSecrets` 列表访问某些 secret。请按照[sidecar 配置指南]({{% ref "configuration-overview.md#sidecar-configuration" %}})将配置应用到 sidecar。
 
 ### 场景 3：拒绝访问 secret 存储中的某些敏感 secret
 
@@ -121,7 +121,7 @@ spec:
         deniedSecrets: ["secret1", "secret2"]
 ```
 
-此配置明确拒绝访问名为 `vault` 的 secret 存储中的 `secret1` 和 `secret2`，同时允许访问所有其他 secret。请按照[sidecar 配置指南]({{< ref "configuration-overview.md#sidecar-configuration" >}})将配置应用到 sidecar。
+此配置明确拒绝访问名为 `vault` 的 secret 存储中的 `secret1` 和 `secret2`，同时允许访问所有其他 secret。请按照[sidecar 配置指南]({{% ref "configuration-overview.md#sidecar-configuration" %}})将配置应用到 sidecar。
 
 ## 下一步
 

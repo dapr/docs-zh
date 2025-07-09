@@ -10,10 +10,10 @@ Dapr 默认限制请求体大小为 4MB。您可以通过以下方法更改此�
 - 使用 `dapr.io/http-max-request-size` 注解，或
 - 使用 `--dapr-http-max-request-size` 参数。
 
-{{< tabs 自托管模式 Kubernetes 模式 >}}
+{{< tabpane text=true >}}
 
 <!--自托管模式-->
-{{% codetab %}}
+{{% tab header="自托管模式" %}}
 
 在自托管模式下运行时，使用 `--dapr-http-max-request-size` 参数来设置 Dapr 的请求体大小限制：
 
@@ -22,10 +22,10 @@ dapr run --dapr-http-max-request-size 16 node app.js
 ```
 这将把 Dapr 的最大请求体大小设置为 `16` MB。
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--Kubernetes 模式-->
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 在 Kubernetes 中，您可以在部署的 YAML 文件中添加以下注解：
 
@@ -54,13 +54,13 @@ spec:
 #...
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
-[Dapr Kubernetes pod 注解规范]({{< ref arguments-annotations-overview.md >}})
+[Dapr Kubernetes pod 注解规范]({{% ref arguments-annotations-overview.md %}})
 
 ## 下一步
 

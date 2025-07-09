@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-为了配置 Kubernetes Events 绑定，需要创建一个类型为 `bindings.kubernetes` 的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+为了配置 Kubernetes Events 绑定，需要创建一个类型为 `bindings.kubernetes` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -117,10 +117,10 @@ roleRef:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [Bindings 构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [Bindings API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [Bindings 构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [Bindings API 参考]({{% ref bindings_api.md %}})
 ```
 This translation aims to improve readability and align with Chinese expression habits while maintaining the technical accuracy of the original conte

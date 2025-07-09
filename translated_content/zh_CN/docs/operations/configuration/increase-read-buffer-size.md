@@ -12,10 +12,10 @@ Dapr的HTTP头部读取缓冲区大小默认限制为4KB。如果您发送的HTT
 - 使用`dapr.io/http-read-buffer-size`注解，或
 - 在使用CLI时添加`--dapr-http-read-buffer-size`标志。
 
-{{< tabs Self-hosted Kubernetes >}}
+{{< tabpane text=true >}}
 
 <!--Self-hosted-->
-{{% codetab %}}
+{{% tab header="Self-hosted" %}}
 
 在自托管模式下运行时，使用`--dapr-http-read-buffer-size`标志来配置Dapr，以便使用非默认的HTTP头部大小：
 
@@ -24,10 +24,10 @@ dapr run --dapr-http-read-buffer-size 16 node app.js
 ```
 这会将Dapr的最大读取缓冲区大小设置为`16` KB。
 
-{{% /codetab %}}
+{{% /tab %}}
 
 <!--Kubernetes-->
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 在Kubernetes上，您可以在部署的YAML文件中设置以下注解：
 
@@ -56,12 +56,12 @@ spec:
 #...
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
-[Dapr Kubernetes pod注解规范]({{< ref arguments-annotations-overview.md >}})
+[Dapr Kubernetes pod注解规范]({{% ref arguments-annotations-overview.md %}})
 
 ## 下一步
 

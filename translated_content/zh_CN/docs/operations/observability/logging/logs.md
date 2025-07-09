@@ -27,7 +27,7 @@ Dapr 生成的日志遵循以下模式：
 | app_id | Dapr 应用 ID | `dapr-app` |
 | ver | Dapr 运行时版本 | `1.9.0` |
 
-API 日志可能会添加其他结构化字段，具体请参阅 [API 日志记录文档]({{< ref "api-logs-troubleshooting.md" >}})。
+API 日志可能会添加其他结构化字段，具体请参阅 [API 日志记录文档]({{% ref "api-logs-troubleshooting.md" %}})。
 
 ## 纯文本和 JSON 格式的日志
 
@@ -111,23 +111,23 @@ spec:
 
 API 日志使您能够查看应用程序对 Dapr sidecar 的 API 调用，以调试问题或监控应用程序的行为。您可以将 Dapr API 日志与 Dapr 日志事件结合使用。
 
-有关更多信息，请参阅 [配置和查看 Dapr 日志]({{< ref "logs-troubleshooting.md" >}}) 和 [配置和查看 Dapr API 日志]({{< ref "api-logs-troubleshooting.md" >}})。
+有关更多信息，请参阅 [配置和查看 Dapr 日志]({{% ref "logs-troubleshooting.md" %}}) 和 [配置和查看 Dapr API 日志]({{% ref "api-logs-troubleshooting.md" %}})。
 
 ## 日志收集器
 
-如果您在 Kubernetes 集群中运行 Dapr，[Fluentd](https://www.fluentd.org/) 是一个流行的容器日志收集器。您可以使用带有 [JSON 解析器插件](https://docs.fluentd.org/parser/json) 的 Fluentd 来解析 Dapr JSON 格式的日志。这个 [操作指南]({{< ref fluentd.md >}}) 显示了如何在集群中配置 Fluentd。
+如果您在 Kubernetes 集群中运行 Dapr，[Fluentd](https://www.fluentd.org/) 是一个流行的容器日志收集器。您可以使用带有 [JSON 解析器插件](https://docs.fluentd.org/parser/json) 的 Fluentd 来解析 Dapr JSON 格式的日志。这个 [操作指南]({{% ref fluentd.md %}}) 显示了如何在集群中配置 Fluentd。
 
 如果您使用 Azure Kubernetes Service，您可以使用内置代理通过 Azure Monitor 收集日志，而无需安装 Fluentd。
 
 ## 搜索引擎
 
-如果您使用 [Fluentd](https://www.fluentd.org/)，我们建议使用 Elastic Search 和 Kibana。这个 [操作指南]({{< ref fluentd.md >}}) 显示了如何在 Kubernetes 集群中设置 Elastic Search 和 Kibana。
+如果您使用 [Fluentd](https://www.fluentd.org/)，我们建议使用 Elastic Search 和 Kibana。这个 [操作指南]({{% ref fluentd.md %}}) 显示了如何在 Kubernetes 集群中设置 Elastic Search 和 Kibana。
 
 如果您使用 Azure Kubernetes Service，您可以使用 [Azure Monitor for containers](https://docs.microsoft.com/azure/azure-monitor/insights/container-insights-overview) 而无需安装任何额外的监控工具。另请阅读 [如何启用 Azure Monitor for containers](https://docs.microsoft.com/azure/azure-monitor/insights/container-insights-onboard)
 
 ## 参考资料
 
-- [操作指南：设置 Fluentd、Elastic search 和 Kibana]({{< ref fluentd.md >}})
-- [操作指南：在 Azure Kubernetes Service 中设置 Azure Monitor]({{< ref azure-monitor.md >}})
-- [配置和查看 Dapr 日志]({{< ref "logs-troubleshooting.md" >}})
-- [配置和查看 Dapr API 日志]({{< ref "api-logs-troubleshooting.md" >}})
+- [操作指南：设置 Fluentd、Elastic search 和 Kibana]({{% ref fluentd.md %}})
+- [操作指南：在 Azure Kubernetes Service 中设置 Azure Monitor]({{% ref azure-monitor.md %}})
+- [配置和查看 Dapr 日志]({{% ref "logs-troubleshooting.md" %}})
+- [配置和查看 Dapr API 日志]({{% ref "api-logs-troubleshooting.md" %}})

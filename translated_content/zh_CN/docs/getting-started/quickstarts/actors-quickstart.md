@@ -6,14 +6,14 @@ weight: 76
 description: "开始使用 Dapr 的 Actors 构建模块"
 ---
 
-我们来了解一下 Dapr 的 [Actors 构建模块]({{< ref actors >}})。在这个快速入门中，您将运行一个智能设备微服务和一个简单的控制台客户端，以演示 Dapr Actors 中的有状态对象模式。
+我们来了解一下 Dapr 的 [Actors 构建模块]({{% ref actors %}})。在这个快速入门中，您将运行一个智能设备微服务和一个简单的控制台客户端，以演示 Dapr Actors 中的有状态对象模式。
 
 目前，您可以通过 .NET SDK 体验这个 actors 快速入门。
 
-{{< tabs ".NET" >}}
+{{< tabpane text=true >}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 以下是 .NET actors 快速入门的简要概述：
 
@@ -240,9 +240,9 @@ dapr run --app-id actorclient -- dotnet run
 - [`ISmartDevice`](https://github.com/dapr/quickstarts/blob/master/actors/csharp/sdk/interfaces/ISmartDevice.cs)：每个 `SmokeDetectorActor` 的方法定义和共享数据类型
 - [`IController`](https://github.com/dapr/quickstarts/blob/master/actors/csharp/sdk/interfaces/IController.cs)：`ControllerActor` 的方法定义和共享数据类型
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 告诉我们您的想法！
 
@@ -252,6 +252,6 @@ dapr run --app-id actorclient -- dotnet run
 
 ## 下一步
 
-了解更多关于 [Actor 构建模块]({{< ref actors >}}) 的信息
+了解更多关于 [Actor 构建模块]({{% ref actors %}}) 的信息
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

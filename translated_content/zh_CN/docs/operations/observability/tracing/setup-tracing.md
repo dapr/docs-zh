@@ -70,8 +70,8 @@ OpenTelemetry (otel) 端点也可以通过环境变量进行配置。设置 OTEL
 ## 下一步
 
 了解如何使用以下工具之一设置追踪：
-- [OTEL Collector]({{< ref otel-collector >}})
-- [New Relic]({{< ref newrelic.md >}})
-- [Jaeger]({{< ref open-telemetry-collector-jaeger.md >}})
-- [Zipkin]({{< ref zipkin.md >}})
-- [Datadog]({{< ref datadog.md >}})
+- [OTEL Collector]({{% ref otel-collector %}})
+- [New Relic]({{% ref newrelic.md %}})
+- [Jaeger]({{% ref open-telemetry-collector-jaeger.md %}})
+- [Zipkin]({{% ref zipkin.md %}})
+- [Datadog]({{% ref datadog.md %}})

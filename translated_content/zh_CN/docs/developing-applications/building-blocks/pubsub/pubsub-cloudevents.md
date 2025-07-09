@@ -6,7 +6,7 @@ weight: 2100
 description: "了解 Dapr 使用 CloudEvents 的原因，它们在 Dapr 发布订阅中的工作原理，以及如何创建 CloudEvents。"
 ---
 
-为了实现消息路由并为每条消息提供额外的上下文，Dapr 采用 [CloudEvents 1.0 规范](https://github.com/cloudevents/spec/tree/v1.0) 作为其消息格式。通过 Dapr 发送到主题的任何消息都会自动被包装在 CloudEvents 信封中，使用 [`Content-Type` 头部值]({{< ref "pubsub-overview.md#content-types" >}}) 作为 `datacontenttype` 属性。
+为了实现消息路由并为每条消息提供额外的上下文，Dapr 采用 [CloudEvents 1.0 规范](https://github.com/cloudevents/spec/tree/v1.0) 作为其消息格式。通过 Dapr 发送到主题的任何消息都会自动被包装在 CloudEvents 信封中，使用 [`Content-Type` 头部值]({{% ref "pubsub-overview.md#content-types" %}}) 作为 `datacontenttype` 属性。
 
 Dapr 使用 CloudEvents 为事件负载提供额外的上下文，从而实现以下功能：
 
@@ -93,11 +93,11 @@ Dapr 自动生成多个 CloudEvent 属性。您可以通过提供以下可选元
 
 ### 示例
 
-例如，要替换代码中[上述 CloudEvent 示例]({{< ref "#cloudevents-example" >}})中的 `source` 和 `id` 值：
+例如，要替换代码中[上述 CloudEvent 示例]({{% ref "#cloudevents-example" %}})中的 `source` 和 `id` 值：
 
-{{< tabs "Python" ".NET" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 with DaprClient() as client:
@@ -110,10 +110,10 @@ with DaprClient() as client:
     )
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 var order = new Order(i);
@@ -132,9 +132,9 @@ Console.WriteLine("Published data: " + order);
 await Task.Delay(TimeSpan.FromSeconds(1));
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 然后 JSON 负载反映新的 `source` 和 `id` 值：
 
@@ -158,13 +158,13 @@ await Task.Delay(TimeSpan.FromSeconds(1));
 ```
 
 {{% alert title="重要" color="warning" %}}
-虽然您可以替换 `traceid`/`traceparent` 和 `tracestate`，但这样做可能会干扰事件跟踪并在跟踪工具中报告不一致的结果。建议使用 Open Telemetry 进行分布式跟踪。[了解更多关于分布式跟踪的信息。]({{< ref tracing-overview.md >}})  
+虽然您可以替换 `traceid`/`traceparent` 和 `tracestate`，但这样做可能会干扰事件跟踪并在跟踪工具中报告不一致的结果。建议使用 Open Telemetry 进行分布式跟踪。[了解更多关于分布式跟踪的信息。]({{% ref tracing-overview.md %}})  
 
 {{% /alert %}}
 
 ## 发布您自己的 CloudEvent
 
-如果您想使用自己的 CloudEvent，请确保将 [`datacontenttype`]({{< ref "pubsub-overview.md#setting-message-content-types" >}}) 指定为 `application/cloudevents+json`。
+如果您想使用自己的 CloudEvent，请确保将 [`datacontenttype`]({{% ref "pubsub-overview.md#setting-message-content-types" %}}) 指定为 `application/cloudevents+json`。
 
 如果应用程序编写的 CloudEvent 不包含 CloudEvent 规范中[最低要求的字段](https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md#required-attributes)，则消息将被拒绝。如果缺少，Dapr 会将以下字段添加到 CloudEvent 中：
 
@@ -182,9 +182,9 @@ await Task.Delay(TimeSpan.FromSeconds(1));
 
 ### 示例
 
-{{< tabs "Dapr CLI" "HTTP API (Bash)" "HTTP API (PowerShell)">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Dapr CLI" %}}
 
 发布一个 CloudEvent 到 `orders` 主题：
 
@@ -192,9 +192,9 @@ await Task.Delay(TimeSpan.FromSeconds(1));
 dapr publish --publish-app-id orderprocessing --pubsub order-pub-sub --topic orders --data '{\"orderId\": \"100\"}'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 发布一个 CloudEvent 到 `orders` 主题：
 
@@ -202,9 +202,9 @@ dapr publish --publish-app-id orderprocessing --pubsub order-pub-sub --topic ord
 curl -X POST http://localhost:3601/v1.0/publish/order-pub-sub/orders -H "Content-Type: application/cloudevents+json" -d '{"specversion" : "1.0", "type" : "com.dapr.cloudevent.sent", "source" : "testcloudeventspubsub", "subject" : "Cloud Events Test", "id" : "someCloudEventId", "time" : "2021-08-02T09:00:00Z", "datacontenttype" : "application/cloudevents+json", "data" : {"orderId": "100"}}'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 发布一个 CloudEvent 到 `orders` 主题：
 
@@ -212,9 +212,9 @@ curl -X POST http://localhost:3601/v1.0/publish/order-pub-sub/orders -H "Content
 Invoke-RestMethod -Method Post -ContentType 'application/cloudevents+json' -Body '{"specversion" : "1.0", "type" : "com.dapr.cloudevent.sent", "source" : "testcloudeventspubsub", "subject" : "Cloud Events Test", "id" : "someCloudEventId", "time" : "2021-08-02T09:00:00Z", "datacontenttype" : "application/cloudevents+json", "data" : {"orderId": "100"}}' -Uri 'http://localhost:3601/v1.0/publish/order-pub-sub/orders'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 事件去重
 
@@ -222,7 +222,7 @@ Invoke-RestMethod -Method Post -ContentType 'application/cloudevents+json' -Body
 
 ## 下一步
 
-- 了解为什么您可能[不想使用 CloudEvents]({{< ref pubsub-raw.md >}})
-- 试用 [发布订阅快速入门]({{< ref pubsub-quickstart.md >}})
-- [发布订阅组件列表]({{< ref setup-pubsub >}})
-- 阅读 [API 参考]({{< ref pubsub_api.md >}})
+- 了解为什么您可能[不想使用 CloudEvents]({{% ref pubsub-raw.md %}})
+- 试用 [发布订阅快速入门]({{% ref pubsub-quickstart.md %}})
+- [发布订阅组件列表]({{% ref setup-pubsub %}})
+- 阅读 [API 参考]({{% ref pubsub_api.md %}})

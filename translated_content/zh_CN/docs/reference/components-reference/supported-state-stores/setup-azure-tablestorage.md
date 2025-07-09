@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要配置 Azure 表存储状态组件，请创建一个类型为 `state.azure.tablestorage` 的组件。请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+要配置 Azure 表存储状态组件，请创建一个类型为 `state.azure.tablestorage` 的组件。请参阅[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -31,7 +31,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来保护 secret，详情请参阅[此处]({{< ref component-secrets.md >}})。
+上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来保护 secret，详情请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 元数据字段说明
@@ -47,7 +47,7 @@ spec:
 
 ### Microsoft Entra ID 认证
 
-Azure Cosmos DB 状态组件支持所有 Microsoft Entra ID 认证机制。有关更多信息以及如何选择适合的组件元数据字段，请参阅[Azure 认证文档]({{< ref authenticating-azure.md >}})。
+Azure Cosmos DB 状态组件支持所有 Microsoft Entra ID 认证机制。有关更多信息以及如何选择适合的组件元数据字段，请参阅[Azure 认证文档]({{% ref authenticating-azure.md %}})。
 
 您可以在[下面的部分](#setting-up-cosmos-db-for-authenticating-with-azure-ad)了解更多关于使用 Microsoft Entra ID 认证设置 Cosmos DB 的信息。
 
@@ -105,6 +105,6 @@ curl -X POST http://localhost:3500/v1.0/state \
 Azure 表存储状态的并发通过使用 `ETag` 实现，具体请参阅[官方文档](https://docs.microsoft.com/azure/storage/common/storage-concurrency#managing-concurrency-in-table-storage)。
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取有关配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取有关配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

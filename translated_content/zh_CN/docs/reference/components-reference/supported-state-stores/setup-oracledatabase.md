@@ -33,7 +33,7 @@ spec:
   #  value: "true"
 ```
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中使用了明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -74,7 +74,7 @@ Dapr 使用固定的键方案和*复合键*来跨应用程序分区状态。对�
 您可以通过对 `tableName` 表（例如 STATE 表）进行 SQL 查询轻松检查所有存储的状态。
 
 ## 生存时间和状态过期
-Oracle 数据库状态存储组件支持 Dapr 的生存时间逻辑，确保状态在过期后无法检索。有关详细信息，请参阅[此处关于设置状态生存时间的指南]({{< ref "state-store-ttl.md" >}})。
+Oracle 数据库状态存储组件支持 Dapr 的生存时间逻辑，确保状态在过期后无法检索。有关详细信息，请参阅[此处关于设置状态生存时间的指南]({{% ref "state-store-ttl.md" %}})。
 
 Oracle 数据库本身不支持生存时间设置。此组件的实现使用名为 `EXPIRATION_TIME` 的列来保存记录被视为*过期*的时间。仅当在 `Set` 请求中指定了 TTL 时，才会设置此列中的值。它被计算为当前 UTC 时间戳加上 TTL 时间段。当通过 `Get` 调用检索状态时，此组件会检查是否设置了 `EXPIRATION_TIME`，如果是，则检查它是否在过去。在这种情况下，不会返回状态。
 
@@ -124,9 +124,9 @@ Oracle 数据库状态存储当前不支持查询 API。
 
 ## 创建 Oracle 数据库和用户模式
 
-{{< tabs "Self-Hosted" "Autonomous Database on OCI">}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 
 1. 运行一个 Oracle 数据库实例。您可以使用以下命令在 Docker CE 中运行一个本地 Oracle 数据库实例 - 或者当然使用现有的 Oracle 数据库：
      ```bash
@@ -168,9 +168,9 @@ Oracle 数据库状态存储组件会检查连接到的数据库用户模式中�
 			update_time TIMESTAMP WITH TIME ZONE NULL
       )
     ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Autonomous Database on OCI" %}}
 
 1. 在 Oracle 云基础设施上创建一个免费的（或付费的）Autonomous Transaction Processing (ATP) 或 ADW (Autonomous Data Warehouse) 实例，如 [OCI 文档中的始终免费自治数据库](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/autonomous-always-free.html#GUID-03F9F3E8-8A98-4792-AB9C-F0BACF02DC3E) 所述。
 
@@ -203,11 +203,11 @@ Oracle 数据库状态存储组件会检查连接到的数据库用户模式中�
       )
     ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% /tabs %}}
+{{% /tabpane %}}
 
 ## 相关链接
-- [Dapr 组件的基本模式]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本模式]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

@@ -39,9 +39,9 @@ renew-certificate   更新现有的根证书颁发机构 (CA)、颁发者证书�
 
 查看以下链接以获取每个子命令的详细信息。
 
-- [`dapr mtls expiry`]({{< ref dapr-mtls-expiry.md >}})
-- [`dapr mtls export`]({{< ref dapr-mtls-export.md >}})
-- [`dapr mtls renew-certificate`]({{< ref dapr-mtls-renew-certificate.md >}})
+- [`dapr mtls expiry`]({{% ref dapr-mtls-expiry.md %}})
+- [`dapr mtls export`]({{% ref dapr-mtls-export.md %}})
+- [`dapr mtls renew-certificate`]({{% ref dapr-mtls-renew-certificate.md %}})
 
 ### 示例
 

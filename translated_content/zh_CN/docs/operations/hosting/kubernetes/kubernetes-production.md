@@ -41,7 +41,7 @@ Dapr 对 Kubernetes 的支持遵循 [Kubernetes 版本偏差政策](https://kube
 
 ## Sidecar 资源设置
 
-[使用支持的注释设置 Dapr sidecar 的资源分配]({{< ref "arguments-annotations-overview.md" >}})。与 **资源约束** 相关的特定注释是：
+[使用支持的注释设置 Dapr sidecar 的资源分配]({{% ref "arguments-annotations-overview.md" %}})。与 **资源约束** 相关的特定注释是：
 
 - `dapr.io/sidecar-cpu-limit`
 - `dapr.io/sidecar-memory-limit`
@@ -56,7 +56,7 @@ Dapr 对 Kubernetes 的支持遵循 [Kubernetes 版本偏差政策](https://kube
 |-----|--------|
 | 限制: 300m, 请求: 100m | 限制: 1000Mi, 请求: 250Mi
 
-上述 CPU 和内存限制考虑了 Dapr 支持大量 I/O 绑定操作。使用 [监控工具]({{< ref observability >}}) 获取 sidecar（和应用程序）容器的基线，并根据这些基线调整这些设置。
+上述 CPU 和内存限制考虑了 Dapr 支持大量 I/O 绑定操作。使用 [监控工具]({{% ref observability %}}) 获取 sidecar（和应用程序）容器的基线，并根据这些基线调整这些设置。
 
 有关在 Kubernetes 中配置资源的更多详细信息，请参阅以下 Kubernetes 指南：
 - [为容器和 Pod 分配内存资源](https://kubernetes.io/docs/tasks/configure-pod-container/assign-memory-resource/) 
@@ -90,10 +90,10 @@ Dapr 对 Kubernetes 的支持遵循 [Kubernetes 版本偏差政策](https://kube
 在生产就绪配置中部署 Dapr 时，最好以控制平面的高可用 (HA) 配置进行部署。这将在 `dapr-system` 命名空间中为每个控制平面 pod 创建三个副本，使 Dapr 控制平面能够保留三个运行实例并在单个节点故障和其他中断中幸存。
 
 对于新的 Dapr 部署，可以通过以下两种方式设置 HA 模式：
-- [Dapr CLI]({{< ref "kubernetes-deploy.md#install-in-highly-available-mode" >}})，和
-- [Helm charts]({{< ref "kubernetes-deploy.md#add-and-install-dapr-helm-chart" >}})
+- [Dapr CLI]({{% ref "kubernetes-deploy.md#install-in-highly-available-mode" %}})，和
+- [Helm charts]({{% ref "kubernetes-deploy.md#add-and-install-dapr-helm-chart" %}})
 
-对于现有的 Dapr 部署，[您可以通过几个额外步骤启用 HA 模式]({{< ref "#enabling-high-availability-in-an-existing-dapr-deployment" >}})。
+对于现有的 Dapr 部署，[您可以通过几个额外步骤启用 HA 模式]({{% ref "#enabling-high-availability-in-an-existing-dapr-deployment" %}})。
 
 ### 单个服务 HA Helm 配置
 
@@ -153,7 +153,7 @@ spec:
 
 ## 使用 Helm 部署 Dapr
 
-[访问使用 Helm 部署 Dapr 的完整指南]({{< ref "kubernetes-deploy.md#install-with-helm-advanced" >}})。
+[访问使用 Helm 部署 Dapr 的完整指南]({{% ref "kubernetes-deploy.md#install-with-helm-advanced" %}})。
 
 ### 参数文件
 
@@ -198,7 +198,7 @@ kubectl get pods --namespace dapr-system
 上面的示例使用 `helm install` 和 `helm upgrade`。您还可以运行 `helm upgrade --install` 来动态确定是安装还是升级。
 {{% /alert %}}
 
-Dapr Helm chart 自动部署具有 `kubernetes.io/os=linux` 标签的节点的亲和性。您可以将 Dapr 控制平面部署到 Windows 节点。有关更多信息，请参阅 [部署到混合 Linux/Windows K8s 集群]({{< ref "kubernetes-hybrid-clusters.md" >}})。
+Dapr Helm chart 自动部署具有 `kubernetes.io/os=linux` 标签的节点的亲和性。您可以将 Dapr 控制平面部署到 Windows 节点。有关更多信息，请参阅 [部署到混合 Linux/Windows K8s 集群]({{% ref "kubernetes-hybrid-clusters.md" %}})。
 
 ## 使用 Helm 升级 Dapr
 
@@ -213,7 +213,7 @@ Dapr 支持以下步骤的零停机时间升级。
 
 ### 升级控制平面
 
-[在 Kubernetes 集群上升级 Dapr]({{< ref "kubernetes-upgrade.md#helm" >}})。
+[在 Kubernetes 集群上升级 Dapr]({{% ref "kubernetes-upgrade.md#helm" %}})。
 
 ### 更新数据平面（sidecars）
 
@@ -262,21 +262,21 @@ Dapr 支持以下步骤的零停机时间升级。
 
 验证您的生产就绪部署包括以下设置：
 
-1. **相互认证 (mTLS)** 已启用。Dapr 默认启用 mTLS。[了解更多关于如何使用您自己的证书]({{< ref "mtls.md#bringing-your-own-certificates" >}})。
+1. **相互认证 (mTLS)** 已启用。Dapr 默认启用 mTLS。[了解更多关于如何使用您自己的证书]({{% ref "mtls.md#bringing-your-own-certificates" %}})。
 
-1. **应用程序到 Dapr API 认证** 已启用。这是您的应用程序与 Dapr sidecar 之间的通信。为了保护 Dapr API 免受未经授权的应用程序访问，[启用 Dapr 的基于令牌的认证]({{< ref "api-token.md" >}})。
+1. **应用程序到 Dapr API 认证** 已启用。这是您的应用程序与 Dapr sidecar 之间的通信。为了保护 Dapr API 免受未经授权的应用程序访问，[启用 Dapr 的基于令牌的认证]({{% ref "api-token.md" %}})。
 
-1. **Dapr 到应用程序 API 认证** 已启用。这是 Dapr 与您的应用程序之间的通信。[让 Dapr 知道它正在使用令牌认证与授权应用程序通信]({{< ref "app-api-token.md" >}})。
+1. **Dapr 到应用程序 API 认证** 已启用。这是 Dapr 与您的应用程序之间的通信。[让 Dapr 知道它正在使用令牌认证与授权应用程序通信]({{% ref "app-api-token.md" %}})。
 
-1. **组件 secret 数据配置在 secret 存储中**，而不是硬编码在组件 YAML 文件中。[了解如何使用 Dapr 组件的 secret]({{< ref "component-secrets.md" >}})。
+1. **组件 secret 数据配置在 secret 存储中**，而不是硬编码在组件 YAML 文件中。[了解如何使用 Dapr 组件的 secret]({{% ref "component-secrets.md" %}})。
 
 1. Dapr **控制平面安装在专用命名空间中**，例如 `dapr-system`。
 
-1. Dapr 支持并启用 **为某些应用程序设置组件范围**。这不是必需的实践。[了解更多关于组件范围]({{< ref "component-scopes.md" >}})。
+1. Dapr 支持并启用 **为某些应用程序设置组件范围**。这不是必需的实践。[了解更多关于组件范围]({{% ref "component-scopes.md" %}})。
 
 ## 推荐的 Placement 服务配置
 
-[Placement 服务]({{< ref "placement.md" >}}) 是 Dapr 中的一个组件，负责通过 placement 表向所有 Dapr sidecar 传播 actor 地址信息（更多信息可以在 [这里]({{< ref "actors-features-concepts.md#actor-placement-service" >}}) 找到）。
+[Placement 服务]({{% ref "placement.md" %}}) 是 Dapr 中的一个组件，负责通过 placement 表向所有 Dapr sidecar 传播 actor 地址信息（更多信息可以在 [这里]({{% ref "actors-features-concepts.md#actor-placement-service" %}}) 找到）。
 
 在生产环境中运行时，建议使用以下值配置 Placement 服务：
 
@@ -297,12 +297,12 @@ Dapr 支持以下步骤的零停机时间升级。
 建议您考虑在不依赖服务账户令牌的情况下，将应用程序部署为 `automountServiceAccountToken: false`，以提高 pod 的安全性。例如，您可能需要服务账户令牌，如果：
 
 - 您的应用程序需要与 Kubernetes API 交互。
-- 您正在使用与 Kubernetes API 交互的 Dapr 组件；例如，[Kubernetes secret 存储]({{< ref "kubernetes-secret-store.md" >}}) 或 [Kubernetes 事件绑定]({{< ref "kubernetes-binding.md" >}})。
+- 您正在使用与 Kubernetes API 交互的 Dapr 组件；例如，[Kubernetes secret 存储]({{% ref "kubernetes-secret-store.md" %}}) 或 [Kubernetes 事件绑定]({{% ref "kubernetes-binding.md" %}})。
 
 因此，Dapr 不会自动为您设置 `automountServiceAccountToken: false`。然而，在您的解决方案不需要服务账户的所有情况下，建议您在 pod 的 spec 中设置此选项。
 
 {{% alert title="注意" color="primary" %}}
-使用存储为 Kubernetes secret 的 [组件 secret]({{< ref "component-secrets.md" >}}) 初始化 Dapr 组件不需要服务账户令牌，因此在这种情况下您仍然可以设置 `automountServiceAccountToken: false`。只有在运行时调用 Kubernetes secret 存储，使用 [Secrets 管理]({{< ref "secrets-overview.md" >}}) 构建块时，才会受到影响。
+使用存储为 Kubernetes secret 的 [组件 secret]({{% ref "component-secrets.md" %}}) 初始化 Dapr 组件不需要服务账户令牌，因此在这种情况下您仍然可以设置 `automountServiceAccountToken: false`。只有在运行时调用 Kubernetes secret 存储，使用 [Secrets 管理]({{% ref "secrets-overview.md" %}}) 构建块时，才会受到影响。
 {{% /alert %}}
 
 ## 跟踪和指标配置
@@ -313,13 +313,13 @@ Dapr 默认启用跟踪和指标。建议您为您的应用程序和 Dapr 控制
 
 ### 跟踪
 
-[为 Dapr 配置跟踪后端]({{< ref "setup-tracing.md" >}})。
+[为 Dapr 配置跟踪后端]({{% ref "setup-tracing.md" %}})。
 
 ### 指标
 
 对于指标，Dapr 在端口 9090 上暴露了一个 Prometheus 端点，可以被 Prometheus 抓取。
 
-[设置 Prometheus、Grafana 和其他监控工具与 Dapr]({{< ref "observability" >}})。
+[设置 Prometheus、Grafana 和其他监控工具与 Dapr]({{% ref "observability" %}})。
 
 ## 注入器看门狗
 
@@ -327,13 +327,13 @@ Dapr Operator 服务包括一个 **注入器看门狗**，可用于检测和修�
 
 在 Kubernetes 模式下运行 Dapr 时，注入器看门狗默认禁用。然而，您应该考虑根据您的具体情况启用它并设置适当的值。
 
-请参阅 [Dapr operator 服务文档]({{< ref operator >}}) 以获取有关注入器看门狗及其启用方法的更多详细信息。
+请参阅 [Dapr operator 服务文档]({{% ref operator %}}) 以获取有关注入器看门狗及其启用方法的更多详细信息。
 
 ## 为 sidecar 容器配置 `seccompProfile`
 
 默认情况下，Dapr sidecar 注入器注入一个没有任何 `seccompProfile` 的 sidecar。然而，为了使 Dapr sidecar 容器在具有 [受限](https://kubernetes.io/docs/concepts/security/pod-security-standards/#restricted) 配置文件的命名空间中成功运行，sidecar 容器需要 `securityContext.seccompProfile.Type` 不为 `nil`。
 
-请参阅 [参数和注释概述]({{< ref "arguments-annotations-overview.md" >}}) 以在 sidecar 容器上设置适当的 `seccompProfile`。
+请参阅 [参数和注释概述]({{% ref "arguments-annotations-overview.md" %}}) 以在 sidecar 容器上设置适当的 `seccompProfile`。
 
 ## 最佳实践
 
@@ -344,5 +344,5 @@ Dapr Operator 服务包括一个 **注入器看门狗**，可用于检测和修�
 
 ## 相关链接
 
-- [在 Kubernetes 上部署 Dapr]({{< ref kubernetes-deploy.md >}})
-- [在 Kubernetes 上升级 Dapr]({{< ref kubernetes-upgrade.md >}})
+- [在 Kubernetes 上部署 Dapr]({{% ref kubernetes-deploy.md %}})
+- [在 Kubernetes 上升级 Dapr]({{% ref kubernetes-upgrade.md %}})

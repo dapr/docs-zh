@@ -16,15 +16,15 @@ $app->post('/publish', function(\Dapr\Client\DaprClient $daprClient) {
 });
 ```
 
-有关发布/订阅的更多信息，请查看[操作指南]({{< ref howto-publish-subscribe.md >}})。
+有关发布/订阅的更多信息，请查看[操作指南]({{% ref howto-publish-subscribe.md %}})。
 
 ## 数据的内容类型
 
 PHP SDK 允许您在构建自定义云事件或发布原始数据时设置数据的内容类型。
 
-{{< tabs CloudEvent "原始数据" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="CloudEvent" %}}
 
 ```php
 <?php
@@ -33,8 +33,8 @@ $event->data = $xml;
 $event->data_content_type = 'application/xml';
 ```
 
-{{% /codetab %}}
-{{% codetab %}}
+{{% /tab %}}
+{{% tab header="原始数据" %}}
 
 ```php
 <?php
@@ -50,9 +50,9 @@ $daprClient->publishEvent(pubsubName: 'pubsub', topicName: 'my-topic', data: $ra
 
 {{% /alert %}}
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 接收云事件
 

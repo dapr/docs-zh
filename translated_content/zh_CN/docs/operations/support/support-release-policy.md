@@ -35,9 +35,9 @@ Dapr的sidecar镜像被发布到[GitHub容器注册表](https://github.com/dapr/
 * 默认sidecar镜像：`daprio/daprd:<version>`或`ghcr.io/dapr/daprd:<version>`（例如`ghcr.io/dapr/daprd:1.11.1`）
 * 稳定组件的sidecar镜像：`daprio/daprd:<version>-stablecomponents`或`ghcr.io/dapr/daprd:<version>-stablecomponents`（例如`ghcr.io/dapr/daprd:1.11.1-stablecomponents`）
 
-在Kubernetes上，可以通过`dapr.io/sidecar-image`注释覆盖应用程序部署资源的sidecar镜像。有关更多信息，请参阅[Dapr的参数和注释]({{< ref "arguments-annotations-overview.md" >}})。如果未指定，则使用默认的'daprio/daprd:latest'镜像。
+在Kubernetes上，可以通过`dapr.io/sidecar-image`注释覆盖应用程序部署资源的sidecar镜像。有关更多信息，请参阅[Dapr的参数和注释]({{% ref "arguments-annotations-overview.md" %}})。如果未指定，则使用默认的'daprio/daprd:latest'镜像。
 
-了解更多关于[Dapr组件的认证生命周期]({{< ref "certification-lifecycle.md" >}})。
+了解更多关于[Dapr组件的认证生命周期]({{% ref "certification-lifecycle.md" %}})。
 
 ## 支持的版本
 
@@ -120,7 +120,7 @@ Dapr仅在单个次要版本中升级补丁版本或从一个次要版本升级�
 
 下表显示了Dapr运行时的测试升级路径。任何其他升级组合都没有经过测试。
 
-有关升级的一般指导可以在[selfhost模式]({{< ref self-hosted-upgrade >}})和[Kubernetes]({{< ref kubernetes-upgrade >}})部署中找到。最好查看目标版本的发布说明以获得具体指导。
+有关升级的一般指导可以在[selfhost模式]({{% ref self-hosted-upgrade %}})和[Kubernetes]({{% ref kubernetes-upgrade %}})部署中找到。最好查看目标版本的发布说明以获得具体指导。
 
 | 当前运行时版本 | 必须通过的版本  | 目标运行时版本   |
 |--------------------------|-----------------------|------------------------- |
@@ -147,7 +147,7 @@ Dapr仅在单个次要版本中升级补丁版本或从一个次要版本升级�
 
 ## 在托管平台上升级
 
-Dapr可以支持多个生产托管平台。在1.0版本发布时，支持的两个平台是Kubernetes和物理机。有关Kubernetes升级，请参阅[Kubernetes上的生产指南]({{< ref kubernetes-production.md >}})
+Dapr可以支持多个生产托管平台。在1.0版本发布时，支持的两个平台是Kubernetes和物理机。有关Kubernetes升级，请参阅[Kubernetes上的生产指南]({{% ref kubernetes-production.md %}})
 
 ### 依赖项的支持版本
 
@@ -161,5 +161,5 @@ Dapr可以支持多个生产托管平台。在1.0版本发布时，支持的两�
 
 ## 相关链接
 
-- 阅读[版本控制策略]({{< ref support-versioning.md >}})
-- 阅读[重大更改和弃用策略]({{< ref breaking-changes-and-deprecations.md >}})
+- 阅读[版本控制策略]({{% ref support-versioning.md %}})
+- 阅读[重大更改和弃用策略]({{% ref breaking-changes-and-deprecations.md %}})

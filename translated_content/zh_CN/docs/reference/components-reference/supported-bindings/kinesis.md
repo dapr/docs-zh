@@ -9,10 +9,10 @@ aliases:
 
 ## 组件格式
 
-要设置 AWS Kinesis 绑定，需创建一个类型为 `bindings.aws.kinesis` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})以了解如何创建和应用绑定配置。
+要设置 AWS Kinesis 绑定，需创建一个类型为 `bindings.aws.kinesis` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})以了解如何创建和应用绑定配置。
 
 请参阅[此处](https://aws.amazon.com/kinesis/data-streams/getting-started/)以了解如何设置 AWS Kinesis 数据流。
-请参阅[认证到 AWS]({{< ref authenticating-aws.md >}})以获取与认证相关的属性信息。
+请参阅[认证到 AWS]({{% ref authenticating-aws.md %}})以获取与认证相关的属性信息。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -42,7 +42,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中使用了明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中使用了明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -72,9 +72,9 @@ spec:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
-- [认证到 AWS]({{< ref authenticating-aws.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})
+- [认证到 AWS]({{% ref authenticating-aws.md %}})

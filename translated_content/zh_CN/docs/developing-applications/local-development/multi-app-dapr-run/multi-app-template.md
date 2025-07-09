@@ -26,9 +26,9 @@ description: 解压多应用运行模板文件及其属性
 
 执行以下 CLI 命令以读取默认名为 `dapr.yaml` 的多应用运行模板文件：
 
-{{< tabs Self-hosted Kubernetes>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-hosted" %}}
 <!--selfhosted-->
 
 ```cmd
@@ -36,75 +36,75 @@ description: 解压多应用运行模板文件及其属性
 
 dapr run -f <dir_path>
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 <!--kubernetes-->
 
 ```cmd
 dapr run -f <dir_path> -k 
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 通过提供文件路径执行
 
 如果多应用运行模板文件的名称不是 `dapr.yaml`，您可以将相对或绝对文件路径提供给命令：
 
-{{< tabs Self-hosted Kubernetes>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-hosted" %}}
 <!--selfhosted-->
 
 ```cmd
 dapr run -f ./path/to/<your-preferred-file-name>.yaml
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 <!--kubernetes-->
 
 ```cmd
 dapr run -f ./path/to/<your-preferred-file-name>.yaml -k 
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 查看已启动的应用
 
 一旦多应用模板正在运行，您可以使用以下命令查看已启动的应用：
 
-{{< tabs Self-hosted Kubernetes>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-hosted" %}}
 <!--selfhosted-->
 
 ```cmd
 dapr list
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 <!--kubernetes-->
 
 ```cmd
 dapr list -k 
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 停止多应用运行模板
 
 您可以随时使用以下任一命令停止多应用运行模板：
 
-{{< tabs Self-hosted Kubernetes>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-hosted" %}}
 <!--selfhosted-->
 
 ```cmd
@@ -118,9 +118,9 @@ dapr stop -f <dir_path>
 dapr stop -f ./path/to/<your-preferred-file-name>.yaml
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 <!--kubernetes-->
 
 ```cmd
@@ -134,17 +134,17 @@ dapr stop -f <dir_path> -k
 dapr stop -f ./path/to/<your-preferred-file-name>.yaml -k 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 模板文件结构
 
 多应用运行模板文件可以包含以下属性。下面是一个示例模板，展示了两个应用及其配置的一些属性。
 
-{{< tabs Self-hosted Kubernetes>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-hosted" %}}
 <!--selfhosted-->
 
 ```yaml
@@ -182,9 +182,9 @@ apps:
  - apps 部分下的 `appDirPath` 应相对于模板文件路径提供。
  - apps 部分下的所有其他相对路径应相对于 `appDirPath` 提供。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 <!--kubernetes-->
 
 ```yaml
@@ -217,18 +217,18 @@ apps:
  - apps 部分下的 `appDirPath` 应相对于模板文件路径提供。
  - app 部分下的所有相对路径应相对于 `appDirPath` 提供。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 模板属性
 
-{{< tabs Self-hosted Kubernetes>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-hosted" %}}
 <!--selfhosted-->
 
-多应用运行模板的属性与 `dapr run` CLI 标志对齐，[在 CLI 参考文档中列出]({{< ref "dapr-run.md#flags" >}})。
+多应用运行模板的属性与 `dapr run` CLI 标志对齐，[在 CLI 参考文档中列出]({{% ref "dapr-run.md#flags" %}})。
 
 {{< table "table table-white table-striped table-bordered" >}}
 
@@ -274,12 +274,12 @@ apps:
 观看[此视频以了解多应用运行的概述](https://youtu.be/s1p9MNl4VGo?t=2456)：
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/s1p9MNl4VGo?start=2456" title="YouTube 视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 <!--kubernetes-->
 
-多应用运行模板的属性与 `dapr run -k` CLI 标志对齐，[在 CLI 参考文档中列出]({{< ref "dapr-run.md#flags" >}})。
+多应用运行模板的属性与 `dapr run -k` CLI 标志对齐，[在 CLI 参考文档中列出]({{% ref "dapr-run.md#flags" %}})。
 
 {{< table "table table-white table-striped table-bordered" >}}
 
@@ -324,6 +324,6 @@ apps:
 
 <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/nWatANwaAik?si=O8XR-TUaiY0gclgO&amp;start=1024" title="YouTube 视频播放器" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}

@@ -13,8 +13,8 @@ Dapr 提供了用于开发 .NET 可插拔组件的 NuGet 包。
 ## 前提条件
 
 - [.NET 6 SDK](https://dotnet.microsoft.com/en-us/download/dotnet) 或更高版本
-- [Dapr 1.9 CLI]({{< ref install-dapr-cli.md >}}) 或更高版本
-- 已初始化的 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- [Dapr 1.9 CLI]({{% ref install-dapr-cli.md %}}) 或更高版本
+- 已初始化的 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - Linux、Mac 或 Windows（使用 WSL）
 
 {{% alert title="注意" color="primary" %}}
@@ -62,14 +62,14 @@ app.Run();
 - 可以托管一个或多个组件类型
 
 {{% alert title="注意" color="primary" %}}
-每种类型的组件只能在单个服务中注册。然而，[同一类型的多个组件可以分布在多个服务中]({{< ref dotnet-multiple-services >}})。
+每种类型的组件只能在单个服务中注册。然而，[同一类型的多个组件可以分布在多个服务中]({{% ref dotnet-multiple-services %}})。
 {{% /alert %}}
 
 ## 实现和注册组件
 
-- [实现一个输入/输出绑定组件]({{< ref dotnet-bindings >}})
-- [实现一个 pub-sub 组件]({{< ref dotnet-pub-sub >}})
-- [实现一个 state 存储组件]({{< ref dotnet-state-store >}})
+- [实现一个输入/输出绑定组件]({{% ref dotnet-bindings %}})
+- [实现一个 pub-sub 组件]({{% ref dotnet-pub-sub %}})
+- [实现一个 state 存储组件]({{% ref dotnet-state-store %}})
 
 ## 本地测试组件
 

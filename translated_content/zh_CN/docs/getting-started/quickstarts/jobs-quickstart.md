@@ -10,21 +10,21 @@ description: 开始使用 Dapr 作业构建块
 作业构建块目前处于 **alpha** 阶段。
 {{% /alert %}}
 
-[Dapr 作业构建块]({{< ref jobs-overview.md >}}) 允许您在特定时间或间隔调度和运行作业。在本快速入门中，您将学习如何使用 Dapr 的作业 API 来调度、获取和删除作业。
+[Dapr 作业构建块]({{% ref jobs-overview.md %}}) 允许您在特定时间或间隔调度和运行作业。在本快速入门中，您将学习如何使用 Dapr 的作业 API 来调度、获取和删除作业。
 
 您可以通过以下两种方式来体验此作业快速入门：
 
-- [同时运行所有示例应用程序]({{< ref "#run-using-multi-app-run" >}})，或
-- [逐个运行应用程序]({{< ref "#run-one-job-application-at-a-time" >}})
+- [同时运行所有示例应用程序]({{% ref "#run-using-multi-app-run" %}})，或
+- [逐个运行应用程序]({{% ref "#run-one-job-application-at-a-time" %}})
 
 ## 同时运行多个应用
 
 在开始之前，请选择您偏好的 Dapr SDK 语言。目前，您可以使用 Go SDK 来试验作业 API。
 
-{{< tabs Go >}}
+{{< tabpane text=true >}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 本快速入门包含两个应用程序：
 
@@ -106,7 +106,7 @@ dapr stop -f .
 在 Dapr 安装期间运行 `dapr init` 时：
 
 - `dapr_scheduler` 控制平面与其他 Dapr 服务一起启动。
-- [在 `.dapr/components` 目录中生成了 `dapr.yaml` 多应用运行模板文件]({{< ref "#dapryaml-multi-app-run-template-file" >}})。
+- [在 `.dapr/components` 目录中生成了 `dapr.yaml` 多应用运行模板文件]({{% ref "#dapryaml-multi-app-run-template-file" %}})。
 
 在此快速入门中运行 `dapr run -f .` 启动了 `job-scheduler` 和 `job-service`。在终端输出中，您可以看到以下作业正在调度、检索和删除。
 
@@ -121,7 +121,7 @@ dapr stop -f .
 
 #### `dapr.yaml` 多应用运行模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{< ref multi-app-dapr-run >}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -413,16 +413,16 @@ func delete(droidJob DroidJob) error {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 逐个运行作业应用程序
 
-{{< tabs Go >}}
+{{< tabpane text=true >}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 本快速入门包含两个应用程序：
 
@@ -500,11 +500,11 @@ dapr run --app-id job-scheduler --app-port 6300 -- go run .
 == APP == 执行维护作业：Memory Wipe
 ```
 
-解读当您运行 `dapr run` 时 [`job-service`]({{< ref "#job-service-app" >}}) 和 [`job-scheduler`]({{< ref "#job-scheduler-app" >}}) 应用程序中发生的事情。
+解读当您运行 `dapr run` 时 [`job-service`]({{% ref "#job-service-app" %}}) 和 [`job-scheduler`]({{% ref "#job-scheduler-app" %}}) 应用程序中发生的事情。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 观看演示
 
@@ -522,7 +522,7 @@ dapr run --app-id job-scheduler --app-port 6300 -- go run .
 
 - 本快速入门的 HTTP 示例：
   - [Go](https://github.com/dapr/quickstarts/tree/master/jobs/go/http)
-- 了解更多关于 [作业构建块]({{< ref jobs-overview.md >}})
-- 了解更多关于 [调度器控制平面]({{< ref scheduler.md >}})
+- 了解更多关于 [作业构建块]({{% ref jobs-overview.md %}})
+- 了解更多关于 [调度器控制平面]({{% ref scheduler.md %}})
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

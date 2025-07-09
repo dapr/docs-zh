@@ -64,7 +64,7 @@ var daprConversationClient = new DaprConversationClientBuilder()
     .Build();
 ```
 
-有关通过构建器配置 Dapr 客户端时可用选项的更多信息，请参阅 .NET [文档]({{< ref dotnet-client >}})。
+有关通过构建器配置 Dapr 客户端时可用选项的更多信息，请参阅 .NET [文档]({{% ref dotnet-client %}})。
 
 ## 动手试试
 测试 Dapr AI .NET SDK。通过示例查看 Dapr 的实际应用：

@@ -27,31 +27,31 @@ dapr run --app-id nodeapp --app-port 3000 --dapr-http-port 3500 app.js
 ### IntelliJ配置文件位置
 对于版本[2020.1](https://www.jetbrains.com/help/idea/2020.1/tuning-the-ide.html#config-directory)及以上，工具的配置文件应位于：
 
-{{< tabs Windows Linux  MacOS >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Windows" %}}
 
 ```powershell
 %USERPROFILE%\AppData\Roaming\JetBrains\IntelliJIdea2020.1\tools\
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
  ```shell
  $HOME/.config/JetBrains/IntelliJIdea2020.1/tools/
  ```
-{{% /codetab %}}
+{{% /tab %}}
 
 
-{{% codetab %}}
+{{% tab header="MacOS" %}}
 ```shell
 ~/Library/Application\ Support/JetBrains/IntelliJIdea2020.1/tools/
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 > 对于2019.3或更早版本，配置文件位置不同。请参见[此处](https://www.jetbrains.com/help/idea/2019.3/tuning-the-ide.html#config-directory)了解更多详情。
 

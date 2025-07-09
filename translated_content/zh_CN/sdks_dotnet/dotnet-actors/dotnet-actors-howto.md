@@ -43,8 +43,8 @@ actor 类还必须实现一个构造函数，该构造函数接受一个 `ActorS
 
 ## 准备工作
 
-- 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})。
-- 已初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})。
+- 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})。
+- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})。
 - 已安装 [.NET 6](https://dotnet.microsoft.com/download)、[.NET 8](https://dotnet.microsoft.com/download) 或 [.NET 9](https://dotnet.microsoft.com/download)
 
 {{% alert title="注意" color="primary" %}}
@@ -469,5 +469,5 @@ namespace MyActorClient
 
 ## 相关链接
 
-- [.NET Dapr Actors 客户端指南]({{< ref dotnet-actors-client.md >}})
-- [.NET Dapr Actors 使用指南]({{< ref dotnet-actors-usage.md >}})
+- [.NET Dapr Actors 客户端指南]({{% ref dotnet-actors-client.md %}})
+- [.NET Dapr Actors 使用指南]({{% ref dotnet-actors-usage.md %}})

@@ -6,21 +6,21 @@ weight: 74
 description: "开始使用 Dapr 的状态管理模块"
 ---
 
-本文将介绍 Dapr 的[状态管理模块]({{< ref state-management >}})。在本快速入门指南中，您将学习如何使用 Redis 状态存储来保存、获取和删除状态。您可以选择以下两种方式之一：
-- [使用多应用运行模板文件同时启动所有应用]({{< ref "#run-using-multi-app-run" >}})，或
-- [一次运行一个应用]({{< ref "#run-one-application-at-a-time" >}})
+本文将介绍 Dapr 的[状态管理模块]({{% ref state-management %}})。在本快速入门指南中，您将学习如何使用 Redis 状态存储来保存、获取和删除状态。您可以选择以下两种方式之一：
+- [使用多应用运行模板文件同时启动所有应用]({{% ref "#run-using-multi-app-run" %}})，或
+- [一次运行一个应用]({{% ref "#run-one-application-at-a-time" %}})
 
 <img src="/images/state-management-quickstart.png" width=1000 style="padding-bottom:15px;">
 
-虽然本示例使用了 Redis，您也可以替换为其他[支持的状态存储]({{< ref supported-state-stores.md >}})。
+虽然本示例使用了 Redis，您也可以替换为其他[支持的状态存储]({{% ref supported-state-stores.md %}})。
 
 ## 使用多应用运行
 
 在开始之前，请选择您偏好的编程语言对应的 Dapr SDK。
 
-{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ### 先决条件
 
@@ -54,14 +54,14 @@ cd state_management/python/sdk/order-processor
 pip3 install -r requirements.txt 
 ```
 
-使用 [多应用运行]({{< ref multi-app-dapr-run >}})在 Dapr sidecar 旁边启动 `order-processor` 服务。
+使用 [多应用运行]({{% ref multi-app-dapr-run %}})在 Dapr sidecar 旁边启动 `order-processor` 服务。
 
 ```bash
 dapr run -f .
 ```
-> **注意**：在 Windows 系统中，由于未定义 Python3.exe，您可能需要在运行 `dapr run -f .` 之前将 [`dapr.yaml`]({{< ref "#dapryaml-multi-app-run-template-file" >}}) 文件中的 `python3` 修改为 `python`。
+> **注意**：在 Windows 系统中，由于未定义 Python3.exe，您可能需要在运行 `dapr run -f .` 之前将 [`dapr.yaml`]({{% ref "#dapryaml-multi-app-run-template-file" %}}) 文件中的 `python3` 修改为 `python`。
 
-`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{< ref "#statestoreyaml-component-file" >}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
+`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{% ref "#statestoreyaml-component-file" %}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
 
 ```python
 with DaprClient() as client:
@@ -101,7 +101,7 @@ Order-processor 输出：
 
 ##### `dapr.yaml` 多应用运行模板文件
 
-当您运行 `dapr init` 时，Dapr 会创建一个名为 `dapr.yaml` 的默认[多应用运行模板文件]({{< ref multi-app-dapr-run >}})。运行 `dapr run -f` 会启动项目中的所有应用程序。在此示例中，`dapr.yaml` 文件包含以下内容：
+当您运行 `dapr init` 时，Dapr 会创建一个名为 `dapr.yaml` 的默认[多应用运行模板文件]({{% ref multi-app-dapr-run %}})。运行 `dapr run -f` 会启动项目中的所有应用程序。在此示例中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -146,10 +146,10 @@ spec:
 - `metadata/name` 是您的应用程序与组件通信的方式（在代码示例中称为 `DAPR_STORE_NAME`）。
 - `spec/metadata` 定义了组件使用的 Redis 实例的连接。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ### 先决条件
 
@@ -189,7 +189,7 @@ npm install
 dapr run -f .
 ```
 
-`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{< ref "#statestoreyaml-component-file" >}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
+`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{% ref "#statestoreyaml-component-file" %}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
 
 ```js
 const client = new DaprClient()
@@ -278,10 +278,10 @@ spec:
 - `metadata/name` 是您的应用程序与组件通信的方式（在代码示例中称为 `DAPR_STORE_NAME`）。
 - `spec/metadata` 定义了组件使用的 Redis 实例的连接。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ### 先决条件
 
@@ -324,7 +324,7 @@ dotnet build
 dapr run -f .
 ```
 
-`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{< ref "#statestoreyaml-component-file" >}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
+`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{% ref "#statestoreyaml-component-file" %}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
 
 ```cs
 var client = new DaprClientBuilder().Build();
@@ -411,10 +411,10 @@ spec:
 - `metadata/name` 是您的应用程序与组件通信的方式（在代码示例中称为 `DAPR_STORE_NAME`）。
 - `spec/metadata` 定义了组件使用的 Redis 实例的连接。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ### 先决条件
 
@@ -457,7 +457,7 @@ mvn clean install
 dapr run -f .
 ```
 
-`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{< ref "#statestoreyaml-component-file" >}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
+`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{% ref "#statestoreyaml-component-file" %}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
 
 ```java
 try (DaprClient client = new DaprClientBuilder().build()) {
@@ -547,10 +547,10 @@ spec:
 - `metadata/name` 是您的应用程序与组件通信的方式（在代码示例中称为 `DAPR_STORE_NAME`）。
 - `spec/metadata` 定义了组件使用的 Redis 实例的连接。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ### 先决条件
 
@@ -590,7 +590,7 @@ go build .
 dapr run -f .
 ```
 
-`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{< ref "#statestoreyaml-component-file" >}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
+`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{% ref "#statestoreyaml-component-file" %}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
 
 ```go
   client, err := dapr.NewClient()
@@ -679,18 +679,18 @@ spec:
 - `metadata/name` 是您的应用程序与组件通信的方式（在代码示例中称为 `DAPR_STORE_NAME`）。
 - `spec/metadata` 定义了组件使用的 Redis 实例的连接。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 
 ## 一次运行一个应用程序
 
 在开始之前，请选择您偏好的编程语言对应的 Dapr SDK。
 
-{{< tabs "Python" "JavaScript" ".NET" "Java" "Go" >}}
+{{< tabpane text=true >}}
  <!-- Python -->
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ### 先决条件
 
@@ -732,7 +732,7 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- python
 
 > **注意**：在 Windows 系统中，由于未定义 Python3.exe，您可能需要使用 `python app.py` 而不是 `python3 app.py`。
 
-`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{< ref "#statestoreyaml-component-file" >}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
+`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{% ref "#statestoreyaml-component-file" %}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
 
 ```python
 with DaprClient() as client:
@@ -803,10 +803,10 @@ spec:
 - `metadata/name` 是您的应用程序与组件通信的方式（在代码示例中称为 `DAPR_STORE_NAME`）。
 - `spec/metadata` 定义了组件使用的 Redis 实例的连接。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- JavaScript -->
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ### 先决条件
 
@@ -850,7 +850,7 @@ npm install
 ```bash
 dapr run --app-id order-processor --resources-path ../../../resources/ -- npm run start
 ```
-`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{< ref "#statestoreyaml-component-file" >}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
+`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{% ref "#statestoreyaml-component-file" %}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
 
 ```js
 const client = new DaprClient()
@@ -925,10 +925,10 @@ spec:
 - `metadata/name` 是您的应用程序与组件通信的方式（在代码示例中称为 `DAPR_STORE_NAME`）。
 - `spec/metadata` 定义了组件使用的 Redis 实例的连接。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ### 先决条件
 
@@ -969,7 +969,7 @@ dotnet build
 dapr run --app-id order-processor --resources-path ../../../resources/ -- dotnet run
 ```
 
-`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{< ref "#statestoreyaml-component-file" >}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
+`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{% ref "#statestoreyaml-component-file" %}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
 
 ```cs
 var client = new DaprClientBuilder().Build();
@@ -1042,10 +1042,10 @@ spec:
 - `metadata/name` 是您的应用程序与组件通信的方式（在代码示例中称为 `DAPR_STORE_NAME`）。
 - `spec/metadata` 定义了组件使用的 Redis 实例的连接。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Java -->
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ### 先决条件
 
@@ -1088,7 +1088,7 @@ mvn clean install
 dapr run --app-id order-processor --resources-path ../../../resources -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
 ```
 
-`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{< ref "#statestoreyaml-component-file" >}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
+`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{% ref "#statestoreyaml-component-file" %}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
 
 ```java
 try (DaprClient client = new DaprClientBuilder().build()) {
@@ -1164,10 +1164,10 @@ spec:
 - `metadata/name` 是您的应用程序与组件通信的方式（在代码示例中称为 `DAPR_STORE_NAME`）。
 - `spec/metadata` 定义了组件使用的 Redis 实例的连接。
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ### 先决条件
 
@@ -1207,7 +1207,7 @@ go build .
 dapr run --app-id order-processor --resources-path ../../../resources -- go run .
 ```
 
-`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{< ref "#statestoreyaml-component-file" >}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
+`order-processor` 服务会将 `orderId` 键/值对写入、读取并删除到[在 `statestore.yaml` 组件中定义的]({{% ref "#statestoreyaml-component-file" %}}) `statestore` 实例中。服务启动后，会自动执行一个循环。
 
 ```go
   client, err := dapr.NewClient()
@@ -1282,9 +1282,9 @@ spec:
 - `metadata/name` 是您的应用程序与组件通信的方式（在代码示例中称为 `DAPR_STORE_NAME`）。
 - `spec/metadata` 定义了组件使用的 Redis 实例的连接。
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 告诉我们您的想法！
 我们正在不断努力改进我们的快速入门示例，并重视您的反馈。您觉得这个快速入门有帮助吗？您有改进建议吗？
@@ -1299,6 +1299,6 @@ spec:
   - [.NET](https://github.com/dapr/quickstarts/tree/master/state_management/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/state_management/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/state_management/go/http)
-- 了解更多关于[状态管理模块]({{< ref state-management >}})的信息
+- 了解更多关于[状态管理模块]({{% ref state-management %}})的信息
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 RabbitMQ 绑定，需创建一个类型为 `bindings.rabbitmq` 的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要设置 RabbitMQ 绑定，需创建一个类型为 `bindings.rabbitmq` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -53,7 +53,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 使用了明文字符串。建议使用 secret 存储，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中，secret 使用了明文字符串。建议使用 secret 存储，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -96,8 +96,8 @@ spec:
 
 示例：
 
-{{< tabs Windows Linux >}}
-{{% codetab %}}
+{{< tabpane text=true >}}
+{{% tab header="Windows" %}}
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
   -H "Content-Type: application/json" \
@@ -111,9 +111,9 @@ curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
         \"operation\": \"create\"
       }"
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
 ```bash
 curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
   -H "Content-Type: application/json" \
@@ -127,8 +127,8 @@ curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
         "operation": "create"
       }'
 ```
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## 设置每条消息的优先级
 
@@ -140,8 +140,8 @@ curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
 
 示例：
 
-{{< tabs Windows Linux >}}
-{{% codetab %}}
+{{< tabpane text=true >}}
+{{% tab header="Windows" %}}
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
   -H "Content-Type: application/json" \
@@ -155,9 +155,9 @@ curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
         \"operation\": \"create\"
       }"
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
   -H "Content-Type: application/json" \
@@ -171,13 +171,13 @@ curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
         "operation": "create"
       }'
 ```
-{{% /codetab %}}
-{{< /tabs >}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

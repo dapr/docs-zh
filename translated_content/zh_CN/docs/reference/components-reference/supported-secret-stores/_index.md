@@ -9,7 +9,7 @@ aliases:
 no_list: true
 ---
 
-下表列出了 Dapr Secret 构建块所支持的 Secret 存储。[了解如何为 Dapr 的 Secret 管理设置不同的 Secret 存储。]({{< ref setup-secret-store.md >}})
+下表列出了 Dapr Secret 构建块所支持的 Secret 存储。[了解如何为 Dapr 的 Secret 管理设置不同的 Secret 存储。]({{% ref setup-secret-store.md %}})
 
 {{< partial "components/description.html" >}}
 

@@ -10,7 +10,7 @@ description: "将 Kubernetes Secret 中的环境变量注入到 Dapr sidecar"
 
 ## 概述
 
-在 Dapr 1.15 中，引入了新的 `dapr.io/env-from-secret` 注解，[类似于 `dapr.io/env`]({{< ref arguments-annotations-overview >}})。通过这个注解，你可以将环境变量注入到 Dapr sidecar 中，其值来自于一个 secret。
+在 Dapr 1.15 中，引入了新的 `dapr.io/env-from-secret` 注解，[类似于 `dapr.io/env`]({{% ref arguments-annotations-overview %}})。通过这个注解，你可以将环境变量注入到 Dapr sidecar 中，其值来自于一个 secret。
 
 ### 注解格式
 

@@ -11,7 +11,7 @@ description: "关于 invoke CLI 命令的详细信息"
 
 ### 支持的平台
 
-- [自托管]({{< ref self-hosted >}})（即在本地或私有服务器上运行）
+- [自托管]({{% ref self-hosted %}})（即在本地或私有服务器上运行）
 
 ### 用法
 

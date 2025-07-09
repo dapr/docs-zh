@@ -34,7 +34,7 @@ Dapr采用sidecar架构。要使用Dapr调用应用程序：
 <img src="/images/service-invocation-overview.png" width=800 alt="显示服务调用步骤的图示">
 
 1. 服务A发起一个HTTP或gRPC调用，目标是服务B。调用发送到本地Dapr sidecar。
-2. Dapr使用正在运行的[名称解析组件]({{< ref supported-name-resolution >}})在给定的[托管平台]({{< ref "hosting" >}})上发现服务B的位置。
+2. Dapr使用正在运行的[名称解析组件]({{% ref supported-name-resolution %}})在给定的[托管平台]({{% ref "hosting" %}})上发现服务B的位置。
 3. Dapr将消息转发到服务B的Dapr sidecar
    - **注意**：所有Dapr sidecar之间的调用都通过gRPC进行以提高性能。只有服务与Dapr sidecar之间的调用可以是HTTP或gRPC。
 4. 服务B的Dapr sidecar将请求转发到服务B上的指定端点（或方法）。服务B然后运行其业务逻辑代码。
@@ -42,28 +42,28 @@ Dapr采用sidecar架构。要使用Dapr调用应用程序：
 6. Dapr将响应转发到服务A的Dapr sidecar。
 7. 服务A接收响应。
 
-您还可以使用服务调用API调用非Dapr HTTP端点。例如，您可能只在整个应用程序的一部分中使用Dapr，可能无法访问代码以迁移现有应用程序以使用Dapr，或者只是需要调用外部HTTP服务。阅读["如何：使用HTTP调用非Dapr端点"]({{< ref howto-invoke-non-dapr-endpoints.md >}})以获取更多信息。
+您还可以使用服务调用API调用非Dapr HTTP端点。例如，您可能只在整个应用程序的一部分中使用Dapr，可能无法访问代码以迁移现有应用程序以使用Dapr，或者只是需要调用外部HTTP服务。阅读["如何：使用HTTP调用非Dapr端点"]({{% ref howto-invoke-non-dapr-endpoints.md %}})以获取更多信息。
 
 ## 功能
 服务调用提供了多种功能，使您可以轻松地在应用程序之间调用方法或调用外部HTTP端点。
 
 ### HTTP和gRPC服务调用
-- **HTTP**：如果您已经在应用程序中使用HTTP协议，使用Dapr HTTP头可能是最简单的入门方式。您无需更改现有的端点URL；只需添加`dapr-app-id`头即可开始。有关更多信息，请参阅[使用HTTP调用服务]({{< ref howto-invoke-discover-services.md >}})。
-- **gRPC**：Dapr允许用户保留自己的proto服务并以gRPC的方式工作。这意味着您可以使用服务调用来调用现有的gRPC应用程序，而无需包含任何Dapr SDK或自定义gRPC服务。有关更多信息，请参阅[Dapr和gRPC的操作教程]({{< ref howto-invoke-services-grpc.md >}})。
+- **HTTP**：如果您已经在应用程序中使用HTTP协议，使用Dapr HTTP头可能是最简单的入门方式。您无需更改现有的端点URL；只需添加`dapr-app-id`头即可开始。有关更多信息，请参阅[使用HTTP调用服务]({{% ref howto-invoke-discover-services.md %}})。
+- **gRPC**：Dapr允许用户保留自己的proto服务并以gRPC的方式工作。这意味着您可以使用服务调用来调用现有的gRPC应用程序，而无需包含任何Dapr SDK或自定义gRPC服务。有关更多信息，请参阅[Dapr和gRPC的操作教程]({{% ref howto-invoke-services-grpc.md %}})。
 
 ### 服务到服务的安全性
 
 通过Dapr Sentry服务，所有Dapr应用程序之间的调用都可以通过托管平台上的相互（mTLS）认证来实现安全，包括自动证书轮换。
 
-有关更多信息，请阅读[服务到服务的安全性]({{< ref "security-concept.md#sidecar-to-sidecar-communication" >}})文章。
+有关更多信息，请阅读[服务到服务的安全性]({{% ref "security-concept.md#sidecar-to-sidecar-communication" %}})文章。
 
 ### 包括重试的弹性
 
-在调用失败和瞬态错误的情况下，服务调用提供了一种弹性功能，可以在回退时间段内自动重试。要了解更多信息，请参阅[弹性文章]({{< ref resiliency-overview.md >}})。
+在调用失败和瞬态错误的情况下，服务调用提供了一种弹性功能，可以在回退时间段内自动重试。要了解更多信息，请参阅[弹性文章]({{% ref resiliency-overview.md %}})。
 
 ### 具有可观测性的追踪和指标
 
-默认情况下，所有应用程序之间的调用都会被追踪，并收集指标以提供应用程序的洞察和诊断。这在生产场景中特别重要，提供了服务之间调用的调用图和指标。有关更多信息，请阅读[可观测性]({{< ref observability-concept.md >}})。
+默认情况下，所有应用程序之间的调用都会被追踪，并收集指标以提供应用程序的洞察和诊断。这在生产场景中特别重要，提供了服务之间调用的调用图和指标。有关更多信息，请阅读[可观测性]({{% ref observability-concept.md %}})。
 
 ### 访问控制
 
@@ -74,11 +74,11 @@ Dapr采用sidecar架构。要使用Dapr调用应用程序：
 
 例如，您可以限制包含人员信息的敏感应用程序不被未授权的应用程序访问。结合服务到服务的安全通信，您可以提供软多租户部署。
 
-有关更多信息，请阅读[服务调用的访问控制允许列表]({{< ref invoke-allowlist.md >}})文章。
+有关更多信息，请阅读[服务调用的访问控制允许列表]({{% ref invoke-allowlist.md %}})文章。
 
 ### 命名空间范围
 
-您可以将应用程序限定到命名空间以进行部署和安全，并在部署到不同命名空间的服务之间进行调用。有关更多信息，请阅读[跨命名空间的服务调用]({{< ref "service-invocation-namespaces.md" >}})文章。
+您可以将应用程序限定到命名空间以进行部署和安全，并在部署到不同命名空间的服务之间进行调用。有关更多信息，请阅读[跨命名空间的服务调用]({{% ref "service-invocation-namespaces.md" %}})文章。
 
 ### 使用mDNS的轮询负载均衡
 
@@ -92,7 +92,7 @@ Dapr通过mDNS协议提供服务调用请求的轮询负载均衡，例如在单
 
 ### 可交换的服务发现
 
-Dapr可以在多种[托管平台]({{< ref hosting >}})上运行。为了启用可交换的服务发现，Dapr使用[名称解析组件]({{< ref supported-name-resolution >}})。例如，Kubernetes名称解析组件使用Kubernetes DNS服务来解析在集群中运行的其他应用程序的位置。
+Dapr可以在多种[托管平台]({{% ref hosting %}})上运行。为了启用可交换的服务发现，Dapr使用[名称解析组件]({{% ref supported-name-resolution %}})。例如，Kubernetes名称解析组件使用Kubernetes DNS服务来解析在集群中运行的其他应用程序的位置。
 
 自托管机器可以使用mDNS名称解析组件。作为替代方案，您可以使用SQLite名称解析组件在单节点环境中运行Dapr，并用于本地开发场景。属于集群的Dapr sidecar将其信息存储在本地机器上的SQLite数据库中。
 
@@ -135,7 +135,7 @@ Dapr文档包含多个利用服务调用构建模块的快速入门，适用于�
 
 | 快速入门/教程 | 描述 |
 | ------------------- | ----------- |
-| [服务调用快速入门]({{< ref serviceinvocation-quickstart.md >}}) | 这个快速入门让您直接与服务调用构建模块进行交互。 |
+| [服务调用快速入门]({{% ref serviceinvocation-quickstart.md %}}) | 这个快速入门让您直接与服务调用构建模块进行交互。 |
 | [Hello World教程](https://github.com/dapr/quickstarts/blob/master/tutorials/hello-world/README.md) | 本教程展示了如何在本地机器上运行服务调用和状态管理构建模块。 |
 | [Hello World Kubernetes教程](https://github.com/dapr/quickstarts/blob/master/tutorials/hello-kubernetes/README.md) | 本教程演示了如何在Kubernetes中使用Dapr，并涵盖了服务调用和状态管理构建模块。 |
 
@@ -144,16 +144,16 @@ Dapr文档包含多个利用服务调用构建模块的快速入门，适用于�
 
 使用以下方式调用服务：
 - **HTTP和gRPC服务调用**（推荐的设置方法）
-  - *HTTP* - 只需添加`dapr-app-id`头即可开始。有关更多信息，请阅读[使用HTTP调用服务]({{< ref howto-invoke-discover-services.md >}})。
-  - *gRPC* - 对于基于gRPC的应用程序，服务调用API也可用。运行gRPC服务器，然后使用Dapr CLI调用服务。有关更多信息，请阅读[配置Dapr以使用gRPC]({{< ref grpc >}})和[使用gRPC调用服务]({{< ref howto-invoke-services-grpc.md >}})。
+  - *HTTP* - 只需添加`dapr-app-id`头即可开始。有关更多信息，请阅读[使用HTTP调用服务]({{% ref howto-invoke-discover-services.md %}})。
+  - *gRPC* - 对于基于gRPC的应用程序，服务调用API也可用。运行gRPC服务器，然后使用Dapr CLI调用服务。有关更多信息，请阅读[配置Dapr以使用gRPC]({{% ref grpc %}})和[使用gRPC调用服务]({{% ref howto-invoke-services-grpc.md %}})。
 - **直接调用API** - 除了代理，还有一个选项可以直接调用服务调用API以调用GET端点。只需将您的地址URL更新为`localhost:<dapr-http-port>`，您就可以直接调用API。您还可以在上面链接的HTTP代理文档中阅读更多关于此的信息。
-- **SDKs** - 如果您正在使用Dapr SDK，您可以直接通过SDK使用服务调用。选择您需要的SDK，并使用Dapr客户端调用服务。有关更多信息，请阅读[Dapr SDKs]({{< ref sdks.md >}})。
+- **SDKs** - 如果您正在使用Dapr SDK，您可以直接通过SDK使用服务调用。选择您需要的SDK，并使用Dapr客户端调用服务。有关更多信息，请阅读[Dapr SDKs]({{% ref sdks.md %}})。
 
 为了快速测试，尝试使用Dapr CLI进行服务调用：
-- **Dapr CLI命令** - 一旦设置了Dapr CLI，使用`dapr invoke --method <method-name>`命令以及方法标志和感兴趣的方法。有关更多信息，请阅读[Dapr CLI]({{< ref dapr-invoke.md >}})。
+- **Dapr CLI命令** - 一旦设置了Dapr CLI，使用`dapr invoke --method <method-name>`命令以及方法标志和感兴趣的方法。有关更多信息，请阅读[Dapr CLI]({{% ref dapr-invoke.md %}})。
 
 ## 下一步
-- 阅读[服务调用API规范]({{< ref service_invocation_api.md >}})。此服务调用参考指南描述了如何调用其他服务上的方法。
-- 了解[服务调用性能数据]({{< ref perf-service-invocation.md >}})。
-- 查看[可观测性]({{< ref observability >}})。在这里，您可以深入了解Dapr的监控工具，如追踪、指标和日志记录。
-- 阅读我们的[安全实践]({{< ref security-concept.md >}})，了解mTLS加密、令牌认证和端点授权。
+- 阅读[服务调用API规范]({{% ref service_invocation_api.md %}})。此服务调用参考指南描述了如何调用其他服务上的方法。
+- 了解[服务调用性能数据]({{% ref perf-service-invocation.md %}})。
+- 查看[可观测性]({{% ref observability %}})。在这里，您可以深入了解Dapr的监控工具，如追踪、指标和日志记录。
+- 阅读我们的[安全实践]({{% ref security-concept.md %}})，了解mTLS加密、令牌认证和端点授权。

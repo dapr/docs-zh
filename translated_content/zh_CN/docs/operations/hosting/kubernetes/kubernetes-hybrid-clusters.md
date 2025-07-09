@@ -40,7 +40,7 @@ Kubernetes 使用 **节点亲和性** 的概念来指定您的应用程序应在
 
 ## 安装 Dapr 控制平面
 
-如果您使用 Dapr CLI 或通过 Helm chart 安装，只需按照正常的部署程序进行：[在 Kubernetes 集群上安装 Dapr]({{< ref "install-dapr-selfhost.md#installing-Dapr-on-a-kubernetes-cluster" >}})
+如果您使用 Dapr CLI 或通过 Helm chart 安装，只需按照正常的部署程序进行：[在 Kubernetes 集群上安装 Dapr]({{% ref "install-dapr-selfhost.md#installing-Dapr-on-a-kubernetes-cluster" %}})
 
 亲和性将自动设置为 `kubernetes.io/os=linux`。这对于大多数用户来说是足够的，因为 Kubernetes 至少需要一个 Linux 节点池。
 

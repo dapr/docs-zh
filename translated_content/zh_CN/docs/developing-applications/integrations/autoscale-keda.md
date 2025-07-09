@@ -6,11 +6,11 @@ description: "如何配置您的 Dapr 应用程序以使用 KEDA 进行自动扩
 weight: 3000
 ---
 
-Dapr 通过其构建块 API 方法和众多 [pubsub 组件]({{< ref pubsub >}})，简化了消息处理应用程序的编写。由于 Dapr 可以在虚拟机、裸机、云或边缘 Kubernetes 等多种环境中运行，因此 Dapr 应用程序的自动扩展由其运行环境的管理层负责。
+Dapr 通过其构建块 API 方法和众多 [pubsub 组件]({{% ref pubsub %}})，简化了消息处理应用程序的编写。由于 Dapr 可以在虚拟机、裸机、云或边缘 Kubernetes 等多种环境中运行，因此 Dapr 应用程序的自动扩展由其运行环境的管理层负责。
 
 在 Kubernetes 环境中，Dapr 与 [KEDA](https://github.com/kedacore/keda) 集成，KEDA 是一个用于 Kubernetes 的事件驱动自动扩展器。Dapr 的许多 pubsub 组件与 KEDA 提供的扩展器功能相似，因此可以轻松配置您的 Dapr 部署在 Kubernetes 上使用 KEDA 根据负载进行自动扩展。
 
-在本指南中，您将配置一个可扩展的 Dapr 应用程序，并在 Kafka 主题上进行负载管理。不过，您可以将此方法应用于 Dapr 提供的 _任何_ [pubsub 组件]({{< ref pubsub >}})。
+在本指南中，您将配置一个可扩展的 Dapr 应用程序，并在 Kafka 主题上进行负载管理。不过，您可以将此方法应用于 Dapr 提供的 _任何_ [pubsub 组件]({{% ref pubsub %}})。
 
 {{% alert title="注意" color="primary" %}}
  如果您正在使用 Azure 容器应用，请参阅官方 Azure 文档以了解[使用 KEDA 扩展器扩展 Dapr 应用程序](https://learn.microsoft.com/azure/container-apps/dapr-keda-scaling)。
@@ -87,9 +87,9 @@ spec:
       value: autoscaling-subscriber
 ```
 
-上述 YAML 定义了您的应用程序订阅的 pubsub 组件，以及 [您之前创建的 (`demo-topic`)]({{< ref "#create-the-kakfa-topic" >}})。
+上述 YAML 定义了您的应用程序订阅的 pubsub 组件，以及 [您之前创建的 (`demo-topic`)]({{% ref "#create-the-kakfa-topic" %}})。
 
-如果您使用了 [Kafka Helm 安装说明]({{< ref "#install-and-deploy-kafka" >}})，可以保持 `brokers` 值不变。否则，请将此值更改为您的 Kafka brokers 的连接字符串。
+如果您使用了 [Kafka Helm 安装说明]({{% ref "#install-and-deploy-kafka" %}})，可以保持 `brokers` 值不变。否则，请将此值更改为您的 Kafka brokers 的连接字符串。
 
 注意为 `consumerID` 设置的 `autoscaling-subscriber` 值。此值用于确保 KEDA 和您的部署使用相同的 [Kafka 分区偏移量](http://cloudurable.com/blog/kafka-architecture-topics/index.html#:~:text=Kafka%20continually%20appended%20to%20partitions,fit%20on%20a%20single%20server.)，以便正确进行扩展。
 
@@ -155,7 +155,7 @@ kubectl apply -f kafka_scaler.yaml
 
 现在 `ScaledObject` KEDA 对象已配置，您的部署将根据 Kafka 主题的滞后进行扩展。[了解有关为 Kafka 主题配置 KEDA 的更多信息](https://keda.sh/docs/2.0/scalers/apache-kafka/)。
 
-如 KEDA 扩展器清单中定义的，您现在可以开始向您的 Kafka 主题 `demo-topic` 发布消息，并在滞后阈值高于 `5` 个主题时观察 pod 自动扩展。使用 Dapr [发布]({{< ref dapr-publish >}}) CLI 命令向 Kafka Dapr 组件发布消息。
+如 KEDA 扩展器清单中定义的，您现在可以开始向您的 Kafka 主题 `demo-topic` 发布消息，并在滞后阈值高于 `5` 个主题时观察 pod 自动扩展。使用 Dapr [发布]({{% ref dapr-publish %}}) CLI 命令向 Kafka Dapr 组件发布消息。
 
 ## 下一步
 

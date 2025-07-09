@@ -7,10 +7,10 @@ description: "学习如何简化与大型语言模型交互的复杂性"
 ---
 
 {{% alert title="Alpha" color="primary" %}}
-conversation API 目前处于 [alpha]({{< ref "certification-lifecycle.md#certification-levels" >}}) 阶段。
+conversation API 目前处于 [alpha]({{% ref "certification-lifecycle.md#certification-levels" %}}) 阶段。
 {{% /alert %}}
 
-让我们开始使用 [conversation API]({{< ref conversation-overview.md >}})。在本指南中，您将学习如何：
+让我们开始使用 [conversation API]({{% ref conversation-overview.md %}})。在本指南中，您将学习如何：
 
 - 配置一个可用的 Dapr 组件（echo），以便与 conversation API 搭配使用。
 - 将 conversation 客户端集成到您的应用程序中。
@@ -20,7 +20,7 @@ conversation API 目前处于 [alpha]({{< ref "certification-lifecycle.md#certif
 
 创建一个名为 `conversation.yaml` 的新配置文件，并将其保存到应用程序目录中的组件或配置子文件夹中。
 
-为您的 `conversation.yaml` 文件选择 [合适的 conversation 组件规范]({{< ref supported-conversation >}})。
+为您的 `conversation.yaml` 文件选择 [合适的 conversation 组件规范]({{% ref supported-conversation %}})。
 
 在这个场景中，我们使用一个简单的 echo 组件。
 
@@ -36,12 +36,12 @@ spec:
 
 ## 集成 conversation 客户端
 
-以下示例使用 HTTP 客户端向 Dapr 的 sidecar HTTP 端点发送 POST 请求。您也可以使用 [Dapr SDK 客户端]({{< ref "#related-links" >}})。
+以下示例使用 HTTP 客户端向 Dapr 的 sidecar HTTP 端点发送 POST 请求。您也可以使用 [Dapr SDK 客户端]({{% ref "#related-links" %}})。
 
-{{< tabs ".NET" "Go" "Rust" >}}
+{{< tabpane text=true >}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 using Dapr.AI.Conversation;
@@ -69,10 +69,10 @@ foreach (var resp in response.Outputs)
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 package main
@@ -111,10 +111,10 @@ func main() {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Rust -->
-{{% codetab %}}
+{{% tab header="Rust" %}}
 
 ```rust
 use dapr::client::{ConversationInputBuilder, ConversationRequestBuilder};
@@ -149,27 +149,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 启动 conversation 连接
 
 使用 `dapr run` 命令启动连接。例如，在这个场景中，我们在一个应用程序上运行 `dapr run`，其应用程序 ID 为 `conversation`，并指向 `./config` 目录中的 conversation YAML 文件。
 
-{{< tabs ".NET" "Go" "Rust" >}}
+{{< tabpane text=true >}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```bash
 dapr run --app-id conversation --dapr-grpc-port 50001 --log-level debug --resources-path ./config -- dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```bash
 dapr run --app-id conversation --dapr-grpc-port 50001 --log-level debug --resources-path ./config -- go run ./main.go
@@ -181,10 +181,10 @@ dapr run --app-id conversation --dapr-grpc-port 50001 --log-level debug --resour
   - '== APP == conversation output: Please write a witty haiku about the Dapr distributed programming framework at dapr.io'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Rust -->
-{{% codetab %}}
+{{% tab header="Rust" %}}
 
 ```bash
 dapr run --app-id=conversation --resources-path ./config --dapr-grpc-port 3500 -- cargo run --example conversation
@@ -197,40 +197,40 @@ dapr run --app-id=conversation --resources-path ./config --dapr-grpc-port 3500 -
   - 'conversation output: hello world'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
 尝试使用支持的 SDK 仓库中提供的完整示例来体验 conversation API。
 
-{{< tabs ".NET" "Go" "Rust" >}}
+{{< tabpane text=true >}}
 
  <!-- .NET -->
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 [Dapr conversation 示例与 .NET SDK](https://github.com/dapr/dotnet-sdk/tree/master/examples/AI/ConversationalAI)
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Go -->
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 [Dapr conversation 示例与 Go SDK](https://github.com/dapr/go-sdk/tree/main/examples/conversation)
 
-{{% /codetab %}}
+{{% /tab %}}
 
  <!-- Rust -->
-{{% codetab %}}
+{{% tab header="Rust" %}}
 
 [Dapr conversation 示例与 Rust SDK](https://github.com/dapr/rust-sdk/tree/main/examples/src/conversation)
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 
-- [conversation API 参考指南]({{< ref conversation_api.md >}})
-- [可用的 conversation 组件]({{< ref supported-conversation >}})
+- [conversation API 参考指南]({{% ref conversation_api.md %}})
+- [可用的 conversation 组件]({{% ref supported-conversation %}})

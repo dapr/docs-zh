@@ -7,11 +7,11 @@ weight: 3000
 ---
 
 ### 描述
-此命令用于更新即将到期的 Dapr 证书。例如，Dapr Sentry 服务会生成应用程序使用的默认根证书和颁发者证书。详情请参见[安全的 Dapr 到 Dapr 通信]({{< ref "#secure-dapr-to-dapr-communication" >}})
+此命令用于更新即将到期的 Dapr 证书。例如，Dapr Sentry 服务会生成应用程序使用的默认根证书和颁发者证书。详情请参见[安全的 Dapr 到 Dapr 通信]({{% ref "#secure-dapr-to-dapr-communication" %}})
 
 ### 支持的平台
 
-- [Kubernetes]({{< ref kubernetes >}})
+- [Kubernetes]({{% ref kubernetes %}})
 
 ### 用法
 

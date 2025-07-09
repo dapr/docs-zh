@@ -22,7 +22,7 @@ description: "学习如何使用分布式锁来提供对资源的独占访问"
 
 ### 配置锁组件
 
-将以下组件文件保存到您机器上的[默认组件文件夹]({{< ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" >}})。
+将以下组件文件保存到您机器上的[默认组件文件夹]({{% ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -41,9 +41,9 @@ spec:
 
 ### 获取锁
 
-{{< tabs HTTP ".NET" Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="HTTP" %}}
 
 ```bash
 curl -X POST http://localhost:3500/v1.0-alpha1/lock/lockstore
@@ -51,9 +51,9 @@ curl -X POST http://localhost:3500/v1.0-alpha1/lock/lockstore
    -d '{"resourceId":"my_file_name", "lockOwner":"random_id_abc123", "expiryInSeconds": 60}'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 using System;
@@ -86,9 +86,9 @@ namespace LockService
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 package main
@@ -116,15 +116,15 @@ func main() {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 解锁现有锁
 
-{{< tabs HTTP ".NET" Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="HTTP" %}}
 
 ```bash
 curl -X POST http://localhost:3500/v1.0-alpha1/unlock/lockstore
@@ -132,9 +132,9 @@ curl -X POST http://localhost:3500/v1.0-alpha1/unlock/lockstore
    -d '{"resourceId":"my_file_name", "lockOwner":"random_id_abc123"}'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 using System;
@@ -156,9 +156,9 @@ namespace LockService
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 package main
@@ -185,10 +185,10 @@ func main() {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 
-阅读[分布式锁API概述]({{< ref distributed-lock-api-overview.md >}})以了解更多信息。
+阅读[分布式锁API概述]({{% ref distributed-lock-api-overview.md %}})以了解更多信息。

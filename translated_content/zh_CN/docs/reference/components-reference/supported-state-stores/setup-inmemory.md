@@ -11,7 +11,7 @@ aliases:
 
 ## 组件格式
 
-要设置内存状态存储，创建一个类型为`state.in-memory`的组件。请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+要设置内存状态存储，创建一个类型为`state.in-memory`的组件。请参阅[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -31,6 +31,6 @@ spec:
 
 ## 相关链接
 
-- [Dapr组件的基本架构]({{< ref component-schema >}})
-- 学习[如何创建和配置状态存储组件]({{< ref howto-get-save-state.md >}})
-- 阅读更多关于[状态管理构建块]({{< ref state-management >}})
+- [Dapr组件的基本架构]({{% ref component-schema %}})
+- 学习[如何创建和配置状态存储组件]({{% ref howto-get-save-state.md %}})
+- 阅读更多关于[状态管理构建块]({{% ref state-management %}})

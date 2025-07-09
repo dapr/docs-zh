@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要配置 OCI 对象存储状态存储，请创建一个类型为 `state.oci.objectstorage` 的组件。请参阅[本指南]({{< ref "howto-get-save-state.md#step-1-setup-a-state-store" >}})了解如何创建和应用状态存储配置。
+要配置 OCI 对象存储状态存储，请创建一个类型为 `state.oci.objectstorage` 的组件。请参阅[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -49,7 +49,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用明文字符串作为密钥。建议使用密钥存储来保护密钥，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例使用明文字符串作为密钥。建议使用密钥存储来保护密钥，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -141,7 +141,7 @@ curl -X POST http://localhost:3500/v1.0/state \
 您将能够通过控制台、API、CLI 或 SDK 检查通过 OCI 对象存储状态存储存储的所有状态。通过直接访问桶，您可以准备在运行时可用作应用程序状态的状态。
 
 ## 生存时间和状态过期
-OCI 对象存储状态存储支持 Dapr 的生存时间逻辑，确保状态在过期后无法检索。有关详细信息，请参阅[此设置状态生存时间的操作指南]({{< ref "state-store-ttl.md" >}})。
+OCI 对象存储状态存储支持 Dapr 的生存时间逻辑，确保状态在过期后无法检索。有关详细信息，请参阅[此设置状态生存时间的操作指南]({{% ref "state-store-ttl.md" %}})。
 
 OCI 对象存储不支持本机生存时间设置。此组件中的实现使用在每个指定了 TTL 的对象上放置的元数据标签。该标签称为 **expiry-time-from-ttl**，它包含一个 ISO 日期时间格式的字符串，表示基于 UTC 的过期时间。当通过调用 Get 检索状态时，此组件会检查它是否设置了 **expiry-time-from-ttl**，如果是，则检查它是否在过去。在这种情况下，不返回状态。
 
@@ -182,6 +182,6 @@ OCI 对象存储状态不支持事务。
 OCI 对象存储状态不支持查询 API。
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读[本指南]({{< ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" >}})以获取有关配置状态存储组件的说明
-- [状态管理构建块]({{< ref state-management >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取有关配置状态存储组件的说明
+- [状态管理构建块]({{% ref state-management %}})

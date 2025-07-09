@@ -8,7 +8,7 @@ description: "Dapr 组件的基本规范"
 
 Dapr 通过[资源规范](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/)来定义和注册组件。所有组件都被定义为资源，可以应用于任何运行 Dapr 的托管环境，不仅限于 Kubernetes。
 
-通常，组件会被限制在特定的[命名空间]({{< ref isolation-concept.md >}})内，并通过作用域来限制对特定应用程序的访问。命名空间可以在组件清单中显式指定，或者由 API 服务器根据 Kubernetes 的上下文来自动分配。
+通常，组件会被限制在特定的[命名空间]({{% ref isolation-concept.md %}})内，并通过作用域来限制对特定应用程序的访问。命名空间可以在组件清单中显式指定，或者由 API 服务器根据 Kubernetes 的上下文来自动分配。
 
 {{% alert title="注意" color="primary" %}}
 在自托管模式下，如果省略命名空间字段，daprd 会自动加载组件资源。然而，安全配置文件不会生效，因为 daprd 无论如何都能访问清单，这与 Kubernetes 的行为不同。
@@ -43,7 +43,7 @@ scopes:
 |--------------------|:--------:|---------|---------|
 | apiVersion         | Y        | 您调用的 Dapr（和 Kubernetes 如果适用）API 的版本 | `dapr.io/v1alpha1`
 | kind               | Y        | 资源的类型。对于组件，必须始终是 `Component` | `Component`
-| auth               | N        | secret 存储的名称，其中 `secretKeyRef` 在元数据中查找组件中使用的 secret 名称 | 参见 [如何：在组件中引用 secret]({{< ref component-secrets >}})
+| auth               | N        | secret 存储的名称，其中 `secretKeyRef` 在元数据中查找组件中使用的 secret 名称 | 参见 [如何：在组件中引用 secret]({{% ref component-secrets %}})
 | scopes             | N        | 组件限制的应用程序，由其应用程序 ID 指定 | `order-processor`, `checkout`  
 | **metadata**       | -        | **关于组件注册的信息** |
 | metadata.name      | Y        | 组件的名称 | `prod-statestore`
@@ -62,7 +62,7 @@ scopes:
 
 | 标签         | 详情                                                            | 示例用例                                                                                                                                                       |
 |-------------|--------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| {uuid}      | 随机生成的 UUIDv4                                          | 当您在自托管模式下需要唯一标识符时；例如，多个应用程序实例消费[共享 MQTT 订阅]({{< ref "setup-mqtt3.md" >}}) |
+| {uuid}      | 随机生成的 UUIDv4                                          | 当您在自托管模式下需要唯一标识符时；例如，多个应用程序实例消费[共享 MQTT 订阅]({{% ref "setup-mqtt3.md" %}}) |
 | {podName}   | 包含 Dapr sidecar 的 pod 的名称                        | 用于持久化行为，当使用 StatefulSets 在 Kubernetes 中重启时 ConsumerID 不会改变                                                |
 | {namespace} | Dapr sidecar 所在的命名空间与其 appId 结合   | 当多个应用程序实例在 Kubernetes 中消费 Kafka 主题时使用共享的 `clientId`                                                                      |
 | {appID}     | 包含 Dapr sidecar 的资源的配置 `appID` | 当多个应用程序实例在自托管模式下消费 Kafka 主题时使用共享的 `clientId`                                                              |
@@ -91,10 +91,10 @@ spec:
 ```
 
 ## 相关链接
-- [组件概念]({{< ref components-concept.md >}})
-- [在组件定义中引用 secret]({{< ref component-secrets.md >}})
-- [支持的状态存储]({{< ref supported-state-stores >}})
-- [支持的发布/订阅代理]({{< ref supported-pubsub >}})
-- [支持的 secret 存储]({{< ref supported-secret-stores >}})
-- [支持的绑定]({{< ref supported-bindings >}})
-- [设置组件作用域]({{< ref component-scopes.md >}})
+- [组件概念]({{% ref components-concept.md %}})
+- [在组件定义中引用 secret]({{% ref component-secrets.md %}})
+- [支持的状态存储]({{% ref supported-state-stores %}})
+- [支持的发布/订阅代理]({{% ref supported-pubsub %}})
+- [支持的 secret 存储]({{% ref supported-secret-stores %}})
+- [支持的绑定]({{% ref supported-bindings %}})
+- [设置组件作用域]({{% ref component-scopes.md %}})

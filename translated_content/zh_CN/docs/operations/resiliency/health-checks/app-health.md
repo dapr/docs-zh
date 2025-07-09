@@ -58,18 +58,18 @@ Dapr 的应用健康检查旨在补充而不是替代任何平台级健康检查
 | CLI 标志                     | Kubernetes 部署注释    | 描述 | 默认值 |
 | ----------------------------- | ----------------------------------- | ----------- | ------------- |
 | `--enable-app-health-check`   | `dapr.io/enable-app-health-check`   | 启用健康检查的布尔值 | 禁用  |
-| [`--app-health-check-path`]({{< ref "app-health.md#health-check-paths" >}})     | `dapr.io/app-health-check-path`     | 当应用通道为 HTTP 时，Dapr 用于健康探测的路径（如果应用通道使用 gRPC，则忽略此值） | `/healthz` |
-| [`--app-health-probe-interval`]({{< ref "app-health.md#intervals-timeouts-and-thresholds" >}}) | `dapr.io/app-health-probe-interval` | 每次健康探测之间的*秒数* | `5` |
-| [`--app-health-probe-timeout`]({{< ref "app-health.md#intervals-timeouts-and-thresholds" >}})  | `dapr.io/app-health-probe-timeout`  | 健康探测请求的超时时间（以*毫秒*为单位） | `500` |
-| [`--app-health-threshold`]({{< ref "app-health.md#intervals-timeouts-and-thresholds" >}})      | `dapr.io/app-health-threshold`     | 在应用被视为不健康之前的最大连续失败次数 | `3` |
+| [`--app-health-check-path`]({{% ref "app-health.md#health-check-paths" %}})     | `dapr.io/app-health-check-path`     | 当应用通道为 HTTP 时，Dapr 用于健康探测的路径（如果应用通道使用 gRPC，则忽略此值） | `/healthz` |
+| [`--app-health-probe-interval`]({{% ref "app-health.md#intervals-timeouts-and-thresholds" %}}) | `dapr.io/app-health-probe-interval` | 每次健康探测之间的*秒数* | `5` |
+| [`--app-health-probe-timeout`]({{% ref "app-health.md#intervals-timeouts-and-thresholds" %}})  | `dapr.io/app-health-probe-timeout`  | 健康探测请求的超时时间（以*毫秒*为单位） | `500` |
+| [`--app-health-threshold`]({{% ref "app-health.md#intervals-timeouts-and-thresholds" %}})      | `dapr.io/app-health-threshold`     | 在应用被视为不健康之前的最大连续失败次数 | `3` |
 
-> 请参阅[完整的 Dapr 参数和注释参考]({{< ref arguments-annotations-overview >}})以获取所有选项及其启用方法。
+> 请参阅[完整的 Dapr 参数和注释参考]({{% ref arguments-annotations-overview %}})以获取所有选项及其启用方法。
 
 此外，应用健康检查受应用通道使用的协议影响，该协议通过以下标志或注释进行配置：
 
 | CLI 标志                     | Kubernetes 部署注释    | 描述 | 默认值 |
 | ----------------------------- | ----------------------------------- | ----------- | ------------- |
-| [`--app-protocol`]({{< ref "app-health.md#health-check-paths" >}})   | `dapr.io/app-protocol`   | 应用通道使用的协议。支持的值有 `http`、`grpc`、`https`、`grpcs` 和 `h2c`（HTTP/2 明文）。 | `http`  |
+| [`--app-protocol`]({{% ref "app-health.md#health-check-paths" %}})   | `dapr.io/app-protocol`   | 应用通道使用的协议。支持的值有 `http`、`grpc`、`https`、`grpcs` 和 `h2c`（HTTP/2 明文）。 | `http`  |
 
 {{% alert title="注意" color="primary" %}}
 如果应用健康探测超时值过低，可能会在应用程序遇到突然高负载时将其分类为不健康，导致响应时间下降。如果发生这种情况，请增加 `dapr.io/app-health-probe-timeout` 值。
@@ -108,9 +108,9 @@ Dapr 的应用健康检查旨在补充而不是替代任何平台级健康检查
 
 ## 示例
 
-{{< tabs "Self-Hosted (CLI)" Kubernetes >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted (CLI)" %}}
 
 使用 `dapr run` 命令的 CLI 标志启用应用健康检查：
 
@@ -128,9 +128,9 @@ dapr run \
     <command to execute>
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 要在 Kubernetes 中启用应用健康检查，请将相关注释添加到您的 Deployment：
 
@@ -158,9 +158,9 @@ spec:
         dapr.io/app-health-threshold: "2"
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 演示
 

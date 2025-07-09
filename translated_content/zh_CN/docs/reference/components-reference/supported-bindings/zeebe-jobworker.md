@@ -7,7 +7,7 @@ description: "关于 Zeebe JobWorker 绑定组件的详细文档"
 
 ## 组件配置格式
 
-要配置 Zeebe JobWorker 绑定，请创建一个类型为 `bindings.zeebe.jobworker` 的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要配置 Zeebe JobWorker 绑定，请创建一个类型为 `bindings.zeebe.jobworker` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 有关 Zeebe JobWorker 的详细文档，请查看[此处](https://docs.camunda.io/docs/components/concepts/job-workers/)。
 
@@ -120,8 +120,8 @@ Zeebe 流程引擎能够将自定义任务头信息传递给作业 worker。这�
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 SMTP 绑定，您需要创建一个类型为 `bindings.smtp` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要设置 SMTP 绑定，您需要创建一个类型为 `bindings.smtp` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -45,7 +45,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上面的示例配置中包含了明文形式的用户名和密码。建议使用 secret 存储来保护这些信息，详情请参阅[此处]({{< ref component-secrets.md >}})。
+上面的示例配置中包含了明文形式的用户名和密码。建议使用 secret 存储来保护这些信息，详情请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -101,8 +101,8 @@ spec:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [操作指南：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [操作指南：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [操作指南：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [操作指南：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

@@ -9,10 +9,10 @@ aliases:
 
 ## 组件格式
 
-要配置 Azure Service Bus 队列的发布/订阅功能，创建一个类型为 `pubsub.azure.servicebus.queues` 的组件。请参考 [发布/订阅代理组件文件]({{< ref setup-pubsub.md >}}) 了解 ConsumerID 是如何自动生成的。请阅读 [发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}}) 了解如何创建和应用发布/订阅配置。
+要配置 Azure Service Bus 队列的发布/订阅功能，创建一个类型为 `pubsub.azure.servicebus.queues` 的组件。请参考 [发布/订阅代理组件文件]({{% ref setup-pubsub.md %}}) 了解 ConsumerID 是如何自动生成的。请阅读 [发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}}) 了解如何创建和应用发布/订阅配置。
 
 > 该组件在 Azure Service Bus 上使用队列；请查看官方文档了解 [主题和队列](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions) 之间的区别。
-> 若要使用主题，请参阅 [Azure Service Bus 主题发布/订阅组件]({{< ref "setup-azure-servicebus-topics" >}})。
+> 若要使用主题，请参阅 [Azure Service Bus 主题发布/订阅组件]({{% ref "setup-azure-servicebus-topics" %}})。
 
 ### 连接字符串认证
 
@@ -63,7 +63,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用明文字符串作为密钥。建议使用密钥存储来存储密钥，如 [此处]({{< ref component-secrets.md >}}) 所述。
+上述示例使用明文字符串作为密钥。建议使用密钥存储来存储密钥，如 [此处]({{% ref component-secrets.md %}}) 所述。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -71,7 +71,7 @@ spec:
 | 字段              | 必需 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
 | `connectionString`   | Y  | Service Bus 的共享访问策略连接字符串。除非使用 Microsoft Entra ID 认证，否则必需。 | 见上例
-| `consumerID`       | N | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| `consumerID`       | N | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | `namespaceName`| N | 设置 Service Bus 命名空间地址的参数，作为完全限定的域名。使用 Microsoft Entra ID 认证时必需。 | `"namespace.servicebus.windows.net"` |
 | `timeoutInSec`       | N  | 发送消息和管理操作的超时时间。默认：`60` |`30`
 | `handlerTimeoutInSec`| N  | 调用应用程序处理程序的超时时间。默认：`60` | `30`
@@ -91,7 +91,7 @@ spec:
 
 ### Microsoft Entra ID 认证
 
-Azure Service Bus 队列发布/订阅组件支持使用所有 Microsoft Entra ID 机制进行认证，包括托管身份。有关更多信息以及根据选择的 Microsoft Entra ID 认证机制提供的相关组件元数据字段，请参阅 [Azure 认证文档]({{< ref authenticating-azure.md >}})。
+Azure Service Bus 队列发布/订阅组件支持使用所有 Microsoft Entra ID 机制进行认证，包括托管身份。有关更多信息以及根据选择的 Microsoft Entra ID 认证机制提供的相关组件元数据字段，请参阅 [Azure 认证文档]({{% ref authenticating-azure.md %}})。
 
 #### 示例配置
 
@@ -122,7 +122,7 @@ Azure Service Bus 消息在 Dapr 消息格式的基础上增加了上下文元�
 
 ### 发送带有元数据的消息
 
-要在发送消息时设置 Azure Service Bus 元数据，请在 HTTP 请求或 gRPC 元数据上设置查询参数，如 [此处]({{< ref "pubsub_api.md#metadata" >}}) 所述。
+要在发送消息时设置 Azure Service Bus 元数据，请在 HTTP 请求或 gRPC 元数据上设置查询参数，如 [此处]({{% ref "pubsub_api.md#metadata" %}}) 所述。
 
 - `metadata.MessageId`
 - `metadata.CorrelationId`
@@ -165,7 +165,7 @@ Azure Service Bus 支持使用批量发布/订阅 API 在单个操作中发送�
 
 ### 配置批量发布
 
-要为批量发布操作设置元数据，请在 HTTP 请求或 gRPC 元数据上设置查询参数，如 [此处]({{< ref pubsub_api >}}) 所述。
+要为批量发布操作设置元数据，请在 HTTP 请求或 gRPC 元数据上设置查询参数，如 [此处]({{% ref pubsub_api %}}) 所述。
 
 | 元数据 | 默认值 |
 |----------|---------|
@@ -173,7 +173,7 @@ Azure Service Bus 支持使用批量发布/订阅 API 在单个操作中发送�
 
 ### 配置批量订阅
 
-订阅主题时，您可以配置 `bulkSubscribe` 选项。有关更多详细信息，请参阅 [批量订阅消息]({{< ref "pubsub-bulk#subscribing-messages-in-bulk" >}})。了解更多关于 [批量订阅 API]({{< ref pubsub-bulk.md >}}) 的信息。
+订阅主题时，您可以配置 `bulkSubscribe` 选项。有关更多详细信息，请参阅 [批量订阅消息]({{% ref "pubsub-bulk#subscribing-messages-in-bulk" %}})。了解更多关于 [批量订阅 API]({{% ref pubsub-bulk.md %}}) 的信息。
 
 | 配置 | 默认值 |
 |---------------|---------|
@@ -198,10 +198,10 @@ Dapr 发布/订阅提供了自己的死信队列概念，允许您控制重试�
 
 例如，在订阅中设置一个死信队列 `orders-dlq` 和一个弹性策略，允许您订阅主题 `orders-dlq` 以处理失败的消息。
 
-有关设置死信队列的更多详细信息，请参阅 [死信文章]({{< ref pubsub-deadletter >}})。
+有关设置死信队列的更多详细信息，请参阅 [死信文章]({{% ref pubsub-deadletter %}})。
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [发布/订阅构建块]({{< ref pubsub >}})
-- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) 以获取配置发布/订阅组件的说明
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [发布/订阅构建块]({{% ref pubsub %}})
+- 阅读 [本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}}) 以获取配置发布/订阅组件的说明

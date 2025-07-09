@@ -5,17 +5,17 @@ linkTitle: "Placement"
 description: "Dapr Placement 服务概述"
 ---
 
-Dapr Placement 服务用于计算和分发用于定位的分布式哈希表，以便在[自托管模式]({{< ref self-hosted >}})或[Kubernetes]({{< ref kubernetes >}})上运行的[Dapr actor]({{< ref actors >}})能够被正确定位。哈希表按命名空间分组，将actor类型映射到相应的pod或进程，以便Dapr应用程序可以与actor进行通信。每当Dapr应用程序激活一个Dapr actor时，Placement服务会更新哈希表以反映最新的actor位置。
+Dapr Placement 服务用于计算和分发用于定位的分布式哈希表，以便在[自托管模式]({{% ref self-hosted %}})或[Kubernetes]({{% ref kubernetes %}})上运行的[Dapr actor]({{% ref actors %}})能够被正确定位。哈希表按命名空间分组，将actor类型映射到相应的pod或进程，以便Dapr应用程序可以与actor进行通信。每当Dapr应用程序激活一个Dapr actor时，Placement服务会更新哈希表以反映最新的actor位置。
 
 ## 自托管模式
 
-在自托管模式下，Placement服务的Docker容器会在执行[`dapr init`]({{< ref self-hosted-with-docker.md >}})时自动启动。如果您使用[slim-init模式]({{< ref self-hosted-no-docker.md >}})，也可以手动将其作为进程运行。
+在自托管模式下，Placement服务的Docker容器会在执行[`dapr init`]({{% ref self-hosted-with-docker.md %}})时自动启动。如果您使用[slim-init模式]({{% ref self-hosted-no-docker.md %}})，也可以手动将其作为进程运行。
 
 ## Kubernetes模式
 
-在Kubernetes模式下，Placement服务可以通过执行`dapr init -k`或使用Dapr Helm图表进行部署。您可以选择在高可用性（HA）模式下运行Placement服务。[了解更多关于在Kubernetes中设置HA模式的信息。]({{< ref "kubernetes-production.md#individual-service-ha-helm-configuration" >}})
+在Kubernetes模式下，Placement服务可以通过执行`dapr init -k`或使用Dapr Helm图表进行部署。您可以选择在高可用性（HA）模式下运行Placement服务。[了解更多关于在Kubernetes中设置HA模式的信息。]({{% ref "kubernetes-production.md#individual-service-ha-helm-configuration" %}})
 
-有关在Kubernetes上运行Dapr的更多信息，请访问[Kubernetes托管页面]({{< ref kubernetes >}})。
+有关在Kubernetes上运行Dapr的更多信息，请访问[Kubernetes托管页面]({{% ref kubernetes %}})。
 
 ## Placement表
 
@@ -95,4 +95,4 @@ updatedAt | timestamp | actor注册/更新的时间戳。
 
 ## 相关链接
 
-[了解更多关于Placement API的信息。]({{< ref placement_api.md >}})
+[了解更多关于Placement API的信息。]({{% ref placement_api.md %}})

@@ -22,9 +22,9 @@ description: "了解如何在Dapr中使用批量发布和订阅API。"
 
 ### 示例
 
-{{< tabs Java JavaScript ".NET" Python Go "HTTP API (Bash)" "HTTP API (PowerShell)" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 import io.dapr.client.DaprClientBuilder;
@@ -54,9 +54,9 @@ class BulkPublisher {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```typescript
 
@@ -105,9 +105,9 @@ start().catch((e) => {
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 using System;
@@ -143,9 +143,9 @@ else
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 import requests
@@ -173,9 +173,9 @@ response = requests.post(base_url.format(pubsub_name, topic_name), json=payload)
 print(response.status_code)
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 package main
@@ -220,9 +220,9 @@ func main() {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (Bash)" %}}
 
 ```bash
 curl -X POST http://localhost:3500/v1.0-alpha1/publish/bulk/my-pubsub-name/topic-a \
@@ -243,9 +243,9 @@ curl -X POST http://localhost:3500/v1.0-alpha1/publish/bulk/my-pubsub-name/topic
       ]'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="HTTP API (PowerShell)" %}}
 
 ```powershell
 Invoke-RestMethod -Method Post -ContentType 'application/json' -Uri 'http://localhost:3500/v1.0-alpha1/publish/bulk/my-pubsub-name/topic-a' `
@@ -265,13 +265,13 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Uri 'http://loca
       ]'
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 批量订阅消息
 
-批量订阅API允许您在单个请求中从一个主题订阅多个消息。正如我们从[如何：发布和订阅主题]({{< ref howto-publish-subscribe.md >}})中所知，有三种方式可以订阅主题：
+批量订阅API允许您在单个请求中从一个主题订阅多个消息。正如我们从[如何：发布和订阅主题]({{% ref howto-publish-subscribe.md %}})中所知，有三种方式可以订阅主题：
 
 - **声明式** - 订阅在外部文件中定义。
 - **编程式** - 订阅在代码中定义。
@@ -301,10 +301,10 @@ scopes:
 在上面的示例中，`bulkSubscribe`是_可选的_。如果您使用`bulkSubscribe`，那么：
 - `enabled`是必需的，用于启用或禁用此主题的批量订阅。
 - 您可以选择配置批量消息中传递的最大消息数（`maxMessagesCount`）。
-对于不支持批量订阅的组件，`maxMessagesCount`的默认值为100，即应用程序和Dapr之间的默认批量事件。请参阅[组件如何处理发布和订阅批量消息]({{< ref pubsub-bulk >}})。
+对于不支持批量订阅的组件，`maxMessagesCount`的默认值为100，即应用程序和Dapr之间的默认批量事件。请参阅[组件如何处理发布和订阅批量消息]({{% ref pubsub-bulk %}})。
 如果组件支持批量订阅，则该参数的默认值可以在该组件文档中找到。
 - 您可以选择提供在批量消息发送到应用程序之前的最大等待时间（`maxAwaitDurationMs`）。
-对于不支持批量订阅的组件，`maxAwaitDurationMs`的默认值为1000，即应用程序和Dapr之间的默认批量事件。请参阅[组件如何处理发布和订阅批量消息]({{< ref pubsub-bulk >}})。
+对于不支持批量订阅的组件，`maxAwaitDurationMs`的默认值为1000，即应用程序和Dapr之间的默认批量事件。请参阅[组件如何处理发布和订阅批量消息]({{% ref pubsub-bulk %}})。
 如果组件支持批量订阅，则该参数的默认值可以在该组件文档中找到。
 
 应用程序接收与批量消息中的每个条目（单个消息）关联的`EntryId`。应用程序必须使用此`EntryId`来传达该特定条目的状态。如果应用程序未能通知`EntryId`状态，则被视为`RETRY`。
@@ -335,14 +335,14 @@ scopes:
 `RETRY` | 消息由Dapr重试
 `DROP` | 记录警告并丢弃消息
 
-请参阅[批量订阅的预期HTTP响应]({{< ref pubsub_api.md >}})以获取更多见解。
+请参阅[批量订阅的预期HTTP响应]({{% ref pubsub_api.md %}})以获取更多见解。
 
 ### 示例
 
 以下代码示例演示如何使用批量订阅。
 
-{{< tabs "Java" "JavaScript" ".NET" "Python" >}}
-{{% codetab %}}
+{{< tabpane text=true >}}
+{{% tab header="Java" %}}
 
 ```java
 import io.dapr.Topic;
@@ -382,9 +382,9 @@ class BulkSubscriber {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```typescript
 
@@ -417,9 +417,9 @@ async function start() {
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 using Microsoft.AspNetCore.Mvc;
@@ -467,9 +467,9 @@ public class BulkMessageController : ControllerBase
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 目前，您只能使用HTTP客户端在Python中进行批量订阅。
 
 ```python
@@ -509,9 +509,9 @@ if __name__ == '__main__':
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 组件如何处理发布和订阅批量消息
 
@@ -549,5 +549,5 @@ if __name__ == '__main__':
 
 ## 相关链接
 
-- [支持的pubsub组件列表]({{< ref supported-pubsub >}})
-- 阅读[API参考]({{< ref pubsub_api.md >}})
+- [支持的pubsub组件列表]({{% ref supported-pubsub %}})
+- 阅读[API参考]({{% ref pubsub_api.md %}})

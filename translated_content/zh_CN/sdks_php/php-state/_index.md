@@ -8,7 +8,7 @@ no_list: true
 ---
 
 Dapr 提供了一种模块化的状态管理方法，适用于您的应用程序。要学习基础知识，请访问
-[如何操作]({{< ref howto-get-save-state.md >}})。
+[如何操作]({{% ref howto-get-save-state.md %}})。
 
 ## 元数据
 
@@ -25,7 +25,7 @@ $app->run(
 $app->run(fn(\Dapr\Client\DaprClient $daprClient) => $daprClient->saveState(storeName: 'statestore', key: 'key', value: 'value', metadata: ['port' => '112']))
 ```
 
-这是一个将端口元数据传递给 [Cassandra]({{< ref setup-cassandra.md >}}) 的示例。
+这是一个将端口元数据传递给 [Cassandra]({{% ref setup-cassandra.md %}}) 的示例。
 
 每个状态操作都允许传递元数据。
 
@@ -53,9 +53,9 @@ $app->run(fn(\Dapr\Client\DaprClient $daprClient) => $daprClient->saveState(stor
 
 硬编码的键名很有用，但让状态对象更具可重用性会更好。在提交事务或将对象保存到状态时，您可以传递一个前缀，该前缀应用于对象中的每个键。
 
-{{< tabs "事务前缀" "StateManager 前缀" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="事务前缀" %}}
 
 ```php
 <?php
@@ -71,8 +71,8 @@ $app->run(function (TransactionObject $object ) {
 });
 ```
 
-{{% /codetab %}}
-{{% codetab %}}
+{{% /tab %}}
+{{% tab header="StateManager 前缀" %}}
 
 ```php
 <?php
@@ -89,6 +89,6 @@ $app->run(function(\Dapr\State\StateManager $stateManager) {
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}

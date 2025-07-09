@@ -16,7 +16,7 @@ Dapr 快速入门指南包含一些简明的指令，帮助读者完成一个预
 此模板仅为建议。可以根据文档的具体需求进行调整。
 {{% /alert %}}
 
-了解更多关于如何[贡献 Dapr 文档]({{< ref contributing-docs.md >}})的信息，例如[前置内容]({{< ref "contributing-docs.md#front-matter" >}})和[短代码]({{< ref "contributing-docs.md#shortcodes" >}})。
+了解更多关于如何[贡献 Dapr 文档]({{% ref contributing-docs.md %}})的信息，例如[前置内容]({{% ref "contributing-docs.md#front-matter" %}})和[短代码]({{% ref "contributing-docs.md#shortcodes" %}})。
 
 ### 模板
 

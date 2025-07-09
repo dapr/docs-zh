@@ -21,7 +21,7 @@ GET http://localhost:<daprPort>/v1.0/configuration/<storename>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{< ref component-schema.md>}})
+`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{% ref component-schema.md %}})
 
 #### 查询参数
 
@@ -87,7 +87,7 @@ GET http://localhost:<daprPort>/v1.0/configuration/<storename>/subscribe
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{< ref component-schema.md>}})
+`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{% ref component-schema.md %}})
 
 #### 查询参数
 
@@ -153,7 +153,7 @@ GET http://localhost:<daprPort>/v1.0/configuration/<storename>/<subscription-id>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{< ref component-schema.md>}})
+`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{% ref component-schema.md %}})
 `subscription-id` | 从订阅端点响应中返回的 `id` 字段的值
 
 #### 查询参数
@@ -223,7 +223,7 @@ POST http://localhost:<appPort>/configuration/<store-name>/<key>
 参数 | 描述
 --------- | -----------
 `appPort` | 应用程序端口
-`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{< ref component-schema.md>}})
+`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{% ref component-schema.md %}})
 `key` | 已订阅的键
 
 #### 请求体
@@ -260,5 +260,5 @@ POST http://localhost:<appPort>/configuration/<store-name>/<key>
 
 ## 下一步
 
-- [配置 API 概述]({{< ref configuration-api-overview.md >}})
-- [如何：从存储管理配置]({{< ref howto-manage-configuration.md >}})
+- [配置 API 概述]({{% ref configuration-api-overview.md %}})
+- [如何：从存储管理配置]({{% ref howto-manage-configuration.md %}})

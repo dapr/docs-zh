@@ -17,13 +17,13 @@ Dapr 可以通过 GitHub Marketplace 上的 [Dapr 工具安装器](https://githu
   uses: dapr/setup-dapr@v1
 ```
 
-[`dapr/setup-dapr` action](https://github.com/dapr/setup-dapr) 可以在 macOS、Linux 和 Windows 运行器上安装指定版本的 Dapr CLI。安装完成后，您可以运行任何 [Dapr CLI 命令]({{< ref cli >}}) 来管理您的 Dapr 环境。
+[`dapr/setup-dapr` action](https://github.com/dapr/setup-dapr) 可以在 macOS、Linux 和 Windows 运行器上安装指定版本的 Dapr CLI。安装完成后，您可以运行任何 [Dapr CLI 命令]({{% ref cli %}}) 来管理您的 Dapr 环境。
 
 有关所有输入的详细信息，请参阅 [`action.yml` 元数据文件](https://github.com/dapr/setup-dapr/blob/main/action.yml)。
 
 ## 示例
 
-例如，如果您的应用程序使用了 [Azure Kubernetes Service (AKS) 的 Dapr 扩展]({{< ref azure-kubernetes-service-extension.md >}})，那么您的应用程序 YAML 文件可能如下所示：
+例如，如果您的应用程序使用了 [Azure Kubernetes Service (AKS) 的 Dapr 扩展]({{% ref azure-kubernetes-service-extension.md %}})，那么您的应用程序 YAML 文件可能如下所示：
 
 ```yaml
 - name: 安装 Dapr

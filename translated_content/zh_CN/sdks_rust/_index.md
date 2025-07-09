@@ -22,6 +22,6 @@ Dapr Rust-SDK目前处于Alpha版本阶段。我们正在努力使其达到稳�
 {{< card title="**客户端**">}}
   使用Rust客户端SDK调用公共的Dapr API
 
-  [**了解更多关于Rust客户端SDK的信息**]({{< ref rust-client >}})
+  [**了解更多关于Rust客户端SDK的信息**]({{% ref rust-client %}})
 {{< /card >}}
 {{< /cardpane >}}

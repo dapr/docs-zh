@@ -59,7 +59,7 @@ Dapr SDK 中没有公开的辅助方法来传递和检索追踪上下文。您�
 
 外部网关入口调用 Dapr，Dapr 生成追踪头并调用 `服务 A`。`服务 A` 然后调用 `服务 B` 和其他启用 Dapr 的服务。
 
-您必须从 `服务 A` 传递头到 `服务 B`。例如：`入口 -> 服务 A -> 传递追踪头 -> 服务 B`。这类似于[案例 2]({{< ref "tracing-overview.md#multiple-sequential-service-invocation-calls" >}})。
+您必须从 `服务 A` 传递头到 `服务 B`。例如：`入口 -> 服务 A -> 传递追踪头 -> 服务 B`。这类似于[案例 2]({{% ref "tracing-overview.md#multiple-sequential-service-invocation-calls" %}})。
 
 ##### 发布/订阅消息
 
@@ -108,11 +108,11 @@ Dapr 在发布的消息主题中生成追踪头。对于 `rawPayload` 消息，�
 
    您可以根据 [W3C 追踪上下文规范](https://www.w3.org/TR/trace-context/) 手工制作追踪上下文，并将其传递到启用 Dapr 的服务。
 
-   阅读 [追踪上下文概述]({{< ref w3c-tracing-overview >}}) 以获取有关 W3C 追踪上下文和头的更多背景和示例。
+   阅读 [追踪上下文概述]({{% ref w3c-tracing-overview %}}) 以获取有关 W3C 追踪上下文和头的更多背景和示例。
 
 ## 相关链接
 
-- [可观测性概念]({{< ref observability-concept.md >}})
-- [用于分布式追踪的 W3C 追踪上下文]({{< ref w3c-tracing-overview >}})
+- [可观测性概念]({{% ref observability-concept.md %}})
+- [用于分布式追踪的 W3C 追踪上下文]({{% ref w3c-tracing-overview %}})
 - [W3C 追踪上下文规范](https://www.w3.org/TR/trace-context/)
 - [可观测性快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability)

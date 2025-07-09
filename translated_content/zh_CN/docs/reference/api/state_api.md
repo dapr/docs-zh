@@ -90,9 +90,9 @@ POST http://localhost:3500/v1.0/state/myStore?metadata.contentType=application/j
 
 参数 | 描述
 --------- | -----------
-`metadata.ttlInSeconds` | 消息过期的秒数，如[此处所述]({{< ref state-store-ttl.md >}})
+`metadata.ttlInSeconds` | 消息过期的秒数，如[此处所述]({{% ref state-store-ttl.md %}})
 
-> **TTL：** 只有某些状态存储支持TTL选项，根据[支持的状态存储]({{< ref supported-state-stores.md >}})。
+> **TTL：** 只有某些状态存储支持TTL选项，根据[支持的状态存储]({{% ref supported-state-stores.md %}})。
 
 ### HTTP响应
 
@@ -455,11 +455,11 @@ POST http://localhost:3500/v1.0-alpha1/state/myStore/query?metadata.partitionKey
 
 ## 状态事务
 
-将更改持久化到状态存储作为[事务操作]({{< ref "state-management-overview.md#transactional-operations" >}})。
+将更改持久化到状态存储作为[事务操作]({{% ref "state-management-overview.md#transactional-operations" %}})。
 
 > 此API依赖于支持事务的状态存储组件。
 
-请参阅[状态存储组件规范]({{< ref "supported-state-stores.md" >}})以获取支持事务的状态存储的完整、当前列表。
+请参阅[状态存储组件规范]({{% ref "supported-state-stores.md" %}})以获取支持事务的状态存储的完整、当前列表。
 
 #### HTTP请求
 
@@ -543,7 +543,7 @@ curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
 
 ## 为actor配置状态存储
 
-actor不支持多个状态存储，并且需要使用事务性状态存储与Dapr一起使用。[查看当前实现事务性状态存储接口的服务]({{< ref "supported-state-stores.md" >}})。
+actor不支持多个状态存储，并且需要使用事务性状态存储与Dapr一起使用。[查看当前实现事务性状态存储接口的服务]({{% ref "supported-state-stores.md" %}})。
 
 在`statestore.yaml`组件文件的元数据部分中为属性`actorStateStore`指定一个`true`值，以指定用于actor的状态存储。
 例如，以下组件yaml将配置Redis用作actor的状态存储。
@@ -703,5 +703,5 @@ curl -X POST http://localhost:3500/v1.0/state/starwars \
 
 ## 下一步
 
-- [状态管理概述]({{< ref state-management-overview.md >}})
-- [如何：保存和获取状态]({{< ref howto-get-save-state.md >}})
+- [状态管理概述]({{% ref state-management-overview.md %}})
+- [如何：保存和获取状态]({{% ref howto-get-save-state.md %}})

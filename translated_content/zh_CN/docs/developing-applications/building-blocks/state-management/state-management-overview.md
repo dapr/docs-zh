@@ -6,7 +6,7 @@ weight: 100
 description: "状态管理API模块概述"
 ---
 
-您的应用程序可以利用Dapr的状态管理API在[支持的状态存储]({{< ref supported-state-stores.md >}})中保存、读取和查询键/值对。通过状态存储组件，您可以构建有状态且长时间运行的应用程序，例如购物车或游戏的会话状态。如下图所示：
+您的应用程序可以利用Dapr的状态管理API在[支持的状态存储]({{% ref supported-state-stores.md %}})中保存、读取和查询键/值对。通过状态存储组件，您可以构建有状态且长时间运行的应用程序，例如购物车或游戏的会话状态。如下图所示：
 
 - 使用**HTTP POST**来保存或查询键/值对。
 - 使用**HTTP GET**来读取特定键并返回其值。
@@ -29,7 +29,7 @@ description: "状态管理API模块概述"
 
 ### 可插拔的状态存储
 
-Dapr的数据存储被设计为组件，可以在不更改服务代码的情况下进行替换。查看[支持的状态存储]({{< ref supported-state-stores >}})以获取更多信息。
+Dapr的数据存储被设计为组件，可以在不更改服务代码的情况下进行替换。查看[支持的状态存储]({{% ref supported-state-stores %}})以获取更多信息。
 
 ### 可配置的状态存储行为
 
@@ -40,7 +40,7 @@ Dapr的数据存储被设计为组件，可以在不更改服务代码的情况�
 
 默认情况下，您的应用程序应假设数据存储是**最终一致的**，并使用**最后写入胜出并发模式**。
 
-[并非所有存储都是平等的]({{< ref supported-state-stores.md >}})。为了确保您的应用程序的可移植性，您可以查询存储的元数据能力，并使您的代码适应不同的存储能力。
+[并非所有存储都是平等的]({{% ref supported-state-stores.md %}})。为了确保您的应用程序的可移植性，您可以查询存储的元数据能力，并使您的代码适应不同的存储能力。
 
 #### 并发
 
@@ -61,7 +61,7 @@ Dapr支持使用ETags的乐观并发控制（OCC）。当请求状态值时，Da
 对于不原生支持ETags的存储，相应的Dapr状态存储实现应模拟ETags，并在处理状态时遵循Dapr状态管理API规范。由于Dapr状态存储实现技术上是底层数据存储的客户端，模拟应该是直接的，使用存储提供的并发控制机制。
 {{% /alert %}}
 
-阅读[API参考]({{< ref state_api.md >}})以了解如何设置并发选项。
+阅读[API参考]({{% ref state_api.md %}})以了解如何设置并发选项。
 
 #### 一致性
 
@@ -70,7 +70,7 @@ Dapr支持**强一致性**和**最终一致性**，最终一致性是默认行�
 - **强一致性**：Dapr在确认写入请求之前等待所有副本（或指定的法定人数）确认。
 - **最终一致性**：Dapr在底层数据存储接受写入请求后立即返回，即使这只是一个副本。
 
-阅读[API参考]({{< ref state_api.md >}})以了解如何设置一致性选项。
+阅读[API参考]({{% ref state_api.md %}})以了解如何设置一致性选项。
 
 ### 设置内容类型
 
@@ -83,7 +83,7 @@ Dapr支持**强一致性**和**最终一致性**，最终一致性是默认行�
 
 ### 多重操作
 
-Dapr支持两种类型的多读或多写操作：**批量**或**事务性**。阅读[API参考]({{< ref state_api.md >}})以了解如何使用批量和多选项。
+Dapr支持两种类型的多读或多写操作：**批量**或**事务性**。阅读[API参考]({{% ref state_api.md %}})以了解如何使用批量和多选项。
 
 #### 批量读取操作
 
@@ -95,15 +95,15 @@ Dapr支持两种类型的多读或多写操作：**批量**或**事务性**。�
 
 ### actor状态
 
-事务性状态存储可用于存储actor状态。要指定用于actor的状态存储，请在状态存储组件的元数据部分中将属性`actorStateStore`的值指定为`true`。actor状态以特定方案存储在事务性状态存储中，允许进行一致的查询。所有actor只能使用一个状态存储组件作为状态存储。阅读[state API参考]({{< ref state_api.md >}})和[actors API参考]({{< ref actors_api.md >}})以了解有关actor状态存储的更多信息。
+事务性状态存储可用于存储actor状态。要指定用于actor的状态存储，请在状态存储组件的元数据部分中将属性`actorStateStore`的值指定为`true`。actor状态以特定方案存储在事务性状态存储中，允许进行一致的查询。所有actor只能使用一个状态存储组件作为状态存储。阅读[state API参考]({{% ref state_api.md %}})和[actors API参考]({{% ref actors_api.md %}})以了解有关actor状态存储的更多信息。
 
 #### actor状态的生存时间（TTL）
 
-在保存actor状态时，您应始终设置TTL元数据字段（`ttlInSeconds`）或在您选择的SDK中使用等效的API调用，以确保状态最终被移除。阅读[actors概述]({{< ref actors-overview.md >}})以获取更多信息。
+在保存actor状态时，您应始终设置TTL元数据字段（`ttlInSeconds`）或在您选择的SDK中使用等效的API调用，以确保状态最终被移除。阅读[actors概述]({{% ref actors-overview.md %}})以获取更多信息。
 
 ### 状态加密
 
-Dapr支持应用程序状态的自动客户端加密，并支持密钥轮换。这在所有Dapr状态存储上都支持。有关更多信息，请阅读[如何：加密应用程序状态]({{< ref howto-encrypt-state.md >}})主题。
+Dapr支持应用程序状态的自动客户端加密，并支持密钥轮换。这在所有Dapr状态存储上都支持。有关更多信息，请阅读[如何：加密应用程序状态]({{% ref howto-encrypt-state.md %}})主题。
 
 ### 应用程序之间的共享状态
 
@@ -115,11 +115,11 @@ Dapr使状态能够：
 - 在应用程序之间的状态存储中共享。
 - 在不同状态存储之间的多个应用程序之间共享。
 
-有关更多详细信息，请阅读[如何：在应用程序之间共享状态]({{< ref howto-share-state.md >}})。
+有关更多详细信息，请阅读[如何：在应用程序之间共享状态]({{% ref howto-share-state.md %}})。
 
 ### 启用外发模式
 
-Dapr使开发人员能够使用外发模式在事务性状态存储和任何消息代理之间实现单一事务。有关更多信息，请阅读[如何启用事务性外发消息]({{< ref howto-outbox.md >}})。
+Dapr使开发人员能够使用外发模式在事务性状态存储和任何消息代理之间实现单一事务。有关更多信息，请阅读[如何启用事务性外发消息]({{% ref howto-outbox.md %}})。
 
 ### 查询状态
 
@@ -130,11 +130,11 @@ Dapr使开发人员能够使用外发模式在事务性状态存储和任何消�
 
 #### 查询API
 
-使用_可选的_状态管理[查询API]({{< ref "reference/api/state_api.md#query-state" >}})，您可以查询状态存储中保存的键/值数据，无论底层数据库或存储技术如何。使用状态管理查询API，您可以过滤、排序和分页键/值数据。有关更多详细信息，请阅读[如何：查询状态]({{< ref howto-state-query-api.md >}})。
+使用_可选的_状态管理[查询API]({{% ref "reference/api/state_api.md#query-state" %}})，您可以查询状态存储中保存的键/值数据，无论底层数据库或存储技术如何。使用状态管理查询API，您可以过滤、排序和分页键/值数据。有关更多详细信息，请阅读[如何：查询状态]({{% ref howto-state-query-api.md %}})。
 
 #### 直接查询状态存储
 
-Dapr在不进行任何转换的情况下保存和检索状态值。您可以直接从[底层状态存储]({{< ref query-state-store >}})查询和聚合状态。例如，要获取与应用程序ID "myApp" 相关的所有状态键，请在Redis中使用：
+Dapr在不进行任何转换的情况下保存和检索状态值。您可以直接从[底层状态存储]({{% ref query-state-store %}})查询和聚合状态。例如，要获取与应用程序ID "myApp" 相关的所有状态键，请在Redis中使用：
 
 ```bash
 KEYS "myApp*"
@@ -160,11 +160,11 @@ SELECT AVG(value) FROM StateTable WHERE Id LIKE '<app-id>||<thermometer>||*||tem
 
 ### 状态生存时间（TTL）
 
-Dapr支持[每个状态设置请求的生存时间（TTL）]({{< ref state-store-ttl.md >}})。这意味着应用程序可以为每个存储的状态设置生存时间，这些状态在过期后无法检索。
+Dapr支持[每个状态设置请求的生存时间（TTL）]({{% ref state-store-ttl.md %}})。这意味着应用程序可以为每个存储的状态设置生存时间，这些状态在过期后无法检索。
 
 ### 状态管理API
 
-状态管理API可以在[状态管理API参考]({{< ref state_api.md >}})中找到，该参考描述了如何通过提供键来检索、保存、删除和查询状态值。
+状态管理API可以在[状态管理API参考]({{% ref state_api.md %}})中找到，该参考描述了如何通过提供键来检索、保存、删除和查询状态值。
 
 ## 试用状态管理
 
@@ -174,19 +174,19 @@ Dapr支持[每个状态设置请求的生存时间（TTL）]({{< ref state-store
 
 | 快速入门/教程 | 描述 |
 | ------------------- | ----------- |
-| [状态管理快速入门]({{< ref statemanagement-quickstart.md >}}) | 使用状态管理API创建有状态的应用程序。 |
+| [状态管理快速入门]({{% ref statemanagement-quickstart.md %}}) | 使用状态管理API创建有状态的应用程序。 |
 | [Hello World](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world)            | _推荐_ <br> 演示如何在本地运行Dapr。突出显示服务调用和状态管理。  |
 | [Hello World Kubernetes](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)       | _推荐_ <br> 演示如何在Kubernetes中运行Dapr。突出显示服务调用和_状态管理_。  |
 
 ### 直接在您的应用中开始使用状态管理
 
-想要跳过快速入门？没问题。您可以直接在您的应用程序中试用状态管理模块。在[Dapr安装]({{< ref "getting-started/_index.md" >}})后，您可以从[状态管理如何指南]({{< ref howto-get-save-state.md >}})开始使用状态管理API。
+想要跳过快速入门？没问题。您可以直接在您的应用程序中试用状态管理模块。在[Dapr安装]({{% ref "getting-started/_index.md" %}})后，您可以从[状态管理如何指南]({{% ref howto-get-save-state.md %}})开始使用状态管理API。
 
 ## 下一步
 
 - 开始通过状态管理如何指南进行工作，从以下开始：
-  - [如何：保存和获取状态]({{< ref howto-get-save-state.md >}})
-  - [如何：构建有状态服务]({{< ref howto-stateful-service.md >}})
-- 查看[状态存储组件]({{< ref supported-state-stores.md >}})列表
-- 阅读[状态管理API参考]({{< ref state_api.md >}})
-- 阅读[actors API参考]({{< ref actors_api.md >}})
+  - [如何：保存和获取状态]({{% ref howto-get-save-state.md %}})
+  - [如何：构建有状态服务]({{% ref howto-stateful-service.md %}})
+- 查看[状态存储组件]({{% ref supported-state-stores.md %}})列表
+- 阅读[状态管理API参考]({{% ref state_api.md %}})
+- 阅读[actors API参考]({{% ref actors_api.md %}})

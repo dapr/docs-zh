@@ -12,9 +12,9 @@ Dapr 应用程序可以通过三种订阅类型来订阅已发布的主题，这
 
 | 订阅类型 | 描述 |
 | ------------------- | ----------- |
-| [**声明式**]({{< ref "subscription-methods.md#declarative-subscriptions" >}}) | 订阅在**外部文件**中定义。声明式方法将 Dapr 的依赖从代码中移除，允许现有应用程序无需更改代码即可订阅主题。 |
-| [**流式**]({{< ref "subscription-methods.md#streaming-subscriptions" >}}) | 订阅在**应用程序代码**中定义。流式订阅是动态的，允许在运行时添加或删除订阅。它们不需要在应用程序中设置订阅端点（这是编程式和声明式订阅所需的），使其在代码中易于配置。流式订阅也不需要应用程序配置 sidecar 来接收消息。 |
-| [**编程式**]({{< ref "subscription-methods.md#programmatic-subscriptions" >}}) | 订阅在**应用程序代码**中定义。编程式方法实现了静态订阅，并需要在代码中设置一个端点。 |
+| [**声明式**]({{% ref "subscription-methods.md#declarative-subscriptions" %}}) | 订阅在**外部文件**中定义。声明式方法将 Dapr 的依赖从代码中移除，允许现有应用程序无需更改代码即可订阅主题。 |
+| [**流式**]({{% ref "subscription-methods.md#streaming-subscriptions" %}}) | 订阅在**应用程序代码**中定义。流式订阅是动态的，允许在运行时添加或删除订阅。它们不需要在应用程序中设置订阅端点（这是编程式和声明式订阅所需的），使其在代码中易于配置。流式订阅也不需要应用程序配置 sidecar 来接收消息。 |
+| [**编程式**]({{% ref "subscription-methods.md#programmatic-subscriptions" %}}) | 订阅在**应用程序代码**中定义。编程式方法实现了静态订阅，并需要在代码中设置一个端点。 |
 
 下面的示例演示了通过 `orders` 主题在 `checkout` 应用程序和 `orderprocessing` 应用程序之间的发布/订阅消息。示例首先以声明式，然后以编程式演示了相同的 Dapr 发布/订阅组件。
 
@@ -23,7 +23,7 @@ Dapr 应用程序可以通过三种订阅类型来订阅已发布的主题，这
 {{% alert title="注意" color="primary" %}}
 此功能目前处于预览状态。
 Dapr 可以实现“热重载”声明式订阅，从而在不需要重启的情况下自动获取更新。
-这通过 [`HotReload` 功能门控]({{< ref "support-preview-features.md" >}})启用。
+这通过 [`HotReload` 功能门控]({{% ref "support-preview-features.md" %}})启用。
 为了防止重新处理或丢失未处理的消息，在 Dapr 和您的应用程序之间的飞行消息在热重载事件期间不受影响。
 {{% /alert %}}
 
@@ -50,49 +50,49 @@ scopes:
 
 运行 Dapr 时，设置 YAML 组件文件路径以指向 Dapr 的组件。
 
-{{< tabs ".NET" Java Python JavaScript Go Kubernetes>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```bash
 dapr run --app-id myapp --resources-path ./myComponents -- dotnet run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```bash
 dapr run --app-id myapp --resources-path ./myComponents -- mvn spring-boot:run
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```bash
 dapr run --app-id myapp --resources-path ./myComponents -- python3 app.py
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```bash
 dapr run --app-id myapp --resources-path ./myComponents -- npm start
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```bash
 dapr run --app-id myapp --resources-path ./myComponents -- go run app.go
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 在 Kubernetes 中，将组件应用到集群：
 
@@ -100,15 +100,15 @@ dapr run --app-id myapp --resources-path ./myComponents -- go run app.go
 kubectl apply -f subscription.yaml
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 在您的应用程序代码中，订阅 Dapr 发布/订阅组件中指定的主题。
 
-{{< tabs ".NET" Java Python JavaScript Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
  //订阅一个主题 
@@ -119,9 +119,9 @@ public void getCheckout([FromBody] int orderId)
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 import io.dapr.client.domain.CloudEvent;
@@ -137,9 +137,9 @@ public Mono<Void> getCheckout(@RequestBody(required = false) CloudEvent<String> 
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 from cloudevents.sdk.event import v1
@@ -151,9 +151,9 @@ def checkout(event: v1.Event) -> None:
     logging.info('Subscriber received: ' + str(data))
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 const express = require('express')
@@ -168,9 +168,9 @@ app.post('/orders', (req, res) => {
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 //订阅一个主题
@@ -186,9 +186,9 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 `/orders` 端点与订阅中定义的 `route` 匹配，这是 Dapr 发送所有主题消息的地方。
 
@@ -203,9 +203,9 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 
 下面的示例展示了不同的流式订阅主题的方法。
 
-{{< tabs Python Go >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 您可以使用 `subscribe` 方法，该方法返回一个 `Subscription` 对象，并允许您通过调用 `next_message` 方法从流中拉取消息。这在主线程中运行，并可能在等待消息时阻塞主线程。
 
@@ -306,11 +306,11 @@ if __name__ == '__main__':
     main()
 ```
 
-[了解更多关于使用 Python SDK 客户端的流式订阅。]({{< ref "python-client.md#streaming-message-subscription" >}})
+[了解更多关于使用 Python SDK 客户端的流式订阅。]({{% ref "python-client.md#streaming-message-subscription" %}})
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 package main
@@ -405,9 +405,9 @@ func eventHandler(e *common.TopicEvent) common.SubscriptionResponseStatus {
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 演示
 
@@ -423,9 +423,9 @@ func eventHandler(e *common.TopicEvent) common.SubscriptionResponseStatus {
 
 在下面的示例中，您在应用程序代码中定义了在上面的[声明式 YAML 订阅](#declarative-subscriptions)中找到的值。
 
-{{< tabs ".NET" Java Python JavaScript Go>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 [Topic("pubsub", "orders")]
@@ -456,9 +456,9 @@ app.UseEndpoints(endpoints =>
 });
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
@@ -477,9 +477,9 @@ public Mono<Void> handleMessage(@RequestBody(required = false) CloudEvent<String
 }
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 @app.route('/dapr/subscribe', methods=['GET'])
@@ -507,9 +507,9 @@ def ds_subscriber():
 app.run()
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 const express = require('express')
@@ -545,9 +545,9 @@ app.post('/orders', (req, res) => {
 app.listen(port, () => console.log(`consumer app listening on port ${port}!`))
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 package main
@@ -608,17 +608,17 @@ func main() {
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", appPort), router))
 }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 下一步
 
-* 试用 [发布/订阅快速入门]({{< ref pubsub-quickstart.md >}})
-* 关注：[如何：配置具有多个命名空间的发布/订阅组件]({{< ref pubsub-namespaces.md >}})
-* 了解更多关于[声明式和编程式订阅方法]({{< ref subscription-methods >}})。
-* 了解[主题范围]({{< ref pubsub-scopes.md >}})
-* 了解[消息 TTL]({{< ref pubsub-message-ttl.md >}})
-* 了解更多关于[带有和不带有 CloudEvent 的发布/订阅]({{< ref pubsub-cloudevents.md >}})
-* [发布/订阅组件列表]({{< ref supported-pubsub.md >}})
-* 阅读 [发布/订阅 API 参考]({{< ref pubsub_api.md >}})
+* 试用 [发布/订阅快速入门]({{% ref pubsub-quickstart.md %}})
+* 关注：[如何：配置具有多个命名空间的发布/订阅组件]({{% ref pubsub-namespaces.md %}})
+* 了解更多关于[声明式和编程式订阅方法]({{% ref subscription-methods %}})。
+* 了解[主题范围]({{% ref pubsub-scopes.md %}})
+* 了解[消息 TTL]({{% ref pubsub-message-ttl.md %}})
+* 了解更多关于[带有和不带有 CloudEvent 的发布/订阅]({{% ref pubsub-cloudevents.md %}})
+* [发布/订阅组件列表]({{% ref supported-pubsub.md %}})
+* 阅读 [发布/订阅 API 参考]({{% ref pubsub_api.md %}})

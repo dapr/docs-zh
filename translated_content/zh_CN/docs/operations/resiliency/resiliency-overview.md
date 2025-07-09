@@ -6,19 +6,19 @@ weight: 100
 description: "配置 Dapr 的重试、超时和断路器"
 ---
 
-Dapr 提供了一种通过[弹性规范]({{< ref "resiliency-overview.md#complete-example-policy" >}})来定义和应用容错策略的功能。弹性规范与组件规范存放在同一位置，并在 Dapr sidecar 启动时生效。sidecar 决定如何将这些策略应用于您的 Dapr API 调用。在自托管模式下，弹性规范文件必须命名为 `resiliency.yaml`。在 Kubernetes 中，Dapr 会找到您的应用程序使用的命名弹性规范。在弹性规范中，您可以定义常见的弹性模式策略，例如：
+Dapr 提供了一种通过[弹性规范]({{% ref "resiliency-overview.md#complete-example-policy" %}})来定义和应用容错策略的功能。弹性规范与组件规范存放在同一位置，并在 Dapr sidecar 启动时生效。sidecar 决定如何将这些策略应用于您的 Dapr API 调用。在自托管模式下，弹性规范文件必须命名为 `resiliency.yaml`。在 Kubernetes 中，Dapr 会找到您的应用程序使用的命名弹性规范。在弹性规范中，您可以定义常见的弹性模式策略，例如：
 
-- [超时]({{< ref "policies.md#timeouts" >}})
-- [重试/退避]({{< ref "policies.md#retries" >}})
-- [断路器]({{< ref "policies.md#circuit-breakers" >}})
+- [超时]({{% ref "policies.md#timeouts" %}})
+- [重试/退避]({{% ref "policies.md#retries" %}})
+- [断路器]({{% ref "policies.md#circuit-breakers" %}})
 
-这些策略可以应用于[目标]({{< ref "targets.md" >}})，包括：
+这些策略可以应用于[目标]({{% ref "targets.md" %}})，包括：
 
-- 通过服务调用的[应用程序]({{< ref "targets.md#apps" >}})
-- [组件]({{< ref "targets.md#components" >}})
-- [actor]({{< ref "targets.md#actors" >}})
+- 通过服务调用的[应用程序]({{% ref "targets.md#apps" %}})
+- [组件]({{% ref "targets.md#components" %}})
+- [actor]({{% ref "targets.md#actors" %}})
 
-此外，弹性策略还可以[限定到特定应用程序]({{< ref "component-scopes.md#application-access-to-components-with-scopes" >}})。
+此外，弹性策略还可以[限定到特定应用程序]({{% ref "component-scopes.md#application-access-to-components-with-scopes" %}})。
 
 ## 演示视频
 
@@ -175,8 +175,8 @@ spec:
 
 ## 下一步
 了解更多关于弹性策略和目标：
- - [策略]({{< ref "policies.md" >}})
- - [目标]({{< ref "targets.md" >}})
+ - [策略]({{% ref "policies.md" %}})
+ - [目标]({{% ref "targets.md" %}})
 尝试其中一个弹性快速入门：
-- [弹性：服务到服务]({{< ref resiliency-serviceinvo-quickstart.md >}})
-- [弹性：状态管理]({{< ref resiliency-state-quickstart.md >}})
+- [弹性：服务到服务]({{% ref resiliency-serviceinvo-quickstart.md %}})
+- [弹性：状态管理]({{% ref resiliency-state-quickstart.md %}})

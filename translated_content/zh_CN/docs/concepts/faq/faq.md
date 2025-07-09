@@ -10,13 +10,13 @@ description: "关于 Dapr 的常见问题"
 Dapr 并非服务网格。服务网格主要关注细粒度的网络控制，而 Dapr 则致力于帮助开发人员构建分布式应用程序。Dapr 和服务网格都采用 sidecar 模式，与应用程序共同运行。虽然它们有一些功能重叠，但各自也提供了独特的优势。有关更多信息，请阅读 [Dapr & 服务网格]({{<ref service-mesh>}}) 概念页面。
 
 ## 性能基准
-由于 Dapr 作为应用程序的 sidecar，Dapr 项目对性能非常重视。请参阅 [此处]({{< ref perf-service-invocation.md >}}) 以获取最新的性能数据。
+由于 Dapr 作为应用程序的 sidecar，Dapr 项目对性能非常重视。请参阅 [此处]({{% ref perf-service-invocation.md %}}) 以获取最新的性能数据。
 
 ## actors
 
 ### Dapr、Orleans 和 Service Fabric Reliable Actors 之间有什么关系？
 
-Dapr 中的 actors 源于 [Orleans](https://www.microsoft.com/research/project/orleans-virtual-actors/) 的虚拟 actor 概念，这意味着它们在被调用时会激活，并在一段时间后自动停用。如果您熟悉 Orleans，Dapr 的 C# actors 会让您感到熟悉。Dapr 的 C# actors 基于 [Service Fabric Reliable Actors](https://docs.microsoft.com/azure/service-fabric/service-fabric-reliable-actors-introduction)（同样源于 Orleans），这使得您可以将 Service Fabric 中的 Reliable Actors 迁移到其他托管平台，如 Kubernetes 或其他本地环境。此外，Dapr 不仅仅局限于 actors。它为您提供了一套最佳实践的构建模块，可以集成到任何微服务应用程序中。请参阅 [Dapr 概述]({{< ref overview.md >}})。
+Dapr 中的 actors 源于 [Orleans](https://www.microsoft.com/research/project/orleans-virtual-actors/) 的虚拟 actor 概念，这意味着它们在被调用时会激活，并在一段时间后自动停用。如果您熟悉 Orleans，Dapr 的 C# actors 会让您感到熟悉。Dapr 的 C# actors 基于 [Service Fabric Reliable Actors](https://docs.microsoft.com/azure/service-fabric/service-fabric-reliable-actors-introduction)（同样源于 Orleans），这使得您可以将 Service Fabric 中的 Reliable Actors 迁移到其他托管平台，如 Kubernetes 或其他本地环境。此外，Dapr 不仅仅局限于 actors。它为您提供了一套最佳实践的构建模块，可以集成到任何微服务应用程序中。请参阅 [Dapr 概述]({{% ref overview.md %}})。
 
 ### Dapr 与其他 actor 框架有何区别？
 

@@ -135,5 +135,5 @@ export APP_API_TOKEN=<my-app-token>
 
 ## 相关链接
 
-- 了解[Dapr安全概念]({{< ref security-concept.md >}})
-- 了解[如何在Dapr中启用API令牌认证]({{< ref api-token.md >}})
+- 了解[Dapr安全概念]({{% ref security-concept.md %}})
+- 了解[如何在Dapr中启用API令牌认证]({{% ref api-token.md %}})

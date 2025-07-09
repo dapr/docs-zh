@@ -21,8 +21,8 @@ description: "更新应用程序使用的已部署组件"
 
 ## 热重载（预览功能）
 
-> 此功能目前处于[预览]({{< ref "preview-features.md" >}})状态。
-> 热重载通过 [`HotReload` 功能门控]({{< ref "support-preview-features.md" >}}) 启用。
+> 此功能目前处于[预览]({{% ref "preview-features.md" %}})状态。
+> 热重载通过 [`HotReload` 功能门控]({{% ref "support-preview-features.md" %}}) 启用。
 
 Dapr 可以实现“热重载”组件，从而在不需要重启 Dapr sidecar 进程或 Kubernetes pod 的情况下自动获取组件更新。这意味着创建、更新或删除组件清单将在运行时反映在 Dapr sidecar 中。
 
@@ -31,20 +31,20 @@ Dapr 可以实现“热重载”组件，从而在不需要重启 Dapr sidecar �
 {{% /alert %}}
 
 {{% alert title="初始化错误" color="warning" %}}
-如果通过热重载创建或更新组件时初始化过程出错，Dapr sidecar 会遵循组件字段 [`spec.ignoreErrors`]({{< ref component-schema.md>}}) 的设置。也就是说，行为与 sidecar 在启动时加载组件时相同。
+如果通过热重载创建或更新组件时初始化过程出错，Dapr sidecar 会遵循组件字段 [`spec.ignoreErrors`]({{% ref component-schema.md %}}) 的设置。也就是说，行为与 sidecar 在启动时加载组件时相同。
 - `spec.ignoreErrors=false` (*默认*): sidecar 优雅地关闭。
 - `spec.ignoreErrors=true`: sidecar 继续运行，既没有注册旧的也没有注册新的组件配置。
 {{% /alert %}}
 
 除以下类型外，所有组件均支持热重载。这些组件类型的任何创建、更新或删除都将被 sidecar 忽略，需要重启以获取更改。
-- [actor 状态存储]({{< ref "state_api.md#configuring-state-store-for-actors" >}})
-- [workflow 后端]({{< ref "workflow-architecture.md#workflow-backend" >}})
+- [actor 状态存储]({{% ref "state_api.md#configuring-state-store-for-actors" %}})
+- [workflow 后端]({{% ref "workflow-architecture.md#workflow-backend" %}})
 
 ## 进一步阅读
-- [组件概念]({{< ref components-concept.md >}})
-- [在组件定义中引用 secret]({{< ref component-secrets.md >}})
-- [支持的状态存储]({{< ref supported-state-stores >}})
-- [支持的 pub/sub 代理]({{< ref supported-pubsub >}})
-- [支持的 secret 存储]({{< ref supported-secret-stores >}})
-- [支持的 bindings]({{< ref supported-bindings >}})
-- [设置组件范围]({{< ref component-scopes.md >}})
+- [组件概念]({{% ref components-concept.md %}})
+- [在组件定义中引用 secret]({{% ref component-secrets.md %}})
+- [支持的状态存储]({{% ref supported-state-stores %}})
+- [支持的 pub/sub 代理]({{% ref supported-pubsub %}})
+- [支持的 secret 存储]({{% ref supported-secret-stores %}})
+- [支持的 bindings]({{% ref supported-bindings %}})
+- [设置组件范围]({{% ref component-scopes.md %}})

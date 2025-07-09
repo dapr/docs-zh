@@ -73,7 +73,7 @@ dapr run node myapp.js
 
 ## Kubernetes 模式下的日志
 
-> [了解如何在 Kubernetes 上调试 `daprd`。]({{< ref "debug-daprd.md" >}}) 
+> [了解如何在 Kubernetes 上调试 `daprd`。]({{% ref "debug-daprd.md" %}}) 
 
 您可以通过在 pod 规范模板中提供以下注释，为每个 sidecar 单独设置日志级别：
 
@@ -201,4 +201,4 @@ time="2021-12-04T05:08:07.036909357Z" level=info msg="leader is established." in
 
 ## 参考资料
 
-* [如何在 Dapr 中设置日志]({{< ref "logging.md" >}})
+* [如何在 Dapr 中设置日志]({{% ref "logging.md" %}})

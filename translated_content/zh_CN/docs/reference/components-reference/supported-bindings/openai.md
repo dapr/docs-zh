@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 Azure OpenAI 绑定组件，请创建一个类型为 `bindings.azure.openai` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要设置 Azure OpenAI 绑定组件，请创建一个类型为 `bindings.azure.openai` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 有关 Azure OpenAI 服务的文档，请参阅[此处](https://learn.microsoft.com/azure/cognitive-services/openai/overview/)。
 
 ```yaml
@@ -27,7 +27,7 @@ spec:
     value: "https://myopenai.openai.azure.com"
 ```
 {{% alert title="警告" color="warning" %}}
-上述示例中，`apiKey` 被直接用作字符串。建议使用密钥存储来保存敏感信息，具体方法请参阅[此处]({{< ref component-secrets.md >}})。
+上述示例中，`apiKey` 被直接用作字符串。建议使用密钥存储来保存敏感信息，具体方法请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -42,7 +42,7 @@ spec:
 
 ### Microsoft Entra ID 认证
 
-Azure OpenAI 绑定组件支持使用所有 Microsoft Entra ID 机制进行认证。有关更多信息以及根据选择的 Microsoft Entra ID 认证机制提供的相关组件元数据字段，请参阅[认证到 Azure 的文档]({{< ref authenticating-azure.md >}})。
+Azure OpenAI 绑定组件支持使用所有 Microsoft Entra ID 机制进行认证。有关更多信息以及根据选择的 Microsoft Entra ID 认证机制提供的相关组件元数据字段，请参阅[认证到 Azure 的文档]({{% ref authenticating-azure.md %}})。
 
 #### 示例配置
 
@@ -101,15 +101,15 @@ spec:
 在 [Azure OpenAI API 文档](https://learn.microsoft.com/azure/ai-services/openai/reference)中阅读更多关于这些参数的重要性和用法。
 #### 示例
 
-{{< tabs Linux >}}
-  {{% codetab %}}
+{{< tabpane text=true >}}
+  {{% tab %}}
   ```bash
   curl -d '{ "data": {"deploymentId: "my-model" , "prompt": "A dog is ", "maxTokens":15}, "operation": "completion" }' \
         http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
-  {{% /codetab %}}
+  {{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 #### 响应
 
@@ -173,9 +173,9 @@ spec:
 
 #### 示例
 
-{{< tabs Linux >}}
+{{< tabpane text=true >}}
 
-  {{% codetab %}}
+  {{% tab %}}
   ```bash
 curl -d '{
     "data": {
@@ -198,9 +198,9 @@ curl -d '{
 }' \
 http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
-  {{% /codetab %}}
+  {{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 #### 响应
 
@@ -250,9 +250,9 @@ http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 
 #### 示例
 
-{{< tabs Linux >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Linux" %}}
   ```bash
 curl -d '{
     "data": {
@@ -263,9 +263,9 @@ curl -d '{
 }' \
 http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 #### 响应
 
@@ -283,9 +283,9 @@ http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})
 - [Azure OpenAI REST 示例](https://learn.microsoft.com/azure/ai-services/openai/reference)

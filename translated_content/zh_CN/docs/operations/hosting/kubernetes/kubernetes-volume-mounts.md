@@ -128,4 +128,4 @@ spec:
 
 ## 相关链接
 
-[Dapr Kubernetes pod 注解规范]({{< ref arguments-annotations-overview.md >}})
+[Dapr Kubernetes pod 注解规范]({{% ref arguments-annotations-overview.md %}})

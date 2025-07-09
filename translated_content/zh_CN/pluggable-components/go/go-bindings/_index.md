@@ -123,7 +123,7 @@ func main() {
 ```
 
 ## 下一步
-- [使用可插拔组件Go SDK的高级技术]({{< ref go-advanced >}})
+- [使用可插拔组件Go SDK的高级技术]({{% ref go-advanced %}})
 - 了解更多关于实现：
-  - [状态]({{< ref go-state-store >}})
-  - [发布/订阅]({{< ref go-pub-sub >}})
+  - [状态]({{% ref go-state-store %}})
+  - [发布/订阅]({{% ref go-pub-sub %}})

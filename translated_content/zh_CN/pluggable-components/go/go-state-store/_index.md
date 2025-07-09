@@ -93,7 +93,7 @@ func main() {
 
 ## 批量操作的状态存储
 
-虽然状态存储需要支持[批量操作]({{< ref "state-management-overview.md#bulk-read-operations" >}})，但它们的实现会顺序委托给各个操作方法。
+虽然状态存储需要支持[批量操作]({{% ref "state-management-overview.md#bulk-read-operations" %}})，但它们的实现会顺序委托给各个操作方法。
 
 ## 事务性状态存储
 
@@ -141,7 +141,7 @@ Dapr 运行时对某些状态存储操作导致的特定错误条件有额外的
 | `NewBulkDeleteRowMismatchError(...)` | Bulk Delete | 当受影响的行数与预期行数不匹配时 |
 
 ## 下一步
-- [使用可插拔组件 Go SDK 的高级技术]({{< ref go-advanced >}})
+- [使用可插拔组件 Go SDK 的高级技术]({{% ref go-advanced %}})
 - 了解更多关于实现：
-  - [bindings]({{< ref go-bindings >}})
-  - [pubsub]({{< ref go-pub-sub >}})
+  - [bindings]({{% ref go-bindings %}})
+  - [pubsub]({{% ref go-pub-sub %}})

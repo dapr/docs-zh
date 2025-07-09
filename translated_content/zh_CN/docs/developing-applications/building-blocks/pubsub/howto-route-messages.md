@@ -10,7 +10,7 @@ pubsub 路由实现了[基于内容的路由](https://www.enterpriseintegrationp
 
 虽然可以通过代码实现路由，但将路由规则与应用程序分离可以提高可移植性。
 
-此功能适用于[声明式和编程式订阅方法]({{< ref subscription-methods.md >}})，但不适用于流式订阅。
+此功能适用于[声明式和编程式订阅方法]({{% ref subscription-methods.md %}})，但不适用于流式订阅。
 
 ## 声明式订阅
 
@@ -40,9 +40,9 @@ scopes:
 
 在编程方法中，返回的是 `routes` 结构而不是 `route`。JSON 结构与声明式 YAML 匹配：
 
-{{< tabs Python JavaScript ".NET" Go PHP>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 ```python
 import flask
 from flask import request, jsonify
@@ -82,9 +82,9 @@ def ds_subscriber():
 app.run()
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 ```javascript
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -122,9 +122,9 @@ app.post('/products', (req, res) => {
 
 app.listen(port, () => console.log(`consumer app listening on port ${port}!`))
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 ```csharp
         [Topic("pubsub", "inventory", "event.type ==\"widget\"", 1)]
         [HttpPost("widgets")]
@@ -150,9 +150,9 @@ app.listen(port, () => console.log(`consumer app listening on port ${port}!`))
             return stock;
         }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 ```golang
 package main
 
@@ -216,9 +216,9 @@ func main() {
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", appPort), router))
 }
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="PHP" %}}
 ```php
 <?php
 
@@ -243,9 +243,9 @@ $app->post('/products', function(
 );
 $app->start();
 ```
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 通用表达式语言 (CEL)
 
@@ -451,7 +451,7 @@ event.type == "mymessage.v2"
 ## 下一步
 
 - 尝试 [pubsub 路由示例](https://github.com/dapr/samples/tree/master/pub-sub-routing)。
-- 了解 [主题范围]({{< ref pubsub-scopes.md >}}) 和 [消息生存时间]({{< ref pubsub-message-ttl.md >}})。
-- [配置具有多个命名空间的 pubsub 组件]({{< ref pubsub-namespaces.md >}})。
-- 查看 [pubsub 组件列表]({{< ref setup-pubsub >}})。
-- 阅读 [API 参考]({{< ref pubsub_api.md >}})。
+- 了解 [主题范围]({{% ref pubsub-scopes.md %}}) 和 [消息生存时间]({{% ref pubsub-message-ttl.md %}})。
+- [配置具有多个命名空间的 pubsub 组件]({{% ref pubsub-namespaces.md %}})。
+- 查看 [pubsub 组件列表]({{% ref setup-pubsub %}})。
+- 阅读 [API 参考]({{% ref pubsub_api.md %}})。

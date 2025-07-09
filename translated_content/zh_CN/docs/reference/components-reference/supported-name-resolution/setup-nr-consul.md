@@ -7,7 +7,7 @@ description: HashiCorp Consul 名称解析组件的详细信息
 
 ## 配置格式
 
-在 [Dapr 配置]({{< ref configuration-overview.md >}}) 中设置 HashiCorp Consul。
+在 [Dapr 配置]({{% ref configuration-overview.md %}}) 中设置 HashiCorp Consul。
 
 在配置中，添加 `nameResolution` 规范，并将 `component` 字段设为 `"consul"`。
 
@@ -138,17 +138,17 @@ spec:
 ```
 
 ## 设置 HashiCorp Consul
-{{< tabs "Self-Hosted" "Kubernetes" >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted" %}}
 HashiCorp 提供了关于如何为不同托管模型设置 Consul 的深入指南。查看 [自托管指南](https://learn.hashicorp.com/collections/consul/getting-started)
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 HashiCorp 提供了关于如何为不同托管模型设置 Consul 的深入指南。查看 [Kubernetes 指南](https://learn.hashicorp.com/collections/consul/kubernetes)
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 相关链接
-- [服务调用构建块]({{< ref service-invocation >}})
+- [服务调用构建块]({{% ref service-invocation %}})

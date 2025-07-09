@@ -90,7 +90,7 @@ kubectl rollout restart deployment/<deployment-name> --namespace <namespace-name
 
 一旦在 Dapr 中配置了令牌认证，所有调用 Dapr API 的客户端都需要在每个请求中附加 `dapr-api-token` 令牌。
 
-> **注意：** Dapr SDK 会读取 [DAPR_API_TOKEN]({{< ref environment >}}) 环境变量并默认为您设置。
+> **注意：** Dapr SDK 会读取 [DAPR_API_TOKEN]({{% ref environment %}}) 环境变量并默认为您设置。
 
 <img src="/images/tokens-auth.png" width=800 style="padding-bottom:15px;">
 
@@ -143,5 +143,5 @@ export DAPR_API_TOKEN=<my-dapr-token>
 
 ## 相关链接
 
-- 了解 [Dapr 安全概念]({{< ref security-concept.md >}})
-- 了解 [如何使用令牌认证从 Dapr 认证请求]({{< ref app-api-token.md >}})
+- 了解 [Dapr 安全概念]({{% ref security-concept.md %}})
+- 了解 [如何使用令牌认证从 Dapr 认证请求]({{% ref app-api-token.md %}})

@@ -6,7 +6,7 @@ weight: 200
 description: Dapr sidecar 健康检查
 ---
 
-Dapr 提供了一种方法，通过 [HTTP `/healthz` 端点]({{< ref health_api.md >}}) 来确定其健康状态。通过这个端点，*daprd* 进程或 sidecar 可以：
+Dapr 提供了一种方法，通过 [HTTP `/healthz` 端点]({{% ref health_api.md %}}) 来确定其健康状态。通过这个端点，*daprd* 进程或 sidecar 可以：
 
 - 检查整体健康状况
 - 在初始化期间确认 Dapr sidecar 的就绪状态
@@ -15,7 +15,7 @@ Dapr 提供了一种方法，通过 [HTTP `/healthz` 端点]({{< ref health_api.
 在本指南中，您将了解 Dapr `/healthz` 端点如何与应用托管平台（如 Kubernetes）以及 Dapr SDK 的健康检查功能集成。
 
 {{% alert title="注意" color="primary" %}}
-Dapr actor 也有一个健康 API 端点，Dapr 会探测应用程序以响应 Dapr 发出的信号，确认 actor 应用程序是健康且正在运行的。请参阅 [actor 健康 API]({{< ref "actors_api.md#health-check" >}})。
+Dapr actor 也有一个健康 API 端点，Dapr 会探测应用程序以响应 Dapr 发出的信号，确认 actor 应用程序是健康且正在运行的。请参阅 [actor 健康 API]({{% ref "actors_api.md#health-check" %}})。
 {{% /alert %}}
 
 下图展示了 Dapr sidecar 启动时，healthz 端点和应用通道初始化的步骤。
@@ -38,15 +38,15 @@ Dapr actor 也有一个健康 API 端点，Dapr 会探测应用程序以响应 D
 - Dapr HTTP 端口可用；_但，_
 - 应用通道尚未建立。
 
-在 Dapr SDK 中，`waitForSidecar`/`wait_until_ready` 方法（取决于[您使用的 SDK]({{< ref "#sdks-supporting-outbound-health-endpoint" >}})）用于通过 `v1.0/healthz/outbound` 端点进行此特定检查。使用这种方法，您的应用程序可以在应用通道初始化之前调用 Dapr sidecar API，例如，通过 secret API 读取 secret。
+在 Dapr SDK 中，`waitForSidecar`/`wait_until_ready` 方法（取决于[您使用的 SDK]({{% ref "#sdks-supporting-outbound-health-endpoint" %}})）用于通过 `v1.0/healthz/outbound` 端点进行此特定检查。使用这种方法，您的应用程序可以在应用通道初始化之前调用 Dapr sidecar API，例如，通过 secret API 读取 secret。
 
 如果您在 SDK 上使用 `waitForSidecar`/`wait_until_ready` 方法，则会执行正确的初始化。否则，您可以在初始化期间调用 `v1.0/healthz/outbound` 端点，如果成功，您可以调用 Dapr sidecar API。
 
 ### 支持出站健康端点的 SDK
 目前，`v1.0/healthz/outbound` 端点在以下 SDK 中得到支持：
-- [.NET SDK]({{< ref "dotnet-client.md#wait-for-sidecar" >}})
-- [Java SDK]({{< ref "java-client.md#wait-for-sidecar" >}})
-- [Python SDK]({{< ref "python-client.md#health-timeout" >}})
+- [.NET SDK]({{% ref "dotnet-client.md#wait-for-sidecar" %}})
+- [Java SDK]({{% ref "java-client.md#wait-for-sidecar" %}})
+- [Python SDK]({{% ref "python-client.md#health-timeout" %}})
 - [JavaScript SDK](https://github.com/dapr/js-sdk/blob/4189a3d2ad6897406abd766f4ccbf2300c8f8852/src/interfaces/Client/IClientHealth.ts#L14)
 
 ## 健康端点：与 Kubernetes 的集成
@@ -127,7 +127,7 @@ Dapr 在端口 3500 上有其 HTTP 健康端点 `/v1.0/healthz`。这可以与 K
 
 ## 延迟优雅关闭
 
-Dapr 提供了一个 [`dapr.io/block-shutdown-duration` 注释或 `--dapr-block-shutdown-duration` CLI 标志]({{< ref arguments-annotations-overview.md >}})，它会延迟完整的关闭过程，直到指定的持续时间，或直到应用报告为不健康，以较早者为准。
+Dapr 提供了一个 [`dapr.io/block-shutdown-duration` 注释或 `--dapr-block-shutdown-duration` CLI 标志]({{% ref arguments-annotations-overview.md %}})，它会延迟完整的关闭过程，直到指定的持续时间，或直到应用报告为不健康，以较早者为准。
 
 在此期间，所有订阅和输入绑定都会关闭。这对于需要在其自身关闭过程中使用 Dapr API 的应用程序非常有用。
 
@@ -136,10 +136,10 @@ Dapr 提供了一个 [`dapr.io/block-shutdown-duration` 注释或 `--dapr-block-
 - `--dapr-graceful-shutdown-seconds`/`dapr.io/graceful-shutdown-seconds`
 - `--dapr-block-shutdown-duration`/`dapr.io/block-shutdown-duration`
 
-在 [注释和参数指南]({{< ref arguments-annotations-overview.md >}}) 中了解更多关于这些及其使用方法。
+在 [注释和参数指南]({{% ref arguments-annotations-overview.md %}}) 中了解更多关于这些及其使用方法。
 
 ## 相关链接
 
-- [端点健康 API]({{< ref health_api.md >}})
-- [actor 健康 API]({{< ref "actors_api.md#health-check" >}})
+- [端点健康 API]({{% ref health_api.md %}})
+- [actor 健康 API]({{% ref "actors_api.md#health-check" %}})
 - [Kubernetes 探针配置参数](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)

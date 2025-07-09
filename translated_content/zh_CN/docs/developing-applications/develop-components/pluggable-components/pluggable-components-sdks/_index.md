@@ -14,5 +14,5 @@ Dapr SDK 是帮助您轻松创建可插拔组件的最佳工具。选择您喜�
 
 | 语言 | 进度 |
 |------|:----:|
-| [Go]({{< ref pluggable-components-go >}}) | 正在开发 |
-| [.NET]({{< ref pluggable-components-dotnet >}}) | 正在开发 |
+| [Go]({{% ref pluggable-components-go %}}) | 正在开发 |
+| [.NET]({{% ref pluggable-components-dotnet %}}) | 正在开发 |

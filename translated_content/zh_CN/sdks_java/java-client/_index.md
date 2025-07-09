@@ -9,13 +9,13 @@ description: 如何使用 Dapr Java SDK 快速上手
 Dapr 客户端包使您能够从 Java 应用程序与其他 Dapr 应用程序进行交互。
 
 {{% alert title="注意" color="primary" %}}
-如果您还没有尝试过，[请尝试其中一个快速入门]({{< ref quickstarts >}})，以快速了解如何使用 Dapr Java SDK 和 API 构建块。
+如果您还没有尝试过，[请尝试其中一个快速入门]({{% ref quickstarts %}})，以快速了解如何使用 Dapr Java SDK 和 API 构建块。
 
 {{% /alert %}}
 
 ## 前提条件
 
-[完成初始设置并将 Java SDK 导入您的项目]({{< ref java >}})
+[完成初始设置并将 Java SDK 导入您的项目]({{% ref java %}})
 
 ## 初始化客户端
 您可以这样初始化 Dapr 客户端：
@@ -61,7 +61,7 @@ DaprClient client = new DaprClientBuilder().build();
 
 ## 构建块
 
-Java SDK 允许您与所有 [Dapr 构建块]({{< ref building-blocks >}})进行接口交互。
+Java SDK 允许您与所有 [Dapr 构建块]({{% ref building-blocks %}})进行接口交互。
 
 ### 调用服务
 
@@ -85,7 +85,7 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关服务调用的完整指南，请访问 [How-To: Invoke a service]({{< ref howto-invoke-discover-services.md >}})。
+- 有关服务调用的完整指南，请访问 [How-To: Invoke a service]({{% ref howto-invoke-discover-services.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/invoke) 以获取代码示例和尝试服务调用的说明
 
 ### 保存和获取应用程序状态
@@ -108,7 +108,7 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关状态操作的完整列表，请访问 [How-To: Get & save state]({{< ref howto-get-save-state.md >}})。
+- 有关状态操作的完整列表，请访问 [How-To: Get & save state]({{% ref howto-get-save-state.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/state) 以获取代码示例和尝试状态管理的说明
 
 ### 发布和订阅消息
@@ -233,7 +233,7 @@ class Solution {
 }
 ```
 
-- 有关发布消息和订阅主题的完整指南，请访问 [How-To: Publish & subscribe]({{< ref howto-publish-subscribe.md >}})。
+- 有关发布消息和订阅主题的完整指南，请访问 [How-To: Publish & subscribe]({{% ref howto-publish-subscribe.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/pubsub/http) 以获取代码示例和尝试发布/订阅
 
 ### 与输出绑定交互
@@ -251,7 +251,7 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关输出绑定的完整指南，请访问 [How-To: Output bindings]({{< ref howto-bindings.md >}})。
+- 有关输出绑定的完整指南，请访问 [How-To: Output bindings]({{% ref howto-bindings.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http) 以获取代码示例和尝试输出绑定。
 
 ### 与输入绑定交互
@@ -273,7 +273,7 @@ public class myClass {
 }
 ```
 
-- 有关输入绑定的完整指南，请访问 [How-To: Input bindings]({{< ref howto-triggers >}})。
+- 有关输入绑定的完整指南，请访问 [How-To: Input bindings]({{% ref howto-triggers %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http) 以获取代码示例和尝试输入绑定。
 
 ### 检索秘密
@@ -290,7 +290,7 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关秘密的完整指南，请访问 [How-To: Retrieve secrets]({{< ref howto-secrets.md >}})。
+- 有关秘密的完整指南，请访问 [How-To: Retrieve secrets]({{% ref howto-secrets.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/secrets) 以获取代码示例和尝试检索秘密
 
 ### Actors
@@ -316,7 +316,7 @@ public interface DemoActor {
 }
 ```
 
-- 有关 actor 的完整指南，请访问 [How-To: Use virtual actors in Dapr]({{< ref howto-actors.md >}})。
+- 有关 actor 的完整指南，请访问 [How-To: Use virtual actors in Dapr]({{% ref howto-actors.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/actors) 以获取代码示例和尝试 actor
 
 ### 获取和订阅应用程序配置
@@ -349,7 +349,7 @@ try (DaprPreviewClient client = (new DaprClientBuilder()).buildPreviewClient()) 
 }
 ```
 
-- 有关配置操作的完整列表，请访问 [How-To: Manage configuration from a store]({{< ref howto-manage-configuration.md >}})。
+- 有关配置操作的完整列表，请访问 [How-To: Manage configuration from a store]({{% ref howto-manage-configuration.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/configuration) 以获取代码示例和尝试不同的配置操作。
 
 ### 查询保存的状态
@@ -419,7 +419,7 @@ try (DaprClient client = builder.build(); DaprPreviewClient previewClient = buil
         }
 }
 ```
-- 有关查询状态的完整指南，请访问 [How-To: Query state]({{< ref howto-state-query-api.md >}})。
+- 有关查询状态的完整指南，请访问 [How-To: Query state]({{% ref howto-state-query-api.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/querystate) 以获取完整代码示例。
 
 ### 分布式锁
@@ -485,7 +485,7 @@ public class DistributedLockGrpcClient {
 }
 ```
 
-- 有关分布式锁的完整指南，请访问 [How-To: Use a Lock]({{< ref howto-use-distributed-lock.md >}})
+- 有关分布式锁的完整指南，请访问 [How-To: Use a Lock]({{% ref howto-use-distributed-lock.md %}})
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/lock) 以获取完整代码示例。
 
 ### 工作流
@@ -606,9 +606,9 @@ public class DemoWorkflowClient {
 ```
 
 - 有关工作流的完整指南，请访问:
-   - [How-To: Author workflows]({{< ref howto-author-workflow.md >}})。
-   - [How-To: Manage workflows]({{< ref howto-manage-workflow.md >}})。
-- [了解更多关于如何使用 Java SDK 使用工作流]({{< ref java-workflow.md >}})。
+   - [How-To: Author workflows]({{% ref howto-author-workflow.md %}})。
+   - [How-To: Manage workflows]({{% ref howto-manage-workflow.md %}})。
+- [了解更多关于如何使用 Java SDK 使用工作流]({{% ref java-workflow.md %}})。
 
 ## Sidecar API
 

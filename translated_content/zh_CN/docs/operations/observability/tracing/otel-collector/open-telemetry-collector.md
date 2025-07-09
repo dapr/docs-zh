@@ -14,7 +14,7 @@ Dapr 也支持使用 Zipkin 协议来写入追踪数据。在 OTLP 协议支持�
 
 ## 先决条件
 
-- [在 Kubernetes 上安装 Dapr]({{< ref kubernetes >}})
+- [在 Kubernetes 上安装 Dapr]({{% ref kubernetes %}})
 - 确保您的追踪后端已准备好接收追踪数据
 - 查看 OTEL Collector 导出器所需的参数：
   - [`opentelemetry-collector-contrib/exporter`](https://github.com/open-telemetry/opentelemetry-collector-contrib/tree/main/exporter)
@@ -25,7 +25,7 @@ Dapr 也支持使用 Zipkin 协议来写入追踪数据。在 OTLP 协议支持�
 1. 查看 [`open-telemetry-collector-generic.yaml`](/docs/open-telemetry-collector/open-telemetry-collector-generic.yaml)。
 
 1. 将 `<your-exporter-here>` 替换为您的追踪导出器的实际配置。
-   - 请参考[先决条件部分]({{< ref "#prerequisites.md" >}})中的 OTEL Collector 链接以获取正确的配置。
+   - 请参考[先决条件部分]({{% ref "#prerequisites.md" %}})中的 OTEL Collector 链接以获取正确的配置。
 
 1. 使用以下命令应用配置：
 
@@ -80,4 +80,4 @@ spec:
 
 ## 相关链接
 - 尝试 [可观测性快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability/README.md)
-- 了解如何设置[追踪配置选项]({{< ref "configuration-overview.md#tracing" >}})
+- 了解如何设置[追踪配置选项]({{% ref "configuration-overview.md#tracing" %}})

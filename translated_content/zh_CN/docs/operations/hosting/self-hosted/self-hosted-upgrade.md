@@ -16,7 +16,7 @@ description: "按照这些步骤在自托管模式下升级 Dapr，确保升级�
    dapr uninstall --all
    ```
 
-1. 访问[本指南]({{< ref install-dapr-cli.md >}})以下载并安装最新版本的 CLI。
+1. 访问[本指南]({{% ref install-dapr-cli.md %}})以下载并安装最新版本的 CLI。
 
 1. 初始化 Dapr 运行时：
 

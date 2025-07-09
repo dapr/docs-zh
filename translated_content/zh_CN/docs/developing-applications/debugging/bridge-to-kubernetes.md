@@ -25,4 +25,4 @@ Bridge to Kubernetes 支持在您的计算机上调试 Dapr 应用程序，同�
 ## 进一步阅读
 
 - [Bridge to Kubernetes 文档](https://code.visualstudio.com/docs/containers/bridge-to-kubernetes)
-- [VSCode 集成]({{< ref vscode >}})
+- [VSCode 集成]({{% ref vscode %}})

@@ -9,9 +9,9 @@ aliases:
 
 ## 组件格式
 
-要配置 Azure Event Hubs 的发布/订阅功能，请创建一个类型为 `pubsub.azure.eventhubs` 的组件。有关 ConsumerID 自动生成的详细信息，请参阅 [pub/sub broker 组件文件]({{< ref setup-pubsub.md >}})。要了解如何创建和应用 pub/sub 配置，请阅读 [发布和订阅指南]({{< ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" >}})。
+要配置 Azure Event Hubs 的发布/订阅功能，请创建一个类型为 `pubsub.azure.eventhubs` 的组件。有关 ConsumerID 自动生成的详细信息，请参阅 [pub/sub broker 组件文件]({{% ref setup-pubsub.md %}})。要了解如何创建和应用 pub/sub 配置，请阅读 [发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})。
 
-除了下文列出的配置元数据字段，Azure Event Hubs 还支持 [Azure 身份验证]({{< ref "authenticating-azure.md" >}}) 机制。
+除了下文列出的配置元数据字段，Azure Event Hubs 还支持 [Azure 身份验证]({{% ref "authenticating-azure.md" %}}) 机制。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -57,16 +57,16 @@ spec:
 ```
 
 {{% alert title="注意" color="warning" %}}
-上面的示例使用明文字符串作为密钥。建议使用密钥存储来保护密钥，具体方法请参阅[这里]({{< ref component-secrets.md >}})。
+上面的示例使用明文字符串作为密钥。建议使用密钥存储来保护密钥，具体方法请参阅[这里]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
 
 | 字段              | 必需 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
-| `connectionString`    | 是*  | Event Hub 或 Event Hub 命名空间的连接字符串。<br>* 与 `eventHubNamespace` 字段互斥。<br>* 不使用 [Microsoft Entra ID 身份验证]({{< ref "authenticating-azure.md" >}}) 时必需 | `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={EventHub}"` 或 `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key}"`
-| `eventHubNamespace` | 是* | Event Hub 命名空间名称。<br>* 与 `connectionString` 字段互斥。<br>* 使用 [Microsoft Entra ID 身份验证]({{< ref "authenticating-azure.md" >}}) 时必需 | `"namespace"` 
-| `consumerID`       | 否 | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看可以在组件元数据中使用的所有模板标签。]({{< ref "component-schema.md#templated-metadata-values" >}})
+| `connectionString`    | 是*  | Event Hub 或 Event Hub 命名空间的连接字符串。<br>* 与 `eventHubNamespace` 字段互斥。<br>* 不使用 [Microsoft Entra ID 身份验证]({{% ref "authenticating-azure.md" %}}) 时必需 | `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={EventHub}"` 或 `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key}"`
+| `eventHubNamespace` | 是* | Event Hub 命名空间名称。<br>* 与 `connectionString` 字段互斥。<br>* 使用 [Microsoft Entra ID 身份验证]({{% ref "authenticating-azure.md" %}}) 时必需 | `"namespace"` 
+| `consumerID`       | 否 | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息仅由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID (`appID`) 值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式值（如 `"{podName}"` 等）。[查看可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | `enableEntityManagement` | 否 | 布尔值，允许管理 EventHub 命名空间和存储帐户。默认值：`false` | `"true", "false"`
 | `enableInOrderMessageDelivery` | 否 | 布尔值，允许消息按发布顺序传递。这假设在发布或发布时设置了 `partitionKey` 以确保跨分区的顺序。默认值：`false` | `"true"`, `"false"`
 | `storageAccountName`  | 是  | 用于检查点存储的存储帐户名称。 |`"myeventhubstorage"`
@@ -80,7 +80,7 @@ spec:
 
 ### Microsoft Entra ID 身份验证
 
-Azure Event Hubs pub/sub 组件支持使用所有 Microsoft Entra ID 机制进行身份验证。有关更多信息以及根据选择的 Microsoft Entra ID 身份验证机制提供的相关组件元数据字段，请参阅 [Azure 身份验证文档]({{< ref authenticating-azure.md >}})。
+Azure Event Hubs pub/sub 组件支持使用所有 Microsoft Entra ID 机制进行身份验证。有关更多信息以及根据选择的 Microsoft Entra ID 身份验证机制提供的相关组件元数据字段，请参阅 [Azure 身份验证文档]({{% ref authenticating-azure.md %}})。
 
 #### 示例配置
 
@@ -126,7 +126,7 @@ Azure Eventhubs 支持使用批量 pub/sub API 在单个操作中发送和接收
 
 ### 配置批量发布
 
-要设置批量发布操作的元数据，请在 HTTP 请求或 gRPC 元数据上设置查询参数，[如 API 参考中所述]({{< ref pubsub_api >}})。
+要设置批量发布操作的元数据，请在 HTTP 请求或 gRPC 元数据上设置查询参数，[如 API 参考中所述]({{% ref pubsub_api %}})。
 
 | 元数据 | 默认值 |
 |----------|---------|
@@ -134,7 +134,7 @@ Azure Eventhubs 支持使用批量 pub/sub API 在单个操作中发送和接收
 
 ### 配置批量订阅
 
-订阅主题时，可以配置 `bulkSubscribe` 选项。请参阅 [批量订阅消息]({{< ref "pubsub-bulk#subscribing-messages-in-bulk" >}}) 了解更多详细信息，并了解 [批量订阅 API]({{< ref pubsub-bulk.md >}})。
+订阅主题时，可以配置 `bulkSubscribe` 选项。请参阅 [批量订阅消息]({{% ref "pubsub-bulk#subscribing-messages-in-bulk" %}}) 了解更多详细信息，并了解 [批量订阅 API]({{% ref pubsub-bulk.md %}})。
 
 | 配置 | 默认值 |
 |---------------|---------|
@@ -143,7 +143,7 @@ Azure Eventhubs 支持使用批量 pub/sub API 在单个操作中发送和接收
 
 ## 配置检查点频率
 
-订阅主题时，可以通过 [在 HTTP 或 gRPC 订阅请求中设置元数据]({{< ref "pubsub_api.md#http-request-2" >}}) 来配置分区中的检查点频率。此元数据允许在分区事件序列中配置的事件数量后进行检查点。通过将频率设置为 `0` 来禁用检查点。
+订阅主题时，可以通过 [在 HTTP 或 gRPC 订阅请求中设置元数据]({{% ref "pubsub_api.md#http-request-2" %}}) 来配置分区中的检查点频率。此元数据允许在分区事件序列中配置的事件数量后进行检查点。通过将频率设置为 `0` 来禁用检查点。
 
 [了解更多关于检查点的信息](https://learn.microsoft.com/azure/event-hubs/event-hubs-features#checkpointing)。
 
@@ -151,7 +151,7 @@ Azure Eventhubs 支持使用批量 pub/sub API 在单个操作中发送和接收
 | -------- | ------- |
 | `metadata.checkPointFrequencyPerPartition` | `1` |
 
-以下示例显示了一个使用 `checkPointFrequencyPerPartition` 元数据的 [声明性订阅]({{< ref "subscription-methods.md#declarative-subscriptions" >}}) 示例订阅文件。同样，您也可以在 [编程订阅]({{< ref "subscription-methods.md#programmatic-subscriptions" >}}) 中传递元数据。
+以下示例显示了一个使用 `checkPointFrequencyPerPartition` 元数据的 [声明性订阅]({{% ref "subscription-methods.md#declarative-subscriptions" %}}) 示例订阅文件。同样，您也可以在 [编程订阅]({{% ref "subscription-methods.md#programmatic-subscriptions" %}}) 中传递元数据。
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -194,7 +194,7 @@ scopes:
 
 Event Hub 名称是发布或订阅请求中的 `topic` 字段，而消费者组名称是订阅给定 Event Hub 的 Dapr 应用程序的名称。例如，在 Kubernetes 上运行的 Dapr 应用程序，其名称为 `dapr.io/app-id: "myapp"` 需要一个名为 `myapp` 的 Event Hubs 消费者组。
 
-实体管理仅在使用 [Microsoft Entra ID 身份验证]({{< ref "authenticating-azure.md" >}}) 且不使用连接字符串时才可能。
+实体管理仅在使用 [Microsoft Entra ID 身份验证]({{% ref "authenticating-azure.md" %}}) 且不使用连接字符串时才可能。
 
 > Dapr 将消费者组的名称传递给 Event Hub，因此这不在元数据中提供。
 
@@ -236,7 +236,7 @@ Azure IoT Hub 提供了一个 [与 Event Hubs 兼容的端点](https://docs.micr
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- 阅读 [本指南]({{< ref "howto-publish-subscribe.md#step-2-publish-a-topic" >}}) 了解配置 pub/sub 组件的说明
-- [Pub/Sub 构建块]({{< ref pubsub >}})
-- [Azure 身份验证]({{< ref "authenticating-azure.md" >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- 阅读 [本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}}) 了解配置 pub/sub 组件的说明
+- [Pub/Sub 构建块]({{% ref pubsub %}})
+- [Azure 身份验证]({{% ref "authenticating-azure.md" %}})

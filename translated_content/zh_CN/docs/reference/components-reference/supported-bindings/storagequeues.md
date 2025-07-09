@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要配置 Azure Storage Queues 绑定，需创建一个类型为 `bindings.azure.storagequeues` 的组件。请参考[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要配置 Azure Storage Queues 绑定，需创建一个类型为 `bindings.azure.storagequeues` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -43,7 +43,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 使用了明文字符串。建议使用 secret 存储，如[此处]({{< ref component-secrets.md >}})所述。
+上述示例中，secret 使用了明文字符串。建议使用 secret 存储，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 元数据字段说明
@@ -63,7 +63,7 @@ spec:
 
 ### Microsoft Entra ID 身份验证
 
-Azure Storage Queue 绑定组件支持使用所有 Microsoft Entra ID 机制进行身份验证。请参阅[Azure 身份验证文档]({{< ref authenticating-azure.md >}})以了解有关根据您选择的 Microsoft Entra ID 身份验证机制的相关组件元数据字段的更多信息。
+Azure Storage Queue 绑定组件支持使用所有 Microsoft Entra ID 机制进行身份验证。请参阅[Azure 身份验证文档]({{% ref authenticating-azure.md %}})以了解有关根据您选择的 Microsoft Entra ID 身份验证机制的相关组件元数据字段的更多信息。
 
 ## 绑定支持
 
@@ -99,8 +99,8 @@ curl -X POST http://localhost:3500/v1.0/bindings/myStorageQueue \
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [bindings 构建块]({{< ref bindings >}})
-- [如何：使用输入绑定触发应用程序]({{< ref howto-triggers.md >}})
-- [如何：使用 bindings 与外部资源接口]({{< ref howto-bindings.md >}})
-- [bindings API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [bindings 构建块]({{% ref bindings %}})
+- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用 bindings 与外部资源接口]({{% ref howto-bindings.md %}})
+- [bindings API 参考]({{% ref bindings_api.md %}})

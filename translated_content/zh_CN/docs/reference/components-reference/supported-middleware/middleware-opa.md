@@ -7,7 +7,7 @@ aliases:
 - /zh-hans/developing-applications/middleware/supported-middleware/middleware-opa/
 ---
 
-Open Policy Agent (OPA) [HTTP 中间件]({{< ref middleware.md >}}) 用于对传入的 Dapr HTTP 请求应用 [OPA 策略](https://www.openpolicyagent.org/)。这可以用于在应用程序端点上实施可重用的授权策略。
+Open Policy Agent (OPA) [HTTP 中间件]({{% ref middleware.md %}}) 用于对传入的 Dapr HTTP 请求应用 [OPA 策略](https://www.openpolicyagent.org/)。这可以用于在应用程序端点上实施可重用的授权策略。
 
 ## 组件格式
 
@@ -82,7 +82,7 @@ spec:
 
 ## Dapr 配置
 
-要应用中间件，必须在 [配置]({{< ref configuration-concept.md >}}) 中引用。请参阅 [中间件管道]({{< ref "middleware.md#customize-processing-pipeline">}})。
+要应用中间件，必须在 [配置]({{% ref configuration-concept.md %}}) 中引用。请参阅 [中间件管道]({{% ref "middleware.md#customize-processing-pipeline" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -214,6 +214,6 @@ type Result struct {
 
 - [Open Policy Agent](https://www.openpolicyagent.org)
 - [HTTP API 示例](https://www.openpolicyagent.org/docs/latest/http-api-authorization/)
-- [中间件]({{< ref middleware.md >}})
-- [配置概念]({{< ref configuration-concept.md >}})
-- [配置概述]({{< ref configuration-overview.md >}})
+- [中间件]({{% ref middleware.md %}})
+- [配置概念]({{% ref configuration-concept.md %}})
+- [配置概述]({{% ref configuration-overview.md %}})

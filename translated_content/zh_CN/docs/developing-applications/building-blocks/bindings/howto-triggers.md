@@ -16,15 +16,15 @@ weight: 200
 
 <img src="/images/howto-triggers/kafka-input-binding.png" width=1000 alt="示例服务的绑定图示">
 
-本指南使用Kafka绑定作为示例。您可以从[绑定组件列表]({{< ref setup-bindings >}})中找到您偏好的绑定规范。在本指南中：
+本指南使用Kafka绑定作为示例。您可以从[绑定组件列表]({{% ref setup-bindings %}})中找到您偏好的绑定规范。在本指南中：
 
 1. 示例调用`/binding`端点，使用`checkout`作为要调用的绑定名称。
 1. 负载需要放在`data`字段中，可以是任何可序列化为JSON的值。
-1. `operation`字段指定绑定需要执行的操作。例如，[Kafka绑定支持`create`操作]({{< ref "kafka.md#binding-support" >}})。
-   - 您可以查看[每个输出绑定支持的操作（特定于每个组件）]({{< ref supported-bindings >}})。
+1. `operation`字段指定绑定需要执行的操作。例如，[Kafka绑定支持`create`操作]({{% ref "kafka.md#binding-support" %}})。
+   - 您可以查看[每个输出绑定支持的操作（特定于每个组件）]({{% ref supported-bindings %}})。
 
 {{% alert title="注意" color="primary" %}}
- 如果您还没有尝试过，[试试绑定快速入门]({{< ref bindings-quickstart.md >}})，快速了解如何使用绑定API。
+ 如果您还没有尝试过，[试试绑定快速入门]({{% ref bindings-quickstart.md %}})，快速了解如何使用绑定API。
 
 {{% /alert %}}
 
@@ -37,11 +37,11 @@ weight: 200
 - 您将发布消息的主题
 - 代理
 
-在创建绑定组件时，[指定绑定的支持`direction`]({{< ref "bindings_api.md#binding-direction-optional" >}})。
+在创建绑定组件时，[指定绑定的支持`direction`]({{% ref "bindings_api.md#binding-direction-optional" %}})。
 
-{{< tabs "Self-Hosted (CLI)" Kubernetes >}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header="Self-Hosted (CLI)" %}}
 
 使用`dapr run`命令的`--resources-path`标志指向您的自定义资源目录。
 
@@ -71,9 +71,9 @@ spec:
     value: input
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Kubernetes" %}}
 
 要部署到Kubernetes集群中，运行`kubectl apply -f binding.yaml`。
 
@@ -103,9 +103,9 @@ spec:
     value: input
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ## 监听传入事件（输入绑定）
 
@@ -115,9 +115,9 @@ spec:
 
 以下是利用Dapr SDK展示输入绑定的代码示例。
 
-{{< tabs ".NET" Java Python Go JavaScript>}}
+{{< tabpane text=true >}}
 
-{{% codetab %}}
+{{% tab header=".NET" %}}
 
 ```csharp
 //依赖项
@@ -143,9 +143,9 @@ namespace CheckoutService.controller
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Java" %}}
 
 ```java
 //依赖项
@@ -168,9 +168,9 @@ public class CheckoutServiceController {
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Python" %}}
 
 ```python
 #依赖项
@@ -189,9 +189,9 @@ app.run(6002)
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="Go" %}}
 
 ```go
 //依赖项
@@ -223,9 +223,9 @@ func main() {
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{% codetab %}}
+{{% tab header="JavaScript" %}}
 
 ```javascript
 //依赖项 
@@ -258,9 +258,9 @@ async function start() {
 
 ```
 
-{{% /codetab %}}
+{{% /tab %}}
 
-{{< /tabs >}}
+{{< /tabpane >}}
 
 ### 确认事件
 
@@ -289,7 +289,7 @@ spec:
 
 ## 参考资料
 
-- [绑定构建块]({{< ref bindings >}})
-- [绑定API]({{< ref bindings_api.md >}})
-- [组件概念]({{< ref components-concept.md >}})
-- [支持的绑定]({{< ref supported-bindings >}})
+- [绑定构建块]({{% ref bindings %}})
+- [绑定API]({{% ref bindings_api.md %}})
+- [组件概念]({{% ref components-concept.md %}})
+- [支持的绑定]({{% ref supported-bindings %}})

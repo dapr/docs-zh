@@ -11,7 +11,7 @@ aliases:
 
 MySQL 绑定支持连接 MySQL 和 MariaDB 数据库。在本文档中，"MySQL" 用于指代这两个数据库。
 
-要设置 MySQL 绑定，请创建一个类型为 `bindings.mysql` 的组件。请参阅[本指南]({{< ref "howto-bindings.md#1-create-a-binding" >}})了解如何创建和应用绑定配置。
+要设置 MySQL 绑定，请创建一个类型为 `bindings.mysql` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
 
 MySQL 绑定使用 [Go-MySQL-Driver](https://github.com/go-sql-driver/mysql) 作为内部驱动。
 
@@ -39,7 +39,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上面的示例使用明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{< ref component-secrets.md >}})所述。
+上面的示例使用明文字符串作为 secret。建议使用 secret 存储来存储 secret，如[此处]({{% ref component-secrets.md %}})所述。
 请注意，您不能仅为用户名/密码使用 secret。如果使用 secret，必须用于完整的连接字符串。
 {{% /alert %}}
 
@@ -185,7 +185,7 @@ SELECT * FROM mytable WHERE user_key = ?;
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{< ref component-schema >}})
-- [绑定构建块]({{< ref bindings >}})
-- [如何使用绑定与外部资源接口]({{< ref howto-bindings.md >}})
-- [绑定 API 参考]({{< ref bindings_api.md >}})
+- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [绑定构建块]({{% ref bindings %}})
+- [如何使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

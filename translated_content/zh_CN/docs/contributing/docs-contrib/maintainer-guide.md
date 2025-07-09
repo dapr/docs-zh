@@ -8,7 +8,7 @@ description: "成为 Dapr 文档维护者和审批者的入门指南。"
 
 在本指南中，您将学习如何履行 Dapr 文档维护者和审批者的日常职责。要成功完成这些任务，您需要在 [`dapr/docs`](https://github.com/dapr/docs) 仓库中拥有审批者或维护者的权限。
 
-如果您想了解如何为 Dapr 文档做出贡献，请查看 [贡献者指南]({{< ref contributing-docs.md >}})。
+如果您想了解如何为 Dapr 文档做出贡献，请查看 [贡献者指南]({{% ref contributing-docs.md %}})。
 
 ## 分支管理指南
 
@@ -16,7 +16,7 @@ Dapr 文档的分支管理与大多数代码仓库不同。没有 `main` 分支�
 
 完整的分支列表请访问 [文档仓库](https://github.com/dapr/docs#branch-guidance)。
 
-阅读 [贡献者指南]({{< ref "contributing-docs.md#branch-guidance" >}}) 以获取有关发布分支的更多信息。
+阅读 [贡献者指南]({{% ref "contributing-docs.md#branch-guidance" %}}) 以获取有关发布分支的更多信息。
 
 ## 从当前发布分支合并到预发布分支
 
@@ -408,4 +408,4 @@ SDK 文档位于每个 SDK 仓库中。对 SDK 文档所做的更改会推送到
 
 ## 下一步
 
-有关为 Dapr 文档做出贡献的指导，请阅读 [贡献者指南]({{< ref contributing-docs.md >}})。
+有关为 Dapr 文档做出贡献的指导，请阅读 [贡献者指南]({{% ref contributing-docs.md %}})。
