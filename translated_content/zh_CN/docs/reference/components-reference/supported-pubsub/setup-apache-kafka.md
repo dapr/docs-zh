@@ -661,7 +661,7 @@ app.include_router(router)
 
 {{% /tab %}}
 
-{{< /tabs >}} 
+{{< /tabpane >}} 
 
 
 

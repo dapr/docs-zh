@@ -81,13 +81,13 @@ spec:
 
 {{< tabpane text=true >}}
 
-  {{% tab %}}
+  {{% tab header="Windows" %}}
   ```bash
   curl -d "{ \"operation\": \"create\", \"data\": \"YOUR_BASE_64_CONTENT\", \"metadata\": { \"fileName\": \"my-test-file.jpg\" } }" http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /tab %}}
 
-  {{% tab %}}
+  {{% tab header="Linux" %}}
   ```bash
   curl -d '{ "operation": "create", "data": "YOUR_BASE_64_CONTENT", "metadata": { "fileName": "my-test-file.jpg" } }' \
         http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
@@ -123,13 +123,13 @@ spec:
 
 {{< tabpane text=true >}}
 
-  {{% tab %}}
+  {{% tab header="Windows" %}}
   ```bash
   curl -d '{ \"operation\": \"get\", \"metadata\": { \"fileName\": \"filename\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /tab %}}
 
-  {{% tab %}}
+  {{% tab header="Linux" %}}
   ```bash
   curl -d '{ "operation": "get", "metadata": { "fileName": "filename" }}' \
         http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
@@ -167,13 +167,13 @@ spec:
 
 {{< tabpane text=true >}}
 
-  {{% tab %}}
+  {{% tab header="Windows" %}}
   ```bash
   curl -d '{ \"operation\": \"list\", \"metadata\": { \"fileName\": \"my/cool/directory\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /tab %}}
 
-  {{% tab %}}
+  {{% tab header="Linux" %}}
   ```bash
   curl -d '{ "operation": "list", "metadata": { "fileName": "my/cool/directory" }}' \
         http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
@@ -203,13 +203,13 @@ spec:
 
 {{< tabpane text=true >}}
 
-  {{% tab %}}
+  {{% tab header="Windows" %}}
   ```bash
   curl -d '{ \"operation\": \"delete\", \"metadata\": { \"fileName\": \"myfile\" }}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
   ```
   {{% /tab %}}
 
-  {{% tab %}}
+  {{% tab header="Linux" %}}
   ```bash
   curl -d '{ "operation": "delete", "metadata": { "fileName": "myfile" }}' \
         http://localhost:<dapr-port>/v1.0/bindings/<binding-name>

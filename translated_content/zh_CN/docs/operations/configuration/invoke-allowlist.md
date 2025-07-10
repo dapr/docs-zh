@@ -302,9 +302,9 @@ spec:
 
 1. 在命令提示符中，设置这些环境变量：
 
-    {{< tabs "Linux/MacOS" Windows >}}
+    {{< tabpane text=true >}}
 
-    {{% tab %}}
+    {{% tab header="Linux/MacOS" %}}
 
       ```bash
       export DAPR_TRUST_ANCHORS=`cat $HOME/.dapr/certs/ca.crt`
@@ -315,7 +315,7 @@ spec:
 
     {{% /tab %}}
 
-    {{% tab %}}
+    {{% tab header="Windows" %}}
 
       ```powershell
       $env:DAPR_TRUST_ANCHORS=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\ca.crt)
@@ -326,7 +326,7 @@ spec:
 
     {{% /tab %}}
     
-    {{< /tabs >}}
+    {{< /tabpane >}}
 
 1. 运行daprd以启动Node.js应用程序的Dapr sidecar，启用mTLS，引用本地Sentry服务：
 
@@ -344,9 +344,9 @@ spec:
 
 1. 在另一个命令提示符中，设置这些环境变量：
 
-   {{< tabs "Linux/MacOS" Windows >}}
+   {{< tabpane text=true >}}
 
-   {{% tab %}}
+   {{% tab header="Linux/MacOS" %}}
 
     ```bash
     export DAPR_TRUST_ANCHORS=`cat $HOME/.dapr/certs/ca.crt`
@@ -356,7 +356,7 @@ spec:
    ```
    {{% /tab %}}
 
-   {{% tab %}}
+   {{% tab header="Windows" %}}
 
    ```powershell
    $env:DAPR_TRUST_ANCHORS=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\ca.crt)
@@ -367,7 +367,7 @@ spec:
   
    {{% /tab %}}
 
-   {{< /tabs >}}
+   {{< /tabpane >}}
 
 1. 运行daprd以启动Python应用程序的Dapr sidecar，启用mTLS，引用本地Sentry服务：
 
