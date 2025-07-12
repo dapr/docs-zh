@@ -189,17 +189,17 @@ Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 符号调整
 整体格式是：
 
 ```
-{{</* tabs [Tab1] [Tab2]>}}
+{{</* tabpane text=true>}}
 
-{{% tab %}}
+{{% tab header="[Tab1]" %}}
 [Tab1 的内容]
 {{% /tab %}}
 
-{{% tab %}}
+{{% tab header="[Tab2]" %}}
 [Tab2 的内容]
 {{% /tab %}}
 
-{{< /tabs */>}}
+{{< /tabpane */>}}
 ```
 
 您撰写的所有内容都将被渲染为 markdown，因此您可以包含图像、代码块、YouTube 视频等。
@@ -207,27 +207,27 @@ Docsy 和 Hugo 使用的 markdown 规范没有提供使用 markdown 符号调整
 #### 示例
 
 ````
-{{</* tabs Windows Linux MacOS>}}
+{{</* tabpane text=true >}}
 
-{{% tab %}}
+{{% tab header="Windows" %}}
 ```powershell
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
 ```
 {{% /tab %}}
 
-{{% tab %}}
+{{% tab header="Linux" %}}
 ```bash
 wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
 ```
 {{% /tab %}}
 
-{{% tab %}}
+{{% tab header="MacOS" %}}
 ```bash
 brew install dapr/tap/dapr-cli
 ```
 {{% /tab %}}
 
-{{< /tabs */>}}
+{{< /tabpane */>}}
 ````
 
 此示例将呈现为：
