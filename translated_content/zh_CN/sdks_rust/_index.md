@@ -3,7 +3,7 @@ type: docs
 title: "Dapr Rust SDK"
 linkTitle: "Rust"
 weight: 1000
-description: 用于开发Dapr应用的Rust SDK包
+description: 用于开发 Dapr 应用程序的 Rust SDK 包
 no_list: true
 cascade:
   github_repo: https://github.com/dapr/rust-sdk
@@ -13,15 +13,15 @@ cascade:
 ---
 
 {{% alert title="注意" color="primary" %}}
-Dapr Rust-SDK目前处于Alpha版本阶段。我们正在努力使其达到稳定版本，可能会涉及重大更改。
-{{% /alert %}}
+Dapr Rust SDK 目前处于 Alpha 阶段。正在进行工作以使其达到稳定版本，可能会涉及破坏性变更。
+{{% /alert %]]
 
-这是一个帮助开发者使用Rust构建Dapr应用的客户端库。该客户端旨在支持所有公共的Dapr API，同时注重提供符合Rust习惯的开发体验和提升开发者的工作效率。
+帮助使用 Rust 构建 Dapr 应用程序的客户端库。此客户端旨在支持所有公共 Dapr API，同时专注于符合 Rust 习惯的体验和开发者生产力。
 
-{{< cardpane >}}
-{{< card title="**客户端**">}}
-  使用Rust客户端SDK调用公共的Dapr API
+{{% cardpane %}}
+{{% card title="**客户端**" %}}
+  使用 Rust 客户端 SDK 调用公共 Dapr API
 
-  [**了解更多关于Rust客户端SDK的信息**]({{% ref rust-client %}})
-{{< /card >}}
-{{< /cardpane >}}
+  [详细了解 Rust 客户端 SDK]({{% ref rust-client %}})
+{{% /card %}}
+{{% /cardpane %}}

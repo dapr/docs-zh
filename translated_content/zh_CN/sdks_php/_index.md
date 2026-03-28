@@ -3,32 +3,37 @@ type: docs
 title: "Dapr PHP SDK"
 linkTitle: "PHP"
 weight: 1000
-description: 用于开发Dapr应用的PHP SDK包
+description: 用于开发 Dapr 应用程序的 PHP SDK 包
 no_list: true
+cascade:
+  github_repo: https://github.com/dapr/php-sdk
+  github_subdir: daprdocs/content/en/php-sdk-docs
+  path_base_for_github_subdir: content/en/developing-applications/sdks/php/
+  github_branch: main
 ---
 
-Dapr提供了一个SDK，帮助开发PHP应用程序。通过它，您可以使用Dapr创建PHP客户端、服务器和虚拟actor。
+Dapr 提供了一个 SDK，用于帮助开发 PHP 应用程序。使用它，你可以使用 Dapr 创建 PHP 客户端、服务器和虚拟 Actor。
 
-## 设置
+## 环境准备
 
-### 先决条件
+### 前置要求
 
 - [Composer](https://getcomposer.org/)
 - [PHP 8](https://www.php.net/)
 
-### 可选先决条件
+### 可选前置要求
 
 - [Docker](https://www.docker.com/)
 - [xdebug](http://xdebug.org/) -- 用于调试
 
-## 初始化您的项目
+## 初始化项目
 
-在您希望创建服务的目录中，运行`composer init`并回答提示的问题。
-使用`composer require dapr/php-sdk`安装此SDK以及您可能需要的其他依赖项。
+在你想要创建服务的目录中，运行 `composer init` 并回答问题。
+使用 `composer require dapr/php-sdk` 安装 SDK 以及你可能需要使用的其他依赖。
 
-## 配置您的服务
+## 配置服务
 
-创建一个config.php文件，并复制以下内容：
+创建一个 config.php，复制以下内容：
 
 ```php
 <?php
@@ -39,48 +44,48 @@ use Psr\Log\LogLevel;
 use function DI\{env,get};
 
 return [
-    // 设置日志级别
+    // set the log level
     'dapr.log.level'               => LogLevel::WARNING,
 
-    // 在每个请求上生成一个新的代理 - 推荐用于开发
+    // Generate a new proxy on each request - recommended for development
     'dapr.actors.proxy.generation' => ProxyFactory::GENERATED,
     
-    // 在此处放置任何订阅
+    // put any subscriptions here
     'dapr.subscriptions'           => [],
     
-    // 如果此服务将托管任何actor，请在此处添加它们
+    // if this service will be hosting any actors, add them here
     'dapr.actors'                  => [],
     
-    // 配置Dapr在多长时间后认为actor空闲
+    // if this service will be hosting any actors, configure how long until dapr should consider an actor idle
     'dapr.actors.idle_timeout'     => null,
     
-    // 配置Dapr检查空闲actor的频率
+    // if this service will be hosting any actors, configure how often dapr will check for idle actors 
     'dapr.actors.scan_interval'    => null,
     
-    // 配置Dapr在关闭期间等待actor完成的时间
+    // if this service will be hosting any actors, configure how long dapr will wait for an actor to finish during drains
     'dapr.actors.drain_timeout'    => null,
     
-    // 配置Dapr是否应等待actor完成
+    // if this service will be hosting any actors, configure if dapr should wait for an actor to finish
     'dapr.actors.drain_enabled'    => null,
     
-    // 您可以在此处更改Dapr的端口设置
+    // you shouldn't have to change this, but the setting is here if you need to
     'dapr.port'                    => env('DAPR_HTTP_PORT', '3500'),
     
-    // 添加任何自定义序列化例程
+    // add any custom serialization routines here
     'dapr.serializers.custom'      => [],
     
-    // 添加任何自定义反序列化例程
+    // add any custom deserialization routines here
     'dapr.deserializers.custom'    => [],
     
-    // 以下设置为默认中间件，按指定顺序处理
+    // the following has no effect, as it is the default middlewares and processed in order specified
     'dapr.http.middleware.request'  => [get(Tracing::class)],
     'dapr.http.middleware.response' => [get(ApplicationJson::class), get(Tracing::class)],
 ];
 ```
 
-## 创建您的服务
+## 创建服务
 
-创建`index.php`并放入以下内容：
+创建 `index.php` 并放入以下内容：
 
 ```php
 <?php
@@ -96,13 +101,15 @@ $app->get('/hello/{name}', function(string $name) {
 $app->start();
 ```
 
-## 试用
+## 试一下
 
-使用`dapr init`初始化Dapr，然后使用`dapr run -a dev -p 3000 -- php -S 0.0.0.0:3000`启动项目。
+使用 `dapr init` 初始化 Dapr，然后使用 `dapr run -a dev -p 3000 -- php -S 0.0.0.0:3000` 启动项目。
 
-您现在可以打开一个网页浏览器并访问[http://localhost:3000/hello/world](http://localhost:3000/hello/world)，将`world`替换为您的名字、宠物的名字或您想要的任何内容。
+<!-- IGNORE_LINKS -->
+现在你可以打开浏览器并访问 [http://localhost:3000/hello/world](http://localhost:3000/hello/world)，将 `world` 替换为你的名字、宠物的名字或任何你想要的内容。
+<!-- END_IGNORE -->
 
-恭喜，您已经创建了您的第一个Dapr服务！期待看到您会用它做些什么！
+恭喜，你已经创建了第一个 Dapr 服务！我很期待看到你会用它做什么！
 
 ## 更多信息
 

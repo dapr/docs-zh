@@ -3,7 +3,7 @@ type: docs
 title: "JavaScript SDK"
 linkTitle: "JavaScript"
 weight: 1000
-description: 用于开发Dapr应用的JavaScript SDK
+description: 用于开发 Dapr 应用程序的 JavaScript SDK 软件包
 no_list: true
 cascade:
   github_repo: https://github.com/dapr/js-sdk
@@ -12,11 +12,11 @@ cascade:
   github_branch: main
 ---
 
-这是一个用于在JavaScript和TypeScript中构建Dapr应用的开发库。该库对Dapr的常用API进行了抽象，如服务调用、状态管理、发布订阅、密钥管理等，并提供了一个简单直观的API接口来帮助构建应用。
+一个用于在 JavaScript 和 TypeScript 中构建 Dapr 应用程序的客户端库。该客户端抽象了服务调用、状态管理、发布订阅、密钥管理等公共 Dapr API，并提供简单直观的 API 用于构建应用程序。
 
 ## 安装
 
-要开始使用JavaScript SDK，请从[NPM](https://www.npmjs.com/package/@dapr/dapr)安装Dapr JavaScript SDK：
+要开始使用 JavaScript SDK，请从 [NPM](https://www.npmjs.com/package/@dapr/dapr) 安装 Dapr JavaScript SDK 软件包：
 
 ```bash
 npm install --save @dapr/dapr
@@ -24,12 +24,12 @@ npm install --save @dapr/dapr
 
 ## 结构
 
-Dapr JavaScript SDK包含两个主要组件：
+Dapr JavaScript SDK 包含两个主要组件：
 
-- **DaprServer**：用于管理Dapr sidecar与应用之间的通信。
-- **DaprClient**：用于管理应用与Dapr sidecar之间的通信。
+- **DaprServer**：用于管理所有 Dapr 边车到应用程序的通信。
+- **DaprClient**：用于管理所有应用程序到 Dapr 边车的通信。
 
-这些通信可以配置为使用gRPC或HTTP协议。
+上述通信可以配置为使用 gRPC 或 HTTP 协议中的任意一种。
 
 <table>
   <tr>
@@ -38,29 +38,29 @@ Dapr JavaScript SDK包含两个主要组件：
   </tr>
 </table>
 
-## 入门
+## 快速开始
 
-为了帮助您快速上手，请查看以下资源：
+为了帮助您快速开始，请查看以下资源：
 
 <div class="card-deck">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>客户端</b></h5>
-      <p class="card-text">创建一个JavaScript客户端，与Dapr sidecar和其他Dapr应用进行交互（例如，发布事件，支持输出绑定等）。</p>
+      <h5 class="card-title"><b>Client</b></h5>
+      <p class="card-text">创建 JavaScript 客户端并与 Dapr 边车及其他 Dapr 应用程序交互（例如，发布事件、输出绑定支持等）。</p>
       <a href="{{% ref js-client %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>服务器</b></h5>
-      <p class="card-text">创建一个JavaScript服务器，让Dapr sidecar与您的应用进行交互（例如，订阅事件，支持输入绑定等）。</p>
+      <h5 class="card-title"><b>Server</b></h5>
+      <p class="card-text">创建 JavaScript 服务器并让 Dapr 边车与您的应用程序交互（例如，订阅事件、输入绑定支持等）。</p>
       <a href="{{% ref js-server %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>虚拟演员</b></h5>
-      <p class="card-text">创建具有状态、提醒/计时器和方法的虚拟演员。</p>
+      <h5 class="card-title"><b>Actors</b></h5>
+      <p class="card-text">创建具有状态、提醒/定时器和方法的虚拟 Actor。</p>
       <a href="{{% ref js-actors %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -69,15 +69,15 @@ Dapr JavaScript SDK包含两个主要组件：
 <div class="card-deck">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>日志</b></h5>
-      <p class="card-text">配置和自定义SDK的日志功能。</p>
+      <h5 class="card-title"><b>Logging</b></h5>
+      <p class="card-text">配置和自定义 SDK 日志记录。</p>
       <a href="{{% ref js-logger %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>示例</b></h5>
-      <p class="card-text">获取JavaScript SDK的源代码并尝试一些示例以快速入门。</p>
+      <h5 class="card-title"><b>Examples</b></h5>
+      <p class="card-text">克隆 JavaScript SDK 源代码并尝试一些示例以快速开始。</p>
       <a href="{{% ref js-examples %}}" class="stretched-link"></a>
     </div>
   </div>
