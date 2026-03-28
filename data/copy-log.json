@@ -1,0 +1,146 @@
+{
+  "version": "v1.17",
+  "generatedAt": "2026-03-28T09:28:28.110Z",
+  "batches": [
+    {
+      "id": "batch-20260328T092828.110Z",
+      "sourceRepo": "repos/v1.17",
+      "sourceBranch": "v1.17",
+      "copiedAt": "2026-03-28T09:28:28.110Z",
+      "documentCount": 638,
+      "bucketCount": 11,
+      "failureCount": 0,
+      "statusSummary": {
+        "synced": 638,
+        "drift": 0,
+        "missingSource": 17
+      },
+      "translationSummary": {
+        "translated": 0,
+        "staleTranslation": 546,
+        "missingTranslation": 92,
+        "orphanTranslation": 17
+      },
+      "status": "completed",
+      "failures": []
+    },
+    {
+      "id": "batch-20260328T091925.631Z",
+      "sourceRepo": "repos/v1.17",
+      "sourceBranch": "v1.17",
+      "copiedAt": "2026-03-28T09:19:25.631Z",
+      "documentCount": 638,
+      "bucketCount": 11,
+      "failureCount": 0,
+      "statusSummary": {
+        "synced": 638,
+        "drift": 0,
+        "missingSource": 17
+      },
+      "translationSummary": {
+        "translated": 0,
+        "staleTranslation": 546,
+        "missingTranslation": 92,
+        "orphanTranslation": 17
+      },
+      "status": "completed",
+      "failures": []
+    },
+    {
+      "id": "batch-20260328T084857.880Z",
+      "sourceRepo": "repos/v1.17",
+      "sourceBranch": "v1.17",
+      "copiedAt": "2026-03-28T08:48:57.880Z",
+      "documentCount": 638,
+      "bucketCount": 11,
+      "failureCount": 0,
+      "statusSummary": {
+        "synced": 638,
+        "drift": 0,
+        "missingSource": 0
+      },
+      "status": "completed",
+      "failures": []
+    },
+    {
+      "id": "batch-20260328T081244.671Z",
+      "sourceRepo": "repos/v1.17",
+      "sourceBranch": "v1.17",
+      "copiedAt": "2026-03-28T08:12:44.671Z",
+      "documentCount": 638,
+      "bucketCount": 11,
+      "failureCount": 0,
+      "statusSummary": {
+        "synced": 76,
+        "drift": 470,
+        "missingTranslation": 92
+      },
+      "status": "completed",
+      "failures": []
+    },
+    {
+      "id": "batch-20260328T080122.581Z",
+      "sourceRepo": "repos/v1.17",
+      "sourceBranch": "v1.17",
+      "copiedAt": "2026-03-28T08:01:22.581Z",
+      "documentCount": 638,
+      "bucketCount": 11,
+      "failureCount": 0,
+      "statusSummary": {
+        "synced": 76,
+        "drift": 470,
+        "missingTranslation": 92
+      },
+      "status": "completed",
+      "failures": []
+    },
+    {
+      "id": "batch-20260328T075504.329Z",
+      "sourceRepo": "repos/v1.17",
+      "sourceBranch": "v1.17",
+      "copiedAt": "2026-03-28T07:55:04.329Z",
+      "documentCount": 638,
+      "bucketCount": 11,
+      "failureCount": 0,
+      "statusSummary": {
+        "synced": 76,
+        "drift": 470,
+        "missingTranslation": 92
+      },
+      "status": "completed",
+      "failures": []
+    },
+    {
+      "id": "batch-20260328T153517-0800",
+      "sourceRepo": "repos/v1.17",
+      "sourceBranch": "v1.17",
+      "copiedAt": "2026-03-28T15:35:17+08:00",
+      "documentCount": 638,
+      "bucketCount": 11,
+      "failureCount": 0,
+      "statusSummary": {
+        "synced": 76,
+        "drift": 470,
+        "missingTranslation": 92
+      },
+      "status": "completed",
+      "failures": []
+    },
+    {
+      "id": "batch-20260328T152220-0800",
+      "sourceRepo": "v1.17",
+      "sourceBranch": "v1.17",
+      "copiedAt": "2026-03-28T15:22:20+08:00",
+      "documentCount": 638,
+      "bucketCount": 11,
+      "failureCount": 0,
+      "statusSummary": {
+        "synced": 76,
+        "drift": 470,
+        "missingTranslation": 92
+      },
+      "status": "completed",
+      "failures": []
+    }
+  ]
+}

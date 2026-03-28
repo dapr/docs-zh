@@ -1,0 +1,48 @@
+{
+  "version": "v1.17",
+  "generatedAt": "2026-03-28T11:12:06.951Z",
+  "terms": [
+    {
+      "id": "term-a0a84865",
+      "source": "building block",
+      "target": "构建块",
+      "notes": "对应 Dapr 核心能力分类。"
+    },
+    {
+      "id": "term-d6a3845a",
+      "source": "pluggable component",
+      "target": "可插拔组件",
+      "notes": "与 pluggable-components 目录语义保持一致。"
+    },
+    {
+      "id": "term-a18260e0",
+      "source": "pub/sub",
+      "target": "发布订阅",
+      "notes": "保留 slash 形式的英文缩写。"
+    },
+    {
+      "id": "term-df82e560",
+      "source": "service invocation",
+      "target": "服务调用",
+      "notes": "与运行时 API 名称保持一致。"
+    },
+    {
+      "id": "term-eba52a76",
+      "source": "sidecar",
+      "target": "边车",
+      "notes": "沿用 Kubernetes 与 Dapr 常用译法。"
+    },
+    {
+      "id": "term-eaa90af4",
+      "source": "state store",
+      "target": "状态存储",
+      "notes": "用于组件类型与文档标题。"
+    },
+    {
+      "id": "term-d5090053",
+      "source": "workflow",
+      "target": "工作流",
+      "notes": "与工作流 API 和页面文案一致。"
+    }
+  ]
+}
