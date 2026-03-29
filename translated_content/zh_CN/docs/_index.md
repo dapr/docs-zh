@@ -2,11 +2,11 @@
 type: docs
 no_list: true
 ---
-# <img src="/images/home-title.png" alt="Dapr Docs" width=400>
+# <img src="/images/home-title.png" alt="Dapr 文档" width=400>
 
 ## Dapr，分布式应用运行时
 
-Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将应用代码与底层基础设施解耦，确保灵活性和可移植性。Dapr 利用业界在安全性、弹性和可观测性方面的最佳实践，让您可以专注于自己的代码。
+Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将应用程序代码与底层基础设施解耦，确保灵活性和可移植性。Dapr 利用行业最佳实践来确保安全性、弹性和可观测性，让您专注于代码。
 
 {{< button text="开始使用" page="getting-started.md" >}}
 
@@ -27,7 +27,7 @@ Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将�
       <h5 class="card-title">
       <img src="/images/homepage/dapr-agents.svg" alt="Dapr Agents" width=40>
       <b>智能体 AI</b></h5>
-      <p class="card-text">使用 Dapr Agents 创建持久的智能体 AI 应用。</p>
+      <p class="card-text">使用 Dapr Agents 创建持久的智能体 AI 应用程序。</p>
       <a href="{{% ref "../developing-ai/dapr-agents" %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -38,7 +38,7 @@ Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将�
       <h5 class="card-title">
       <img src="/images/homepage/service-invocation.svg" alt="Dapr service invocation API" width=40>
       <b>微服务</b></h5>
-      <p class="card-text">使用 Dapr 服务调用 API 构建弹性微服务。</p>
+      <p class="card-text">使用 Dapr 服务调用 API 构建具有弹性的微服务。</p>
       <a href="{{% ref service-invocation-overview %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -47,7 +47,7 @@ Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将�
       <h5 class="card-title">
       <img src="/images/homepage/pub-sub.svg" alt="Dapr pub/sub API" width=40>
       <b>事件驱动架构</b></h5>
-      <p class="card-text">使用 Dapr 发布订阅 API 创建事件驱动应用。</p>
+      <p class="card-text">使用 Dapr 发布订阅 API 创建事件驱动应用程序。</p>
       <a href="{{% ref pubsub-overview %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -139,13 +139,13 @@ Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将�
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>快速入门</b></h5>
-      <p class="card-text">如何在几分钟内在您的环境中运行 Dapr。</p>
+      <p class="card-text">如何在几分钟内在您的环境中启动并运行 Dapr。</p>
       <a href="{{% ref getting-started %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>快速示例</b></h5>
+      <h5 class="card-title"><b>快速入门示例</b></h5>
       <p class="card-text">一系列包含代码示例的教程，帮助您快速上手 Dapr。</p>
       <a href="{{% ref quickstarts %}}" class="stretched-link"></a>
     </div>
@@ -165,22 +165,22 @@ Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将�
 <div class="card-deck">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>开发应用</b></h5>
-      <p class="card-text">关于如何使用 Dapr 构建应用的工具、技巧和信息。</p>
+      <h5 class="card-title"><b>开发应用程序</b></h5>
+      <p class="card-text">关于如何使用 Dapr 构建应用程序的工具、提示和信息。</p>
       <a href="{{% ref developing-applications %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>构建块</b></h5>
-      <p class="card-text">解决分布式应用常见开发挑战的能力。</p>
+      <p class="card-text">解决分布式应用程序常见开发挑战的能力。</p>
       <a href="{{% ref building-blocks-concept %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>运维</b></h5>
-      <p class="card-text">托管选项、最佳实践，以及在 Dapr 上运行应用的其他指南。</p>
+      <p class="card-text">托管选项、最佳实践，以及在 Dapr 上运行应用程序的其他指南。</p>
       <a href="{{% ref operations %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -200,7 +200,7 @@ Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将�
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>贡献</b></h5>
-      <p class="card-text">如何为 Dapr 项目和各个仓库做出贡献。</p>
+      <p class="card-text">如何为 Dapr 项目和各种代码仓库做出贡献。</p>
       <a href="{{% ref contributing %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -224,7 +224,7 @@ Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将�
         <b>IDE 集成</b>
       </h5>
       <p class="card-text">
-        了解如何在您首选的集成开发环境中运行 Dapr。
+        了解如何在您首选的集成开发环境中启动并运行 Dapr。
       </p>
       <a href="{{% ref ides %}}" class="stretched-link"></a>
     </div>
@@ -238,7 +238,7 @@ Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将�
         <b>语言 SDK</b>
       </h5>
       <p class="card-text">
-        使用 Dapr SDK 以您首选的语言创建 Dapr 应用。
+        使用 Dapr SDK 以您首选的语言创建 Dapr 应用程序。
       </p>
       <a href="{{% ref sdks %}}" class="stretched-link"></a>
     </div>
@@ -252,7 +252,7 @@ Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将�
         <b>Dapr University</b>
       </h5>
       <p class="card-text">
-        通过一系列免费的实践课程，在基于云的沙盒环境中学习 Dapr。
+        通过一系列免费实践课程，在基于云的沙箱环境中学习 Dapr。
       </p>
       <a href="https://www.diagrid.io/dapr-university" class="stretched-link"></a>
     </div>
