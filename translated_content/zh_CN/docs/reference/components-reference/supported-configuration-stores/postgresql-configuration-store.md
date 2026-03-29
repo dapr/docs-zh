@@ -4,8 +4,8 @@ title: "PostgreSQL"
 linkTitle: "PostgreSQL"
 description: PostgreSQL 配置存储组件的详细信息
 aliases:
-  - "/operations/components/setup-configuration-store/supported-configuration-stores/setup-postgresql/"
-  - "/operations/components/setup-configuration-store/supported-configuration-stores/setup-postgres/"
+  - "/zh-hans/operations/components/setup-configuration-store/supported-configuration-stores/setup-postgresql/"
+  - "/zh-hans/operations/components/setup-configuration-store/supported-configuration-stores/setup-postgres/"
 ---
 
 ## 组件格式

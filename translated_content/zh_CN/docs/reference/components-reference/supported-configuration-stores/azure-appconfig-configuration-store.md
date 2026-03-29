@@ -4,7 +4,7 @@ title: "Azure App Configuration"
 linkTitle: "Azure App Configuration"
 description: Azure App Configuration 配置存储组件的详细信息
 aliases:
-  - "/operations/components/setup-configuration-store/supported-configuration-stores/setup-azure-appconfig/"
+  - "/zh-hans/operations/components/setup-configuration-store/supported-configuration-stores/setup-azure-appconfig/"
 ---
 
 ## 组件格式

@@ -4,7 +4,7 @@ title: "Redis"
 linkTitle: "Redis"
 description: Redis 配置存储组件的详细信息
 aliases:
-  - "/operations/components/setup-configuration-store/supported-configuration-stores/setup-redis/"
+  - "/zh-hans/operations/components/setup-configuration-store/supported-configuration-stores/setup-redis/"
 ---
 
 ## 组件格式
