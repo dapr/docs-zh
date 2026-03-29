@@ -1,0 +1,22 @@
+{
+  "version": "v1.17",
+  "generatedAt": "2026-03-29T00:47:37.354Z",
+  "items": [
+    {
+      "bucket": "sdks_js",
+      "relativePath": "images/dapr-client.jpg",
+      "sourceSha256": "afd7c1b172dc850449d856f381bec0191370ffb5957626603d89cb86b4e29e7c",
+      "targetPath": "translated_content/zh_CN/sdks_js/images/dapr-client.jpg",
+      "translatedAt": "2026-03-29T00:47:37.354Z",
+      "updatedAt": "2026-03-29T00:47:37.354Z"
+    },
+    {
+      "bucket": "sdks_js",
+      "relativePath": "images/dapr-server.jpg",
+      "sourceSha256": "789759d7a88dfce2bb95b29cfe6410deac4938cf7e94080df61bb2cf0dd101f8",
+      "targetPath": "translated_content/zh_CN/sdks_js/images/dapr-server.jpg",
+      "translatedAt": "2026-03-29T00:47:37.354Z",
+      "updatedAt": "2026-03-29T00:47:37.354Z"
+    }
+  ]
+}
