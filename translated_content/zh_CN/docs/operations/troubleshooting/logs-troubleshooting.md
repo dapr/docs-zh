@@ -3,49 +3,49 @@ type: docs
 title: "配置和查看 Dapr 日志"
 linkTitle: "日志"
 weight: 2000
-description: "了解 Dapr 中日志的工作原理以及如何配置和查看日志"
+description: "了解 Dapr 中的日志工作原理以及如何配置和查看日志"
 ---
 
-本节将帮助您了解 Dapr 中日志的工作原理，以及如何配置和查看日志。
+本节将帮助您了解 Dapr 中的日志工作原理，以及如何配置和查看日志。
 
 ## 概述
 
-日志有不同的可配置级别。
-以下列出的级别适用于系统组件和 Dapr sidecar 进程/容器：
+日志具有不同的、可配置的详细程度级别。
+下面列出的级别对于系统组件和 Dapr 边车进程/容器都是相同的：
 
 1. error
 2. warn
 3. info
 4. debug
 
-error 级别输出最少，而 debug 级别输出最多。默认级别是 info，它在正常情况下为操作 Dapr 提供了足够的信息。
+error 产生最少的输出，而 debug 产生最多的输出。默认级别是 info，它在正常条件下运行 Dapr 时提供平衡的信息量。
 
-要设置输出级别，可以使用 `--log-level` 命令行选项。例如：
+要设置输出级别，您可以使用 `--log-level` 命令行选项。例如：
 
 ```bash
 ./daprd --log-level error
 ./placement --log-level debug
 ```
 
-这将以 `error` 日志级别启动 Dapr 运行时二进制文件，并以 `debug` 日志级别启动 Dapr actor 放置服务。
+这将启动日志级别为 `error` 的 Dapr 运行时二进制文件和日志级别为 `debug` 的 Dapr Actor Placement 服务。
 
 ## 独立模式下的日志
 
-在使用 Dapr CLI 运行应用程序时，可以通过传递 `log-level` 参数来设置日志级别：
+在使用 Dapr CLI 运行应用时设置日志级别，传递 `log-level` 参数：
 
 ```bash
 dapr run --log-level warn node myapp.js
 ```
 
-如上所述，每个 Dapr 二进制文件都接受一个 `--log-level` 参数。例如，要以警告级别启动放置服务：
+如上所述，每个 Dapr 二进制文件都接受 `--log-level` 参数。例如，要使用警告日志级别启动 placement 服务：
 
 ```bash
 ./placement --log-level warn
 ```
 
-### 查看独立模式下的日志
+### 在独立模式下查看日志
 
-当使用 Dapr CLI 运行 Dapr 时，您的应用程序日志输出和运行时输出将被重定向到同一会话，方便调试。
+使用 Dapr CLI 运行 Dapr 时，您的应用的日志输出和运行时的输出都将被重定向到同一会话中，以便于调试。
 例如，这是运行 Dapr 时的输出：
 
 ```bash
@@ -75,14 +75,14 @@ dapr run node myapp.js
 
 > [了解如何在 Kubernetes 上调试 `daprd`。]({{% ref "debug-daprd.md" %}}) 
 
-您可以通过在 pod 规范模板中提供以下注释，为每个 sidecar 单独设置日志级别：
+您可以通过在 pod 规范模板中提供以下注释来为每个边车单独设置日志级别：
 
 ```yml
 annotations:
   dapr.io/log-level: "debug"
 ```
 
-### 设置系统 pod 的日志级别
+### 设置系统 Pod 的日志级别
 
 使用 Helm 3.x 将 Dapr 部署到集群时，您可以为每个 Dapr 系统组件单独设置日志级别：
 
@@ -103,20 +103,20 @@ helm install dapr dapr/dapr --namespace dapr-system --set dapr_operator.logLevel
 
 ### 在 Kubernetes 上查看日志
 
-Dapr 日志写入到标准输出（stdout）和标准错误（stderr）。
-本节将指导您如何查看 Dapr 系统组件以及 Dapr sidecar 的日志。
+Dapr 日志被写入 stdout 和 stderr。
+本节将指导您如何查看 Dapr 系统组件以及 Dapr 边车的日志。
 
-#### Sidecar 日志
+#### 边车日志
 
-在 Kubernetes 中部署时，Dapr sidecar 注入器会将一个名为 `daprd` 的 Dapr 容器注入到您的注释 pod 中。
-要查看 sidecar 的日志，只需通过运行 `kubectl get pods` 找到相关的 pod：
+在 Kubernetes 中部署时，Dapr 边车注入器会将名为 `daprd` 的 Dapr 容器注入到带注释的 pod 中。
+要查看边车的日志，只需运行 `kubectl get pods` 找到相关 pod：
 
 ```bash
 NAME                                        READY     STATUS    RESTARTS   AGE
 addapp-74b57fb78c-67zm6                     2/2       Running   0          40h
 ```
 
-接下来，获取 Dapr sidecar 容器的日志：
+接下来，获取 Dapr 边车容器的日志：
 
 ```bash
 kubectl logs addapp-74b57fb78c-67zm6 -c daprd
@@ -137,11 +137,11 @@ time="2019-09-04T02:52:27Z" level=info msg="actors: established connection to pl
 
 #### 系统日志
 
-Dapr 运行以下系统 pod：
+Dapr 运行以下系统 Pod：
 
 * Dapr operator
-* Dapr sidecar 注入器
-* Dapr 放置服务
+* Dapr sidecar injector
+* Dapr placement service
 
 #### Operator 日志
 
@@ -160,9 +160,9 @@ I1207 06:01:03.516641 1 leaderelection.go:253] successfully acquired lease dapr-
 time="2021-12-07T06:01:03.526202227Z" level=info msg="Successfully patched webhook in CRD "subscriptions.dapr.io"" instance=dapr-operator-84bb47f895-dvbsj scope=dapr.operator type=log ver=unknown
 ```
 
-*注意：如果 Dapr 安装在不同的命名空间而不是 dapr-system，只需在上述命令中将命名空间替换为所需的命名空间*
+*注意：如果 Dapr 被安装到 dapr-system 以外的命名空间，只需在上述命令中将命名空间替换为所需的命名空间*
 
-#### Sidecar 注入器日志
+#### 边车注入器日志
 
 ```Bash
 kubectl logs -l app=dapr-sidecar-injector -n dapr-system
@@ -174,9 +174,9 @@ time="2021-12-07T06:01:01.557646524Z" level=info msg="Healthz server is listenin
 time="2021-12-07T06:01:01.621291968Z" level=info msg="Sidecar injector is listening on :4000, patching Dapr-enabled pods" instance=dapr-sidecar-injector-5d88fcfcf5-2gmvv scope=dapr.injector type=log ver=unknown
 ```
 
-*注意：如果 Dapr 安装在不同的命名空间而不是 dapr-system，只需在上述命令中将命名空间替换为所需的命名空间*
+*注意：如果 Dapr 被安装到 dapr-system 以外的命名空间，只需在上述命令中将命名空间替换为所需的命名空间*
 
-#### 查看放置服务日志
+#### 查看 Placement 服务日志
 
 ```Bash
 kubectl logs -l app=dapr-placement-server -n dapr-system
@@ -193,12 +193,12 @@ time="2021-12-04T05:08:07.036850257Z" level=info msg="cluster leadership acquire
 time="2021-12-04T05:08:07.036909357Z" level=info msg="leader is established." instance=dapr-placement-server-0 scope=dapr.placement type=log ver=1.5.0
 ```
 
-*注意：如果 Dapr 安装在不同的命名空间而不是 dapr-system，只需在上述命令中将命名空间替换为所需的命名空间*
+*注意：如果 Dapr 被安装到 dapr-system 以外的命名空间，只需在上述命令中将命名空间替换为所需的命名空间*
 
 ### 非 Kubernetes 环境
 
-以上示例特定于 Kubernetes，但对于任何类型的基于容器的环境，原则是相同的：只需获取 Dapr sidecar 和/或系统组件（如果适用）的容器 ID 并查看其日志。
+上面的示例专门针对 Kubernetes，但原理对于任何基于容器的环境都是相同的：只需获取 Dapr 边车和/或系统组件（如适用）的容器 ID 并查看其日志。
 
-## 参考资料
+## 参考
 
 * [如何在 Dapr 中设置日志]({{% ref "logging.md" %}})

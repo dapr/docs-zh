@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "健康检查"
-linkTitle: "健康检查"
+title: "Health checks"
+linkTitle: "Health checks"
 weight: 400
-description: "如何为Dapr sidecar及您的应用程序进行健康检查设置"
+description: "如何为 Dapr 边车和应用程序设置健康检查"
 ---

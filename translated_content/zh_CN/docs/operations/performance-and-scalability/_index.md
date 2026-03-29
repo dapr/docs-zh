@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "Dapr 的性能与扩展性概述"
-linkTitle: "性能与扩展性"
+title: "Dapr 的性能和可扩展性统计"
+linkTitle: "性能和可扩展性"
 weight: 700
-description: "Dapr 组件的性能测试与使用指南"
+description: "Dapr 构建块的基准测试和指南"
 ---

@@ -1,15 +1,15 @@
 ---
 type: docs
-title: "配置 Azure Kubernetes 服务 (AKS) 集群"
-linkTitle: "Azure Kubernetes 服务 (AKS)"
+title: "设置 Azure Kubernetes Service (AKS) 集群"
+linkTitle: "Azure Kubernetes Service (AKS)"
 weight: 2000
 description: >
-  学习如何配置 Azure Kubernetes 集群
+  了解如何设置 Azure Kubernetes 集群
 ---
 
-本指南将引导您安装 Azure Kubernetes 服务 (AKS) 集群。如果您需要更多信息，请参考 [快速入门：使用 Azure CLI 部署 AKS 集群](https://docs.microsoft.com/azure/aks/kubernetes-walkthrough)
+本指南将引导您完成安装 Azure Kubernetes Service (AKS) 集群的过程。如需更多信息，请参阅[快速入门：使用 Azure CLI 部署 AKS 集群](https://docs.microsoft.com/azure/aks/kubernetes-walkthrough)
 
-## 先决条件
+## 前置条件
 
 - 安装：
    - [Docker](https://docs.docker.com/install/)
@@ -18,7 +18,7 @@ description: >
 
 ## 部署 AKS 集群
 
-1. 在终端中登录到 Azure。
+1. 在终端中，登录到 Azure。
 
    ```bash
    az login
@@ -36,10 +36,10 @@ description: >
    az group create --name [your_resource_group] --location [region]
    ```
 
-1. 创建 AKS 集群。若需使用特定版本的 Kubernetes，请使用 `--kubernetes-version` 参数（需 1.13.x 或更高版本）。
+1. 创建 AKS 集群。若要使用特定版本的 Kubernetes，请使用 `--kubernetes-version`（需要 1.13.x 或更新版本）。
 
    ```bash
-   az aks create --resource-group [your_resource_group] --name [your_aks_cluster_name] --node-count 2 --enable-addons http_application_routing --generate-ssh-keys
+   az aks create --resource-group [your_resource_group] --name [your_aks_cluster_name] --location [region] --node-count 2 --enable-app-routing --generate-ssh-keys
    ```
 
 1. 获取 AKS 集群的访问凭据。
@@ -49,15 +49,15 @@ description: >
    ```
 
 ## AKS Edge Essentials
-要使用 Azure Kubernetes 服务 (AKS) Edge Essentials 创建单机 K8s/K3s Linux-only 集群，您可以按照 [AKS Edge Essentials 快速入门指南](https://learn.microsoft.com/azure/aks/hybrid/aks-edge-quickstart) 进行操作。
+若要使用 Azure Kubernetes Service (AKS) Edge Essentials 创建单机 K8s/K3s 仅 Linux 集群，您可以参阅[AKS Edge Essentials 快速入门指南](https://learn.microsoft.com/azure/aks/hybrid/aks-edge-quickstart)。
 
 {{% alert title="注意" color="primary" %}}
-AKS Edge Essentials 不自带默认存储类，这可能会导致在部署 Dapr 时出现问题。为避免此问题，请确保在部署 Dapr 之前在集群上启用 **local-path-provisioner** 存储类。有关更多信息，请参考 [AKS EE 上的 Local Path Provisioner](https://learn.microsoft.com/azure/aks/hybrid/aks-edge-howto-use-storage-local-path)。
+AKS Edge Essentials 默认不提供存储类，这可能会导致部署 Dapr 时出现问题。为避免此问题，请确保在部署 Dapr 之前在集群上启用 **local-path-provisioner** 存储类。如需更多信息，请参阅[AKS EE 上的 Local Path Provisioner](https://learn.microsoft.com/azure/aks/hybrid/aks-edge-howto-use-storage-local-path)。
 {{% /alert %}}
 
 ## 相关链接
 
-- 了解更多关于 [AKS 的 Dapr 扩展]({{% ref azure-kubernetes-service-extension %}})
-   - [安装 AKS 的 Dapr 扩展](https://learn.microsoft.com/azure/aks/dapr)
-   - [配置 AKS 的 Dapr 扩展](https://learn.microsoft.com/azure/aks/dapr-settings)
-   - [使用 AKS 的 Dapr 扩展部署和运行工作流](https://learn.microsoft.com/azure/aks/dapr-workflow)
+- 了解有关[适用于 AKS 的 Dapr 扩展]({{% ref azure-kubernetes-service-extension %}}) 的更多信息
+   - [安装适用于 AKS 的 Dapr 扩展](https://learn.microsoft.com/azure/aks/dapr)
+   - [配置适用于 AKS 的 Dapr 扩展](https://learn.microsoft.com/azure/aks/dapr-settings)
+   - [使用适用于 AKS 的 Dapr 扩展部署和运行工作流](https://learn.microsoft.com/azure/aks/dapr-workflow)

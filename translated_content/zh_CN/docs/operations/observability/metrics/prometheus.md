@@ -1,35 +1,35 @@
 ---
 type: docs
-title: "操作指南：使用 Prometheus 监控指标"
+title: "操作指南：使用 Prometheus 观察指标"
 linkTitle: "Prometheus"
 weight: 4000
-description: "使用 Prometheus 收集与 Dapr 运行时执行相关的时间序列数据"
+description: "使用 Prometheus 收集与 Dapr 运行时本身执行相关的时序数据"
 ---
 
-## 本地设置 Prometheus
-在本地计算机上，您可以选择[安装并作为进程运行](#install) Prometheus，或者将其作为[Docker 容器运行](#Run-as-Container)。
+## 在本地设置 Prometheus
+要在本地计算机上运行 Prometheus，您可以[安装并作为进程运行](#install)，也可以将其作为 [Docker 容器](#run-as-container)运行。
 
 ### 安装
 {{% alert title="注意" color="warning" %}}
-如果您计划将 Prometheus 作为 Docker 容器运行，则无需单独安装 Prometheus。请参阅[容器](#run-as-container)部分的说明。
+如果您计划将 Prometheus 作为 Docker 容器运行，则无需安装它。请参阅[容器](#run-as-container)说明。
 {{% /alert %}}
 
-请按照[此处](https://prometheus.io/docs/prometheus/latest/getting_started/)提供的步骤，根据您的操作系统安装 Prometheus。
+要安装 Prometheus，请按照[此处](https://prometheus.io/docs/prometheus/latest/getting_started/)针对您的操作系统概述的步骤操作。
 
 ### 配置
-安装完成后，您需要创建一个配置文件。
+现在您已经安装了 Prometheus，需要创建一个配置。
 
-以下是一个示例 Prometheus 配置，请将其保存为文件，例如 `/tmp/prometheus.yml` 或 `C:\Temp\prometheus.yml`：
+下面是一个 Prometheus 配置示例，将其保存到文件中，例如 `/tmp/prometheus.yml` 或 `C:\Temp\prometheus.yml`
 ```yaml
 global:
-  scrape_interval:     15s # 默认情况下，每 15 秒收集一次指标。
+  scrape_interval:     15s # 默认情况下，每 15 秒抓取一次目标。
 
-# 包含一个收集端点的配置：
-# 这里是 Prometheus 自身。
+# 一个恰好包含一个要抓取的端点的抓取配置：
+# 这里是 Prometheus 本身。
 scrape_configs:
   - job_name: 'dapr'
 
-    # 覆盖全局默认值，每 5 秒从此 job 收集指标。
+    # 覆盖全局默认值，并每 5 秒从此作业抓取目标。
     scrape_interval: 5s
 
     static_configs:
@@ -37,33 +37,33 @@ scrape_configs:
 ```
 
 ### 作为进程运行
-使用您的配置文件运行 Prometheus，以开始从指定目标收集指标。
+使用您的配置运行 Prometheus，以开始从指定目标收集指标。
 ```bash
 ./prometheus --config.file=/tmp/prometheus.yml --web.listen-address=:8080
 ```
-> 我们更改了端口以避免与 Dapr 自身的指标端点冲突。
+> 我们更改了端口，使其不会与 Dapr 自己的指标端点冲突。
 
-如果您当前没有运行 Dapr 应用程序，目标将显示为离线。要开始收集指标，您必须启动 Dapr，并确保其指标端口与配置中指定的目标一致。
+如果您当前没有运行 Dapr 应用程序，目标将显示为离线。为了开始收集指标，您必须使用与配置中提供的目标匹配的指标端口启动 Dapr。
 
-一旦 Prometheus 运行，您可以通过访问 `http://localhost:8080` 来查看其仪表板。
+Prometheus 运行后，您可以通过访问 `http://localhost:8080` 来访问其仪表板。
 
 ### 作为容器运行
 要在本地计算机上将 Prometheus 作为 Docker 容器运行，首先确保已安装并运行 [Docker](https://docs.docker.com/install/)。
 
-然后可以使用以下命令将 Prometheus 作为 Docker 容器运行：
+然后您可以使用以下命令将 Prometheus 作为 Docker 容器运行：
 ```bash
 docker run \
     --net=host \
     -v /tmp/prometheus.yml:/etc/prometheus/prometheus.yml \
     prom/prometheus --config.file=/etc/prometheus/prometheus.yml --web.listen-address=:8080
 ```
-`--net=host` 确保 Prometheus 实例能够连接到在主机上运行的任何 Dapr 实例。如果您计划也在容器中运行 Dapr 应用程序，则需要在共享的 Docker 网络上运行它们，并使用正确的目标地址更新配置。
+`--net=host` 确保 Prometheus 实例能够连接到在主机上运行的任何 Dapr 实例。如果您还计划在容器中运行 Dapr 应用，则需要在共享的 Docker 网络上运行它们，并使用正确的目标地址更新配置。
 
-一旦 Prometheus 运行，您可以通过访问 `http://localhost:8080` 来查看其仪表板。
+Prometheus 运行后，您可以通过访问 `http://localhost:8080` 来访问其仪表板。
 
 ## 在 Kubernetes 上设置 Prometheus
 
-### 先决条件
+### 前提条件
 
 - Kubernetes (> 1.14)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
@@ -71,7 +71,7 @@ docker run \
 
 ### 安装 Prometheus
 
-1. 首先创建一个命名空间，用于部署 Grafana 和 Prometheus 监控工具
+1.  首先创建可用于部署 Grafana 和 Prometheus 监控工具的命名空间
 
 ```bash
 kubectl create namespace dapr-monitoring
@@ -85,7 +85,7 @@ helm repo update
 helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring
 ```
 
-如果您是 Minikube 用户或想要禁用持久卷以进行开发，可以使用以下命令禁用它。
+如果您是 Minikube 用户或出于开发目的想要禁用持久卷，可以使用以下命令禁用它。
 
 ```bash
 helm install dapr-prom prometheus-community/prometheus -n dapr-monitoring
@@ -111,8 +111,8 @@ server:
   persistentVolume:
     enabled: false
 
-# 向 prometheus.yml 添加额外的收集配置
-# 使用服务发现找到 Dapr 和 Dapr sidecar 目标
+# 向 prometheus.yml 添加额外的抓取配置
+# 使用服务发现来查找 Dapr 和 Dapr sidecar 目标
 extraScrapeConfigs: |-
   - job_name: dapr-sidecars
     kubernetes_sd_configs:
@@ -222,11 +222,9 @@ kubectl port-forward svc/dapr-prom-prometheus-server 9090:80 -n dapr-monitoring
 
 ## 示例
 
-<div class="embed-responsive embed-responsive-16by9">
-    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/8W-iBDNvCUM?start=2577" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+{{< youtube id=8W-iBDNvCUM start=2577 >}}
 
-## 参考资料
+## 参考
 
 * [Prometheus 安装](https://github.com/prometheus-community/helm-charts)
 * [Prometheus 查询语言](https://prometheus.io/docs/prometheus/latest/querying/basics/)

@@ -1,16 +1,16 @@
 ---
 type: docs
-title: "Bindings 组件"
+title: "Binding 组件"
 linkTitle: "Bindings"
-description: "关于设置 Dapr bindings 组件的指导"
+description: "设置 Dapr binding 组件的指南"
 weight: 900
 ---
 
-Dapr 可以与外部资源集成，使应用程序既能被外部事件触发，也能与资源进行交互。每个 bindings 组件都有一个名称，用于与资源进行交互时使用。
+Dapr 与外部资源集成，允许应用既可以被外部事件触发，也可以与这些资源进行交互。每个 binding 组件都有一个名称，在与该资源交互时使用这个名称。
 
-与其他构建块组件一样，bindings 组件是可扩展的，相关代码可以在 [components-contrib 仓库](https://github.com/dapr/components-contrib)中找到。
+与其他构建块组件一样，binding 组件是可扩展的，可以在 [components-contrib repo](https://github.com/dapr/components-contrib) 中找到。
 
-在 Dapr 中，bindings 使用一个 `Component` 文件描述，包含以下字段：
+Dapr 中的 binding 使用 `Component` 文件描述，包含以下字段：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -29,9 +29,9 @@ spec:
 ...
 ```
 
-bindings 的类型由 `type` 字段指定，连接字符串和其他元数据则在 `.metadata` 部分定义。
+binding 的类型由 `type` 字段决定，连接字符串和其他元数据等项放在 `.metadata` 部分。
 
-不同的[支持的 bindings]({{% ref supported-bindings %}})会有不同的特定字段需要配置。例如，当为 [Azure Blob Storage]({{% ref blobstorage %}}) 配置 bindings 时，文件看起来像这样：
+不同的[支持的 binding]({{% ref supported-bindings %}})会有不同的特定字段需要配置。例如，为 [Azure Blob Storage]({{% ref blobstorage%}})配置 binding 时，文件会像这样：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -56,16 +56,17 @@ spec:
 
 ## 应用配置
 
-一旦创建了组件的 YAML 文件，请根据您的托管环境按照以下步骤进行配置：
+创建组件的 YAML 文件后，根据你的托管环境按照以下说明进行配置：
+
 
 {{< tabpane text=true >}}
 
-{{% tab header="自托管" %}}
-对于自托管环境，创建一个包含 YAML 文件的 `components` 目录，并使用 `--resources-path` 标志将路径提供给 `dapr run` 命令。
+{{% tab "自托管" %}}
+要在本地运行，创建一个包含 YAML 文件的 `components` 目录，并通过 `--resources-path` 标志向 `dapr run` 命令提供该路径。
 {{% /tab %}}
 
-{{% tab header="Kubernetes" %}}
-对于 Kubernetes 部署，假设您的组件文件名为 `mybinding.yaml`，运行以下命令：
+{{% tab "Kubernetes" %}}
+要在 Kubernetes 中部署，假设你的组件文件名为 `mybinding.yaml`，运行：
 
 ```bash
 kubectl apply -f mybinding.yaml
@@ -74,10 +75,10 @@ kubectl apply -f mybinding.yaml
 
 {{< /tabpane >}}
 
-## 支持的 bindings
+## 支持的 binding
 
-访问 [bindings 参考]({{% ref supported-bindings %}}) 以获取支持资源的完整列表。
+访问 [binding 参考]({{% ref supported-bindings %}})获取支持的资源完整列表。
 
 ## 相关链接
 - [Bindings 构建块]({{% ref bindings %}})
-- [支持的 bindings]({{<ref supported-bindings >}})
+- [支持的 Bindings]({{%ref supported-bindings %}})

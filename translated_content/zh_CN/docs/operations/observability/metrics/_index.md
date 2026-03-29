@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "监控指标"
-linkTitle: "监控指标"
+title: "指标"
+linkTitle: "指标"
 weight: 300
-description: "如何查看和理解Dapr的监控指标"
+description: "如何查看 Dapr 指标"
 ---

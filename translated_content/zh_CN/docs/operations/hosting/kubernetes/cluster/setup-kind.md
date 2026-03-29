@@ -7,7 +7,7 @@ description: >
   如何设置 KiND 集群
 ---
 
-## 前提条件
+## 前置条件
 
 - 安装：
    - [Docker](https://docs.docker.com/install/)
@@ -18,11 +18,11 @@ description: >
 
 ## 安装和配置 KiND
 
-[参考 KiND 文档进行安装。](https://kind.sigs.k8s.io/docs/user/quick-start)
+[请参阅 KiND 文档进行安装。](https://kind.sigs.k8s.io/docs/user/quick-start)
 
-使用 Docker Desktop 时，请确保您已进行[推荐的设置](https://kind.sigs.k8s.io/docs/user/quick-start#settings-for-docker-desktop)。
+如果您使用的是 Docker Desktop，请确保您已[配置推荐的设置](https://kind.sigs.k8s.io/docs/user/quick-start#settings-for-docker-desktop)。
 
-## 配置并创建 KiND 集群
+## 配置和创建 KiND 集群
 
 1. 创建一个名为 `kind-cluster-config.yaml` 的文件，并粘贴以下内容：
 
@@ -49,9 +49,9 @@ description: >
    ```
 
    此集群配置：
-   - 启动一个由控制平面和两个工作节点组成的 Kubernetes 集群。
-   - 方便将来设置 Ingress。
-   - 将容器端口映射到主机。
+   - 请求 KiND 启动一个由控制平面和两个工作节点组成的 Kubernetes 集群。
+   - 允许后续设置入口。
+   - 将容器端口暴露到主机。
 
 1. 运行 `kind create cluster` 命令，提供集群配置文件：
 
@@ -78,7 +78,7 @@ description: >
    Thanks for using kind! 😊
    ```
 
-## 初始化并运行 Dapr
+## 初始化和运行 Dapr
 
 1. 在 Kubernetes 中初始化 Dapr。
 
@@ -86,7 +86,7 @@ description: >
    dapr init --kubernetes
    ```
 
-   Dapr 初始化完成后，您可以在集群上使用其核心组件。
+   Dapr 完成初始化后，您可以在集群上使用其核心组件。
 
 1. 验证 Dapr 组件的状态：
 
@@ -105,17 +105,17 @@ description: >
      dapr-placement-server  dapr-system  True     Running  1         1.5.1    52s  2021-12-10 09:27.18
    ```
 
-1. 将端口转发到 [Dapr 仪表板](https://docs.dapr.io/reference/cli/dapr-dashboard/)：
+1. 转发端口到 [Dapr 仪表板](https://docs.dapr.io/reference/cli/dapr-dashboard/)：
 
    ```bash
    dapr dashboard -k -p 9999
    ```
 
-1. 访问 `http://localhost:9999` 检查设置是否成功。
+1. 导航到 `http://localhost:9999` 以验证设置成功。
 
 ## 在 Kind Kubernetes 集群上安装 metrics-server
 
-1. 获取 metrics-server 清单
+1. 获取 metrics-server 清单文件
 
    ```bash
    wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
@@ -134,7 +134,7 @@ description: >
         - --secure-port=4443
         - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
         - --kubelet-use-node-status-port
-        - --kubelet-insecure-tls   <==== 添加此项
+        - --kubelet-insecure-tls   <==== 添加此行
         - --metric-resolution=15s
         image: k8s.gcr.io/metrics-server/metrics-server:v0.6.2
         imagePullPolicy: IfNotPresent
@@ -144,7 +144,7 @@ description: >
             path: /livez
    ```
 
-1. 应用修改后的清单
+1. 应用修改后的清单文件
 
    ```bash
    kubectl apply -f components.yaml
@@ -152,6 +152,6 @@ description: >
 
 ## 相关链接
 - [尝试 Dapr 快速入门]({{% ref quickstarts.md %}})
-- 学习如何[在您的集群上部署 Dapr]({{% ref kubernetes-deploy.md %}})
+- 了解如何[在您的集群上部署 Dapr]({{% ref kubernetes-deploy.md %}})
 - [在 Kubernetes 上升级 Dapr]({{% ref kubernetes-upgrade.md %}})
 - [Kubernetes 生产指南]({{% ref kubernetes-production.md %}})

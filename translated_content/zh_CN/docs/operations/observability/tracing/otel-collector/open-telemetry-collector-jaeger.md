@@ -1,32 +1,48 @@
 ---
 type: docs
-title: "使用 OpenTelemetry Collector 收集追踪信息并发送到 Jaeger"
-linkTitle: "使用 OpenTelemetry 发送到 Jaeger"
+title: "使用 OpenTelemetry 向 Jaeger V2 发送追踪数据"
+linkTitle: "使用 OpenTelemetry for Jaeger V2"
 weight: 1200
-description: "如何使用 OpenTelemetry Collector 将追踪事件推送到 Jaeger 分布式追踪平台。"
----
+description: "如何使用 OpenTelemetry 协议将追踪事件推送到 Jaeger V2 分布式追踪平台。"
 
-Dapr 支持通过 OpenTelemetry (OTLP) 和 Zipkin 协议进行追踪信息的写入。然而，由于 Jaeger 对 Zipkin 的支持已被弃用，建议使用 OTLP。虽然 Jaeger 可以直接支持 OTLP，但在生产环境中，推荐使用 OpenTelemetry Collector 从 Dapr 收集追踪信息并发送到 Jaeger。这样可以让您的应用程序更高效地处理数据，并利用重试、批处理和加密等功能。更多信息请阅读 Open Telemetry Collector [文档](https://opentelemetry.io/docs/collector/#when-to-use-a-collector)。
+Dapr 支持使用 OpenTelemetry (OTLP) 协议写入追踪数据，Jaeger V2 原生支持 OTLP，允许 Dapr 直接向 Jaeger V2 实例发送追踪数据。建议在生产环境中使用此方法，以充分利用 Jaeger V2 的分布式追踪能力。
+
 {{< tabpane text=true >}}
 
-{{% tab header="Self-hosted" %}}
-<!-- self-hosted -->
-## 在自托管模式下配置 Jaeger
+{{% tab "Self-hosted" %}}
+## 在自托管模式下配置 Jaeger V2
 
 ### 本地设置
 
-启动 Jaeger 的最简单方法是运行发布到 DockerHub 的预构建的 all-in-one Jaeger 镜像，并暴露 OTLP 端口：
+启动 Jaeger 最简单的方式是运行发布到 DockerHub 的预构建 All-in-One Jaeger 镜像并暴露 OTLP 端口：
+
+> **注意：** 端口 9411 通常由 Zipkin 使用。如果你正在运行 Zipkin（运行 `dapr init` 时默认启动），请先停止 `dapr_zipkin` 容器以避免端口冲突：`docker stop dapr_zipkin`
 
 ```bash
-docker run -d --name jaeger \
-  -p 4317:4317  \
+docker run -d --rm --name jaeger \
   -p 16686:16686 \
-  jaegertracing/all-in-one:1.49
+  -p 4317:4317 \
+  -p 4318:4318 \
+  -p 5778:5778 \
+  -p 9411:9411 \
+  cr.jaegertracing.io/jaegertracing/jaeger:2.11.0
 ```
 
-接下来，在本地创建以下 `config.yaml` 文件：
+你也可以使用以下命令查看 jaeger 容器的日志：
 
-> **注意：** 因为您使用 Open Telemetry 协议与 Jaeger 通信，您需要填写追踪配置的 `otel` 部分，并将 `endpointAddress` 设置为 Jaeger 容器的地址。
+```bash
+docker logs jaeger
+```
+
+### 配置 Dapr 进行追踪
+
+你有两个选项来配置 Dapr 向 Jaeger V2 发送追踪数据：
+
+#### 选项 1：使用自定义配置文件
+
+创建一个包含以下内容的 `config.yaml` 文件：
+
+> **注意：** 由于你使用 OpenTelemetry 协议与 Jaeger 通信，需要填写追踪配置中的 `otel` 部分，并将 `endpointAddress` 设置为 Jaeger 容器的地址。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -50,53 +66,121 @@ spec:
 dapr run --app-id myapp --app-port 3000 node app.js --config config.yaml
 ```
 
-### 查看追踪信息
+#### 选项 2：更新默认 Dapr 配置（开发环境）
 
-要在浏览器中查看追踪信息，请访问 `http://localhost:16686` 查看 Jaeger UI。
+或者，在开发环境中，导航到你的[本地 Dapr 组件目录](https://docs.dapr.io/getting-started/install-dapr-selfhost/#step-5-verify-components-directory-has-been-initialized)，并使用上述 OTLP 配置更新默认的 `config.yaml` 文件。这样，所有 Dapr 应用程序将默认使用 Jaeger V2 追踪配置，无需每次都指定 `--config` 标志。
+
+### 查看追踪数据
+
+要在浏览器中查看追踪数据，访问 `http://localhost:16686` 查看 Jaeger UI。
 {{% /tab %}}
 
-{{% tab header="Kubernetes" %}}
+{{% tab "Kubernetes" %}}
 <!-- kubernetes -->
-## 在 Kubernetes 上使用 OpenTelemetry Collector 配置 Jaeger
+## 在 Kubernetes 上配置 Jaeger V2
 
-以下步骤展示了如何配置 Dapr 以将分布式追踪数据发送到 OpenTelemetry Collector，然后将追踪信息发送到 Jaeger。
+以下步骤展示如何配置 Dapr 使用 OpenTelemetry Operator 部署的 Jaeger V2 实例（使用内存存储）直接发送分布式追踪数据。
 
-### 前提条件
+### 前置条件
 
 - [在 Kubernetes 上安装 Dapr]({{% ref kubernetes %}})
-- 使用 Jaeger Kubernetes Operator [设置 Jaeger](https://www.jaegertracing.io/docs/1.49/operator/)
 
-### 设置 OpenTelemetry Collector 推送到 Jaeger
+### 使用 OpenTelemetry Operator 设置 Jaeger V2
 
-要将追踪信息推送到您的 Jaeger 实例，请在您的 Kubernetes 集群上安装 OpenTelemetry Collector。
+Jaeger V2 可以使用 OpenTelemetry Operator 部署，以简化管理并提供原生 OTLP 支持。以下示例配置了使用内存存储的 Jaeger V2。
 
-1. 下载并检查 [`open-telemetry-collector-jaeger.yaml`](/docs/open-telemetry-collector/open-telemetry-collector-jaeger.yaml) 文件。
+> **关于存储后端的说明：** 本示例使用内存存储（`memstore`）以简化配置，适用于开发或测试环境，因为它在内存中最多存储 100,000 条追踪数据。对于生产环境，建议配置持久化存储后端（如 Cassandra 或 Elasticsearch）以确保追踪数据的持久性。
 
-1. 在 `otel-collector-conf` ConfigMap 的数据部分，更新 `otlp/jaeger.endpoint` 值以匹配您的 Jaeger collector Kubernetes 服务对象的端点。
+#### 安装
 
-1. 将 OpenTelemetry Collector 部署到运行 Dapr 应用程序的相同命名空间中：
+> **注意：** 为了让 API 服务器与 Operator 的 webhook 组件通信，webhook 需要一个 API 服务器配置为信任的 TLS 证书。有几种不同的方式可以生成/配置所需的 TLS 证书，详情见 [otel operator chart docs](https://github.com/open-telemetry/opentelemetry-helm-charts/tree/main/charts/opentelemetry-operator#tls-certificate-requirement)
 
-   ```sh
-   kubectl apply -f open-telemetry-collector-jaeger.yaml
+为简化操作，你可以使用 Helm 创建自动生成的自签名证书。
+
+1. **安装 OpenTelemetry Operator**：
+
+   ```bash
+   helm install opentelemetry-operator open-telemetry/opentelemetry-operator -n opentelemetry-operator-system --create-namespace \
+    --set "manager.collectorImage.repository=ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-k8s" \
+    --set admissionWebhooks.certManager.enabled=false \
+    --set admissionWebhooks.autoGenerateCert.enabled=true
+   ```
+   确认 `opentelemetry-operator-system` 命名空间中的所有资源已就绪。
+
+1. **部署使用内存存储的 Jaeger V2 实例**：
+   创建一个名为 `jaeger-inmemory.yaml` 的文件，包含以下配置：
+   ```yaml
+   apiVersion: opentelemetry.io/v1beta1
+   kind: OpenTelemetryCollector
+   metadata:
+     name: jaeger-inmemory-instance
+     namespace: observability
+   spec:
+     image: jaegertracing/jaeger:latest
+     ports:
+     - name: jaeger
+       port: 16686
+     config:
+       service:
+         extensions: [jaeger_storage, jaeger_query]
+         pipelines:
+           traces:
+             receivers: [otlp]
+             exporters: [jaeger_storage_exporter]
+       extensions:
+         jaeger_query:
+           storage:
+             traces: memstore
+         jaeger_storage:
+           backends:
+             memstore:
+               memory:
+                 max_traces: 100000
+       receivers:
+         otlp:
+           protocols:
+             grpc:
+               endpoint: 0.0.0.0:4317
+             http:
+               endpoint: 0.0.0.0:4318
+       exporters:
+         jaeger_storage_exporter:
+           trace_storage: memstore
+   ```
+   使用以下命令应用：
+   ```bash
+   kubectl apply -f jaeger-inmemory.yaml -n observability
    ```
 
-### 设置 Dapr 发送追踪信息到 OpenTelemetryCollector
 
-创建一个 Dapr 配置文件以启用追踪，并将 sidecar 追踪信息导出到 OpenTelemetry Collector。
+### 设置 Dapr 向 Jaeger V2 发送追踪数据
 
-1. 使用 [`collector-config-otel.yaml`](/docs/open-telemetry-collector/collector-config-otel.yaml) 文件创建您自己的 Dapr 配置。
+创建 Dapr 配置文件以启用追踪，并直接将 sidecar 追踪数据导出到 Jaeger V2 实例。
 
-1. 更新 `namespace` 和 `otel.endpointAddress` 值以与部署 Dapr 应用程序和 OpenTelemetry Collector 的命名空间对齐。
-
-1. 应用配置：
-
-   ```sh
-   kubectl apply -f collector-config.yaml
+1. 创建配置文件（例如 `tracing.yaml`），包含以下内容，更新 `namespace` 和 `otel.endpointAddress` 以匹配你的 Jaeger V2 实例：
+   ```yaml
+   apiVersion: dapr.io/v1alpha1
+   kind: Configuration
+   metadata:
+     name: tracing
+     namespace: order-system
+   spec:
+     tracing:
+       samplingRate: "1"
+       otel:
+         endpointAddress: "jaeger-inmemory-instance-collector.observability.svc.cluster.local:4317"
+         isSecure: false
+         protocol: grpc
    ```
 
-### 部署启用追踪的应用程序
+2. 应用配置：
+   ```bash
+   kubectl apply -f tracing.yaml -n order-system
+   ```
 
-通过在您希望启用分布式追踪的应用程序部署中添加 `dapr.io/config` 注释来应用 `tracing` Dapr 配置，如下例所示：
+### 部署启用追踪的应用
+
+通过在要启用分布式追踪的应用部署中添加 `dapr.io/config` 注解来应用 `tracing` Dapr 配置，如下例所示：
 
   ```yaml
   apiVersion: apps/v1
@@ -115,26 +199,26 @@ dapr run --app-id myapp --app-port 3000 node app.js --config config.yaml
           dapr.io/config: "tracing"
   ```
 
-您可以同时注册多个追踪导出器，追踪日志将被转发到所有注册的导出器。
+你可以同时注册多个追踪导出器，追踪日志将被转发到所有已注册的导出器。
 
-就是这样！无需包含 OpenTelemetry SDK 或对您的应用程序代码进行检测。Dapr 会自动为您处理分布式追踪。
+就这样！无需包含 OpenTelemetry SDK 或对应用程序代码进行检测。Dapr 会自动为你处理分布式追踪。
 
-### 查看追踪信息
+### 查看追踪数据
 
-要查看 Dapr sidecar 追踪信息，请端口转发 Jaeger 服务并打开 UI：
+要查看 Dapr sidecar 追踪数据，对 Jaeger V2 服务进行端口转发并打开 UI：
 
 ```bash
-kubectl port-forward svc/jaeger-query 16686 -n observability
+kubectl port-forward svc/jaeger-inmemory-instance-collector 16686:16686 -n observability
 ```
 
-在您的浏览器中，访问 `http://localhost:16686`，您将看到 Jaeger UI。
+在浏览器中，访问 `http://localhost:16686` 查看 Jaeger V2 UI。
 
 ![jaeger](/images/jaeger_ui.png)
 {{% /tab %}}
 
 {{< /tabpane >}}
-## 参考资料
 
-- [Jaeger 入门](https://www.jaegertracing.io/docs/1.49/getting-started/)
-- [Jaeger Kubernetes Operator](https://www.jaegertracing.io/docs/1.49/operator/)
-- [OpenTelemetry Collector 导出器](https://opentelemetry.io/docs/collector/configuration/#exporters)
+## 参考
+
+- [Jaeger V2 入门指南](https://www.jaegertracing.io/docs/2.11/getting-started/)
+- [Jaeger V2 Kubernetes Operator](https://www.jaegertracing.io/docs/2.11/deployment/kubernetes/#kubernetes-operator)

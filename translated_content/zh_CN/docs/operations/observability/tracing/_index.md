@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "代码跟踪"
-linkTitle: "代码跟踪"
+title: "链路追踪"
+linkTitle: "链路追踪"
 weight: 200
-description: 了解代码跟踪的应用场景及如何利用其提升应用程序的监控能力
+description: 了解链路追踪场景以及如何使用链路追踪为应用程序提供可观测性
 ---

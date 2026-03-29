@@ -1,21 +1,21 @@
 ---
 type: docs
-title: "操作指南：配置 Azure Monitor 以搜索日志和收集指标"
+title: "操作指南：设置 Azure Monitor 以搜索日志和收集指标"
 linkTitle: "Azure Monitor"
 weight: 7000
-description: "为 Azure Kubernetes Service (AKS) 启用 Dapr 指标和日志的 Azure Monitor"
+description: "为 Azure Kubernetes Service (AKS) 启用带有 Azure Monitor 的 Dapr 指标和日志"
 ---
 
-## 前提条件
+## 前置条件
 
 - [Azure Kubernetes Service](https://docs.microsoft.com/azure/aks/)
-- [在 AKS 中启用 Azure Monitor For 容器](https://docs.microsoft.com/azure/azure-monitor/insights/container-insights-overview)
+- [在 AKS 中为容器启用 Azure Monitor](https://docs.microsoft.com/azure/azure-monitor/insights/container-insights-overview)
 - [kubectl](https://kubernetes.io/docs/tasks/tools/)
 - [Helm 3](https://helm.sh/)
 
-## 使用配置映射启用 Prometheus 指标抓取
+## 使用 Config Map 启用 Prometheus 指标采集
 
-1. 确认 Azure Monitor Agents (AMA) 正在运行。
+1. 确保 Azure Monitor Agents (AMA) 正在运行。
 
    ```bash
    $ kubectl get pods -n kube-system
@@ -29,11 +29,11 @@ description: "为 Azure Kubernetes Service (AKS) 启用 Dapr 指标和日志的 
    ...
    ```
 
-1. 使用配置映射启用 Prometheus 指标端点抓取。
+1. 应用 Config Map 以启用 Prometheus 指标端点采集。
 
-   可以使用 [azm-config-map.yaml](/docs/azm-config-map.yaml) 来启用 Prometheus 指标端点抓取。
+  你可以使用 [azm-config-map.yaml](/docs/azm-config-map.yaml) 来启用 Prometheus 指标端点采集。
 
-   如果 Dapr 安装在不同的命名空间，需要修改 `monitor_kubernetes_pod_namespaces` 数组的值。例如：
+  如果你将 Dapr 安装到不同的命名空间，需要更改 `monitor_kubernetes_pod_namespaces` 数组值。例如：
 
    ```yaml
    ...
@@ -47,7 +47,7 @@ description: "为 Azure Kubernetes Service (AKS) 启用 Dapr 指标和日志的 
    ...
    ```
 
-   应用配置映射：
+  应用 Config Map：
 
    ```bash
    kubectl apply -f ./azm-config.map.yaml
@@ -63,11 +63,11 @@ description: "为 Azure Kubernetes Service (AKS) 启用 Dapr 指标和日志的 
 
 1. 在 Dapr sidecar 中启用 JSON 格式日志并添加 Prometheus 注解。
 
-   > 注意：只有设置了 Prometheus 注解，Azure Monitor Agents (AMA) 才会发送指标。
+  > 注意：Azure Monitor Agents (AMA) 仅在设置了 Prometheus 注解时才会发送指标。
 
-   在部署的 YAML 文件中添加 `dapr.io/log-as-json: "true"` 注解。
+  在你的部署 yaml 中添加 `dapr.io/log-as-json: "true"` 注解。
 
-   示例：
+  示例：
 
    ```yaml
    apiVersion: apps/v1
@@ -99,11 +99,11 @@ description: "为 Azure Kubernetes Service (AKS) 启用 Dapr 指标和日志的 
 
 ## 使用 Azure Monitor 搜索指标和日志
 
-1. 在 Azure 门户中进入 Azure Monitor。
+1. 转到 Azure 门户中的 Azure Monitor。 
 
-1. 搜索 Dapr **日志**。
+1. 搜索 Dapr **日志**。 
 
-   下面是一个示例查询，用于解析 JSON 格式日志并查询来自 Dapr 系统进程的日志。
+  下面是一个示例查询，用于解析 JSON 格式的日志并从 Dapr 系统进程查询日志。
 
    ```
    ContainerLog
@@ -115,7 +115,7 @@ description: "为 Azure Kubernetes Service (AKS) 启用 Dapr 指标和日志的 
 
 1. 搜索 **指标**。
 
-   这个查询，查询 `process_resident_memory_bytes` Prometheus 指标用于 Dapr 系统进程并渲染时间图表。
+  此查询用于查询 Dapr 系统进程的 `process_resident_memory_bytes` Prometheus 指标并渲染时间图表。
 
    ```
    InsightsMetrics
@@ -127,8 +127,8 @@ description: "为 Azure Kubernetes Service (AKS) 启用 Dapr 指标和日志的 
    | render timechart
    ```
 
-## 参考资料
+## 参考
 
-- [使用 Azure Monitor for 容器配置 Prometheus 指标抓取](https://docs.microsoft.com/azure/azure-monitor/insights/container-insights-prometheus-integration)
-- [为 Azure Monitor for 容器配置代理数据收集](https://docs.microsoft.com/azure/azure-monitor/insights/container-insights-agent-config)
+- [使用 Azure Monitor for containers 配置 Prometheus 指标采集](https://docs.microsoft.com/azure/azure-monitor/insights/container-insights-prometheus-integration)
+- [为 Azure Monitor for containers 配置代理数据收集](https://docs.microsoft.com/azure/azure-monitor/insights/container-insights-agent-config)
 - [Azure Monitor 查询](https://docs.microsoft.com/azure/azure-monitor/log-query/query-language)

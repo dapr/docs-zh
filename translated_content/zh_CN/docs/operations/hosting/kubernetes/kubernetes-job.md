@@ -3,22 +3,24 @@ type: docs
 title: "在 Kubernetes Job 中运行 Dapr"
 linkTitle: "Kubernetes Jobs"
 weight: 80000
-description: "在 Kubernetes Job 环境中使用 Dapr API"
+description: "在 Kubernetes Job 上下文中使用 Dapr API"
 ---
 
-Dapr sidecar 被设计为一个长期运行的进程。在 Kubernetes Job 的环境中，这种行为可能会阻碍作业的完成。
+Dapr 边车被设计为一个长期运行的进程。在 [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/) 的上下文中，这种行为可能会阻止您的 Job 完成。
 
-为了解决这个问题，Dapr sidecar 提供了一个 `Shutdown` 端点，用于关闭 sidecar。
+{{% alert title="原生边车" color="primary" %}}
+在 Kubernetes 1.28+ 上，您可以启用[原生边车]({{% ref "sidecar.md#native-sidecars-kubernetes-128" %}})以确保 `daprd` 作为 [Kubernetes 原生边车](https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/)运行并遵循其关闭语义。
+{{% /alert %}}
 
-在运行一个基本的 Kubernetes Job 时，你需要调用 sidecar 的 `/shutdown` 端点，以便优雅地停止 sidecar，并使作业被视为 `Completed`。
+在运行基本的 [Kubernetes Job](https://kubernetes.io/docs/concepts/workloads/controllers/job/)时，您需要调用 `/shutdown` 端点以使边车优雅停止，并将 Job 视为 `Completed`。
 
-如果作业在没有调用 `Shutdown` 的情况下完成，作业会处于 `NotReady` 状态，而 `daprd` 容器会一直运行下去。
+当 Job 在未调用 `Shutdown` 的情况下结束时，您的 Job 将处于 `NotReady` 状态，只有 `daprd` 容器无休止地运行。
 
-停止 Dapr sidecar 会导致容器中的就绪性和存活性探测失败。
+停止 Dapr 边车会导致其就绪探针和存活探针在您的容器中失败。
 
-为了防止 Kubernetes 尝试重启你的作业，请将作业的 `restartPolicy` 设置为 `Never`。
+为了防止 Kubernetes 尝试重启您的 Job，请将 Job 的 `restartPolicy` 设置为 `Never`。
 
-在调用 shutdown HTTP API 时，请确保使用 *POST* HTTP 动词。例如：
+确保在调用 shutdown HTTP API 时使用 *POST* HTTP 方法。例如：
 
 ```yaml
 apiVersion: batch/v1
@@ -39,7 +41,7 @@ spec:
       restartPolicy: Never
 ```
 
-你也可以从任何 Dapr SDK 调用 `Shutdown`。例如，对于 Go SDK：
+您也可以从任何 Dapr SDK 调用 `Shutdown`。例如，对于 Go SDK：
 
 ```go
 package main

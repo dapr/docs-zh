@@ -1,7 +1,8 @@
 ---
+
 type: docs
-title: "部署和配置Dapr"
+title: "在您的环境中部署和配置 Dapr"
 linkTitle: "运维"
 weight: 40
-description: "提供部署选项、最佳实践及其他指南，助您在Dapr上运行应用程序"
+description: "托管选项、最佳实践，以及在 Dapr 上运行您的应用程序的其他指南"
 ---

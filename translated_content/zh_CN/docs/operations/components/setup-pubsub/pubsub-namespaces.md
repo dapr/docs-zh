@@ -1,20 +1,20 @@
 ---
 type: docs
-title: "HowTo: 配置具有多个命名空间的 Pub/Sub 组件"
-linkTitle: "多个命名空间"
+title: "HowTo: 配置多命名空间的发布订阅组件"
+linkTitle: "多命名空间"
 weight: 10000
-description: "使用 Dapr Pub/Sub 与多个命名空间"
+description: "在多命名空间中使用 Dapr 发布订阅"
 ---
 
-在某些情况下，应用程序可能会跨多个命名空间分布，并通过 PubSub 共享队列或主题。在这种情况下，需要在每个命名空间中配置 PubSub 组件。
+在某些场景中，应用程序可以分布在多个命名空间中，并通过 PubSub 共享队列或主题。在这种情况下，必须在每个命名空间中配置 PubSub 组件。
 
-{{% alert title="注意" color="primary" %}}
-命名空间是 Dapr 用于限定应用程序和组件范围的概念。本示例使用 Kubernetes 命名空间，但 Dapr 组件命名空间范围可以在任何支持的平台上使用。阅读 [How-To: 将组件限定到一个或多个应用程序]({{% ref "component-scopes.md" %}}) 以获取有关限定组件的更多信息。
+{{% alert title="Note" color="primary" %}}
+命名空间是用于限定应用程序和组件范围的 Dapr 概念。本示例使用 Kubernetes 命名空间，但 Dapr 组件命名空间范围限定可用于任何受支持的平台。阅读 [How-To: 将组件限定到一个或多个应用程序]({{% ref "component-scopes.md" %}}) 以了解有关组件范围限定的更多信息。
 {{% /alert %}}
 
-本示例使用 [PubSub 示例](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)。Redis 安装和订阅者位于 `namespace-a`，而发布者 UI 位于 `namespace-b`。即使 Redis 安装在另一个命名空间，或者您使用托管云服务如 Azure ServiceBus、AWS SNS/SQS 或 GCP PubSub，该解决方案也同样适用。
+本示例使用 [PubSub 示例](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)。Redis 安装和订阅者位于 `namespace-a` 中，而发布者 UI 位于 `namespace-b` 中。如果 Redis 安装在另一个命名空间中，或者您使用托管云服务（如 Azure ServiceBus、AWS SNS/SQS 或 GCP PubSub），此解决方案也可以工作。
 
-以下是使用命名空间的示例图。
+这是使用命名空间的示例图。
 
 <img src="/images/pubsub-multiple-namespaces.png" width=1000>
 <br></br>
@@ -23,33 +23,33 @@ description: "使用 Dapr Pub/Sub 与多个命名空间"
 
 | 资源                    | namespace-a | namespace-b |
 |------------------------ |-------------|-------------|
-| Redis 主节点            | ✅         | ❌          |
-| Redis 副本              | ✅         | ❌          |
+| Redis master            | ✅         | ❌          |
+| Redis replicas          | ✅         | ❌          |
 | Dapr 的 PubSub 组件     | ✅         | ✅          |
 | Node 订阅者             | ✅         | ❌          |
 | Python 订阅者           | ✅         | ❌          |
 | React UI 发布者         | ❌         | ✅          |
 
-{{% alert title="注意" color="primary" %}}
-所有 pub/sub 组件都支持通过 [命名空间或组件范围]({{% ref pubsub-scopes.md %}}) 将 pub/sub 主题限制到特定应用程序。
+{{% alert title="Note" color="primary" %}}
+所有发布订阅组件都支持使用[命名空间或组件范围]({{% ref pubsub-scopes.md %}})将发布订阅主题限定到特定应用程序。
 {{% /alert %}}
 
-## 前提条件
+## 前置条件
 
-* [在 Kubernetes 上安装 Dapr]({{% ref "kubernetes-deploy.md" %}})，因为 Dapr 在集群级别工作。
-* 检出并进入 [PubSub 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub) 的目录。
+* 在任何命名空间中[在 Kubernetes 上安装 Dapr]({{% ref "kubernetes-deploy.md" %}})，因为 Dapr 在集群级别工作。
+* 检出并进入 [PubSub 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub) 目录。
 
 ## 设置 `namespace-a`
 
-创建命名空间并切换 kubectl 使用它。
+创建命名空间并切换 kubectl 以使用它。
 ```
 kubectl create namespace namespace-a
 kubectl config set-context --current --namespace=namespace-a
 ```
 
-在 `namespace-a` 上安装 Redis（主节点和从节点），按照[这些说明]({{% ref "getting-started/tutorials/configure-state-pubsub.md" %}})。
+在 `namespace-a` 上安装 Redis（主节点和从节点），按照[这些说明]({{% ref "getting-started/tutorials/configure-state-pubsub.md" %}})进行操作。
 
-现在，配置 `deploy/redis.yaml`，确保主机名包含 `namespace-a`。
+现在，配置 `deploy/redis.yaml`，注意包含 `namespace-a` 的主机名。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -75,7 +75,7 @@ kubectl apply -f deploy/python-subscriber.yaml
 
 ## 设置 `namespace-b`
 
-创建命名空间并切换 kubectl 使用它。
+创建命名空间并切换 kubectl 以使用它。
 ```
 kubectl create namespace namespace-b
 kubectl config set-context --current --namespace=namespace-b
@@ -92,14 +92,14 @@ kubectl apply -f deploy/react-form.yaml
 kubectl get service -A
 ```
 
-## 确认订阅者接收到消息。
+## 确认订阅者收到消息。
 
 切换回 `namespace-a`：
 ```
 kubectl config set-context --current --namespace=namespace-a
 ```
 
-找到 POD 名称：
+查找 POD 名称：
 ```
 kubectl get pod # 复制 POD 名称并在下一个命令中使用。
 ```
@@ -128,5 +128,5 @@ kubectl delete namespace namespace-b
 ## 相关链接
 
 - [将组件限定到一个或多个应用程序]({{% ref "component-scopes.md" %}})
-- [使用 secret 限定]({{% ref "secrets-scopes.md" %}})
-- [限制可以从 secret 存储中读取的 secret]({{% ref "secret-scope.md" %}})
+- [使用 secret 范围限定]({{% ref "secrets-scopes.md" %}})
+- [限制可从 secret 存储读取的 secret]({{% ref "secret-scope.md" %}})

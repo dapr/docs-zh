@@ -1,73 +1,74 @@
 ---
 type: docs
-title: "如何使用Grafana监控指标"
-linkTitle: "Grafana仪表板"
+title: "操作指南：使用 Grafana 观察指标"
+linkTitle: "Grafana 仪表板"
 weight: 5000
-description: "在Grafana仪表板中查看Dapr指标的方法。"
+description: "如何在 Grafana 仪表板中查看 Dapr 指标。"
 ---
 
 ## 可用的仪表板
 
 {{< tabpane text=true >}}
 
-{{% tab header="系统服务" %}}
-`grafana-system-services-dashboard.json`模板展示了Dapr系统组件的状态，包括dapr-operator、dapr-sidecar-injector、dapr-sentry和dapr-placement：
+{{% tab "系统服务" %}}
+`grafana-system-services-dashboard.json` 模板显示 Dapr 系统组件状态，包括 dapr-operator、dapr-sidecar-injector、dapr-sentry 和 dapr-placement：
 
-<img src="/images/grafana-system-service-dashboard.png" alt="系统服务仪表板的截图" width=1200>
+<img src="/images/grafana-system-service-dashboard.png" alt="系统服务仪表板截图" width=1200>
 {{% /tab %}}
 
-{{% tab header="sidecar" %}}
-`grafana-sidecar-dashboard.json`模板展示了Dapr sidecar 的状态，包括sidecar 的健康状况/资源使用情况、HTTP和gRPC的吞吐量/延迟、actor、mTLS等：
+{{% tab "边车" %}}
+`grafana-sidecar-dashboard.json` 模板显示 Dapr 边车状态，包括边车健康状态/资源使用、HTTP 和 gRPC 的吞吐量/延迟、Actor、mTLS 等：
 
-<img src="/images/grafana-sidecar-dashboard.png" alt="sidecar仪表板的截图" width=1200>
+<img src="/images/grafana-sidecar-dashboard.png" alt="边车仪表板截图" width=1200>
 {{% /tab %}}
 
-{{% tab header="actor" %}}
-`grafana-actor-dashboard.json`模板展示了Dapr sidecar 的状态、actor 调用的吞吐量/延迟、timer/reminder触发器和基于回合的并发性：
+{{% tab "Actor" %}}
+`grafana-actor-dashboard.json` 模板显示 Dapr Sidecar 状态、Actor 调用吞吐量/延迟、timer/reminder 触发器以及轮转并发：
 
-<img src="/images/grafana-actor-dashboard.png" alt="actor仪表板的截图" width=1200>
+<img src="/images/grafana-actor-dashboard.png" alt="Actor 仪表板截图" width=1200>
 {{% /tab %}}
 
 {{< /tabpane >}}
 
 ## 前提条件
 
-- [设置Prometheus]({{<ref prometheus.md>}})
+- [安装 Prometheus]({{%ref prometheus.md%}})
 
-## 在Kubernetes上设置
+## 在 Kubernetes 上设置
 
-### 安装Grafana
+### 安装 Grafana
 
-1. 添加Grafana Helm仓库：
+1. 添加 Grafana Helm 仓库：
 
    ```bash
    helm repo add grafana https://grafana.github.io/helm-charts
    helm repo update
    ```
 
-1. 安装图表：
+1. 安装 chart：
 
    ```bash
    helm install grafana grafana/grafana -n dapr-monitoring
    ```
 
    {{% alert title="注意" color="primary" %}}
-   如果您使用Minikube或希望在开发中禁用持久卷，可以使用以下命令禁用：
+   如果你是 Minikube 用户或出于开发目的想要禁用持久卷，可以使用以下命令来禁用它：
 
    ```bash
    helm install grafana grafana/grafana -n dapr-monitoring --set persistence.enabled=false
    ```
    {{% /alert %}}
 
-1. 获取Grafana登录的管理员密码：
+
+1. 获取 Grafana 登录的管理员密码：
 
    ```bash
    kubectl get secret --namespace dapr-monitoring grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
    ```
 
-   您将看到一个类似于`cj3m0OfBNx8SLzUlTx91dEECgzRlYJb60D2evof1%`的密码。请去掉密码中的`%`字符，得到`cj3m0OfBNx8SLzUlTx91dEECgzRlYJb60D2evof1`作为管理员密码。
+   你将获得一个类似于 `cj3m0OfBNx8SLzUlTx91dEECgzRlYJb60D2evof1%` 的密码。从密码中移除 `%` 字符，得到 `cj3m0OfBNx8SLzUlTx91dEECgzRlYJb60D2evof1` 作为管理员密码。
 
-1. 检查Grafana是否在您的集群中运行：
+1. 验证 Grafana 是否在你的集群中运行：
 
    ```bash
    kubectl get pods -n dapr-monitoring
@@ -83,10 +84,10 @@ description: "在Grafana仪表板中查看Dapr指标的方法。"
    grafana-c49889cff-x56vj                             1/1     Running      0          5m10s
    ```
 
-### 配置Prometheus作为数据源
-首先，您需要将Prometheus连接为Grafana的数据源。
+### 将 Prometheus 配置为数据源
+首先需要将 Prometheus 作为数据源连接到 Grafana。
 
-1. 端口转发到svc/grafana：
+1. 将 svc/grafana 端口转发：
 
    ```bash
    kubectl port-forward svc/grafana 8080:80 -n dapr-monitoring
@@ -97,25 +98,26 @@ description: "在Grafana仪表板中查看Dapr指标的方法。"
    Handling connection for 8080
    ```
 
-1. 打开浏览器访问`http://localhost:8080`
+1. 在浏览器中打开 `http://localhost:8080`
 
-1. 登录Grafana
+1. 登录 Grafana
    - 用户名 = `admin`
-   - 密码 = 上述密码
+   - 密码 = 上面获取的密码
 
-1. 选择`Configuration`和`Data Sources`
+1. 选择 `Configuration` 和 `Data Sources`
 
-   <img src="/images/grafana-datasources.png" alt="Grafana添加数据源菜单的截图" width=200>
+   <img src="/images/grafana-datasources.png" alt="Grafana 添加数据源菜单截图" width=200>
 
-1. 添加Prometheus作为数据源。
 
-   <img src="/images/grafana-add-datasources.png" alt="Prometheus添加数据源的截图" width=600>
+1. 添加 Prometheus 作为数据源。
 
-1. 获取您的Prometheus HTTP URL
+      <img src="/images/grafana-add-datasources.png" alt="Prometheus 添加数据源截图" width=600>
 
-   Prometheus HTTP URL的格式为`http://<prometheus服务端点>.<命名空间>`
+1. 获取你的 Prometheus HTTP URL
 
-   首先通过运行以下命令获取Prometheus服务器端点：
+   Prometheus HTTP URL 遵循格式 `http://<prometheus service endpoint>.<namespace>`
+
+   首先通过运行以下命令获取 Prometheus 服务器端点：
 
    ```bash
    kubectl get svc -n dapr-monitoring
@@ -133,48 +135,46 @@ description: "在Grafana仪表板中查看Dapr指标的方法。"
 
    ```
 
-   在本指南中，服务器名称为`dapr-prom-prometheus-server`，命名空间为`dapr-monitoring`，因此HTTP URL将是`http://dapr-prom-prometheus-server.dapr-monitoring`。
+      在本指南中，服务器名称是 `dapr-prom-prometheus-server`，命名空间是 `dapr-monitoring`，所以 HTTP URL 将是 `http://dapr-prom-prometheus-server.dapr-monitoring`。
 
 1. 填写以下设置：
 
    - 名称：`Dapr`
    - HTTP URL：`http://dapr-prom-prometheus-server.dapr-monitoring`
-   - 默认：开启
-   - 跳过TLS验证：开启
-     - 这是保存和测试配置所必需的
+   - Default：开启
+   - Skip TLS Verify：开启
+     - 保存和测试配置所必需
 
-   <img src="/images/grafana-prometheus-dapr-server-url.png" alt="Prometheus数据源配置的截图" width=600>
+   <img src="/images/grafana-prometheus-dapr-server-url.png" alt="Prometheus 数据源配置截图" width=600>
 
-1. 点击`Save & Test`按钮以验证连接是否成功。
+1. 点击 `Save & Test` 按钮验证连接是否成功。
 
-## 在Grafana中导入仪表板
+## 在 Grafana 中导入仪表板
 
-1. 在Grafana主屏幕的左上角，点击“+”选项，然后选择“Import”。
+1. 在 Grafana 主屏幕的左上角，点击 "+" 选项，然后选择 "Import"。
 
-   现在，您可以从[发布资产](https://github.com/dapr/dapr/releases)中为您的Dapr版本导入[Grafana仪表板模板](https://github.com/dapr/dapr/tree/master/grafana)：
+   现在你可以从 [发布资源](https://github.com/dapr/dapr/releases)中导入适用于你的 Dapr 版本的 [Grafana 仪表板模板](https://github.com/dapr/dapr/tree/master/grafana)：
 
-   <img src="/images/grafana-uploadjson.png" alt="Grafana仪表板上传选项的截图" width=700>
+   <img src="/images/grafana-uploadjson.png" alt="Grafana 仪表板上传选项截图" width=700>
 
-1. 找到您导入的仪表板并享受
+1. 找到你导入的仪表板并开始使用
 
-   <img src="/images/system-service-dashboard.png" alt="Dapr服务仪表板的截图" width=900>
+   <img src="/images/system-service-dashboard.png" alt="Dapr 服务仪表板截图" width=900>
 
    {{% alert title="提示" color="primary" %}}
-   将鼠标悬停在每个图表描述角落的`i`上：
+   将鼠标悬停在角落的 `i` 上以查看每个图表的描述：
 
-   <img src="/images/grafana-tooltip.png" alt="图表工具提示的截图" width=700>
+   <img src="/images/grafana-tooltip.png" alt="图表工具提示截图" width=700>
    {{% /alert %}}
 
-## 参考资料
+## 参考
 
-* [Dapr可观察性]({{<ref observability-concept.md >}})
-* [Prometheus安装](https://github.com/prometheus-community/helm-charts)
-* [Kubernetes上的Prometheus](https://github.com/coreos/kube-prometheus)
-* [Prometheus查询语言](https://prometheus.io/docs/prometheus/latest/querying/basics/)
-* [支持的Dapr指标](https://github.com/dapr/dapr/blob/master/docs/development/dapr-metrics.md)
+* [Dapr 可观测性]({{%ref observability-concept.md %}})
+* [Prometheus 安装](https://github.com/prometheus-community/helm-charts)
+* [Kubernetes 上的 Prometheus](https://github.com/coreos/kube-prometheus)
+* [Prometheus 查询语言](https://prometheus.io/docs/prometheus/latest/querying/basics/)
+* [支持的 Dapr 指标](https://github.com/dapr/dapr/blob/master/docs/development/dapr-metrics.md)
 
 ## 示例
 
-<div class="embed-responsive embed-responsive-16by9">
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/8W-iBDNvCUM?start=2577" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+{{< youtube id=8W-iBDNvCUM start=2577 >}}

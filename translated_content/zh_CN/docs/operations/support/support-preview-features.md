@@ -5,22 +5,21 @@ linkTitle: "预览功能"
 weight: 4000
 description: "当前预览功能列表"
 ---
+Dapr 中的预览功能在首次发布时被视为实验性功能。
 
-Dapr 的预览功能在首次发布时被视为实验性功能。
+运行时预览功能需要显式选择加入才能使用。运行时选择加入是在 Dapr 应用配置中的预览设置功能中指定的。有关更多信息，请参阅[如何：启用预览功能]({{%ref preview-features%}})。
 
-要使用运行时的预览功能，必须在 Dapr 的应用程序配置中通过预览设置功能进行显式选择加入。有关更多信息，请参阅[如何启用预览功能]({{<ref preview-features>}})。
-
-对于 CLI，不需要显式选择加入，只需使用首次提供该功能的版本即可。
+对于 CLI，无需显式选择加入，只需使用该功能首次引入的版本即可。
 
 ## 当前预览功能
 
 | 功能 | 描述 | 设置 | 文档 | 引入版本 |
 | --- | --- | --- | --- | --- |
-| **可插拔组件** | 允许创建基于 gRPC 的自托管组件，这些组件可以用任何支持 gRPC 的语言编写。支持以下组件 API：状态存储、pub/sub、bindings | N/A | [可插拔组件概念]({{<ref "components-concept#pluggable-components" >}})| v1.9  |
-| **Kubernetes 的多应用运行** | 从单个配置文件配置多个 Dapr 应用程序，并在 Kubernetes 上通过单个命令运行 | `dapr run -k -f` | [多应用运行]({{% ref multi-app-dapr-run.md %}}) | v1.12 |
-| **工作流** | 将工作流作为代码编写，以在应用程序中自动化和编排任务，如消息传递、状态管理和故障处理 | N/A | [工作流概念]({{% ref "components-concept#workflows" %}})| v1.10  |
-| **加密** | 加密或解密数据而无需管理密钥 | N/A | [加密概念]({{% ref "components-concept#cryptography" %}})| v1.11  |
-| **actor 状态 TTL** | 允许 actor 将记录保存到状态存储中，并设置生存时间 (TTL) 以自动清理旧数据。在当前实现中，带有 TTL 的 actor 状态可能无法被客户端正确反映。请阅读 [actor 状态事务]({{% ref actors_api.md %}}) 以获取更多信息。 | `ActorStateTTL` | [actor 状态事务]({{% ref actors_api.md %}}) | v1.11  |
-| **组件热重载** | 允许 Dapr 加载的组件进行“热重载”。当在 Kubernetes 中或在自托管模式下更新文件中的组件规范时，组件会被重新加载。对 actor 状态存储和工作流后端的更改将被忽略。 | `HotReload`| [热重载]({{% ref components-concept.md %}}) | v1.13  |
-| **订阅热重载** | 允许声明性订阅进行“热重载”。当在 Kubernetes 中更新订阅时，或在自托管模式下更新文件中的订阅时，订阅会被重新加载。重载时不会影响正在进行的消息。 | `HotReload`| [热重载]({{% ref "subscription-methods.md#declarative-subscriptions" %}}) | v1.14  |
-| **调度器 actor 提醒** | 调度器 actor 提醒是存储在调度器控制平面服务中的 actor 提醒，与存储在放置控制平面服务中的 actor 提醒系统不同。`SchedulerReminders` 预览功能默认设置为 `true`，但您可以通过将其设置为 `false` 来禁用调度器 actor 提醒。 | `SchedulerReminders`| [调度器 actor 提醒]({{% ref "scheduler.md#actor-reminders" %}}) | v1.14  |
+| **可插拔组件** | 允许创建支持 gRPC 的任何语言编写的自托管 gRPC 组件。支持以下组件 API：状态存储、发布订阅、绑定 | N/A | [可插拔组件概念]({{%ref "components-concept#pluggable-components" %}})| v1.9  |
+| **Kubernetes 多应用运行** | 从单个配置文件配置多个 Dapr 应用程序，并通过单个命令在 Kubernetes 上运行 | `dapr run -k -f` | [多应用运行]({{% ref multi-app-dapr-run.md %}}) | v1.12 |
+| **加密** | 无需管理密钥即可加密或解密数据  | N/A | [加密概念]({{% ref "components-concept#cryptography" %}})| v1.11  |
+| **Actor 状态 TTL** | 允许 Actor 保存记录到设置了生存时间（TTL）的状态存储，以自动清理旧数据。在其当前实现中，带有 TTL 的 Actor 状态可能无法被客户端正确反映，阅读 [Actor 状态事务]({{% ref actors_api.md %}}) 了解更多信息。 | `ActorStateTTL` | [Actor 状态事务]({{% ref actors_api.md %}}) | v1.11  |
+| **组件热重载** | 允许 Dapr 加载的组件进行"热重载"。当在 Kubernetes 中创建/更新/删除组件规范时，或在自托管模式下在文件上进行时，会重新加载组件规范。忽略对 Actor 状态存储和工作流后端的更改。 | `HotReload`| [热重载]({{% ref components-concept.md %}}) | v1.13  |
+| **订阅热重载** | 允许声明式订阅进行"热重载"。订阅在 Kubernetes 中创建/更新/删除时或在自托管模式下的文件中进行时重新加载。重新加载时不影响正在进行的消息。 | `HotReload`| [热重载]({{% ref "subscription-methods.md#declarative-subscriptions" %}}) | v1.14  |
+| **工作流集群部署** | 当工作流客户端与负载均衡器后端的同一 appID 的多个 daprd 通信时，启用工作流功能。仅在使用 [Dapr 共享]({{% ref "kubernetes-dapr-shared" %}}) 时相关 | `WorkflowsClusteredDeployment`| [Dapr 共享]({{% ref "kubernetes-dapr-shared" %}}) | v1.16  |
+| **工作流持久化活动结果** | 如果设置，可确保在多应用场景中，活动结果被持久地发送到拥有工作流，即使拥有工作流的应用程序不可用。除非运行多个 Dapr 版本，否则应启用此功能开关。默认情况下出于向后兼容性而禁用。  | `WorkflowsRemoteActivityReminder` | [多应用工作流]({{% ref "workflow-multi-app.md#durable-activity-results" %}}) | v1.17 |
