@@ -1,22 +1,22 @@
 ---
-type: docs
+type: docs 
 title: "使用 PHP 进行状态管理"
 linkTitle: "状态管理"
-weight: 1000
+weight: 1000 
 description: 如何使用
 no_list: true
 ---
 
-Dapr 提供了一种模块化的状态管理方法，适用于您的应用程序。要学习基础知识，请访问
-[如何操作]({{% ref howto-get-save-state.md %}})。
+Dapr 为在应用程序中使用状态提供了一种优秀的模块化方法。学习基础知识的最佳方式是访问
+[操作指南]({{% ref howto-get-save-state.md %}})。
 
 ## 元数据
 
-许多状态组件允许您传递元数据给组件，以控制组件行为的特定方面。PHP SDK 允许您通过以下方式传递这些元数据：
+许多状态组件允许您向组件传递元数据以控制组件行为的特定方面。PHP SDK 允许您通过以下方式传递该元数据：
 
 ```php
 <?php
-// 使用状态管理器
+// 使用 state manager
 $app->run(
     fn(\Dapr\State\StateManager $stateManager) => 
         $stateManager->save_state('statestore', new \Dapr\State\StateItem('key', 'value', metadata: ['port' => '112'])));
@@ -25,13 +25,13 @@ $app->run(
 $app->run(fn(\Dapr\Client\DaprClient $daprClient) => $daprClient->saveState(storeName: 'statestore', key: 'key', value: 'value', metadata: ['port' => '112']))
 ```
 
-这是一个将端口元数据传递给 [Cassandra]({{% ref setup-cassandra.md %}}) 的示例。
+这是向 [Cassandra]({{% ref setup-cassandra.md %}}) 传递端口元数据的示例。
 
 每个状态操作都允许传递元数据。
 
-## 一致性与并发性
+## 一致性/并发
 
-在 PHP SDK 中，有四个类代表 Dapr 中的四种不同类型的一致性和并发性：
+在 PHP SDK 中，有四个类代表 Dapr 中四种不同类型的一致性和并发：
 
 ```php
 <?php
@@ -43,19 +43,19 @@ $app->run(fn(\Dapr\Client\DaprClient $daprClient) => $daprClient->saveState(stor
 ] 
 ```
 
-将其中一个传递给 `StateManager` 方法或使用 `StateStore()` 属性可以让您定义状态存储应如何处理冲突。
+将其中之一传递给 `StateManager` 方法或使用 `StateStore()` 属性，您可以定义状态存储应如何处理冲突。
 
-## 并行性
+## 并行度
 
-进行批量读取或开始事务时，您可以指定并行度。如果必须一次读取一个键，Dapr 将从底层存储中“最多”读取这么多键。这有助于在性能的代价下控制状态存储的负载。默认值是 `10`。
+执行批量读取或开始事务时，您可以指定并行度数量。如果 Dapr 必须一次读取一个键，它将从底层存储中"最多"一次读取该数量的键。这有助于控制状态存储上的负载，但会降低性能。默认值为 `10`。
 
 ## 前缀
 
-硬编码的键名很有用，但让状态对象更具可重用性会更好。在提交事务或将对象保存到状态时，您可以传递一个前缀，该前缀应用于对象中的每个键。
+硬编码的键名称很有用，但为什么不使状态对象更具可重用性呢？在提交事务或将对象保存到状态时，您可以传递一个应用于对象中每个键的前缀。
 
 {{< tabpane text=true >}}
 
-{{% tab header="事务前缀" %}}
+{{% tab header="Transaction prefix" %}}
 
 ```php
 <?php
@@ -72,7 +72,7 @@ $app->run(function (TransactionObject $object ) {
 ```
 
 {{% /tab %}}
-{{% tab header="StateManager 前缀" %}}
+{{% tab header="StateManager prefix" %}}
 
 ```php
 <?php

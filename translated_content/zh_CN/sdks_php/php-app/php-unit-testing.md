@@ -7,20 +7,20 @@ description: 单元测试
 no_list: true
 ---
 
-在 PHP SDK 中，单元测试和集成测试是非常重要的组成部分。通过使用依赖注入容器、模拟、存根以及提供的 `\Dapr\Mocks\TestClient`，可以实现非常精细的测试。
+单元测试和集成测试是 PHP SDK 的一等公民。通过使用 DI 容器、mock、stub 以及提供的 `\Dapr\Mocks\TestClient`，你可以编写非常细粒度的测试。
 
 ## 测试 Actor
 
-在测试 Actor 时，我们主要关注两个方面：
+在测试 Actor 时，我们关注两件事：
 
 1. 基于初始状态的返回结果
-2. 基于初始状态的结果状态
+2. 基于初始状态的最终状态
 
 {{< tabpane text=true >}}
 
-{{% tab header="使用 TestClient 的集成测试" %}}
+{{% tab header="使用 TestClient 进行集成测试" %}}
 
-以下是一个简单的 Actor 测试示例，该 Actor 会更新其状态并返回特定值：
+下面是一个测试非常简单的 actor 的示例，该 actor 更新其状态并返回特定值：
 
 ```php
 <?php
@@ -62,7 +62,7 @@ class TheTest extends \PHPUnit\Framework\TestCase
     public function setUp(): void
     {
         parent::setUp();
-        // 创建一个默认应用并从中获取 DI 容器
+        // 创建一个默认应用并从中提取 DI 容器
         $app = \Dapr\App::create(
             configure: fn(\DI\ContainerBuilder $builder) => $builder->addDefinitions(
             ['dapr.actors' => [TestActor::class]],
@@ -77,10 +77,10 @@ class TheTest extends \PHPUnit\Framework\TestCase
         $runtime = $this->container->get(\Dapr\Actors\ActorRuntime::class);
         $client  = $this->getClient();
 
-        // 模拟从 http://localhost:1313/reference/api/actors_api/ 获取当前状态
+        // 从 http://localhost:1313/reference/api/actors_api/ 返回当前状态
         $client->register_get("/actors/TestActor/$id/state/number", code: 200, data: 3);
 
-        // 模拟从 http://localhost:1313/reference/api/actors_api/ 进行状态递增
+        // 确保从 http://localhost:1313/reference/api/actors_api/ 递增
         $client->register_post(
             "/actors/TestActor/$id/state",
             code: 204,
@@ -167,11 +167,11 @@ class TheTest extends \PHPUnit\Framework\TestCase
 
 ## 测试事务
 
-在构建事务时，您可能需要测试如何处理失败的事务。为此，您需要注入故障并确保事务按预期进行。
+在基于事务构建时，你可能需要测试如何处理失败的事务。为此，你需要注入故障并确保事务符合你的预期。
 
 {{< tabpane text=true >}}
 
-{{% tab header="使用 TestClient 的集成测试" %}}
+{{% tab header="使用 TestClient 进行集成测试" %}}
 
 ```php
 <?php
@@ -212,7 +212,7 @@ class TheTest extends \PHPUnit\Framework\TestCase {
     public function testTransactionFailure() {
         $client = $this->getClient();
 
-        // 模拟从 {{% ref state_api %}} 创建响应
+        // 从 {{% ref state_api %}} 创建响应
         $client->register_post('/state/statestore/bulk', code: 200, response_data: [
             [
                 'key' => 'value',
