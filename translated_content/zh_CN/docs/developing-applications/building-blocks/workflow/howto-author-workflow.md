@@ -32,7 +32,7 @@ Dapr 边车不会加载任何工作流定义。相反，边车只是驱动工作
 
 {{< tabpane text=true >}}
 
-{{% tab "Python"落了}}
+{{% tab "Python" %}}
 
 <!--python-->
 
@@ -49,9 +49,9 @@ def hello_act(ctx: WorkflowActivityContext, wf_input):
 [查看任务链工作流活动的上下文。](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)
 
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "JavaScript"落了}}
+{{% tab "JavaScript" %}}
 
 <!--javascript-->
 
@@ -80,9 +80,9 @@ export default class WorkflowActivityContext {
 [查看工作流活动的上下文。](https://github.com/dapr/js-sdk/blob/main/src/workflow/runtime/WorkflowActivityContext.ts)
 
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab ".NET"落了}}
+{{% tab ".NET" %}}
 
 <!--csharp-->
 
@@ -148,9 +148,9 @@ public class ProcessPaymentActivity : WorkflowActivity<PaymentRequest, object>
 
 [查看完整的 `ProcessPaymentActivity.cs` 工作流活动示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Activities/ProcessPaymentActivity.cs)
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "Java"落了}}
+{{% tab "Java" %}}
 
 <!--java-->
 
@@ -191,9 +191,9 @@ public class DemoWorkflowActivity implements WorkflowActivity {
 
 [查看 Java SDK 工作流活动示例的上下文。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowActivity.java)
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "Go"落了}}
+{{% tab "Go" %}}
 
 <!--go-->
 
@@ -296,7 +296,7 @@ func main() {
 
 [查看 Go SDK 工作流活动示例的上下文。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
 
-{{% /tab "%}}
+{{% /tab %}}
 
 {{< /tabpane >}}
 
@@ -306,7 +306,7 @@ func main() {
 
 {{< tabpane text=true >}}
 
-{{% tab "Python"落了}}
+{{% tab "Python" %}}
 
 <!--python-->
 
@@ -338,9 +338,9 @@ def hello_world_wf(ctx: DaprWorkflowContext, wf_input):
 [查看 `hello_world_wf` 工作流的上下文。](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)
 
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "JavaScript"落了}}
+{{% tab "JavaScript" %}}
 
 <!--javascript-->
 
@@ -383,9 +383,9 @@ export default class WorkflowRuntime {
 [查看 `WorkflowRuntime` 的上下文。](https://github.com/dapr/js-sdk/blob/main/src/workflow/runtime/WorkflowRuntime.ts)
 
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab ".NET"落了}}
+{{% tab ".NET" %}}
 
 <!--csharp-->
 
@@ -426,9 +426,9 @@ export default class WorkflowRuntime {
 [查看 `OrderProcessingWorkflow.cs` 中的完整工作流示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Workflows/OrderProcessingWorkflow.cs)
 
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "Java"落了}}
+{{% tab "Java" %}}
 
 <!--java-->
 
@@ -457,9 +457,9 @@ public class DemoWorkflowWorker {
 [查看 Java SDK 工作流的上下文。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowWorker.java)
 
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "Go"落了}}
+{{% tab "Go" %}}
 
 <!--go-->
 
@@ -488,7 +488,7 @@ func BusinessWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 
 [查看 Go SDK 工作流的上下文。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
 
-{{% /tab "%}}
+{{% /tab %}}
 
 {{< /tabpane >}}
 
@@ -498,7 +498,7 @@ func BusinessWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 
 {{< tabpane text=true >}}
 
-{{% tab "Python"落了}}
+{{% tab "Python" %}}
 
 <!--python-->
 
@@ -674,9 +674,9 @@ if __name__ == '__main__':
     main()
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "JavaScript"落了}}
+{{% tab "JavaScript" %}}
 
 <!--javascript-->
 
@@ -761,9 +761,9 @@ async function main() {
 main().catch((e) => { console.error(e); });
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab ".NET"落了}}
+{{% tab ".NET" %}}
 
 <!--csharp-->
 
@@ -832,9 +832,9 @@ app.MapGet("/orders/{orderId}", async (string orderId, DaprWorkflowClient client
 app.Run();
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "Java"落了}}
+{{% tab "Java" %}}
 
 <!--java-->
 
@@ -879,9 +879,9 @@ public class DemoWorkflow extends Workflow {
 
 [查看完整的 Java SDK 工作流示例的上下文。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflow.java)
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "Go"落了}}
+{{% tab "Go" %}}
 
 <!--go-->
 
@@ -1115,7 +1115,7 @@ func FailActivity(ctx workflow.ActivityContext) (any, error) {
 
 [查看完整的 Go SDK 工作流示例的上下文。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
 
-{{% /tab "%}}
+{{% /tab %}}
 
 {{< /tabpane >}}
 
@@ -1123,7 +1123,7 @@ func FailActivity(ctx workflow.ActivityContext) (any, error) {
 {{% alert title="重要提示" color="warning" %}}
 由于基于重放的工作流的执行方式，你需要在**活动内部**编写执行 I/O 和与系统交互等逻辑的代码。同时，**工作流方法**仅用于编排这些活动。
 
-{{% /alert "%}}
+{{% /alert %}}
 
 ## 运行工作流并使用 Diagrid Dashboard 检查工作流执行
 
@@ -1141,7 +1141,7 @@ docker run -p 8080:8080 ghcr.io/diagridio/diagrid-dashboard:latest
 
 {{% alert title="Note" color="primary" %}}
 如果你使用的状态存储不是默认的 Redis 实例，你需要提供一些额外的参数来运行容器，请参阅 [Diagrid Dashboard 参考文档](https://diagrid.ws/diagrid-dashboard-docs)。
-{{% /alert "%}}
+{{% /alert %}}
 
 <!-- IGNORE_LINKS -->
 在浏览器中打开仪表板，地址为 [http://localhost:8080](http://localhost:8080)。
@@ -1153,7 +1153,7 @@ docker run -p 8080:8080 ghcr.io/diagridio/diagrid-dashboard:latest
 
 {{< tabpane text=true >}}
 
-{{% tab "Python"落了}}
+{{% tab "Python" %}}
 
 #### 运行工作流应用程序
 
@@ -1186,9 +1186,9 @@ dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 dapr workflow history --app-id workflow-app test-run
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "JavaScript"落了}}
+{{% tab "JavaScript" %}}
 
 #### 运行工作流应用程序
 
@@ -1226,9 +1226,9 @@ dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 dapr workflow history --app-id workflow-app test-run
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab ".NET"落了}}
+{{% tab ".NET" %}}
 
 #### 运行工作流应用程序
 
@@ -1266,9 +1266,9 @@ dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 dapr workflow history --app-id workflow-app test-run
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "Java"落了}}
+{{% tab "Java" %}}
 
 #### 运行工作流应用程序
 
@@ -1310,9 +1310,9 @@ dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 dapr workflow history --app-id workflow-app test-run
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab "Go"落了}}
+{{% tab "Go" %}}
 
 #### 运行工作流应用程序
 ```bash
@@ -1350,7 +1350,7 @@ dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 dapr workflow history test-run --app-id workflow-app
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
 {{< /tabpane >}}
 

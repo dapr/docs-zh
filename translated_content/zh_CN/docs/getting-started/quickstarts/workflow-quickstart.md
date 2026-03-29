@@ -1,7 +1,384 @@
+---
+type: docs
+title: "快速入门：工作流"
+linkTitle: 工作流
+weight: 73
+description: Dapr 工作流构建块入门
+---
+
+{{% alert title="注意" color="primary" %}}
+在快速入门中，Redis 目前被用作工作流的状态存储组件。但是，Redis 不支持事务回滚，不应在生产环境中作为 Actor 状态存储使用。
+{{% /alert %}}
+
+让我们来了解一下 Dapr [工作流构建块]({{% ref workflow-overview.md %}})。在本快速入门中，你将创建一个简单的控制台应用程序，演示 Dapr 的工作流编程模型和工作流管理 API。
+
+在本指南中，你将：
+
+- 运行 `order-processor` 应用程序。
+- 启动工作流并观察工作流活动/任务的执行。
+- 查看工作流逻辑以及工作流活动及其在代码中的表示方式。
+
+<img src="/images/workflow-quickstart-overview.png" width=800 style="padding-bottom:15px;">
+
+该工作流包含以下活动：
+
+- `NotifyActivity`：使用记录器在工作流过程中输出消息。
+- `VerifyInventoryActivity`：检查状态存储以确保有足够的库存可供购买。
+- `RequestApprovalActivity`：请求对超过特定成本阈值的订单进行批准。
+- `ProcessPaymentActivity`：处理并授权付款。
+- `UpdateInventoryActivity`：从状态存储中移除所请求的项目，并使用新的剩余库存值更新存储。
+
+该工作流还包含业务逻辑：
+- 如果库存不足，工作流将不会继续进行付款。
+- 当订单总成本大于 5000 时，工作流将调用 `RequestApprovalActivity` 并等待外部批准事件。
+- 如果订单未获得批准或批准超时，工作流将不会继续进行付款。
+
+<img src="/images/workflow-quickstart-controlflow.png" width=800 style="padding-bottom:15px;">
+
+在继续快速入门之前，请选择你首选的语言特定 Dapr SDK。
+{{< tabpane text=true >}}
+
+ <!-- Python -->
+{{% tab "Python" %}}
+
+`order-processor` 控制台应用程序启动并管理 `order_processing_workflow`，它模拟从商店购买商品。该工作流由五个独特的工作流活动或任务组成：
+
+- `notify_activity`：使用记录器在工作流过程中输出消息。这些消息会在以下情况下通知你：
+  - 你的库存不足
+  - 你的付款无法处理等
+- `verify_inventory_activity`：检查状态存储以确保有足够的库存可供购买。
+- `request_approval_activity`：请求对超过特定成本阈值的订单进行批准。
+- `process_payment_activity`：处理并授权付款。
+- `update_inventory_activity`：从状态存储中移除所请求的项目，并使用新的剩余库存值更新存储。
+
+### 步骤 1：先决条件
+
+对于此示例，你需要：
+
+- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [已安装 Python 3.7+](https://www.python.org/downloads/)。
+<!-- IGNORE_LINKS -->
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+<!-- END_IGNORE -->
+
+### 步骤 2：设置环境
+
+克隆 [快速入门仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/workflows/python/sdk)。
+
+```bash
+git clone https://github.com/dapr/quickstarts.git
+```
+
+在新的终端窗口中，导航到 `order-processor` 目录：
+
+```bash
+cd workflows/python/sdk/order-processor
+```
+
+安装 Dapr Python SDK 包：
+
+```bash
+pip3 install -r requirements.txt
+```
+
+返回到 `python/sdk` 目录：
+
+```bash
+cd ..
+```
+
+
+### 步骤 3：运行订单处理应用程序
+
+在终端中，使用 [多应用运行]({{% ref multi-app-dapr-run %}}) 启动订单处理应用程序和 Dapr 边车。从 `python/sdk` 目录，运行以下命令：
+
+```bash
+dapr run -f .
+```
+
+这将启动具有唯一工作流 ID 的 `order-processor` 应用程序并运行工作流活动。
+
+预期输出：
+
+```bash
+== APP - order-processor == *** Welcome to the Dapr Workflow console app sample!
+== APP - order-processor == *** Using this app, you can place orders that start workflows.
+== APP - order-processor == 2025-02-13 11:44:11.357 durabletask-worker INFO: Starting gRPC worker that connects to dns:127.0.0.1:38891
+== APP - order-processor == 2025-02-13 11:44:11.361 durabletask-worker INFO: Successfully connected to dns:127.0.0.1:38891. Waiting for work items...
+== APP - order-processor == INFO:NotifyActivity:Received order 6830cb00174544a0b062ba818e14fddc for 1 cars at $5000 !
+== APP - order-processor == 2025-02-13 11:44:14.157 durabletask-worker INFO: 6830cb00174544a0b062ba818e14fddc: Orchestrator yielded with 1 task(s) and 0 event(s) outstanding.
+== APP - order-processor == INFO:VerifyInventoryActivity:Verifying inventory for order 6830cb00174544a0b062ba818e14fddc of 1 cars
+== APP - order-processor == INFO:VerifyInventoryActivity:There are 10 Cars available for purchase
+== APP - order-processor == 2025-02-13 11:44:14.171 durabletask-worker INFO: 6830cb00174544a0b062ba818e14fddc: Orchestrator yielded with 1 task(s) and 0 event(s) outstanding.
+== APP - order-processor == INFO:ProcessPaymentActivity:Processing payment: 6830cb00174544a0b062ba818e14fddc for 1 cars at 5000 USD
+== APP - order-processor == INFO:ProcessPaymentActivity:Payment for request ID 6830cb00174544a0b062ba818e14fddc processed successfully
+== APP - order-processor == 2025-02-13 11:44:14.177 durabletask-worker INFO: 6830cb00174544a0b062ba818e14fddc: Orchestrator yielded with 1 task(s) and 0 event(s) outstanding.
+== APP - order-processor == INFO:UpdateInventoryActivity:Checking inventory for order 6830cb00174544a0b062ba818e14fddc for 1 cars
+== APP - order-processor == INFO:UpdateInventoryActivity:There are now 9 cars left in stock
+== APP - order-processor == 2025-02-13 11:44:14.189 durabletask-worker INFO: 6830cb00174544a0b062ba818e14fddc: Orchestrator yielded with 1 task(s) and 0 event(s) outstanding.
+== APP - order-processor == INFO:NotifyActivity:Order 6830cb00174544a0b062ba818e14fddc has completed!
+== APP - order-processor == 2025-02-13 11:44:14.195 durabletask-worker INFO: 6830cb00174544a0b062ba818e14fddc: Orchestration completed with status: COMPLETED
+== APP - order-processor == item: InventoryItem(item_name=Paperclip, per_item_cost=5, quantity=100)
+== APP - order-processor == item: InventoryItem(item_name=Cars, per_item_cost=5000, quantity=10)
+== APP - order-processor == item: InventoryItem(item_name=Computers, per_item_cost=500, quantity=100)
+== APP - order-processor == ==========Begin the purchase of item:==========
+== APP - order-processor == Starting order workflow, purchasing 1 of cars
+== APP - order-processor == 2025-02-13 11:44:16.363 durabletask-client INFO: Starting new 'order_processing_workflow' instance with ID = 'fc8a507e4a2246d2917d3ad4e3111240'.
+== APP - order-processor == 2025-02-13 11:44:16.366 durabletask-client INFO: Waiting 30s for instance 'fc8a507e4a2246d2917d3ad4e3111240' to complete.
+== APP - order-processor == 2025-02-13 11:44:16.366 durabletask-worker INFO: fc8a507e4a2246d2917d3ad4e3111240: Orchestrator yielded with 1 task(s) and 0 event(s) outstanding.
+== APP - order-processor == INFO:NotifyActivity:Received order fc8a507e4a2246d2917d3ad4e3111240 for 1 cars at $5000 !
+== APP - order-processor == 2025-02-13 11:44:16.373 durabletask-worker INFO: fc8a507e4a2246d2917d3ad4e3111240: Orchestrator yielded with 1 task(s) and 0 event(s) outstanding.
+== APP - order-processor == INFO:VerifyInventoryActivity:Verifying inventory for order fc8a507e4a2246d2917d3ad4e3111240 of 1 cars
+== APP - order-processor == INFO:VerifyInventoryActivity:There are 10 Cars available for purchase
+== APP - order-processor == 2025-02-13 11:44:16.383 durabletask-worker INFO: fc8a507e4a2246d2917d3ad4e3111240: Orchestrator yielded with 1 task(s) and 0 event(s) outstanding.
+== APP - order-processor == INFO:ProcessPaymentActivity:Processing payment: fc8a507e4a2246d2917d3ad4e3111240 for 1 cars at 5000 USD
+== APP - order-processor == INFO:ProcessPaymentActivity:Payment for request ID fc8a507e4a2246d2917d3ad4e3111240 processed successfully
+== APP - order-processor == 2025-02-13 11:44:16.390 durabletask-worker INFO: fc8a507e4a2246d2917d3ad4e3111240: Orchestrator yielded with 1 task(s) and 0 event(s) outstanding.
+== APP - order-processor == INFO:UpdateInventoryActivity:Checking inventory for order fc8a507e4a2246d2917d3ad4e3111240 for 1 cars
+== APP - order-processor == INFO:UpdateInventoryActivity:There are now 9 cars left in stock
+== APP - order-processor == 2025-02-13 11:44:16.403 durabletask-worker INFO: fc8a507e4a2246d2917d3ad4e3111240: Orchestrator yielded with 1 task(s) and 0 event(s) outstanding.
+== APP - order-processor == INFO:NotifyActivity:Order fc8a507e4a2246d2917d3ad4e3111240 has completed!
+== APP - order-processor == 2025-02-13 11:44:16.411 durabletask-worker INFO: fc8a507e4a2246d2917d3ad4e3111240: Orchestration completed with status: COMPLETED
+== APP - order-processor == 2025-02-13 11:44:16.425 durabletask-client INFO: Instance 'fc8a507e4a2246d2917d3ad4e3111240' completed.
+== APP - order-processor == 2025-02-13 11:44:16.425 durabletask-worker INFO: Stopping gRPC worker...
+== APP - order-processor == 2025-02-13 11:44:16.426 durabletask-worker INFO: Disconnected from dns:127.0.0.1:38891
+== APP - order-processor == 2025-02-13 11:44:16.426 durabletask-worker INFO: No longer listening for work items
+== APP - order-processor == 2025-02-13 11:44:16.426 durabletask-worker INFO: Worker shutdown completed
+== APP - order-processor == Workflow completed! Result: {"processed": true, "__durabletask_autoobject__": true}
+```
+
+### （可选）步骤 4：在 Zipkin 中查看
+
+运行 `dapr init` 会启动 [openzipkin/zipkin](https://hub.docker.com/r/openzipkin/zipkin/) Docker 容器。如果容器已停止运行，请使用以下命令启动 Zipkin Docker 容器：
+
+```
+docker run -d -p 9411:9411 openzipkin/zipkin
+```
+
+在 Zipkin Web UI 中查看工作流跟踪跨度（通常位于 `http://localhost:9411/zipkin/`）。
+
+<img src="/images/workflow-trace-spans-zipkin.png" width=800 style="padding-bottom:15px;">
+
+### 发生了什么？
+
+当你运行 `dapr run -f .` 时：
+
+1. 创建了一个包含一辆汽车的 OrderPayload。
+2. 为工作流生成了一个唯一的订单 ID（在上述示例中为 `fc8a507e4a2246d2917d3ad4e3111240`）并调度了工作流。
+3. `notify_activity` 工作流活动发送一条通知，说明已收到一辆汽车的订单。
+4. `verify_inventory_activity` 工作流活动检查库存数据，确定你是否可以供应订购的项目，并响应库存中的汽车数量。库存充足，因此工作流继续进行。
+5. 订单总成本为 5000，因此工作流不会调用 `request_approval_activity` 活动。
+6. `process_payment_activity` 工作流活动开始处理订单 `fc8a507e4a2246d2917d3ad4e3111240` 的付款并确认是否成功。
+7. `update_inventory_activity` 工作流活动在订单处理后使用当前可用的汽车更新库存。
+8. `notify_activity` 工作流活动发送一条通知，说明订单 `fc8a507e4a2246d2917d3ad4e3111240` 已完成。
+9. 工作流以完成状态终止，并且 OrderResult 设置为已处理。
+
+#### `order-processor/app.py`
+
+在应用程序的程序文件中：
+
+- 生成唯一的工作流订单 ID
+- 调度工作流
+- 检索工作流状态
+- 注册工作流及其调用的活动
+
 ```python
-) -> InventoryResult:
-    """定义更新库存活动。这由工作流用于检查库存
-    是否足以完成订单，并通过从库存中减少订单数量来更新库存。"""
+from datetime import datetime
+from time import sleep
+
+from dapr.clients import DaprClient
+from dapr.conf import settings
+from dapr.ext.workflow import DaprWorkflowClient, WorkflowStatus
+
+from workflow import wfr, order_processing_workflow
+from model import InventoryItem, OrderPayload
+
+store_name = "statestore"
+workflow_name = "order_processing_workflow"
+default_item_name = "cars"
+
+class WorkflowConsoleApp:    
+    def main(self):
+        print("*** Welcome to the Dapr Workflow console app sample!", flush=True)
+        print("*** Using this app, you can place orders that start workflows.", flush=True)
+        
+        wfr.start()
+        # Wait for the sidecar to become available
+        sleep(5)
+
+        wfClient = DaprWorkflowClient()
+
+        baseInventory = {
+            "paperclip": InventoryItem("Paperclip", 5, 100),
+            "cars": InventoryItem("Cars", 5000, 10),
+            "computers": InventoryItem("Computers", 500, 100),
+        }
+
+
+        daprClient = DaprClient(address=f'{settings.DAPR_RUNTIME_HOST}:{settings.DAPR_GRPC_PORT}')
+        self.restock_inventory(daprClient, baseInventory)
+
+        print("==========Begin the purchase of item:==========", flush=True)
+        item_name = default_item_name
+        order_quantity = 1
+        total_cost = int(order_quantity) * baseInventory[item_name].per_item_cost
+        order = OrderPayload(item_name=item_name, quantity=int(order_quantity), total_cost=total_cost)
+
+        print(f'Starting order workflow, purchasing {order_quantity} of {item_name}', flush=True)
+        instance_id = wfClient.schedule_new_workflow(
+            workflow=order_processing_workflow, input=order.to_json())
+
+        try:
+            state = wfClient.wait_for_workflow_completion(instance_id=instance_id, timeout_in_seconds=30)
+            if not state:
+                print("Workflow not found!")
+            elif state.runtime_status.name == 'COMPLETED':
+                print(f'Workflow completed! Result: {state.serialized_output}')
+            else:
+                print(f'Workflow failed! Status: {state.runtime_status.name}')  # not expected
+        except TimeoutError:
+            print('*** Workflow timed out!')
+
+        wfr.shutdown()
+
+    def restock_inventory(self, daprClient: DaprClient, baseInventory):
+        for key, item in baseInventory.items():
+            print(f'item: {item}')
+            item_str = f'{{"name": "{item.item_name}", "quantity": {item.quantity},\
+                          "per_item_cost": {item.per_item_cost}}}'
+            daprClient.save_state(store_name, key, item_str)
+
+if __name__ == '__main__':
+    app = WorkflowConsoleApp()
+    app.main()
+```
+
+#### `order-processor/workflow.py`
+
+在 `workflow.py` 中，工作流被定义为一个类，其中包含所有相关任务（由工作流活动确定）。
+
+```python
+from datetime import timedelta
+import logging
+import json
+
+from dapr.ext.workflow import DaprWorkflowContext, WorkflowActivityContext, WorkflowRuntime, when_any
+from dapr.clients import DaprClient
+from dapr.conf import settings
+
+from model import InventoryItem, Notification, InventoryRequest, OrderPayload, OrderResult,\
+    PaymentRequest, InventoryResult
+
+store_name = "statestore"
+
+wfr = WorkflowRuntime()
+
+logging.basicConfig(level=logging.INFO)
+
+@wfr.workflow(name="order_processing_workflow")
+def order_processing_workflow(ctx: DaprWorkflowContext, order_payload_str: str):
+    """Defines the order processing workflow.
+    When the order is received, the inventory is checked to see if there is enough inventory to
+    fulfill the order. If there is enough inventory, the payment is processed and the inventory is
+    updated. If there is not enough inventory, the order is rejected.
+    If the total order is greater than $5,000, the order is sent to a manager for approval.
+    """
+    order_id = ctx.instance_id
+    order_payload=json.loads(order_payload_str)
+    yield ctx.call_activity(notify_activity, 
+                            input=Notification(message=('Received order ' +order_id+ ' for '
+                                               +f'{order_payload["quantity"]}' +' ' +f'{order_payload["item_name"]}'
+                                               +' at $'+f'{order_payload["total_cost"]}' +' !')))
+    result = yield ctx.call_activity(verify_inventory_activity,
+                                     input=InventoryRequest(request_id=order_id,
+                                                            item_name=order_payload["item_name"],
+                                                            quantity=order_payload["quantity"]))
+    if not result.success:
+        yield ctx.call_activity(notify_activity,
+                                input=Notification(message='Insufficient inventory for '
+                                                   +f'{order_payload["item_name"]}'+'!'))
+        return OrderResult(processed=False)
+    
+    if order_payload["total_cost"] > 5000:
+        yield ctx.call_activity(request_approval_activity, input=order_payload)
+        approval_task = ctx.wait_for_external_event("approval_event")
+        timeout_event = ctx.create_timer(timedelta(seconds=30))
+        winner = yield when_any([approval_task, timeout_event])
+        if winner == timeout_event:
+            yield ctx.call_activity(notify_activity, 
+                                    input=Notification(message='Order '+order_id
+                                                       +' has been cancelled due to approval timeout.'))
+            return OrderResult(processed=False)
+        approval_result = yield approval_task
+        if approval_result == False:
+            yield ctx.call_activity(notify_activity, input=Notification(
+                message=f'Order {order_id} was not approved'))
+            return OrderResult(processed=False)    
+    
+    yield ctx.call_activity(process_payment_activity, input=PaymentRequest(
+        request_id=order_id, item_being_purchased=order_payload["item_name"],
+        amount=order_payload["total_cost"], quantity=order_payload["quantity"]))
+
+    try:
+        yield ctx.call_activity(update_inventory_activity, 
+                                input=PaymentRequest(request_id=order_id,
+                                                     item_being_purchased=order_payload["item_name"],
+                                                     amount=order_payload["total_cost"],
+                                                     quantity=order_payload["quantity"]))
+    except Exception:
+        yield ctx.call_activity(notify_activity, 
+                                input=Notification(message=f'Order {order_id} Failed!'))
+        return OrderResult(processed=False)
+
+    yield ctx.call_activity(notify_activity, input=Notification(
+        message=f'Order {order_id} has completed!'))
+    return OrderResult(processed=True)
+
+@wfr.activity(name="notify_activity")
+def notify_activity(ctx: WorkflowActivityContext, input: Notification):
+    """Defines Notify Activity. This is used by the workflow to send out a notification"""
+    # Create a logger
+    logger = logging.getLogger('NotifyActivity')
+    logger.info(input.message)
+
+@wfr.activity(name="process_payment_activity")
+def process_payment_activity(ctx: WorkflowActivityContext, input: PaymentRequest):
+    """Defines Process Payment Activity.This is used by the workflow to process a payment"""
+    logger = logging.getLogger('ProcessPaymentActivity')
+    logger.info('Processing payment: '+f'{input.request_id}'+' for '
+                +f'{input.quantity}' +' ' +f'{input.item_being_purchased}'+' at '+f'{input.amount}'
+                +' USD')
+    logger.info(f'Payment for request ID {input.request_id} processed successfully')
+
+@wfr.activity(name="verify_inventory_activity")
+def verify_inventory_activity(ctx: WorkflowActivityContext,
+                              input: InventoryRequest) -> InventoryResult:
+    """Defines Verify Inventory Activity. This is used by the workflow to verify if inventory
+    is available for the order"""
+    logger = logging.getLogger('VerifyInventoryActivity')
+
+    logger.info('Verifying inventory for order '+f'{input.request_id}'+' of '
+                +f'{input.quantity}' +' ' +f'{input.item_name}')
+    with DaprClient(f'{settings.DAPR_RUNTIME_HOST}:{settings.DAPR_GRPC_PORT}') as client:
+        result = client.get_state(store_name, input.item_name)
+    if result.data is None:
+        return InventoryResult(False, None)
+    res_json=json.loads(str(result.data.decode('utf-8')))
+    logger.info(f'There are {res_json["quantity"]} {res_json["name"]} available for purchase')
+    inventory_item = InventoryItem(item_name=input.item_name,
+                                  per_item_cost=res_json['per_item_cost'],
+                                  quantity=res_json['quantity'])
+
+    if res_json['quantity'] >= input.quantity:
+        return InventoryResult(True, inventory_item)
+    return InventoryResult(False, None)
+
+@wfr.activity(name="update_inventory_activity")
+def update_inventory_activity(ctx: WorkflowActivityContext,
+                              input: PaymentRequest) -> InventoryResult:
+    """Defines Update Inventory Activity. This is used by the workflow to check if inventory
+    is sufficient to fulfill the order and updates inventory by reducing order quantity from
+    inventory."""
     logger = logging.getLogger('UpdateInventoryActivity')
 
     logger.info('Checking inventory for order ' +f'{input.request_id}'+' for '
@@ -21,8 +398,9 @@
 @wfr.activity(name="request_approval_activity")
 def request_approval_activity(ctx: WorkflowActivityContext,
                              input: OrderPayload):
-    """定义请求批准活动。这由工作流用于请求批准
-    订单付款。仅当订单总成本大于特定阈值时才使用此活动"""
+    """Defines Request Approval Activity. This is used by the workflow to request approval
+    for payment of an order. This activity is used only if the order total cost is greater than
+    a particular threshold"""
     logger = logging.getLogger('RequestApprovalActivity')
 
     logger.info('Requesting approval for payment of '+f'{input["total_cost"]}'+' USD for '
@@ -33,15 +411,15 @@ def request_approval_activity(ctx: WorkflowActivityContext,
  <!-- JavaScript -->
 {{% tab "JavaScript" %}}
 
-`order-processor` 控制台应用程序启动和管理订单处理工作流的生命周期，该工作流在状态存储中存储和检索数据。工作流由四个工作流活动或任务组成：
+`order-processor` 控制台应用程序启动并管理订单处理工作流的生命周期，该工作流在状态存储中存储和检索数据。该工作流由四个工作流活动或任务组成：
 
-- `notifyActivity`：利用记录器在工作流过程中打印出消息。这些消息会在库存不足、付款无法处理等情况时通知用户。
+- `notifyActivity`：使用记录器在工作流过程中输出消息。这些消息会在库存不足、付款无法处理等情况时通知用户。
 - `verifyInventoryActivity`：检查状态存储以确保有足够的库存可供购买。
-- `requestApprovalActivity`：为超过特定阈值的订单请求批准。
+- `requestApprovalActivity`：请求对超过特定阈值的订单进行批准。
 - `processPaymentActivity`：处理并授权付款。
 - `updateInventoryActivity`：使用新的剩余库存值更新状态存储。
 
-### 第 1 步：先决条件
+### 步骤 1：先决条件
 
 对于此示例，你需要：
 
@@ -51,9 +429,9 @@ def request_approval_activity(ctx: WorkflowActivityContext,
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
 
-### 第 2 步：设置环境
+### 步骤 2：设置环境
 
-克隆[快速入门存储库中提供的示例](https://github.com/dapr/quickstarts/tree/master/workflows/javascript/sdk)。
+克隆 [快速入门仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/workflows/javascript/sdk)。
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
@@ -73,9 +451,9 @@ npm install
 npm run build
 ```
 
-### 第 3 步：运行订单处理器应用程序
+### 步骤 3：运行订单处理应用程序
 
-在终端中，使用[多应用运行]({{% ref multi-app-dapr-run %}})启动订单处理器应用程序和 Dapr sidecar。从 `javascript/sdk` 目录，运行以下命令：
+在终端中，使用 [多应用运行]({{% ref multi-app-dapr-run %}}) 启动订单处理应用程序和 Dapr 边车。从 `javascript/sdk` 目录，运行以下命令：
 
 ```bash
 dapr run -f .
@@ -149,15 +527,15 @@ dapr run -f .
 == APP - order-processor == Orchestration completed! Result: {"processed":true}
 ```
 
-### （可选）第 4 步：在 Zipkin 中查看
+### （可选）步骤 4：在 Zipkin 中查看
 
-运行 `dapr init` 会启动 [openzipkin/zipkin](https://hub.docker.com/r/openzipkin/zipkin/) Docker 容器。如果容器已停止运行，使用以下命令启动 Zipkin Docker 容器：
+运行 `dapr init` 会启动 [openzipkin/zipkin](https://hub.docker.com/r/openzipkin/zipkin/) Docker 容器。如果容器已停止运行，请使用以下命令启动 Zipkin Docker 容器：
 
 ```
 docker run -d -p 9411:9411 openzipkin/zipkin
 ```
 
-在 Zipkin Web UI（通常位于 `http://localhost:9411/zipkin/`）中查看工作流跟踪范围。
+在 Zipkin Web UI 中查看工作流跟踪跨度（通常位于 `http://localhost:9411/zipkin/`）。
 
 <img src="/images/workflow-trace-spans-zipkin.png" width=800 style="padding-bottom:15px;">
 
@@ -165,22 +543,22 @@ docker run -d -p 9411:9411 openzipkin/zipkin
 
 当你运行 `dapr run -f .` 时：
 
-1. 为工作流生成了一个唯一的订单 ID（在上面的示例中，`f5087775-779c-4e73-ac77-08edfcb375f4`）并安排了工作流。
+1. 为工作流生成了一个唯一的订单 ID（在上述示例中为 `f5087775-779c-4e73-ac77-08edfcb375f4`）并调度了工作流。
 2. `notifyActivity` 工作流活动发送一条通知，说明已收到 1 辆汽车的订单。
-3. `verifyInventoryActivity` 工作流活动检查库存数据，确定你是否可以提供订购的物品，并响应库存中的汽车数量。
+3. `verifyInventoryActivity` 工作流活动检查库存数据，确定你是否可以供应订购的项目，并响应库存中的汽车数量。
 4. 你的工作流启动并通知你其状态。
-5. `requestApprovalActivity` 工作流活动为订单 `f5087775-779c-4e73-ac77-08edfcb375f4` 请求批准
+5. `requestApprovalActivity` 工作流活动请求对订单 `f5087775-779c-4e73-ac77-08edfcb375f4` 的批准
 6. `processPaymentActivity` 工作流活动开始处理订单 `f5087775-779c-4e73-ac77-08edfcb375f4` 的付款并确认是否成功。
-7. `updateInventoryActivity` 工作流活动使用当前可用的汽车更新库存，在订单处理完成后。
+7. `updateInventoryActivity` 工作流活动在订单处理后使用当前可用的汽车更新库存。
 8. `notifyActivity` 工作流活动发送一条通知，说明订单 `f5087775-779c-4e73-ac77-08edfcb375f4` 已完成并已处理。
-9. 工作流作为已完成并已处理终止。
+9. 工作流以完成和已处理状态终止。
 
 #### `order-processor/app.ts`
 
 在应用程序文件中：
 
 - 生成唯一的工作流订单 ID
-- 安排工作流
+- 调度工作流
 - 检索工作流状态
 - 注册工作流及其调用的活动
 
@@ -192,7 +570,7 @@ import { notifyActivity, orderProcessingWorkflow, processPaymentActivity, reques
 const workflowWorker = new WorkflowRuntime();
 
 async function start() {
-  // 更新 gRPC 客户端和工作程序以使用本地地址和端口
+  // Update the gRPC client and worker to use a local address and port
   const workflowClient = new DaprWorkflowClient();
 
 
@@ -227,7 +605,7 @@ async function start() {
   .registerActivity(processPaymentActivity)
   .registerActivity(updateInventoryActivity);
 
-  // 将工作程序启动包装在 try-catch 块中以处理启动期间的任何错误
+  // Wrap the worker startup in a try-catch block to handle any errors during startup
   try {
     await workflowWorker.start();
     console.log("Workflow runtime started successfully");
@@ -235,12 +613,12 @@ async function start() {
     console.error("Error starting workflow runtime:", error);
   }
 
-  // 安排新的编排
+  // Schedule a new orchestration
   try {
     const id = await workflowClient.scheduleNewWorkflow(orderProcessingWorkflow, order);
     console.log(`Orchestration scheduled with ID: ${id}`);
 
-    // 等待编排完成
+    // Wait for orchestration completion
     const state = await workflowClient.waitForWorkflowCompletion(id, undefined, 30);
 
     console.log(`Orchestration completed! Result: ${state?.serializedOutput}`);
@@ -264,7 +642,7 @@ start().catch((e) => {
 
 #### `order-processor/orderProcessingWorkflow.ts`
 
-在 `orderProcessingWorkflow.ts` 中，工作流被定义为一个类，包含所有相关任务（由工作流活动确定）。
+在 `orderProcessingWorkflow.ts` 中，工作流被定义为一个类，其中包含所有相关任务（由工作流活动确定）。
 
 ```javascript
 import { Task, WorkflowActivityContext, WorkflowContext, TWorkflow, DaprClient } from "@dapr/dapr";
@@ -273,13 +651,13 @@ import { InventoryItem, InventoryRequest, InventoryResult, OrderNotification, Or
 const daprClient = new DaprClient();
 const storeName = "statestore";
 
-// 定义通知活动。这由工作流用于发送通知
+// Defines Notify Activity. This is used by the workflow to send out a notification
 export const notifyActivity = async (_: WorkflowActivityContext, orderNotification: OrderNotification) => {
   console.log(orderNotification.message);
   return;
 };
 
-//定义验证库存活动。这由工作流用于验证是否有库存可用于订单
+//Defines Verify Inventory Activity. This is used by the workflow to verify if inventory is available for the order
 export const verifyInventoryActivity = async (_: WorkflowActivityContext, inventoryRequest: InventoryRequest) => {
   console.log(`Verifying inventory for ${inventoryRequest.requestId} of ${inventoryRequest.quantity} ${inventoryRequest.itemName}`);
   const result = await daprClient.state.get(storeName, inventoryRequest.itemName);
@@ -410,15 +788,15 @@ export const orderProcessingWorkflow: TWorkflow = async function* (ctx: Workflow
  <!-- .NET -->
 {{% tab ".NET" %}}
 
-`order-processor` 控制台应用程序启动和管理订单处理工作流的生命周期，该工作流在状态存储中存储和检索数据。工作流由四个工作流活动或任务组成：
+`order-processor` 控制台应用程序启动并管理订单处理工作流的生命周期，该工作流在状态存储中存储和检索数据。该工作流由四个工作流活动或任务组成：
 
-- `NotifyActivity`：利用记录器在工作流过程中打印出消息
+- `NotifyActivity`：使用记录器在工作流过程中输出消息
 - `VerifyInventoryActivity`：检查状态存储以确保有足够的库存可供购买。
-- `RequestApprovalActivity`：为超过特定阈值的订单请求批准。
+- `RequestApprovalActivity`：请求对超过特定阈值的订单进行批准。
 - `ProcessPaymentActivity`：处理并授权付款。
-- `UpdateInventoryActivity`：从状态存储中移除所请求的物品，并使用新的剩余库存值更新存储。
+- `UpdateInventoryActivity`：从状态存储中移除所请求的项目，并使用新的剩余库存值更新存储。
 
-### 第 1 步：先决条件
+### 步骤 1：先决条件
 
 对于此示例，你需要：
 
@@ -428,11 +806,11 @@ export const orderProcessingWorkflow: TWorkflow = async function* (ctx: Workflow
 <!-- END_IGNORE -->
 - 已安装 [.NET 7](https://dotnet.microsoft.com/download/dotnet/7.0)、[.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0) 或 [.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)
 
-**注意：**.NET 7 是 Dapr v1.15 中 Dapr.Workflows 支持的最低 .NET 版本。在 Dapr v1.16 及更高版本中仅支持 .NET 8 和 .NET 9。
+**注意：**.NET 7 是 Dapr v1.15 中 Dapr.Workflows 支持的最低 .NET 版本。在 Dapr v1.16 及更高版本中，仅支持 .NET 8 和 .NET 9。
 
-### 第 2 步：设置环境
+### 步骤 2：设置环境
 
-克隆[快速入门存储库中提供的示例](https://github.com/dapr/quickstarts/tree/master/workflows/csharp/sdk)。
+克隆 [快速入门仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/workflows/csharp/sdk)。
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
@@ -451,15 +829,15 @@ dotnet restore
 dotnet build
 ```
 
-返回 `csharp/sdk` 目录：
+返回到 `csharp/sdk` 目录：
 
 ```bash
 cd ..
 ```
 
-### 第 3 步：运行订单处理器应用程序
+### 步骤 3：运行订单处理应用程序
 
-在终端中，使用[多应用运行]({{% ref multi-app-dapr-run %}})启动订单处理器应用程序和 Dapr sidecar。从 `csharp/sdk` 目录，运行以下命令：
+在终端中，使用 [多应用运行]({{% ref multi-app-dapr-run %}}) 启动订单处理应用程序和 Dapr 边车。从 `csharp/sdk` 目录，运行以下命令：
 
 ```bash
 dapr run -f .
@@ -503,6 +881,7 @@ dapr run -f .
 == APP - order-processor ==       Received HTTP response headers after 99.446ms - 200
 == APP - order-processor == info: System.Net.Http.HttpClient.Default.LogicalHandler[101]
 == APP - order-processor ==       End processing HTTP request after 99.5407ms - 200
+== APP - order-processor == Your workflow has started. Here is the status of the workflow: Running
 == APP - order-processor == info: Microsoft.DurableTask.Client.Grpc.GrpcDurableTaskClient[43]
 == APP - order-processor ==       Waiting for instance '571a6e25' to complete, fail, or terminate.
 == APP - order-processor == info: System.Net.Http.HttpClient.Default.LogicalHandler[100]
@@ -622,15 +1001,15 @@ dapr run -f .
 == APP - order-processor == Workflow Status: Completed
 ```
 
-### （可选）第 4 步：在 Zipkin 中查看
+### （可选）步骤 4：在 Zipkin 中查看
 
-运行 `dapr init` 会启动 [openzipkin/zipkin](https://hub.docker.com/r/openzipkin/zipkin/) Docker 容器。如果容器已停止运行，使用以下命令启动 Zipkin Docker 容器：
+运行 `dapr init` 会启动 [openzipkin/zipkin](https://hub.docker.com/r/openzipkin/zipkin/) Docker 容器。如果容器已停止运行，请使用以下命令启动 Zipkin Docker 容器：
 
 ```
 docker run -d -p 9411:9411 openzipkin/zipkin
 ```
 
-在 Zipkin Web UI（通常位于 `http://localhost:9411/zipkin/`）中查看工作流跟踪范围。
+在 Zipkin Web UI 中查看工作流跟踪跨度（通常位于 `http://localhost:9411/zipkin/`）。
 
 <img src="/images/workflow-trace-spans-zipkin.png" width=800 style="padding-bottom:15px;">
 
@@ -639,21 +1018,21 @@ docker run -d -p 9411:9411 openzipkin/zipkin
 当你运行 `dapr run -f .` 时：
 
 1. 创建了一个包含一辆汽车的 OrderPayload。
-2. 为工作流生成了一个唯一的订单 ID（在上面的示例中，`571a6e25`）并安排了工作流。
+2. 为工作流生成了一个唯一的订单 ID（在上述示例中为 `571a6e25`）并调度了工作流。
 3. `NotifyActivity` 工作流活动发送一条通知，说明已收到一辆汽车的订单。
-4. `VerifyInventoryActivity` 工作流活动检查库存数据，确定你是否可以提供订购的物品，并响应库存中的汽车数量。库存充足，因此工作流继续。
-5. 订单的总成本为 5000，因此工作流不会调用 `RequestApprovalActivity` 活动。
+4. `VerifyInventoryActivity` 工作流活动检查库存数据，确定你是否可以供应订购的项目，并响应库存中的汽车数量。库存充足，因此工作流继续进行。
+5. 订单总成本为 5000，因此工作流不会调用 `RequestApprovalActivity` 活动。
 6. `ProcessPaymentActivity` 工作流活动开始处理订单 `571a6e25` 的付款并确认是否成功。
-7. `UpdateInventoryActivity` 工作流活动使用当前可用的汽车更新库存，在订单处理完成后。
+7. `UpdateInventoryActivity` 工作流活动在订单处理后使用当前可用的汽车更新库存。
 8. `NotifyActivity` 工作流活动发送一条通知，说明订单 `571a6e25` 已完成。
-9. 工作流作为已完成终止，OrderResult 被设置为已处理。
+9. 工作流以完成状态终止，并且 OrderResult 设置为已处理。
 
 #### `order-processor/Program.cs`
 
 在应用程序的程序文件中：
 
 - 生成唯一的工作流订单 ID
-- 安排工作流
+- 调度工作流
 - 检索工作流状态
 - 注册工作流及其调用的活动
 
@@ -668,17 +1047,17 @@ using WorkflowConsoleApp.Workflows;
 
 const string storeName = "statestore";
 
-// 工作流主机是一个通过 gRPC 连接到 sidecar 的后台服务
+// The workflow host is a background service that connects to the sidecar over gRPC
 var builder = Host.CreateDefaultBuilder(args).ConfigureServices(services =>
 {
     services.AddDaprClient();
     services.AddDaprWorkflow(options =>
     {
-        // 请注意，也可以将 lambda 函数注册为工作流
-        // 或活动实现，而不是类。
+        // Note that it's also possible to register a lambda function as the workflow
+        // or activity implementation instead of a class.
         options.RegisterWorkflow<OrderProcessingWorkflow>();
 
-        // 这些是由工作流调用的活动。
+        // These are the activities that get invoked by the workflow(s).
         options.RegisterActivity<NotifyActivity>();
         options.RegisterActivity<VerifyInventoryActivity>();
         options.RegisterActivity<RequestApprovalActivity>();
@@ -687,25 +1066,25 @@ var builder = Host.CreateDefaultBuilder(args).ConfigureServices(services =>
     });
 });
 
-// 启动应用程序 - 这是我们要连接到 Dapr sidecar 的地方
+// Start the app - this is the point where we connect to the Dapr sidecar
 using var host = builder.Build();
 host.Start();
 
 var daprClient = host.Services.GetRequiredService<DaprClient>();
 var workflowClient = host.Services.GetRequiredService<DaprWorkflowClient>();
 
-// 为工作流生成唯一 ID
+// Generate a unique ID for the workflow
 var orderId = Guid.NewGuid().ToString()[..8];
 const string itemToPurchase = "Cars";
 const int amountToPurchase = 1;
 
-// 用物品填充存储
+// Populate the store with items
 RestockInventory(itemToPurchase);
 
-// 构造订单
+// Construct the order
 var orderInfo = new OrderPayload(itemToPurchase, 5000, amountToPurchase);
 
-// 启动工作流
+// Start the workflow
 Console.WriteLine($"Starting workflow {orderId} purchasing {amountToPurchase} {itemToPurchase}");
 
 await workflowClient.ScheduleNewWorkflowAsync(
@@ -713,13 +1092,13 @@ await workflowClient.ScheduleNewWorkflowAsync(
     instanceId: orderId,
     input: orderInfo);
 
-// 等待工作流启动并确认输入
+// Wait for the workflow to start and confirm the input
 var state = await workflowClient.WaitForWorkflowStartAsync(
     instanceId: orderId);
 
 Console.WriteLine($"Your workflow has started. Here is the status of the workflow: {Enum.GetName(typeof(WorkflowRuntimeStatus), state.RuntimeStatus)}");
 
-// 等待工作流完成
+// Wait for the workflow to complete
 state = await workflowClient.WaitForWorkflowCompletionAsync(
     instanceId: orderId);
 
@@ -735,7 +1114,7 @@ void RestockInventory(string itemToPurchase)
 
 #### `order-processor/Workflows/OrderProcessingWorkflow.cs`
 
-在 `OrderProcessingWorkflow.cs` 中，工作流被定义为一个类，包含所有相关任务（由单独文件中的工作流活动确定）。
+在 `OrderProcessingWorkflow.cs` 中，工作流被定义为一个类，其中包含所有相关任务（由单独文件中的工作流活动确定）。
 
 ```csharp
 namespace WorkflowConsoleApp.Workflows;
@@ -754,21 +1133,21 @@ internal sealed partial class OrderProcessingWorkflow : Workflow<OrderPayload, O
         var logger = context.CreateReplaySafeLogger<OrderProcessingWorkflow>();
         var orderId = context.InstanceId;
 
-        // 通知用户订单已通过
+        // Notify the user that an order has come through
         await context.CallActivityAsync(nameof(NotifyActivity),
             new Notification($"Received order {orderId} for {order.Quantity} {order.Name} at ${order.TotalCost}"));
         LogOrderReceived(logger, orderId, order.Quantity, order.Name, order.TotalCost);
 
-        // 通过检查库存来确定是否有足够的物品可供购买
+        // Determine if there is enough of the item available for purchase by checking the inventory
         var inventoryRequest = new InventoryRequest(RequestId: orderId, order.Name, order.Quantity);
         var result = await context.CallActivityAsync<InventoryResult>(
             nameof(VerifyInventoryActivity), inventoryRequest);
         LogCheckInventory(logger, inventoryRequest);
             
-        // 如果库存不足，则失败并通知用户 
+        // If there is insufficient inventory, fail and let the user know 
         if (!result.Success)
         {
-            // 在此处结束工作流，因为我们没有足够的库存
+            // End the workflow here since we don't have sufficient inventory
             await context.CallActivityAsync(nameof(NotifyActivity),
                 new Notification($"Insufficient inventory for {order.Name}"));
             LogInsufficientInventory(logger, order.Name);
@@ -792,32 +1171,32 @@ internal sealed partial class OrderProcessingWorkflow : Workflow<OrderPayload, O
             }
         }
 
-        // 有足够的库存可供购买，因此用户可以购买物品。处理他们的付款
+        // There is enough inventory available so the user can purchase the item(s). Process their payment
         var processPaymentRequest = new PaymentRequest(RequestId: orderId, order.Name, order.Quantity, order.TotalCost);
         await context.CallActivityAsync(nameof(ProcessPaymentActivity),processPaymentRequest);
         LogPaymentProcessing(logger, processPaymentRequest);
 
         try
         {
-            // 更新可用库存
+            // Update the available inventory
             var paymentRequest = new PaymentRequest(RequestId: orderId, order.Name, order.Quantity, order.TotalCost); 
             await context.CallActivityAsync(nameof(UpdateInventoryActivity), paymentRequest);
             LogInventoryUpdate(logger, paymentRequest);
         }
         catch (TaskFailedException)
         {
-            // 让他们知道他们的付款已处理，但没有足够的库存，因此他们将获得退款
+            // Let them know their payment was processed, but there's insufficient inventory, so they're getting a refund
             await context.CallActivityAsync(nameof(NotifyActivity),
                 new Notification($"Order {orderId} Failed! You are now getting a refund"));
             LogRefund(logger, orderId);
             return new OrderResult(Processed: false);
         }
 
-        // 让他们知道他们的付款已处理
+        // Let them know their payment was processed
         await context.CallActivityAsync(nameof(NotifyActivity), new Notification($"Order {orderId} has completed!"));
         LogSuccessfulOrder(logger, orderId);
 
-        // 以成功结果结束工作流
+        // End the workflow with a success result
         return new OrderResult(Processed: true);
     }
 
@@ -849,7 +1228,7 @@ internal sealed partial class OrderProcessingWorkflow : Workflow<OrderPayload, O
 
 #### `order-processor/Activities` 目录
 
-`Activities` 目录保存工作流使用的四个工作流活动，在以下文件中定义：
+`Activities` 目录保存工作流使用的四个活动，在以下文件中定义：
 
 - `NotifyActivity.cs`
 - `VerifyInventoryActivity.cs`
@@ -859,7 +1238,7 @@ internal sealed partial class OrderProcessingWorkflow : Workflow<OrderPayload, O
 
 ## 观看演示
 
-观看[此视频以了解 Dapr 工作流 .NET 演示](https://youtu.be/BxiKpEmchgQ?t=2564)：
+观看 [此视频以演示 Dapr Workflow .NET 演示](https://youtu.be/BxiKpEmchgQ?t=2564)：
 
 {{< youtube id=BxiKpEmchgQ start=2564 >}}
 
@@ -868,15 +1247,15 @@ internal sealed partial class OrderProcessingWorkflow : Workflow<OrderPayload, O
  <!-- Java -->
 {{% tab "Java" %}}
 
-`order-processor` 控制台应用程序启动和管理订单处理工作流的生命周期，该工作流在状态存储中存储和检索数据。工作流由四个工作流活动或任务组成：
+`order-processor` 控制台应用程序启动并管理订单处理工作流的生命周期，该工作流在状态存储中存储和检索数据。该工作流由四个工作流活动或任务组成：
 
-- `NotifyActivity`：利用记录器在工作流过程中打印出消息。
-- `RequestApprovalActivity`：为超过特定成本阈值的订单请求批准。
+- `NotifyActivity`：使用记录器在工作流过程中输出消息。
+- `RequestApprovalActivity`：请求对超过特定成本阈值的订单进行批准。
 - `VerifyInventoryActivity`：检查状态存储以确保有足够的库存可供购买。
 - `ProcessPaymentActivity`：处理并授权付款。
-- `UpdateInventoryActivity`：从状态存储中移除所请求的物品，并使用新的剩余库存值更新存储。
+- `UpdateInventoryActivity`：从状态存储中移除所请求的项目，并使用新的剩余库存值更新存储。
 
-### 第 1 步：先决条件
+### 步骤 1：先决条件
 
 对于此示例，你需要：
 
@@ -890,9 +1269,9 @@ internal sealed partial class OrderProcessingWorkflow : Workflow<OrderPayload, O
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
 
-### 第 2 步：设置环境
+### 步骤 2：设置环境
 
-克隆[快速入门存储库中提供的示例](https://github.com/dapr/quickstarts/tree/master/workflows/java/sdk)。
+克隆 [快速入门仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/workflows/java/sdk)。
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
@@ -910,15 +1289,15 @@ cd workflows/java/sdk/order-processor
 mvn clean install
 ```
 
-返回 `java/sdk` 目录：
+返回到 `java/sdk` 目录：
 
 ```bash
 cd ..
 ```
 
-### 第 3 步：运行订单处理器应用程序
+### 步骤 3：运行订单处理应用程序
 
-在终端中，使用[多应用运行]({{% ref multi-app-dapr-run %}})启动订单处理器应用程序和 Dapr sidecar。从 `java/sdk` 目录，运行以下命令：
+在终端中，使用 [多应用运行]({{% ref multi-app-dapr-run %}}) 启动订单处理应用程序和 Dapr 边车。从 `java/sdk` 目录，运行以下命令：
 
 ```bash
 cd workflows/java/sdk
@@ -965,15 +1344,15 @@ dapr run -f .
 == APP - order-processor == workflow instance completed, out is: {"processed":true}
 ```
 
-### （可选）第 4 步：在 Zipkin 中查看
+### （可选）步骤 4：在 Zipkin 中查看
 
-运行 `dapr init` 会启动 [openzipkin/zipkin](https://hub.docker.com/r/openzipkin/zipkin/) Docker 容器。如果容器已停止运行，使用以下命令启动 Zipkin Docker 容器：
+运行 `dapr init` 会启动 [openzipkin/zipkin](https://hub.docker.com/r/openzipkin/zipkin/) Docker 容器。如果容器已停止运行，请使用以下命令启动 Zipkin Docker 容器：
 
 ```
 docker run -d -p 9411:9411 openzipkin/zipkin
 ```
 
-在 Zipkin Web UI（通常位于 `http://localhost:9411/zipkin/`）中查看工作流跟踪范围。
+在 Zipkin Web UI 中查看工作流跟踪跨度（通常位于 `http://localhost:9411/zipkin/`）。
 
 <img src="/images/workflow-trace-spans-zipkin.png" width=800 style="padding-bottom:15px;">
 
@@ -982,20 +1361,20 @@ docker run -d -p 9411:9411 openzipkin/zipkin
 当你运行 `dapr run -f .` 时：
 
 1. 创建了一个包含一辆汽车的 OrderPayload。
-2. 为工作流生成了一个唯一的订单 ID（在上面的示例中，`d1bf548b-c854-44af-978e-90c61ed88e3c`）并安排了工作流。
+2. 为工作流生成了一个唯一的订单 ID（在上述示例中为 `d1bf548b-c854-44af-978e-90c61ed88e3c`）并调度了工作流。
 3. `NotifyActivity` 工作流活动发送一条通知，说明已收到一辆汽车的订单。
-4. `VertifyInventoryActivity` 工作流活动检查库存数据，确定你是否可以提供订购的物品，并响应库存中的汽车数量。库存充足，因此工作流继续。
-5. 订单的总成本为 5000，因此工作流不会调用 `RequestApprovalActivity` 活动。
+4. `VertifyInventoryActivity` 工作流活动检查库存数据，确定你是否可以供应订购的项目，并响应库存中的汽车数量。库存充足，因此工作流继续进行。
+5. 订单总成本为 5000，因此工作流不会调用 `RequestApprovalActivity` 活动。
 6. `ProcessPaymentActivity` 工作流活动开始处理订单 `d1bf548b-c854-44af-978e-90c61ed88e3c` 的付款并确认是否成功。
-7. `UpdateInventoryActivity` 工作流活动使用当前可用的汽车更新库存，在订单处理完成后。
+7. `UpdateInventoryActivity` 工作流活动在订单处理后使用当前可用的汽车更新库存。
 8. `NotifyActivity` 工作流活动发送一条通知，说明订单 `d1bf548b-c854-44af-978e-90c61ed88e3c` 已完成。
-9. 工作流作为已完成终止，orderResult 被设置为已处理。
+9. 工作流以完成状态终止，并且 orderResult 设置为已处理。
 
 #### `order-processor/WorkflowConsoleApp.java` 
 
 在应用程序的程序文件中：
 - 生成唯一的工作流订单 ID
-- 安排工作流
+- 调度工作流
 - 检索工作流状态
 - 注册工作流及其调用的活动
 
@@ -1024,18 +1403,18 @@ public class WorkflowConsoleApp {
   private static final String STATE_STORE_NAME = "statestore";
 
   /**
-   * 此控制台应用程序的主要方法。
+   * The main method of this console app.
    *
-   * @param args 应用程序将监听的端口。
-   * @throws Exception 异常。
+   * @param args The port the app will listen on.
+   * @throws Exception An Exception.
    */
   public static void main(String[] args) throws Exception {
     System.out.println("*** Welcome to the Dapr Workflow console app sample!");
     System.out.println("*** Using this app, you can place orders that start workflows.");
-    // 等待 sidecar 变为可用
+    // Wait for the sidecar to become available
     Thread.sleep(5 * 1000);
 
-    // 使用构建器注册 OrderProcessingWorkflow 及其活动。
+    // Register the OrderProcessingWorkflow and its activities with the builder.
     WorkflowRuntimeBuilder builder = new WorkflowRuntimeBuilder().registerWorkflow(OrderProcessingWorkflow.class);
     builder.registerActivity(NotifyActivity.class);
     builder.registerActivity(ProcessPaymentActivity.class);
@@ -1043,7 +1422,7 @@ public class WorkflowConsoleApp {
     builder.registerActivity(VerifyInventoryActivity.class);
     builder.registerActivity(UpdateInventoryActivity.class);
 
-    // 构建然后启动工作流运行时，拉取并执行任务
+    // Build and then start the workflow runtime pulling and executing tasks
     try (WorkflowRuntime runtime = builder.build()) {
       System.out.println("Start workflow runtime");
       runtime.start(false);
@@ -1098,7 +1477,7 @@ public class WorkflowConsoleApp {
   }
 
   private static InventoryItem prepareInventoryAndOrder() {
-    // 准备 10 辆汽车的库存
+    // prepare 10 cars in inventory
     InventoryItem inventory = new InventoryItem();
     inventory.setName("cars");
     inventory.setPerItemCost(50000);
@@ -1106,7 +1485,7 @@ public class WorkflowConsoleApp {
     DaprClient daprClient = new DaprClientBuilder().build();
     restockInventory(daprClient, inventory);
 
-    // 准备 10 辆汽车的订单
+    // prepare order for 10 cars
     InventoryItem order = new InventoryItem();
     order.setName("cars");
     order.setPerItemCost(5000);
@@ -1124,7 +1503,7 @@ public class WorkflowConsoleApp {
 
 #### `OrderProcessingWorkflow.java`
 
-在 `OrderProcessingWorkflow.java` 中，工作流被定义为一个类，包含所有相关任务（由工作流活动确定）。
+在 `OrderProcessingWorkflow.java` 中，工作流被定义为一个类，其中包含所有相关任务（由工作流活动确定）。
 
 ```java
 package io.dapr.quickstarts.workflows;
@@ -1163,12 +1542,13 @@ public class OrderProcessingWorkflow extends Workflow {
       OrderResult orderResult = new OrderResult();
       orderResult.setProcessed(false);
 
-      // 通知用户订单已通过
+      // Notify the user that an order has come through
       Notification notification = new Notification();
       notification.setMessage("Received Order: " + order.toString());
       ctx.callActivity(NotifyActivity.class.getName(), notification).await();
 
-      // 通过检查库存来确定是否有足够的物品可供购买
+      // Determine if there is enough of the item available for purchase by checking
+      // the inventory
       InventoryRequest inventoryRequest = new InventoryRequest();
       inventoryRequest.setRequestId(orderId);
       inventoryRequest.setItemName(order.getItemName());
@@ -1176,7 +1556,7 @@ public class OrderProcessingWorkflow extends Workflow {
       InventoryResult inventoryResult = ctx.callActivity(VerifyInventoryActivity.class.getName(),
           inventoryRequest, InventoryResult.class).await();
 
-      // 如果库存不足，则失败并通知用户
+      // If there is insufficient inventory, fail and let the user know
       if (!inventoryResult.isSuccess()) {
         notification.setMessage("Insufficient inventory for order : " + order.getItemName());
         ctx.callActivity(NotifyActivity.class.getName(), notification).await();
@@ -1184,7 +1564,7 @@ public class OrderProcessingWorkflow extends Workflow {
         return;
       }
 
-      // 要求超过特定阈值的订单必须获得批准
+      // Require orders over a certain threshold to be approved
       if (order.getTotalCost() > 5000) {
         ctx.callActivity(RequestApprovalActivity.class.getName(), order).await();
 
@@ -1198,8 +1578,8 @@ public class OrderProcessingWorkflow extends Workflow {
         }
       }
 
-      // 有足够的库存可供购买，因此用户可以购买物品。
-      // 处理他们的付款
+      // There is enough inventory available so the user can purchase the item(s).
+      // Process their payment
       PaymentRequest paymentRequest = new PaymentRequest();
       paymentRequest.setRequestId(orderId);
       paymentRequest.setItemBeingPurchased(order.getItemName());
@@ -1217,23 +1597,23 @@ public class OrderProcessingWorkflow extends Workflow {
       inventoryResult = ctx.callActivity(UpdateInventoryActivity.class.getName(),
           inventoryRequest, InventoryResult.class).await();
       if (!inventoryResult.isSuccess()) {
-        // 如果更新库存时出错，则向用户退款
+        // If there is an error updating the inventory, refund the user
         // paymentRequest.setAmount(-1 * paymentRequest.getAmount());
         // ctx.callActivity(ProcessPaymentActivity.class.getName(),
         // paymentRequest).await();
 
-        // 让用户知道他们的付款处理失败
+        // Let users know their payment processing failed
         notification.setMessage("Order failed to update inventory! : " + orderId);
         ctx.callActivity(NotifyActivity.class.getName(), notification).await();
         ctx.complete(orderResult);
         return;
       }
 
-      // 让用户知道他们的订单已处理
+      // Let user know their order was processed
       notification.setMessage("Order completed! : " + orderId);
       ctx.callActivity(NotifyActivity.class.getName(), notification).await();
 
-      // 完成工作流，订单结果已处理
+      // Complete the workflow with order result is processed
       orderResult.setProcessed(true);
       ctx.complete(orderResult);
     };
@@ -1244,7 +1624,7 @@ public class OrderProcessingWorkflow extends Workflow {
 
 #### `activities` 目录
 
-`activities` 目录保存工作流使用的四个工作流活动，在以下文件中定义：
+`Activities` 目录保存工作流使用的四个活动，在以下文件中定义：
 - [`NotifyActivity.java`](https://github.com/dapr/quickstarts/tree/master/workflows/java/sdk/order-processor/src/main/java/io/dapr/quickstarts/workflows/activities/NotifyActivity.java)
 - [`RequestApprovalActivity`](https://github.com/dapr/quickstarts/tree/master/workflows/java/sdk/order-processor/src/main/java/io/dapr/quickstarts/workflows/activities/RequestApprovalActivity.java)
 - [`ReserveInventoryActivity`](https://github.com/dapr/quickstarts/tree/master/workflows/java/sdk/order-processor/src/main/java/io/dapr/quickstarts/workflows/activities/VerifyInventoryActivity.java)
@@ -1256,17 +1636,17 @@ public class OrderProcessingWorkflow extends Workflow {
  <!-- Go -->
 {{% tab "Go" %}}
 
-`order-processor` 控制台应用程序启动和管理 `OrderProcessingWorkflow` 工作流，模拟从商店购买物品。工作流由五个独特的工作流活动或任务组成：
+`order-processor` 控制台应用程序启动并管理 `OrderProcessingWorkflow` 工作流，它模拟从商店购买商品。该工作流由五个独特的工作流活动或任务组成：
 
-- `NotifyActivity`：利用记录器在工作流过程中打印出消息。这些消息会在以下情况通知你：
-  - 库存不足
-  - 付款无法处理等
+- `NotifyActivity`：使用记录器在工作流过程中输出消息。这些消息会在以下情况下通知你：
+  - 你的库存不足
+  - 你的付款无法处理等
 - `VerifyInventoryActivity`：检查状态存储以确保有足够的库存可供购买。
-- `RequestApprovalActivity`：为超过特定成本阈值的订单请求批准。
+- `RequestApprovalActivity`：请求对超过特定成本阈值的订单进行批准。
 - `ProcessPaymentActivity`：处理并授权付款。
-- `UpdateInventoryActivity`：从状态存储中移除所请求的物品，并使用新的剩余库存值更新存储。
+- `UpdateInventoryActivity`：从状态存储中移除所请求的项目，并使用新的剩余库存值更新存储。
 
-### 第 1 步：先决条件
+### 步骤 1：先决条件
 
 对于此示例，你需要：
 
@@ -1276,9 +1656,9 @@ public class OrderProcessingWorkflow extends Workflow {
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
 
-### 第 2 步：设置环境
+### 步骤 2：设置环境
 
-克隆[快速入门存储库中提供的示例](https://github.com/dapr/quickstarts/tree/master/workflows/go/sdk)。
+克隆 [快速入门仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/workflows/go/sdk)。
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
@@ -1290,9 +1670,9 @@ git clone https://github.com/dapr/quickstarts.git
 cd workflows/go/sdk
 ```
 
-### 第 3 步：运行订单处理器应用程序
+### 步骤 3：运行订单处理应用程序
 
-在终端中，使用[多应用运行]({{% ref multi-app-dapr-run %}})启动订单处理器应用程序和 Dapr sidecar。从 `go/sdk` 目录，运行以下命令：
+在终端中，使用 [多应用运行]({{% ref multi-app-dapr-run %}}) 启动订单处理应用程序和 Dapr 边车。从 `go/sdk` 目录，运行以下命令：
 
 ```bash
 dapr run -f .
@@ -1330,15 +1710,15 @@ dapr run -f .
 dapr stop -f .
 ```
 
-### （可选）第 4 步：在 Zipkin 中查看
+### （可选）步骤 4：在 Zipkin 中查看
 
-运行 `dapr init` 会启动 [openzipkin/zipkin](https://hub.docker.com/r/openzipkin/zipkin/) Docker 容器。如果容器已停止运行，使用以下命令启动 Zipkin Docker 容器：
+运行 `dapr init` 会启动 [openzipkin/zipkin](https://hub.docker.com/r/openzipkin/zipkin/) Docker 容器。如果容器已停止运行，请使用以下命令启动 Zipkin Docker 容器：
 
 ```
 docker run -d -p 9411:9411 openzipkin/zipkin
 ```
 
-在 Zipkin Web UI（通常位于 `http://localhost:9411/zipkin/`）中查看工作流跟踪范围。
+在 Zipkin Web UI 中查看工作流跟踪跨度（通常位于 `http://localhost:9411/zipkin/`）。
 
 <img src="/images/workflow-trace-spans-zipkin.png" width=800 style="padding-bottom:15px;">
 
@@ -1347,21 +1727,21 @@ docker run -d -p 9411:9411 openzipkin/zipkin
 当你运行 `dapr run` 时：
 
 1. 创建了一个包含一辆汽车的 OrderPayload。
-2. 为工作流生成了一个唯一的订单 ID（在上面的示例中，`b4cb2687-1af0-4f8d-9659-eb6389c07ade`）并安排了工作流。
+2. 为工作流生成了一个唯一的订单 ID（在上述示例中为 `b4cb2687-1af0-4f8d-9659-eb6389c07ade`）并调度了工作流。
 3. `NotifyActivity` 工作流活动发送一条通知，说明已收到 10 辆汽车的订单。
-4. `VerifyInventoryActivity` 工作流活动检查库存数据，确定你是否可以提供订购的物品，并响应库存中的汽车数量。
-5. 订单的总成本为 5000，因此工作流不会调用 `RequestApprovalActivity` 活动。
+4. `VerifyInventoryActivity` 工作流活动检查库存数据，确定你是否可以供应订购的项目，并响应库存中的汽车数量。
+5. 订单总成本为 5000，因此工作流不会调用 `RequestApprovalActivity` 活动。
 6. `ProcessPaymentActivity` 工作流活动开始处理订单 `b4cb2687-1af0-4f8d-9659-eb6389c07ade` 的付款并确认是否成功。
-7. `UpdateInventoryActivity` 工作流活动使用当前可用的汽车更新库存，在订单处理完成后。
+7. `UpdateInventoryActivity` 工作流活动在订单处理后使用当前可用的汽车更新库存。
 8. `NotifyActivity` 工作流活动发送一条通知，说明订单 `b4cb2687-1af0-4f8d-9659-eb6389c07ade` 已完成。
-9. 工作流作为已完成终止，OrderResult 被设置为已处理。
+9. 工作流以完成状态终止，并且 OrderResult 设置为已处理。
 
 #### `order-processor/main.go`
 
 在应用程序的程序文件中：
 
 - 生成唯一的工作流订单 ID
-- 安排工作流
+- 调度工作流
 - 检索工作流状态
 - 注册工作流及其调用的活动
 
@@ -1543,7 +1923,7 @@ type Notification struct {
 	Message string `json:"message"`
 }
 
-// OrderProcessingWorkflow 是用于协调订单处理中的活动的主要工作流。
+// OrderProcessingWorkflow is the main workflow for orchestrating activities in the order process.
 func OrderProcessingWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 	orderID := ctx.ID()
 	var orderPayload OrderPayload
@@ -1580,7 +1960,7 @@ func OrderProcessingWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 		if err := ctx.WaitForExternalEvent("manager_approval", time.Second*200).Await(nil); err != nil {
 			return OrderResult{Processed: false}, err
 		}
-		// TODO: 确认超时流程 - 这将以错误形式出现。
+		// TODO: Confirm timeout flow - this will be in the form of an error.
 		if approvalRequired.Approval {
 			if err := ctx.CallActivity(NotifyActivity, workflow.WithActivityInput(Notification{Message: fmt.Sprintf("Payment for order %s has been approved!", orderID)})).Await(nil); err != nil {
 				log.Printf("failed to notify of a successful order: %v\n", err)
@@ -1624,7 +2004,7 @@ func OrderProcessingWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 	return OrderResult{Processed: true}, err
 }
 
-// NotifyActivity 输出通知消息
+// NotifyActivity outputs a notification message
 func NotifyActivity(ctx workflow.ActivityContext) (any, error) {
 	var input Notification
 	if err := ctx.GetInput(&input); err != nil {
@@ -1634,7 +2014,7 @@ func NotifyActivity(ctx workflow.ActivityContext) (any, error) {
 	return nil, nil
 }
 
-// ProcessPaymentActivity 用于处理付款
+// ProcessPaymentActivity is used to process a payment
 func ProcessPaymentActivity(ctx workflow.ActivityContext) (any, error) {
 	var input PaymentRequest
 	if err := ctx.GetInput(&input); err != nil {
@@ -1644,7 +2024,7 @@ func ProcessPaymentActivity(ctx workflow.ActivityContext) (any, error) {
 	return nil, nil
 }
 
-// VerifyInventoryActivity 用于验证物品是否在库存中可用
+// VerifyInventoryActivity is used to verify if an item is available in the inventory
 func VerifyInventoryActivity(ctx workflow.ActivityContext) (any, error) {
 	var input InventoryRequest
 	if err := ctx.GetInput(&input); err != nil {
@@ -1676,7 +2056,7 @@ func VerifyInventoryActivity(ctx workflow.ActivityContext) (any, error) {
 	return InventoryResult{Success: false, InventoryItem: InventoryItem{}}, nil
 }
 
-// UpdateInventoryActivity 修改库存。
+// UpdateInventoryActivity modifies the inventory.
 func UpdateInventoryActivity(ctx workflow.ActivityContext) (any, error) {
 	var input PaymentRequest
 	if err := ctx.GetInput(&input); err != nil {
@@ -1710,7 +2090,7 @@ func UpdateInventoryActivity(ctx workflow.ActivityContext) (any, error) {
 	return InventoryResult{Success: true, InventoryItem: result}, nil
 }
 
-// RequestApprovalActivity 请求订单批准
+// RequestApprovalActivity requests approval for the order
 func RequestApprovalActivity(ctx workflow.ActivityContext) (any, error) {
 	var input OrderPayload
 	if err := ctx.GetInput(&input); err != nil {
@@ -1727,9 +2107,9 @@ func RequestApprovalActivity(ctx workflow.ActivityContext) (any, error) {
 {{< /tabpane >}}
 
 
-## 第 5 步：管理工作流
+## 步骤 5：管理工作流
 
-现在你的工作流正在运行，让我们了解如何使用 Dapr CLI 管理它。
+现在你的工作流正在运行，让我们学习如何使用 Dapr CLI 来管理它。
 
 ### 查看运行中的工作流
 
@@ -1740,7 +2120,7 @@ func RequestApprovalActivity(ctx workflow.ActivityContext) (any, error) {
 dapr workflow list --app-id order-processor -o wide
 ```
 
-你应该会看到如下输出：
+你应该看到类似以下的输出：
 
 ```
 NAMESPACE  APP ID           NAME                     INSTANCE ID  CREATED               LAST UPDATE           STATUS
@@ -1755,7 +2135,7 @@ default    order-processor  OrderProcessingWorkflow  e4d3807c     2025-11-07T12:
 dapr workflow history e4d3807c --app-id order-processor
 ```
 
-你应该会看到如下输出：
+你应该看到类似以下的输出：
 
 ```
 TYPE                 NAME                     EVENTID  ELAPSED   STATUS     DETAILS
@@ -1781,10 +2161,10 @@ ExecutionCompleted   -                        5        517.1µs   COMPLETED  exe
 
 ### 与工作流交互
 
-#### 触发外部事件
+#### 引发外部事件
 
-如果你的工作流正在等待[外部事件]({{% ref "workflow-patterns.md#external-system-interaction" %}})，你可以触发一个。
-它接受一个参数，格式为 `<instance-id>/<event-name>`。
+如果你的工作流正在等待 [外部事件]({{% ref "workflow-patterns.md#external-system-interaction" %}})，你可以引发一个。
+它接受一个格式为 `<instance-id>/<event-name>` 的参数。
 
 ```bash
 dapr workflow raise-event e4d3807c/ApprovalEvent \
@@ -1800,7 +2180,7 @@ dapr workflow suspend e4d3807c \
   --app-id order-processor \
   --reason "Waiting for inventory"
 
-# 准备就绪时恢复
+# 准备好后恢复
 dapr workflow resume e4d3807c \
   --app-id order-processor \
   --reason "Inventory received"
@@ -1811,9 +2191,9 @@ dapr workflow resume e4d3807c \
 测试后，清除已完成的工作流。
 
 {{% alert title="重要" color="warning" %}}
-应用程序中必须运行工作流客户端才能执行清除操作。
-需要工作流客户端连接以保持工作流状态机完整性并防止损坏。
-如下错误表明工作流客户端未运行：
+执行清除操作需要应用程序中运行工作流客户端。
+需要工作流客户端连接以保持工作流状态机的完整性并防止损坏。
+以下错误表明工作流客户端未运行：
 ```
 failed to purge orchestration state: rpc error: code = FailedPrecondition desc = failed to purge orchestration state: failed to lookup actor: api error: code = FailedPrecondition desc = did not find address for actor
 ```
@@ -1829,15 +2209,15 @@ dapr workflow purge --app-id order-processor
 
 ## 告诉我们你的想法！
 
-我们正在不断努力改进我们的快速入门示例，非常重视你的反馈。你觉得这个快速入门有帮助吗？你有改进建议吗？
+我们一直在努力改进快速入门示例，重视你的反馈。你觉得这个快速入门有帮助吗？你有改进建议吗？
 
 在我们的 [discord 频道](https://discord.com/channels/778680217417809931/953427615916638238) 中加入讨论。
 
 ## 后续步骤
 
-- 使用 [HTTP 而不是 SDK]({{% ref howto-manage-workflow.md %}}) 使用任何编程语言设置 Dapr 工作流
+- 使用 HTTP 而非 SDK 为任何编程语言设置 Dapr 工作流 [如何管理工作流]({{% ref howto-manage-workflow.md %}})
 - 查看更深入的 [.NET SDK 示例工作流](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
-- 了解有关[作为 Dapr 构建块的工作流]({{% ref workflow-overview %}})的更多信息
+- 了解有关 [工作流作为 Dapr 构建块]({{% ref workflow-overview %}}) 的更多信息
 ```
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

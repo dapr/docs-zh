@@ -114,7 +114,7 @@ dapr workflow rerun order-12345 --new-instance-id order-12345-retry
 
 请注意，从 CLI 清理工作流也会删除所有关联的 Scheduler 提醒。
 
-{{% alert title="重要" color="warning" %}} perform purge operations.
+{{% alert title="重要" color="warning" %}}
 
 应用程序中必须运行工作流客户端才能执行清理操作。
 
@@ -245,10 +245,10 @@ dapr scheduler export -o workflow-reminders-backup.bin
 dapr scheduler import -f workflow-reminders-backup.bin
 ```
 
-{{% /tab %}} perform purge operations.
+{{% /tab %}}
 
 <!--Python-->
-{{% tab "Python" %}
+{{% tab "Python" %}}
 
 在代码中管理工作流。在[编写工作流]({{% ref "howto-author-workflow.md#write-the-application" %}})指南的工作流示例中，工作流使用以下 API 注册到代码中：
 - **schedule_new_workflow**：启动工作流实例
@@ -295,10 +295,10 @@ wf_client.purge_workflow(instance_id=instance_id)
 wf_client.wait_for_workflow_completion(instance_id, timeout_in_seconds=30)
 ```
 
-{{% /tab perform purge operations.
+{{% /tab %}}
 
 <!--JavaScript-->
-{{% tab "JavaScript" %}
+{{% tab "JavaScript" %}}
 
 在代码中管理工作流。在[编写工作流]({{% ref "howto-author-workflow.md#write-the-application" %}})指南的工作流示例中，工作流使用以下 API 注册到代码中：
 - **client.workflow.start**：启动工作流实例
@@ -366,10 +366,10 @@ start().catch((e) => {
 });
 ```
 
-{{% /tab perform purge operations.
+{{% /tab %}}
 
 <!--NET-->
-{{% tab ".NET" %}
+{{% tab ".NET" %}}
 
 在代码中管理工作流。在[编写工作流]({{% ref "howto-author-workflow.md#write-the-application" %}})指南的 `OrderProcessingWorkflow` 示例中，工作流已注册到代码中。现在您可以启动、终止和获取运行中工作流的信息：
 
@@ -400,10 +400,10 @@ await daprWorkflowClient.ResumeWorkflowAsync(orderId);
 await daprWorkflowClient.PurgeInstanceAsync(orderId);
 ```
 
-{{% /tab perform purge operations.
+{{% /tab %}}
 
 <!--Java-->
-{{% tab "Java" %}
+{{% tab "Java" %}}
 
 在代码中管理工作流。[在 Java SDK 的工作流示例中](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/)，工作流使用以下 API 注册到代码中：
 
@@ -465,10 +465,10 @@ public class DemoWorkflowClient {
 }
 ```
 
-{{% /tab perform purge operations.
+{{% /tab %}}
 
 <!--Go-->
-{{% tab "Go" %}
+{{% tab "Go" %}}
 
 在代码中管理工作流。[在 Go SDK 的工作流示例中](https://github.com/dapr/go-sdk/tree/main/examples/workflow)，工作流使用以下 API 注册到代码中：
 
@@ -544,10 +544,10 @@ type RaiseEventWorkflowRequest struct {
 }
 ```
 
-{{% /tab perform purge operations.
+{{% /tab %}}
 
 <!--HTTP-->
-{{% tab "HTTP" %}
+{{% tab "HTTP" %}}
 
 使用 HTTP 调用管理工作流。下面的示例将[编写工作流示例]({{% ref "howto-author-workflow.md#write-the-workflow" %}})中的属性与随机实例 ID 结合使用。
 
@@ -610,7 +610,7 @@ curl -X POST "http://localhost:3500/v1.0/workflows/dapr/12345678/purge"
 ```shell
 curl -X GET "http://localhost:3500/v1.0/workflows/dapr/12345678"
 ```
-{{% /tab perform purge operations.
+{{% /tab %}}
 
 {{< /tabpane >}}
 

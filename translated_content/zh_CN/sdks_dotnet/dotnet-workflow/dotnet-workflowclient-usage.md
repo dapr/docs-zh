@@ -18,7 +18,7 @@ description: 了解如何配置 `DaprWorkflowClient` 生命周期管理与依赖
 
 此方法将尝试注册 `DaprClient` 实例，但仅在该实例尚未被其他生命周期注册时才会成功。例如，若之前已通过 `AddDaprClient()` 注册为单例生命周期，则无论为工作流客户端选择何种生命周期，都将始终使用该单例。`DaprClient` 实例将用于与 Dapr 边车通信；如果尚未注册，则 `AddDaprWorkflow()` 注册时提供的生命周期将同时用于注册 `DaprWorkflowClient` 及其自身依赖项。
 
-{{% /alert %}} 
+{{% /alert %}}
 
 ### 修改 gRPC 消息大小限制
 

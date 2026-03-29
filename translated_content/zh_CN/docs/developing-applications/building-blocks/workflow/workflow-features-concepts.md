@@ -10,7 +10,7 @@ description: "了解更多关于 Dapr 工作流的功能与概念"
 
 {{% alert title="注意" color="primary" %}}
 有关工作流状态管理方式的更多信息，请参阅[工作流架构指南]({{% ref workflow-architecture.md %}})。
-{{% /alert %#}}
+{{% /alert %}}
 
 ## 工作流
 
@@ -103,7 +103,7 @@ Dapr 工作流使用一种称为[事件溯源](https://learn.microsoft.com/azure
 
 {{% alert title="注意" color="primary" %}}
 此处描述的工作流重放行为要求工作流函数代码具有_确定性_。确定性工作流函数在提供完全相同的输入时会执行完全相同的操作。[了解更多关于确定性工作流代码的限制。]({{% ref "workflow-features-concepts.md#workflow-determinism-and-code-restraints" %}})
-{{% /alert %#}}
+{{% /alert %}}
 
 
 ### 无限循环与永生工作流
@@ -161,7 +161,7 @@ Dapr 工作流允许您为任意时间范围安排类似提醒的持久化延迟
 
 {{% alert title="注意" color="primary" %}}
 工作流创作 SDK 中的一些 API 可能会在内部调度持久化定时器以实现内部超时行为。
-{{% /alert %#}}
+{{% /alert %}}
 
 ## 重试策略
 
@@ -175,13 +175,13 @@ Dapr 工作流允许您为任意时间范围安排类似提醒的持久化延迟
 
 {{% alert title="注意" color="primary" %}}
 重试策略执行的操作会保存到工作流的历史记录中。必须注意不要在工作流已经执行后更改重试策略的行为。否则，工作流在重放时可能会出现意外行为。请参阅有关[更新工作流代码]({{% ref "#updating-workflow-code" %}})的说明以获取更多信息。
-{{% /alert %#}}
+{{% /alert %}}
 
 可以同时使用工作流重试策略和 Dapr 弹性策略。例如，如果工作流活动使用 Dapr 客户端调用服务，则 Dapr 客户端使用配置好的弹性策略。详见[快速入门：服务间弹性]({{% ref "resiliency-serviceinvo-quickstart.md" %}})以获取更多信息和示例。但是，如果活动本身因任何原因失败，包括耗尽弹性策略的重试次数，则工作流的弹性策略会介入。
 
 {{% alert title="注意" color="primary" %}}
 同时使用工作流重试策略和弹性策略可能导致意外行为。例如，如果工作流活动耗尽其配置的重试策略，工作流引擎仍会根据工作流重试策略重试该活动。这可能导致活动被重试的次数超出预期。
-{{% /alert %#}}
+{{% /alert %}}
 
 由于工作流重试策略是在代码中配置的，确切的开发者体验可能因工作流 SDK 版本而异。一般来说，工作流重试策略可以使用以下参数进行配置：
 
@@ -228,7 +228,7 @@ Dapr 工作流允许您为任意时间范围安排类似提醒的持久化延迟
 
 {{< tabpane text=true >}}
 
-{{% tab ".NET" "#}}
+{{% tab ".NET" %}}
 
 ```csharp
 // 不要这样做！
@@ -237,9 +237,9 @@ Guid newIdentifier = Guid.NewGuid();
 string randomString = GetRandomString();
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Java" "#}}
+{{% tab "Java" %}}
 
 ```java
 // 不要这样做！
@@ -248,9 +248,9 @@ UUID newIdentifier = UUID.randomUUID();
 String randomString = getRandomString();
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "JavaScript" "#}}
+{{% tab "JavaScript" %}}
 
 ```javascript
 // 不要这样做！
@@ -259,24 +259,24 @@ const newIdentifier = uuidv4();
 const randomString = getRandomString();
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Go" "#}}
+{{% tab "Go" %}}
 
 ```go
 // 不要这样做！
 const currentTime = time.Now()
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{< /tabpane "#}}
+{{< /tabpane >}}
 
 这样做：
 
 {{< tabpane text=true >}}
 
-{{% tab ".NET" "#}}
+{{% tab ".NET" %}}
 
 ```csharp
 // 这样做！！
@@ -285,9 +285,9 @@ Guid newIdentifier = context.NewGuid();
 string randomString = await context.CallActivityAsync<string>(nameof("GetRandomString")); //使用 "nameof" 以防止指定应用程序中不存在的活动名称
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Java" "#}}
+{{% tab "Java" %}}
 
 ```java
 // 这样做！！
@@ -296,9 +296,9 @@ Guid newIdentifier = context.newGuid();
 String randomString = context.callActivity(GetRandomString.class.getName(), String.class).await();
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "JavaScript" "#}}
+{{% tab "JavaScript" %}}
 
 ```javascript
 // 这样做！！
@@ -306,17 +306,17 @@ const currentTime = context.getCurrentUtcDateTime();
 const randomString = yield context.callActivity(getRandomString);
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Go" "#}}
+{{% tab "Go" %}}
 
 ```go
 const currentTime = ctx.CurrentUTCDateTime()
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{< /tabpane "#}}
+{{< /tabpane >}}
 
 
 #### 工作流函数必须仅_间接_与外部状态交互。
@@ -328,16 +328,16 @@ const currentTime = ctx.CurrentUTCDateTime()
 
 {{< tabpane text=true >}}
 
-{{% tab ".NET" "#}}
+{{% tab ".NET" %}}
 
 ```csharp
 // 不要这样做！
 string configuration = Environment.GetEnvironmentVariable("MY_CONFIGURATION")!;
 string data = await new HttpClient().GetStringAsync("https://example.com/api/data");
 ```
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Java" "#}}
+{{% tab "Java" %}}
 
 ```java
 // 不要这样做！
@@ -347,9 +347,9 @@ HttpRequest request = HttpRequest.newBuilder().uri(new URI("https://postman-echo
 HttpResponse<String> response = HttpClient.newBuilder().build().send(request, HttpResponse.BodyHandlers.ofString());
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "JavaScript" "#}}
+{{% tab "JavaScript" %}}
 
 ```javascript
 // 不要这样做！
@@ -366,25 +366,25 @@ fetch('https://postman-echo.com/get')
   });
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Go" "#}}
+{{% tab "Go" %}}
 
 ```go
 // 不要这样做！
 resp, err := http.Get("http://example.com/api/data")
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
 
-{{< /tabpane "#}}
+{{< /tabpane >}}
 
 这样做：
 
 {{< tabpane text=true >}}
 
-{{% tab ".NET" "#}}
+{{% tab ".NET" %}}
 
 ```csharp
 // 这样做！！
@@ -392,9 +392,9 @@ string configuration = workflowInput.Configuration; // 假设的工作流输入�
 string data = await context.CallActivityAsync<string>(nameof("MakeHttpCall"), "https://example.com/api/data");
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Java" "#}}
+{{% tab "Java" %}}
 
 ```java
 // 这样做！！
@@ -402,9 +402,9 @@ String configuration = ctx.getInput(InputType.class).getConfiguration(); // 假�
 String data = ctx.callActivity(MakeHttpCall.class, "https://example.com/api/data", String.class).await();
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "JavaScript" "#}}
+{{% tab "JavaScript" %}}
 
 ```javascript
 // 这样做！！
@@ -412,10 +412,10 @@ const configuration = workflowInput.getConfiguration(); // 假设的工作流输
 const data = yield ctx.callActivity(makeHttpCall, "https://example.com/api/data");
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
 
-{{% tab "Go" "#}}
+{{% tab "Go" %}}
 
 ```go
 // 这样做！！
@@ -423,8 +423,8 @@ err := ctx.CallActivity(MakeHttpCallActivity, workflow.ActivityInput("https://ex
 
 ```
 
-{{% /tab "#}}
-{{< /tabpane "#}}
+{{% /tab %}}
+{{< /tabpane >}}
 
 
 #### 工作流函数必须仅在工作流调度线程上执行。
@@ -438,16 +438,16 @@ err := ctx.CallActivity(MakeHttpCallActivity, workflow.ActivityInput("https://ex
 
 {{< tabpane text=true >}}
 
-{{% tab ".NET" "#}}
+{{% tab ".NET" %}}
 
 ```csharp
 // 不要这样做！
 Task t = Task.Run(() => context.CallActivityAsync("DoSomething"));
 await context.CreateTimer(5000).ConfigureAwait(false);
 ```
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Java" "#}}
+{{% tab "Java" %}}
 
 ```java
 // 不要这样做！
@@ -457,15 +457,15 @@ new Thread(() -> {
 ctx.createTimer(Duration.ofSeconds(5)).await();
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "JavaScript" "#}}
+{{% tab "JavaScript" %}}
 
 不要将 JavaScript 工作流声明为 `async`。Node.js 运行时不能保证异步函数是确定性的。
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Go" "#}}
+{{% tab "Go" %}}
 
 ```go
 // 不要这样做！
@@ -475,17 +475,17 @@ go func() {
 err := ctx.CreateTimer(time.Second).Await(nil)
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
 
 
-{{< /tabpane "#}}
+{{< /tabpane >}}
 
 这样做：
 
 {{< tabpane text=true >}}
 
-{{% tab ".NET" "#}}
+{{% tab ".NET" %}}
 
 ```csharp
 // 这样做！！
@@ -493,9 +493,9 @@ Task t = context.CallActivityAsync(nameof("DoSomething"));
 await context.CreateTimer(5000).ConfigureAwait(true);
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Java" "#}}
+{{% tab "Java" %}}
 
 ```java
 // 这样做！！
@@ -503,15 +503,15 @@ ctx.callActivity(DoSomethingActivity.class.getName()).await();
 ctx.createTimer(Duration.ofSeconds(5)).await();
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "JavaScript" "#}}
+{{% tab "JavaScript" %}}
 
 由于 Node.js 运行时不能保证异步函数是确定性的，请始终将 JavaScript 工作流声明为同步生成器函数。
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{% tab "Go" "#}}
+{{% tab "Go" %}}
 
 ```go
 // 这样做！
@@ -519,9 +519,9 @@ task := ctx.CallActivity(DoSomething)
 task.Await(nil)
 ```
 
-{{% /tab "#}}
+{{% /tab %}}
 
-{{< /tabpane "#}}
+{{< /tabpane >}}
 
 ### 更新工作流代码
 确保您对工作流代码的更新保持其确定性。以下是一些可能破坏工作流确定性的代码更新示例：
@@ -537,8 +537,8 @@ task.Await(nil)
 ## 相关链接
 
 - [使用快速入门试用 Dapr 工作流]({{% ref workflow-quickstart.md %}})
-- [工作流概述]({{% ref workflow-overview.md %})
-- [工作流 API 参考]({{% ref workflow_api.md %})
+- [工作流概述]({{% ref workflow-overview.md %}})
+- [工作流 API 参考]({{% ref workflow_api.md %}})
 - 试用以下示例：
    - [Python](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
    - [JavaScript](https://github.com/dapr/js-sdk/tree/main/examples/workflow)
