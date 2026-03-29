@@ -3,26 +3,26 @@ type: docs
 title: "Dapr Python SDK 与 Flask 集成"
 linkTitle: "Flask"
 weight: 300000
-description: 如何使用 Flask 扩展创建 Dapr Python 虚拟 actor
+description: 如何使用 Flask 扩展创建 Dapr Python virtual actors
 ---
 
-Dapr Python SDK 使用 `flask-dapr` 扩展来实现与 Flask 的集成。
+Dapr Python SDK 通过 `flask-dapr` 扩展提供与 Flask 的集成。
 
 ## 安装
 
-您可以通过以下命令下载并安装 Dapr Flask 扩展：
+你可以使用以下命令下载并安装 Dapr Flask 扩展：
 
 {{< tabpane text=true >}}
 
-{{% tab header="稳定版" %}}
+{{% tab header="Stable" %}}
 ```bash
 pip install flask-dapr
 ```
 {{% /tab %}}
 
-{{% tab header="开发版" %}}
+{{% tab header="Development" %}}
 {{% alert title="注意" color="warning" %}}
-开发版包含与 Dapr 运行时预发布版本兼容的功能和行为。在安装 `dapr-dev` 包之前，请确保卸载任何已安装的稳定版 Python SDK 扩展。
+开发包将包含与 Dapr runtime 预发布版本兼容的功能和行为。在安装 `dapr-dev` 包之前，请确保卸载任何稳定版本的 Python SDK 扩展。
 {{% /alert %}}
 
 ```bash
@@ -54,6 +54,7 @@ actor.register_actor(DemoActor)
 def get_my_data():
     return {'message': 'myData'}, 200
 
-# 运行应用程序
+# 运行应用
 if __name__ == '__main__':
     app.run(port=settings.HTTP_APP_PORT)
+```

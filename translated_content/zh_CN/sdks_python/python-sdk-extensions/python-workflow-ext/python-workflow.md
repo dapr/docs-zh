@@ -1,185 +1,166 @@
 ---
 type: docs
-title: "使用 Dapr Workflow Python SDK 入门"
-linkTitle: "工作流"
+title: "Dapr Workflow Python SDK 入门"
+linkTitle: "Workflow"
 weight: 30000
-description: 如何使用 Dapr Python SDK 开始并运行工作流
+description: 如何使用 Dapr Python SDK 快速上手工作流
 ---
 
-{{% alert title="注意" color="primary" %}}
-Dapr Workflow 目前处于 alpha 阶段。
-{{% /alert %}}
+让我们创建一个 Dapr 工作流并通过控制台调用它。借助[提供的工作流示例](https://github.com/dapr/python-sdk/tree/main/examples/workflow/simple.py)，你将：
 
-我们来创建一个 Dapr 工作流，并通过控制台调用它。通过[提供的 hello world 工作流示例](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)，您将会：
+- 运行一个 [Python 控制台应用程序](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)，该程序演示包含活动、子工作流和外部事件的工作流编排
+- 了解如何处理重试、超时以及工作流状态管理
+- 使用 Python 工作流 SDK 来启动、暂停、恢复和清理工作流实例
 
-- 运行一个[使用 `DaprClient` 的 Python 控制台应用程序](https://github.com/dapr/python-sdk/blob/master/examples/demo_workflow/app.py)
-- 利用 Python 工作流 SDK 和 API 调用来启动、暂停、恢复、终止和清除工作流实例
+本示例使用[自托管模式](https://github.com/dapr/cli#install-dapr-on-your-local-machine-self-hosted)下通过 `dapr init` 初始化的默认配置。
 
-此示例使用 `dapr init` 的默认配置在[本地模式](https://github.com/dapr/cli#install-dapr-on-your-local-machine-self-hosted)下运行。
-
-在 Python 示例项目中，`app.py` 文件包含应用程序的设置，其中包括：
+在 Python 示例项目中，`simple.py` 文件包含应用程序的设置，包括：
 - 工作流定义
 - 工作流活动定义
 - 工作流和工作流活动的注册
 
-## 先决条件
+## 前置条件
 - 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
 - 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
-- 已安装 [Python 3.8+](https://www.python.org/downloads/)
-- 已安装 [Dapr Python 包]({{% ref "python#installation" %}}) 和 [工作流扩展]({{% ref "python-workflow/_index.md" %}})
-- 确保您使用的是最新的 proto 绑定（proto 绑定是用于定义服务接口的协议缓冲区文件）
+- 已安装 [Python 3.9+](https://www.python.org/downloads/)
+- 已安装 [Dapr Python 包]({{% ref "python#installation" %}})和[工作流扩展]({{% ref "python-workflow/_index.md" %}})
+- 验证你使用的是最新的 proto 绑定
 
 ## 设置环境
 
-运行以下命令以安装使用 Dapr Python SDK 运行此工作流示例的必要依赖。
-
-```bash
-pip3 install -r demo_workflow/requirements.txt
-```
-
-克隆 [Python SDK 仓库]。
+首先克隆 [Python SDK 仓库]。
 
 ```bash
 git clone https://github.com/dapr/python-sdk.git
 ```
 
-从 Python SDK 根目录导航到 Dapr 工作流示例。
+从 Python SDK 根目录导航到 Dapr Workflow 示例。
 
 ```bash
-cd examples/demo_workflow
+cd examples/workflow
 ```
 
-## 本地运行应用程序
-
-要运行 Dapr 应用程序，您需要启动 Python 程序和一个 Dapr 辅助进程。在终端中运行：
+运行以下命令，安装使用 Dapr Python SDK 运行此工作流示例所需的所有依赖。
 
 ```bash
-dapr run --app-id orderapp --app-protocol grpc --dapr-grpc-port 50001 --resources-path components --placement-host-address localhost:50005 -- python3 app.py
+pip3 install -r workflow/requirements.txt
 ```
 
-> **注意：** 由于 Windows 中未定义 Python3.exe，您可能需要使用 `python app.py` 而不是 `python3 app.py`。
+## 在本地运行应用程序
+
+要运行 Dapr 应用程序，你需要启动 Python 程序和一个 Dapr 边车。在终端中运行：
+
+```bash
+dapr run --app-id wf-simple-example --dapr-grpc-port 50001 --resources-path components -- python3 simple.py
+```
+
+> **注意：** 由于 Windows 上未定义 Python3.exe，你可能需要使用 `python simple.py` 而不是 `python3 simple.py`。
+
 
 **预期输出**
 
 ```
-== APP == ==========根据输入开始计数器增加==========
-
-== APP == start_resp exampleInstanceID
-
-== APP == 你好，计数器！
-== APP == 新的计数器值是：1！
-
-== APP == 你好，计数器！
-== APP == 新的计数器值是：11！
-
-== APP == 你好，计数器！
-== APP == 你好，计数器！
-== APP == 在暂停调用后从 hello_world_wf 获取响应：已暂停
-
-== APP == 你好，计数器！
-== APP == 在恢复调用后从 hello_world_wf 获取响应：运行中
-
-== APP == 你好，计数器！
-== APP == 新的计数器值是：111！
-
-== APP == 你好，计数器！
-== APP == 实例成功清除
-
-== APP == start_resp exampleInstanceID
-
-== APP == 你好，计数器！
-== APP == 新的计数器值是：1112！
-
-== APP == 你好，计数器！
-== APP == 新的计数器值是：1122！
-
-== APP == 在终止调用后从 hello_world_wf 获取响应：已终止
-== APP == 在终止调用后从 child_wf 获取响应：已终止
-== APP == 实例成功清除
+- "== APP == Hi Counter!"
+- "== APP == New counter value is: 1!"
+- "== APP == New counter value is: 11!"
+- "== APP == Retry count value is: 0!"
+- "== APP == Retry count value is: 1! This print statement verifies retry"
+- "== APP == Appending 1 to child_orchestrator_string!"
+- "== APP == Appending a to child_orchestrator_string!"
+- "== APP == Appending a to child_orchestrator_string!"
+- "== APP == Appending 2 to child_orchestrator_string!"
+- "== APP == Appending b to child_orchestrator_string!"
+- "== APP == Appending b to child_orchestrator_string!"
+- "== APP == Appending 3 to child_orchestrator_string!"
+- "== APP == Appending c to child_orchestrator_string!"
+- "== APP == Appending c to child_orchestrator_string!"
+- "== APP == Get response from hello_world_wf after pause call: Suspended"
+- "== APP == Get response from hello_world_wf after resume call: Running"
+- "== APP == New counter value is: 111!"
+- "== APP == New counter value is: 1111!"
+- "== APP == Workflow completed! Result: "Completed"
 ```
 
 ## 发生了什么？
 
-当您运行 `dapr run` 时，Dapr 客户端：
-1. 注册了工作流 (`hello_world_wf`) 及其活动 (`hello_act`)
-2. 启动了工作流引擎
+当你运行应用程序时，会演示几个关键的工作流功能：
 
-```python
-def main():
-    with DaprClient() as d:
-        host = settings.DAPR_RUNTIME_HOST
-        port = settings.DAPR_GRPC_PORT
-        workflowRuntime = WorkflowRuntime(host, port)
-        workflowRuntime = WorkflowRuntime()
-        workflowRuntime.register_workflow(hello_world_wf)
-        workflowRuntime.register_activity(hello_act)
-        workflowRuntime.start()
+1. **工作流和活动注册**：应用程序使用 Python 装饰器自动向运行时注册工作流和活动。这种基于装饰器的方法提供了一种简洁、声明式的方式来定义你的工作流组件：
+   ```python
+   @wfr.workflow(name='hello_world_wf')
+   def hello_world_wf(ctx: DaprWorkflowContext, wf_input):
+       # Workflow definition...
 
-        print("==========根据输入开始计数器增加==========")
-        start_resp = d.start_workflow(instance_id=instanceId, workflow_component=workflowComponent,
-                        workflow_name=workflowName, input=inputData, workflow_options=workflowOptions)
-        print(f"start_resp {start_resp.instance_id}")
-```
+   @wfr.activity(name='hello_act')
+   def hello_act(ctx: WorkflowActivityContext, wf_input):
+       # Activity definition...
+   ```
 
-然后 Dapr 暂停并恢复了工作流：
+2. **运行时设置**：应用程序初始化工作流运行时和客户端：
+   ```python
+   wfr = WorkflowRuntime()
+   wfr.start()
+   wf_client = DaprWorkflowClient()
+   ```
 
-```python
-       # 暂停
-        d.pause_workflow(instance_id=instanceId, workflow_component=workflowComponent)
-        getResponse = d.get_workflow(instance_id=instanceId, workflow_component=workflowComponent)
-        print(f"在暂停调用后从 {workflowName} 获取响应：{getResponse.runtime_status}")
+2. **活动执行**：工作流执行一系列活动来递增计数器：
+   ```python
+   @wfr.workflow(name='hello_world_wf')
+   def hello_world_wf(ctx: DaprWorkflowContext, wf_input):
+       yield ctx.call_activity(hello_act, input=1)
+       yield ctx.call_activity(hello_act, input=10)
+   ```
 
-        # 恢复
-        d.resume_workflow(instance_id=instanceId, workflow_component=workflowComponent)
-        getResponse = d.get_workflow(instance_id=instanceId, workflow_component=workflowComponent)
-        print(f"在恢复调用后从 {workflowName} 获取响应：{getResponse.runtime_status}")
-```
+3. **重试逻辑**：工作流演示了使用重试策略进行错误处理：
+   ```python
+   retry_policy = RetryPolicy(
+       first_retry_interval=timedelta(seconds=1),
+       max_number_of_attempts=3,
+       backoff_coefficient=2,
+       max_retry_interval=timedelta(seconds=10),
+       retry_timeout=timedelta(seconds=100),
+   )
+   yield ctx.call_activity(hello_retryable_act, retry_policy=retry_policy)
+   ```
 
-一旦工作流恢复，Dapr 触发了一个工作流事件并打印了新的计数器值：
+4. **子工作流**：子工作流使用自己的重试策略执行：
+   ```python
+   yield ctx.call_child_workflow(child_retryable_wf, retry_policy=retry_policy)
+   ```
 
-```python
-        # 触发事件
-        d.raise_workflow_event(instance_id=instanceId, workflow_component=workflowComponent,
-                    event_name=eventName, event_data=eventData)
-```
+5. **外部事件处理**：工作流等待一个带有超时的外部事件：
+   ```python
+   event = ctx.wait_for_external_event(event_name)
+   timeout = ctx.create_timer(timedelta(seconds=30))
+   winner = yield when_any([event, timeout])
+   ```
 
-为了从您的状态存储中清除工作流状态，Dapr 清除了工作流：
+6. **工作流生命周期管理**：示例演示如何暂停和恢复工作流：
+   ```python
+   wf_client.pause_workflow(instance_id=instance_id)
+   metadata = wf_client.get_workflow_state(instance_id=instance_id)
+   # ... check status ...
+   wf_client.resume_workflow(instance_id=instance_id)
+   ```
 
-```python
-        # 清除
-        d.purge_workflow(instance_id=instanceId, workflow_component=workflowComponent)
-        try:
-            getResponse = d.get_workflow(instance_id=instanceId, workflow_component=workflowComponent)
-        except DaprInternalError as err:
-            if nonExistentIDError in err._message:
-                print("实例成功清除")
-```
+7. **事件触发**：恢复后，工作流触发一个事件：
+   ```python
+   wf_client.raise_workflow_event(
+       instance_id=instance_id,
+       event_name=event_name,
+       data=event_data
+   )
+   ```
 
-然后示例演示了通过以下步骤终止工作流：
-- 使用与已清除工作流相同的 `instanceId` 启动一个新的工作流。
-- 在关闭工作流之前终止并清除工作流。
-
-```python
-        # 启动另一个工作流
-        start_resp = d.start_workflow(instance_id=instanceId, workflow_component=workflowComponent,
-                        workflow_name=workflowName, input=inputData, workflow_options=workflowOptions)
-        print(f"start_resp {start_resp.instance_id}")
-
-        # 终止
-        d.terminate_workflow(instance_id=instanceId, workflow_component=workflowComponent)
-        sleep(1)
-        getResponse = d.get_workflow(instance_id=instanceId, workflow_component=workflowComponent)
-        print(f"在终止调用后从 {workflowName} 获取响应：{getResponse.runtime_status}")
-
-        # 清除
-        d.purge_workflow(instance_id=instanceId, workflow_component=workflowComponent)
-        try:
-            getResponse = d.get_workflow(instance_id=instanceId, workflow_component=workflowComponent)
-        except DaprInternalError as err:
-            if nonExistentIDError in err._message:
-                print("实例成功清除")
-```
-
-## 下一步
-- [了解更多关于 Dapr 工作流的信息]({{% ref workflow-overview.md %}})
-- [工作流 API 参考]({{% ref workflow_api.md %}})
+8. **完成与清理**：最后，工作流等待完成并进行清理：
+   ```python
+   state = wf_client.wait_for_workflow_completion(
+       instance_id,
+       timeout_in_seconds=30
+   )
+   wf_client.purge_workflow(instance_id=instance_id)
+   ```
+## 后续步骤
+- [了解更多关于 Dapr 工作流]({{% ref workflow-overview.md %}})
+- [Workflow API 参考]({{% ref workflow_api.md %}})
+- [尝试实现更复杂的工作流模式](https://github.com/dapr/python-sdk/tree/main/examples/workflow)

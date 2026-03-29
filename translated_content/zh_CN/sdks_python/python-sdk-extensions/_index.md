@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "Dapr Python SDK 插件"
-linkTitle: "插件"
+title: "Dapr Python SDK 扩展"
+linkTitle: "扩展"
 weight: 30000
-description: 用于开发 Dapr 应用的 Python SDK 工具
+description: Python SDK，用于开发 Dapr 应用程序
 ---
