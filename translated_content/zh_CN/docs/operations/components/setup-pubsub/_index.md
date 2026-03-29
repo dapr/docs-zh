@@ -5,7 +5,7 @@ linkTitle: "发布订阅代理"
 description: "为 Dapr 发布订阅配置不同消息代理的指南"
 weight: 700
 aliases:
-  - "/operations/components/setup-pubsub/setup-pubsub-overview/"
+  - "/zh-hans/operations/components/setup-pubsub/setup-pubsub-overview/"
 ---
 
 Dapr 与发布订阅消息总线集成，为应用程序提供创建事件驱动、松耦合架构的能力，在这种架构中，生产者通过主题向消费者发送事件。

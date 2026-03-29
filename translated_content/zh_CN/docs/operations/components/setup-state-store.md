@@ -5,7 +5,7 @@ linkTitle: "状态存储"
 description: "为 Dapr 状态管理设置不同状态存储的指南"
 weight: 600
 aliases:
-  - "/operations/components/setup-state-store/setup-state-store-overview/"
+  - "/zh-hans/operations/components/setup-state-store/setup-state-store-overview/"
 ---
 
 Dapr 与现有数据库集成，为应用提供状态管理能力，支持 CRUD 操作、事务等。它还支持*每个应用*配置多个命名的状态存储组件。

@@ -5,7 +5,7 @@ linkTitle: "部署 Dapr"
 weight: 20000
 description: "按照以下步骤在 Kubernetes 上部署 Dapr。"
 aliases:
-    - /getting-started/install-dapr-kubernetes/
+    - /zh-hans/getting-started/install-dapr-kubernetes/
 ---
 
 在 [Kubernetes 上设置 Dapr]({{% ref kubernetes-overview.md %}}) 时，您可以使用 Dapr CLI 或 Helm。

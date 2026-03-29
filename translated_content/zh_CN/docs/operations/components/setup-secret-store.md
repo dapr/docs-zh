@@ -5,7 +5,7 @@ linkTitle: "密钥存储"
 description: "关于设置不同密钥存储组件的指导"
 weight: 800
 aliases:
-  - "/operations/components/setup-state-store/secret-stores-overview/"
+  - "/zh-hans/operations/components/setup-state-store/secret-stores-overview/"
 ---
 
 Dapr 与密钥存储集成，为应用程序和其他组件提供访问密钥（如访问密钥和密码）的安全存储和访问方式。每个密钥存储组件都有一个名称，在访问密钥时使用该名称。
