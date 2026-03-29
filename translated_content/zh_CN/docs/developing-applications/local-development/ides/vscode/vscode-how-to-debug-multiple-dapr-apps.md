@@ -5,7 +5,7 @@ linkTitle: "如何操作：使用 VSCode 调试"
 weight: 20000
 description:  "学习如何配置 VSCode 以调试 Dapr 应用程序"
 aliases:
-  - /developing-applications/ides/vscode/vscode-manual-configuration/
+  - /zh-hans/developing-applications/ides/vscode/vscode-manual-configuration/
 ---
 
 {{% alert title="弃用通知" color="primary" %}}

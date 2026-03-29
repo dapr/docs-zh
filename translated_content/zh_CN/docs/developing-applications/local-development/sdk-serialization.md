@@ -5,7 +5,7 @@ linkTitle: "SDK 序列化"
 description: "Dapr 如何在 SDK 内序列化数据"
 weight: 400
 aliases:
-  - '/developing-applications/sdks/serialization/'
+  - '/zh-hans/developing-applications/sdks/serialization/'
 ---
 
 Dapr SDK 为两种用例提供序列化。首先，是通过请求和响应负载发送的 API 对象。其次，是需要持久化的对象。对于这两种情况，每种语言 SDK 都提供了默认的序列化方法。
