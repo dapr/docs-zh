@@ -2,8 +2,8 @@
   "version": "v1.17",
   "sourceRepo": "repos/v1.17",
   "sourceBranch": "v1.17",
-  "batchId": "batch-20260328T092828.110Z",
-  "copiedAt": "2026-03-28T09:28:28.110Z",
+  "batchId": "batch-20260329T040850.864Z",
+  "copiedAt": "2026-03-29T04:08:50.864Z",
   "sourceRoot": "data/source",
   "metadataFile": "data/source.json",
   "documentCount": 638,
@@ -42,11 +42,11 @@
       "documentCount": 533,
       "syncedCount": 533,
       "driftCount": 0,
-      "missingSourceCount": 9,
+      "missingSourceCount": 0,
       "translatedCount": 0,
-      "staleTranslationCount": 468,
-      "missingTranslationCount": 65,
-      "orphanTranslationCount": 9
+      "staleTranslationCount": 533,
+      "missingTranslationCount": 0,
+      "orphanTranslationCount": 0
     },
     {
       "id": "pluggable-components/dotnet",
@@ -93,11 +93,11 @@
       "documentCount": 41,
       "syncedCount": 41,
       "driftCount": 0,
-      "missingSourceCount": 8,
+      "missingSourceCount": 0,
       "translatedCount": 0,
-      "staleTranslationCount": 21,
-      "missingTranslationCount": 20,
-      "orphanTranslationCount": 8
+      "staleTranslationCount": 41,
+      "missingTranslationCount": 0,
+      "orphanTranslationCount": 0
     },
     {
       "id": "sdks_go",
@@ -129,8 +129,8 @@
       "driftCount": 0,
       "missingSourceCount": 0,
       "translatedCount": 0,
-      "staleTranslationCount": 5,
-      "missingTranslationCount": 6,
+      "staleTranslationCount": 11,
+      "missingTranslationCount": 0,
       "orphanTranslationCount": 0
     },
     {
@@ -180,8 +180,8 @@
       "driftCount": 0,
       "missingSourceCount": 0,
       "translatedCount": 0,
-      "staleTranslationCount": 9,
-      "missingTranslationCount": 1,
+      "staleTranslationCount": 10,
+      "missingTranslationCount": 0,
       "orphanTranslationCount": 0
     },
     {
