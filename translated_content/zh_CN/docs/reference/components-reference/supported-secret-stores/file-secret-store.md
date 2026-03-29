@@ -4,7 +4,7 @@ title: "Local file (for Development)"
 linkTitle: "Local file"
 description: Detailed information on the local file secret store component
 aliases:
-  - "/operations/components/setup-secret-store/supported-secret-stores/file-secret-store/"
+  - "/zh-hans/operations/components/setup-secret-store/supported-secret-stores/file-secret-store/"
 ---
 
 此 Dapr 密钥存储组件从给定文件读取纯文本 JSON，不使用身份验证。

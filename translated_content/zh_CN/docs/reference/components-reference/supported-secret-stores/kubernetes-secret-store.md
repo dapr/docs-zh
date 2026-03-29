@@ -4,7 +4,7 @@ title: "Kubernetes 密钥"
 linkTitle: "Kubernetes 密钥"
 description: Kubernetes 密钥存储组件的详细信息
 aliases:
-  - "/operations/components/setup-secret-store/supported-secret-stores/kubernetes-secret-store/"
+  - "/zh-hans/operations/components/setup-secret-store/supported-secret-stores/kubernetes-secret-store/"
 ---
 
 ## 默认 Kubernetes 密钥存储组件

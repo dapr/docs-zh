@@ -4,7 +4,7 @@ title: "阿里云 OOS Parameter Store"
 linkTitle: "阿里云 OOS Parameter Store"
 description: 关于阿里云 OOS Parameter Store secret store 组件的详细信息
 aliases:
-  - "/operations/components/setup-secret-store/supported-secret-stores/alibabacloud-oos-parameter-store/"
+  - "/zh-hans/operations/components/setup-secret-store/supported-secret-stores/alibabacloud-oos-parameter-store/"
 ---
 
 ## 组件格式

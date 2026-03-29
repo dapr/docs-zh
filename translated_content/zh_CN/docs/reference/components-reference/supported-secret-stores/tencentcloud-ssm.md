@@ -4,7 +4,7 @@ title: "Tencent Cloud Secrets Manager (SSM)"
 linkTitle: "Tencent Cloud Secrets Manager (SSM)"
 description: 有关 Tencent Cloud Secrets Manager (SSM) 密钥存储组件的详细信息
 aliases:
-  - "/operations/components/setup-secret-store/supported-secret-stores/tencentcloud-ssm/"
+  - "/zh-hans/operations/components/setup-secret-store/supported-secret-stores/tencentcloud-ssm/"
 ---
 
 ## 组件格式

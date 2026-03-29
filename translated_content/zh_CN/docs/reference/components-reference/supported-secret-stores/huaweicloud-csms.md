@@ -4,7 +4,7 @@ title: "HuaweiCloud Cloud Secret Management Service (CSMS)"
 linkTitle: "HuaweiCloud Cloud Secret Management Service (CSMS)"
 description: 关于 HuaweiCloud Cloud Secret Management Service (CSMS) 密钥存储组件的详细信息
 aliases:
-  - "/operations/components/setup-secret-store/supported-secret-stores/huaweicloud-csms/"
+  - "/zh-hans/operations/components/setup-secret-store/supported-secret-stores/huaweicloud-csms/"
 ---
 
 ## 组件格式

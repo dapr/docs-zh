@@ -5,7 +5,7 @@ linkTitle: "密钥存储"
 weight: 9000
 description: 与 Dapr 对接的受支持的密钥存储
 aliases:
-  - "/operations/components/setup-secret-store/supported-secret-stores/"
+  - "/zh-hans/operations/components/setup-secret-store/supported-secret-stores/"
 no_list: true
 ---
 

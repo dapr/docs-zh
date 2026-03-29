@@ -4,7 +4,7 @@ title: "本地环境变量（用于开发）"
 linkTitle: "本地环境变量"
 description: 本地环境变量 secret store 组件的详细信息
 aliases:
-  - "/operations/components/setup-secret-store/supported-secret-stores/envvar-secret-store/"
+  - "/zh-hans/operations/components/setup-secret-store/supported-secret-stores/envvar-secret-store/"
 ---
 
 此 Dapr secret store 组件使用本地定义的环境变量，不使用身份验证。
