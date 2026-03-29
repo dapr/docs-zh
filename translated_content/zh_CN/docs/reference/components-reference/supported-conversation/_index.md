@@ -1,9 +1,9 @@
 ---
 type: docs
-title: "会话组件规范"
-linkTitle: "会话"
-weight: 9000
-description: 与Dapr集成的会话组件
+title: "Conversation 组件规格"
+linkTitle: "Conversation"
+weight: 3000
+description: 与 Dapr 接口的受支持的 Conversation 组件
 no_list: true
 ---
 

@@ -2,14 +2,15 @@
 type: docs
 title: "Cron 绑定规范"
 linkTitle: "Cron"
-description: "关于 cron 绑定组件的详细文档"
+description: "Cron 绑定组件的详细文档"
 aliases:
-  - "/zh-hans/operations/components/setup-bindings/supported-bindings/cron/"
+  - "/operations/components/setup-bindings/supported-bindings/cron/"
 ---
 
 ## 组件格式
 
-要设置 cron 绑定，需要创建一个类型为 `bindings.cron` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
+要设置 Cron 绑定，需创建一个类型为 `bindings.cron` 的组件。请参阅[此指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
+
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -28,50 +29,51 @@ spec:
 
 ## 规范元数据字段
 
-| 字段              | 必需 | 绑定支持 |  详情 | 示例 |
+| 字段              | 必填 | 绑定支持 |  详情 | 示例 |
 |--------------------|:--------:|-------|--------|---------|
-| `schedule` | Y | 输入|  使用的有效 cron 调度。详见[此处](#schedule-format) | `"@every 15m"`
-| `direction` | N | 输入|  绑定的方向 | `"input"`
+| `schedule` | Y | Input|  要使用的有效 cron 调度。详见[此](#schedule-format) | `"@every 15m"`
+| `direction` | N | Input|  绑定的方向 | `"input"`
 
 ### 调度格式
 
-Dapr cron 绑定支持以下格式：
+Dapr Cron 绑定支持以下格式：
 
 | 字符 |	描述        | 可接受的值                             |
 |:---------:|-------------------|-----------------------------------------------|
 | 1	        | 秒	          | 0 到 59，或 *                                 |
-| 2	        | 分	          | 0 到 59，或 *                                 |
-| 3	        | 小时	            | 0 到 23，或 * (UTC)                           |
-| 4	        | 月中的某天	| 1 到 31，或 *                                 |
-| 5	        | 月	            | 1 到 12，或 *                                 |
-| 6	        | 星期几	  | 0 到 7 (其中 0 和 7 代表星期日)，或 *         |
+| 2	        | 分钟	          | 0 到 59，或 *                                 |
+| 3	        | 小时	            | 0 到 23，或 *（UTC）                           |
+| 4	        | 日期	| 1 到 31，或 *                                 |
+| 5	        | 月份	            | 1 到 12，或 *                                 |
+| 6	        | 星期	  | 0 到 7（其中 0 和 7 代表星期日），或 * |
 
 例如：
 
-* `30 * * * * *` - 每 30 秒执行一次
-* `0 15 * * * *` - 每 15 分钟执行一次
-* `0 30 3-6,20-23 * * *` - 在凌晨 3 点到 6 点和晚上 8 点到 11 点之间，每小时的半点执行一次
-* `CRON_TZ=America/New_York 0 30 04 * * *` - 每天纽约时间凌晨 4:30 执行一次
+* `30 * * * * *` - 每 30 秒
+* `0 */15 * * * *` - 每 15 分钟
+* `0 30 3-6,20-23 * * *` - 在凌晨 3-6 点和晚上 8-11 点范围内，每小时的第 30 分钟
+* `CRON_TZ=America/New_York 0 30 04 * * *` - 纽约时间每天凌晨 4:30
 
-> 您可以在[这里](https://en.wikipedia.org/wiki/Cron)了解更多关于 cron 和支持的格式。
+> 您可以[在此](https://en.wikipedia.org/wiki/Cron)了解更多关于 cron 及其支持格式的信息
 
-为了便于使用，Dapr cron 绑定还支持一些快捷方式：
+为方便使用，Dapr Cron 绑定还支持一些快捷方式：
 
-* `@every 15s` 其中 `s` 是秒，`m` 是分钟，`h` 是小时
-* `@daily` 或 `@hourly` 从绑定初始化时开始按该周期运行
+* `@every 15s`，其中 `s` 表示秒，`m` 表示分钟，`h` 表示小时
+* `@daily` 或 `@hourly`，从绑定初始化的时间开始按该周期运行
 
-## 监听 cron 绑定
+## 监听 Cron 绑定
 
-设置 cron 绑定后，您只需监听与组件名称匹配的端点。假设 [NAME] 是 `scheduled`。这将作为一个 HTTP `POST` 请求。下面的示例展示了一个简单的 Node.js Express 应用程序如何在 `/scheduled` 端点接收调用并向控制台写入消息。
-
+设置 Cron 绑定后，您只需监听与组件名称匹配的端点。假设 [NAME] 为 `scheduled`。这将通过 HTTP `POST` 请求发起。以下示例展示了一个简单的 Node.js Express 应用如何在 `/scheduled` 端点上接收调用并向控制台写入消息。
+  
 ```js
 app.post('/scheduled', async function(req, res){
     console.log("scheduled endpoint called", req.body)
     res.status(200).send()
 });
 ```
+  
+运行此代码时，请注意 `/scheduled` 端点每 15 分钟会被 Dapr 边车调用一次。
 
-运行此代码时，请注意 `/scheduled` 端点每十五分钟由 Dapr sidecar 调用。
 
 ## 绑定支持
 
@@ -81,6 +83,6 @@ app.post('/scheduled', async function(req, res){
 
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
 - [绑定构建块]({{% ref bindings %}})
-- [操作指南：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
-- [操作指南：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [操作指南：使用输入绑定触发应用]({{% ref howto-triggers.md %}})
+- [操作指南：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
 - [绑定 API 参考]({{% ref bindings_api.md %}})

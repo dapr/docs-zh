@@ -2,16 +2,16 @@
 type: docs
 title: "HTTPEndpoint 规范"
 linkTitle: "HTTPEndpoint"
-description: "Dapr HTTPEndpoint 资源的基本说明"
+description: "Dapr HTTPEndpoint 资源的基本规范"
 weight: 4000
 aliases:
-  - "/zh-hans/operations/httpEndpoints/"
+  - "/operations/httpEndpoints/"
 ---
 
-`HTTPEndpoint` 是一种 Dapr 资源，用于让 Dapr 应用程序能够调用非 Dapr 的端点。
+`HTTPEndpoint` 是一种 Dapr 资源，用于从 Dapr 应用程序调用非 Dapr 端点。
 
 {{% alert title="注意" color="primary" %}}
-HTTPEndpoint 资源可以被限制在特定的[命名空间]({{% ref isolation-concept.md %}})中，并通过作用域来限制对特定应用程序集的访问。
+任何 HTTPEndpoint 资源都可以限制到特定的[命名空间]({{% ref isolation-concept.md %}})，并通过作用域限制对特定应用程序集合的访问。
 {{% /alert %}}
 
 ## 格式
@@ -22,7 +22,7 @@ kind: HTTPEndpoint
 metadata:
   name: <NAME>  
 spec:
-  baseUrl: <REPLACE-WITH-BASEURL> # 必填。需包含 "http://" 或 "https://" 前缀。
+  baseUrl: <REPLACE-WITH-BASEURL> # 必填。使用 "http://" 或 "https://" 前缀。
   headers: # 可选
   - name: <REPLACE-WITH-A-HEADER-NAME>
     value: <REPLACE-WITH-A-HEADER-VALUE>
@@ -51,11 +51,11 @@ auth: # 可选
 
 ## 规范字段
 
-| 字段               | 必填     | 详情    | 示例     |
+| 字段              | 必填 | 说明 | 示例 |
 |--------------------|:--------:|---------|---------|
-| baseUrl            | 是       | 非 Dapr 端点的基本 URL | `"https://api.github.com"`, `"http://api.github.com"`
-| headers            | 否       | 服务调用的 HTTP 请求头 | `name: "Accept-Language" value: "en-US"` <br/> `name: "Authorization" secretKeyRef.name: "my-secret" secretKeyRef.key: "myGithubToken" `
-| clientTLS          | 否       | 启用 TLS 认证到一个端点，支持使用根证书、客户端证书和私钥的标准组合
+| baseUrl            | Y        | 非 Dapr 端点的基础 URL | `"https://api.github.com"`、`"http://api.github.com"`
+| headers            | N        | 服务调用所用的 HTTP 请求头 | `name: "Accept-Language" value: "en-US"` <br/> `name: "Authorization" secretKeyRef.name: "my-secret" secretKeyRef.key: "myGithubToken" `
+| clientTLS          | N        | 启用对端点的 TLS 身份验证，支持根证书、客户端证书和私钥的任意标准组合 |
 
 ## 相关链接
 

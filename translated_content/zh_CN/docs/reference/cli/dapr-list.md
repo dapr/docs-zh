@@ -7,11 +7,11 @@ description: "关于 list CLI 命令的详细信息"
 
 ### 描述
 
-显示 Dapr 实例列表。
+列出所有 Dapr 实例。
 
 ### 支持的平台
 
-- [本地托管]({{% ref self-hosted %}})
+- [自托管]({{% ref self-hosted %}})
 - [Kubernetes]({{% ref kubernetes %}})
 
 ### 用法
@@ -20,42 +20,43 @@ description: "关于 list CLI 命令的详细信息"
 dapr list [flags]
 ```
 
-### 标志
+### 参数
+
 
 | 名称 | 环境变量 | 默认值 | 描述
 | --- | --- | --- | --- |
-| `--all-namespaces`, `-A` | | `false` | 列出所有命名空间的 Dapr pods（可选） |
-| `--help`, `-h` | | | 显示帮助信息 |
-| `--kubernetes`, `-k` | | `false` | 列出 Kubernetes 集群中的所有 Dapr pods（可选） |
-| `--namespace`, `-n` | | `default` | 列出 Kubernetes 指定命名空间的 Dapr pods。仅与 `-k` 标志一起使用（可选） |
+| `--all-namespaces`, `-A` | | `false` | 列出所有命名空间中的所有 Dapr Pod（可选） |
+| `--help`, `-h` | | | 打印此帮助消息 |
+| `--kubernetes`, `-k` | | `false` | 列出 Kubernetes 集群中的所有 Dapr Pod（可选） |
+| `--namespace`, `-n` | | `default` | 列出 Kubernetes 中指定命名空间的 Dapr Pod。仅与 `-k` 参数一起使用（可选） |
 | `--output`, `-o` | | `table` | 列表的输出格式。有效值为：`json`、`yaml` 或 `table`
 
 ### 示例
 
 ```bash
-# 列出本地托管模式下的 Dapr 实例
+# 列出自托管模式下的 Dapr 实例
 dapr list
 
-# 列出 Kubernetes 模式下所有命名空间的 Dapr 实例
+# 列出 Kubernetes 模式下所有命名空间中的 Dapr 实例
 dapr list -k
 
 # 以 JSON 格式列出 Dapr 实例
 dapr list -o json
 
-# 在 Kubernetes 模式下列出特定命名空间的 Dapr 实例
+# 列出 Kubernetes 模式下特定命名空间中的 Dapr 实例
 dapr list -k --namespace default
 
-# 在 Kubernetes 模式下列出所有命名空间的 Dapr 实例
+# 列出 Kubernetes 模式下所有命名空间中的 Dapr 实例
 dapr list -k --all-namespaces
 ```
 
-### 警告信息 - Kubernetes 环境
-此命令可能会显示警告信息。
+### 警告消息 - Kubernetes 模式 
+此命令可能会发出警告消息。
 
-#### 根证书更新警告
-如果部署到 Kubernetes 集群的 mtls 根证书在 30 天内过期，将显示以下警告信息：
+#### 根证书续期警告
+如果部署到 Kubernetes 集群的 mTLS 根证书将在 30 天内过期，则会显示以下警告消息：
 
 ```
-Kubernetes 集群的 Dapr 根证书将在 <n> 天内过期。到期日期：<date:time> UTC。
-请参阅 docs.dapr.io 以获取证书更新说明，以避免服务中断。
+Dapr root certificate of your Kubernetes cluster expires in <n> days. Expiry date: <date:time> UTC. 
+Please see docs.dapr.io for certificate renewal instructions to avoid service interruptions.
 ```

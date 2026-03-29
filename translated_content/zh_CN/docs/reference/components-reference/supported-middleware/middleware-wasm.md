@@ -2,17 +2,19 @@
 type: docs
 title: "Wasm"
 linkTitle: "Wasm"
-description: "在HTTP管道中使用Wasm中间件"
+description: "在 HTTP 管道中使用 Wasm 中间件"
 aliases:
-- /zh-hans/developing-applications/middleware/supported-middleware/middleware-wasm/
+- /developing-applications/middleware/supported-middleware/middleware-wasm/
 ---
 
-WebAssembly是一种安全执行由其他语言编译的代码的方法。运行时会执行WebAssembly模块（Wasm），这些模块通常是带有`.wasm`扩展名的二进制文件。
+WebAssembly 是一种安全执行跨语言编译代码的机制。运行时负责加载并运行 WebAssembly 模块（Wasm），这些模块通常以 `.wasm` 为扩展名的二进制文件形式存在。
 
-Wasm [HTTP中间件]({{% ref middleware.md %}})允许您使用编译为Wasm二进制文件的自定义逻辑来处理传入请求或提供响应。换句话说，您可以使用未预编译到`daprd`二进制文件中的外部文件来扩展Dapr。Dapr嵌入了[wazero](https://wazero.io)以在不使用CGO的情况下实现这一点。
+通过 Wasm [HTTP 中间件]({{% ref middleware.md %}})，你可以使用自定义逻辑处理传入请求或构造响应，这些逻辑会被编译成 Wasm 二进制文件。换句话说，你可以使用外部文件扩展 Dapr，而无需将代码预编译到 `daprd` 二进制文件中。Dapr 内嵌了 [wazero](https://wazero.io) 来实现这一能力，且无需 CGO 依赖。
 
-Wasm二进制文件可以从URL加载。例如，使用URL `file://rewrite.wasm`可以从进程的当前目录加载`rewrite.wasm`文件。在Kubernetes环境中，您可以参考[如何：将Pod卷挂载到Dapr sidecar]({{% ref kubernetes-volume-mounts.md %}})来配置可以包含Wasm模块的文件系统挂载。也可以从远程URL获取Wasm二进制文件。在这种情况下，URL必须精确指向一个Wasm二进制文件。例如：
-- `http://example.com/rewrite.wasm`，或
+Wasm 二进制文件通过 URL 加载。例如，`file://rewrite.wasm` 会从进程当前目录加载 `rewrite.wasm`。在 Kubernetes 环境中，请参考[如何：将 Pod 卷挂载到 Dapr 边车]({{% ref kubernetes-volume-mounts.md %}})来配置包含 Wasm 模块的文件系统挂载。
+
+也支持从远程 URL 获取 Wasm 二进制文件。这种情况下，URL 必须严格指向单个 Wasm 二进制文件。例如：
+- `http://example.com/rewrite.wasm`，或 
 - `https://example.com/rewrite.wasm`。
 
 ## 组件格式
@@ -28,22 +30,22 @@ spec:
   metadata:
   - name: url
     value: "file://router.wasm"
-  - guestConfig
+  - name: guestConfig
     value: {"environment":"production"}
 ```
 
-## 规范元数据字段
+## 规格元数据字段
 
-用户至少需要指定一个实现[http-handler](https://http-wasm.io/http-handler/)的Wasm二进制文件。如何编译将在后面描述。
+用户至少需要提供一个实现 [http-handler](https://http-wasm.io/http-handler/) 接口的 Wasm 二进制文件。具体编译方法将在后续说明。
 
-| 字段 | 详情 | 必需 | 示例 |
-|-------|----------------------------------------------------------------|----------|----------------|
-| url   | 包含要实例化的Wasm二进制文件的资源URL。支持的方案包括`file://`、`http://`和`https://`。`file://` URL的路径相对于Dapr进程，除非它以`/`开头。 | true     | `file://hello.wasm`，`https://example.com/hello.wasm` |
-| guestConfig   | 传递给Wasm来宾的可选配置。用户可以传递由Wasm代码解析的任意字符串。 | false     | `environment=production`，`{"environment":"production"}` |
+| 字段 | 说明 | 是否必填 | 示例 |
+|------|------|---------|------|
+| url   | 用于实例化的 Wasm 二进制资源 URL。支持的协议方案包括 `file://`、`http://` 和 `https://`。`file://` URL 的路径是相对于 Dapr 进程的，除非以 `/` 开头表示绝对路径。 | 是 | `file://hello.wasm`, `https://example.com/hello.wasm` |
+| guestConfig   | 传递给 Wasm 客户端的可选配置。用户可以传入任意字符串，由客户端代码自行解析。 | 否 | `environment=production`,`{"environment":"production"}` |
 
-## Dapr配置
+## Dapr 配置
 
-要应用中间件，必须在[configuration]({{% ref configuration-concept.md %}})中引用它。请参阅[中间件管道]({{% ref "middleware.md#customize-processing-pipeline" %}})。
+要使中间件生效，必须在 [configuration]({{% ref configuration-concept.md %}}) 中引用它。请参阅[中间件管道]({{% ref "middleware.md#customize-processing-pipeline"%}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -57,15 +59,15 @@ spec:
       type: middleware.http.wasm
 ```
 
-*注意*：WebAssembly中间件使用的资源比本地中间件多。这可能导致资源限制比在本地代码中更快达到。生产环境中应[控制最大并发]({{% ref control-concurrency.md %}})。
+*注意*：与原生中间件相比，WebAssembly 中间件会消耗更多资源。这会导致资源约束比原生代码实现的相同逻辑更快出现。生产环境使用时应该[控制最大并发]({{% ref control-concurrency.md %}})。
 
-### 生成Wasm
+### 生成 Wasm
 
-此组件允许您使用[http-handler](https://http-wasm.io/http-handler/)应用程序二进制接口（ABI）编译的自定义逻辑来处理传入请求或提供响应。`handle_request`函数接收传入请求，并可以根据需要对其进行处理或提供响应。
+此组件允许你使用自定义逻辑处理传入请求或生成响应，这些逻辑通过 [http-handler](https://http-wasm.io/http-handler/) 应用二进制接口（ABI）编译而成。`handle_request` 函数接收传入请求，可以根据需要操作该请求或生成响应。
 
-要编译您的Wasm，您需要使用符合http-handler的来宾SDK（如[TinyGo](https://github.com/http-wasm/http-wasm-guest-tinygo)）来编译源代码。
+要编译 Wasm，必须使用符合 http-handler 规范的客户端 SDK，例如 [TinyGo](https://github.com/http-wasm/http-wasm-guest-tinygo)。
 
-以下是TinyGo中的示例：
+以下是一个 TinyGo 示例：
 
 ```go
 package main
@@ -81,23 +83,23 @@ func main() {
 	handler.HandleRequestFn = handleRequest
 }
 
-// handleRequest实现了一个简单的HTTP路由器。
+// handleRequest 实现了一个简单的 HTTP 路由器。
 func handleRequest(req api.Request, resp api.Response) (next bool, reqCtx uint32) {
-	// 如果URI以/host开头，修剪它并分派到下一个处理程序。
+	// 如果 URI 以 /host 开头，则去掉该前缀并分发给下一个处理器。
 	if uri := req.GetURI(); strings.HasPrefix(uri, "/host") {
 		req.SetURI(uri[5:])
-		next = true // 继续到主机上的下一个处理程序。
+		next = true // 继续执行宿主机上的下一个处理器。
 		return
 	}
 
-	// 提供静态响应
+	// 返回静态响应
 	resp.Headers().Set("Content-Type", "text/plain")
 	resp.Body().WriteString("hello")
-	return // 跳过下一个处理程序，因为我们已经写了一个响应。
+	return // 跳过下一个处理器，因为我们已经写入了响应。
 }
 ```
 
-如果使用TinyGo，按如下所示编译，并将名为"url"的规范元数据字段设置为输出的位置（例如，`file://router.wasm`）：
+如果使用 TinyGo，请按以下方式编译，并将 spec 元数据字段中的 `url` 设置为输出文件的位置（例如 `file://router.wasm`）：
 
 ```bash
 tinygo build -o router.wasm -scheduler=none --no-debug -target=wasi router.go`
@@ -105,7 +107,7 @@ tinygo build -o router.wasm -scheduler=none --no-debug -target=wasi router.go`
 
 ### Wasm `guestConfig` 示例
 
-以下是如何使用`guestConfig`将配置传递给Wasm的示例。在Wasm代码中，您可以使用来宾SDK中定义的函数`handler.Host.GetConfig`来获取配置。在以下示例中，Wasm中间件从组件中定义的JSON配置中解析执行的`environment`。
+以下是如何使用 `guestConfig` 向 Wasm 传递配置的示例。在 Wasm 代码中，可以使用客户端 SDK 中定义的 `handler.Host.GetConfig` 函数来获取配置。在下面的示例中，Wasm 中间件解析了组件中定义的 JSON 配置里的 `environment` 字段。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -121,7 +123,8 @@ spec:
   - guestConfig
     value: {"environment":"production"}
 ```
-以下是TinyGo中的示例：
+
+下面是 TinyGo 的示例：
 
 ```go
 package main
@@ -137,7 +140,7 @@ type Config struct {
 }
 
 func main() {
-	// 获取配置字节，这是组件中定义的guestConfig的值。
+	// 获取配置字节，即组件中定义的 guestConfig 值。
 	configBytes := handler.Host.GetConfig()
 	
 	config := Config{}
@@ -146,9 +149,10 @@ func main() {
 }
 ```
 
+
 ## 相关链接
 
 - [中间件]({{% ref middleware.md %}})
 - [配置概念]({{% ref configuration-concept.md %}})
-- [配置概览]({{% ref configuration-overview.md %}})
+- [配置概述]({{% ref configuration-overview.md %}})
 - [控制最大并发]({{% ref control-concurrency.md %}})

@@ -1,16 +1,17 @@
 ---
 type: docs
-title: "PostgreSQL 绑定组件规范"
+title: "PostgreSQL 绑定规范"
 linkTitle: "PostgreSQL"
-description: "关于 PostgreSQL 绑定组件的详细文档"
+description: "PostgreSQL 绑定组件的详细文档"
 aliases:
-  - "/zh-hans/operations/components/setup-bindings/supported-bindings/postgresql/"
-  - "/zh-hans/operations/components/setup-bindings/supported-bindings/postgres/"
+  - "/operations/components/setup-bindings/supported-bindings/postgresql/"
+  - "/operations/components/setup-bindings/supported-bindings/postgres/"
 ---
 
-## 组件配置格式
+## 组件格式
 
-要设置 PostgreSQL 绑定，请创建一个类型为 `bindings.postgresql` 的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
+要设置 PostgreSQL 绑定，需创建一个类型为 `bindings.postgresql` 的组件。请参阅[此指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
+
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -27,73 +28,91 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来保存 secret，具体方法请参见[此处]({{% ref component-secrets.md %}})。
+上述示例将密钥作为纯字符串使用。建议按照[此处]({{% ref component-secrets.md %}})的描述使用密钥存储来管理密钥。
 {{% /alert %}}
 
 ## 规范元数据字段
 
-### 通过连接字符串进行身份验证
+### 使用连接字符串进行身份验证
 
-以下元数据选项是通过连接字符串进行身份验证时**必需**的。
-
-| 字段  | 必需 | 详情 | 示例 |
-|--------|:--------:|---------|---------|
-| `connectionString` | Y | PostgreSQL 数据库的连接字符串。有关如何定义连接字符串的信息，请参阅 PostgreSQL [数据库连接文档](https://www.postgresql.org/docs/current/libpq-connect.html)。 | `"host=localhost user=postgres password=example port=5432 connect_timeout=10 database=my_db"`
-
-### 通过 Microsoft Entra ID 进行身份验证
-
-在 Azure Database for PostgreSQL 中支持通过 Microsoft Entra ID 进行身份验证。Dapr 支持的所有身份验证方法都可以使用，包括客户端凭据（"服务主体"）和托管身份。
+使用 PostgreSQL 连接字符串进行身份验证时，以下元数据选项是**必需的**。
 
 | 字段  | 必需 | 详情 | 示例 |
 |--------|:--------:|---------|---------|
-| `useAzureAD` | Y | 必须设置为 `true` 以使组件能够从 Microsoft Entra ID 检索访问令牌。 | `"true"` |
-| `connectionString` | Y | PostgreSQL 数据库的连接字符串。<br>这必须包含用户，该用户对应于在 PostgreSQL 内部创建的用户的名称，该用户映射到 Microsoft Entra ID 身份；这通常是相应主体的名称（例如，Microsoft Entra ID 应用程序的名称）。此连接字符串不应包含任何密码。  | `"host=mydb.postgres.database.azure.com user=myapplication port=5432 database=my_db sslmode=require"` |
+| `connectionString` | Y | PostgreSQL 数据库的连接字符串。有关如何定义连接字符串的信息，请参阅 PostgreSQL [关于数据库连接的文档](https://www.postgresql.org/docs/current/libpq-connect.html)。 | `"host=localhost user=postgres password=example port=5432 connect_timeout=10 database=my_db"`
+
+#### 使用单独的连接参数进行身份验证
+
+除了使用连接字符串外，您还可以选择指定单独的连接参数。这些参数等同于标准的 PostgreSQL 连接参数。
+
+| 字段  | 必需 | 详情 | 示例 |
+|--------|:--------:|---------|---------|
+| `host` | Y | PostgreSQL 服务器的主机名或 IP 地址 | `"localhost"` |
+| `hostaddr` | N | PostgreSQL 服务器的 IP 地址（host 的替代选项） | `"127.0.0.1"` |
+| `port` | Y | PostgreSQL 服务器的端口号 | `"5432"` |
+| `database` | Y | 要连接的数据库名称 | `"my_db"` |
+| `user` | Y | 用于连接的 PostgreSQL 用户 | `"postgres"` |
+| `password` | Y | PostgreSQL 用户的密码 | `"example"` |
+| `sslRootCert` | N | SSL 根证书文件的路径 | `"/path/to/ca.crt"` |
+
+{{% alert title="注意" color="primary" %}}
+使用单独的连接参数时，这些参数将覆盖 `connectionString` 中存在的参数。
+{{% /alert %}}
+
+### 使用 Microsoft Entra ID 进行身份验证
+
+支持使用 Microsoft Entra ID 对 Azure Database for PostgreSQL 进行身份验证。可以使用 Dapr 支持的所有身份验证方法，包括客户端凭据（"服务主体"）和托管标识。
+
+| 字段  | 必需 | 详情 | 示例 |
+|--------|:--------:|---------|---------|
+| `useAzureAD` | Y | 必须设置为 `true` 以使组件能够从 Microsoft Entra ID 获取访问令牌。 | `"true"` |
+| `connectionString` | Y | PostgreSQL 数据库的连接字符串。<br>必须包含用户，该用户对应于在 PostgreSQL 内部创建的映射到 Microsoft Entra ID 标识的用户名称；这通常是相应主体的名称（例如 Microsoft Entra ID 应用程序的名称）。此连接字符串不应包含任何密码。 | `"host=mydb.postgres.database.azure.com user=myapplication port=5432 database=my_db sslmode=require"` |
 | `azureTenantId` | N | Microsoft Entra ID 租户的 ID | `"cd4b2887-304c-…"` |
 | `azureClientId` | N | 客户端 ID（应用程序 ID） | `"c7dd251f-811f-…"` |
-| `azureClientSecret` | N | 客户端 secret（应用程序密码） | `"Ecy3X…"` |
+| `azureClientSecret` | N | 客户端密钥（应用程序密码） | `"Ecy3X…"` |
 
-### 通过 AWS IAM 进行身份验证
+### 使用 AWS IAM 进行身份验证
 
-在所有版本的 PostgreSQL 类型组件中支持通过 AWS IAM 进行身份验证。
-连接字符串中指定的用户必须是数据库中已存在的用户，并且是授予 `rds_iam` 数据库角色的 AWS IAM 启用用户。
+支持使用 AWS IAM 对所有版本的 PostgreSQL 类型组件进行身份验证。
+连接字符串中指定的用户必须是数据库中已存在的用户，并且是已授予 `rds_iam` 数据库角色的 AWS IAM 启用用户。
 身份验证基于 AWS 身份验证配置文件，或提供的 AccessKey/SecretKey。
-AWS 身份验证令牌将在其到期时间之前动态轮换。
+AWS 身份验证令牌将在其过期时间之前动态轮换。
 
 | 字段  | 必需 | 详情 | 示例 |
 |--------|:--------:|---------|---------|
-| `useAWSIAM` | Y | 必须设置为 `true` 以使组件能够从 AWS IAM 检索访问令牌。此身份验证方法仅适用于 AWS Relational Database Service for PostgreSQL 数据库。 | `"true"` |
-| `connectionString` | Y | PostgreSQL 数据库的连接字符串。<br>这必须包含一个已存在的用户，该用户对应于在 PostgreSQL 内部创建的用户的名称，该用户映射到 AWS IAM 策略。此连接字符串不应包含任何密码。请注意，数据库名称字段在 AWS 中由 dbname 表示。 | `"host=mydb.postgres.database.aws.com user=myapplication port=5432 dbname=my_db sslmode=require"`|
-| `awsRegion` | N | 这保持与现有字段的向后兼容性。它将在 Dapr 1.17 中被弃用。请改用 'region'。AWS Relational Database Service 部署到的 AWS 区域。 | `"us-east-1"` |
+| `useAWSIAM` | Y | 必须设置为 `true` 以使组件能够从 AWS IAM 获取访问令牌。此身份验证方法仅适用于 AWS Relational Database Service for PostgreSQL 数据库。 | `"true"` |
+| `connectionString` | Y | PostgreSQL 数据库的连接字符串。<br>必须包含已存在的用户，该用户对应于在 PostgreSQL 内部创建的映射到 AWS IAM 策略的用户名称。此连接字符串不应包含任何密码。请注意，对于 AWS，数据库名称字段由 dbname 表示。 | `"host=mydb.postgres.database.aws.com user=myapplication port=5432 dbname=my_db sslmode=require"`|
+| `awsRegion` | N | 这保持与现有字段的向后兼容性。它将在 Dapr 1.17 中被弃用。请改用 'region'。部署 AWS Relational Database Service 的 AWS 区域。 | `"us-east-1"` |
 | `awsAccessKey` | N | 这保持与现有字段的向后兼容性。它将在 Dapr 1.17 中被弃用。请改用 'accessKey'。与 IAM 账户关联的 AWS 访问密钥 | `"AKIAIOSFODNN7EXAMPLE"` |
-| `awsSecretKey` | N | 这保持与现有字段的向后兼容性。它将在 Dapr 1.17 中被弃用。请改用 'secretKey'。与访问密钥关联的 secret 密钥 | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
+| `awsSecretKey` | N | 这保持与现有字段的向后兼容性。它将在 Dapr 1.17 中被弃用。请改用 'secretKey'。与访问密钥关联的密钥 | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
 | `awsSessionToken` | N | 这保持与现有字段的向后兼容性。它将在 Dapr 1.17 中被弃用。请改用 'sessionToken'。要使用的 AWS 会话令牌。仅当您使用临时安全凭证时才需要会话令牌。 | `"TOKEN"` |
 
 ### 其他元数据选项
 
 | 字段 | 必需 | 绑定支持 | 详情 | 示例 |
 |--------------------|:--------:|-----|---|---------|
-| `timeout` | N | 输出 | 数据库操作的超时时间，作为 [Go duration](https://pkg.go.dev/time#ParseDuration)。整数被解释为秒数。默认为 `20s` | `"30s"`, `30` |
-| `maxConns` | N | 输出 | 由此组件池化的最大连接数。设置为 0 或更低以使用默认值，该值为 4 或 CPU 数量中的较大者。 | `"4"` |
-| `connectionMaxIdleTime` | N | 输出 | 在连接池中未使用的连接被自动关闭之前的最大空闲时间。默认情况下，没有值，这由数据库驱动程序选择。 | `"5m"` |
-| `queryExecMode` | N | 输出 | 控制执行查询的默认模式。默认情况下，Dapr 使用扩展协议并自动准备和缓存准备好的语句。然而，这可能与代理如 PGBouncer 不兼容。在这种情况下，可能更适合使用 `exec` 或 `simple_protocol`。 | `"simple_protocol"` |
+| `timeout` | N | 输出 | 数据库操作的超时时间，格式为 [Go duration](https://pkg.go.dev/time#ParseDuration)。整数将被解释为秒数。默认为 `20s` | `"30s"`, `30` |
+| `maxConns` | N | 输出 | 此组件池化的最大连接数。设置为 0 或更小以使用默认值，默认值为 4 或 CPU 数量中的较大者。 | `"4"` |
+| `connectionMaxIdleTime` | N | 输出 | 在连接池中自动关闭未使用连接之前的最大空闲时间。默认情况下，没有此值，由数据库驱动程序选择。 | `"5m"` |
+| `queryExecMode` | N | 输出 | 控制执行查询的默认模式。默认情况下，Dapr 使用扩展协议并自动准备和缓存预处理语句。但是，这可能与 PGBouncer 等代理不兼容。在这种情况下，使用 `exec` 或 `simple_protocol` 可能更合适。 | `"simple_protocol"` |
 
 ### URL 格式
 
-PostgreSQL 绑定内部使用 [pgx 连接池](https://github.com/jackc/pgx)，因此 `connectionString` 参数可以是任何有效的连接字符串，无论是 `DSN` 还是 `URL` 格式：
+PostgreSQL 绑定内部使用 [pgx connection pool](https://github.com/jackc/pgx)，因此 `connectionString` 参数可以是任何有效的连接字符串，格式为 `DSN` 或 `URL`：
 
-**示例 DSN**
+**DSN 示例**
 
 ```shell
 user=dapr password=secret host=dapr.example.com port=5432 dbname=my_dapr sslmode=verify-ca
 ```
 
-**示例 URL**
+**URL 示例**
 
 ```shell
 postgres://dapr:secret@dapr.example.com:5432/my_dapr?sslmode=verify-ca
 ```
 
-这两种方法还支持连接池配置变量：
+这两种方法也支持连接池配置变量：
 
 - `pool_min_conns`: 整数 0 或更大
 - `pool_max_conns`: 大于 0 的整数
@@ -101,9 +120,10 @@ postgres://dapr:secret@dapr.example.com:5432/my_dapr?sslmode=verify-ca
 - `pool_max_conn_idle_time`: 持续时间字符串
 - `pool_health_check_period`: 持续时间字符串
 
+
 ## 绑定支持
 
-此组件支持具有以下操作的**输出绑定**：
+此组件支持**输出绑定**，具有以下操作：
 
 - `exec`
 - `query`
@@ -111,22 +131,22 @@ postgres://dapr:secret@dapr.example.com:5432/my_dapr?sslmode=verify-ca
 
 ### 参数化查询
 
-此绑定支持参数化查询，允许将 SQL 查询本身与用户提供的值分开。**强烈建议**使用参数化查询以确保安全，因为它们可以防止 [SQL 注入攻击](https://owasp.org/www-community/attacks/SQL_Injection)。
+此绑定支持参数化查询，允许将 SQL 查询本身与用户提供的值分开。出于安全原因，**强烈建议**使用参数化查询，因为它们可以防止 [SQL 注入攻击](https://owasp.org/www-community/attacks/SQL_Injection)。
 
 例如：
 
 ```sql
--- ❌ 错误！在查询中包含值，容易受到 SQL 注入攻击。
+-- ❌ 错误！在查询中包含值，并且容易受到 SQL 注入攻击。
 SELECT * FROM mytable WHERE user_key = 'something';
 
--- ✅ 好！使用参数化查询。
+-- ✅ 正确！使用参数化查询。
 -- 这将使用参数 ["something"] 执行
 SELECT * FROM mytable WHERE user_key = $1;
 ```
 
 ### exec
 
-`exec` 操作可用于 DDL 操作（如表创建），以及返回仅元数据的 `INSERT`、`UPDATE`、`DELETE` 操作（例如，受影响行数）。
+`exec` 操作可用于 DDL 操作（如表创建），以及仅返回元数据（例如受影响的行数）的 `INSERT`、`UPDATE`、`DELETE` 操作。
 
 `params` 属性是一个包含 JSON 编码参数数组的字符串。
 
@@ -159,7 +179,7 @@ SELECT * FROM mytable WHERE user_key = $1;
 
 ### query
 
-`query` 操作用于 `SELECT` 语句，它返回元数据以及以行值数组形式的数据。
+`query` 操作用于 `SELECT` 语句，它以行值数组的形式返回数据以及元数据。
 
 `params` 属性是一个包含 JSON 编码参数数组的字符串。
 
@@ -210,6 +230,6 @@ SELECT * FROM mytable WHERE user_key = $1;
 
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
 - [绑定构建块]({{% ref bindings %}})
-- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
-- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [操作指南：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [操作指南：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
 - [绑定 API 参考]({{% ref bindings_api.md %}})

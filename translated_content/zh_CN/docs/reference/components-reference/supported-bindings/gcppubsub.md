@@ -2,14 +2,15 @@
 type: docs
 title: "GCP Pub/Sub 绑定规范"
 linkTitle: "GCP Pub/Sub"
-description: "关于 GCP Pub/Sub 绑定组件的详细文档"
+description: "GCP Pub/Sub 绑定组件的详细文档"
 aliases:
-  - "/zh-hans/operations/components/setup-bindings/supported-bindings/gcppubsub/"
+  - "/operations/components/setup-bindings/supported-bindings/gcppubsub/"
 ---
 
 ## 组件格式
 
-要设置 GCP Pub/Sub 绑定，您需要创建一个类型为 `bindings.gcp.pubsub` 的组件。有关如何创建和应用绑定配置的信息，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
+要设置 GCP Pub/Sub 绑定，请创建类型为 `bindings.gcp.pubsub` 的组件。有关如何创建和应用绑定配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
+
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -47,33 +48,33 @@ spec:
   - name: direction
     value: "input, output"
 ```
-{{% alert title="警告" color="warning" %}}
-上述示例使用了明文字符串作为密钥。建议使用密钥存储来保护这些信息，详情请参阅[此处]({{% ref component-secrets.md %}})。
+{{% alert title="Warning" color="warning" %}}
+上面的示例将密钥作为纯字符串使用。建议使用 secret store 来管理密钥，具体说明请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-## 元数据字段说明
+## 规范元数据字段
 
-| 字段              | 必需  | 绑定支持 | 详情 | 示例 |
+| 字段              | 必填  | 绑定支持 | 详情 | 示例 |
 |--------------------|:--------:|-----------| -----|---------|
-| `topic` | Y | 输出 | GCP Pub/Sub 主题名称 | `"topic1"` |
-| `subscription` | N | GCP Pub/Sub 订阅名称 | `"name1"` |
-| `type`           | Y | 输出 | GCP 凭证类型  | `service_account`
-| `project_id`     | Y | 输出 | GCP 项目 ID| `projectId`
-| `private_key_id` | N | 输出 | GCP 私钥 ID | `"privateKeyId"`
-| `private_key`    | Y | 输出 | GCP 凭证私钥。可以替换为 x509 证书 | `12345-12345`
-| `client_email`   | Y | 输出 | GCP 客户端邮箱  | `"client@email.com"`
-| `client_id`      | N | 输出 | GCP 客户端 ID | `0123456789-0123456789`
-| `auth_uri`       | N | 输出 | Google 账户 OAuth 端点 | `https://accounts.google.com/o/oauth2/auth`
-| `token_uri`      | N | 输出 | Google 账户令牌 URI | `https://oauth2.googleapis.com/token`
-| `auth_provider_x509_cert_url` | N | 输出 |GCP 凭证证书 URL | `https://www.googleapis.com/oauth2/v1/certs`
-| `client_x509_cert_url` | N | 输出 | GCP 凭证项目 x509 证书 URL | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com`
-| `direction` | N |输入/输出 | 绑定的方向。 | `"input"`, `"output"`, `"input, output"`
+| `topic` | Y | Output | GCP Pub/Sub topic 名称 | `"topic1"` |
+| `subscription` | N | GCP Pub/Sub subscription 名称 | `"name1"` |
+| `type`           | Y | Output | GCP 凭据类型  | `service_account`
+| `project_id`     | Y | Output | GCP 项目 id| `projectId`
+| `private_key_id` | N | Output | GCP 私钥 id | `"privateKeyId"`
+| `private_key`    | Y | Output | GCP 凭据私钥。替换为 x509 证书 | `12345-12345`
+| `client_email`   | Y | Output | GCP 客户端邮箱  | `"client@email.com"`
+| `client_id`      | N | Output | GCP 客户端 id | `0123456789-0123456789`
+| `auth_uri`       | N | Output | Google 账户 OAuth 端点 | `https://accounts.google.com/o/oauth2/auth`
+| `token_uri`      | N | Output | Google 账户 token uri | `https://oauth2.googleapis.com/token`
+| `auth_provider_x509_cert_url` | N | Output |GCP 凭据证书 url | `https://www.googleapis.com/oauth2/v1/certs`
+| `client_x509_cert_url` | N | Output | GCP 凭据项目 x509 证书 url | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com`
+| `direction` | N |Input/Output | 绑定的方向。 | `"input"`、`"output"`、`"input, output"`
 
 ## 绑定支持
 
-此组件支持 **输入和输出** 绑定接口。
+此组件支持 **input 和 output** 绑定接口。
 
-此组件支持以下操作的 **输出绑定**：
+此组件支持 **output 绑定**，并具有以下操作：
 
 - `create`
 
@@ -81,6 +82,6 @@ spec:
 
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
 - [绑定构建块]({{% ref bindings %}})
-- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
-- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [操作指南：通过输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [操作指南：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
 - [绑定 API 参考]({{% ref bindings_api.md %}})

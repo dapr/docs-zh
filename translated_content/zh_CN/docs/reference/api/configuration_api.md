@@ -1,14 +1,14 @@
 ---
 type: docs
-title: "配置 API 参考"
-linkTitle: "配置 API"
-description: "关于配置 API 的详细文档"
-weight: 800
+title: "Configuration API 参考"
+linkTitle: "Configuration API"
+description: "配置 API 的详细文档"
+weight: 400
 ---
 
 ## 获取配置
 
-该端点用于从存储中获取配置。
+此端点允许您从存储中获取配置。
 
 ### HTTP 请求
 
@@ -21,12 +21,12 @@ GET http://localhost:<daprPort>/v1.0/configuration/<storename>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{% ref component-schema.md %}})
+`storename` | 组件文件中的 `metadata.name` 字段。参考 [组件规范]({{% ref component-schema.md%}})
 
 #### 查询参数
 
-如果不提供查询参数，将返回所有配置项。
-要指定需要获取的配置项的键，请使用一个或多个 `key` 查询参数。例如：
+如果未提供查询参数，则返回所有配置项。
+要指定要获取的配置项的键，请使用一个或多个 `key` 查询参数。例如：
 
 ```
 GET http://localhost:<daprPort>/v1.0/configuration/mystore?key=config1&key=config2
@@ -74,7 +74,7 @@ curl -X GET 'http://localhost:3500/v1.0/configuration/mystore?key=myConfigKey'
 
 ## 订阅配置
 
-该端点用于订阅配置更改。当配置存储中的值被更新或删除时，会发送通知。这使应用程序能够对配置更改做出反应。
+此端点允许您订阅配置更改。当配置存储中的值被更新或删除时，会发送通知。这使应用程序能够对配置更改做出反应。
 
 ### HTTP 请求
 
@@ -87,12 +87,12 @@ GET http://localhost:<daprPort>/v1.0/configuration/<storename>/subscribe
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{% ref component-schema.md %}})
+`storename` | 组件文件中的 `metadata.name` 字段。参考 [组件规范]({{% ref component-schema.md%}})
 
 #### 查询参数
 
-如果不提供查询参数，将订阅所有配置项。
-要指定需要订阅的配置项的键，请使用一个或多个 `key` 查询参数。例如：
+如果未提供查询参数，则订阅所有配置项。
+要指定要订阅的配置项的键，请使用一个或多个 `key` 查询参数。例如：
 
 ```
 GET http://localhost:<daprPort>/v1.0/configuration/mystore/subscribe?key=config1&key=config2
@@ -136,11 +136,11 @@ curl -X GET 'http://localhost:3500/v1.0/configuration/mystore/subscribe?key=myCo
 }
 ```
 
-返回的 `id` 参数可用于取消订阅在订阅 API 调用中提供的特定键集。应用程序应保存此参数。
+返回的 `id` 参数可用于取消订阅订阅 API 调用中提供的特定键集。应用程序应保留此值。
 
 ## 取消订阅配置
 
-该端点用于取消订阅配置更改。
+此端点允许您取消订阅配置更改。
 
 ### HTTP 请求
 
@@ -153,8 +153,8 @@ GET http://localhost:<daprPort>/v1.0/configuration/<storename>/<subscription-id>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{% ref component-schema.md %}})
-`subscription-id` | 从订阅端点响应中返回的 `id` 字段的值
+`storename` | 组件文件中的 `metadata.name` 字段。参考 [组件规范]({{% ref component-schema.md%}})
+`subscription-id` | 订阅端点响应中返回的 `id` 字段的值
 
 #### 查询参数
 
@@ -190,27 +190,27 @@ curl -X GET 'http://localhost:3500/v1.0-alpha1/configuration/mystore/bf3aa454-31
 
 > 上述命令返回以下 JSON：
 
-在操作成功的情况下：
+操作成功时：
 
 ```json
 {
   "ok": true
 }
 ```
-在操作不成功的情况下：
+操作失败时：
 
 ```json
 {
   "ok": false,
-  "message": "<dapr 返回的错误信息>"
+  "message": "<dapr 返回的错误消息>"
 }
 ```
 
-## 可选应用程序路由
+## 可选的应用程序（用户代码）路由
 
-### 提供一个路由以便 Dapr 发送配置更改
+### 提供一个路由供 Dapr 发送配置更改
 
-订阅配置更改时，Dapr 会在配置项更改时调用应用程序。您的应用程序可以有一个 `/configuration` 端点，用于接收所有已订阅键的更新。可以通过在路由中添加 `/<store-name>` 和 `/<store-name>/<key>` 来使端点更具体，以适应给定的配置存储。
+订阅配置更改后，每当配置项更改时，Dapr 会调用应用程序。您的应用程序可以有一个 `/configuration` 端点，该端点会为所有订阅的键更新调用。可以通过添加 `/<store-name>` 使端点更具体地针对给定的配置存储，并通过向路由添加 `/<store-name>/<key>` 使其针对特定键。
 
 #### HTTP 请求
 
@@ -223,22 +223,20 @@ POST http://localhost:<appPort>/configuration/<store-name>/<key>
 参数 | 描述
 --------- | -----------
 `appPort` | 应用程序端口
-`storename` | `metadata.name` 字段组件文件。请参阅 [组件规范]({{% ref component-schema.md %}})
-`key` | 已订阅的键
+`storename` | 组件文件中的 `metadata.name` 字段。参考 [组件规范]({{% ref component-schema.md%}})
+`key` | 订阅的键
 
 #### 请求体
 
-给定订阅 id 的配置项列表。配置项可以有一个与之关联的版本，该版本在通知中返回。
+给定订阅 ID 的配置项列表。配置项可以具有与之关联的版本，该版本在通知中返回。
 
 ```json
 {
     "id": "<subscription-id>",
     "items": [
-        {
-            "key": "<key-of-configuration-item>",
-            "value": "<new-value>",
-            "version": "<version-of-item>"
-        }
+        "key": "<key-of-configuration-item>",
+        "value": "<new-value>",
+        "version": "<version-of-item>"
     ]
 }
 ```
@@ -249,16 +247,15 @@ POST http://localhost:<appPort>/configuration/<store-name>/<key>
 {
     "id": "bf3aa454-312d-403c-af95-6dec65058fa2",
     "items": [
-        {
-            "key": "config-1",
-            "value": "abcdefgh",
-            "version": "1.1"
-        }
+        "key": "config-1",
+        "value": "abcdefgh",
+        "version": "1.1"
     ]
 }
 ```
 
-## 下一步
 
-- [配置 API 概述]({{% ref configuration-api-overview.md %}})
-- [如何：从存储管理配置]({{% ref howto-manage-configuration.md %}})
+## 后续步骤
+
+- [Configuration API 概述]({{% ref configuration-api-overview.md %}})
+- [操作指南：从存储管理配置]({{% ref howto-manage-configuration.md %}})

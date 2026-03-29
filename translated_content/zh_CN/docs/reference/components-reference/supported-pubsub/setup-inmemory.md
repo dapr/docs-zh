@@ -1,13 +1,13 @@
 ---
 type: docs
-title: "内存"
-linkTitle: "内存"
-description: "关于内存 pubsub 组件的详细文档"
+title: "In-memory"
+linkTitle: "In-memory"
+description: "In Memory 发布订阅组件的详细文档"
 aliases:
-  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-inmemory/"
+  - "/operations/components/setup-pubsub/supported-pubsub/setup-inmemory/"
 ---
 
-内存 pub/sub 组件运行在单个 Dapr sidecar 中。这主要用于开发目的。状态不会在多个 sidecar 之间复制，并且在 Dapr sidecar 重启时会丢失。
+内存中的发布订阅组件在单个 Dapr 边车内运行。这主要用于开发目的。状态不会在多个边车之间复制，当 Dapr 边车重启时，状态会丢失。
 
 ## 组件格式
 
@@ -22,10 +22,10 @@ spec:
   metadata: []
 ```
 
-> 注意：内存组件不需要特定的元数据即可工作，但 spec.metadata 是必填字段。
+> 注意：内存中不需要任何特定的元数据即可使组件工作，但是 spec.metadata 是必填字段。
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}}) 以获取配置 pub/sub 组件的说明
-- [Pub/Sub 构建块]({{% ref pubsub %}})
+- 相关链接部分的 [Dapr 组件基本架构]({{% ref component-schema %}})
+- 阅读配置发布订阅组件的[指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})，了解相关说明
+- [发布订阅构建块]({{% ref pubsub %}})

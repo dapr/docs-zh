@@ -1,7 +1,7 @@
 ---
 type: docs
-title: Dapr API 文档指南
+title: Dapr API 参考
 linkTitle: "Dapr API"
 weight: 100
-description: "提供关于每个 API、相关端点及其功能的详细信息"
+description: "有关每个 API、关联的端点以及可用功能的信息"
 ---

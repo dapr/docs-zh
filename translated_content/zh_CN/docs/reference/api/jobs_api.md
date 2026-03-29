@@ -1,66 +1,101 @@
 ---
 type: docs
-title: "作业API参考"
-linkTitle: "作业API"
-description: "关于作业API的详细文档"
-weight: 1300
+title: "Jobs API 参考"
+linkTitle: "Jobs API"
+description: "Jobs API 的详细文档"
+weight: 900
 ---
 
 {{% alert title="注意" color="primary" %}}
-作业API目前处于测试阶段。
+Jobs API 目前处于 alpha 阶段。
 {{% /alert %}}
 
-使用作业API，您可以预定未来的作业和任务。
+使用 jobs API，您可以在将来安排作业和任务。
 
-> HTTP API仅供开发和测试使用。在生产环境中，强烈推荐使用SDK，因为它们实现了gRPC API，提供比HTTP API更高的性能和功能。
+> HTTP API 仅用于开发和测试。对于生产场景，强烈建议使用 SDK，因为它们实现了 gRPC API，提供了比 HTTP API 更高的性能和功能。这是因为 HTTP 进行 JSON 序列化可能会很昂贵，而使用 gRPC，数据按原样传输和存储，性能更高。
 
 ## 调度作业
 
-通过名称来调度作业。
+使用名称调度作业。作业基于运行 Scheduler 服务的服务器时钟进行调度。时间戳不会转换为 UTC。您可以在 RFC3339 格式的时间戳中提供时区，以指定作业应遵循的时区。如果未提供时区，则使用服务器的本地时间。
 
 ```
-POST http://localhost:3500/v1.0-alpha1/jobs/<name>
+POST http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
 ```
 
-### URL参数
+### URL 参数
 
 {{% alert title="注意" color="primary" %}}
-必须提供`schedule`或`dueTime`中的至少一个，也可以同时提供。
+必须至少提供 `schedule` 或 `dueTime` 之一，但它们也可以一起提供。
 {{% /alert %}}
 
 参数 | 描述
 --------- | -----------
 `name` | 您正在调度的作业的名称
-`data` | 一个JSON格式的值或对象。
-`schedule` | 作业的可选计划。格式详情如下。
-`dueTime` | 作业应激活的时间，或"一次性"时间，如果未提供其他调度类型字段。接受RFC3339格式的时间字符串、Go持续时间字符串（从创建时间计算）或非重复的ISO8601格式。
-`repeats` | 作业应触发的次数。如果未设置，作业将无限期运行或直到过期。
-`ttl` | 作业的生存时间或过期时间。接受RFC3339格式的时间字符串、Go持续时间字符串（从作业创建时间计算）或非重复的ISO8601格式。
+`data` | JSON 序列化值或对象。
+`schedule` | 作业运行的可选调度。格式详情见下文。
+`dueTime` | 作业应激活的可选时间，或在未提供其他调度类型字段时的"一次性"时间。接受 RFC3339 格式的"时间点"字符串、Go duration 字符串（从创建时间计算）或非重复的 ISO8601 格式。
+`repeats` | 作业应触发的可选次数。如果未设置，作业将无限期运行或直到过期。
+`ttl` | 作业的可选生存时间或过期时间。接受 RFC3339 格式的"时间点"字符串、Go duration 字符串（从作业创建时间计算）或非重复的 ISO8601 格式。
+`overwrite` | 一个布尔值，指定作业是否可以覆盖同名的现有作业。默认值为 `false`
+`failure_policy` | 作业的可选失败策略。格式详情见下文。如果未设置，作业将重试最多 3 次，重试之间延迟 1 秒。
 
 #### schedule
-`schedule`接受systemd计时器风格的cron表达式，以及以'@'为前缀的人类可读周期字符串。
+`schedule` 接受 systemd timer 风格的 cron 表达式以及人类可读的"@"前缀周期字符串，定义如下。
 
-systemd计时器风格的cron表达式包含6个字段：
-秒 | 分钟 | 小时 | 月中的某天 | 月份        | 星期中的某天
+Systemd timer 风格的 cron 接受 6 个字段：
+秒 | 分钟 | 小时 | 日（月） | 月          | 日（周）
 ---     | ---     | ---   | ---          | ---          | ---
 0-59    | 0-59    | 0-23  | 1-31         | 1-12/jan-dec | 0-6/sun-sat
 
 ##### 示例 1
-"0 30 * * * *" - 每小时的30分钟
+"0 30 * * * *" - 每小时的半小时时
 
 ##### 示例 2
-"0 15 3 * * *" - 每天03:15
+"0 15 3 * * *" - 每天 03:15
 
 周期字符串表达式：
-条目                  | 描述                                | 等同于
+条目                  | 描述                                | 等效于
 -----                  | -----------                                | -------------
-@every <duration>      | 每隔<duration>运行一次 (例如 '@every 1h30m') | N/A
-@yearly (或 @annually) | 每年运行一次，午夜，1月1日        | 0 0 0 1 1 *
-@monthly               | 每月运行一次，午夜，月初 | 0 0 0 1 * *
+@every <duration>      | 每 <duration> 运行一次（例如 '@every 1h30m'） | N/A
+@yearly（或 @annually） | 每年运行一次，1 月 1 日午夜        | 0 0 0 1 1 *
+@monthly               | 每月运行一次，月初午夜 | 0 0 0 1 * *
 @weekly                | 每周运行一次，周日午夜        | 0 0 0 * * 0
-@daily (或 @midnight)  | 每天运行一次，午夜                   | 0 0 0 * * *
-@hourly                | 每小时运行一次，整点        | 0 0 * * * *
+@daily（或 @midnight）  | 每天运行一次，午夜                   | 0 0 0 * * *
+@hourly                | 每小时运行一次，小时开始        | 0 0 * * * *
 
+#### failure_policy
+
+`failure_policy` 指定作业应如何处理失败。
+
+它可以设置为 `constant` 或 `drop`。
+- `constant` 策略使用以下配置选项持续重试作业。
+  - `max_retries` 配置作业应重试的次数。默认为无限重试。`nil` 表示无限重试，而 `0` 表示不会重试请求。
+  - `interval` 配置重试之间的延迟。默认为立即重试。有效值的形式为 `200ms`、`15s`、`2m` 等。
+- `drop` 策略在第一次失败后丢弃作业，不进行重试。
+
+##### 示例 1
+
+```json
+{
+  //...
+  "failure_policy": {
+    "constant": {
+      "max_retries": 3,
+      "interval": "10s"
+    }
+  }
+}
+```
+##### 示例 2
+
+```json
+{
+  //...
+  "failure_policy": {
+    "drop": {}
+  }
+}
+```
 
 ### 请求体
 
@@ -71,17 +106,17 @@ systemd计时器风格的cron表达式包含6个字段：
 }
 ```
 
-### HTTP响应代码
+### HTTP 响应代码
 
 代码 | 描述
 ---- | -----------
 `204`  | 已接受
 `400`  | 请求格式错误
-`500`  | 请求格式正确，但dapr代码或调度器控制平面服务中出错
+`500`  | 请求格式正确，但 dapr 代码或 Scheduler 控制平面服务中出现错误
 
 ### 响应内容
 
-以下示例curl命令创建一个名为`jobforjabba`的作业，并指定`schedule`、`repeats`和`data`。
+以下示例 curl 命令创建一个作业，将作业命名为 `jobforjabba` 并指定 `schedule`、`repeats` 和 `data`。
 
 ```bash
 $ curl -X POST \
@@ -96,29 +131,29 @@ $ curl -X POST \
 
 ## 获取作业数据
 
-通过名称获取作业。
+根据名称获取作业。
 
 ```
-GET http://localhost:3500/v1.0-alpha1/jobs/<name>
+GET http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
 ```
 
-### URL参数
+### URL 参数
 
 参数 | 描述
 --------- | -----------
 `name` | 您正在检索的已调度作业的名称
 
-### HTTP响应代码
+### HTTP 响应代码
 
 代码 | 描述
 ---- | -----------
 `200`  | 已接受
 `400`  | 请求格式错误
-`500`  | 请求格式正确，但作业不存在或dapr代码或调度器控制平面服务中出错
+`500`  | 请求格式正确，作业不存在或 dapr 代码或 Scheduler 控制平面服务中出现错误
 
 ### 响应内容
 
-运行以下示例curl命令后，返回的响应是包含作业`name`、`dueTime`和`data`的JSON。
+运行以下示例 curl 命令后，返回的响应是包含作业的 `name`、`dueTime` 和 `data` 的 JSON。
 
 ```bash
 $ curl -X GET http://localhost:3500/v1.0-alpha1/jobs/jobforjabba -H "Content-Type: application/json"
@@ -134,35 +169,35 @@ $ curl -X GET http://localhost:3500/v1.0-alpha1/jobs/jobforjabba -H "Content-Typ
 ```
 ## 删除作业
 
-删除一个命名的作业。
+删除命名作业。
 
 ```
-DELETE http://localhost:3500/v1.0-alpha1/jobs/<name>
+DELETE http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
 ```
 
-### URL参数
+### URL 参数
 
 参数 | 描述
 --------- | -----------
 `name` | 您正在删除的作业的名称
 
-### HTTP响应代码
+### HTTP 响应代码
 
 代码 | 描述
 ---- | -----------
 `204`  | 已接受
 `400`  | 请求格式错误
-`500`  | 请求格式正确，但dapr代码或调度器控制平面服务中出错
+`500`  | 请求格式正确，但 dapr 代码或 Scheduler 控制平面服务中出现错误
 
 ### 响应内容
 
-在以下示例curl命令中，名为`test1`且app-id为`sub`的作业将被删除
+在以下示例 curl 命令中，将删除名为 `test1` 且 app-id 为 `sub` 的作业
 
 ```bash
 $ curl -X DELETE http://localhost:3500/v1.0-alpha1/jobs/jobforjabba -H "Content-Type: application/json"
 ```
 
 
-## 下一步
+## 后续步骤
 
-[作业API概述]({{% ref jobs-overview.md %}})
+[Jobs API 概述]({{% ref jobs-overview.md %}})

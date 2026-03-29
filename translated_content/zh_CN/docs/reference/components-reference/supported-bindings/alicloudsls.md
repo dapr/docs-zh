@@ -1,15 +1,15 @@
 ---
 type: docs
-title: "阿里云日志存储服务绑定指南"
-linkTitle: "阿里云日志存储"
-description: "关于阿里云日志存储绑定组件的详细文档"
+title: "阿里云日志服务绑定规范"
+linkTitle: "阿里云日志服务"
+description: "阿里云日志服务绑定组件的详细文档"
 aliases:
-  - "/zh-hans/operations/components/setup-bindings/supported-bindings/alicloudsls/"
+  - "/operations/components/setup-bindings/supported-bindings/alicloudsls/"
 ---
 
-## 组件配置格式
+## 组件格式
 
-要配置一个阿里云SLS绑定，请创建一个类型为`bindings.alicloud.sls`的组件。请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})以了解如何创建和应用绑定配置。
+要设置阿里云 SLS 绑定，请创建类型为 `bindings.alicloud.sls` 的组件。有关如何创建和应用绑定配置，请参阅[此指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -28,23 +28,23 @@ spec:
     value: "[endpoint]"
 ```
 
-## 元数据字段说明
+## 规范元数据字段
 
-| 字段         | 必需 | 绑定支持  | 详情 | 示例 |
+| 字段         | 必填 | 绑定支持  | 详情 | 示例 |
 |---------------|----------|---------|---------|---------|
-| `AccessKeyID`    | 是 | 输出 |  访问密钥ID凭证。 | 
-| `AccessKeySecret` | 是 | 输出 | 访问密钥凭证secret |
-| `Endpoint`   | 是 | 输出 | 阿里云SLS端点。  | 
+| `AccessKeyID`    | Y | Output |  Access key ID 凭证。 | 
+| `AccessKeySecret` | Y | Output | Access key 凭证密钥 |
+| `Endpoint`   | Y | Output | 阿里云 SLS 端点。  | 
 
 ## 绑定支持
 
-该组件支持**输出绑定**，具有以下操作：
+此组件支持**输出绑定**，具有以下操作：
 
-- `create`: [创建对象](#create-object)
+- `create`：[创建对象](#create-object)
 
 ### 请求格式
 
-要执行日志存储操作，请使用`POST`方法调用绑定，并使用以下JSON主体：
+要执行日志存储操作，请使用 `POST` 方法调用绑定并传入以下 JSON 请求体：
 
 ```json
 {
@@ -62,14 +62,14 @@ spec:
 ```
 
 {{% alert title="注意" color="primary" %}}
-请确保在元数据属性中提供"project"，"logstore"，"topic"和"source"的值。
+注意，"project"、"logstore"、"topic" 和 "source" 属性的值应在元数据属性中提供。
 {{% /alert %}}
 
 #### 示例
 
 {{< tabpane text=true >}}
 
-{{% tab header="Windows" %}}
+{{% tab "Windows" %}}
 
 ```bash
 curl -X POST -H "Content-Type: application/json" -d "{\"metadata\":{\"project\":\"project-name\",\"logstore\":\"logstore-name\",\"topic\":\"topic-name\",\"source\":\"source-name\"},\"data\":{\"log-filed\":\"log info\"}" http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
@@ -77,7 +77,7 @@ curl -X POST -H "Content-Type: application/json" -d "{\"metadata\":{\"project\":
 
 {{% /tab %}}
 
-{{% tab header="Linux/MacOS" %}}
+{{% tab "Linux/MacOS" %}}
 
 ```bash
 curl -X POST -H "Content-Type: application/json" -d '{"metadata":{"project":"project-name","logstore":"logstore-name","topic":"topic-name","source":"source-name"},"data":{"log-filed":"log info"}' http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
@@ -90,11 +90,11 @@ curl -X POST -H "Content-Type: application/json" -d '{"metadata":{"project":"pro
 <br />
 
 ### 响应格式
-由于阿里云SLS生产者API是异步的，因此此绑定没有直接响应（没有回调接口来接收成功或失败的响应，只有在失败时会记录到控制台日志）。
+由于阿里云 SLS producer API 是异步的，此绑定没有响应（没有回调接口来接收成功或失败的响应，仅在控制台日志中记录任何原因的失败）。
 
 ## 相关链接
 
-- [bindings构建块]({{% ref bindings %}})
-- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
-- [如何：使用bindings与外部资源接口]({{% ref howto-bindings.md %}})
-- [bindings API参考]({{% ref bindings_api.md %}})
+- [绑定构建块]({{% ref bindings %}})
+- [操作指南：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [操作指南：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
+- [绑定 API 参考]({{% ref bindings_api.md %}})

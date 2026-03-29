@@ -2,13 +2,13 @@
 type: docs
 title: "分布式锁 API 参考"
 linkTitle: "分布式锁 API"
-description: "关于分布式锁 API 的详细文档"
-weight: 900
+description: "分布式锁 API 详细文档"
+weight: 700
 ---
 
-## 锁
+## 加锁
 
-通过此端点，您可以通过提供锁所有者的名称和要锁定的资源 ID 来获取锁。
+此端点允许您通过提供指定的锁所有者和要锁定的资源 ID 来获取锁。
 
 ### HTTP 请求
 
@@ -21,13 +21,13 @@ POST http://localhost:<daprPort>/v1.0-alpha1/lock/<storename>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | `metadata.name` 字段的组件文件。请参阅[组件模式]({{% ref component-schema.md %}})
+`storename` | 组件文件中的 `metadata.name` 字段。请参阅[组件 schema]({{% ref component-schema.md %}})
 
 #### 查询参数
 
 无
 
-### HTTP 响应代码
+### HTTP 响应码
 
 代码 | 描述
 ---- | -----------
@@ -38,7 +38,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/lock/<storename>
 
 ### HTTP 请求体
 
-锁端点需要接收以下 JSON 负载：
+加锁端点接收以下 JSON 负载：
 
 ```json
 {
@@ -51,12 +51,12 @@ POST http://localhost:<daprPort>/v1.0-alpha1/lock/<storename>
 字段 | 描述
 ---- | -----------
 resourceId  | 要锁定的资源 ID。可以是任何值
-lockOwner  | 锁所有者的名称。每次请求都应设置为唯一值
-expiryInSeconds  | 锁定在过期前保持的时间（秒）
+lockOwner  | 锁所有者的名称。应针对每个请求设置为唯一值
+expiryInSeconds  | 锁在过期前持有的时间（秒）
 
 ### HTTP 响应体
 
-锁端点会返回以下负载：
+加锁端点返回以下负载：
 
 ```json
 {
@@ -82,7 +82,7 @@ curl -X POST http://localhost:3500/v1.0-alpha/lock/redisStore \
 
 ## 解锁
 
-通过此端点，您可以根据锁所有者和资源 ID 解锁现有锁。
+此端点允许您根据锁所有者和资源 ID 解除现有的锁。
 
 ### HTTP 请求
 
@@ -95,13 +95,13 @@ POST http://localhost:<daprPort>/v1.0-alpha1/unlock/<storename>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | `metadata.name` 字段的组件文件。请参阅[组件模式]({{% ref component-schema.md %}})
+`storename` | 组件文件中的 `metadata.name` 字段。请参阅[组件 schema]({{% ref component-schema.md %}})
 
 #### 查询参数
 
 无
 
-### HTTP 响应代码
+### HTTP 响应码
 
 代码 | 描述
 ---- | -----------
@@ -112,7 +112,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/unlock/<storename>
 
 ### HTTP 请求体
 
-解锁端点需要接收以下 JSON 负载：
+解锁端点接收以下 JSON 负载：
 
 ```json
 {
@@ -123,7 +123,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/unlock/<storename>
 
 ### HTTP 响应体
 
-解锁端点会返回以下负载：
+解锁端点返回以下负载：
 
 ```json
 {
@@ -136,7 +136,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/unlock/<storename>
 代码 | 描述
 ---- | -----------
 0  | 成功
-1  | 锁未找到
+1  | 锁不存在
 2  | 锁属于其他所有者
 3  | 内部错误
 

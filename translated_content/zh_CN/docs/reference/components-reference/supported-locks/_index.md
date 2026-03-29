@@ -1,9 +1,9 @@
 ---
 type: docs
-title: "锁组件规格"
-linkTitle: "锁机制"
-weight: 7000
-description: 与Dapr接口的锁机制支持
+title: "Lock 组件规范"
+linkTitle: "锁"
+weight: 5000
+description: 与 Dapr 交互的受支持的锁组件
 no_list: true
 ---
 

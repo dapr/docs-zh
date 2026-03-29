@@ -4,12 +4,13 @@ title: "RabbitMQ 绑定规范"
 linkTitle: "RabbitMQ"
 description: "RabbitMQ 绑定组件的详细文档"
 aliases:
-  - "/zh-hans/operations/components/setup-bindings/supported-bindings/rabbitmq/"
+  - "/operations/components/setup-bindings/supported-bindings/rabbitmq/"
 ---
 
 ## 组件格式
 
-要设置 RabbitMQ 绑定，需创建一个类型为 `bindings.rabbitmq` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
+要设置 RabbitMQ 绑定，需创建一个类型为 `bindings.rabbitmq` 的组件。有关如何创建和应用绑定配置，请参阅[此指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
+
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -53,51 +54,51 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 使用了明文字符串。建议使用 secret 存储，如[此处]({{% ref component-secrets.md %}})所述。
+上述示例使用纯文本字符串作为密钥。建议使用密钥存储来管理密钥，具体操作请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段
 
-> 发布新的 RabbitMQ 消息时，所有关联元数据的值都会添加到消息的头部。
+> 当发布新的 RabbitMQ 消息时，关联元数据中的所有值都会被添加到消息的标头值中。
 
-| 字段              | 必需 | 绑定支持 |  详情 | 示例 |
+| 字段              | 必填 | 绑定支持 |  详情 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
-| `queueName` | Y | 输入/输出 |  RabbitMQ 队列名称 | `"myqueue"` |
-| `host` | Y | 输入/输出 | RabbitMQ 主机地址 | `"amqp://[username][:password]@host.domain[:port]"` 或使用 TLS: `"amqps://[username][:password]@host.domain[:port]"` |
-| `durable` | N | 输出 | 指定 RabbitMQ 是否持久化存储消息。默认为 `"false"` | `"true"`, `"false"` |
-| `deleteWhenUnused` | N | 输入/输出 | 启用或禁用自动删除。默认为 `"false"` | `"true"`, `"false"` |
-| `ttlInSeconds` | N | 输出 | 设置 [RabbitMQ 队列级别的默认消息生存时间](https://www.rabbitmq.com/ttl.html)。如果省略此参数，消息将不会过期，继续存在于队列中直到被处理。另见 [此处](#specifying-a-ttl-per-message)  | `60` |
-| `prefetchCount` | N | 输入 | 设置 [通道预取设置 (QoS)](https://www.rabbitmq.com/confirms.html#channel-qos-prefetch)。如果省略此参数，QoS 将设置为 0 表示无限制 | `0` |
-| `exclusive` | N | 输入/输出 | 确定主题是否为独占主题。默认为 `"false"` | `"true"`, `"false"` |
-| `maxPriority`| N | 输入/输出 | 设置 [优先级队列](https://www.rabbitmq.com/priority.html) 的参数。如果省略此参数，队列将被创建为普通队列而不是优先级队列。值在 1 到 255 之间。另见 [此处](#specifying-a-priority-per-message) | `"1"`, `"10"` |
-| `contentType` | N | 输入/输出 | 消息的内容类型。默认为 "text/plain"。 | `"text/plain"`, `"application/cloudevent+json"` 等 |
-| `reconnectWaitInSeconds` | N | 输入/输出 | 表示客户端在断开连接后尝试重新连接到服务器之前应等待的秒数。默认为 `"5"`。 | `"5"`, `"10"` |
-| `externalSasl` | N | 输入/输出 | 使用 TLS 时，用户名是否应从附加字段（例如 CN）中获取。参见 [RabbitMQ 认证机制](https://www.rabbitmq.com/access-control.html#mechanisms)。默认为 `"false"`。 | `"true"`, `"false"` |
-| `caCert` | N | 输入/输出 | 用于 TLS 连接的 CA 证书。默认为 `null`。 | `"-----BEGIN CERTIFICATE-----\nMI..."` |
-| `clientCert` | N | 输入/输出 | 用于 TLS 连接的客户端证书。默认为 `null`。 | `"-----BEGIN CERTIFICATE-----\nMI..."` |
-| `clientKey` | N | 输入/输出 | 用于 TLS 连接的客户端密钥。默认为 `null`。 | `"-----BEGIN PRIVATE KEY-----\nMI..."` |
-| `direction` | N | 输入/输出 | 绑定的方向。 | `"input"`, `"output"`, `"input, output"` |
+| `queueName` | Y | Input/Output |  RabbitMQ 队列名称 | `"myqueue"` |
+| `host` | Y | Input/Output | RabbitMQ 主机地址 | `"amqp://[username][:password]@host.domain[:port]"` 或使用 TLS：`"amqps://[username][:password]@host.domain[:port]"` |
+| `durable` | N | Output | 告诉 RabbitMQ 将消息持久化到存储。默认值为 `"false"` | `"true"`, `"false"` |
+| `deleteWhenUnused` | N | Input/Output | 启用或禁用自动删除。默认值为 `"false"` | `"true"`, `"false"` |
+| `ttlInSeconds` | N | Output | 在 RabbitMQ 队列级别设置[默认消息存活时间](https://www.rabbitmq.com/ttl.html)。如果省略此参数，消息将不会过期，会一直存在于队列中直到被处理。另请参阅[此处](#specifying-a-ttl-per-message)  | `60` |
+| `prefetchCount` | N | Input | 设置[通道预取设置（QoS）](https://www.rabbitmq.com/confirms.html#channel-qos-prefetch)。如果省略此参数，QoS 会将值设置为 0，表示无限制 | `0` |
+| `exclusive` | N | Input/Output | 确定主题是否为独占主题。默认值为 `"false"` | `"true"`, `"false"` |
+| `maxPriority`| N | Input/Output | 用于设置[优先级队列](https://www.rabbitmq.com/priority.html)的参数。如果省略此参数，队列将创建为常规队列而非优先级队列。值范围为 1 到 255。另请参阅[此处](#specifying-a-priority-per-message) | `"1"`, `"10"` |
+| `contentType` | N | Input/Output | 消息的内容类型。默认值为 "text/plain"。 | `"text/plain"`, `"application/cloudevent+json"` 等 |
+| `reconnectWaitInSeconds` | N | Input/Output | 表示客户端在断开连接后尝试重新连接到服务器之前应等待的持续时间（秒）。默认值为 `"5"`。 | `"5"`, `"10"` |
+| `externalSasl` | N | Input/Output | 使用 TLS 时，是否应从额外字段（如 CN）获取用户名。请参阅 [RabbitMQ 身份验证机制](https://www.rabbitmq.com/access-control.html#mechanisms)。默认值为 `"false"`。 | `"true"`, `"false"` |
+| `caCert` | N | Input/Output | 用于 TLS 连接的 CA 证书。默认值为 `null`。 | `"-----BEGIN CERTIFICATE-----\nMI..."` |
+| `clientCert` | N | Input/Output | 用于 TLS 连接的客户端证书。默认值为 `null`。 | `"-----BEGIN CERTIFICATE-----\nMI..."` |
+| `clientKey` | N | Input/Output | 用于 TLS 连接的客户端密钥。默认值为 `null`。 | `"-----BEGIN PRIVATE KEY-----\nMI..."` |
+| `direction` | N | Input/Output | 绑定的方向。 | `"input"`, `"output"`, `"input, output"` |
 
 ## 绑定支持
 
-此组件支持 **输入和输出** 绑定接口。
+此组件同时支持**输入和输出**绑定接口。
 
-此组件支持以下操作的 **输出绑定**：
+此组件支持**输出绑定**，具有以下操作：
 
 - `create`
 
-## 设置每条消息的 TTL
+## 为每条消息指定 TTL
 
-生存时间可以在队列级别（如上所示）或消息级别定义。在消息级别定义的值将覆盖在队列级别设置的任何值。
+存活时间可以在队列级别（如上所示）或消息级别定义。在消息级别定义的值会覆盖队列级别设置的任何值。
 
-要在消息级别设置生存时间，请在绑定调用期间使用请求体中的 `metadata` 部分。
+要在消息级别设置存活时间，请在绑定调用期间使用请求体中的 `metadata` 部分。
 
 字段名称为 `ttlInSeconds`。
 
 示例：
 
 {{< tabpane text=true >}}
-{{% tab header="Windows" %}}
+{{% tab "Windows" %}}
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
   -H "Content-Type: application/json" \
@@ -113,7 +114,7 @@ curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
 ```
 {{% /tab %}}
 
-{{% tab header="Linux" %}}
+{{% tab "Linux" %}}
 ```bash
 curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
   -H "Content-Type: application/json" \
@@ -130,7 +131,8 @@ curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
 {{% /tab %}}
 {{< /tabpane >}}
 
-## 设置每条消息的优先级
+
+## 为每条消息指定优先级
 
 优先级可以在消息级别定义。如果设置了 `maxPriority` 参数，高优先级消息将优先于其他低优先级消息。
 
@@ -141,7 +143,7 @@ curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
 示例：
 
 {{< tabpane text=true >}}
-{{% tab header="Windows" %}}
+{{% tab "Windows" %}}
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
   -H "Content-Type: application/json" \
@@ -157,7 +159,7 @@ curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
 ```
 {{% /tab %}}
 
-{{% tab header="Linux" %}}
+{{% tab "Linux" %}}
 ```shell
 curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
   -H "Content-Type: application/json" \
@@ -178,6 +180,6 @@ curl -X POST http://localhost:3500/v1.0/bindings/myRabbitMQ \
 
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
 - [绑定构建块]({{% ref bindings %}})
-- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
-- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [操作指南：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
+- [操作指南：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
 - [绑定 API 参考]({{% ref bindings_api.md %}})

@@ -1,15 +1,16 @@
 ---
 type: docs
-title: "Kubernetes Events 绑定指南"
+title: "Kubernetes Events 绑定规范"
 linkTitle: "Kubernetes Events"
-description: "详细介绍 Kubernetes Events 绑定组件的文档"
+description: "Kubernetes Events 绑定组件的详细文档"
 aliases:
-  - "/zh-hans/operations/components/setup-bindings/supported-bindings/kubernetes-binding/"
+  - "/operations/components/setup-bindings/supported-bindings/kubernetes-binding/"
 ---
 
 ## 组件格式
 
-为了配置 Kubernetes Events 绑定，需要创建一个类型为 `bindings.kubernetes` 的组件。请参考[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
+要设置 Kubernetes Events 绑定，需创建类型为 `bindings.kubernetes` 的组件。有关如何创建和应用绑定配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
+
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -28,22 +29,22 @@ spec:
     value: "input"
 ```
 
-## 元数据字段说明
+## 规范元数据字段
 
-| 字段              | 必需 | 绑定支持 |  详情 | 示例 |
+| 字段              | 是否必填 | 绑定支持 | 详细信息 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
-| `namespace` | 是 | 输入  | 要读取事件的 Kubernetes 命名空间 | `"default"` |
-| `resyncPeriodInSec` | 否 | 输入 | 从 Kubernetes API 服务器刷新事件列表的时间间隔，默认为 `"10"` 秒 | `"15"`
-| `direction` | 否 | 输入 | 绑定的方向 | `"input"`
-| `kubeconfigPath` | 否 | 输入 | kubeconfig 文件的路径。如果未指定，将使用默认的集群内配置 | `"/path/to/kubeconfig"`
+| `namespace` | Y | Input  | 从指定 Kubernetes 命名空间读取事件 | `"default"` |
+| `resyncPeriodInSec` | N | Input | 从 Kubernetes API 服务器刷新事件列表的时间间隔。默认值为 `"10"` | `"15"`
+| `direction` | N | Input | 绑定的数据流向方向 | `"input"`
+| `kubeconfigPath` | N | Input | kubeconfig 文件的路径。如未指定，绑定将使用默认的集群内配置 | `"/path/to/kubeconfig"`
 
 ## 绑定支持
 
-此组件支持**输入**绑定接口。
+此组件支持 **输入** 绑定接口。
 
 ## 输出格式
 
-从绑定接收到的输出格式为 `bindings.ReadResponse`，其中 `Data` 字段包含以下结构：
+绑定接收到的输出格式为 `bindings.ReadResponse`，其中 `Data` 字段包含如下结构：
 
 ```json
  {
@@ -75,18 +76,19 @@ spec:
    }
  }
 ```
-事件类型有三种：
-- Add : 只有 `newVal` 字段有值，`oldVal` 字段为空的 `v1.Event`，`event` 为 `add`
-- Delete : 只有 `oldVal` 字段有值，`newVal` 字段为空的 `v1.Event`，`event` 为 `delete`
-- Update : `oldVal` 和 `newVal` 字段都有值，`event` 为 `update`
 
-## 所需权限
+提供三种事件类型：
+- 添加：仅填充 `newVal` 字段，`oldVal` 字段为空的 `v1.Event`，`event` 值为 `add`
+- 删除：仅填充 `oldVal` 字段，`newVal` 字段为空的 `v1.Event`，`event` 值为 `delete`
+- 更新：同时填充 `oldVal` 和 `newVal` 字段，`event` 值为 `update`
 
-要从 Kubernetes 获取 `events`，需要通过 Kubernetes 的 [RBAC 授权] 机制为用户/组/服务账户分配权限。
+## 必需权限
+
+要从 Kubernetes 使用 `events`，需通过 Kubernetes 的 [RBAC Auth] 机制为用户/组/服务账户分配权限。
 
 ### 角色
 
-需要以下形式的规则之一来授予 `get, watch` 和 `list` `events` 的权限。API 组可以根据需要进行限制。
+需要包含以下规则之一，以授予 `get`、`watch` 和 `list` `events` 的权限。API 组可根据需要设置为尽可能受限。
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -99,7 +101,7 @@ rules:
   verbs: ["get", "watch", "list"]
 ```
 
-### 角色绑定
+### RoleBinding
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -108,10 +110,10 @@ metadata:
   name: <NAME>
 subjects:
 - kind: ServiceAccount
-  name: default # 或根据需要更改
+  name: default # 可根据需要修改
 roleRef:
   kind: Role
-  name: <ROLENAME> # 与上面相同
+  name: <ROLENAME> # 与上述名称一致
   apiGroup: ""
 ```
 
@@ -119,8 +121,6 @@ roleRef:
 
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
 - [Bindings 构建块]({{% ref bindings %}})
-- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
-- [如何：使用绑定与外部资源接口]({{% ref howto-bindings.md %}})
+- [操作指南：通过输入绑定触发应用]({{% ref howto-triggers.md %}})
+- [操作指南：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
 - [Bindings API 参考]({{% ref bindings_api.md %}})
-```
-This translation aims to improve readability and align with Chinese expression habits while maintaining the technical accuracy of the original conte

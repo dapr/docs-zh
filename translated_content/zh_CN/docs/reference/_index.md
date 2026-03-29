@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "Dapr 文档资料"
-linkTitle: "参考资料"
+title: "Dapr 参考文档"
+linkTitle: "参考"
 weight: 50
-description: "提供关于 Dapr API、CLI、绑定等方面的详细文档"
+description: "Dapr API、CLI、绑定等详细文档"
 ---

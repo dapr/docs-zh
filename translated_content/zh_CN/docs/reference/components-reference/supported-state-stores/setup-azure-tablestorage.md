@@ -1,15 +1,15 @@
 ---
 type: docs
-title: "Azure 表存储"
-linkTitle: "Azure 表存储"
-description: 详细介绍 Azure 表存储状态组件，该组件可用于连接到 Cosmos DB 表 API 和 Azure 表
+title: "Azure Table Storage "
+linkTitle: "Azure Table Storage "
+description: 关于 Azure Table Storage 状态存储组件的详细信息，该组件可用于连接到 Cosmos DB Table API 和 Azure Tables
 aliases:
-  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-azure-tablestorage/"
+  - "/operations/components/setup-state-store/supported-state-stores/setup-azure-tablestorage/"
 ---
 
 ## 组件格式
 
-要配置 Azure 表存储状态组件，请创建一个类型为 `state.azure.tablestorage` 的组件。请参阅[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
+要设置 Azure Tablestorage 状态存储，请创建一个类型为 `state.azure.tablestorage` 的组件。请参阅[本指南]({{% ref "howto-get-save-state.md#step-1-setup-a-state-store" %}})了解如何创建和应用状态存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -31,57 +31,58 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例中，secret 以明文字符串形式使用。建议使用 secret 存储来保护 secret，详情请参阅[此处]({{% ref component-secrets.md %}})。
+上述示例将密钥作为纯字符串使用。建议使用密钥存储来管理密钥，具体说明请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-## 元数据字段说明
+## 规范元数据字段
 
-| 字段              | 必需 | 详情 | 示例 |
-|--------------------|:----:|------|------|
-| `accountName`        | 是   | 存储帐户名称 | `"mystorageaccount"` |
-| `accountKey`         | 是   | 主存储或辅助存储密钥 | `"key"` |
-| `tableName`          | 是   | 用于 Dapr 状态的表名。如果不存在，将自动创建 | `"table"` |
-| `cosmosDbMode`       | 否   | 启用后，将连接到 Cosmos DB 表 API 而非 Azure 表。默认为 `false` | `"false"` |
-| `serviceURL`         | 否   | 完整的存储服务端点 URL，适用于非公共云的 Azure 环境 | `"https://mystorageaccount.table.core.windows.net/"` |
-| `skipCreateTable`    | 否   | 跳过检查并在必要时创建指定的存储表，适用于最低权限的活动目录身份验证。默认为 `false` | `"true"` |
+| 字段              | 必填 | 详情 | 示例 |
+|--------------------|:--------:|---------|---------|
+| `accountName`        | Y        | 存储账户名称 | `"mystorageaccount"`。
+| `accountKey`         | Y        | 主密钥或辅助存储密钥 | `"key"`
+| `tableName`          | Y        | 用于 Dapr 状态的表的名称。如果表不存在，将自动为你创建 | `"table"`
+| `cosmosDbMode`       | N        | 如果启用，则连接到 Cosmos DB Table API 而非 Azure Tables（存储账户）。默认为 `false`。 | `"false"`
+| `serviceURL`         | N        | 完整的存储服务终结点 URL。适用于公有云之外的 Azure 环境。 | `"https://mystorageaccount.table.core.windows.net/"`
+| `skipCreateTable`    | N        | 跳过对指定存储表的检查（以及在必要时创建该表）。在使用具有最小权限的 Active Directory 身份验证时很有用。默认为 `false`。 | `"true"`
 
-### Microsoft Entra ID 认证
+### Microsoft Entra ID 身份验证
 
-Azure Cosmos DB 状态组件支持所有 Microsoft Entra ID 认证机制。有关更多信息以及如何选择适合的组件元数据字段，请参阅[Azure 认证文档]({{% ref authenticating-azure.md %}})。
+Azure Cosmos DB 状态存储组件支持使用所有 Microsoft Entra ID 机制进行身份验证。有关更多信息以及根据所选的 Microsoft Entra ID 身份验证机制需要提供的相关组件元数据字段，请参阅[向 Azure 进行身份验证的文档]({{% ref authenticating-azure.md %}})。
 
-您可以在[下面的部分](#setting-up-cosmos-db-for-authenticating-with-azure-ad)了解更多关于使用 Microsoft Entra ID 认证设置 Cosmos DB 的信息。
+你可以在[下一节](#setting-up-cosmos-db-for-authenticating-with-azure-ad)中阅读有关使用 Microsoft Entra ID 身份验证设置 Cosmos DB 的其他信息。
 
-## 选项 1：设置 Azure 表存储
+## 选项 1：设置 Azure Table Storage
 
-[按照说明](https://docs.microsoft.com/azure/storage/common/storage-account-create?tabs=azure-portal)从 Azure 文档中了解如何创建 Azure 存储帐户。
+[按照 Azure 文档中的说明](https://docs.microsoft.com/azure/storage/common/storage-account-create?tabpane=azure-portal)创建 Azure 存储账户。
 
-如果您希望为 Dapr 创建一个表，可以提前进行。然而，表存储状态组件会自动为您创建一个表（如果它不存在），除非启用了 `skipCreateTable` 选项。
+如果你希望为 Dapr 创建一个表，可以提前创建。不过，除非启用了 `skipCreateTable` 选项，否则如果表不存在，Table Storage 状态提供程序会自动为你创建一个。
 
-要将 Azure 表存储设置为状态存储，您需要以下属性：
-- **AccountName**：存储帐户名称，例如：**mystorageaccount**。
-- **AccountKey**：主存储或辅助存储密钥。如果使用 Microsoft Entra ID 认证，请跳过此步骤。
-- **TableName**：用于 Dapr 状态的表名。如果不存在，将自动创建，除非启用了 `skipCreateTable` 选项。
-- **cosmosDbMode**：设置为 `false` 以连接到 Azure 表。
+要设置 Azure Table Storage 作为状态存储，你需要以下属性：
+- **AccountName**：存储账户名称。例如：**mystorageaccount**。
+- **AccountKey**：主密钥或辅助存储密钥。如果使用 Microsoft Entra ID 身份验证，请跳过此项。
+- **TableName**：用于 Dapr 状态的表的名称。如果表不存在，将自动为你创建，除非启用了 `skipCreateTable` 选项。
+- **cosmosDbMode**：将此项设置为 `false` 以连接到 Azure Tables。
 
-## 选项 2：设置 Azure Cosmos DB 表 API
+## 选项 2：设置 Azure Cosmos DB Table API
 
-[按照说明](https://docs.microsoft.com/azure/cosmos-db/table/how-to-use-python?tabs=azure-portal#1---create-an-azure-cosmos-db-account)从 Azure 文档中了解如何使用表 API 创建 Cosmos DB 帐户。
+[按照 Azure 文档中的说明](https://docs.microsoft.com/azure/cosmos-db/table/how-to-use-python?tabpane=azure-portal#1---create-an-azure-cosmos-db-account)创建一个具有 Table API 的 Cosmos DB 账户。
 
-如果您希望为 Dapr 创建一个表，可以提前进行。然而，表存储状态组件会自动为您创建一个表（如果它不存在），除非启用了 `skipCreateTable` 选项。
+如果你希望为 Dapr 创建一个表，可以提前创建。不过，除非启用了 `skipCreateTable` 选项，否则如果表不存在，Table Storage 状态提供程序会自动为你创建一个。
 
-要将 Azure Cosmos DB 表 API 设置为状态存储，您需要以下属性：
-- **AccountName**：Cosmos DB 帐户名称，例如：**mycosmosaccount**。
-- **AccountKey**：Cosmos DB 主密钥。如果使用 Microsoft Entra ID 认证，请跳过此步骤。
-- **TableName**：用于 Dapr 状态的表名。如果不存在，将自动创建，除非启用了 `skipCreateTable` 选项。
-- **cosmosDbMode**：设置为 `true` 以连接到 Cosmos DB 表 API。
+要设置 Azure Cosmos DB Table API 作为状态存储，你需要以下属性：
+- **AccountName**：Cosmos DB 账户名称。例如：**mycosmosaccount**。
+- **AccountKey**：Cosmos DB 主密钥。如果使用 Microsoft Entra ID 身份验证，请跳过此项。
+- **TableName**：用于 Dapr 状态的表的名称。如果表不存在，将自动为你创建，除非启用了 `skipCreateTable` 选项。
+- **cosmosDbMode**：将此项设置为 `true` 以连接到 Azure Tables。
+
 
 ## 分区
 
-Azure 表存储状态组件使用请求中提供的 `key` 属性来确定 `row key`，而服务名称用于 `partition key`。这提供了最佳性能，因为每种服务类型在其自己的表分区中存储状态。
+Azure Table Storage 状态存储使用在 Dapr API 请求中提供的 `key` 属性来确定 `row key`。服务名称用作 `partition key`。这提供了最佳性能，因为每种服务类型在自己的表分区中存储状态。
 
 此状态存储在表存储中创建一个名为 `Value` 的列，并将原始状态放入其中。
 
-例如，来自名为 `myservice` 的服务的以下操作
+例如，以下来自名为 `myservice` 的服务的操作
 
 ```shell
 curl -X POST http://localhost:3500/v1.0/state \
@@ -102,9 +103,10 @@ curl -X POST http://localhost:3500/v1.0/state \
 
 ## 并发
 
-Azure 表存储状态的并发通过使用 `ETag` 实现，具体请参阅[官方文档](https://docs.microsoft.com/azure/storage/common/storage-concurrency#managing-concurrency-in-table-storage)。
+Azure Table Storage 状态并发是通过根据[官方文档]( https://docs.microsoft.com/azure/storage/common/storage-concurrency#managing-concurrency-in-table-storage)使用 `ETag` 来实现的。
+
 
 ## 相关链接
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
-- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取有关配置状态存储组件的说明
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})了解配置状态存储组件的说明
 - [状态管理构建块]({{% ref state-management %}})
