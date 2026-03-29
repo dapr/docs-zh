@@ -1,31 +1,31 @@
 ---
 type: docs
-title: "为 Dapr Agents 贡献"
+title: "为 Dapr Agents 做贡献"
 linkTitle: "Dapr Agents"
 weight: 85
-description: 为 Dapr Agents 贡献的指南
+description: 为 Dapr Agents 做贡献的指南
 ---
 
-在为 Dapr Agents 贡献时，应遵循以下规则和最佳实践。
+在为 Dapr Agents 做贡献时，应遵循以下规则和最佳实践。
 
 ## 示例
 
-examples 目录包含供用户运行的代码示例，用于试用各个 Dapr Agents 包和扩展的特定功能。编写新的和更新的示例时请牢记：
+examples 目录包含代码示例，供用户运行以尝试各种 Dapr Agents 包和扩展的特定功能。在编写新的和更新的示例时，请记住：
 
-- 所有示例应能在 Windows、Linux 和 MacOS 上运行。虽然 Python 代码在各操作系统间保持一致，但任何示例前后的命令都应通过 [codetabs]({{< ref "contributing-docs.md#tabbed-content" >}}) 提供选项
-- 包含下载/安装任何所需先决条件的步骤。即使是刚从操作系统全新安装的用户也应该能够开始运行示例并顺利完成，而不会出错。链接到外部下载页面是可以的。
+- 所有示例都应能在 Windows、Linux 和 MacOS 上运行。虽然 Python 代码在操作系统之间保持一致，但任何示例前/后命令应通过 [codetabs]({{< ref "contributing-docs.md#tabbed-content" >}}) 提供选项
+- 包含下载/安装任何必需先决条件的步骤。刚完成操作系统安装的用户应该能够开始示例并无误完成。链接到外部下载页面是可以的。
 
-## 依赖
+## 依赖项
 
-本项目使用现代化的 Python 打包方式，通过 `pyproject.toml` 管理依赖。依赖管理如下：
+此项目使用带有 `pyproject.toml` 的现代 Python 打包。依赖项管理如下：
 
-- 主要依赖位于 `[project.dependencies]`
-- 测试依赖位于 `[project.optional-dependencies.test]`
-- 开发依赖位于 `[project.optional-dependencies.dev]`
+- 主要依赖项在 `[project.dependencies]` 中
+- 测试依赖项在 `[project.optional-dependencies.test]` 中
+- 开发依赖项在 `[project.optional-dependencies.dev]` 中
 
-### 生成 requirements 文件
+### 生成 Requirements 文件
 
-如果需要生成 requirements 文件（例如用于部署或特定环境）：
+如果需要生成 requirements 文件（例如，用于部署或特定环境）：
 
 ```bash
 # Generate requirements.txt
@@ -35,7 +35,7 @@ pip-compile pyproject.toml
 pip-compile pyproject.toml --extra dev
 ```
 
-### 安装依赖
+### 安装依赖项
 
 ```bash
 # Install main package with test dependencies
@@ -50,7 +50,7 @@ pip install -e ".[test,dev]"
 
 ## 测试
 
-本项目使用 pytest 进行测试。运行测试：
+项目使用 pytest 进行测试。要运行测试：
 
 ```bash
 # Run all tests
@@ -65,7 +65,7 @@ tox -e pytest --cov=dapr_agents
 
 ## 代码质量
 
-本项目使用多种工具来维护代码质量：
+项目使用多种工具来维护代码质量：
 
 ```bash
 # Run linting
@@ -78,9 +78,9 @@ tox -e ruff
 tox -e type
 ```
 
-## 开发工作流程
+## 开发工作流
 
-1. 安装开发依赖：
+1. 安装开发依赖项：
    ```bash
    pip install -e ".[dev]"
    ```
@@ -104,12 +104,12 @@ tox -e type
    tox -e pytest
    ```
 
-6. 提交您的更改
+6. 提交更改
 
 ## GitHub Dapr Bot 命令
 
-请查看 [daprbot 文档]({{< ref "daprbot.md" >}}) 了解您可以在此仓库中运行的 GitHub 命令，以完成常见任务。例如，您可以运行 `/assign`（作为 issue 的评论）来将 issue 分配给一个或一组用户。
+查看 [daprbot 文档]({{< ref "daprbot.md" >}}) 以了解您可以在此仓库中运行的用于常见任务的 GitHub 命令。例如，您可以运行 `/assign`（作为 issue 上的评论）将 issue 分配给用户或用户组。
 
 ## 反馈
 
-此页面对您是否有帮助？
+此页面是否有帮助？
