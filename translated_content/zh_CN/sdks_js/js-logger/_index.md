@@ -1,25 +1,25 @@
 ---
 type: docs
-title: "JavaScript SDK中的日志记录"
-linkTitle: "日志记录"
+title: "JavaScript SDK 中的日志记录"
+linkTitle: "日志"
 weight: 4000
-description: 配置JavaScript SDK中的日志记录
+description: 在 JavaScript SDK 中配置日志记录
 ---
 
-## 介绍
+## 简介
 
-JavaScript SDK自带一个内置的`Console`日志记录器。SDK会生成各种内部日志，帮助用户理解事件流程并排查问题。用户可以自定义日志的详细程度，并提供自己的日志记录器实现。
+JavaScript SDK 内置了基于 `Console` 的日志记录器。SDK 会发出各种内部日志，以帮助用户了解事件链并排查问题。SDK 的使用者可以自定义日志的详细程度，也可以提供自己的日志记录器实现。
 
 ## 配置日志级别
 
-日志记录有五个级别，按重要性从高到低排列 - `error`、`warn`、`info`、`verbose`和`debug`。设置日志级别意味着日志记录器将记录所有该级别及更高重要性的日志。例如，设置为`verbose`级别意味着SDK不会记录`debug`级别的日志。默认的日志级别是`info`。
+日志共有五个级别，按重要性**降序排列** - `error`、`warn`、`info`、`verbose` 和 `debug`。将日志设置到某个级别意味着日志记录器将发出所有重要性不低于该级别的日志。例如，设置为 `verbose` 级别意味着 SDK 将不会发出 `debug` 级别的日志。默认日志级别为 `info`。
 
 ### Dapr Client
 
 ```js
 import { CommunicationProtocolEnum, DaprClient, LogLevel } from "@dapr/dapr";
 
-// 创建一个日志级别设置为verbose的客户端实例。
+// create a client instance with log level set to verbose.
 const client = new DaprClient({
   daprHost,
   daprPort,
@@ -28,14 +28,14 @@ const client = new DaprClient({
 });
 ```
 
-> 有关如何使用Client的更多详细信息，请参见[JavaScript Client]({{% ref js-client %}})。
+> 有关如何使用 Client 的更多详细信息，请参阅 [JavaScript Client]({{% ref js-client %}})。
 
 ### DaprServer
 
 ```ts
 import { CommunicationProtocolEnum, DaprServer, LogLevel } from "@dapr/dapr";
 
-// 创建一个日志级别设置为error的服务器实例。
+// create a server instance with log level set to error.
 const server = new DaprServer({
   serverHost,
   serverPort,
@@ -47,15 +47,15 @@ const server = new DaprServer({
 });
 ```
 
-> 有关如何使用Server的更多详细信息，请参见[JavaScript Server]({{% ref js-server %}})。
+> 有关如何使用 Server 的更多详细信息，请参阅 [JavaScript Server]({{% ref js-server %}})。
 
-## 自定义LoggerService
+## 自定义 LoggerService
 
-JavaScript SDK使用内置的`Console`进行日志记录。要使用自定义日志记录器，如Winston或Pino，可以实现`LoggerService`接口。
+JavaScript SDK 使用内置的 `Console` 进行日志记录。要使用 Winston 或 Pino 等自定义日志记录器，可以实现 `LoggerService` 接口。
 
-### 基于Winston的日志记录：
+### 基于 Winston 的日志记录：
 
-创建`LoggerService`的新实现。
+创建 `LoggerService` 的新实现。
 
 ```ts
 import { LoggerService } from "@dapr/dapr";
@@ -88,7 +88,7 @@ export class WinstonLoggerService implements LoggerService {
 }
 ```
 
-将新的实现传递给SDK。
+将新实现传递给 SDK。
 
 ```ts
 import { CommunicationProtocolEnum, DaprClient, LogLevel } from "@dapr/dapr";
@@ -96,7 +96,7 @@ import { WinstonLoggerService } from "./WinstonLoggerService";
 
 const winstonLoggerService = new WinstonLoggerService();
 
-// 创建一个日志级别设置为verbose且日志服务为winston的客户端实例。
+// create a client instance with log level set to verbose and logger service as winston.
 const client = new DaprClient({
   daprHost,
   daprPort,
