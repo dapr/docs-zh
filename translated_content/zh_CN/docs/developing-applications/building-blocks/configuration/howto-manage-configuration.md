@@ -3,31 +3,36 @@ type: docs
 title: "操作指南：从存储中管理配置"
 linkTitle: "操作指南：从存储中管理配置"
 weight: 2000
-description: "学习如何获取应用程序配置并订阅更改"
+description: "了解如何获取应用程序配置并订阅变更"
 ---
 
-本示例使用Redis配置存储组件来演示如何检索配置项。
+此示例使用 Redis 配置存储组件来演示如何检索配置项。
 
-<img src="/images/building-block-configuration-example.png" width=1000 alt="示例服务获取配置的图示">
+<img src="/images/building-block-configuration-example.png" width=1000 alt="显示获取示例服务配置的图表">
 
 {{% alert title="注意" color="primary" %}}
-如果您还没有试过，请尝试[配置快速入门]({{% ref configuration-quickstart.md %}})，快速了解如何使用配置API。
+ 如果您还没有尝试过，可以先体验一下[配置快速入门]({{% ref configuration-quickstart %}}) ，快速了解如何使用配置 API。
 
+{{% /alert %}}</p>
+
+{{% alert title="禁用配置初始化端点" color="primary" %}}
+如果您的应用程序不使用配置构建块，则可以在初始化期间禁用对 `/dapr/config` 端点的自动 HTTP 调用，以减少日志噪音。在使用 `dapr run` 时使用 `--disable-init-endpoints config` 标志，或在 Kubernetes 中使用 `dapr.io/disable-init-endpoints: "config"` 注解。[了解有关禁用初始化端点的更多信息。]({{% ref "arguments-annotations-overview#disable-init-endpoints" %}})
 {{% /alert %}}
+
 
 ## 在存储中创建配置项
 
-在支持的配置存储中创建一个配置项。这可以是一个简单的键值项，使用您选择的任何键。本示例使用Redis配置存储组件。
+在支持的配置存储中创建一个配置项。这可以是一个简单的键值项，键可以由您自行选择。如前所述，此示例使用 Redis 配置存储组件。
 
-### 使用Docker运行Redis
+### 使用 Docker 运行 Redis
 
 ```
 docker run --name my-redis -p 6379:6379 -d redis:6
 ```
 
-### 保存一个配置项
+### 保存项
 
-使用[Redis CLI](https://redis.com/blog/get-redis-cli-without-installing-redis-server/)，连接到Redis实例：
+使用 [Redis CLI](https://redis.com/blog/get-redis-cli-without-installing-redis-server/) 连接到 Redis 实例：
 
 ```
 redis-cli -p 6379
@@ -39,15 +44,15 @@ redis-cli -p 6379
 MSET orderId1 "101||1" orderId2 "102||1"
 ```
 
-## 配置Dapr配置存储
+## 配置 Dapr 配置存储
 
-将以下组件文件保存到您机器上的[默认组件文件夹]({{% ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" %}})。您可以将其用作Dapr组件YAML：
+将以下组件文件保存到您机器上的[默认组件文件夹]({{% ref "install-dapr-selfhost#step-5-verify-components-directory-has-been-initialized" %}})中。您可以使用此文件作为 Dapr 组件 YAML：
 
-- 对于Kubernetes使用`kubectl`。
-- 使用Dapr CLI运行时。
+- 对于使用 `kubectl` 的 Kubernetes 环境。
+- 使用 Dapr CLI 运行时的场景。
 
 {{% alert title="注意" color="primary" %}}
-由于Redis配置组件与Redis `statestore.yaml`组件具有相同的元数据，如果您已经有Redis `statestore.yaml`，可以直接复制或修改Redis状态存储组件类型。
+ 由于 Redis 配置组件的元数据与 Redis `statestore.yaml` 组件相同，如果您已经有 Redis `statestore.yaml`，可以简单地复制/更改 Redis 状态存储组件类型。
 
 {{% /alert %}}
 
@@ -62,48 +67,42 @@ spec:
   - name: redisHost
     value: localhost:6379
   - name: redisPassword
-    value: <PASSWORD>
+    value: <REDIS_PASSWORD>
 ```
 
 ## 检索配置项
 ### 获取配置项
 
-以下示例展示了如何使用Dapr配置API获取已保存的配置项。
+以下示例展示如何使用 Dapr Configuration API 获取已保存的配置项。
 
 {{< tabpane text=true >}}
 
-{{% tab header=".NET" %}}
+{{% tab ".NET" %}}
 
 ```csharp
-//依赖项
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapr.Client;
 
-//代码
-namespace ConfigurationApi
-{
-    public class Program
-    {
-        private static readonly string CONFIG_STORE_NAME = "configstore";
+const string CONFIG_STORE_NAME = "configstore";
 
-        public static async Task Main(string[] args)
-        {
-            using var client = new DaprClientBuilder().Build();
-            var configuration = await client.GetConfiguration(CONFIG_STORE_NAME, new List<string>() { "orderId1", "orderId2" });
-            Console.WriteLine($"Got key=\n{configuration[0].Key} -> {configuration[0].Value}\n{configuration[1].Key} -> {configuration[1].Value}");
-        }
-    }
-}
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDaprClient();
+var app = builder.Build();
+
+using var client = app.Services.GetRequiredServices<DaprClient>();
+
+var configuration = await client.GetConfiguration(CONFIG_STORE_NAME, [ "orderId1", "orderId2" ]);
+Console.WriteLine($"Got key=\n{configuration[0].Key} -> {configuration[0].Value}\n{configuration[1].Key} -> {configuration[1].Value}");
 ```
 
-{{% /tab %}}
+{{% /tab %}}</p>
 
-{{% tab header="Java" %}}
+{{% tab "Java" %}}</p>
 
 ```java
-//依赖项
+//dependencies
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.DaprClient;
 import io.dapr.client.domain.ConfigurationItem;
@@ -112,7 +111,7 @@ import io.dapr.client.domain.SubscribeConfigurationRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-//代码
+//code
 private static final String CONFIG_STORE_NAME = "configstore";
 
 public static void main(String[] args) throws Exception {
@@ -131,26 +130,26 @@ public static void main(String[] args) throws Exception {
 }
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="Python" %}}
+Python"
 
 ```python
-#依赖项
+#dependencies
 from dapr.clients import DaprClient
-#代码
+#code
 with DaprClient() as d:
         CONFIG_STORE_NAME = 'configstore'
         keys = ['orderId1', 'orderId2']
-        #Dapr启动时间
+        #Startup time for dapr
         d.wait(20)
         configuration = d.get_configuration(store_name=CONFIG_STORE_NAME, keys=[keys], config_metadata={})
         print(f"Got key={configuration.items[0].key} value={configuration.items[0].value} version={configuration.items[0].version}")
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="Go" %}}
+Go"
 
 ```go
 package main
@@ -178,14 +177,14 @@ func main() {
 }
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="JavaScript" %}}
+JavaScript"
 
 ```js
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
 
-// JS SDK尚不支持通过HTTP协议的配置API
+// JS SDK does not support Configuration API over HTTP protocol yet
 const protocol = CommunicationProtocolEnum.GRPC;
 const host = process.env.DAPR_HOST ?? "localhost";
 const port = process.env.DAPR_GRPC_PORT ?? 3500;
@@ -195,7 +194,7 @@ const CONFIGURATION_ITEMS = ["orderId1", "orderId2"];
 
 async function main() {
   const client = new DaprClient(host, port, protocol);
-  // 从配置存储中获取配置项
+  // Get config items from the config store
   try {
     const config = await client.configuration.get(DAPR_CONFIGURATION_STORE, CONFIGURATION_ITEMS);
     Object.keys(config.items).forEach((key) => {
@@ -210,11 +209,11 @@ async function main() {
 main().catch((e) => console.error(e));
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="HTTP API (BASH)" %}}
+HTTP API (BASH)"
 
-启动一个Dapr sidecar：
+Launch a dapr sidecar:
 
 ```bash
 dapr run --app-id orderprocessing --dapr-http-port 3601
@@ -226,11 +225,11 @@ dapr run --app-id orderprocessing --dapr-http-port 3601
 curl http://localhost:3601/v1.0/configuration/configstore?key=orderId1
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="HTTP API (Powershell)" %}}
+HTTP API (PowerShell)"
 
-启动一个Dapr sidecar：
+启动 Dapr 边车：
 
 ```bash
 dapr run --app-id orderprocessing --dapr-http-port 3601
@@ -242,55 +241,62 @@ dapr run --app-id orderprocessing --dapr-http-port 3601
 Invoke-RestMethod -Uri 'http://localhost:3601/v1.0/configuration/configstore?key=orderId1'
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
 {{< /tabpane >}}
 
+
 ### 订阅配置项更新
 
-以下是利用SDK订阅使用`configstore`存储组件的键`[orderId1, orderId2]`的代码示例。
+以下是使用 SDK 订阅使用 `configstore` 存储组件的键 `[orderId1, orderId2]` 的代码示例。
 
 {{< tabpane text=true >}}
 
-{{% tab header=".NET" %}}
+{{% tab ".NET" %}}</p>
 
 ```csharp
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapr.Client;
+using System.Text.Json;
 
 const string DAPR_CONFIGURATION_STORE = "configstore";
-var CONFIGURATION_KEYS = new List<string> { "orderId1", "orderId2" };
-var client = new DaprClientBuilder().Build();
+var CONFIGURATION_ITEMS = new List<string> { "orderId1", "orderId2" };
 
-// 订阅配置更改
-SubscribeConfigurationResponse subscribe = await client.SubscribeConfiguration(DAPR_CONFIGURATION_STORE, CONFIGURATION_ITEMS);
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDaprClient();
+var app = builder.Build();
 
-// 打印配置更改
+var client = app.Services.GetRequiredService<DaprClient>();
+
+// Subscribe for configuration changes
+var subscribe = await client.SubscribeConfiguration(DAPR_CONFIGURATION_STORE, CONFIGURATION_ITEMS);
+
+// Print configuration changes
 await foreach (var items in subscribe.Source)
 {
-  // 应用程序订阅配置更改时的首次调用仅返回订阅ID
+  // First invocation when app subscribes to config changes only returns subscription id
   if (items.Keys.Count == 0)
   {
     Console.WriteLine("App subscribed to config changes with subscription id: " + subscribe.Id);
     subscriptionId = subscribe.Id;
     continue;
   }
-  var cfg = System.Text.Json.JsonSerializer.Serialize(items);
+  var cfg = JsonSerializer.Serialize(items);
   Console.WriteLine("Configuration update " + cfg);
 }
 ```
 
-导航到包含上述代码的目录，然后运行以下命令以启动Dapr sidecar和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令启动 Dapr 边车和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing -- dotnet run
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="ASP.NET Core" %}}
+ASP.NET"
 
 ```csharp
 using System;
@@ -301,51 +307,34 @@ using Dapr.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading;
 
-namespace ConfigurationApi
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            Console.WriteLine("Starting application.");
-            CreateHostBuilder(args).Build().Run();
-            Console.WriteLine("Closing application.");
-        }
+Console.WriteLine("Starting application.");
+var builder = WebApplication.CreateBuilder(args);
 
-        /// <summary>
-        /// 创建WebHost Builder。
-        /// </summary>
-        /// <param name="args">参数。</param>
-        /// <returns>返回IHostbuilder。</returns>
-        public static IHostBuilder CreateHostBuilder(string[] args)
-        {
-            var client = new DaprClientBuilder().Build();
-            return Host.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(config =>
-                {
-                    // 获取初始值并继续监视其更改。
-                    config.AddDaprConfigurationStore("configstore", new List<string>() { "orderId1","orderId2" }, client, TimeSpan.FromSeconds(20));
-                    config.AddStreamingDaprConfigurationStore("configstore", new List<string>() { "orderId1","orderId2" }, client, TimeSpan.FromSeconds(20));
+// Unlike most other situations, we build a `DaprClient` here using its factory because we cannot rely on `IConfiguration`
+// or other injected services to configure it because we haven't yet built the DI container.
+var client = new DaprClientBuilder().Build();
 
-                })
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-        }
-    }
-}
+// In a real-world application, you'd also add the following line to register the `DaprClient` with the DI container so
+// it can be injected into other services. In this demonstration, it's not necessary as we're not injecting it anywhere.  
+// builder.Services.AddDaprClient();
+
+// Get the initial value and continue to watch it for changes 
+builder.Configuration.AddDaprConfigurationStore("configstore", new List<string>() { "orderId1","orderId2" }, client, TimeSpan.FromSeconds(20));
+builder.Configuration.AddStreamingDaprConfigurationStore("configstore", new List<string>() { "orderId1","orderId2" }, client, TimeSpan.FromSeconds(20));
+
+await builder.Build().RunAsync();
+Console.WriteLine("Closing application.");
 ```
 
-导航到包含上述代码的目录，然后运行以下命令以启动Dapr sidecar和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令启动 Dapr 边车和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing -- dotnet run
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="Java" %}}
+Java"
 
 ```java
 import io.dapr.client.DaprClientBuilder;
@@ -356,21 +345,21 @@ import io.dapr.client.domain.SubscribeConfigurationRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-//代码
+//code
 private static final String CONFIG_STORE_NAME = "configstore";
 private static String subscriptionId = null;
 
 public static void main(String[] args) throws Exception {
     try (DaprClient client = (new DaprClientBuilder()).build()) {
-      // 订阅配置更改
+      // Subscribe for config changes
       List<String> keys = new ArrayList<>();
       keys.add("orderId1");
       keys.add("orderId2");
       Flux<SubscribeConfigurationResponse> subscription = client.subscribeConfiguration(DAPR_CONFIGURATON_STORE,keys);
 
-      // 读取配置更改20秒
+      // Read config changes for 20 seconds
       subscription.subscribe((response) -> {
-          // 首次响应包含订阅ID
+          // First ever response contains the subscription id
           if (response.getItems() == null || response.getItems().isEmpty()) {
               subscriptionId = response.getSubscriptionId();
               System.out.println("App subscribed to config changes with subscription id: " + subscriptionId);
@@ -385,20 +374,19 @@ public static void main(String[] args) throws Exception {
 }
 ```
 
-导航到包含上述代码的目录，然后运行以下命令以启动Dapr sidecar和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令启动 Dapr 边车和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing -- -- mvn spring-boot:run
-```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="Python" %}}
+Python"
 
 ```python
-#依赖项
+#dependencies
 from dapr.clients import DaprClient
-#代码
+#code
 
 def handler(id: str, resp: ConfigurationResponse):
     for key in resp.items:
@@ -418,15 +406,15 @@ def executeConfiguration():
 executeConfiguration()
 ```
 
-导航到包含上述代码的目录，然后运行以下命令以启动Dapr sidecar和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令启动 Dapr 边车和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing -- python3 OrderProcessingService.py
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="Go" %}}
+Go"
 
 ```go
 package main
@@ -457,20 +445,20 @@ func main() {
 }
 ```
 
-导航到包含上述代码的目录，然后运行以下命令以启动Dapr sidecar和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令启动 Dapr 边车和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing -- go run main.go
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="JavaScript" %}}
+JavaScript"
 
 ```js
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
 
-// JS SDK尚不支持通过HTTP协议的配置API
+// JS SDK does not support Configuration API over HTTP protocol yet
 const protocol = CommunicationProtocolEnum.GRPC;
 const host = process.env.DAPR_HOST ?? "localhost";
 const port = process.env.DAPR_GRPC_PORT ?? 3500;
@@ -480,7 +468,7 @@ const CONFIGURATION_ITEMS = ["orderId1", "orderId2"];
 
 async function main() {
   const client = new DaprClient(host, port, protocol);
-  // 订阅配置更新
+  // Subscribe to config updates
   try {
     const stream = await client.configuration.subscribeWithKeys(
       DAPR_CONFIGURATION_STORE,
@@ -489,7 +477,7 @@ async function main() {
         console.log("Configuration update", JSON.stringify(config.items));
       }
     );
-    // 取消订阅配置更新并在20秒后退出应用程序
+    // Unsubscribe to config updates and exit app after 20 seconds
     setTimeout(() => {
       stream.stop();
       console.log("App unsubscribed to config changes");
@@ -503,52 +491,48 @@ async function main() {
 main().catch((e) => console.error(e));
 ```
 
-导航到包含上述代码的目录，然后运行以下命令以启动Dapr sidecar和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令启动 Dapr 边车和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing --app-protocol grpc --dapr-grpc-port 3500 -- node index.js
 ```
 
-{{% /tab %}}
+{{% /tab集团有限公司
 
 {{< /tabpane >}}
 
+
 ### 取消订阅配置项更新
 
-在您订阅监视配置项后，您将收到所有订阅键的更新。要停止接收更新，您需要显式调用取消订阅API。
+订阅监视配置项后，您将收到所有订阅键的更新。要停止接收更新，您需要显式调用取消订阅 API。
 
-以下是展示如何使用取消订阅API取消订阅配置更新的代码示例。
+以下是展示如何使用取消订阅 API 取消订阅配置更新的代码示例。
 
 {{< tabpane text=true >}}
 
-{{% tab header=".NET" %}}
+{{% tab ".NET" %}}
+
+
 ```csharp
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dapr.Client;
 
+var builder = WebApplication.CreateBuilder();
+builder.Services.AddDaprClient();
+var app = builder.Build();
+
 const string DAPR_CONFIGURATION_STORE = "configstore";
-var client = new DaprClientBuilder().Build();
+const string SubscriptionId = "abc123"; //Replace with the subscription identifier to unsubscribe from
+var client = app.Services.GetRequiredService<DaprClient>();
 
-// 取消订阅配置更新并退出应用程序
-async Task unsubscribe(string subscriptionId)
-{
-  try
-  {
-    await client.UnsubscribeConfiguration(DAPR_CONFIGURATION_STORE, subscriptionId);
-    Console.WriteLine("App unsubscribed from config changes");
-    Environment.Exit(0);
-  }
-  catch (Exception ex)
-  {
-    Console.WriteLine("Error unsubscribing from config updates: " + ex.Message);
-  }
-}
+await client.UnsubscribeConfiguration(DAPR_CONFIGURATION_STORE, SubscriptionId);
+Console.WriteLine("App unsubscribed from config changes");
 ```
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="Java" %}}
+Java"
 ```java
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.DaprClient;
@@ -558,13 +542,13 @@ import io.dapr.client.domain.SubscribeConfigurationRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-//代码
+//code
 private static final String CONFIG_STORE_NAME = "configstore";
 private static String subscriptionId = null;
 
 public static void main(String[] args) throws Exception {
     try (DaprClient client = (new DaprClientBuilder()).build()) {
-      // 取消订阅配置更改
+      // Unsubscribe from config changes
       UnsubscribeConfigurationResponse unsubscribe = client
               .unsubscribeConfiguration(subscriptionId, DAPR_CONFIGURATON_STORE).block();
       if (unsubscribe.getIsUnsubscribed()) {
@@ -578,9 +562,9 @@ public static void main(String[] args) throws Exception {
     }
 }
 ```
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="Python" %}}
+Python"
 ```python
 import asyncio
 import time
@@ -592,9 +576,9 @@ with DaprClient() as d:
   isSuccess = d.unsubscribe_configuration(store_name='configstore', id=subscriptionID)
   print(f"Unsubscribed successfully? {isSuccess}", flush=True)
 ```
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="Go" %}}
+Go"
 ```go
 package main
 
@@ -624,13 +608,13 @@ func main() {
   }
 }
 ```
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="JavaScript" %}}
+JavaScript"
 ```js
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
 
-// JS SDK尚不支持通过HTTP协议的配置API
+// JS SDK does not support Configuration API over HTTP protocol yet
 const protocol = CommunicationProtocolEnum.GRPC;
 const host = process.env.DAPR_HOST ?? "localhost";
 const port = process.env.DAPR_GRPC_PORT ?? 3500;
@@ -650,7 +634,7 @@ async function main() {
       }
     );
     setTimeout(() => {
-      // 取消订阅配置更新
+      // Unsubscribe to config updates
       stream.stop();
       console.log("App unsubscribed to config changes");
       process.exit(0);
@@ -663,22 +647,22 @@ async function main() {
 
 main().catch((e) => console.error(e));
 ```
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="HTTP API (BASH)" %}}
+HTTP API (BASH)"
 ```bash
 curl 'http://localhost:<DAPR_HTTP_PORT>/v1.0/configuration/configstore/<subscription-id>/unsubscribe'
 ```
-{{% /tab %}}
+{{% /tab集团有限公司
 
-{{% tab header="HTTP API (Powershell)" %}}
+HTTP API (PowerShell)"
 ```powershell
 Invoke-RestMethod -Uri 'http://localhost:<DAPR_HTTP_PORT>/v1.0/configuration/configstore/<subscription-id>/unsubscribe'
 ```
-{{% /tab %}}
+{{% /tab集团有限公司
 
 {{< /tabpane >}}
 
 ## 下一步
 
-* 阅读[配置API概述]({{% ref configuration-api-overview.md %}})
+* 阅读[配置 API 概述]({{% ref configuration-api-overview %}})

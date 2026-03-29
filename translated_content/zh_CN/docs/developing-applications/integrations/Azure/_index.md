@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "Azure 集成"
+title: "与 Azure 的集成"
 linkTitle: "Azure"
 weight: 1000
-description: "Dapr 集成 Azure 服务"
+description: "Dapr 与 Azure 服务的集成"
 ---

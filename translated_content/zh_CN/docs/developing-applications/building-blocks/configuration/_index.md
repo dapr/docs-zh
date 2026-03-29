@@ -1,15 +1,15 @@
 ---
 type: docs
-title: "配置"
-linkTitle: "配置"
+title: "Configuration"
+linkTitle: "Configuration"
 weight: 80
-description: 管理应用程序配置并接收更改通知
+description: 管理应用程序配置变更并接收相关通知
 ---
 
-{{% alert title="更多关于Dapr配置的信息" color="primary" %}}
-了解如何使用Dapr配置的更多信息：
-- 试试[配置快速入门]({{% ref configuration-quickstart.md %}})。
-- 使用任意支持的[Dapr SDKs]({{% ref sdks %}})来探索配置。
-- 查看[配置API参考文档]({{% ref configuration_api.md %}})。
-- 查阅支持的[配置组件规范]({{% ref supported-configuration-stores %}})。
+{{% alert title="关于 Dapr Configuration 的更多信息" color="primary" %}}
+ 了解更多关于如何使用 Dapr Configuration 的信息：
+ - 尝试 [Configuration 快速入门]({{% ref configuration-quickstart %}})。
+ - 通过任意支持的 [Dapr SDK]({{% ref sdks %}}) 探索配置。
+ - 查看 [Configuration API 参考文档]({{% ref configuration_api %}})。
+ - 浏览支持的 [configuration component specs]({{% ref supported-configuration-stores %}})。
 {{% /alert %}}

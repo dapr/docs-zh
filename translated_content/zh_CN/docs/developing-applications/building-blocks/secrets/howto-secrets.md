@@ -1,28 +1,28 @@
 ---
 type: docs
-title: "如何检索 Secret"
-linkTitle: "如何检索 Secret"
+title: "操作指南：获取密钥"
+linkTitle: "操作指南：获取密钥"
 weight: 2000
-description: "使用 Secret 存储构建块安全地检索 Secret"
+description: "使用密钥存储构建块安全地获取密钥"
 ---
 
-在了解了[Dapr Secret 构建块的功能]({{% ref secrets-overview %}})后，接下来学习如何在服务中使用它。本指南将演示如何调用 Secret API，并从配置的 Secret 存储中将 Secret 检索到应用程序代码中。
+既然您已经了解了 [Dapr 密钥构建块提供什么功能]({{% ref secrets-overview %}})，了解它如何在您的服务中工作。本指南演示如何调用密钥 API 并从配置的密钥存储中检索应用代码中的密钥。
 
-<img src="/images/howto-secrets/secrets-mgmt-overview.png" width=1000 alt="示例服务的 Secret 管理示意图。">
+<img src="/images/howto-secrets/secrets-mgmt-overview.png" width=1000 alt="Diagram showing secrets management of example service.">
 
-{{% alert title="提示" color="primary" %}}
-如果您还没有尝试过，[请先查看 Secret 管理快速入门]({{% ref secrets-quickstart.md %}})，以快速了解如何使用 Secret API。
+{{% alert title="Note" color="primary" %}}
+ 如果您还没有尝试过，[请试用密钥管理快速入门]({{% ref secrets-quickstart %}})以快速了解如何使用密钥 API。
+
 {{% /alert %}}
+## 设置密钥存储
 
-## 配置 Secret 存储
+在应用的代码中检索密钥之前，您必须配置一个密钥存储组件。本示例配置了一个使用本地 JSON 文件存储密钥的密钥存储。
 
-在应用程序代码中检索 Secret 之前，您需要先配置一个 Secret 存储组件。此示例配置了一个使用本地 JSON 文件存储 Secret 的 Secret 存储。
+{{% alert title="Warning" color="warning" %}}
+在生产级应用中，不推荐使用本地密钥存储。请[查找替代方案]({{% ref supported-secret-stores %}})来安全地管理您的密钥。
+{{% /alert٪}}
 
-{{% alert title="警告" color="warning" %}}
-在生产环境中，不建议使用本地 Secret 存储。[请查看其他安全管理 Secret 的方案]({{% ref supported-secret-stores %}})。
-{{% /alert %}}
-
-在项目目录中，创建一个名为 `secrets.json` 的文件，内容如下：
+在项目目录中，创建一个名为 `secrets.json` 的文件，包含以下内容：
 
 ```json
 {
@@ -30,7 +30,7 @@ description: "使用 Secret 存储构建块安全地检索 Secret"
 }
 ```
 
-创建一个名为 `components` 的新目录。进入该目录并创建一个名为 `local-secret-store.yaml` 的组件文件，内容如下：
+创建一个名为 `components` 的新目录。导航到该目录并创建一个名为 `local-secret-store.yaml` 的组件文件，包含以下内容：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -42,73 +42,62 @@ spec:
   version: v1
   metadata:
   - name: secretsFile
-    value: secrets.json  # Secret 文件的路径
+    value: secrets.json  #path to secrets file
   - name: nestedSeparator
     value: ":"
 ```
 
-{{% alert title="注意" color="warning" %}}
-Secret 存储 JSON 的路径是相对于您执行 `dapr run` 命令的位置。
-{{% /alert %}}
+{{% alert title="Warning" color="warning" %}}
+密钥存储 JSON 的路径是相对于您调用 `dapr run` 的位置。
+{{% /alert٪}}
 
 更多信息：
 
-- 查看如何[配置不同类型的 Secret 存储]({{% ref setup-secret-store %}})。
-- 查看[支持的 Secret 存储]({{% ref supported-secret-stores %}})以了解不同 Secret 存储解决方案的具体细节。
+- 了解如何[配置不同类型的密钥存储]({{% ref setup-secret-store %}})。
+- 查看[支持的密钥存储]({{% ref supported-secret-stores %}})以获取不同密钥存储解决方案的具体详情。
 
-## 获取 Secret
+## 获取密钥
 
-通过调用 Dapr sidecar 的 Secret API 来获取 Secret：
+通过使用密钥 API 调用 Dapr 边车来获取密钥：
 
 ```bash
 curl http://localhost:3601/v1.0/secrets/localsecretstore/secret
 ```
 
-查看[完整的 API 参考]({{% ref secrets_api.md %}})。
+查看[完整 API 参考]({{% ref secrets_api %}})。
 
-## 从代码中调用 Secret API
+## 从代码中调用密钥 API
 
-现在您已经设置了本地 Secret 存储，可以通过 Dapr 从应用程序代码中获取 Secret。以下是利用 Dapr SDK 检索 Secret 的代码示例。
+现在您已经设置了本地密钥存储，调用 Dapr 从应用代码中获取密钥。以下是利用 Dapr SDK 获取密钥的代码示例。
 
 {{< tabpane text=true >}}
 
-{{% tab header=".NET" %}}
-
+{{% tab ".NET" %}}
 ```csharp
-// 依赖项
 using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Dapr.Client;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading;
-using System.Text.Json;
 
-// 代码
-namespace EventService
-{
-    class Program
-    {
-        static async Task Main(string[] args)
-        {
-            string SECRET_STORE_NAME = "localsecretstore";
-            using var client = new DaprClientBuilder().Build();
-            // 使用 Dapr SDK 获取 Secret
-            var secret = await client.GetSecretAsync(SECRET_STORE_NAME, "secret");
-            Console.WriteLine($"Result: {string.Join(", ", secret)}");
-        }
-    }
-}
+namespace EventService;
+
+const string SECRET_STORE_NAME = "localsecretstore";
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDaprClient();
+var app = builder.Build();
+
+//Resolve a DaprClient from DI
+var daprClient = app.Services.GetRequiredService<DaprClient>();
+
+//Use the Dapr SDK to get a secret
+var secret = await daprClient.GetSecretAsync(SECRET_STORE_NAME, "secret");
+
+Console.WriteLine($"Result: {string.Join(", ", secret)}");
 ```
-
 {{% /tab %}}
-
-{{% tab header="Java" %}}
-
+{{% tab "Java" %}}
 ```java
-// 依赖项
+//dependencies
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.dapr.client.DaprClient;
@@ -118,7 +107,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Map;
 
-// 代码
+
+//code
 @SpringBootApplication
 public class OrderProcessingServiceApplication {
 
@@ -129,19 +119,16 @@ public class OrderProcessingServiceApplication {
 
     public static void main(String[] args) throws InterruptedException, JsonProcessingException {
         DaprClient client = new DaprClientBuilder().build();
-        // 使用 Dapr SDK 获取 Secret
+        //Using Dapr SDK to get a secret
         Map<String, String> secret = client.getSecret(SECRET_STORE_NAME, "secret").block();
         log.info("Result: " + JSON_SERIALIZER.writeValueAsString(secret));
     }
 }
 ```
-
 {{% /tab %}}
-
-{{% tab header="Python" %}}
-
+{{% tab "Python" %}}
 ```python
-# 依赖项 
+#dependencies 
 import random
 from time import sleep    
 import requests
@@ -150,28 +137,25 @@ from dapr.clients import DaprClient
 from dapr.clients.grpc._state import StateItem
 from dapr.clients.grpc._request import TransactionalStateOperation, TransactionOperationType
 
-# 代码
+#code
 logging.basicConfig(level = logging.INFO)
 DAPR_STORE_NAME = "localsecretstore"
 key = 'secret'
 
 with DaprClient() as client:
-    # 使用 Dapr SDK 获取 Secret
+    #Using Dapr SDK to get a secret
     secret = client.get_secret(store_name=DAPR_STORE_NAME, key=key)
     logging.info('Result: ')
     logging.info(secret.secret)
-    # 使用 Dapr SDK 获取批量 Secret
+    #Using Dapr SDK to get bulk secrets
     secret = client.get_bulk_secret(store_name=DAPR_STORE_NAME)
     logging.info('Result for bulk secret: ')
     logging.info(sorted(secret.secrets.items()))
 ```
-
 {{% /tab %}}
-
-{{% tab header="Go" %}}
-
+{{% tab "Go" %}}
 ```go
-// 依赖项 
+//dependencies 
 import (
 	"context"
 	"log"
@@ -179,7 +163,7 @@ import (
 	dapr "github.com/dapr/go-sdk/client"
 )
 
-// 代码
+//code
 func main() {
 	client, err := dapr.NewClient()
 	SECRET_STORE_NAME := "localsecretstore"
@@ -188,13 +172,13 @@ func main() {
 	}
 	defer client.Close()
 	ctx := context.Background()
-     // 使用 Dapr SDK 获取 Secret
+     //Using Dapr SDK to get a secret
 	secret, err := client.GetSecret(ctx, SECRET_STORE_NAME, "secret", nil)
 	if secret != nil {
 		log.Println("Result : ")
 		log.Println(secret)
 	}
-    // 使用 Dapr SDK 获取批量 Secret
+    //Using Dapr SDK to get bulk secrets
 	secretBulk, err := client.GetBulkSecret(ctx, SECRET_STORE_NAME, nil)
 
 	if secret != nil {
@@ -203,16 +187,13 @@ func main() {
 	}
 }
 ```
-
 {{% /tab %}}
-
-{{% tab header="JavaScript" %}}
-
+{{% tab "JavaScript" %}}
 ```javascript
-// 依赖项 
+//dependencies 
 import { DaprClient, HttpMethod, CommunicationProtocolEnum } from '@dapr/dapr'; 
 
-// 代码
+//code
 const daprHost = "127.0.0.1"; 
 
 async function main() {
@@ -222,24 +203,26 @@ async function main() {
         communicationProtocol: CommunicationProtocolEnum.HTTP,
     });
     const SECRET_STORE_NAME = "localsecretstore";
-    // 使用 Dapr SDK 获取 Secret
+    //Using Dapr SDK to get a secret
     var secret = await client.secret.get(SECRET_STORE_NAME, "secret");
     console.log("Result: " + secret);
-    // 使用 Dapr SDK 获取批量 Secret
+    //Using Dapr SDK to get bulk secrets
     secret = await client.secret.getBulk(SECRET_STORE_NAME);
     console.log("Result for bulk: " + secret);
 }
 
 main();
 ```
-
 {{% /tab %}}
-
 {{< /tabpane >}}
 
 ## 相关链接
 
-- 查看[Dapr Secret API 功能]({{% ref secrets-overview %}})。
-- 学习如何[使用 Secret 范围]({{% ref secrets-scopes %}})
-- 阅读[Secret API 参考]({{% ref secrets_api %}})并查看[支持的 Secret]({{% ref supported-secret-stores %}})。
-- 学习如何[设置不同的 Secret 存储组件]({{% ref setup-secret-store %}})以及如何[在组件中引用 Secret]({{% ref component-secrets %}})。
+- 查看 [Dapr 密钥 API 功能]({{% ref secrets-overview %}})。
+- 了解如何[使用密钥作用域]({{% ref secrets-scope %}})。
+- 阅读[密钥 API 参考]({{% ref secrets_api %}})并查看[支持的密钥]({{% ref supported-secret-stores %}})。
+- 了解如何[设置不同的密钥存储组件]({{% ref setup-secret-store %}})以及如何在[组件中引用密钥]({{% ref component-secrets %}})。
+
+</parameter>
+</invoke>
+</minimax:tool_call>

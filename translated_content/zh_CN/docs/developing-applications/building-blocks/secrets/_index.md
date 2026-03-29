@@ -1,15 +1,15 @@
 ---
 type: docs
-title: "Secret 管理"
-linkTitle: "Secret 管理"
+title: "机密管理"
+linkTitle: "机密管理"
 weight: 70
-description: 安全地从应用程序访问 Secret
+description: 从应用程序安全地访问机密
 ---
 
-{{% alert title="更多关于DaprSecret" color="primary" %}}
-了解如何使用DaprSecret的更多信息：
-- 尝试[Secret快速入门]({{% ref secrets-quickstart.md %}})。
-- 通过任何支持的[Dapr SDKs]({{% ref sdks %}})探索Secret。
-- 查看[SecretAPI参考文档]({{% ref secrets_api.md %}})。
-- 浏览支持的[Secret组件规格]({{% ref supported-secret-stores %}})。
+{{% alert title="关于 Dapr 机密的更多信息" color="primary" %}}
+ 了解有关如何使用 Dapr 机密的更多信息：
+ - 尝试[机密快速入门]({{% ref secrets-quickstart %}})。
+ - 通过任意支持的 [Dapr SDK]({{% ref sdks %}}) 探索机密。
+ - 查看[机密 API 参考文档]({{% ref secrets_api %}})。
+ - 浏览支持的[机密组件规范]({{% ref supported-secret-stores %}})。
 {{% /alert %}}

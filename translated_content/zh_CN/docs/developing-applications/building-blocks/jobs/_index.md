@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "任务"
-linkTitle: "任务"
+title: "Jobs"
+linkTitle: "Jobs"
 weight: 120
-description: "管理任务的调度与编排"
+description: "管理作业的调度和编排"
 ---

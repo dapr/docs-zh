@@ -1,34 +1,32 @@
 ---
 type: docs
-title: "如何使用：配置 secret 访问范围"
-linkTitle: "如何使用：配置 secret 访问范围"
+title: "如何使用：密钥作用域"
+linkTitle: "如何使用：密钥作用域"
 weight: 3000
-description: "通过设置访问范围限制应用程序从 secret 存储中读取的 secret"
+description: "使用作用域限制可从密钥存储中读取的密钥"
 ---
 
-当您[为应用程序配置了 secret 存储]({{% ref setup-secret-store %}})后，Dapr 应用程序默认可以访问该存储中定义的*所有* secret。
+一旦你[为应用配置了密钥存储]({{% ref setup-secret-store %}})，该存储中定义的*任何*密钥默认都可从 Dapr 应用访问。
 
-您可以通过在[应用程序配置]({{% ref configuration-concept.md %}})中定义 secret 访问范围策略，来限制 Dapr 应用程序对特定 secret 的访问权限。
+你可以通过定义密钥作用域来限制 Dapr 应用对特定密钥的访问。只需向[应用配置]({{% ref configuration-concept %}})添加具有限制性权限的密钥作用域策略。
 
-secret 访问范围策略适用于任何[secret 存储]({{% ref supported-secret-stores.md %}})，包括：
+密钥作用域策略适用于任何[密钥存储]({{% ref supported-secret-stores %}})，包括：
 
-- 本地 secret 存储
-- Kubernetes secret 存储
-- 公有云 secret 存储
+- 本地密钥存储
+- Kubernetes 密钥存储
+- 公有云密钥存储
 
-有关如何设置[secret 存储]({{% ref setup-secret-store.md %}})的详细信息，请阅读[如何：检索 secret]({{% ref howto-secrets.md %}})。
+有关如何设置[密钥存储]({{% ref setup-secret-store %}})的详细信息，请阅读[如何获取密钥]({{% ref howto-secrets %}})。
 
-观看[此视频](https://youtu.be/j99RN_nxExA?start=2272)以了解如何在应用程序中使用 secret 访问范围的演示。
+观看[此视频](https://youtu.be/j99RN_nxExA?start=2272)了解如何将密钥作用域与应用结合使用的演示。
 
-<div class="embed-responsive embed-responsive-16by9">
-<iframe width="688" height="430" src="https://www.youtube-nocookie.com/embed/j99RN_nxExA?start=2272" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+{{< youtube id=j99RN_nxExA start=2272 >}}
 
-## 场景 1：拒绝访问 secret 存储中的所有 secret
+## 场景1：拒绝对某个密钥存储的所有密钥的访问
 
-在此示例中，所有 secret 访问都被拒绝给运行在 Kubernetes 集群上的应用程序，该集群配置了名为 `mycustomsecretstore` 的[Kubernetes secret 存储]({{% ref kubernetes-secret-store %}})。除了用户定义的自定义存储外，示例还配置了 Kubernetes 默认存储（名为 `kubernetes`），以确保所有 secret 都被拒绝访问。[了解有关 Kubernetes 默认 secret 存储的更多信息]({{% ref "kubernetes-secret-store.md#default-kubernetes-secret-store-component" %}})。
+在此示例中，将拒绝在 Kubernetes 集群上运行的应用访问所有密钥，该集群已配置名为 `mycustomsecretstore` 的[Kubernetes 密钥存储]({{% ref kubernetes-secret-store %}})。除了用户定义的自定义存储外，该示例还配置 Kubernetes 默认存储（名为 `kubernetes`）以确保拒绝所有密钥的访问。[了解更多关于 Kubernetes 默认密钥存储的信息]({{% ref "kubernetes-secret-store#default-kubernetes-secret-store-component" %}})。
 
-定义以下 `appconfig.yaml` 配置，并使用命令 `kubectl apply -f appconfig.yaml` 将其应用于 Kubernetes 集群。
+定义以下 `appconfig.yaml` 配置并使用命令 `kubectl apply -f appconfig.yaml` 将其应用到 Kubernetes 集群。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -44,17 +42,17 @@ spec:
         defaultAccess: deny
 ```
 
-对于需要拒绝访问 Kubernetes secret 存储的应用程序，请按照[这些说明]({{% ref kubernetes-overview.md %}})，并将以下注释添加到应用程序 pod：
+对于需要被拒绝访问 Kubernetes 密钥存储的应用，遵循[这些说明]({{% ref kubernetes-overview %}})，并向应用 Pod 添加以下注解：
 
 ```yaml
 dapr.io/config: appconfig
 ```
 
-配置完成后，应用程序将无法访问 Kubernetes secret 存储中的任何 secret。
+定义后，应用将无法再访问 Kubernetes 密钥存储中的任何密钥。
 
-## 场景 2：仅允许访问 secret 存储中的某些 secret
+## 场景2：仅允许访问某个密钥存储中的特定密钥
 
-此示例使用名为 `vault` 的 secret 存储。这可以是设置在应用程序上的 Hashicorp secret 存储组件。要允许 Dapr 应用程序仅访问 `vault` secret 存储中的 `secret1` 和 `secret2`，请定义以下 `appconfig.yaml`：
+此示例使用名为 `vault` 的密钥存储。这可以是为应用设置的 Hashicorp 密钥存储组件。要允许 Dapr 应用仅访问 `vault` 密钥存储中的 `secret1` 和 `secret2`，定义以下 `appconfig.yaml`：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -69,9 +67,9 @@ spec:
         allowedSecrets: ["secret1", "secret2"]
 ```
 
-对 `vault` secret 存储的默认访问是 `deny`，但应用程序可以根据 `allowedSecrets` 列表访问特定的 secret。[了解如何将配置应用于 sidecar]({{% ref configuration-concept.md %}})。
+对 `vault` 密钥存储的默认访问权限为 `deny`，而基于 `allowedSecrets` 列表，应用可以访问某些密钥。[了解如何将配置应用到边车]({{% ref configuration-concept %}})。
 
-## 场景 3：拒绝访问 secret 存储中的某些敏感 secret
+## 场景3：拒绝对某个密钥存储中某些敏感密钥的访问
 
 定义以下 `config.yaml`：
 
@@ -84,26 +82,26 @@ spec:
   secrets:
     scopes:
       - storeName: vault
-        defaultAccess: allow # 这是默认值，可以省略
+        defaultAccess: allow # 此为默认值，可省略该行
         deniedSecrets: ["secret1", "secret2"]
 ```
 
-此示例配置明确拒绝访问名为 `vault` 的 secret 存储中的 `secret1` 和 `secret2`，同时允许访问所有其他 secret。[了解如何将配置应用于 sidecar]({{% ref configuration-concept.md %}})。
+此示例配置明确拒绝访问名为 `vault` 的密钥存储中的 `secret1` 和 `secret2`，同时允许访问所有其他密钥。[了解如何将配置应用到边车]({{% ref configuration-concept %}})。
 
 ## 权限优先级
 
-`allowedSecrets` 和 `deniedSecrets` 列表的设置优先于 `defaultAccess` 策略。
+`allowedSecrets` 和 `deniedSecrets` 列表值优先于 `defaultAccess` 策略。
 
 场景 | defaultAccess | allowedSecrets | deniedSecrets | 权限
 ---- | ------- | -----------| ----------| ------------
 1 - 仅默认访问  | deny/allow | 空 | 空 | deny/allow
-2 - 默认拒绝并允许列表 | deny | ["s1"] | 空 | 仅 "s1" 可访问
-3 - 默认允许并拒绝列表 | allow | 空 | ["s1"] | 仅 "s1" 不可访问
-4 - 默认允许并允许列表  | allow | ["s1"] | 空 | 仅 "s1" 可访问
-5 - 默认拒绝并拒绝列表  | deny | 空 | ["s1"] | deny
-6 - 默认拒绝/允许并同时有列表  | deny/allow | ["s1"] | ["s2"] | 仅 "s1" 可访问
+2 - 默认拒绝，包含允许列表 | deny | ["s1"] | 空 | 仅能访问 "s1"
+3 - 默认允许，包含拒绝列表 | allow | 空 | ["s1"] | 仅不能访问 "s1"
+4 - 默认允许，包含允许列表  | allow | ["s1"] | 空 | 仅能访问 "s1"
+5 - 默认拒绝，包含拒绝列表  | deny | 空 | ["s1"] | deny
+6 - 默认拒绝/允许，包含两个列表  | deny/allow | ["s1"] | ["s2"] | 仅能访问 "s1"
 
 ## 相关链接
 
-- [secret 存储]({{% ref supported-secret-stores.md %}})列表
-- [secret 存储]({{% ref setup-secret-store.md %}})概述
+- [密钥存储]({{% ref supported-secret-stores %}})列表
+- [密钥存储]({{% ref setup-secret-store %}})概述

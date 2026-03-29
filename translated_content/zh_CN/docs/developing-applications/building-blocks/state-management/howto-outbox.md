@@ -1,42 +1,91 @@
 ---
 type: docs
-title: "操作指南：启用事务性 Outbox 模式"
-linkTitle: "操作指南：启用事务性 Outbox 模式"
+title: "How-To：启用事务性 Outbox 模式"
+linkTitle: "How-To：启用事务性 Outbox 模式"
 weight: 400
-description: "在状态存储和发布/订阅消息代理之间提交单个事务"
+description: "在状态存储与发布订阅消息代理之间提交单个事务"
 ---
 
-事务性 Outbox 模式是一种广为人知的设计模式，用于发送应用程序状态变化的通知。它通过一个跨越数据库和消息代理的单一事务来传递通知。
+事务性 outbox 模式是一种众所周知的设计模式，用于发送与应用程序状态变更相关的通知。事务性 outbox 模式使用一个横跨数据库与消息代理的单一事务来投递通知。
 
-开发人员在尝试自行实现此模式时会遇到许多技术难题，通常需要编写复杂且容易出错的中央协调管理器，这些管理器最多支持一种或两种数据库和消息代理的组合。
+开发者在尝试自行实现此模式时面临着许多困难的技术挑战，通常需要编写容易出错的核心协调管理器，最多只能支持一两组数据库与消息代理的组合。
 
-例如，您可以使用 Outbox 模式来：
+例如，你可以使用 outbox 模式：
 1. 向账户数据库写入新的用户记录。
-2. 发送账户成功创建的通知消息。
+1. 发送一条表示账户已成功创建的通知消息。
 
-通过 Dapr 的 Outbox 支持，您可以在调用 Dapr 的[事务 API]({{% ref "state_api.md#state-transactions" %}})时通知订阅者应用程序的状态何时被创建或更新。
+借助 Dapr 的 outbox 支持，当调用 Dapr 的[事务 API]({{% ref "state_api.md#state-transactions" %}})创建或更新应用程序状态时，你可以通知订阅者。
 
-下图概述了 Outbox 功能的工作原理：
+下图是从高层次概述 outbox 功能的工作原理：
 
 1) 服务 A 使用事务将状态保存/更新到状态存储。
-2) 在同一事务下将消息写入消息代理。当消息成功传递到消息代理时，事务完成，确保状态和消息一起被事务化。
-3) 消息代理将消息主题传递给任何订阅者 - 在此情况下为服务 B。
+2) 在同一事务下向消息代理写入一条消息。当消息成功投递到消息代理后，事务完成，从而确保状态与消息作为一个整体完成事务。
+3) 消息代理将消息主题投递给任何订阅者 — 本例中为服务 B。
 
-<img src="/images/state-management-outbox.png" width=800 alt="显示 Outbox 模式步骤的图示">
+<img src="/images/state-management-outbox.png" width=800 alt="Diagram showing the overview of outbox pattern">
 
+## Outbox 在底层的工作原理
+
+Dapr outbox 在两个流程中处理请求：用户请求流程与后台消息流程。二者共同确保状态与事件保持一致。
+
+<img src="/images/state-management-outbox-steps.png" width=800 alt="Diagram showing the steps of the outbox pattern">
+
+交互顺序如下：
+
+1. 应用程序调用 Dapr 状态管理 API，以事务方式写入状态。  
+   这是业务数据（例如订单或资料更新）提交进行持久化的入口点。
+
+2. Dapr 向一个内部 outbox 主题发布一条带有唯一事务 ID 的意向消息。  
+   这条持久化记录确保在任何数据库提交发生之前，事件意向就已经存在。
+
+3. 状态与一个事务标记以原子方式写入同一个状态存储。  
+   业务数据与标记在同一事务中提交，防止部分写入。
+
+4. 事务提交后，应用程序收到成功响应。  
+   此时应用程序可以继续执行，已知状态已保存，事件意向得到保证。
+
+5. 后台订阅者读取意向消息。  
+   当 outbox 启用时，Dapr 会启动消费者来处理内部 outbox 主题。
+
+6. 订阅者在状态存储中验证事务标记。  
+   此项检查确认数据库提交已成功，然后才会进行外部发布。
+
+7. 验证后的业务事件被发布到外部发布订阅主题。  
+   事件被发送到已配置的代理（Kafka、RabbitMQ 等），其他服务可以消费该事件。
+
+8. 标记从状态存储中清理（删除）。  
+   事件成功投递后，这可防止数据库无限制地增长。
+
+9. 消息被确认并从内部主题中移除  
+   如果发布或清理失败，Dapr 会重试，确保可靠的至少一次投递。
+  
 ## 要求
 
-Outbox 功能可以与 Dapr 支持的任何[事务性状态存储]({{% ref supported-state-stores %}})一起使用。所有[发布/订阅代理]({{% ref supported-pubsub %}})都支持 Outbox 功能。
+1. outbox 功能需要 Dapr 支持的[事务型状态存储]({{% ref supported-state-stores %}})。  
+   [了解更多关于你可以使用的事务方法。]({{% ref "howto-get-save-state.md#perform-state-transactions" %}})
 
-[了解更多关于您可以使用的事务方法。]({{% ref "howto-get-save-state.md#perform-state-transactions" %}})
+2. 任何 Dapr 支持的[发布订阅代理]({{% ref supported-pubsub %}})均可与 outbox 功能一起使用。
 
-{{% alert title="注意" color="primary" %}} 
-建议与竞争消费者模式（例如，[Apache Kafka]({{% ref setup-apache-kafka %}})）一起使用的消息代理减少重复事件的可能性。
-{{% /alert %}}
+   {{% alert title="注意" color="primary" %}}
+   建议使用支持竞争消费者模式的消息代理（例如 [Apache Kafka]({{% ref setup-apache-kafka%}})），以降低重复事件的可能性。
+   {{% /alert %}}
 
-## 启用 Outbox 模式
+3. 内部 outbox 主题  
+   当启用 outbox 时，Dapr 会使用以下命名约定创建一个内部主题：`{namespace}{appID}{topic}outbox`，其中：
 
-要启用 Outbox 功能，请在状态存储组件上添加以下必需和可选字段：
+   - `namespace`：Dapr 应用程序命名空间（如果已配置）
+   - `appID`：Dapr 应用程序标识符
+   - `topic`：在 `outboxPublishTopic` 元数据中指定的值
+
+   通过这种方式，每个 outbox 主题在每个应用程序和外部主题范围内被唯一标识，防止多租户环境中的路由冲突。
+
+   {{% alert title="注意" color="primary" %}}
+   确保主题已提前创建，或者 Dapr 在启动时拥有足够的权限来创建该主题。
+   {{% /alert %}}
+
+## 启用 outbox 模式
+
+要启用 outbox 功能，请在状态存储组件上添加以下必填和可选字段：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -49,32 +98,32 @@ spec:
   metadata:
   - name: connectionString
     value: "<CONNECTION STRING>"
-  - name: outboxPublishPubsub # 必需
+  - name: outboxPublishPubsub # 必填
     value: "mypubsub"
-  - name: outboxPublishTopic # 必需
+  - name: outboxPublishTopic # 必填
     value: "newOrder"
   - name: outboxPubsub # 可选
     value: "myOutboxPubsub"
-  - name: outboxDiscardWhenMissingState # 可选，默认为 false
+  - name: outboxDiscardWhenMissingState #可选。默认为 false
     value: false
 ```
 
 ### 元数据字段
 
-| 名称                | 必需    | 默认值 | 描述                                            |
+| 名称                | 必填    | 默认值 | 描述                                            |
 | --------------------|-------------|---------------|------------------------------------------------------- |
-| outboxPublishPubsub | 是         | N/A           | 设置发布状态更改时传递通知的发布/订阅组件的名称
-| outboxPublishTopic  | 是         | N/A           | 设置接收在配置了 `outboxPublishPubsub` 的发布/订阅上的状态更改的主题。消息体将是 `insert` 或 `update` 操作的状态事务项
-| outboxPubsub        | 否          | `outboxPublishPubsub`           | 设置 Dapr 用于协调状态和发布/订阅事务的发布/订阅组件。如果未设置，则使用配置了 `outboxPublishPubsub` 的发布/订阅组件。如果您希望将用于发送通知状态更改的发布/订阅组件与用于协调事务的组件分开，这将很有用
-| outboxDiscardWhenMissingState  | 否         | `false`           | 通过将 `outboxDiscardWhenMissingState` 设置为 `true`，如果 Dapr 无法在数据库中找到状态且不重试，则 Dapr 将丢弃事务。如果在 Dapr 能够传递消息之前，状态存储数据因任何原因被删除，并且您希望 Dapr 从发布/订阅中删除项目并停止重试获取状态，此设置可能会很有用
+| outboxPublishPubsub | 是         | N/A           | 设置发布订阅组件的名称，用于在发布状态变更时投递通知
+| outboxPublishTopic  | 是         | N/A           | 设置在用 `outboxPublishPubsub` 配置的发布订阅上接收状态变更的主题。消息正文将是针对 `insert` 或 `update` 操作的状态事务项
+| outboxPubsub        | 否         | `outboxPublishPubsub`           | 设置 Dapr 用于协调状态与发布订阅事务的发布订阅组件。如果未设置，则使用用 `outboxPublishPubsub` 配置的发布订阅组件。如果你想将用于发送通知状态变更的发布订阅组件与用于协调事务的组件分开，此设置会很有用
+| outboxDiscardWhenMissingState  | 否         | `false`           | 通过将 `outboxDiscardWhenMissingState` 设置为 `true`，如果 Dapr 无法在数据库中找到状态，它将丢弃该事务并且不再重试。如果状态存储数据在 Dapr 能够投递消息之前因任何原因被删除，并且你希望 Dapr 从发布订阅中删除这些项并停止重试以获取状态，则此设置会很有用
 
 ## 其他配置
 
-### 在同一状态存储上组合 Outbox 和非 Outbox 消息
+### 在同一个状态存储上组合使用 outbox 与非 outbox 消息
 
-如果您希望使用相同的状态存储来发送 Outbox 和非 Outbox 消息，只需定义两个连接到相同状态存储的状态存储组件，其中一个具有 Outbox 功能，另一个没有。
+如果你希望使用同一个状态存储来发送 outbox 与非 outbox 消息，只需定义两个连接到同一个状态存储的状态存储组件，其中一个启用 outbox 功能，另一个不启用。
 
-#### 没有 Outbox 的 MySQL 状态存储
+#### 不带 outbox 的 MySQL 状态存储
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -89,7 +138,7 @@ spec:
     value: "<CONNECTION STRING>"
 ```
 
-#### 具有 Outbox 的 MySQL 状态存储
+#### 带 outbox 的 MySQL 状态存储
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -102,29 +151,29 @@ spec:
   metadata:
   - name: connectionString
     value: "<CONNECTION STRING>"
-  - name: outboxPublishPubsub # 必需
+  - name: outboxPublishPubsub # 必填
     value: "mypubsub"
-  - name: outboxPublishTopic # 必需
+  - name: outboxPublishTopic # 必填
     value: "newOrder"
 ```
 
-### 形状 Outbox 模式消息
+### 定制 outbox 模式消息
 
-您可以通过设置另一个不保存到数据库并明确提及为投影的事务来覆盖发布到发布/订阅代理的 Outbox 模式消息。此事务添加了一个名为 `outbox.projection` 的元数据键，值设置为 `true`。当添加到事务中保存的状态数组时，此负载在写入状态时被忽略，数据用作发送到上游订阅者的负载。
+你可以通过设置另一个事务来覆盖发布到发布订阅代理的 outbox 模式消息，该事务不会被保存到数据库，并且被明确标记为投影（projection）。该事务会添加一个名为 `outbox.projection` 的元数据键，其值设置为 `true`。当添加到在事务中保存的状态数组时，写入状态时会忽略此负载，并将该数据用作发送到上游订阅者的负载。
 
-要正确使用，`key` 值必须在状态存储上的操作和消息投影之间匹配。如果键不匹配，则整个事务失败。
+若要正确使用，状态存储上的操作与消息投影之间的 `key` 值必须匹配。如果键不匹配，整个事务将失败。
 
-如果您为同一键启用了两个或多个 `outbox.projection` 状态项，则使用第一个定义的项，其他项将被忽略。
+如果你为同一个键启用了两个或更多 `outbox.projection` 状态项，则使用第一个定义的项，忽略其他项。
 
-[了解更多关于默认和自定义 CloudEvent 消息。]({{% ref pubsub-cloudevents.md %}})
+[了解更多关于默认与自定义 CloudEvent 消息。]({{% ref pubsub-cloudevents.md %}})
 
 {{< tabpane text=true >}}
 
-{{% tab header="Python" %}}
+{{% tab "Python" %}}
 
 <!--python-->
 
-在以下 Python SDK 的状态事务示例中，值 `"2"` 被保存到数据库，但值 `"3"` 被发布到最终用户主题。
+在以下状态事务的 Python SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户主题。
 
 ```python
 DAPR_STORE_NAME = "statestore"
@@ -132,42 +181,34 @@ DAPR_STORE_NAME = "statestore"
 async def main():
     client = DaprClient()
 
-    # 定义第一个状态操作以保存值 "2"
-    op1 = StateItem(
-        key="key1",
-        value=b"2"
+    client.execute_state_transaction(
+       store_name=DAPR_STORE_NAME,
+       operations=[
+          # 定义第一个状态操作以保存值 "2"
+          TransactionalStateOperation(
+             key='key1', data='2', metadata={'outbox.projection': 'false'}
+          ),
+          # 定义第二个状态操作以发布带有元数据的值 "3"
+          TransactionalStateOperation(
+             key='key1', data='3', metadata={'outbox.projection': 'true'}
+          ),
+       ],
     )
 
-    # 定义第二个状态操作以带有元数据发布值 "3"
-    op2 = StateItem(
-        key="key1",
-        value=b"3",
-        options=StateOptions(
-            metadata={
-                "outbox.projection": "true"
-            }
-        )
-    )
-
-    # 创建状态操作列表
-    ops = [op1, op2]
-
-    # 执行状态事务
-    await client.state.transaction(DAPR_STORE_NAME, operations=ops)
-    print("状态事务已执行。")
+    print("State transaction executed.")
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，消息未写入消息代理。
-- 第二个操作值被发布到配置的发布/订阅主题。
+- 第一个操作被写入状态存储，不会向消息代理写入消息。
+- 第二个操作值被发布到已配置的发布订阅主题。   
 
 {{% /tab %}}
 
-{{% tab header="JavaScript" %}}
+{{% tab "JavaScript" %}}
 
 <!--javascript-->
 
-在以下 JavaScript SDK 的状态事务示例中，值 `"2"` 被保存到数据库，但值 `"3"` 被发布到最终用户主题。
+在以下状态事务的 JavaScript SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户主题。
 
 ```javascript
 const { DaprClient, StateOperationType } = require('@dapr/dapr');
@@ -186,7 +227,7 @@ async function main() {
     }
   };
 
-  // 定义第二个状态操作以带有元数据发布值 "3"
+  // 定义第二个状态操作以发布带有元数据的值 "3"
   const op2 = {
     operation: StateOperationType.UPSERT,
     request: {
@@ -203,7 +244,7 @@ async function main() {
 
   // 执行状态事务
   await client.state.transaction(DAPR_STORE_NAME, ops);
-  console.log("状态事务已执行。");
+  console.log("State transaction executed.");
 }
 
 main().catch(err => {
@@ -212,16 +253,17 @@ main().catch(err => {
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，消息未写入消息代理。
-- 第二个操作值被发布到配置的发布/订阅主题。
+- 第一个操作被写入状态存储，不会向消息代理写入消息。
+- 第二个操作值被发布到已配置的发布订阅主题。   
+
 
 {{% /tab %}}
 
-{{% tab header=".NET" %}}
+{{% tab ".NET" %}}
 
 <!--dotnet-->
 
-在以下 .NET SDK 的状态事务示例中，值 `"2"` 被保存到数据库，但值 `"3"` 被发布到最终用户主题。
+在以下状态事务的 .NET SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户主题。
 
 ```csharp
 public class Program
@@ -239,7 +281,7 @@ public class Program
             operationType: StateOperationType.Upsert
         );
 
-        // 定义第二个状态操作以带有元数据发布值 "3"
+        // 定义第二个状态操作以发布带有元数据的值 "3"
         var metadata = new Dictionary<string, string>
         {
             { "outbox.projection", "true" }
@@ -256,22 +298,22 @@ public class Program
 
         // 执行状态事务
         await client.ExecuteStateTransactionAsync(DAPR_STORE_NAME, ops);
-        Console.WriteLine("状态事务已执行。");
+        Console.WriteLine("State transaction executed.");
     }
 }
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，消息未写入消息代理。
-- 第二个操作值被发布到配置的发布/订阅主题。
+- 第一个操作被写入状态存储，不会向消息代理写入消息。
+- 第二个操作值被发布到已配置的发布订阅主题。    
 
 {{% /tab %}}
 
-{{% tab header="Java" %}}
+{{% tab "Java" %}}
 
 <!--java-->
 
-在以下 Java SDK 的状态事务示例中，值 `"2"` 被保存到数据库，但值 `"3"` 被发布到最终用户主题。
+在以下状态事务的 Java SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户主题。
 
 ```java
 public class Main {
@@ -280,31 +322,46 @@ public class Main {
     public static void main(String[] args) {
         try (DaprClient client = new DaprClientBuilder().build()) {
             // 定义第一个状态操作以保存值 "2"
-            StateOperation<String> op1 = new StateOperation<>(
-                    StateOperationType.UPSERT,
+            State<String> state1 = new State<>(
                     "key1",
-                    "2"
+                    "2",
+                    null, // etag
+                    null // 并发与一致性选项
             );
 
-            // 定义第二个状态操作以带有元数据发布值 "3"
+            // 定义第二个状态操作以发布带有元数据的值 "3"
             Map<String, String> metadata = new HashMap<>();
             metadata.put("outbox.projection", "true");
 
-            StateOperation<String> op2 = new StateOperation<>(
-                    StateOperationType.UPSERT,
+            State<String> state2 = new State<>(
                     "key1",
                     "3",
-                    metadata
+                    null, // etag
+                    metadata, 
+                    null // 并发与一致性选项
+            );
+            
+            TransactionalStateOperation<String> op1 = new TransactionalStateOperation<>(
+                TransactionalStateOperation.OperationType.UPSERT, state1
             );
 
-            // 创建状态操作列表
-            List<StateOperation<?>> ops = new ArrayList<>();
+            TransactionalStateOperation<String> op2 = new TransactionalStateOperation<>(
+                TransactionalStateOperation.OperationType.UPSERT, state2
+            );
+
+            // 创建事务状态操作列表
+            List<TransactionalStateOperation<?>> ops = new ArrayList<>();
             ops.add(op1);
             ops.add(op2);
 
+            // 配置事务请求，设置状态存储
+            ExecuteStateTransactionRequest transactionRequest = new ExecuteStateTransactionRequest(DAPR_STORE_NAME);
+            
+            transactionRequest.setOperations(ops);
+
             // 执行状态事务
-            client.executeStateTransaction(DAPR_STORE_NAME, ops).block();
-            System.out.println("状态事务已执行。");
+            client.executeStateTransaction(transactionRequest).block();
+            System.out.println("State transaction executed.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -313,16 +370,17 @@ public class Main {
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，消息未写入消息代理。
-- 第二个操作值被发布到配置的发布/订阅主题。
+- 第一个操作被写入状态存储，不会向消息代理写入消息。
+- 第二个操作值被发布到已配置的发布订阅主题。   
+
 
 {{% /tab %}}
 
-{{% tab header="Go" %}}
+{{% tab "Go" %}}
 
 <!--go-->
 
-在以下 Go SDK 的状态事务示例中，值 `"2"` 被保存到数据库，但值 `"3"` 被发布到最终用户主题。
+在以下状态事务的 Go SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户主题。
 
 ```go
 ops := make([]*dapr.StateOperation, 0)
@@ -351,16 +409,16 @@ err := testClient.ExecuteStateTransaction(ctx, store, meta, ops)
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，消息未写入消息代理。
-- 第二个操作值被发布到配置的发布/订阅主题。
+- 第一个操作被写入状态存储，不会向消息代理写入消息。
+- 第二个操作值被发布到已配置的发布订阅主题。   
 
 {{% /tab %}}
 
-{{% tab header="HTTP" %}}
+{{% tab "HTTP" %}}
 
 <!--http-->
 
-您可以使用以下 HTTP 请求传递消息覆盖：
+你可以使用以下 HTTP 请求传递消息覆盖：
 
 ```bash
 curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
@@ -396,8 +454,8 @@ curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，消息未写入消息代理。
-- 第二个操作值被发布到配置的发布/订阅主题。
+- 第一个操作被写入状态存储，不会向消息代理写入消息。
+- 第二个操作值被发布到已配置的发布订阅主题。   
 
 {{% /tab %}}
 
@@ -405,11 +463,11 @@ curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
 
 ### 覆盖 Dapr 生成的 CloudEvent 字段
 
-您可以使用自定义 CloudEvent 元数据覆盖发布的 Outbox 事件上的[Dapr 生成的 CloudEvent 字段]({{% ref "pubsub-cloudevents.md#dapr-generated-cloudevents-example" %}})。
+你可以使用自定义 CloudEvent 元数据来覆盖已发布的 outbox 事件上的 [Dapr 生成的 CloudEvent 字段]({{% ref "pubsub-cloudevents.md#dapr-generated-cloudevents-example" %}})。
 
 {{< tabpane text=true >}}
 
-{{% tab header="Python" %}}
+{{% tab "Python" %}}
 
 <!--python-->
 
@@ -440,9 +498,9 @@ async def execute_state_transaction():
         store_name = 'your-state-store-name'
         try:
             await client.execute_state_transaction(store_name, ops)
-            print('状态事务已执行。')
+            print('State transaction executed.')
         except Exception as e:
-            print('执行状态事务时出错：', e)
+            print('Error executing state transaction:', e)
 
 # 运行异步函数
 if __name__ == "__main__":
@@ -450,7 +508,7 @@ if __name__ == "__main__":
 ```
 {{% /tab %}}
 
-{{% tab header="JavaScript" %}}
+{{% tab "JavaScript" %}}
 
 <!--javascript-->
 
@@ -490,7 +548,7 @@ executeStateTransaction();
 ```
 {{% /tab %}}
 
-{{% tab header=".NET" %}}
+{{% tab ".NET" %}}
 
 <!--csharp-->
 
@@ -501,11 +559,11 @@ public class StateOperationExample
     {
         var daprClient = new DaprClientBuilder().Build();
 
-        // 将值 "2" 定义为字符串并序列化为字节数组
+        // 将值 "2" 定义为字符串并将其序列化为字节数组
         var value = "2";
         var valueBytes = JsonSerializer.SerializeToUtf8Bytes(value);
 
-        // 定义第一个状态操作以保存值 "2" 并带有元数据
+        // 定义第一个状态操作以保存带有元数据的值 "2"
        // 覆盖 Cloudevent 元数据
         var metadata = new Dictionary<string, string>
         {
@@ -529,7 +587,7 @@ public class StateOperationExample
         // 执行状态事务
         var storeName = "your-state-store-name";
         await daprClient.ExecuteStateTransactionAsync(storeName, ops);
-        Console.WriteLine("状态事务已执行。");
+        Console.WriteLine("State transaction executed.");
     }
 
     public static async Task Main(string[] args)
@@ -541,7 +599,7 @@ public class StateOperationExample
 ```
 {{% /tab %}}
 
-{{% tab header="Java" %}}
+{{% tab "Java" %}}
 
 <!--java-->
 
@@ -552,44 +610,47 @@ public class StateOperationExample {
         executeStateTransaction();
     }
 
-    public static void executeStateTransaction() {
-        // 构建 Dapr 客户端
-        try (DaprClient daprClient = new DaprClientBuilder().build()) {
+  public static void executeStateTransaction() {
+    // 构建 Dapr 客户端
+    try (DaprClient daprClient = new DaprClientBuilder().build()) {
 
-            // 定义值 "2"
-            String value = "2";
+      // 覆盖 CloudEvent 元数据
+      Map<String, String> metadata = new HashMap<>();
+      metadata.put("cloudevent.id", "unique-business-process-id");
+      metadata.put("cloudevent.source", "CustomersApp");
+      metadata.put("cloudevent.type", "CustomerCreated");
+      metadata.put("cloudevent.subject", "123");
+      metadata.put("my-custom-ce-field", "abc");
 
-            // 覆盖 CloudEvent 元数据
-            Map<String, String> metadata = new HashMap<>();
-            metadata.put("cloudevent.id", "unique-business-process-id");
-            metadata.put("cloudevent.source", "CustomersApp");
-            metadata.put("cloudevent.type", "CustomerCreated");
-            metadata.put("cloudevent.subject", "123");
-            metadata.put("my-custom-ce-field", "abc");
+      State<String> state = new State<>(
+          "key1", // 定义键 "key1"
+          "value1", // 定义值 "value1"
+          null, // etag
+          metadata,
+          null // 并发与一致性选项
+      );
 
-            // 定义状态操作
-            List<StateOperation<?>> ops = new ArrayList<>();
-            StateOperation<String> op1 = new StateOperation<>(
-                    StateOperationType.UPSERT,
-                    "key1",
-                    value,
-                    metadata
-            );
-            ops.add(op1);
+      // 定义状态操作
+      List<TransactionalStateOperation<?>> ops = new ArrayList<>();
+      TransactionalStateOperation<String> op1 = new TransactionalStateOperation<>(
+          TransactionalStateOperation.OperationType.UPSERT,
+          state
+      );
+      ops.add(op1);
 
-            // 执行状态事务
-            String storeName = "your-state-store-name";
-            daprClient.executeStateTransaction(storeName, ops).block();
-            System.out.println("状态事务已执行。");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+      // 执行状态事务
+      String storeName = "your-state-store-name";
+      daprClient.executeStateTransaction(storeName, ops).block();
+      System.out.println("State transaction executed.");
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+  }
 }
 ```
 {{% /tab %}}
 
-{{% tab header="Go" %}}
+{{% tab "Go" %}}
 
 <!--go-->
 
@@ -598,7 +659,7 @@ func main() {
 	// 创建 Dapr 客户端
 	client, err := dapr.NewClient()
 	if err != nil {
-		log.Fatalf("创建 Dapr 客户端失败: %v", err)
+		log.Fatalf("failed to create Dapr client: %v", err)
 	}
 	defer client.Close()
 
@@ -630,15 +691,15 @@ func main() {
 	// 执行状态事务
 	err = client.ExecuteStateTransaction(ctx, store, meta, ops)
 	if err != nil {
-		log.Fatalf("执行状态事务失败: %v", err)
+		log.Fatalf("failed to execute state transaction: %v", err)
 	}
 
-	log.Println("状态事务已执行。")
+	log.Println("State transaction executed.")
 }
 ```
 {{% /tab %}}
 
-{{% tab header="HTTP" %}}
+{{% tab "HTTP" %}}
 
 <!--http-->
 
@@ -669,14 +730,18 @@ curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
 
 {{< /tabpane >}}
 
+
 {{% alert title="注意" color="primary" %}}
-`data` CloudEvent 字段仅供 Dapr 使用，且不可自定义。
+`data` CloudEvent 字段保留仅供 Dapr 使用，不可自定义。
 
 {{% /alert %}}
 
 ## 演示
 
-观看[此视频以了解 Outbox 模式的概述](https://youtu.be/rTovKpG0rhY?t=1338)：
+观看 [此视频以了解 outbox 模式的概述](https://youtu.be/rTovKpG0rhY?t=1338)：
 
-<div class="embed-responsive embed-responsive-16by9">
-<iframe width="360" height="315" src="https://www.youtube-nocookie.com/embed/rTovKpG0rhY?si=1xlS54vcdYnLLtOL&amp;start=1338" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+{{< youtube id=rTovKpG0rhY start=1338 >}}
+
+## 后续步骤
+
+[Dapr Outbox 如何在分布式应用中消除双重写入](https://www.diagrid.io/blog/how-dapr-outbox-eliminates-dual-writes-in-distributed-applications)

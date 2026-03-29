@@ -3,26 +3,26 @@ type: docs
 title: "操作指南：使用锁"
 linkTitle: "操作指南：使用锁"
 weight: 2000
-description: "学习如何使用分布式锁来提供对资源的独占访问"
+description: "了解如何使用分布式锁为资源提供独占访问"
 ---
 
-了解了Dapr分布式锁API构建块的功能后，学习如何在服务中使用它。在本指南中，我们将通过一个示例应用程序演示如何使用Redis锁组件获取锁。有关支持的锁存储类型，请参阅[此参考页面](/reference/components-reference/supported-locks/)。
+现在你已经了解了 Dapr 分布式锁 API 构建块所提供的功能，接下来学习它如何在你的服务中工作。在本指南中，一个示例应用程序使用 Redis 锁组件获取锁，以演示如何锁定资源。有关支持的锁存储列表，请参阅[此参考页面](/reference/components-reference/supported-locks/)。
 
-下图展示了相同应用程序的两个实例尝试获取锁，其中一个成功，另一个被拒绝。
+在下图中，同一应用程序的两个实例尝试获取锁，其中一个实例成功，另一个被拒绝。
 
-<img src="/images/building-block-lock-example.png" width=1000 alt="下图显示了相同应用程序的两个实例获取锁，其中一个实例成功，另一个被拒绝">
+<img src="/images/building-block-lock-example.png" width=1000 alt="下图显示同一应用程序的两个实例尝试获取锁，其中一个实例成功，另一个被拒绝">
 
-下图展示了相同应用程序的两个实例，其中一个实例释放锁，另一个实例随后成功获取锁。
+下图显示同一应用程序的两个实例，其中一个实例释放锁后，另一个实例能够获取该锁。
 
-<img src="/images/building-block-lock-unlock-example.png" width=1000 alt="图示显示了从相同应用程序的多个实例中释放锁">
+<img src="/images/building-block-lock-unlock-example.png" width=1000 alt="显示从同一应用程序的多个实例释放锁的示意图">
 
-下图展示了不同应用程序的两个实例在同一资源上获取不同的锁。
+下图显示两个不同应用程序的实例，在同一资源上获取不同的锁。
 
-<img src="/images/building-block-lock-multiple-example.png" width=1000 alt="下图显示了不同应用程序的两个实例，在同一资源上获取不同的锁">
+<img src="/images/building-block-lock-multiple-example.png" width=1000 alt="下图显示两个不同应用程序的实例，在同一资源上获取不同的锁">
 
 ### 配置锁组件
 
-将以下组件文件保存到您机器上的[默认组件文件夹]({{% ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" %}})。
+将以下组件文件保存到你机器上的[默认组件文件夹]({{% ref "install-dapr-selfhost#step-5-verify-components-directory-has-been-initialized" %}})中。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -43,7 +43,7 @@ spec:
 
 {{< tabpane text=true >}}
 
-{{% tab header="HTTP" %}}
+{{% tab "HTTP" %}}
 
 ```bash
 curl -X POST http://localhost:3500/v1.0-alpha1/lock/lockstore
@@ -52,9 +52,8 @@ curl -X POST http://localhost:3500/v1.0-alpha1/lock/lockstore
 ```
 
 {{% /tab %}}
-
-{{% tab header=".NET" %}}
-
+<br>
+{{% tab ".NET" %}}
 ```csharp
 using System;
 using Dapr.Client;
@@ -85,11 +84,9 @@ namespace LockService
     }
 }
 ```
-
 {{% /tab %}}
-
-{{% tab header="Go" %}}
-
+<br>
+{{% tab "Go" %}
 ```go
 package main
 
@@ -115,27 +112,23 @@ func main() {
     fmt.Println(resp.Success)
 }
 ```
-
 {{% /tab %}}
-
+<br>
 {{< /tabpane >}}
 
 ### 解锁现有锁
 
 {{< tabpane text=true >}}
 
-{{% tab header="HTTP" %}}
-
+{{% tab "HTTP" %}}
 ```bash
 curl -X POST http://localhost:3500/v1.0-alpha1/unlock/lockstore
    -H 'Content-Type: application/json'
    -d '{"resourceId":"my_file_name", "lockOwner":"random_id_abc123"}'
 ```
-
 {{% /tab %}}
-
-{{% tab header=".NET" %}}
-
+<br>
+{{% tab ".NET" %}}
 ```csharp
 using System;
 using Dapr.Client;
@@ -155,11 +148,9 @@ namespace LockService
     }
 }
 ```
-
 {{% /tab %}}
-
-{{% tab header="Go" %}}
-
+<br>
+{{% tab "Go" %}}
 ```go
 package main
 
@@ -184,11 +175,10 @@ func main() {
     fmt.Println(resp.Status)
 }
 ```
-
 {{% /tab %}}
-
+<br>
 {{< /tabpane >}}
 
 ## 下一步
 
-阅读[分布式锁API概述]({{% ref distributed-lock-api-overview.md %}})以了解更多信息。
+阅读[分布式锁 API 概述]({{% ref distributed-lock-api-overview %}})了解更多内容。

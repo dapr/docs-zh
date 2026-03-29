@@ -1,14 +1,14 @@
 ---
 type: docs
-title: "如何：使用StatefulSets水平扩展订阅者"
-linkTitle: "如何：使用StatefulSets水平扩展订阅者"
+title: "如何：通过 StatefulSet 水平扩展订阅者"
+linkTitle: "如何：通过 StatefulSet 水平扩展订阅者"
 weight: 6000
-description: "学习如何使用StatefulSet进行订阅，并通过一致的消费者ID水平扩展"
+description: "了解如何使用 StatefulSet 进行订阅并通过一致的消费者 ID 进行水平扩展"
 ---
 
-与在Deployments中Pod是临时的不同，[StatefulSets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/)通过为每个Pod保持固定的身份，使得在Kubernetes上可以部署有状态应用程序。
+与 Pod 为临时性的 Deployments 不同，[StatefulSets](https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/) 允许在 Kubernetes 上部署有状态应用程序，同时为每个 Pod 保持一个稳定的标识。
 
-以下是一个使用Dapr的StatefulSet示例：
+以下是使用 Dapr 的 StatefulSet 示例：
 ```yaml
 apiVersion: apps/v1
 kind: StatefulSet
@@ -17,13 +17,13 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: python-subscriber  # 必须匹配.spec.template.metadata.labels
+      app: python-subscriber  # has to match .spec.template.metadata.labels
   serviceName: "python-subscriber"
   replicas: 3
   template:
     metadata:
       labels:
-        app: python-subscriber # 必须匹配.spec.selector.matchLabels
+        app: python-subscriber # has to match .spec.selector.matchLabels
       annotations:
         dapr.io/enabled: "true"
         dapr.io/app-id: "python-subscriber"
@@ -37,14 +37,14 @@ spec:
         imagePullPolicy: Always
 ```
 
-在通过Dapr订阅pubsub主题时，应用程序可以定义一个`consumerID`，这个ID决定了订阅者在队列或主题中的位置。利用StatefulSets中Pod的固定身份，您可以为每个Pod分配一个唯一的`consumerID`，从而实现订阅者应用程序的水平扩展。Dapr会跟踪每个Pod的名称，并可以在组件中使用`{podName}`标记来声明。
+通过 Dapr 订阅发布订阅主题时，应用程序可以定义 `consumerID`，该 ID 决定了订阅者在队列或主题中的位置。借助 StatefulSets 的 Pod 稳定标识特性，每个 Pod 可以拥有唯一的 `consumerID`，从而实现订阅者应用程序的每个水平扩展。Dapr 会跟踪每个 Pod 的名称，该名称可在声明组件时使用 `{podName}` 标记。
 
-当扩展某个主题的订阅者数量时，每个Dapr组件都有特定的设置来决定其行为。通常，对于多个消费者有两种选择：
+在扩展给定主题的订阅者数量时，每个 Dapr 组件都有独特的设置来决定其行为。通常，多个消费者有两种选择：
 
-- 广播：发布到主题的每条消息将被所有订阅者接收。
-- 共享：一条消息仅由一个订阅者接收（而不是所有订阅者）。
+ - 广播：发布到主题的每条消息都会被所有订阅者消费。
+ - 共享：一条消息由任意订阅者消费（但不是全部）。
 
-Kafka通过`consumerID`为每个订阅者分配独立的位置。当实例重新启动时，它会使用相同的`consumerID`继续从上次的位置处理消息，而不会遗漏任何消息。以下组件示例展示了如何让多个Pod使用Kafka组件：
+Kafka 通过 `consumerID` 隔离每个订阅者，并在主题中维护各自的位置。当实例重启时，它会重用相同的 `consumerID` 并从其最后已知位置继续，不会跳过消息。下面的组件演示了 Kafka 组件如何被多个 Pod 使用：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -63,7 +63,7 @@ spec:
     value: "false"
 ```
 
-MQTT3协议支持共享主题，允许多个订阅者“竞争”处理来自主题的消息，这意味着每条消息仅由其中一个订阅者处理。例如：
+MQTT3 协议具有共享主题功能，允许多个订阅者"竞争"主题中的消息，即一条消息仅由其中一个处理。例如：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -88,7 +88,7 @@ spec:
 
 ## 下一步
 
-- 尝试[pubsub教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)。
-- 了解[使用CloudEvents进行消息传递]({{% ref pubsub-cloudevents.md %}})以及何时可能需要[发送不带CloudEvents的消息]({{% ref pubsub-raw.md %}})。
-- 查看[pubsub组件列表]({{% ref setup-pubsub %}})。
-- 阅读[API参考]({{% ref pubsub_api.md %}})。
+- 尝试 [发布订阅教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)。
+- 了解 [使用 CloudEvents 进行消息传递]({{% ref pubsub-cloudevents %}}) 以及何时可能 [发送不含 CloudEvents 的消息]({{% ref pubsub-raw %}})。
+- 查看 [发布订阅组件列表]({{% ref setup-pubsub %}})。
+- 阅读 [API 参考文档]({{% ref pubsub_api %}})。

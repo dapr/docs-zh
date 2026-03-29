@@ -6,38 +6,39 @@ description: "通过输出绑定调用外部系统"
 weight: 300
 ---
 
-使用输出绑定，您可以与外部资源进行交互。在调用请求中，您可以发送可选的负载和元数据。
 
-<img src="/images/howto-bindings/kafka-output-binding.png" width=1000 alt="示例服务的绑定图示">
+使用输出绑定，您可以调用外部资源。调用请求中可以发送可选的有效负载和元数据。
 
-本指南以Kafka绑定为例。您可以从[绑定组件列表]({{% ref setup-bindings %}})中选择您偏好的绑定规范。在本指南中：
+<img src="/images/howto-bindings/kafka-output-binding.png" width=1000 alt="Diagram showing bindings of example service">
 
-1. 示例中调用了`/binding`端点，使用`checkout`作为要调用的绑定名称。
-2. 负载放在必需的`data`字段中，可以是任何JSON可序列化的值。
-3. `operation`字段指定绑定需要执行的操作。例如，[Kafka绑定支持`create`操作]({{% ref "kafka.md#binding-support" %}})。
-   - 您可以查看[每个输出绑定支持的操作（特定于每个组件）]({{% ref supported-bindings %}})。
+本指南以 Kafka 绑定为例。您可以从[绑定组件列表]({{% ref setup-bindings %}})中找到您需要的绑定规范。在本指南中：
+
+1. 示例通过调用 `/binding` 端点，并传递 `checkout`（要调用的绑定名称）来执行操作。
+1. 有效负载放入必需的 `data` 字段中，可以是任何可序列化为 JSON 的值。
+1. `operation` 字段告诉绑定需要执行什么操作。例如，[Kafka 绑定支持 `create` 操作]({{% ref "kafka#binding-support" %}})。
+   - 您可以查看[每个输出绑定支持的操作（特定于各组件）]({{% ref supported-bindings %}})。
 
 {{% alert title="注意" color="primary" %}}
-如果您还没有尝试过，[请尝试绑定快速入门]({{% ref bindings-quickstart.md %}})，以快速了解如何使用bindings API。
+ 如果您还没有尝试过，可以先体验[绑定快速入门]({{% ref bindings-quickstart %}})，快速了解如何使用绑定 API。
 
 {{% /alert %}}
 
 ## 创建绑定
 
-创建一个`binding.yaml`文件，并将其保存到应用程序目录中的`components`子文件夹中。
+创建一个 `binding.yaml` 文件，并将其保存到应用程序目录中的 `components` 子文件夹中。
 
-创建一个名为`checkout`的新绑定组件。在`metadata`部分中，配置以下与Kafka相关的属性：
+创建一个名为 `checkout` 的新绑定组件。在 `metadata` 部分中，配置以下与 Kafka 相关的属性：
 
-- 您将发布消息的主题
+- 您要向其发布消息的主题
 - 代理
 
-在创建绑定组件时，[指定绑定的支持`direction`]({{% ref "bindings_api.md#binding-direction-optional" %}})。
+创建绑定组件时，[指定绑定的受支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。
 
 {{< tabpane text=true >}}
 
-{{% tab header="Self-Hosted (CLI)" %}}
+{{% tab "自托管 (CLI)" %}}
 
-使用`dapr run`的`--resources-path`标志指向您的自定义资源目录。
+使用 `dapr run` 命令时，通过 `--resources-path` 标志指向您的自定义资源目录。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -48,7 +49,7 @@ spec:
   type: bindings.kafka
   version: v1
   metadata:
-  # Kafka代理连接设置
+  # Kafka broker 连接设置
   - name: brokers
     value: localhost:9092
   # 消费者配置：主题和消费者组
@@ -67,9 +68,9 @@ spec:
 
 {{% /tab %}}
 
-{{% tab header="Kubernetes" %}}
+{{% tab "Kubernetes" %}}
 
-要将以下`binding.yaml`文件部署到Kubernetes集群中，运行`kubectl apply -f binding.yaml`。
+要将以下 `binding.yaml` 文件部署到 Kubernetes 集群中，请运行 `kubectl apply -f binding.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -80,7 +81,7 @@ spec:
   type: bindings.kafka
   version: v1
   metadata:
-  # Kafka代理连接设置
+  # Kafka broker 连接设置
   - name: brokers
     value: localhost:9092
   # 消费者配置：主题和消费者组
@@ -103,54 +104,44 @@ spec:
 
 ## 发送事件（输出绑定）
 
-下面的代码示例利用Dapr SDK在运行的Dapr实例上调用输出绑定端点。
+下面的代码示例利用 Dapr SDK 来调用运行中的 Dapr 实例上的输出绑定端点。
 
 {{< tabpane text=true >}}
 
-{{% tab header=".NET" %}}
+{{% tab ".NET" %}}
+
+以下是在 .NET 6+ 中使用顶级语句的控制台应用程序示例：
 
 ```csharp
-//依赖项
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 using Dapr.Client;
-using Microsoft.AspNetCore.Mvc;
-using System.Threading;
 
-//代码
-namespace EventService
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDaprClient();
+var app = builder.Build();
+
+const string BINDING_NAME = "checkout";
+const string BINDING_OPERATION = "create";
+
+var random = new Random();
+using var daprClient = app.Services.GetRequiredService<DaprClient>();
+
+while (true)
 {
-    class Program
-    {
-        static async Task Main(string[] args)
-        {
-            string BINDING_NAME = "checkout";
-            string BINDING_OPERATION = "create";
-            while(true)
-            {
-                System.Threading.Thread.Sleep(5000);
-                Random random = new Random();
-                int orderId = random.Next(1,1000);
-                using var client = new DaprClientBuilder().Build();
-                //使用Dapr SDK调用输出绑定
-                await client.InvokeBindingAsync(BINDING_NAME, BINDING_OPERATION, orderId);
-                Console.WriteLine("发送消息: " + orderId);
-            }
-        }
-    }
+    await Task.Delay(TimeSpan.FromSeconds(5));
+    var orderId = random.Next(1, 1000);
+    await client.InvokeBindingAsync(BINDING_NAME, BINDING_OPERATION, orderId);
+    Console.WriteLine($"Sending message: {orderId}"); 
 }
-
 ```
 
 {{% /tab %}}
 
-{{% tab header="Java" %}}
+{{% tab "Java" %}}
 
 ```java
-//依赖项
+//dependencies
 import io.dapr.client.DaprClient;
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.domain.HttpExtension;
@@ -160,7 +151,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-//代码
+//code
 @SpringBootApplication
 public class OrderProcessingServiceApplication {
 
@@ -174,9 +165,9 @@ public class OrderProcessingServiceApplication {
 			Random random = new Random();
 			int orderId = random.nextInt(1000-1) + 1;
 			DaprClient client = new DaprClientBuilder().build();
-          //使用Dapr SDK调用输出绑定
+          //使用 Dapr SDK 调用输出绑定
 			client.invokeBinding(BINDING_NAME, BINDING_OPERATION, orderId).block();
-			log.info("发送消息: " + orderId);
+			log.info("Sending message: " + orderId);
 		}
 	}
 }
@@ -185,10 +176,10 @@ public class OrderProcessingServiceApplication {
 
 {{% /tab %}}
 
-{{% tab header="Python" %}}
+{{% tab "Python" %}}
 
 ```python
-#依赖项
+#dependencies
 import random
 from time import sleep    
 import requests
@@ -196,7 +187,7 @@ import logging
 import json
 from dapr.clients import DaprClient
 
-#代码
+#code
 logging.basicConfig(level = logging.INFO)
 BINDING_NAME = 'checkout'
 BINDING_OPERATION = 'create' 
@@ -204,19 +195,19 @@ while True:
     sleep(random.randrange(50, 5000) / 1000)
     orderId = random.randint(1, 1000)
     with DaprClient() as client:
-        #使用Dapr SDK调用输出绑定
+        #使用 Dapr SDK 调用输出绑定
         resp = client.invoke_binding(BINDING_NAME, BINDING_OPERATION, json.dumps(orderId))
     logging.basicConfig(level = logging.INFO)
-    logging.info('发送消息: ' + str(orderId))
+    logging.info('Sending message: ' + str(orderId))
     
 ```
 
 {{% /tab %}}
 
-{{% tab header="Go" %}}
+{{% tab "Go" %}}
 
 ```go
-//依赖项
+//dependencies
 import (
 	"context"
 	"log"
@@ -227,7 +218,7 @@ import (
 
 )
 
-//代码
+//code
 func main() {
 	BINDING_NAME := "checkout";
 	BINDING_OPERATION := "create";
@@ -240,10 +231,10 @@ func main() {
 		}
 		defer client.Close()
 		ctx := context.Background()
-        //使用Dapr SDK调用输出绑定
+        //使用 Dapr SDK 调用输出绑定
 		in := &dapr.InvokeBindingRequest{ Name: BINDING_NAME, Operation: BINDING_OPERATION , Data: []byte(strconv.Itoa(orderId))}
 		err = client.InvokeOutputBinding(ctx, in)
-		log.Println("发送消息: " + strconv.Itoa(orderId))
+		log.Println("Sending message: " + strconv.Itoa(orderId))
 	}
 }
     
@@ -251,13 +242,13 @@ func main() {
 
 {{% /tab %}}
 
-{{% tab header="JavaScript" %}}
+{{% tab "JavaScript" %}}
 
 ```javascript
-//依赖项
+//dependencies
 import { DaprClient, CommunicationProtocolEnum } from "@dapr/dapr";
 
-//代码
+//code
 const daprHost = "127.0.0.1";
 
 (async function () {
@@ -281,9 +272,9 @@ async function sendOrder(orderId) {
         daprPort: process.env.DAPR_HTTP_PORT,
         communicationProtocol: CommunicationProtocolEnum.HTTP,
     });
-    //使用Dapr SDK调用输出绑定
+    //使用 Dapr SDK 调用输出绑定
     const result = await client.binding.send(BINDING_NAME, BINDING_OPERATION, orderId);
-    console.log("发送消息: " + orderId);
+    console.log("Sending message: " + orderId);
 }
 
 function sleep(ms) {
@@ -295,20 +286,18 @@ function sleep(ms) {
 
 {{< /tabpane >}}
 
-您还可以使用HTTP调用输出绑定端点：
+您也可以使用 HTTP 来调用输出绑定端点：
 
 ```bash
 curl -X POST -H 'Content-Type: application/json' http://localhost:3601/v1.0/bindings/checkout -d '{ "data": 100, "operation": "create" }'
 ```
 
-观看此[视频](https://www.youtube.com/watch?v=ysklxm81MTs&feature=youtu.be&t=1960)以了解如何使用双向输出绑定。
+观看此[视频](https://www.youtube.com/watch?v=ysklxm81MTs&feature=youtu.be&t=1960)了解如何使用双向输出绑定。
 
-<div class="embed-responsive embed-responsive-16by9">
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/ysklxm81MTs?start=1960" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-</div>
+{{< youtube id=ysklxm81MTs start=1960 >}}
 
-## 参考资料
+## 参考
 
-- [绑定API]({{% ref bindings_api.md %}})
+- [绑定 API]({{% ref bindings_api %}})
 - [绑定组件]({{% ref bindings %}})
-- [绑定详细规格]({{% ref supported-bindings %}})
+- [绑定详细规范]({{% ref supported-bindings %}})

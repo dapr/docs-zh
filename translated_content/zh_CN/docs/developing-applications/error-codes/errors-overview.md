@@ -6,19 +6,19 @@ weight: 10
 description: "Dapr 错误概述"
 ---
 
-错误代码是用于指示错误性质的数字或字母数字代码，并在可能的情况下，说明其发生的原因。
+错误码是一个数字或字母数字代码，用于指示错误的性质，并在可能的情况下说明错误发生的原因。
 
-Dapr 错误代码是标准化的字符串，适用于 Dapr API 中 HTTP 和 gRPC 请求的 80 多种常见错误。这些代码会：
+Dapr 错误码是使用 Dapr API 进行 HTTP 和 gRPC 请求时 80 多种常见错误的标准化字符串。这些代码同时具备以下功能：
 - 在请求的 JSON 响应体中返回。
-- 启用后，会在运行时的调试级别日志中记录。
-  - 如果您在 Kubernetes 中运行，错误代码会记录在 sidecar 中。
-  - 如果您在自托管中运行，可以启用并查看调试日志。
+- 启用后，在运行时日志中以 debug 级别记录。
+  - 如果在 Kubernetes 中运行，错误码会记录在边车中。
+  - 如果在自托管模式下运行，你可以启用并运行 debug 日志。
 
 ## 错误格式
 
-Dapr 错误代码由前缀、类别和错误本身的简写组成。例如：
+Dapr 错误码由前缀、类别和错误简写组成。例如：
 
-| 前缀 | 类别 | 错误简写 |  
+| 前缀 | 类别 | 错误简写 |
 | ------ | -------- | --------------- |
 | ERR_ | PUBSUB_ | NOT_FOUND |
 
@@ -29,9 +29,9 @@ Dapr 错误代码由前缀、类别和错误本身的简写组成。例如：
 - ERR_STATE_STORE_NOT_FOUND
 - ERR_HEALTH_NOT_READY
 
-> **注意：** [查看 Dapr 中错误代码的完整列表。]({{% ref error-codes-reference.md %}})
+> **注意：** [查看 Dapr 中的完整错误码列表。]({{% ref error-codes-reference.md %}})
 
-对于未找到的状态存储返回的错误可能如下所示：
+状态存储未找到时返回的错误可能如下所示：
 
 ```json
 {
@@ -41,22 +41,22 @@ Dapr 错误代码由前缀、类别和错误本身的简写组成。例如：
 }
 ```
 
-返回的错误包括：
-- 错误代码：`ERR_STATE_STORE_NOT_FOUND`
+返回的错误包含：
+- 错误码：`ERR_STATE_STORE_NOT_FOUND`
 - 描述问题的错误消息：`state store <name> is not found`
 - 发生错误的应用程序 ID：`nodeapp`
-- 错误的原因：`DAPR_STATE_NOT_FOUND`
+- 错误原因：`DAPR_STATE_NOT_FOUND`
 
-## Dapr 错误代码指标
+## Dapr 错误码指标
 
-指标帮助您查看错误在运行时发生的具体时间。错误代码指标通过 `error_code_total` 端点收集。此端点默认情况下是禁用的。您可以[通过配置文件中的 `recordErrorCodes` 字段启用它]({{% ref "metrics-overview.md#configuring-metrics-for-error-codes" %}})。
+指标帮助你查看运行时内部错误发生的具体时间。错误码指标通过 `error_code_total` 端点收集。该端点默认禁用。你可以通过[在配置文件中使用 `recordErrorCodes` 字段来启用它]({{% ref "metrics-overview.md#configuring-metrics-for-error-codes" %}})。
 
 ## 演示
 
-观看 [Diagrid 的 Dapr v1.15 庆祝活动](https://www.diagrid.io/videos/dapr-1-15-deep-dive) 中的演示，了解如何启用错误代码指标以及处理运行时返回的错误代码。
+观看在 [Diagrid Dapr v1.15 庆祝活动](https://www.diagrid.io/videos/dapr-1-15-deep-dive)上呈现的演示，了解如何启用错误码指标以及如何处理运行时中返回的错误码。
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/NTnwoDhHIcQ?si=I2uCB_TINGxlu-9v&amp;start=2812" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+{{< youtube id=NTnwoDhHIcQ start=2812 >}}
 
 ## 下一步
 
-{{< button text="查看所有 Dapr 错误代码的列表" page="error-codes-reference" >}}
+{{< button text="查看所有 Dapr 错误码列表" page="error-codes-reference.md" >}}

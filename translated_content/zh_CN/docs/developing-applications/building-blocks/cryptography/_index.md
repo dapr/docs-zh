@@ -1,14 +1,14 @@
+---
 type: docs
-title: "加密技术"
-linkTitle: "加密技术"
+title: "密码学"
+linkTitle: "密码学"
 weight: 100
-description: "在不暴露密钥的情况下执行加密操作，确保应用程序的安全性"
-
+description: "在不向应用程序暴露密钥的情况下执行加密操作"  
 ---
 
-{{% alert title="更多关于Dapr加密技术" color="primary" %}}
-了解如何使用Dapr加密技术：
-- 尝试[加密技术快速入门]({{% ref cryptography-quickstart.md %}})。
-- 通过不同的[Dapr SDKs]({{% ref sdks %}})体验加密技术。
-- 查看支持的[加密技术组件规格]({{% ref supported-cryptography %}})。
+{{% alert title="了解更多关于 Dapr 密码学" color="primary" %}}
+ 了解如何使用 Dapr 密码学：
+ - 尝试[密码学快速入门]({{% ref cryptography-quickstart %}})。
+ - 通过任何支持的 [Dapr SDK]({{% ref sdks %}}) 探索密码学。 
+ - 浏览支持的[密码学组件规范]({{% ref supported-cryptography %}})。
 {{% /alert %}}

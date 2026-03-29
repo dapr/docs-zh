@@ -1,16 +1,16 @@
 ---
 type: docs
-title: "在 Docker Compose 中调试 Dapr 应用"
+title: "调试在 Docker Compose 中运行的 Dapr 应用"
 linkTitle: "调试 Docker Compose"
 weight: 300
-description: "本地调试作为 Docker Compose 部署一部分的 Dapr 应用"
+description: "在本地调试属于 Docker Compose 部署一部分的 Dapr 应用"
 ---
 
-本文旨在介绍一种方法，如何通过你的 IDE 在本地调试一个或多个使用 Dapr 的应用，同时保持与其他通过 Docker Compose 部署的应用的集成。
+本文的目标是演示一种方法，在保持与 docker compose 环境中部署的其他应用程序集成的同时，调试一个或多个 daprized 应用程序（通过你的 IDE，在本地）。
 
-我们以一个包含两个服务的 Docker Compose 文件的简单示例为例：
-- `nodeapp` - 你的应用
-- `nodeapp-dapr` - 你的 `nodeapp` 服务的 Dapr sidecar 进程
+让我们来看一个 docker compose 文件的最小示例，它只包含两个服务：
+- `nodeapp` - 你的应用程序
+- `nodeapp-dapr` - 你的 `nodeapp` 服务的 dapr 边车进程
 
 #### compose.yml
 ```yaml
@@ -38,44 +38,44 @@ networks:
   hello-dapr
 ```
 
-当你使用 `docker compose -f compose.yml up` 运行这个 Docker 文件时，它将部署到 Docker 并正常运行。
+当你使用 `docker compose -f compose.yml up` 运行这个 docker 文件时，它将部署到 Docker 并正常运行。
 
-但是，如何在保持与正在运行的 Dapr sidecar 进程以及其他通过 Docker Compose 文件部署的服务集成的情况下调试 `nodeapp` 呢？
+但是，我们如何在保持与运行的 dapr 边车进程集成的同时调试 `nodeapp`，以及通过 Docker compose 文件部署的其他任何内容呢？
 
-我们可以通过引入一个名为 `compose.debug.yml` 的*第二个* Docker Compose 文件来实现。当运行 `up` 命令时，这个第二个 Compose 文件将与第一个文件结合使用。
+让我们首先引入一个名为 `compose.debug.yml` 的*第二个* docker compose 文件。当运行 `up` 命令时，这第二个 compose 文件将与第一个 compose 文件协同工作。
 
 #### compose.debug.yml
 ```yaml
 services:
-  nodeapp: # 通过移除其端口并将其从网络中移除来隔离 nodeapp
+  nodeapp: # 通过移除端口并将其从网络中隔离来隔离 nodeapp
     ports: !reset []
     networks: !reset
       - ""
   nodeapp-dapr:
     command: ["./daprd",
      "--app-id", "nodeapp",
-     "--app-port", "8080", # 这必须与在 IDE 中调试时应用暴露的端口匹配
+     "--app-port", "8080", # 这必须与你在 IDE 中调试时应用程序暴露的端口相匹配
      "--resources-path", "./components",
-     "--app-channel-address", "host.docker.internal"] # 让 sidecar 在主机上查找应用通道
+     "--app-channel-address", "host.docker.internal"] # 使边车在主机上查找 App Channel
     network_mode: !reset "" # 重置 network_mode...
-    networks: # ... 以便 sidecar 可以进入正常网络
+    networks: # ...以便边车可以进入正常网络
       - hello-dapr
     ports:
       - "3500:3500" # 将 HTTP 端口暴露给主机
-      - "50001:50001" # 将 GRPC 端口暴露给主机（Dapr 工作流依赖于 GRPC 通道）
+      - "50001:50001" # 将 GRPC 端口暴露给主机（Dapr Workflows 依赖于 GRPC 通道）
 
 ```
 
-接下来，确保你的 `nodeapp` 在你选择的 IDE 中运行/调试，并在你在 `compose.debug.yml` 中上面指定的相同端口上暴露 - 在上面的示例中，这设置为端口 `8080`。
+接下来，确保你的 `nodeapp` 在你选择的 IDE 中运行/调试，并在你在上面的 `compose.debug.yml` 中指定的同一端口上暴露 - 在上面的示例中，这设置为端口 `8080`。
 
-接下来，停止你可能已启动的任何现有 Compose 会话，并运行以下命令以组合运行两个 Docker Compose 文件：
+接下来，停止你可能已启动的任何现有 compose 会话，并运行以下命令来将两个 docker compose 文件组合运行：
 
 `docker compose -f compose.yml -f compose.debug.yml up`
 
-现在，你应该会发现 Dapr sidecar 和你的调试应用可以相互通信，就像它们在 Docker Compose 环境中正常一起运行一样。
+现在你应该发现，dapr 边车和你的调试应用程序将具有双向通信，就像它们在 Docker compose 环境中正常运行一样。
 
-**注意**：需要强调的是，Docker Compose 环境中的 `nodeapp` 服务实际上仍在运行，但它已从 Docker 网络中移除，因此实际上被孤立，因为没有任何东西可以与之通信。
+**注意**：需要强调的是，docker compose 环境中的 `nodeapp` 服务实际上仍在运行，但它已从 docker 网络中移除，因此实际上已被孤立，没有任何东西可以与之通信。
 
 **演示**：观看此视频，了解如何使用 Docker Compose 调试本地 Dapr 应用
 
-<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/nWatANwaAik?start=1738" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+{{< youtube id=nWatANwaAik start=1738 >}}

@@ -1,18 +1,18 @@
 ---
 type: docs
-title: "可插拔组件的SDK"
-linkTitle: "软件开发工具包"
+title: "可插拔组件 SDK"
+linkTitle: "SDK"
 weight: 2000
-description: "使用您喜欢的语言开发可插拔组件"
+description: "用你喜欢的语言开发可插拔组件"
 no_list: true
 is_preview: true
 ---
 
-Dapr SDK 是帮助您轻松创建可插拔组件的最佳工具。选择您喜欢的编程语言，几分钟内即可开始开发组件。
+Dapr SDK 是创建可插拔组件的最简单方式。选择你喜欢的语言，在几分钟内开始创建组件。
 
-## 可插拔组件的SDK
+## 可插拔组件 SDK
 
-| 语言 | 进度 |
-|------|:----:|
-| [Go]({{% ref pluggable-components-go %}}) | 正在开发 |
-| [.NET]({{% ref pluggable-components-dotnet %}}) | 正在开发 |
+| 语言 | 状态 |
+|----------|:------:|
+| [Go]({{% ref pluggable-components-go %}}) | 开发中 |
+| [.NET]({{% ref pluggable-components-dotnet %}}) | 开发中 |

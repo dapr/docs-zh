@@ -3,12 +3,12 @@ type: docs
 title: "工作流"
 linkTitle: "工作流"
 weight: 30
-description: "在各种微服务中进行逻辑编排"
+description: "跨多个微服务编排逻辑"
 ---
 
-{{% alert title="更多关于Dapr工作流的内容" color="primary" %}}
-了解如何使用Dapr工作流的更多信息：
-- 试试[工作流快速入门]({{% ref workflow-quickstart.md %}})。
-- 使用任意[Dapr SDKs]({{% ref sdks %}})来探索工作流。
-- 查看[工作流API参考文档]({{% ref workflow_api.md %}})。
+{{% alert title="了解更多关于 Dapr 工作流" color="primary" %}}
+ 了解如何使用 Dapr 工作流：
+ - 尝试 [工作流快速入门]({{% ref workflow-quickstart.md %}})。
+ - 通过任意支持的 [Dapr SDK]({{% ref sdks %}}) 探索工作流。
+ - 查看 [工作流 API 参考文档]({{% ref workflow_api.md %}})。
 {{% /alert %}}

@@ -1,51 +1,49 @@
 ---
 type: docs
-title: "actor 运行时配置参数"
+title: "Actor 运行时配置参数"
 linkTitle: "运行时配置"
 weight: 30
-description: 修改默认 Dapr actor 运行时配置行为
+description: 修改默认的 Dapr Actor 运行时配置行为
 ---
 
-您可以使用以下配置参数来调整 Dapr actor 的默认运行时行为。
+您可以使用以下配置参数修改默认的 Dapr Actor 运行时行为。
 
 | 参数 | 描述 | 默认值 |
 | --------- | ----------- | ------- |
-| `entities` | 此主机支持的 actor 类型。 | N/A |
-| `actorIdleTimeout` | 空闲 actor 的停用超时时间。每隔 `actorScanInterval` 时间间隔检查一次。 | 60 分钟 |
-| `actorScanInterval` | 指定扫描空闲 actor 的时间间隔。超过 `actorIdleTimeout` 的 actor 将被停用。 | 30 秒 |
-| `drainOngoingCallTimeout` | 在重新平衡 actor 时，指定当前活动 actor 方法的完成超时时间。如果没有正在进行的方法调用，则忽略此项。 | 60 秒 |
-| `drainRebalancedActors` | 如果设置为 true，Dapr 将在 `drainOngoingCallTimeout` 时间内等待当前 actor 调用完成，然后再尝试停用 actor。 | true |
-| `reentrancy` (`ActorReentrancyConfig`) | 配置 actor 的重入行为。如果未提供，则重入功能被禁用。 | 禁用，false |
-| `remindersStoragePartitions` | 配置 actor 的提醒分区数量。如果未提供，所有提醒将作为 actor 状态存储中的单个记录保存。 | 0 |
-| `entitiesConfig` | 使用配置数组单独配置每个 actor 类型。任何在单个实体配置中指定的实体也必须在顶级 `entities` 字段中列出。 | N/A |
+| `entities` | 此主机支持的 Actor 类型。 | N/A |
+| `actorIdleTimeout` | 停用空闲 Actor 前的超时时间。每隔 `actorScanInterval` 间隔检查一次超时。 | 60 分钟 |
+| `actorScanInterval` | 扫描需要停用的空闲 Actor 的频率。空闲时间超过 `actor_idle_timeout` 的 Actor 将被停用。 | 30 秒 |
+| `drainOngoingCallTimeout` | 正在迁移重平衡 Actor 时的持续时间。这指定了当前活动 Actor 方法完成的超时时间。如果没有当前 Actor 方法调用，则忽略此参数。 | 60 秒 |
+| `drainRebalancedActors` | 如果为 true，Dapr 将等待 `drainOngoingCallTimeout` 持续时间，以允许当前 Actor 调用完成，然后再尝试停用 Actor。 | true |
+| `reentrancy` (`ActorReentrancyConfig`) | 配置 Actor 的重入行为。如果未提供，则禁用重入。 | 禁用，false |
+| `entitiesConfig` | 使用配置数组为每个 Actor 类型单独配置。在各个实体配置中指定的任何实体也必须在顶层 `entities` 字段中指定。 | N/A |
 
 ## 示例
 
 {{< tabpane text=true >}}
 
-{{% tab header=".NET" %}}
+{{% tab ".NET" %}}
 ```csharp
-// 在 Startup.cs 中
+// In Startup.cs
 public void ConfigureServices(IServiceCollection services)
 {
-    // 使用 DI 注册 actor 运行时
+    // Register actor runtime with DI
     services.AddActors(options =>
     {
-        // 注册 actor 类型并配置 actor 设置
+        // Register actor types and configure actor settings
         options.Actors.RegisterActor<MyActor>();
 
-        // 配置默认设置
+        // Configure default settings
         options.ActorIdleTimeout = TimeSpan.FromMinutes(60);
         options.ActorScanInterval = TimeSpan.FromSeconds(30);
         options.DrainOngoingCallTimeout = TimeSpan.FromSeconds(60);
         options.DrainRebalancedActors = true;
-        options.RemindersStoragePartitions = 7;
         options.ReentrancyConfig = new() { Enabled = false };
 
-        // 为特定 actor 类型添加配置。
-        // 此 actor 类型必须在基础级别的 'entities' 字段中有匹配值。如果没有，配置将被忽略。
-        // 如果有匹配的实体，这里的值将用于覆盖根配置中指定的任何值。
-        // 在此示例中，`ReentrantActor` 启用了重入；然而，'MyActor' 将不启用重入。
+        // Add a configuration for a specific actor type.
+        // This actor type must have a matching value in the base level 'entities' field. If it does not, the configuration will be ignored.
+        // If there is a matching entity, the values here will be used to overwrite any values specified in the root configuration.
+        // In this example, `ReentrantActor` has reentrancy enabled; however, 'MyActor' will not have reentrancy enabled.
         options.Actors.RegisterActor<ReentrantActor>(typeOptions: new()
         {
             ReentrancyConfig = new()
@@ -55,22 +53,19 @@ public void ConfigureServices(IServiceCollection services)
         });
     });
 
-    // 注册用于 actor 的其他服务
+    // Register additional services for use with actors
     services.AddSingleton<BankService>();
 }
 ```
-[查看 .NET SDK 文档以注册 actor]({{% ref "dotnet-actors-usage.md#registring-actors" %}})。
+[参阅 .NET SDK 关于注册 Actor 的文档]({{% ref "dotnet-actors-usage#registring-actors" %}}).
 
 {{% /tab %}}
 
-{{% tab header="JavaScript" %}}
-
-<!--javascript-->
-
+{{% tab "JavaScript" %}}
 ```js
 import { CommunicationProtocolEnum, DaprClient, DaprServer } from "@dapr/dapr";
 
-// 使用 DaprClientOptions 配置 actor 运行时。
+// Configure the actor runtime with the DaprClientOptions.
 const clientOptions = {
   actor: {
     actorIdleTimeout: "1h",
@@ -81,25 +76,23 @@ const clientOptions = {
       enabled: true,
       maxStackDepth: 32,
     },
-    remindersStoragePartitions: 0,
   },
 };
 
-// 在创建 DaprServer 和 DaprClient 时使用这些选项。
+// Use the options when creating DaprServer and DaprClient.
 
-// 注意，DaprServer 内部创建了一个 DaprClient，需要使用 clientOptions 进行配置。
+// Note, DaprServer creates a DaprClient internally, which needs to be configured with clientOptions.
 const server = new DaprServer(serverHost, serverPort, daprHost, daprPort, clientOptions);
 
 const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP, clientOptions);
 ```
 
-[查看使用 JavaScript SDK 编写 actor 的文档]({{% ref "js-actors.md#registering-actors" %}})。
+[参阅使用 JavaScript SDK 编写 Actor 的文档]({{% ref "js-actors#registering-actors" %}}).
 
 {{% /tab %}}
 
-{{% tab header="Python" %}}
 
-<!--python-->
+% tab "Python" %}}
 
 ```python
 from datetime import timedelta
@@ -112,18 +105,16 @@ ActorRuntime.set_actor_config(
         drain_ongoing_call_timeout=timedelta(minutes=1),
         drain_rebalanced_actors=True,
         reentrancy=ActorReentrancyConfig(enabled=False),
-        remindersStoragePartitions=7
     )
 )
 ```
 
-[查看使用 Python SDK 运行 actor 的文档]({{% ref "python-actor.md" %}})
+[参阅使用 Python SDK 运行 Actor 的文档]({{% ref "python-actor" %}})
 
 {{% /tab %}}
 
-{{% tab header="Java" %}}
 
-<!--java-->
+% tab "Java" %}}
 
 ```java
 // import io.dapr.actors.runtime.ActorRuntime;
@@ -134,16 +125,14 @@ ActorRuntime.getInstance().getConfig().setActorScanInterval(Duration.ofSeconds(3
 ActorRuntime.getInstance().getConfig().setDrainOngoingCallTimeout(Duration.ofSeconds(60));
 ActorRuntime.getInstance().getConfig().setDrainBalancedActors(true);
 ActorRuntime.getInstance().getConfig().setActorReentrancyConfig(false, null);
-ActorRuntime.getInstance().getConfig().setRemindersStoragePartitions(7);
 ```
 
-[查看使用 Java SDK 编写 actor 的文档]({{% ref "java.md#actors" %}})。
+[参阅使用 Java SDK 编写 Actor 的文档]({{% ref "java#actors" %}}).
 
 {{% /tab %}}
 
-{{% tab header="Go" %}}
-<!--go-->
 
+% tab "Go" %}}
 ```go
 const (
     defaultActorType = "basicType"
@@ -169,10 +158,10 @@ var daprConfigResponse = daprConfig{
 	Reentrancy:              config.ReentrancyConfig{Enabled: false},
 	EntitiesConfig: []config.EntityConfig{
 		{
-            // 为特定 actor 类型添加配置。
-            // 此 actor 类型必须在基础级别的 'entities' 字段中有匹配值。如果没有，配置将被忽略。
-            // 如果有匹配的实体，这里的值将用于覆盖根配置中指定的任何值。
-            // 在此示例中，`reentrantActorType` 启用了重入；然而，'defaultActorType' 将不启用重入。
+            // Add a configuration for a specific actor type.
+            // This actor type must have a matching value in the base level 'entities' field. If it does not, the configuration will be ignored.
+            // If there is a matching entity, the values here will be used to overwrite any values specified in the root configuration.
+            // In this example, `reentrantActorType` has reentrancy enabled; however, 'defaultActorType' will not have reentrancy enabled.
 			Entities: []string{reentrantActorType},
 			Reentrancy: config.ReentrancyConfig{
 				Enabled:       true,
@@ -189,18 +178,15 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 }
 ```
 
-[查看使用 Go SDK 的 actor 示例](https://github.com/dapr/go-sdk/tree/main/examples/actor)。
+[参阅使用 Go SDK 的 Actor 示例](https://github.com/dapr/go-sdk/tree/main/examples/actor).
 
 {{% /tab %}}
 
-{{< /tabpane >}}
 
-## 下一步
-
-{{< button text="启用 actor reminder 分区 >>" page="howto-actors-partitioning.md" >}}
+/tabpane >}}
 
 ## 相关链接
 
-- 参考 [Dapr SDK 文档和示例]({{% ref "developing-applications/sdks/#sdk-languages" %}})。
-- [actor API 参考]({{% ref actors_api.md %}})
-- [actor 概述]({{% ref actors-overview.md %}})
+- 参阅 [Dapr SDK 文档和示例]({{% ref "developing-applications/sdks/_index.md#sdk-languages" %}})。
+- [Actor API 参考]({{% ref actors_api %}})
+- [Actor 概述]({{% ref actors-overview %}})

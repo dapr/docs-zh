@@ -2,48 +2,48 @@
 type: docs
 title: "操作指南：使用输入绑定触发应用程序"
 linkTitle: "操作指南：输入绑定"
-description: "使用Dapr输入绑定触发事件驱动的应用程序"
+description: "使用 Dapr 输入绑定来触发事件驱动应用程序"
 weight: 200
 ---
 
-当外部资源发生事件时，您可以通过输入绑定来触发您的应用程序。外部资源可以是队列、消息管道、云服务、文件系统等。请求中可以发送可选的负载和元数据。
+使用输入绑定，当外部资源发生事件时，可以触发您的应用程序。外部资源可以是队列、消息管道、云服务、文件系统等。请求可以随附可选的 payload 和 metadata。
 
-输入绑定非常适合用于事件驱动的处理、数据管道或一般的事件响应和后续处理。Dapr输入绑定允许您：
+输入绑定非常适合事件驱动处理、数据管道，或通常用于响应事件并执行进一步处理。Dapr 输入绑定允许您：
 
-- 在不需要特定SDK或库的情况下接收事件
-- 在不更改代码的情况下替换绑定
-- 专注于业务逻辑而不是事件资源的实现
+- 接收事件而无需包含特定的 SDK 或库
+- 更换绑定而无需更改代码
+- 专注于业务逻辑而非事件资源实现
 
-<img src="/images/howto-triggers/kafka-input-binding.png" width=1000 alt="示例服务的绑定图示">
+<img src="/images/howto-triggers/kafka-input-binding.png" width=1000 alt="Diagram showing bindings of example service">
 
-本指南使用Kafka绑定作为示例。您可以从[绑定组件列表]({{% ref setup-bindings %}})中找到您偏好的绑定规范。在本指南中：
+本指南以 Kafka 绑定为例。您可以从[绑定组件列表]({{% ref setup-bindings %}})中找到您首选的绑定规范。在本指南中：
 
-1. 示例调用`/binding`端点，使用`checkout`作为要调用的绑定名称。
-1. 负载需要放在`data`字段中，可以是任何可序列化为JSON的值。
-1. `operation`字段指定绑定需要执行的操作。例如，[Kafka绑定支持`create`操作]({{% ref "kafka.md#binding-support" %}})。
-   - 您可以查看[每个输出绑定支持的操作（特定于每个组件）]({{% ref supported-bindings %}})。
+1. 示例使用 `checkout`（要调用的绑定名称）调用 `/binding` 端点。
+1. payload 放入必填的 `data` 字段中，可以是任何 JSON 可序列化的值。
+1. `operation` 字段告知绑定需要采取什么操作。例如，[Kafka 绑定支持 `create` 操作]({{% ref "kafka#binding-support" %}})。
+   - 您可以检查[每个输出绑定支持哪些操作（特定于每个组件）]({{% ref supported-bindings %}})。
 
 {{% alert title="注意" color="primary" %}}
- 如果您还没有尝试过，[试试绑定快速入门]({{% ref bindings-quickstart.md %}})，快速了解如何使用绑定API。
+ 如果您还没有尝试过，请先[尝试绑定快速入门]({{% ref bindings-quickstart %}})，快速了解如何使用绑定 API。
 
 {{% /alert %}}
 
 ## 创建绑定
 
-创建一个`binding.yaml`文件，并保存到应用程序目录中的`components`子文件夹中。
+创建一个 `binding.yaml` 文件并保存到应用程序目录中的 `components` 子文件夹。
 
-创建一个名为`checkout`的新绑定组件。在`metadata`部分中，配置以下与Kafka相关的属性：
+创建一个名为 `checkout` 的新绑定组件。在 `metadata` 部分，配置以下与 Kafka 相关的属性：
 
-- 您将发布消息的主题
-- 代理
+- 您将向其发布消息的 topic
+- broker
 
-在创建绑定组件时，[指定绑定的支持`direction`]({{% ref "bindings_api.md#binding-direction-optional" %}})。
+创建绑定组件时，[指定绑定支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。
 
 {{< tabpane text=true >}}
 
-{{% tab header="Self-Hosted (CLI)" %}}
+{{% tab "自托管 (CLI)" %}}
 
-使用`dapr run`命令的`--resources-path`标志指向您的自定义资源目录。
+在 `dapr run` 命令中使用 `--resources-path` 标志指向您的自定义资源目录。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -54,15 +54,15 @@ spec:
   type: bindings.kafka
   version: v1
   metadata:
-  # Kafka代理连接设置
+  # Kafka broker 连接设置
   - name: brokers
     value: localhost:9092
-  # 消费者配置：主题和消费者组
+  # consumer 配置：topic 和 consumer group
   - name: topics
     value: sample
   - name: consumerGroup
     value: group1
-  # 发布者配置：主题
+  # publisher 配置：topic
   - name: publishTopic
     value: sample
   - name: authRequired
@@ -73,9 +73,9 @@ spec:
 
 {{% /tab %}}
 
-{{% tab header="Kubernetes" %}}
+{{% tab "Kubernetes" %}}
 
-要部署到Kubernetes集群中，运行`kubectl apply -f binding.yaml`。
+要部署到 Kubernetes 集群，运行 `kubectl apply -f binding.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -86,15 +86,15 @@ spec:
   type: bindings.kafka
   version: v1
   metadata:
-  # Kafka代理连接设置
+  # Kafka broker 连接设置
   - name: brokers
     value: localhost:9092
-  # 消费者配置：主题和消费者组
+  # consumer 配置：topic 和 consumer group
   - name: topics
     value: sample
   - name: consumerGroup
     value: group1
-  # 发布者配置：主题
+  # publisher 配置：topic
   - name: publishTopic
     value: sample
   - name: authRequired
@@ -109,52 +109,68 @@ spec:
 
 ## 监听传入事件（输入绑定）
 
-配置您的应用程序以接收传入事件。如果您使用HTTP，您需要：
-- 监听一个`POST`端点，其名称与`binding.yaml`文件中的`metadata.name`指定的绑定名称相同。
-- 确保您的应用程序允许Dapr对该端点进行`OPTIONS`请求。
+配置您的应用程序以接收传入事件。如果您使用 HTTP，则需要：
+- 监听一个 `POST` 端点，端点名称为绑定名称，即 `binding.yaml` 文件中 `metadata.name` 指定的名称。
+- 验证您的应用程序允许 Dapr 对此端点进行 `OPTIONS` 请求。
 
-以下是利用Dapr SDK展示输入绑定的代码示例。
+以下是利用 Dapr SDK 演示输入绑定的代码示例。
 
 {{< tabpane text=true >}}
 
-{{% tab header=".NET" %}}
+{{% tab ".NET" %}}
+
+以下示例演示如何使用 ASP.NET Core 控制器配置输入绑定。
 
 ```csharp
-//依赖项
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Mvc;
 
-//代码
-namespace CheckoutService.controller
+namespace CheckoutService.controller;
+
+[ApiController]
+public sealed class CheckoutServiceController : ControllerBase
 {
-    [ApiController]
-    public class CheckoutServiceController : Controller
+    [HttpPost("/checkout")]
+    public ActionResult<string> getCheckout([FromBody] int orderId)
     {
-        [HttpPost("/checkout")]
-        public ActionResult<string> getCheckout([FromBody] int orderId)
-        {
-            Console.WriteLine("Received Message: " + orderId);
-            return "CID" + orderId;
-        }
+        Console.WriteLine($"Received Message: {orderId}");
+        return $"CID{orderId}";
     }
 }
+```
 
+以下示例演示如何使用 minimal API 方式配置相同的输入绑定：
+```csharp
+app.MapPost("checkout", ([FromBody] int orderId) =>
+{
+    Console.WriteLine($"Received Message: {orderId}");
+    return $"CID{orderId}"
+});
+```
+
+以下示例演示如何使用 minimal API 方式配置相同的输入绑定：
+```csharp
+app.MapPost("checkout", ([FromBody] int orderId) =>
+{
+    Console.WriteLine($"Received Message: {orderId}");
+    return $"CID{orderId}"
+});
 ```
 
 {{% /tab %}}
 
-{{% tab header="Java" %}}
+{{% tab "Java" %}}
 
 ```java
-//依赖项
+//dependencies
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
-//代码
+//code
 @RestController
 @RequestMapping("/")
 public class CheckoutServiceController {
@@ -170,14 +186,14 @@ public class CheckoutServiceController {
 
 {{% /tab %}}
 
-{{% tab header="Python" %}}
+{{% tab "Python" %}}
 
 ```python
-#依赖项
+#dependencies
 import logging
 from dapr.ext.grpc import App, BindingRequest
 
-#代码
+#code
 app = App()
 
 @app.binding('checkout')
@@ -191,10 +207,10 @@ app.run(6002)
 
 {{% /tab %}}
 
-{{% tab header="Go" %}}
+{{% tab "Go" %}}
 
 ```go
-//依赖项
+//dependencies
 import (
 	"encoding/json"
 	"log"
@@ -202,7 +218,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//代码
+//code
 func getCheckout(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var orderId int
@@ -225,13 +241,13 @@ func main() {
 
 {{% /tab %}}
 
-{{% tab header="JavaScript" %}}
+{{% tab "JavaScript%}}" %}}
 
 ```javascript
-//依赖项 
+//dependencies 
 import { DaprServer, CommunicationProtocolEnum } from '@dapr/dapr'; 
 
-//代码
+//code
 const daprHost = "127.0.0.1"; 
 const serverHost = "127.0.0.1";
 const serverPort = "6002"; 
@@ -264,15 +280,15 @@ async function start() {
 
 ### 确认事件
 
-通过从HTTP处理程序返回`200 OK`响应，告知Dapr您已成功处理应用程序中的事件。
+从您的 HTTP 处理程序返回 `200 OK` 响应，告知 Dapr 您已成功处理事件。
 
 ### 拒绝事件
 
-通过返回`200 OK`以外的任何响应，告知Dapr事件在您的应用程序中未正确处理，并安排重新投递。例如，`500 Error`。
+返回 `200 OK` 以外的任何响应，告知 Dapr 事件在您的应用程序中未正确处理，并计划重新传递该事件。例如，返回 `500 Error`。
 
 ### 指定自定义路由
 
-默认情况下，传入事件将被发送到与输入绑定名称对应的HTTP端点。您可以通过在`binding.yaml`中设置以下元数据属性来覆盖此设置：
+默认情况下，传入事件将发送到与输入绑定名称对应的 HTTP 端点。您可以通过在 `binding.yaml` 中设置以下 metadata 属性来覆盖此设置：
 
 ```yaml
 name: mybinding
@@ -283,13 +299,13 @@ spec:
     value: /onevent
 ```
 
-### 事件投递保证
+### 事件传递保证
 
-事件投递保证由绑定实现控制。根据绑定实现，事件投递可以是精确一次或至少一次。
+事件传递保证由绑定实现控制。根据绑定实现的不同，事件传递可以是恰好一次或至少一次。
 
-## 参考资料
+## 参考
 
-- [绑定构建块]({{% ref bindings %}})
-- [绑定API]({{% ref bindings_api.md %}})
-- [组件概念]({{% ref components-concept.md %}})
+- [Bindings 构建块]({{% ref bindings %}})
+- [Bindings API]({{% ref bindings_api %}})
+- [组件概念]({{% ref components-concept %}})
 - [支持的绑定]({{% ref supported-bindings %}})

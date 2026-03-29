@@ -3,26 +3,26 @@ type: docs
 title: "死信主题"
 linkTitle: "死信主题"
 weight: 4000
-description: "通过订阅死信主题来处理无法投递的消息"
+description: "使用订阅死信主题转发无法投递的消息"
 ---
 
-## 介绍
+## 简介
 
-在某些情况下，应用程序可能由于各种原因无法处理消息。例如，可能会出现获取处理消息所需数据的临时问题，或者应用程序的业务逻辑失败并返回错误。死信主题用于处理这些无法投递的消息，并将其转发到订阅应用程序。这可以减轻应用程序处理失败消息的负担，使开发人员可以编写代码从死信主题中读取消息，修复后重新发送，或者选择放弃这些消息。
+应用程序有时可能因各种原因无法处理消息。例如，在检索处理消息所需的数据时可能存在瞬时问题，或者应用程序业务逻辑失败并返回错误。死信主题用于转发无法投递到订阅应用程序的消息。这减轻了应用程序的压力，使其无需处理这些失败的消息，允许开发者编写代码从死信主题读取消息，然后修复消息并重新发送，或完全放弃该消息。
 
-死信主题通常与重试策略和处理死信主题消息的订阅一起使用。
+死信主题通常与重试弹性策略以及死信订阅一起使用，死信订阅负责处理从死信主题转发来的消息所需的逻辑。
 
-当配置了死信主题时，任何无法投递到应用程序的消息都会被放置在死信主题中，以便转发到处理这些消息的订阅。这可以是同一个应用程序或完全不同的应用程序。
+当设置了死信主题时，任何未能投递到已配置主题的应用程序的消息都会被放到死信主题上，以便转发给处理这些消息的订阅。这可能是同一个应用程序，也可能是完全不同的应用程序。
 
-即使底层系统不支持，Dapr 也为其所有的 pubsub 组件启用了死信主题。例如，[AWS SNS 组件]({{% ref "setup-aws-snssqs" %}})有一个死信队列，[RabbitMQ]({{% ref "setup-rabbitmq" %}})有死信主题。您需要确保正确配置这些组件。
+Dapr 为其所有发布/订阅组件启用死信主题，即使底层系统本身不支持此功能。例如，[AWS SNS 组件]({{% ref "setup-aws-snssqs" %}}) 具有死信队列，[RabbitMQ]({{% ref "setup-rabbitmq" %}}) 具有死信主题。你需要确保正确配置此类组件。
 
-下图展示了死信主题的工作原理。首先，消息从 `orders` 主题的发布者发送。Dapr 代表订阅者应用程序接收消息，但 `orders` 主题的消息未能投递到应用程序的 `/checkout` 端点，即使经过重试也是如此。由于投递失败，消息被转发到 `poisonMessages` 主题，该主题将其投递到 `/failedMessages` 端点进行处理，在这种情况下是在同一个应用程序上。`failedMessages` 处理代码可以选择丢弃消息或重新发送新消息。
+下图是死信主题如何工作的示例。首先，从 `orders` 主题上的发布者发送一条消息。Dapr 代表订阅应用程序接收该消息，但是 orders 主题消息未能投递到应用程序上的 `/checkout` 端点，即使经过重试也是如此。由于投递失败，该消息被转发到 `poisonMessages` 主题，该主题将其传递到 `/failedMessages` 端点进行处理，在本例中是在同一应用程序上。`failedMessages` 处理代码可以丢弃消息或重新发送新消息。
 
 <img src="/images/pubsub_deadletter.png" width=1200>
 
 ## 使用声明式订阅配置死信主题
 
-以下 YAML 显示了如何为从 `orders` 主题消费的消息配置名为 `poisonMessages` 的死信主题。此订阅的范围限定为具有 `checkout` ID 的应用程序。
+以下 YAML 显示如何为从 `orders` 主题消费的消息配置名为 `poisonMessages` 的死信主题的订阅。此订阅的作用域限定为具有 `checkout` ID 的应用程序。
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -50,9 +50,9 @@ scopes:
 	})
 ```
 
-## 使用编程订阅配置死信主题
+## 使用编程式订阅配置死信主题
 
-从 `/subscribe` 端点返回的 JSON 显示了如何为从 `orders` 主题消费的消息配置名为 `poisonMessages` 的死信主题。
+从 `/subscribe` 端点返回的 JSON 显示如何为从 `orders` 主题消费的消息配置名为 `poisonMessages` 的死信主题。
 
 ```javascript
 app.get('/dapr/subscribe', (_req, res) => {
@@ -69,10 +69,9 @@ app.get('/dapr/subscribe', (_req, res) => {
 
 ## 重试和死信主题
 
-默认情况下，当设置了死信主题时，任何失败的消息会立即进入死信主题。因此，建议在订阅中使用死信主题时始终设置重试策略。
-要在将消息发送到死信主题之前启用消息重试，请对 pubsub 组件应用 [重试策略]({{% ref "policies.md#retries" %}})。
+默认情况下，当设置了死信主题时，任何失败的消息都会立即进入死信主题。因此，建议在订阅中使用死信主题时始终设置重试策略。要在将消息发送到死信主题之前启用重试，请将[重试弹性策略]({{% ref "retries-overview" %}}) 应用于发布/订阅组件。
 
-此示例显示了如何为 `pubsub` pubsub 组件设置名为 `pubsubRetry` 的常量重试策略，每 5 秒应用一次，最多尝试投递 10 次。
+此示例显示如何为 `pubsub` 发布/订阅组件设置名为 `pubsubRetry` 的恒定重试策略，最大投递尝试次数为 10 次，每 5 秒应用一次。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -93,9 +92,9 @@ spec:
           retry: pubsubRetry
 ```
 
-## 配置处理死信主题的订阅
+## 配置用于处理死信主题的订阅
 
-请记得配置一个订阅来处理死信主题。例如，您可以创建另一个声明式订阅，在同一个或不同的应用程序上接收这些消息。下面的示例显示了 checkout 应用程序通过另一个订阅订阅 `poisonMessages` 主题，并将这些消息发送到 `/failedmessages` 端点进行处理。
+请记住，现在要配置一个订阅来处理死信主题。例如，你可以创建另一个声明式订阅，以在同一或不同的应用程序上接收这些消息。下面的示例显示 checkout 应用程序订阅 `poisonMessages` 主题，并通过另一个订阅将这些消息发送到 `/failedmessages` 端点进行处理。
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -115,11 +114,11 @@ scopes:
 
 ## 演示
 
-观看[此视频以了解死信主题的概述](https://youtu.be/wLYYOJLt_KQ?t=69):
+观看[此视频以了解死信主题的概述](https://youtu.be/wLYYOJLt_KQ?t=69)：
 
-<iframe width="360" height="315" src="https://www.youtube-nocookie.com/embed/wLYYOJLt_KQ?start=69" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+{{< youtube id=wLYYOJLt_KQ start=69 >}}
 
-## 下一步
+## 后续步骤
 
-- 有关弹性策略的更多信息，请阅读[弹性概述]({{% ref resiliency-overview.md %}})。
-- 有关主题订阅的更多信息，请阅读[声明式、流式和编程订阅方法]({{% ref "pubsub-overview.md#message-subscription" %}})。
+- 有关弹性策略的更多信息，请阅读[弹性概述]({{% ref resiliency-overview %}})。
+- 有关主题订阅的更多信息，请阅读[声明式、流式和编程式订阅方法]({{% ref "pubsub-overview#message-subscription" %}})。
