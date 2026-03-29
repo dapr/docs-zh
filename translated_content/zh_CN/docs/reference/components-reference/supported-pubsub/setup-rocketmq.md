@@ -4,7 +4,7 @@ title: "RocketMQ"
 linkTitle: "RocketMQ"
 description: "RocketMQ 发布订阅组件的详细文档"
 aliases:
-  - "/operations/components/setup-pubsub/supported-pubsub/setup-rocketmq/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-rocketmq/"
 ---
 
 ## 组件格式

@@ -4,7 +4,7 @@ title: "MQTT"
 linkTitle: "MQTT"
 description: "MQTT 发布订阅组件的详细文档"
 aliases:
-  - "/operations/components/setup-pubsub/supported-pubsub/setup-mqtt/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-mqtt/"
 ---
 
 ## 组件格式

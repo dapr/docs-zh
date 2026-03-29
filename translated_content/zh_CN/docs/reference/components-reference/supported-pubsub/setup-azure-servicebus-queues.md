@@ -4,7 +4,7 @@ title: "Azure Service Bus 队列"
 linkTitle: "Azure Service Bus 队列"
 description: "Azure Service Bus 队列发布订阅组件的详细文档"
 aliases:
-  - "/operations/components/setup-pubsub/supported-pubsub/setup-azure-servicebus-queues/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-azure-servicebus-queues/"
 ---
 
 ## 组件格式

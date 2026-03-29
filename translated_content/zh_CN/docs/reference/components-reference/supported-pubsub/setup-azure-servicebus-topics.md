@@ -4,8 +4,8 @@ title: "Azure Service Bus 主题"
 linkTitle: "Azure Service Bus 主题"
 description: "Azure Service Bus 主题发布订阅组件的详细文档"
 aliases:
-  - "/operations/components/setup-pubsub/supported-pubsub/setup-azure-servicebus-topics/"
-  - "/operations/components/setup-pubsub/supported-pubsub/setup-azure-servicebus/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-azure-servicebus-topics/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-azure-servicebus/"
 ---
 
 ## 组件格式

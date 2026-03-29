@@ -5,7 +5,7 @@ linkTitle: "发布订阅代理"
 weight: 8000
 description: 与 Dapr 接口的受支持的发布订阅代理
 aliases:
-  - "/operations/components/setup-pubsub/supported-pubsub/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/"
 no_list: true
 ---
 

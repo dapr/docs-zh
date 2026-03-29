@@ -4,7 +4,7 @@ title: "Azure Event Hubs"
 linkTitle: "Azure Event Hubs"
 description: "Azure Event Hubs 发布订阅组件的详细文档"
 aliases:
-  - "/operations/components/setup-pubsub/supported-pubsub/setup-azure-eventhubs/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-azure-eventhubs/"
 ---
 
 ## 组件格式

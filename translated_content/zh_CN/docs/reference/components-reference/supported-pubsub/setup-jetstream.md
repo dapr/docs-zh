@@ -4,7 +4,7 @@ title: "JetStream"
 linkTitle: "JetStream"
 description: "NATS JetStream 组件的详细文档"
 aliases:
-  - "/operations/components/setup-pubsub/supported-pubsub/setup-jetstream/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-jetstream/"
 ---
 
 ## 组件格式

@@ -4,7 +4,7 @@ title: "In-memory"
 linkTitle: "In-memory"
 description: "In Memory 发布订阅组件的详细文档"
 aliases:
-  - "/operations/components/setup-pubsub/supported-pubsub/setup-inmemory/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-inmemory/"
 ---
 
 内存中的发布订阅组件在单个 Dapr 边车内运行。这主要用于开发目的。状态不会在多个边车之间复制，当 Dapr 边车重启时，状态会丢失。

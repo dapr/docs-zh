@@ -4,7 +4,7 @@ title: "KubeMQ"
 linkTitle: "KubeMQ"
 description: "KubeMQ 发布订阅组件的详细文档"
 aliases:
-  - "/operations/components/setup-pubsub/supported-pubsub/setup-kubemq/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-kubemq/"
 ---
 
 ## 组件格式

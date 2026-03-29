@@ -4,7 +4,7 @@ title: "Solace-AMQP"
 linkTitle: "Solace-AMQP"
 description: "Solace-AMQP 发布订阅组件的详细文档"
 aliases:
-  - "/operations/components/setup-pubsub/supported-pubsub/setup-solace-amqp/"
+  - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-solace-amqp/"
 ---
 
 ## 组件格式
