@@ -12,7 +12,7 @@ cascade:
   github_branch: main
 ---
 
-一个用于在 JavaScript 和 TypeScript 中构建 Dapr 应用程序的客户端库。该客户端抽象了服务调用、状态管理、发布订阅、密钥管理等公共 Dapr API，并提供简单直观的 API 用于构建应用程序。
+一个用于在 JavaScript 和 TypeScript 中构建 Dapr 应用程序的客户端库。该客户端抽象了服务调用、状态管理、发布订阅、密钥管理等公开 Dapr API，并提供简单直观的 API 用于构建应用程序。
 
 ## 安装
 
@@ -26,10 +26,10 @@ npm install --save @dapr/dapr
 
 Dapr JavaScript SDK 包含两个主要组件：
 
-- **DaprServer**：用于管理所有 Dapr 边车到应用程序的通信。
-- **DaprClient**：用于管理所有应用程序到 Dapr 边车的通信。
+- **DaprServer**：管理所有 Dapr 边车与应用程序之间的通信。
+- **DaprClient**：管理所有应用程序与 Dapr 边车之间的通信。
 
-上述通信可以配置为使用 gRPC 或 HTTP 协议中的任意一种。
+上述通信可配置为使用 gRPC 或 HTTP 协议。
 
 <table>
   <tr>
@@ -38,22 +38,22 @@ Dapr JavaScript SDK 包含两个主要组件：
   </tr>
 </table>
 
-## 快速开始
+## 快速入门
 
-为了帮助您快速开始，请查看以下资源：
+为了帮助您快速入门，请查看以下资源：
 
 <div class="card-deck">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>Client</b></h5>
-      <p class="card-text">创建 JavaScript 客户端并与 Dapr 边车及其他 Dapr 应用程序交互（例如，发布事件、输出绑定支持等）。</p>
+      <h5 class="card-title"><b>客户端</b></h5>
+      <p class="card-text">创建 JavaScript 客户端并与 Dapr 边车及其他 Dapr 应用程序交互（例如，发布事件、输出绑定支持等）。 </p>
       <a href="{{% ref js-client %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>Server</b></h5>
-      <p class="card-text">创建 JavaScript 服务器并让 Dapr 边车与您的应用程序交互（例如，订阅事件、输入绑定支持等）。</p>
+      <h5 class="card-title"><b>服务器</b></h5>
+      <p class="card-text">创建 JavaScript 服务器并让 Dapr 边车与您的应用程序交互（例如，订阅事件、输入绑定支持等）。 </p>
       <a href="{{% ref js-server %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -69,15 +69,15 @@ Dapr JavaScript SDK 包含两个主要组件：
 <div class="card-deck">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>Logging</b></h5>
-      <p class="card-text">配置和自定义 SDK 日志记录。</p>
+      <h5 class="card-title"><b>日志</b></h5>
+      <p class="card-text">配置和自定义 SDK 日志。</p>
       <a href="{{% ref js-logger %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>Examples</b></h5>
-      <p class="card-text">克隆 JavaScript SDK 源代码并尝试一些示例以快速开始。</p>
+      <h5 class="card-title"><b>示例</b></h5>
+      <p class="card-text">克隆 JavaScript SDK 源代码并试用一些示例以快速入门。</p>
       <a href="{{% ref js-examples %}}" class="stretched-link"></a>
     </div>
   </div>
