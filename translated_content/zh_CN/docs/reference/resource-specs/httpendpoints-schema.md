@@ -5,7 +5,7 @@ linkTitle: "HTTPEndpoint"
 description: "Dapr HTTPEndpoint 资源的基本规范"
 weight: 4000
 aliases:
-  - "/operations/httpEndpoints/"
+  - "/zh-hans/operations/httpEndpoints/"
 ---
 
 `HTTPEndpoint` 是一种 Dapr 资源，用于从 Dapr 应用程序调用非 Dapr 端点。
