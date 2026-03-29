@@ -5,7 +5,7 @@ linkTitle: "Dapr Agents"
 weight: 25
 description: "用于大规模构建持久且有弹性的 AI Agent 系统的框架"
 aliases:
-  - /developing-applications/dapr-agents
+  - /zh-hans/developing-applications/dapr-agents
 ---
 
 ![Concepts Agents](/images/dapr-agents/agents-blue.png)

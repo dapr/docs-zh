@@ -5,7 +5,7 @@ linkTitle: "快速入门"
 weight: 70
 description: "通过实用的分步示例开始使用 Dapr Agents"
 aliases:
-  - /developing-applications/dapr-agents/dapr-agents-quickstarts
+  - /zh-hans/developing-applications/dapr-agents/dapr-agents-quickstarts
 ---
 
 [Dapr Agents 快速入门](https://github.com/dapr/dapr-agents/tree/main/quickstarts)展示了如何使用 Dapr Agents 构建具有 LLM 驱动的自主代理和事件驱动工作流的应用程序。快速入门是一个单一渐进式教程，从基本 LLM 调用逐步构建到持久代理、工作流、多代理编排和可观测性。

@@ -5,7 +5,7 @@ linkTitle: "核心概念"
 weight: 40
 description: "了解 Dapr Agents 的核心概念"
 aliases:
-  - /developing-applications/dapr-agents/dapr-agents-core-concepts
+  - /zh-hans/developing-applications/dapr-agents/dapr-agents-core-concepts
 ---
 
 Dapr Agents 提供了一种结构化的方式来构建和编排使用 LLMs 的应用程序，而不会陷入基础设施细节，并提供持久性保证。主要目标是通过抽象使用 LLMs、工具、内存管理和分布式系统的复杂性来实现 AI 开发，使开发人员能够专注于其 AI 应用程序的业务逻辑。在此框架中，Agents 是基本的构建块。

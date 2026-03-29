@@ -5,7 +5,7 @@ linkTitle: "代理模式"
 weight: 50
 description: "构建代理系统常用设计模式与使用场景"
 aliases:
-  - /developing-applications/dapr-agents/dapr-agents-patterns
+  - /zh-hans/developing-applications/dapr-agents/dapr-agents-patterns
 ---
 
 Dapr Agents 简化了代理系统的实现，从简单的增强型 LLM 到企业环境中的完全自主代理。以下各节描述了可以从 Dapr Agents 中受益的多种应用模式。

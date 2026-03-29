@@ -5,7 +5,7 @@ linkTitle: "入门指南"
 weight: 20
 description: "如何安装 Dapr Agents 并运行你的第一个 Agent"
 aliases:
-  - /developing-applications/dapr-agents/dapr-agents-getting-started
+  - /zh-hans/developing-applications/dapr-agents/dapr-agents-getting-started
 ---
 
 {{% alert title="Dapr Agents 概念" color="primary" %}}

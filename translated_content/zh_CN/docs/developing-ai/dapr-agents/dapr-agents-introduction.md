@@ -5,7 +5,7 @@ linkTitle: "简介"
 weight: 10
 description: "Dapr Agents 及其核心功能概述"
 aliases:
-  - /developing-applications/dapr-agents/dapr-agents-introduction
+  - /zh-hans/developing-applications/dapr-agents/dapr-agents-introduction
 ---
 
 ![Agent Overview](/images/dapr-agents/concepts-agents-overview.png)

@@ -5,7 +5,7 @@ linkTitle: "为什么选择 Dapr Agents"
 weight: 30
 description: "了解 Dapr Agents 的优势与使用场景"
 aliases:
-  - /developing-applications/dapr-agents/dapr-agents-why
+  - /zh-hans/developing-applications/dapr-agents/dapr-agents-why
 ---
 
 Dapr Agents 是一个用于构建和编排基于 LLM 的自主代理的开源框架，它利用 Dapr 经过验证的分布式系统基础。与要求开发者从零开始构建基础设施的其他代理框架不同，Dapr Agents 通过提供企业级的可扩展性、状态管理和消息传递能力，使团队能够专注于代理智能。这种方法消除了重新创建分布式系统基础组件的复杂性，同时提供了由 Dapr 支持的代理工作流。

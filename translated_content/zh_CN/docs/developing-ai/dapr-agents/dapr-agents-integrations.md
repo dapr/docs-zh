@@ -5,7 +5,7 @@ linkTitle: "集成"
 weight: 60
 description: "Dapr Agents 中可用的各种集成和工具"
 aliases:
-  - /developing-applications/dapr-agents/dapr-agents-integrations
+  - /zh-hans/developing-applications/dapr-agents/dapr-agents-integrations
 ---
 
 # 开箱即用工具
