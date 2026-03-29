@@ -5,7 +5,7 @@ linkTitle: "定时器和提醒器"
 weight: 50
 description: "为你的 Actor 设置定时器和提醒器，并进行错误处理"
 aliases:
-  - "/developing-applications/building-blocks/actors/actors-background"
+  - "/zh-hans/developing-applications/building-blocks/actors/actors-background"
 ---
 
 Actor 可以通过注册定时器或提醒器来周期性地执行自身任务。

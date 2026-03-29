@@ -5,7 +5,7 @@ linkTitle: "概述"
 weight: 10
 description: "Actor API 构建块的概述"
 aliases:
-  - "/developing-applications/building-blocks/actors/actors-background"
+  - "/zh-hans/developing-applications/building-blocks/actors/actors-background"
 ---
 
 [Actor 模式](https://en.wikipedia.org/wiki/Actor_model)将 actor 描述为最低级别的"计算单元"。换句话说，你需要将代码编写在一个自包含的单元（称为 actor）中，该单元接收消息并一次处理一条消息，无需任何并发或线程机制。

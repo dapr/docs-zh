@@ -5,7 +5,7 @@ linkTitle: "运行时功能"
 weight: 20
 description: "了解 Dapr 中 Actor 的功能和概念"
 aliases:
-  - "/developing-applications/building-blocks/actors/actors-background"
+  - "/zh-hans/developing-applications/building-blocks/actors/actors-background"
 ---
 
 既然您已经从高层次了解了 [Actor 构建块]({{% ref "actors-overview" %}})，让我们深入探讨 Dapr 中 Actor 包含的功能和概念。
