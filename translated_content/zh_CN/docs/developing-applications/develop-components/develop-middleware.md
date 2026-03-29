@@ -5,8 +5,8 @@ linkTitle: "中间件组件"
 weight: 200
 description: "了解如何开发中间件组件"
 aliases:
-  - /developing-applications/middleware/middleware-overview/
-  - /concepts/middleware-concept/
+  - /zh-hans/developing-applications/middleware/middleware-overview/
+  - /zh-hans/concepts/middleware-concept/
 ---
 
 Dapr 允许通过链接一系列中间件组件来定义自定义处理管道。在本指南中，你将学习如何创建中间件组件。要了解如何配置现有中间件组件，请参阅[配置中间件组件]({{% ref middleware.md %}})。
