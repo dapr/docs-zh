@@ -1,42 +1,42 @@
 ---
 type: docs
-title: "编写和运行actor"
-linkTitle: "编写actor"
+title: "Author & run actors"
+linkTitle: "Authoring actors"
 weight: 200000
-description: 了解如何使用.NET SDK编写和运行actor
+description: Learn all about authoring and running actors with the .NET SDK
 ---
 
-## 编写actor
+## 创建 actor
 
 ### ActorHost
 
 `ActorHost`：
 
-- 是所有actor构造函数所需的参数
-- 由运行时提供的
-- 必须传递给基类的构造函数
-- 包含允许该actor实例与运行时通信的所有状态信息
+- 是所有 actor 必需的构造函数参数
+- 由运行时提供
+- 必须传递给基类构造函数
+- 包含允许该 actor 实例与运行时通信的所有状态
 
 ```csharp
 internal class MyActor : Actor, IMyActor, IRemindable
 {
-    public MyActor(ActorHost host) // 在构造函数中接收ActorHost
-        : base(host) // 将ActorHost传递给基类的构造函数
+    public MyActor(ActorHost host) // Accept ActorHost in the constructor
+        : base(host) // Pass ActorHost to the base class constructor
     {
     }
 }
 ```
 
-由于`ActorHost`包含actor特有的状态信息，您不需要将其实例传递给代码的其他部分。建议仅在测试中创建您自己的`ActorHost`实例。
+由于 `ActorHost` 包含 actor 独有的状态，你无需将实例传递到代码的其他部分。建议仅在测试中创建自己的 `ActorHost` 实例。
 
 ### 依赖注入
 
-actor支持通过[依赖注入](https://docs.microsoft.com/aspnet/core/fundamentals/dependency-injection)将额外的参数传递到构造函数中。您定义的任何其他参数都将从依赖注入容器中获取其值。
+Actor 支持将额外参数[依赖注入](https://docs.microsoft.com/aspnet/core/fundamentals/dependency-injection)到构造函数中。你定义的任何其他参数都将从依赖注入容器中获取其值。
 
 ```csharp
 internal class MyActor : Actor, IMyActor, IRemindable
 {
-    public MyActor(ActorHost host, BankService bank) // 在构造函数中接收BankService
+    public MyActor(ActorHost host, BankService bank) // Accept BankService in the constructor
         : base(host)
     {
         ...
@@ -44,29 +44,29 @@ internal class MyActor : Actor, IMyActor, IRemindable
 }
 ```
 
-一个actor类型应该只有一个`public`构造函数。actor系统使用[`ActivatorUtilities`](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection#constructor-injection-behavior)模式来创建actor实例。
+actor 类型应具有单个 `public` 构造函数。actor 基础设施使用 [`ActivatorUtilities`](https://docs.microsoft.com/dotnet/core/extensions/dependency-injection#constructor-injection-behavior) 模式来构造 actor 实例。
 
-您可以在`Startup.cs`中注册类型以进行依赖注入以使其可用。阅读更多关于[注册类型的不同方法](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/dependency-injection?#service-registration-methods)。
+你可以在 `Startup.cs` 中注册类型以使其可用于依赖注入。阅读更多关于[注册类型的不同方式](https://docs.microsoft.com/aspnet/core/fundamentals/dependency-injection?#service-registration-methods)。
 
 ```csharp
-// 在Startup.cs中
+// In Startup.cs
 public void ConfigureServices(IServiceCollection services)
 {
     ...
 
-    // 使用依赖注入注册额外的类型。
+    // Register additional types with dependency injection.
     services.AddSingleton<BankService>();
 }
 ```
 
-每个actor实例都有其自己的依赖注入范围，并在执行操作后在内存中保留一段时间。在此期间，与actor关联的依赖注入范围也被视为活动状态。该范围将在actor被停用时释放。
+每个 actor 实例都有自己的依赖注入作用域，并在执行操作后的段时间内保留在内存中。在此期间，与 actor 关联的依赖注入作用域也被视为活动状态。当 actor 被停用时，该作用域将被释放。
 
-如果actor在构造函数中注入`IServiceProvider`，actor将接收到与其范围关联的`IServiceProvider`的引用。`IServiceProvider`可以用于将来动态解析服务。
+如果 actor 在构造函数中注入了 `IServiceProvider`，则 actor 将接收对其作用域关联的 `IServiceProvider` 的引用。`IServiceProvider` 可用于在未来动态解析服务。
 
 ```csharp
 internal class MyActor : Actor, IMyActor, IRemindable
 {
-    public MyActor(ActorHost host, IServiceProvider services) // 在构造函数中接收IServiceProvider
+    public MyActor(ActorHost host, IServiceProvider services) // Accept IServiceProvider in the constructor
         : base(host)
     {
         ...
@@ -74,35 +74,35 @@ internal class MyActor : Actor, IMyActor, IRemindable
 }
 ```
 
-使用此模式时，避免创建许多实现`IDisposable`的**瞬态**服务。由于与actor关联的范围可能被视为有效时间较长，您可能会在内存中积累许多服务。有关更多信息，请参阅[依赖注入指南](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-guidelines)。
+使用此模式时，避免创建许多实现 `IDisposable` 的**瞬态**服务实例。由于与 actor 关联的作用域可能在较长时间内被视为有效，因此可能会在内存中累积许多服务。有关更多信息，请参阅[依赖注入指南](https://docs.microsoft.com/dotnet/core/extensions/dependency-injection-guidelines)。
 
-### IDisposable和actor
+### IDisposable 和 actor
 
-actor可以实现`IDisposable`或`IAsyncDisposable`。建议您依赖依赖注入进行资源管理，而不是在应用程序代码中实现释放功能。仅在确实必要的情况下提供释放支持。
+Actor 可以实现 `IDisposable` 或 `IAsyncDisposable`。建议依赖依赖注入进行资源管理，而不是在应用程序代码中实现 dispose 功能。在确实必要的罕见情况下才提供 dispose 支持。
 
 ### 日志记录
 
-在actor类内部，您可以通过基类`Actor`上的属性访问`ILogger`实例。此实例连接到ASP.NET Core日志系统，应该用于actor内部的所有日志记录。阅读更多关于[日志记录](https://docs.microsoft.com/en-us/dotnet/core/extensions/logging?tabs=command-line)。您可以配置各种不同的日志格式和输出接收器。
+在 actor 类中，你可以通过基 `Actor` 类上的属性访问 `ILogger` 实例。此实例连接到 ASP.NET Core 日志系统，应用于 actor 内的所有日志记录。阅读更多关于[日志记录](https://docs.microsoft.com/dotnet/core/extensions/logging?tabs=command-line)。你可以配置多种不同的日志格式和输出接收器。
 
-使用_结构化日志记录_和_命名占位符_，如下例所示：
+使用带有_命名占位符_的_结构化日志记录_，如下所示：
 
 ```csharp
 public Task<MyData> GetDataAsync()
 {
-    this.Logger.LogInformation("获取状态时间为 {CurrentTime}", DateTime.UtcNow);
+    this.Logger.LogInformation("Getting state at {CurrentTime}", DateTime.UtcNow);
     return this.StateManager.GetStateAsync<MyData>("my_data");
 }
 ```
 
-记录日志时，避免使用格式字符串，如：`$"获取状态时间为 {DateTime.UtcNow}"`
+记录日志时，避免使用格式字符串，如：`$"Getting state at {DateTime.UtcNow}"`
 
-日志记录应使用[命名占位符语法](https://docs.microsoft.com/dotnet/core/extensions/logging?tabs=command-line#log-message-template)，这提供了更好的性能和与日志系统的集成。
+日志记录应使用[命名占位符语法](https://docs.microsoft.com/dotnet/core/extensions/logging?tabs=command-line#log-message-template)，它提供更好的性能和与日志系统的集成。
 
-### 使用显式actor类型名称
+### 使用显式 actor 类型名称
 
-默认情况下，客户端看到的actor的_类型_是从actor实现类的_名称_派生的。默认名称将是类名（不包括命名空间）。
+默认情况下，客户端看到的 actor _类型_派生自 actor 实现类的_名称_。默认名称将是类名（不带命名空间）。
 
-如果需要，您可以通过将`ActorAttribute`属性附加到actor实现类来指定显式类型名称。
+如果需要，可以通过将 `ActorAttribute` 属性附加到 actor 实现类来指定显式类型名称。
 
 ```csharp
 [Actor(TypeName = "MyCustomActorTypeName")]
@@ -112,78 +112,78 @@ internal class MyActor : Actor, IMyActor
 }
 ```
 
-在上面的例子中，名称将是`MyCustomActorTypeName`。
+在上面的示例中，名称将是 `MyCustomActorTypeName`。
 
-无需更改注册actor类型与运行时的代码，通过属性提供值是唯一需要的。
+无需更改向运行时注册 actor 类型的代码，通过属性提供值就是所需的全部。
 
-## 在服务器上托管actor
+## 在服务器上托管 actor
 
-### 注册actor
+### 注册 actor
 
-actor注册是`Startup.cs`中`ConfigureServices`的一部分。您可以通过`ConfigureServices`方法使用依赖注入注册服务。注册actor类型集是actor服务注册的一部分。
+Actor 注册是 `Startup.cs` 中 `ConfigureServices` 的一部分。你可以通过 `ConfigureServices` 方法注册具有依赖注入的服务。注册 actor 类型集是 actor 服务注册的一部分。
 
-在`ConfigureServices`中，您可以：
+在 `ConfigureServices` 内部，你可以：
 
-- 注册actor运行时（`AddActors`）
-- 注册actor类型（`options.Actors.RegisterActor<>`）
-- 配置actor运行时设置`options`
-- 注册额外的服务类型以进行actor的依赖注入（`services`）
+- 注册 actor 运行时（`AddActors`）
+- 注册 actor 类型（`options.Actors.RegisterActor<>`）
+- 配置 actor 运行时设置 `options`
+- 注册额外的服务类型以注入到 actor 的依赖注入中（`services`）
 
 ```csharp
-// 在Startup.cs中
+// In Startup.cs
 public void ConfigureServices(IServiceCollection services)
 {
-    // 使用DI注册actor运行时
+    // Register actor runtime with DI
     services.AddActors(options =>
     {
-        // 注册actor类型并配置actor设置
+        // Register actor types and configure actor settings
         options.Actors.RegisterActor<MyActor>();
         
-        // 配置默认设置
+        // Configure default settings
         options.ActorIdleTimeout = TimeSpan.FromMinutes(10);
         options.ActorScanInterval = TimeSpan.FromSeconds(35);
         options.DrainOngoingCallTimeout = TimeSpan.FromSeconds(35);
         options.DrainRebalancedActors = true;
     });
 
-    // 注册额外的服务以供actor使用
+    // Register additional services for use with actors
     services.AddSingleton<BankService>();
 }
 ```
 
-### 配置JSON选项
+### 配置 JSON 选项
 
-actor运行时使用[System.Text.Json](https://docs.microsoft.com/dotnet/standard/serialization/system-text-json-overview)进行：
+actor 运行时使用 [System.Text.Json](https://docs.microsoft.com/dotnet/standard/serialization/system-text-json-overview) 进行：
 
 - 将数据序列化到状态存储
 - 处理来自弱类型客户端的请求
 
-默认情况下，actor运行时使用基于[JsonSerializerDefaults.Web](https://docs.microsoft.com/dotnet/api/system.text.json.jsonserializerdefaults?view=net-5.0)的设置。
+默认情况下，actor 运行时使用基于 [JsonSerializerDefaults.Web](https://docs.microsoft.com/dotnet/api/system.text.json.jsonserializerdefaults?view=net-5.0) 的设置。
 
-您可以在`ConfigureServices`中配置`JsonSerializerOptions`：
+你可以作为 `ConfigureServices` 的一部分配置 `JsonSerializerOptions`：
 
 ```csharp
-// 在Startup.cs中
+// In Startup.cs
 public void ConfigureServices(IServiceCollection services)
 {
     services.AddActors(options =>
     {
         ...
         
-        // 自定义JSON选项
+        // Customize JSON options
         options.JsonSerializerOptions = ...
     });
 }
 ```
 
-### actor和路由
+### Actor 和路由
 
-ASP.NET Core对actor的托管支持使用[端点路由](https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing)系统。.NET SDK不支持使用早期ASP.NET Core版本的传统路由系统托管actor。
+ASP.NET Core 对 actor 的托管支持使用[终结点路由](https://docs.microsoft.com/aspnet/core/fundamentals/routing)系统。.NET SDK 不支持使用早期 ASP.NET Core 版本中的旧路由系统托管 actor。
 
-由于actor使用端点路由，actor的HTTP处理程序是中间件管道的一部分。以下是设置包含actor的中间件管道的`Configure`方法的最小示例。
+由于 actor 使用终结点路由，actor HTTP 处理程序是中间件管道的一部分。以下是设置带有 actor 的中间件管道的 `Configure` 方法的最小示例。
 
 ```csharp
-// 在Startup.cs中
+// in Startup.cs
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     if (env.IsDevelopment())
@@ -195,29 +195,29 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 
     app.UseEndpoints(endpoints =>
     {
-        // 注册与Dapr运行时接口的actor处理程序。
+        // Register actors handlers that interface with the Dapr runtime.
         endpoints.MapActorsHandlers();
     });
 }
 ```
 
-`UseRouting`和`UseEndpoints`调用是配置路由所必需的。通过在端点中间件中添加`MapActorsHandlers`将actor配置为管道的一部分。
+`UseRouting` 和 `UseEndpoints` 调用是配置路由所必需的。通过在终结点中间件内添加 `MapActorsHandlers` 将 actor 配置为管道的一部分。
 
-这是一个最小示例，actor功能可以与以下内容共存：
+这是一个最小示例，Actor 功能与以下功能并存是有效的：
 
-- 控制器
-- Razor页面
+- Controllers
+- Razor Pages
 - Blazor
-- gRPC服务
-- Dapr pub/sub处理程序
-- 其他端点，如健康检查
+- gRPC Services
+- Dapr pub/sub handler
+- 其他终结点，如运行状况检查
 
-### 问题中间件
+### 有问题的中间件
 
-某些中间件可能会干扰Dapr请求到actor处理程序的路由。特别是，`UseHttpsRedirection`对于Dapr的默认配置是有问题的。Dapr默认通过未加密的HTTP发送请求，这将被`UseHttpsRedirection`中间件阻止。此中间件目前不能与Dapr一起使用。
+某些中间件可能会干扰 Dapr 请求到 actor 处理程序的路由。特别是，`UseHttpsRedirection` 对 Dapr 的默认配置有问题。Dapr 默认情况下通过未加密的 HTTP 发送请求，`UseHttpsRedirection` 中间件将阻止这些请求。此中间件目前不能与 Dapr 一起使用。
 
 ```csharp
-// 在Startup.cs中
+// in Startup.cs
 public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 {
     if (env.IsDevelopment())
@@ -225,20 +225,20 @@ public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         app.UseDeveloperExceptionPage();
     }
 
-    // 无效 - 这将阻止非HTTPS请求
+    // INVALID - this will block non-HTTPS requests
     app.UseHttpsRedirection();
-    // 无效 - 这将阻止非HTTPS请求
+    // INVALID - this will block non-HTTPS requests
 
     app.UseRouting();
 
     app.UseEndpoints(endpoints =>
     {
-        // 注册与Dapr运行时接口的actor处理程序。
+        // Register actors handlers that interface with the Dapr runtime.
         endpoints.MapActorsHandlers();
     });
 }
 ```
 
-## 下一步
+## 后续步骤
 
-尝试[运行和使用虚拟actor示例]({{% ref dotnet-actors-howto.md %}})。
+尝试[运行和使用虚拟 actor 示例]({{% ref dotnet-actors-howto.md %}})。

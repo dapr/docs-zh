@@ -1,57 +1,57 @@
 ---
 type: docs
-title: "使用 .NET SDK 进行 Pub/Sub 故障排查"
-linkTitle: "Pub/Sub 故障排查"
+title: "使用 .NET SDK 对发布订阅进行故障排查"
+linkTitle: "发布订阅故障排查"
 weight: 100000
-description: 使用 .NET SDK 进行 Pub/Sub 故障排查
+description: 使用 .NET SDK 对发布订阅进行故障排查
 ---
 
-# Pub/Sub 故障排查
+# 发布订阅故障排查
 
-Pub/Sub 的常见问题是应用程序中的 Pub/Sub 端点未被调用。
+发布订阅最常见的问题是应用程序中的发布订阅端点未被调用。
 
-这个问题可以分为几个层次，每个层次有不同的解决方案：
+这个问题有几个层次，对应不同的解决方案：
 
-- 应用程序没有接收到来自 Dapr 的任何流量
-- 应用程序没有向 Dapr 注册 Pub/Sub 端点
-- Pub/Sub 端点已在 Dapr 中注册，但请求没有到达预期的端点
+- 应用程序未接收到来自 Dapr 的任何流量
+- 应用程序未向 Dapr 注册发布订阅端点
+- 发布订阅端点已向 Dapr 注册，但请求未到达预期的端点
 
 ## 步骤 1：提高日志级别
 
-**这一点很重要。后续步骤将依赖于您查看日志输出的能力。ASP.NET Core 默认日志设置几乎不记录任何内容，因此您需要更改它。**
+**这很重要。后续步骤将取决于你查看日志输出的能力。ASP.NET Core 在默认日志设置下几乎不输出任何内容，因此你需要更改它。**
 
-调整日志详细程度以包括 ASP.NET Core 的 `Information` 日志，如[此处](https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-5.0#debug-diagnostics)所述。将 `Microsoft` 键设置为 `Information`。
+按照[此处](https://docs.microsoft.com/aspnet/core/mvc/controllers/routing?view=aspnetcore-5.0#debug-diagnostics)的说明，调整日志详细程度以包含 ASP.NET Core 的 `Information` 级别日志。将 `Microsoft` 键设置为 `Information`。
 
-## 步骤 2：验证您可以接收到来自 Dapr 的流量
+## 步骤 2：验证你可以接收来自 Dapr 的流量
 
-1. 像往常一样启动应用程序（`dapr run ...`）。确保在命令行中包含 `--app-port` 参数。Dapr 需要知道您的应用程序正在监听流量。默认情况下，ASP.NET Core 应用程序将在本地开发中监听 5000 端口的 HTTP。
+1. 按正常方式启动应用程序（`dapr run ...`）。确保你在命令行中包含了 `--app-port` 参数。Dapr 需要知道你的应用程序正在监听流量。默认情况下，ASP.NET Core 应用程序在本地开发中会在端口 5000 上监听 HTTP。
 
-2. 等待 Dapr 启动完成
+2. 等待 Dapr 完成启动
 
 3. 检查日志
 
-您应该看到类似这样的日志条目：
+你应该会看到类似以下的日志条目：
 
 ```
 info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
       Request starting HTTP/1.1 GET http://localhost:5000/.....
 ```
 
-在初始化过程中，Dapr 会向您的应用程序发送一些请求以进行配置。如果找不到这些请求，则意味着出现了问题。请通过问题或 Discord 请求帮助（包括日志）。如果您看到对应用程序的请求，请继续执行下一步。
+在初始化期间，Dapr 会向你的应用程序发出一些配置请求。如果你找不到这些请求，说明出现了问题。请通过 issue 或 Discord 寻求帮助（并附上日志）。如果你看到向你的应用程序发出的请求，则继续执行步骤 3。
 
 ## 步骤 3：验证端点注册
 
-1. 像往常一样启动应用程序（`dapr run ...`）。
+1. 按正常方式启动应用程序（`dapr run ...`）。
 
-2. 使用命令行中的 `curl`（或其他 HTTP 测试工具）访问 `/dapr/subscribe` 端点。
+2. 在命令行使用 `curl`（或其他 HTTP 测试工具）访问 `/dapr/subscribe` 端点。
 
-假设您的应用程序监听端口为 5000，这里是一个示例命令：
+以下是一个示例命令，假设你的应用程序监听端口是 5000：
 
 ```sh
 curl http://localhost:5000/dapr/subscribe -v
 ```
 
-对于配置正确的应用程序，输出应如下所示：
+对于正确配置的应用程序，输出应如下所示：
 
 ```txt
 *   Trying ::1...
@@ -80,7 +80,8 @@ curl http://localhost:5000/dapr/subscribe -v
 
 200 状态码表示成功。
 
-JSON 数据块是 `/dapr/subscribe` 的输出，由 Dapr 运行时处理。在这种情况下，它使用的是此仓库中的 `ControllerSample` - 这是正确输出的示例。
+
+末尾包含的 JSON 数据块是 `/dapr/subscribe` 的输出，由 Dapr 运行时处理。在本例中，它使用的是此仓库中的 `ControllerSample` - 因此这是正确输出的示例。
 
 ```json
 [
@@ -89,19 +90,19 @@ JSON 数据块是 `/dapr/subscribe` 的输出，由 Dapr 运行时处理。在�
 ]
 ```
 
----
+--- 
 
-通过此命令的输出，您可以诊断问题或继续下一步。
+掌握了此命令的输出后，你就可以诊断问题或继续下一步。
 
-### 选项 0：响应为 200 并包含一些 Pub/Sub 条目
+### 选项 0：响应是 200 且包含一些发布订阅条目
 
-**如果您在此测试的 JSON 输出中有条目，则问题出在其他地方，请继续执行下一步。**
+**如果此测试的 JSON 输出中有条目，则问题出在其他地方，请继续执行步骤 2。**
 
 ### 选项 1：响应不是 200，或不包含 JSON
 
-如果响应不是 200 或不包含 JSON，则 `MapSubscribeHandler()` 端点未被访问。
+如果响应不是 200 或不包含 JSON，则表示未到达 `MapSubscribeHandler()` 端点。
 
-确保在 `Startup.cs` 中有如下代码并重复测试。
+确保你在 `Startup.cs` 中有类似以下的代码，然后重复测试。
 
 ```cs
 app.UseRouting();
@@ -110,37 +111,37 @@ app.UseCloudEvents();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapSubscribeHandler(); // 这是 Dapr 订阅处理程序
+    endpoints.MapSubscribeHandler(); // This is the Dapr subscribe handler
     endpoints.MapControllers();
 });
 ```
 
-**如果添加订阅处理程序没有解决问题，请在此仓库中打开一个问题，并包括您的 `Startup.cs` 文件的内容。**
+**如果添加订阅处理程序未能解决问题，请在此仓库上提交 issue 并包含你的 `Startup.cs` 文件的内容。**
 
 ### 选项 2：响应包含 JSON 但为空（如 `[]`）
 
-如果 JSON 输出是一个空数组（如 `[]`），则订阅处理程序已注册，但没有注册主题端点。
+如果 JSON 输出是空数组（如 `[]`），则表示订阅处理程序已注册，但未注册任何主题端点。
 
 ---
 
-如果您使用控制器进行 Pub/Sub，您应该有一个类似的方法：
+如果你使用控制器进行发布订阅，你应该有一个类似以下的方法：
 
 ```C#
 [Topic("pubsub", "deposit")]
 [HttpPost("deposit")]
 public async Task<ActionResult> Deposit(...)
 
-// 使用 Pub/Sub 路由
+// Using Pub/Sub routing
 [Topic("pubsub", "transactions", "event.type == \"withdraw.v2\"", 1)]
 [HttpPost("withdraw")]
 public async Task<ActionResult> Withdraw(...)
 ```
 
-在此示例中，`Topic` 和 `HttpPost` 属性是必需的，但其他细节可能不同。
+在此示例中，`Topic` 和 `HttpPost` 特性是必需的，但其他细节可能不同。
 
 ---
 
-如果您使用路由进行 Pub/Sub，您应该有一个类似的端点：
+如果你使用路由进行发布订阅，你应该有一个类似以下的端点：
 
 ```C#
 endpoints.MapPost("deposit", ...).WithTopic("pubsub", "deposit");
@@ -150,11 +151,11 @@ endpoints.MapPost("deposit", ...).WithTopic("pubsub", "deposit");
 
 ---
 
-**在更正此代码并重新测试后，如果 JSON 输出仍然是空数组（如 `[]`），请在此仓库中打开一个问题，并包括 `Startup.cs` 和您的 Pub/Sub 端点的内容。**
+**更正此代码并重新测试后，如果 JSON 输出仍然是空数组（如 `[]`），请在此仓库上提交 issue 并包含 `Startup.cs` 的内容和你的发布订阅端点。**
 
 ## 步骤 4：验证端点可达性
 
-在此步骤中，我们将验证注册的 Pub/Sub 条目是否可达。上一步应该让您得到如下的 JSON 输出：
+在此步骤中，我们将验证向发布订阅注册的条目是否可访问。上一步应该会给你一些类似以下的 JSON 输出：
 
 ```json
 [
@@ -180,17 +181,17 @@ endpoints.MapPost("deposit", ...).WithTopic("pubsub", "deposit");
 
 保留此输出，因为我们将使用 `route` 信息来测试应用程序。
 
-1. 像往常一样启动应用程序（`dapr run ...`）。
+1. 按正常方式启动应用程序（`dapr run ...`）。
    
-2. 使用命令行中的 `curl`（或其他 HTTP 测试工具）访问注册的 Pub/Sub 端点之一。
+2. 在命令行使用 `curl`（或其他 HTTP 测试工具）访问向发布订阅端点注册的路由之一。
 
-假设您的应用程序监听端口为 5000，并且您的一个 Pub/Sub 路由是 `withdraw`，这里是一个示例命令：
+以下是一个示例命令，假设你的应用程序监听端口是 5000，且你的发布订阅路由之一是 `withdraw`：
 
 ```sh
 curl http://localhost:5000/withdraw -H 'Content-Type: application/json' -d '{}' -v
 ```
 
-以下是对示例运行上述命令的输出：
+以下是针对示例运行上述命令的输出：
 
 ```txt
 *   Trying ::1...
@@ -214,9 +215,9 @@ curl http://localhost:5000/withdraw -H 'Content-Type: application/json' -d '{}' 
 {"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"|5e9d7eee-4ea66b1e144ce9bb.","errors":{"Id":["The Id field is required."]}}* Closing connection 0
 ```
 
-根据 HTTP 400 和 JSON 负载，此响应表明端点已被访问，但请求由于验证错误而被拒绝。
+根据 HTTP 400 和 JSON 负载，此响应表示已到达端点，但由于验证错误而拒绝了请求。
 
-您还应该查看正在运行的应用程序的控制台输出。这是去掉 Dapr 日志头后的示例输出，以便更清晰。
+你还应该查看运行中应用程序的控制台输出。这是示例输出，为清晰起见，去除了 Dapr 日志头。
 
 ```
 info: Microsoft.AspNetCore.Hosting.Diagnostics[1]
@@ -235,7 +236,7 @@ info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
       Request finished in 157.056ms 400 application/problem+json; charset=utf-8
 ```
 
-主要关注的日志条目是来自路由的：
+主要感兴趣的日志条目是来自路由的条目：
 
 ```txt
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
@@ -245,13 +246,13 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
 此条目显示：
 
 - 路由已执行
-- 路由选择了 `ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)` 端点
+- 路由选择了 `ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)'` 端点
 
-现在您有了排查此步骤问题所需的信息。
+现在你拥有了对此步骤进行故障排查所需的信息。
 
 ### 选项 0：路由选择了正确的端点
 
-如果路由日志条目中的信息是正确的，则意味着在隔离情况下，您的应用程序行为正确。
+如果路由日志条目中的信息正确，则表示你的应用程序在隔离状态下运行正常。
 
 示例：
 
@@ -260,7 +261,7 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
       Executing endpoint 'ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)'
 ```
 
-您可能想尝试使用 Dapr CLI 直接发送 Pub/Sub 消息并比较日志输出。
+你可能希望尝试使用 Dapr CLI 直接发送发布订阅消息并比较日志输出。
 
 示例命令：
 
@@ -268,16 +269,16 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
 dapr publish --pubsub pubsub --topic withdraw --data '{}'
 ```
 
-**如果在这样做之后您仍然不理解问题，请在此仓库中打开一个问题，并包括您的 `Startup.cs` 的内容。**
+**如果执行此操作后你仍不理解问题，请在此仓库上提交 issue 并包含你的 `Startup.cs` 的内容。**
 
 ### 选项 1：路由未执行
 
-如果您在日志中没有看到 `Microsoft.AspNetCore.Routing.EndpointMiddleware` 的条目，则意味着请求被其他东西处理了。通常情况下，问题是一个行为不当的中间件。请求的其他日志可能会给您一个线索。
+如果你在日志中未看到 `Microsoft.AspNetCore.Routing.EndpointMiddleware` 的条目，则表示请求由路由以外的其他组件处理。在这种情况下，问题通常是中间件行为异常。请求的其他日志可能会给你一些线索，让你了解正在发生什么。
 
-**如果您需要帮助理解问题，请在此仓库中打开一个问题，并包括您的 `Startup.cs` 的内容。**
+**如果你需要帮助理解问题，请在此仓库上提交 issue 并包含你的 `Startup.cs` 的内容。**
 
 ### 选项 2：路由选择了错误的端点
 
-如果您在日志中看到 `Microsoft.AspNetCore.Routing.EndpointMiddleware` 的条目，但它包含错误的端点，则意味着您有一个路由冲突。被选择的端点将出现在日志中，这应该能给您一个关于冲突原因的想法。
+如果你在日志中看到 `Microsoft.AspNetCore.Routing.EndpointMiddleware` 的条目，但它包含错误的端点，则表示你存在路由冲突。所选端点将出现在日志中，这应该会让你了解是什么导致了冲突。
 
-**如果您需要帮助理解问题，请在此仓库中打开一个问题，并包括您的 `Startup.cs` 的内容。**
+**如果你需要帮助理解问题，请在此仓库上提交 issue 并包含你的 `Startup.cs` 的内容。**

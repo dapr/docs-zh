@@ -1,13 +1,13 @@
 ---
 type: docs
 title: "Dapr Messaging .NET SDK"
-linkTitle: "消息传递"
+linkTitle: "Messaging"
 weight: 60000
-description: 快速上手使用 Dapr Messaging .NET SDK
+description: 快速上手 Dapr Messaging .NET SDK
 ---
 
-使用 Dapr Messaging 包，您可以在 .NET 应用程序中与 Dapr 消息 API 进行交互。在 v1.15 版本中，该包仅支持[流式 pubsub 功能](https://docs.dapr.io/developing-applications/building-blocks/pubsub/howto-publish-subscribe/#subscribe-to-topics)。
+使用 Dapr Messaging 包，你可以从 .NET 应用程序与 Dapr messaging API 交互。在 v1.15 版本中，此包仅包含与[流式发布订阅功能]({{% ref "dotnet-messaging-pubsub-howto.md#subscribe-to-topics" %}})对应的功能。
 
-未来的 Dapr .NET SDK 版本将会把现有的消息功能从 Dapr.Client 迁移到 Dapr.Messaging 包中。这一变更将在发布说明、文档和相关的技术说明中提前告知。
+未来的 Dapr .NET SDK 版本会将现有的 messaging 功能从 Dapr.Client 迁移到此 Dapr.Messaging 包。这将提前在发行说明、文档和过时属性中进行说明。
 
-要开始使用，请查看 [Dapr Messaging]({{% ref dotnet-messaging-pubsub-howto.md %}}) 指南，并参考[最佳实践文档]({{% ref dotnet-messaging-pubsub-usage.md %}})以获取更多指导。
+要开始使用，请阅读 [Dapr Messaging]({{% ref dotnet-messaging-pubsub-howto.md %}}) 操作指南，并参考[最佳实践文档]({{% ref dotnet-messaging-pubsub-usage.md %}})获取更多指导。

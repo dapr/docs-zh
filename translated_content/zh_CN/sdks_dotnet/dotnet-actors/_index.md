@@ -1,11 +1,11 @@
 ---
 type: docs
-title: "Dapr actors .NET SDK"
+title: "Dapr Actors .NET SDK"
 linkTitle: "Actors"
-weight: 30000
-description: 快速掌握使用 Dapr actors .NET SDK 的方法
+weight: 40000
+description: 快速上手 Dapr Actors .NET SDK
 ---
 
-借助 Dapr actor 包，您可以在 .NET 应用程序中轻松与 Dapr 的虚拟 actor 进行交互。
+通过 Dapr Actor 包，您可以从 .NET 应用程序与 Dapr 虚拟 Actor 进行交互。
 
-要开始，请参阅 [Dapr actors]({{% ref dotnet-actors-howto.md %}}) 指南。
+要开始使用，请参阅 [Dapr Actors]({{% ref dotnet-actors-howto.md %}}) 操作指南。
