@@ -1,6 +1,6 @@
 {
   "version": "v1.17",
-  "generatedAt": "2026-03-29T04:08:50.864Z",
+  "generatedAt": "2026-03-29T07:46:12.287Z",
   "latestBatchId": "batch-20260329T040850.864Z",
   "sourceSummary": {
     "synced": 638,
@@ -16,15 +16,8 @@
   "buckets": [
     {
       "id": "contributing",
-      "targetMount": "content/contributing/sdk-contrib",
-      "sourceRoots": [
-        "sdkdocs/dotnet/content/en/dotnet-sdk-contributing",
-        "sdkdocs/go/content/en/go-sdk-contributing",
-        "sdkdocs/java/content/en/java-sdk-contributing",
-        "sdkdocs/js/content/en/js-sdk-contributing",
-        "sdkdocs/python/content/en/python-sdk-contributing",
-        "sdkdocs/rust/content/en/rust-sdk-contributing"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/contributing",
       "sourceDirectory": "data/source/contributing",
       "documentCount": 6,
@@ -38,10 +31,8 @@
     },
     {
       "id": "docs",
-      "targetMount": "content",
-      "sourceRoots": [
-        "daprdocs/content/en"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/docs",
       "sourceDirectory": "data/source/docs",
       "documentCount": 533,
@@ -55,10 +46,8 @@
     },
     {
       "id": "pluggable-components/dotnet",
-      "targetMount": "content/developing-applications/develop-components/pluggable-components/pluggable-components-sdks/pluggable-components-dotnet",
-      "sourceRoots": [
-        "sdkdocs/pluggable-components/dotnet/content/en/dotnet-sdk-docs"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/pluggable-components/dotnet",
       "sourceDirectory": "data/source/pluggable-components/dotnet",
       "documentCount": 8,
@@ -72,10 +61,8 @@
     },
     {
       "id": "pluggable-components/go",
-      "targetMount": "content/developing-applications/develop-components/pluggable-components/pluggable-components-sdks/pluggable-components-go",
-      "sourceRoots": [
-        "sdkdocs/pluggable-components/go/content/en/go-sdk-docs"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/pluggable-components/go",
       "sourceDirectory": "data/source/pluggable-components/go",
       "documentCount": 5,
@@ -89,10 +76,8 @@
     },
     {
       "id": "sdks_dotnet",
-      "targetMount": "content/developing-applications/sdks/dotnet",
-      "sourceRoots": [
-        "sdkdocs/dotnet/content/en/dotnet-sdk-docs"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/sdks_dotnet",
       "sourceDirectory": "data/source/sdks_dotnet",
       "documentCount": 41,
@@ -106,10 +91,8 @@
     },
     {
       "id": "sdks_go",
-      "targetMount": "content/developing-applications/sdks/go",
-      "sourceRoots": [
-        "sdkdocs/go/content/en/go-sdk-docs"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/sdks_go",
       "sourceDirectory": "data/source/sdks_go",
       "documentCount": 5,
@@ -123,10 +106,8 @@
     },
     {
       "id": "sdks_java",
-      "targetMount": "content/developing-applications/sdks/java",
-      "sourceRoots": [
-        "sdkdocs/java/content/en/java-sdk-docs"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/sdks_java",
       "sourceDirectory": "data/source/sdks_java",
       "documentCount": 11,
@@ -140,10 +121,8 @@
     },
     {
       "id": "sdks_js",
-      "targetMount": "content/developing-applications/sdks/js",
-      "sourceRoots": [
-        "sdkdocs/js/content/en/js-sdk-docs"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/sdks_js",
       "sourceDirectory": "data/source/sdks_js",
       "documentCount": 9,
@@ -157,10 +136,8 @@
     },
     {
       "id": "sdks_php",
-      "targetMount": "content/developing-applications/sdks/php",
-      "sourceRoots": [
-        "sdkdocs/php/content/en/php-sdk-docs"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/sdks_php",
       "sourceDirectory": "data/source/sdks_php",
       "documentCount": 8,
@@ -174,10 +151,8 @@
     },
     {
       "id": "sdks_python",
-      "targetMount": "content/developing-applications/sdks/python",
-      "sourceRoots": [
-        "sdkdocs/python/content/en/python-sdk-docs"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/sdks_python",
       "sourceDirectory": "data/source/sdks_python",
       "documentCount": 10,
@@ -191,10 +166,8 @@
     },
     {
       "id": "sdks_rust",
-      "targetMount": "content/developing-applications/sdks/rust",
-      "sourceRoots": [
-        "sdkdocs/rust/content/en/rust-sdk-docs"
-      ],
+      "targetMount": "",
+      "sourceRoots": [],
       "translationRoot": "translated_content/zh_CN/sdks_rust",
       "sourceDirectory": "data/source/sdks_rust",
       "documentCount": 2,

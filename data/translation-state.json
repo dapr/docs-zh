@@ -1,6 +1,6 @@
 {
   "version": "v1.17",
-  "generatedAt": "2026-03-29T03:39:32.292Z",
+  "generatedAt": "2026-03-29T07:39:54.187916Z",
   "items": [
     {
       "bucket": "contributing",
@@ -335,8 +335,8 @@
       "relativePath": "contributing/protocol-reference/workflow-protocol/_index.md",
       "sourceSha256": "05acbca9540bb2172114fbf2358d913085ddbdc6d1ba357034a75c97732da450",
       "targetPath": "translated_content/zh_CN/docs/contributing/protocol-reference/workflow-protocol/_index.md",
-      "translatedAt": "2026-03-28T12:34:19.977Z",
-      "updatedAt": "2026-03-28T12:34:19.977Z"
+      "translatedAt": "2026-03-29T07:19:14.532Z",
+      "updatedAt": "2026-03-29T07:19:14.532Z"
     },
     {
       "bucket": "docs",
@@ -479,8 +479,8 @@
       "relativePath": "developing-ai/dapr-agents/dapr-agents-core-concepts.md",
       "sourceSha256": "02084c49d50909a5dc4976153724934a5a579fbbf3ba40fe9d294233feaf5696",
       "targetPath": "translated_content/zh_CN/docs/developing-ai/dapr-agents/dapr-agents-core-concepts.md",
-      "translatedAt": "2026-03-29T01:35:11.734Z",
-      "updatedAt": "2026-03-29T01:35:11.734Z"
+      "translatedAt": "2026-03-29T07:39:54.187916Z",
+      "updatedAt": "2026-03-29T07:39:54.187916Z"
     },
     {
       "bucket": "docs",
@@ -575,8 +575,8 @@
       "relativePath": "developing-applications/building-blocks/actors/actor-reentrancy.md",
       "sourceSha256": "cad80309c25fc2ad13a336ff07ab7a25a6ce66b78e15f368fbace939d3ed283d",
       "targetPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/actors/actor-reentrancy.md",
-      "translatedAt": "2026-03-28T12:53:52.670Z",
-      "updatedAt": "2026-03-28T12:53:52.670Z"
+      "translatedAt": "2026-03-29T07:12:25.328Z",
+      "updatedAt": "2026-03-29T07:12:25.328Z"
     },
     {
       "bucket": "docs",
@@ -607,8 +607,8 @@
       "relativePath": "developing-applications/building-blocks/actors/actors-timers-reminders.md",
       "sourceSha256": "36ced13c67f5681f557652b848f7bb61d30fccc57abeed49dd5e03deab454da3",
       "targetPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/actors/actors-timers-reminders.md",
-      "translatedAt": "2026-03-29T01:35:11.738Z",
-      "updatedAt": "2026-03-29T01:35:11.738Z"
+      "translatedAt": "2026-03-29T07:12:42.931Z",
+      "updatedAt": "2026-03-29T07:12:42.931Z"
     },
     {
       "bucket": "docs",
@@ -727,8 +727,8 @@
       "relativePath": "developing-applications/building-blocks/cryptography/howto-cryptography.md",
       "sourceSha256": "d6483dcae429e40bfff74d684506a74895af3796c65f2c32ca05a26799ffd303",
       "targetPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/cryptography/howto-cryptography.md",
-      "translatedAt": "2026-03-28T13:23:32.466Z",
-      "updatedAt": "2026-03-28T13:23:32.466Z"
+      "translatedAt": "2026-03-29T07:13:05.032Z",
+      "updatedAt": "2026-03-29T07:13:05.032Z"
     },
     {
       "bucket": "docs",
@@ -815,8 +815,8 @@
       "relativePath": "developing-applications/building-blocks/pubsub/howto-route-messages.md",
       "sourceSha256": "b3cefbbbb2bb792e120f5dfee7e1f671fed0e60983ca20879b8f57ee9bcd4f4e",
       "targetPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/pubsub/howto-route-messages.md",
-      "translatedAt": "2026-03-28T13:28:37.675Z",
-      "updatedAt": "2026-03-28T13:28:37.675Z"
+      "translatedAt": "2026-03-29T07:13:10.308Z",
+      "updatedAt": "2026-03-29T07:13:10.308Z"
     },
     {
       "bucket": "docs",
@@ -831,8 +831,8 @@
       "relativePath": "developing-applications/building-blocks/pubsub/pubsub-bulk.md",
       "sourceSha256": "25112e7da9f5503705ae7502d4b49ddf03086716f855e7e37e6a00b7ba4b1d3b",
       "targetPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/pubsub/pubsub-bulk.md",
-      "translatedAt": "2026-03-28T13:29:57.030Z",
-      "updatedAt": "2026-03-28T13:29:57.030Z"
+      "translatedAt": "2026-03-29T07:14:03.840Z",
+      "updatedAt": "2026-03-29T07:14:03.840Z"
     },
     {
       "bucket": "docs",
@@ -951,8 +951,8 @@
       "relativePath": "developing-applications/building-blocks/service-invocation/howto-invoke-services-grpc.md",
       "sourceSha256": "bf5cdb85b19febe4ecc11c84eed0563a3a83c028326cdbbc1d52a4bbb2a02980",
       "targetPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/service-invocation/howto-invoke-services-grpc.md",
-      "translatedAt": "2026-03-28T13:41:30.751Z",
-      "updatedAt": "2026-03-28T13:41:30.751Z"
+      "translatedAt": "2026-03-29T07:13:40.524Z",
+      "updatedAt": "2026-03-29T07:13:40.524Z"
     },
     {
       "bucket": "docs",
@@ -1015,8 +1015,8 @@
       "relativePath": "developing-applications/building-blocks/state-management/howto-state-query-api.md",
       "sourceSha256": "c79b9de7459c8d54fdf32ac042eb31e2cc9feaac5d96de490a4027c923fc23c2",
       "targetPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/state-management/howto-state-query-api.md",
-      "translatedAt": "2026-03-28T13:47:28.540Z",
-      "updatedAt": "2026-03-28T13:47:28.540Z"
+      "translatedAt": "2026-03-29T07:14:08.373Z",
+      "updatedAt": "2026-03-29T07:14:08.373Z"
     },
     {
       "bucket": "docs",
@@ -1207,8 +1207,8 @@
       "relativePath": "developing-applications/building-blocks/workflow/workflow-patterns.md",
       "sourceSha256": "61ee3429ea23ee3b4586ec828584e731c61883cf93290bae1bac38e24ef1fb0a",
       "targetPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/workflow-patterns.md",
-      "translatedAt": "2026-03-28T14:37:09.414Z",
-      "updatedAt": "2026-03-28T14:37:09.414Z"
+      "translatedAt": "2026-03-29T07:20:17.695Z",
+      "updatedAt": "2026-03-29T07:20:17.695Z"
     },
     {
       "bucket": "docs",
@@ -1663,8 +1663,8 @@
       "relativePath": "getting-started/quickstarts/configuration-quickstart.md",
       "sourceSha256": "bbd806d2d7299bb3db37f1114f21386636f8e9ecd584ff952ddc2760f7fcab15",
       "targetPath": "translated_content/zh_CN/docs/getting-started/quickstarts/configuration-quickstart.md",
-      "translatedAt": "2026-03-28T15:00:48.393Z",
-      "updatedAt": "2026-03-28T15:00:48.393Z"
+      "translatedAt": "2026-03-29T07:16:16.875Z",
+      "updatedAt": "2026-03-29T07:16:16.875Z"
     },
     {
       "bucket": "docs",
@@ -1751,8 +1751,8 @@
       "relativePath": "getting-started/quickstarts/workflow-quickstart.md",
       "sourceSha256": "6b425950f6cee353154874f7ec33dd9d62c271c9dbf263fd6fa7c54a6aa92672",
       "targetPath": "translated_content/zh_CN/docs/getting-started/quickstarts/workflow-quickstart.md",
-      "translatedAt": "2026-03-28T15:09:47.637Z",
-      "updatedAt": "2026-03-28T15:09:47.637Z"
+      "translatedAt": "2026-03-29T07:18:10.628Z",
+      "updatedAt": "2026-03-29T07:18:10.628Z"
     },
     {
       "bucket": "docs",
@@ -2367,8 +2367,8 @@
       "relativePath": "operations/observability/tracing/otel-collector/open-telemetry-collector-jaeger.md",
       "sourceSha256": "56dfc4c800c10445bed3a6c82777355ff14bb36e2d3f3f906e8aba4f6e035446",
       "targetPath": "translated_content/zh_CN/docs/operations/observability/tracing/otel-collector/open-telemetry-collector-jaeger.md",
-      "translatedAt": "2026-03-28T15:27:56.044Z",
-      "updatedAt": "2026-03-28T15:27:56.044Z"
+      "translatedAt": "2026-03-29T07:16:11.815Z",
+      "updatedAt": "2026-03-29T07:16:11.815Z"
     },
     {
       "bucket": "docs",
@@ -5023,8 +5023,8 @@
       "relativePath": "conversation.md",
       "sourceSha256": "453d054030ee3fe43b9ba1093d36101db4e676a7e56a65cd23d22166c0c9ea75",
       "targetPath": "translated_content/zh_CN/sdks_python/conversation.md",
-      "translatedAt": "2026-03-28T12:38:26.790Z",
-      "updatedAt": "2026-03-28T12:38:26.790Z"
+      "translatedAt": "2026-03-29T07:39:32.316303Z",
+      "updatedAt": "2026-03-29T07:39:32.316303Z"
     },
     {
       "bucket": "sdks_python",
