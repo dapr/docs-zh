@@ -5,59 +5,59 @@ linkTitle: "Placement"
 description: "Dapr Placement 服务概述"
 ---
 
-Dapr Placement 服务用于计算和分发用于定位的分布式哈希表，以便在[自托管模式]({{% ref self-hosted %}})或[Kubernetes]({{% ref kubernetes %}})上运行的[Dapr actor]({{% ref actors %}})能够被正确定位。哈希表按命名空间分组，将actor类型映射到相应的pod或进程，以便Dapr应用程序可以与actor进行通信。每当Dapr应用程序激活一个Dapr actor时，Placement服务会更新哈希表以反映最新的actor位置。
+Dapr Placement 服务用于计算和分发运行在[自托管模式]({{% ref self-hosted %}})或 [Kubernetes]({{% ref kubernetes %}})上的 [Dapr actors]({{% ref actors %}}) 位置的分布式哈希表。哈希表按命名空间分组，将 actor 类型映射到 pod 或进程，以便 Dapr 应用程序可以与 actor 通信。每当 Dapr 应用程序激活 Dapr actor 时，Placement 服务会使用最新的 actor 位置更新哈希表。
 
 ## 自托管模式
 
-在自托管模式下，Placement服务的Docker容器会在执行[`dapr init`]({{% ref self-hosted-with-docker.md %}})时自动启动。如果您使用[slim-init模式]({{% ref self-hosted-no-docker.md %}})，也可以手动将其作为进程运行。
+Placement 服务 Docker 容器作为 [`dapr init`]({{% ref self-hosted-with-docker %}}) 的一部分自动启动。如果您以 [slim-init 模式]({{% ref self-hosted-no-docker %}}) 运行，也可以作为进程手动运行。
 
-## Kubernetes模式
+## Kubernetes 模式
 
-在Kubernetes模式下，Placement服务可以通过执行`dapr init -k`或使用Dapr Helm图表进行部署。您可以选择在高可用性（HA）模式下运行Placement服务。[了解更多关于在Kubernetes中设置HA模式的信息。]({{% ref "kubernetes-production.md#individual-service-ha-helm-configuration" %}})
+Placement 服务作为 `dapr init -k` 的一部分部署，或通过 Dapr Helm 图表部署。您可以在高可用（HA）模式下运行 Placement。[了解有关在 Kubernetes 服务中设置 HA 模式的更多信息。]({{% ref "kubernetes-production#individual-service-ha-helm-configuration" %}})
 
-有关在Kubernetes上运行Dapr的更多信息，请访问[Kubernetes托管页面]({{% ref kubernetes %}})。
+有关在 Kubernetes 上运行 Dapr 的更多信息，请访问 [Kubernetes 托管页面]({{% ref kubernetes %}})。
 
-## Placement表
+## Placement 表
 
-Placement服务提供了一个HTTP API `/placement/state`，用于公开placement表的信息。该API与sidecar的healthz端口相同。这个端点默认是禁用的且不需要身份验证。要启用它，您需要将`DAPR_PLACEMENT_METADATA_ENABLED`环境变量或`metadata-enabled`命令行参数设置为true。如果您使用helm，只需将`dapr_placement.metadataEnabled`设置为true。
+有一个[Placement 服务的 HTTP API `/placement/state`]({{% ref placement_api %}}) 用于暴露 placement 表信息。该 API 在 sidecar 上与 healthz 相同的端口上暴露。这是一个未经身份验证的端点，默认情况下被禁用。您需要将 `DAPR_PLACEMENT_METADATA_ENABLED` 环境变量或 `metadata-enabled` 命令行参数设置为 true 来启用它。如果您使用 helm，只需将 `dapr_placement.metadataEnabled` 设置为 true。
 
 {{% alert title="重要" color="warning" %}}
-当actor被部署到不同的命名空间时，如果您希望防止从所有命名空间检索actor信息，建议禁用`metadata-enabled`。元数据端点的范围覆盖所有命名空间。
+当将 actors 部署到不同的命名空间时（{{% ref namespaced-actors %}}），如果您想阻止从所有命名空间检索 actors，建议禁用 `metadata-enabled`。metadata 端点作用于所有命名空间。
 {{% /alert %}}
 
-### 用例：
-placement表API可用于检索当前的placement表，其中包含所有命名空间中注册的actor信息。这对于调试和工具提取、呈现actor信息非常有帮助。
+### 用例
+placement 表 API 可用于检索当前的 placement 表，其中包含在所有命名空间中注册的所有 actors。这对于调试和允许工具提取并呈现有关 actors 的信息很有帮助。
 
-### HTTP请求
+### HTTP 请求
 
 ```
 GET http://localhost:<healthzPort>/placement/state
 ```
 
-### HTTP响应代码
+### HTTP 响应代码
 
 代码 | 描述
 ---- | -----------
-200  | 返回placement表信息
-500  | Placement无法返回placement表信息
+200  | 返回 Placement 表信息
+500  | Placement 无法返回 Placement 表信息
 
-### HTTP响应体
+### HTTP 响应体
 
-**Placement表API响应对象**
+**Placement 表 API 响应对象**
 
 名称                   | 类型                                                                  | 描述
 ----                   | ----                                                                  | -----------
-tableVersion           | int                                                                   | placement表版本
-hostList               | [Actor Host Info](#actorhostinfo)[]                                   | 注册的actor主机信息的json数组。
+tableVersion           | int                                                                   | Placement 表版本
+hostList               | [Actor 主机信息](#actorhostinfo)[]                                   | 已注册 actor 主机信息的 json 数组。
 
-<a id="actorhostinfo"></a>**Actor主机信息**
+<a id="actorhostinfo"></a>**Actor 主机信息**
 
 名称  | 类型    | 描述
 ----  | ----    | -----------
-name  | string  | actor的主机:端口地址。
-appId | string  | 应用程序ID。
-actorTypes | json string array | 它托管的actor类型列表。
-updatedAt | timestamp | actor注册/更新的时间戳。
+name  | string  | actor 的 host:port 地址。
+appId | string  | app id。
+actorTypes | json string array | 它托管的 actor 类型列表。
+updatedAt | timestamp | actor 注册/更新的时间戳。
 
 ### 示例
 
@@ -93,6 +93,18 @@ updatedAt | timestamp | actor注册/更新的时间戳。
 }
 ```
 
+## 禁用 Placement 服务
+
+可以使用以下设置禁用 Placement 服务：
+
+```
+global.actors.enabled=false
+```
+
+在 Kubernetes 模式下，使用此设置不会部署 Placement 服务。这不仅会禁用 actor 部署，还会禁用工作流，因为工作流使用 actors。但是，此设置仅适用于 Kubernetes 模式，而使用 `--slim` 初始化 Dapr 会阻止在自托管模式下部署 Placement 服务。
+
+有关在 Kubernetes 上运行 Dapr 的更多信息，请访问 [Kubernetes 托管页面](https://docs.dapr.io/operations/hosting/kubernetes/)。
+
 ## 相关链接
 
-[了解更多关于Placement API的信息。]({{% ref placement_api.md %}})
+[了解有关 Placement API 的更多信息。]({{% ref placement_api %}})
