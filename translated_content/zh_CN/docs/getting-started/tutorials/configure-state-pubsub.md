@@ -5,7 +5,7 @@ linkTitle: "配置状态存储与发布订阅"
 weight: 80
 description: "为 Dapr 配置状态存储和发布订阅消息代理组件"
 aliases:
-  - /getting-started/tutorials/configure-redis/
+  - /zh-hans/getting-started/tutorials/configure-redis/
 ---
 
 要开始使用状态和发布订阅构建块，你需要两个组件：

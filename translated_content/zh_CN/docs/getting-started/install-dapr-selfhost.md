@@ -5,7 +5,7 @@ linkTitle: "在本地初始化 Dapr"
 weight: 20
 description: "使用 `dapr init` 获取 Dapr 边车二进制文件并在本地安装"
 aliases:
-  - /getting-started/set-up-dapr/install-dapr/
+  - /zh-hans/getting-started/set-up-dapr/install-dapr/
 ---
 
 既然您已经[安装了 Dapr CLI]({{%ref install-dapr-cli.md%}})，请使用该 CLI 在您的本地机器上初始化 Dapr。
