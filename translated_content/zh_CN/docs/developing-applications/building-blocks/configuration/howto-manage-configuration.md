@@ -13,7 +13,7 @@ description: "了解如何获取应用程序配置并订阅变更"
 {{% alert title="注意" color="primary" %}}
  如果您还没有尝试过，可以先体验一下[配置快速入门]({{% ref configuration-quickstart %}}) ，快速了解如何使用配置 API。
 
-{{% /alert %}}</p>
+{{% /alert %}}
 
 {{% alert title="禁用配置初始化端点" color="primary" %}}
 如果您的应用程序不使用配置构建块，则可以在初始化期间禁用对 `/dapr/config` 端点的自动 HTTP 调用，以减少日志噪音。在使用 `dapr run` 时使用 `--disable-init-endpoints config` 标志，或在 Kubernetes 中使用 `dapr.io/disable-init-endpoints: "config"` 注解。[了解有关禁用初始化端点的更多信息。]({{% ref "arguments-annotations-overview#disable-init-endpoints" %}})
@@ -97,9 +97,9 @@ var configuration = await client.GetConfiguration(CONFIG_STORE_NAME, [ "orderId1
 Console.WriteLine($"Got key=\n{configuration[0].Key} -> {configuration[0].Value}\n{configuration[1].Key} -> {configuration[1].Value}");
 ```
 
-{{% /tab %}}</p>
+{{% /tab %}}
 
-{{% tab "Java" %}}</p>
+{{% tab "Java" %}}
 
 ```java
 //dependencies
@@ -130,9 +130,9 @@ public static void main(String[] args) throws Exception {
 }
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
-Python"
+{{% tab "Python" %}}
 
 ```python
 #dependencies
@@ -147,9 +147,9 @@ with DaprClient() as d:
         print(f"Got key={configuration.items[0].key} value={configuration.items[0].value} version={configuration.items[0].version}")
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
-Go"
+{{% tab "Go" %}}
 
 ```go
 package main
@@ -177,9 +177,9 @@ func main() {
 }
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
-JavaScript"
+{{% tab "JavaScript" %}}
 
 ```js
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
@@ -209,9 +209,9 @@ async function main() {
 main().catch((e) => console.error(e));
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
-HTTP API (BASH)"
+{{% tab "HTTP API (BASH)" %}}
 
 Launch a dapr sidecar:
 
@@ -225,9 +225,9 @@ dapr run --app-id orderprocessing --dapr-http-port 3601
 curl http://localhost:3601/v1.0/configuration/configstore?key=orderId1
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
-HTTP API (PowerShell)"
+{{% tab "HTTP API (PowerShell)" %}}
 
 启动 Dapr 边车：
 
@@ -241,7 +241,7 @@ dapr run --app-id orderprocessing --dapr-http-port 3601
 Invoke-RestMethod -Uri 'http://localhost:3601/v1.0/configuration/configstore?key=orderId1'
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
 {{< /tabpane >}}
 
@@ -252,7 +252,7 @@ Invoke-RestMethod -Uri 'http://localhost:3601/v1.0/configuration/configstore?key
 
 {{< tabpane text=true >}}
 
-{{% tab ".NET" %}}</p>
+{{% tab ".NET" %}}
 
 ```csharp
 using System;
@@ -294,9 +294,9 @@ await foreach (var items in subscribe.Source)
 dapr run --app-id orderprocessing -- dotnet run
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
-ASP.NET"
+{{% tab "ASP.NET" %}}
 
 ```csharp
 using System;
@@ -332,9 +332,9 @@ Console.WriteLine("Closing application.");
 dapr run --app-id orderprocessing -- dotnet run
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
-Java"
+{{% tab "Java" %}}
 
 ```java
 import io.dapr.client.DaprClientBuilder;
@@ -379,9 +379,9 @@ public static void main(String[] args) throws Exception {
 ```bash
 dapr run --app-id orderprocessing -- -- mvn spring-boot:run
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
-Python"
+{{% tab "Python" %}}
 
 ```python
 #dependencies
@@ -412,9 +412,9 @@ executeConfiguration()
 dapr run --app-id orderprocessing -- python3 OrderProcessingService.py
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
-Go"
+{{% tab "Go" %}}
 
 ```go
 package main
@@ -451,9 +451,9 @@ func main() {
 dapr run --app-id orderprocessing -- go run main.go
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
-JavaScript"
+{{% tab "JavaScript" %}}
 
 ```js
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
@@ -497,7 +497,7 @@ main().catch((e) => console.error(e));
 dapr run --app-id orderprocessing --app-protocol grpc --dapr-grpc-port 3500 -- node index.js
 ```
 
-{{% /tab集团有限公司
+{{% /tab %}}
 
 {{< /tabpane >}}
 
@@ -530,9 +530,9 @@ var client = app.Services.GetRequiredService<DaprClient>();
 await client.UnsubscribeConfiguration(DAPR_CONFIGURATION_STORE, SubscriptionId);
 Console.WriteLine("App unsubscribed from config changes");
 ```
-{{% /tab集团有限公司
+{{% /tab %}}
 
-Java"
+{{% tab "Java" %}}
 ```java
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.DaprClient;
@@ -562,9 +562,9 @@ public static void main(String[] args) throws Exception {
     }
 }
 ```
-{{% /tab集团有限公司
+{{% /tab %}}
 
-Python"
+{{% tab "Python" %}}
 ```python
 import asyncio
 import time
@@ -576,9 +576,9 @@ with DaprClient() as d:
   isSuccess = d.unsubscribe_configuration(store_name='configstore', id=subscriptionID)
   print(f"Unsubscribed successfully? {isSuccess}", flush=True)
 ```
-{{% /tab集团有限公司
+{{% /tab %}}
 
-Go"
+{{% tab "Go" %}}
 ```go
 package main
 
@@ -608,9 +608,9 @@ func main() {
   }
 }
 ```
-{{% /tab集团有限公司
+{{% /tab %}}
 
-JavaScript"
+{{% tab "JavaScript" %}}
 ```js
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
 
@@ -647,19 +647,19 @@ async function main() {
 
 main().catch((e) => console.error(e));
 ```
-{{% /tab集团有限公司
+{{% /tab %}}
 
-HTTP API (BASH)"
+{{% tab "HTTP API (BASH)" %}}
 ```bash
 curl 'http://localhost:<DAPR_HTTP_PORT>/v1.0/configuration/configstore/<subscription-id>/unsubscribe'
 ```
-{{% /tab集团有限公司
+{{% /tab %}}
 
-HTTP API (PowerShell)"
+{{% tab "HTTP API (PowerShell)" %}}
 ```powershell
 Invoke-RestMethod -Uri 'http://localhost:<DAPR_HTTP_PORT>/v1.0/configuration/configstore/<subscription-id>/unsubscribe'
 ```
-{{% /tab集团有限公司
+{{% /tab %}}
 
 {{< /tabpane >}}
 

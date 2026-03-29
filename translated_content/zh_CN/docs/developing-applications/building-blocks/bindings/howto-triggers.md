@@ -241,7 +241,7 @@ func main() {
 
 {{% /tab %}}
 
-{{% tab "JavaScript%}}" %}}
+{{% tab "JavaScript" %}}
 
 ```javascript
 //dependencies 

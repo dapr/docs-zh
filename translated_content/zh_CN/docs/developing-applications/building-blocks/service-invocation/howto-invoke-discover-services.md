@@ -13,7 +13,7 @@ weight: 20
 {{% alert title="注意" color="primary" %}}
  如果你还没有尝试过，[请先体验服务调用快速入门]({{% ref serviceinvocation-quickstart %}})来快速了解如何使用服务调用 API。
 
-{{% /alert％}}
+{{% /alert %}}
 
 ## 为你的服务选择一个 ID
 
@@ -21,7 +21,7 @@ Dapr 允许你为你的应用分配一个全局唯一的 ID。这个 ID 封装�
 
 {{< tabpane text=true >}}
 
-{{% tab "Python"％%}
+{{% tab "Python" %}}
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- python3 checkout/app.py
@@ -37,9 +37,9 @@ dapr run --app-id checkout --app-protocol https --dapr-http-port 3500 -- python3
 dapr run --app-id order-processor --app-port 8001 --app-protocol https --dapr-http-port 3501 -- python3 order-processor/app.py
 ```
 
-{{% /tab％>
+{{% /tab %}}
 
-{{% tab "JavaScript"％%}
+{{% tab "JavaScript" %}}
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- npm start
@@ -55,9 +55,9 @@ dapr run --app-id checkout --dapr-http-port 3500 --app-protocol https -- npm sta
 dapr run --app-id order-processor --app-port 5001 --dapr-http-port 3501 --app-protocol https -- npm start
 ```
 
-{{% /tab％>
+{{% /tab %}}
 
-{{% tab ".NET"％%}
+{{% tab ".NET" %}}
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- dotnet run
@@ -73,9 +73,9 @@ dapr run --app-id checkout --dapr-http-port 3500 --app-protocol https -- dotnet 
 dapr run --app-id order-processor --app-port 7001 --dapr-http-port 3501 --app-protocol https -- dotnet run
 ```
 
-{{% /tab％>
+{{% /tab %}}
 
-{{% tab "Java"％%}
+{{% tab "Java" %}}
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- java -jar target/CheckoutService-0.0.1-SNAPSHOT.jar
@@ -91,9 +91,9 @@ dapr run --app-id checkout --dapr-http-port 3500 --app-protocol https -- java -j
 dapr run --app-id order-processor --app-port 9001 --dapr-http-port 3501 --app-protocol https -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
 ```
 
-{{% /tab％>
+{{% /tab %}}
 
-{{% tab "Go"％%}
+{{% tab "Go" %}}
 
 ```bash
 dapr run --app-id checkout --dapr-http-port 3500 -- go run .
@@ -109,9 +109,9 @@ dapr run --app-id checkout --dapr-http-port 3500 --app-protocol https -- go run 
 dapr run --app-id order-processor --app-port 6006 --dapr-http-port 3501 --app-protocol https -- go run .
 ```
 
-{{% /tab％>
+{{% /tab %}}
 
-{{% tab "Kubernetes"％%}
+{{% tab "Kubernetes" %}}
 
 ### 部署到 Kubernetes 时设置 app-id
 
@@ -143,7 +143,7 @@ spec:
 
 如果你的应用使用 TLS 连接，你可以使用 `app-protocol: "https"` 注解（完整列表在[这里]({{% ref arguments-annotations-overview %}})）来告诉 Dapr 通过 TLS 调用你的应用。请注意，Dapr 不会验证应用提供的 TLS 证书。
 
-{{% /tab％>
+{{% /tab %}}
 
 {{< /tabpane >}}
 
@@ -155,7 +155,7 @@ spec:
 
 {{< tabpane text=true >}}
 
-{{% tab "Python"％%}
+{{% tab "Python" %}}
 
 ```python
 #dependencies
@@ -180,9 +180,9 @@ while True:
     logging.info('Result: ' + str(result))
 ```
 
-{{% /tab％>
+{{% /tab %}}
 
-{{% tab "JavaScript"％%}
+{{% tab "JavaScript" %}}
 
 ```javascript
 //dependencies
@@ -215,9 +215,9 @@ function sleep(ms) {
 main();
 ```
 
-{{% /tab％>
+{{% /tab %}}
 
-{{% tab ".NET"％%}
+{{% tab ".NET" %}}
 
 ```csharp
 //dependencies
@@ -256,9 +256,9 @@ namespace EventService
 }
 ```
 
-{{% /tab％>
+{{% /tab %}}
 
-{{% tab "Java"％%}
+{{% tab "Java" %}}
 
 ```java
 //dependencies
@@ -311,9 +311,9 @@ public class CheckoutServiceApplication {
 }
 ```
 
-{{% /tab％>
+{{% /tab %}}
 
-{{% tab "Go"％%}
+{{% tab "Go" %}}
 
 ```go
 package main
@@ -367,7 +367,7 @@ func main() {
 }
 ```
 
-{{% /tab％>
+{{% /tab %}}
 
 {{< /tabpane >}}
 

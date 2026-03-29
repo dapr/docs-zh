@@ -1,93 +1,30 @@
 ---
 type: docs
-title: "How to: Use the cryptography APIs"
-linkTitle: "How to: Use cryptography"
+title: "操作指南：使用 Cryptography API"
+linkTitle: "操作指南：使用 Cryptography"
 weight: 2000
 description: "了解如何加密和解密文件"
 ---
 
-Now that you've read about [Cryptography as a Dapr building block]({{% ref cryptography-overview %}}), let's walk through using the cryptography APIs with the SDKs.
+现在您已经阅读了 [Cryptography 作为 Dapr 构建块]({{% ref cryptography-overview %}}) 的相关内容，让我们通过 SDK 来演练如何使用 cryptography API。
 
-既然你已经阅读了 [Dapr 构建块中的加密]({{% ref cryptography-overview %}})，让我们来逐步了解如何使用 SDK 调用加密 API。
-
-{{% alert title="Note" color="primary" %}}
-Dapr cryptography is currently in alpha.
-
-{{% /alert %}}
 {{% alert title="注意" color="primary" %}}
-Dapr 加密功能目前处于 alpha 阶段。
+Dapr cryptography 目前处于 Alpha 阶段。
 
 {{% /alert %}}
-
-
-## Encrypt
 
 ## 加密
 
 {{< tabpane text=true >}}
 
-{{% tab "Python" %}}### Python
+{{% tab "Python" %}}
 
 <!--Python-->
 
-Using the Dapr SDK in your project, with the gRPC APIs, you can encrypt a stream of data, such as a file or a string:
-
-使用 Dapr SDK，通过 gRPC API，你可以加密数据流，例如文件或字符串：
+在您的项目中使用 Dapr SDK（通过 gRPC API），您可以加密数据流，例如文件或字符串：
 
 ```python
-# When passing data (a buffer or string), `encrypt` returns a Buffer with the encrypted message
-def encrypt_decrypt_string(dapr: DaprClient):
-    message = 'The secret is "passw0rd"'
-
-    # Encrypt the message
-    resp = dapr.encrypt(
-        data=message.encode(),
-        options=EncryptOptions(
-            # Name of the cryptography component (required)
-            component_name=CRYPTO_COMPONENT_NAME,
-            # Key stored in the cryptography component (required)
-            key_name=RSA_KEY_NAME,
-            # Algorithm used for wrapping the key, which must be supported by the key named above.
-            # Options include: "RSA", "AES"
-            key_wrap_algorithm='RSA',
-        ),
-    )
-
-    # The method returns a readable stream, which we read in full in memory
-    encrypt_bytes = resp.read()
-    print(f'Encrypted the message, got {len(encrypt_bytes)} bytes')
-```
-
-`encrypt` returns a Buffer with the encrypted message when passing data (a buffer or string)
-
-当传入数据（缓冲区或字符串）时，`encrypt` 返回一个包含加密消息的缓冲区
-
-```python
-def encrypt_decrypt_string(dapr: DaprClient):
-    message = 'The secret is "passw0rd"'
-
-    # Encrypt the message
-    resp = dapr.encrypt(
-        data=message.encode(),
-        options=EncryptOptions(
-            # Name of the cryptography component (required)
-            component_name=CRYPTO_COMPONENT_NAME,
-            # Key stored in the cryptography component (required)
-            key_name=RSA_KEY_NAME,
-            # Algorithm used for wrapping the key, which must be supported by the key named above.
-            # Options include: "RSA", "AES"
-            key_wrap_algorithm='RSA',
-        ),
-    )
-
-    # The method returns a readable stream, which we read in full in memory
-    encrypt_bytes = resp.read()
-    print(f'Encrypted the message, got {len(encrypt_bytes)} bytes')
-```
-
-`encrypt` 返回一个包含加密消息的缓冲区（当传入缓冲区或字符串时）
-
-```python
+# 当传递数据（缓冲区或字符串）时，`encrypt` 返回包含加密消息的 Buffer
 def encrypt_decrypt_string(dapr: DaprClient):
     message = 'The secret is "passw0rd"'
 
@@ -95,87 +32,242 @@ def encrypt_decrypt_string(dapr: DaprClient):
     resp = dapr.encrypt(
         data=message.encode(),
         options=EncryptOptions(
-            # 加密组件名称（必填）
+            # Cryptography 组件的名称（必需）
             component_name=CRYPTO_COMPONENT_NAME,
-            # 加密组件中存储的密钥（必填）
+            # 存储在 cryptography 组件中的密钥（必需）
             key_name=RSA_KEY_NAME,
-            # 用于包装密钥的算法，必须被上述密钥支持
+            # 用于包装密钥的算法，必须由上述命名的密钥支持。
             # 选项包括："RSA"、"AES"
             key_wrap_algorithm='RSA',
         ),
     )
 
-    # 该方法返回一个可读流，我们将其完整读入内存
+    # 该方法返回一个可读流，我们在内存中完整读取它
     encrypt_bytes = resp.read()
     print(f'Encrypted the message, got {len(encrypt_bytes)} bytes')
 ```
 
-该方法返回一个可读流，我们将其完整读入内存
+{{% /tab %}}
 
-```python
-    encrypt_bytes = resp.read()
-    print(f'已加密消息，获得 {len(encrypt_bytes)} 字节')
+{{% tab "JavaScript" %}}
+
+<!--JavaScript-->
+
+在您的项目中使用 Dapr SDK（通过 gRPC API），您可以加密缓冲区或字符串中的数据：
+
+```js
+// 当传递数据（缓冲区或字符串）时，`encrypt` 返回包含加密消息的 Buffer
+const ciphertext = await client.crypto.encrypt(plaintext, {
+    // Dapr 组件的名称（必需）
+    componentName: "mycryptocomponent",
+    // 存储在组件中的密钥名称（必需）
+    keyName: "mykey",
+    // 用于包装密钥的算法，必须由上述命名的密钥支持。
+    // 选项包括："RSA"、"AES"
+    keyWrapAlgorithm: "RSA",
+});
+```
+
+这些 API 也可以与流一起使用，以便在数据来自流时更高效地加密数据。下面的示例使用流加密文件，并将其写入另一个文件：
+
+```js
+// `encrypt` 可以用作 Duplex 流
+await pipeline(
+    fs.createReadStream("plaintext.txt"),
+    await client.crypto.encrypt({
+        // Dapr 组件的名称（必需）
+        componentName: "mycryptocomponent",
+        // 存储在组件中的密钥名称（必需）
+        keyName: "mykey",
+        // 用于包装密钥的算法，必须由上述命名的密钥支持。
+        // 选项包括："RSA"、"AES"
+        keyWrapAlgorithm: "RSA",
+    }),
+    fs.createWriteStream("ciphertext.out"),
+);
 ```
 
 {{% /tab %}}
 
+{{% tab ".NET" %}}
 
-{{% tab "JavaScript" %}}
+<!-- .NET -->
+在您的项目中使用 Dapr SDK（通过 gRPC API），您可以加密字符串或字节数组中的数据：
+
+```csharp
+using var client = new DaprClientBuilder().Build();
+
+const string componentName = "azurekeyvault"; // 更改此项以匹配您的 cryptography 组件
+const string keyName = "myKey"; // 更改此项以匹配您的加密存储中密钥的名称
+
+const string plainText = "This is the value we're going to encrypt today";
+
+// 将字符串编码为 UTF-8 字节数组并加密
+var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
+var encryptedBytesResult = await client.EncryptAsync(componentName, plaintextBytes, keyName, new EncryptionOptions(KeyWrapAlgorithm.Rsa));
+```
+
+{{% /tab %}}
+
+{{% tab "Go" %}}
+
+<!--go-->
+
+在您的项目中使用 Dapr SDK，您可以加密数据流，例如文件。
+
+```go
+out, err := sdkClient.Encrypt(context.Background(), rf, dapr.EncryptOptions{
+	// Dapr 组件的名称（必需）
+	ComponentName: "mycryptocomponent",
+	// 存储在组件中的密钥名称（必需）
+	KeyName:       "mykey",
+	// 用于包装密钥的算法，必须由上述命名的密钥支持。
+	// 选项包括："RSA"、"AES"
+	Algorithm:     "RSA",
+})
+```
+
+下面的示例将 `Encrypt` API 放在上下文中，代码读取文件、加密文件，然后将结果存储在另一个文件中。
+
+```go
+// 输入文件，明文
+rf, err := os.Open("input")
+if err != nil {
+	panic(err)
+}
+defer rf.Close()
+
+// 输出文件，已加密
+wf, err := os.Create("output.enc")
+if err != nil {
+	panic(err)
+}
+defer wf.Close()
+
+// 使用 Dapr 加密数据
+out, err := sdkClient.Encrypt(context.Background(), rf, dapr.EncryptOptions{
+	// 这是 3 个必需参数
+	ComponentName: "mycryptocomponent",
+	KeyName:       "mykey",
+	Algorithm:     "RSA",
+})
+if err != nil {
+	panic(err)
+}
+
+// 读取流并将其复制到输出文件
+n, err := io.Copy(wf, out)
+if err != nil {
+	panic(err)
+}
+fmt.Println("Written", n, "bytes")
+```
+
+下面的示例使用 `Encrypt` API 来加密字符串。
+
+```go
+// 输入字符串
+rf := strings.NewReader("Amor, ch'a nullo amato amar perdona, mi prese del costui piacer sì forte, che, come vedi, ancor non m'abbandona")
+
+// 使用 Dapr 加密数据
+enc, err := sdkClient.Encrypt(context.Background(), rf, dapr.EncryptOptions{
+	ComponentName: "mycryptocomponent",
+	KeyName:       "mykey",
+	Algorithm:     "RSA",
+})
+if err != nil {
+	panic(err)
+}
+
+// 将加密数据读入字节切片
+enc, err := io.ReadAll(enc)
+if err != nil {
+	panic(err)
+}
+```
+
+{{% /tab %}}
+
+{{< /tabpane >}}
 
 
 ## 解密
 
-### JavaScript
+{{< tabpane text=true >}}
+
+{{% tab "Python" %}}
+
+<!--python-->
+
+要解密数据流，请使用 `decrypt`。
+
+```python
+def encrypt_decrypt_string(dapr: DaprClient):
+    message = 'The secret is "passw0rd"'
+
+    # ...
+
+    # 解密加密的数据
+    resp = dapr.decrypt(
+        data=encrypt_bytes,
+        options=DecryptOptions(
+            # Cryptography 组件的名称（必需）
+            component_name=CRYPTO_COMPONENT_NAME,
+            # 存储在 cryptography 组件中的密钥（必需）
+            key_name=RSA_KEY_NAME,
+        ),
+    )
+
+    # 该方法返回一个可读流，我们在内存中完整读取它
+    decrypt_bytes = resp.read()
+    print(f'Decrypted the message, got {len(decrypt_bytes)} bytes')
+
+    print(decrypt_bytes.decode())
+    assert message == decrypt_bytes.decode()
+```
+
+{{% /tab %}}
+
+{{% tab "JavaScript" %}}
 
 <!--JavaScript-->
 
-使用 Dapr SDK，你可以解密缓冲区中的数据或使用流。
+使用 Dapr SDK，您可以解密缓冲区中的数据或使用流。
 
 ```js
-// 当以缓冲区形式传入数据时，`decrypt` 返回一个包含解密消息的 Buffer
+// 当将数据作为缓冲区传递时，`decrypt` 返回包含解密消息的 Buffer
 const plaintext = await client.crypto.decrypt(ciphertext, {
-    // 唯一必填的选项是组件名称
+    // 唯一必需的选项是组件名称
     componentName: "mycryptocomponent",
 });
 
-// `decrypt` 也可以作为 Duplex 流使用
+// `decrypt` 也可以用作 Duplex 流
 await pipeline(
     fs.createReadStream("ciphertext.out"),
     await client.crypto.decrypt({
-        // 唯一必填的选项是组件名称
+        // 唯一必需的选项是组件名称
         componentName: "mycryptocomponent",
     }),
     fs.createWriteStream("plaintext.out"),
 );
 ```
 
-`decrypt` 也可以作为 Duplex 流使用
+{{% /tab %}}
 
-```js
-await pipeline(
-    fs.createReadStream("ciphertext.out"),
-    await client.crypto.decrypt({
-        // 唯一必填的选项是组件名称
-        componentName: "mycryptocomponent",
-    }),
-    fs.createWriteStream("plaintext.out"),
-);
-```
-
-### .NET
+{{% tab ".NET" %}}
 
 <!-- .NET -->
-使用 `DecryptAsync` gRPC API 来解密字符串。
+要解密字符串，请在您的项目中使用 'DecryptAsync' gRPC API。
 
-在以下示例中，我们将获取一个字节数组（如上例中的加密结果）并将其解密为 UTF-8 编码的字符串。
+在下面的示例中，我们将获取一个字节数组（例如来自上面的示例）并将其解密为 UTF-8 编码的字符串。
 
 ```csharp
 public async Task<string> DecryptBytesAsync(byte[] encryptedBytes)
 {
   using var client = new DaprClientBuilder().Build();
 
-  const string componentName = "azurekeyvault"; //Change this to match your cryptography component
-  const string keyName = "myKey"; //Change this to match the name of the key in your cryptographic store
+  const string componentName = "azurekeyvault"; // 更改此项以匹配您的 cryptography 组件
+  const string keyName = "myKey"; // 更改此项以匹配您的加密存储中密钥的名称
 
   var decryptedBytes = await client.DecryptAsync(componentName, encryptedBytes, keyName);
   var decryptedString = Encoding.UTF8.GetString(decryptedBytes.ToArray());
@@ -183,21 +275,26 @@ public async Task<string> DecryptBytesAsync(byte[] encryptedBytes)
 }
 ```
 
-### Go
+{{% /tab %}}
+
+{{% tab "Go" %}}
 
 <!--go-->
 
-使用 `Decrypt` gRPC API 来解密文件。
+要解密文件，请在您的项目中使用 `Decrypt` gRPC API。
 
-在以下示例中，`out` 是一个可以写入文件或读入内存的流，如上面的示例所示。
+在下面的示例中，`out` 是一个可以写入文件或在内存中读取的流，如上面的示例所示。
 
 ```go
 out, err := sdkClient.Decrypt(context.Background(), rf, dapr.EncryptOptions{
-	// 唯一必填的选项是组件名称
+	// 唯一必需的选项是组件名称
 	ComponentName: "mycryptocomponent",
 })
 ```
 
-## 后续步骤
+{{% /tab %}}
 
-[Cryptography component specs]({{% ref supported-cryptography %}})
+{{< /tabpane >}}
+
+## 后续步骤
+[Cryptography 组件规范]({{% ref supported-cryptography %}})

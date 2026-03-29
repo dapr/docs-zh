@@ -20,7 +20,7 @@ description: "使用密钥存储构建块安全地获取密钥"
 
 {{% alert title="Warning" color="warning" %}}
 在生产级应用中，不推荐使用本地密钥存储。请[查找替代方案]({{% ref supported-secret-stores %}})来安全地管理您的密钥。
-{{% /alert٪}}
+{{% /alert %}}
 
 在项目目录中，创建一个名为 `secrets.json` 的文件，包含以下内容：
 
@@ -49,7 +49,7 @@ spec:
 
 {{% alert title="Warning" color="warning" %}}
 密钥存储 JSON 的路径是相对于您调用 `dapr run` 的位置。
-{{% /alert٪}}
+{{% /alert %}}
 
 更多信息：
 
@@ -219,7 +219,7 @@ main();
 ## 相关链接
 
 - 查看 [Dapr 密钥 API 功能]({{% ref secrets-overview %}})。
-- 了解如何[使用密钥作用域]({{% ref secrets-scope %}})。
+- 了解如何[使用密钥作用域]({{% ref secrets-scopes %}})。
 - 阅读[密钥 API 参考]({{% ref secrets_api %}})并查看[支持的密钥]({{% ref supported-secret-stores %}})。
 - 了解如何[设置不同的密钥存储组件]({{% ref setup-secret-store %}})以及如何在[组件中引用密钥]({{% ref component-secrets %}})。
 

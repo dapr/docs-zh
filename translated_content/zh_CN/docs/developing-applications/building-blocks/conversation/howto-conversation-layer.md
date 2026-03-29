@@ -8,7 +8,7 @@ description: "了解如何抽象化与大语言模型交互的复杂性"
 
 {{% alert title="Alpha" color="primary" %}}
 对话 API 目前处于 [alpha]({{% ref "certification-lifecycle#certification-levels" %}}) 状态。
-{{% /alert %}
+{{% /alert %}}
 
 让我们开始使用[对话 API]({{% ref conversation-overview %}})。在本指南中，您将学习如何：
 

@@ -86,7 +86,7 @@ namespace LockService
 ```
 {{% /tab %}}
 <br>
-{{% tab "Go" %}
+{{% tab "Go" %}}
 ```go
 package main
 

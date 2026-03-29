@@ -8,7 +8,7 @@ description: "对话 API 构建块概述"
 
 {{% alert title="Alpha" color="primary" %}}
 对话 API 目前处于 [alpha]({{% ref "certification-lifecycle#certification-levels" %}}) 阶段。
-{{% /alert}}
+{{% /alert %}}
 
 Dapr 的对话 API 降低了大规模安全可靠地与大型语言模型 (LLM) 交互的复杂性。无论您是缺乏必要原生 SDK 的开发者，还是只想专注于 LLM 交互的提示工程的多语言团队，对话 API 都提供了一个一致的 API 入口点来与底层 LLM 提供商通信。
 

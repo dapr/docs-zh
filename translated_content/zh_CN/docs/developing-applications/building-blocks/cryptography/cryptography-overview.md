@@ -38,7 +38,7 @@ description: "Dapr Cryptography 概述"
 
 {{% alert title="Note" color="primary" %}}
 虽然 HTTP 和 gRPC 在 alpha 版本中都受支持，但使用 gRPC API 与支持的 Dapr SDK 是使用 cryptography 的推荐方法。
-{{% /alert %}
+{{% /alert %}}
 
 ## 功能特性
 
