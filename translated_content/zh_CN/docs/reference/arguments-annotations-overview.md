@@ -5,7 +5,7 @@ linkTitle: "参数与注解"
 description: "在不同环境中配置 Dapr 时可用的参数和注解"
 weight: 300
 aliases:
-  - "/operations/hosting/kubernetes/kubernetes-annotations/"
+  - "/zh-hans/operations/hosting/kubernetes/kubernetes-annotations/"
 ---
 
 此表旨在帮助用户了解在不同上下文中运行 Dapr 边车时的等效选项：直接通过 [CLI]({{% ref cli-overview.md %}})、通过 daprd，或通过注解在 [Kubernetes]({{% ref kubernetes-overview.md %}}) 上运行。
