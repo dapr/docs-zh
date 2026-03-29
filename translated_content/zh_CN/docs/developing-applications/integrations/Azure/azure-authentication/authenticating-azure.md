@@ -4,8 +4,8 @@ title: "向 Azure 进行身份验证"
 linkTitle: "概述"
 description: "如何使用 Microsoft Entra ID 和/或托管标识对 Azure 组件进行身份验证"
 aliases:
-  - "/operations/components/setup-secret-store/supported-secret-stores/azure-keyvault-managed-identity/"
-  - "/reference/components-reference/supported-secret-stores/azure-keyvault-managed-identity/"
+  - "/zh-hans/operations/components/setup-secret-store/supported-secret-stores/azure-keyvault-managed-identity/"
+  - "/zh-hans/reference/components-reference/supported-secret-stores/azure-keyvault-managed-identity/"
 weight: 10000
 ---
 

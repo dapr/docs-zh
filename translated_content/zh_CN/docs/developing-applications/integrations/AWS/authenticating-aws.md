@@ -5,7 +5,7 @@ linkTitle: "AWS 认证"
 weight: 10
 description: "关于 AWS 认证和配置选项的信息"
 aliases:
-  - /developing-applications/integrations/authenticating/authenticating-aws/
+  - /zh-hans/developing-applications/integrations/authenticating/authenticating-aws/
 ---
 
 利用 AWS 服务的 Dapr 组件（例如 DynamoDB、SQS、S3）通过 AWS SDK 使用标准化的配置属性。[了解更多关于 AWS SDK 如何处理凭据的信息](https://docs.aws.amazon.com/sdk-for-go/v1/developer-guide/configuring-sdk.html#specifying-credentials)。

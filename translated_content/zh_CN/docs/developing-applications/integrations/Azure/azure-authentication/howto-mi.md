@@ -4,7 +4,7 @@ title: "如何：使用托管标识"
 linkTitle: "如何：使用托管标识"
 weight: 40000
 aliases:
-  - "/developing-applications/integrations/azure/azure-authentication/howto-msi/"
+  - "/zh-hans/developing-applications/integrations/azure/azure-authentication/howto-msi/"
 description: "了解如何使用托管标识"
 ---
 
