@@ -20,7 +20,7 @@ Dapr 提供了一种使用 [HTTP `/healthz` 端点]({{% ref health_api.md %}})�
 
 {{% alert title="注意" color="primary" %}}
 Dapr actors 也有一个健康 API 端点，Dapr 通过该端点探测应用程序对来自 Dapr 的信号的响应，以确认 actor 应用程序是否健康且正在运行。请参阅 [actor health API]({{% ref "actors_api.md#health-check" %}})。
-{{% /alert %}} 
+{{% /alert %}}
 
 下图展示了 Dapr 边车启动时的步骤、healthz 端点以及应用程序通道何时初始化。
 

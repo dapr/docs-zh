@@ -193,11 +193,11 @@ Docsy 和 Hugo 使用的 markdown 规范不支持使用 markdown 符号调整图
 
 {{% tab header="Tab1" %}}
 [Tab1 的内容]
-{{% /tab)}}
+{{% /tab %}}
 
 {{% tab header="Tab2" %}}
 [Tab2 的内容]
-{{% /tab)}}
+{{% /tab %}}
 
 {{< /tabpane >}}
 ```
@@ -213,19 +213,19 @@ Docsy 和 Hugo 使用的 markdown 规范不支持使用 markdown 符号调整图
 ```powershell
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
 ```
-{{% /tab))))
+{{% /tab %}}
 
 {{% tab header="Linux" %}}
 ```bash
 wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
 ```
-{{% /tab))))
+{{% /tab %}}
 
 {{% tab header="MacOS" %}}
 ```bash
 brew install dapr/tap/dapr-cli
 ```
-{{% /tab))))
+{{% /tab %}}
 
 {{< /tabpane >}}
 ````
@@ -238,19 +238,19 @@ brew install dapr/tap/dapr-cli
 ```powershell
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
 ```
-{{% /tab)}}
+{{% /tab %}}
 
 {{% tab header="Linux" %}}
 ```bash
 wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
 ```
-{{% /tab)}}
+{{% /tab %}}
 
-{{% tab header="MacOS" %}
+{{% tab header="MacOS" %}}
 ```bash
 brew install dapr/tap/dapr-cli
 ```
-{{% /tab)}}
+{{% /tab %}}
 
 {{< /tabpane >}}
 
@@ -314,7 +314,7 @@ shortcode 为：
 {{% button text="My Button" link="https://example.com" color="success" %}}
 {{% button text="My Button" link="https://example.com" color="danger" %}}
 {{% button text="My Button" link="https://example.com" color="warning" %}}
-{{% button text="My Button" link="https://example.com" color="info"iguaQf3 -->
+{{% button text="My Button" link="https://example.com" color="info" %}}
 
 ### 参考资料
 

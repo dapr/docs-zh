@@ -855,7 +855,7 @@ CTRL + C
 
 {{% /tab %}}
 
-{{< /tabpane >}>
+{{< /tabpane >}}
 
 
 一旦第一个请求失败，将应用名为 `retryForever` 的重试策略：

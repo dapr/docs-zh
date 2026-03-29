@@ -270,7 +270,7 @@ apps:
 | `appLogDestination`                    | 否        | 用于输出应用程序日志的日志目标；其值可以是 file、console 或 fileAndConsole。默认为 fileAndConsole | `file`、`console`、`fileAndConsole` |
 | `daprdLogDestination`                    | 否        | 用于输出 daprd 日志的日志目标；其值可以是 file、console 或 fileAndConsole。默认为 file | `file`、`console`、`fileAndConsole` |
 
-{{% /table %}}
+{{% /tab %}}
 
 ## 后续步骤
 
@@ -322,7 +322,7 @@ apps:
 | `containerImagePullPolicy` |    否     | 容器镜像拉取策略（默认为 `Always`）。                                                                                                                                                                  | `Always`、`IfNotPresent`、`Never`              |
 | `createService`            |    否     | 部署到开发/测试环境时为应用程序创建 Kubernetes 服务。                                                                                                                                 | `true`、`false`                                |
 
-{{% /table %}}
+{{% /tab %}}
 
 ## 后续步骤
 

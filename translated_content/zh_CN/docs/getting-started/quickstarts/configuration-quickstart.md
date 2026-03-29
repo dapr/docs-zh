@@ -1,24 +1,4 @@
-```bash
-docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
-```
-
-I'll retrieve the configuration values for the specified order IDs, demonstrating how to access the stored configuration items directly. This command provides a quick view of the specific configuration values for orderId1 and orderId2 in the Redis cache.
-
-```bash
-docker exec dapr_redis redis-cli MGET orderId1 orderId2
-```
-
-The expected output will display the current configuration values, which can be useful for verifying the data stored in the Redis configuration store.
-
-### Optional: Updating Configuration Values
-
-After unsubscribing the application, you can dynamically modify the configuration item values. Use the Redis CLI to update the order ID values efficiently:
-
-```bash
-docker exec dapr_redis redis-cli MSET orderId1 "103" orderId2 "104"
-```
-
-This command allows quick, atomic updates to multiple configuration items, demonstrating the flexibility of the Dapr configuration management approach.</think>---
+---
 type: docs
 title: "快速入门：配置"
 linkTitle: 配置
@@ -26,18 +6,18 @@ weight: 78
 description: 开始使用 Dapr 的配置构建块
 ---
 
-让我们来看看 Dapr 的[配置构建块]({{% ref configuration-api-overview %}})。配置项通常是动态的，与使用它的应用紧密耦合。配置项是包含配置数据的键/值对，例如：
+让我们来看一下 Dapr 的 [配置构建块]({{% ref configuration-api-overview %}})。配置项通常具有动态特性，与消费它的应用程序需求紧密耦合。配置项是包含配置数据的键/值对，例如：
 - 应用 ID
 - 分区键
 - 数据库名称等
 
 在本快速入门中，你将运行一个使用配置 API 的 `order-processor` 微服务。该服务：
-1. 从配置存储中获取配置项。
+1. 从配置存储获取配置项。
 1. 订阅配置更新。
 
-<img src="/images/configuration-quickstart/configuration-quickstart-flow.png" width=1000 alt="展示配置 API 快速入门流程的示意图，其中使用了键/值对。">
+<img src="/images/configuration-quickstart/configuration-quickstart-flow.png" width=1000 alt="演示使用键/值对的配置 API 快速入门流程的图表。">
 
-在继续快速入门之前，请选择你喜欢的语言特定的 Dapr SDK。
+在继续进行快速入门之前，选择你首选的语言特定的 Dapr SDK。
 
 {{< tabpane text=true >}}
  <!-- Python -->
@@ -45,9 +25,9 @@ description: 开始使用 Dapr 的配置构建块
 
 ### 前置条件
 
-对于此示例，你需要：
+对于本示例，你需要：
 
-- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [Dapr CLI 和初始化的环境](https://docs.dapr.io/getting-started)。
 - [已安装 Python 3.7+](https://www.python.org/downloads/)。
 <!-- IGNORE_LINKS --> 
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
@@ -61,7 +41,7 @@ description: 开始使用 Dapr 的配置构建块
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-克隆完成后，打开一个新终端并运行以下命令，为配置项 `orderId1` 和 `orderId2` 设置值。
+克隆完成后，打开一个新终端并运行以下命令来为配置项 `orderId1` 和 `orderId2` 设置值。
 
 ```bash
 docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
@@ -69,7 +49,7 @@ docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
 
 ### 步骤 2：运行 `order-processor` 服务
 
-在 Quickstarts 克隆目录的根目录下，导航到 `order-processor` 目录。
+从 Quickstarts 克隆目录的根目录导航到 `order-processor` 目录。
 
 ```bash
 cd configuration/python/sdk/order-processor
@@ -87,7 +67,7 @@ pip3 install -r requirements.txt
 dapr run --app-id order-processor --resources-path ../../../components/ --app-port 6001 -- python3 app.py
 ```
 
-> **注意**：由于 Windows 上未定义 Python3.exe，你可能需要使用 `python app.py` 而不是 `python3 app.py`。
+> **注意**：由于 Windows 中未定义 Python3.exe，你可能需要使用 `python app.py` 而不是 `python3 app.py`。
 
 预期输出：
 
@@ -113,7 +93,7 @@ docker exec dapr_redis redis-cli MSET orderId1 "103" orderId2 "104"
 dapr run --app-id order-processor --resources-path ../../../components/ --app-port 6001 -- python3 app.py
 ```
 
-> **注意**：由于 Windows 上未定义 Python3.exe，你可能需要使用 `python app.py` 而不是 `python3 app.py`。
+> **注意**：由于 Windows 中未定义 Python3.exe，你可能需要使用 `python app.py` 而不是 `python3 app.py`。
 
 应用将返回更新后的配置值：
 
@@ -127,9 +107,9 @@ dapr run --app-id order-processor --resources-path ../../../components/ --app-po
 ### `order-processor` 服务
 
 `order-processor` 服务包含以下代码：
-- 从配置存储中获取配置项
-- 订阅配置更新（你之前在 CLI 中所做的）
-- 取消订阅配置更新并在不活动 20 秒后退出应用
+- 从配置存储获取配置项
+- 订阅配置更新（你之前在 CLI 中进行的操作）
+- 取消订阅配置更新并在 20 秒不活动后退出应用。
 
 获取配置项：
 
@@ -168,9 +148,9 @@ if unsubscribed == True:
 
 ### 前置条件
 
-对于此示例，你需要：
+对于本示例，你需要：
 
-- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [Dapr CLI 和初始化的环境](https://docs.dapr.io/getting-started)。
 - [已安装最新的 Node.js](https://nodejs.org/download/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
@@ -184,7 +164,7 @@ if unsubscribed == True:
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-克隆完成后，打开一个新终端并运行以下命令，为配置项 `orderId1` 和 `orderId2` 设置值。
+克隆完成后，打开一个新终端并运行以下命令来为配置项 `orderId1` 和 `orderId2` 设置值。
 
 ```bash
 docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
@@ -192,7 +172,7 @@ docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
 
 ### 步骤 2：运行 `order-processor` 服务
 
-在 Quickstarts 克隆目录的根目录下，导航到 `order-processor` 目录。
+从 Quickstarts 克隆目录的根目录导航到 `order-processor` 目录。
 
 ```bash
 cd configuration/javascript/sdk/order-processor
@@ -242,9 +222,9 @@ dapr run --app-id order-processor --resources-path ../../../components/ --app-pr
 ### `order-processor` 服务
 
 `order-processor` 服务包含以下代码：
-- 从配置存储中获取配置项
-- 订阅配置更新（你之前在 CLI 中所做的）
-- 取消订阅配置更新并在不活动 20 秒后退出应用
+- 从配置存储获取配置项
+- 订阅配置更新（你之前在 CLI 中进行的操作）
+- 取消订阅配置更新并在 20 秒不活动后退出应用。
 
 获取配置项：
 
@@ -289,15 +269,15 @@ setTimeout(() => {
 
 ### 前置条件
 
-对于此示例，你需要：
+对于本示例，你需要：
 
-- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [Dapr CLI 和初始化的环境](https://docs.dapr.io/getting-started)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
 - 已安装 [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0)、[.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0) 或 [.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)
 
-**注意：** .NET 6 是本版本中 Dapr .NET SDK 包支持的最低 .NET 版本。在 Dapr v1.16 及更高版本中仅支持 .NET 8 和 .NET 9。
+**注意**：.NET 6 是本版本中 Dapr .NET SDK 包支持的最低 .NET 版本。在 Dapr v1.16 及更高版本中将仅支持 .NET 8 和 .NET 9。
 
 ### 步骤 1：设置环境
 
@@ -307,7 +287,7 @@ setTimeout(() => {
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-克隆完成后，打开一个新终端并运行以下命令，为配置项 `orderId1` 和 `orderId2` 设置值。
+克隆完成后，打开一个新终端并运行以下命令来为配置项 `orderId1` 和 `orderId2` 设置值。
 
 ```bash
 docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
@@ -315,7 +295,7 @@ docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
 
 ### 步骤 2：运行 `order-processor` 服务
 
-在 Quickstarts 克隆目录的根目录下，导航到 `order-processor` 目录。
+从 Quickstarts 克隆目录的根目录导航到 `order-processor` 目录。
 
 ```bash
 cd configuration/csharp/sdk/order-processor
@@ -366,9 +346,9 @@ dapr run --app-id order-processor-http --resources-path ../../../components/ --a
 ### `order-processor` 服务
 
 `order-processor` 服务包含以下代码：
-- 从配置存储中获取配置项
-- 订阅配置更新（你之前在 CLI 中所做的）
-- 取消订阅配置更新并在不活动 20 秒后退出应用
+- 从配置存储获取配置项
+- 订阅配置更新（你之前在 CLI 中进行的操作）
+- 取消订阅配置更新并在 20 秒不活动后退出应用。
 
 获取配置项：
 
@@ -408,13 +388,13 @@ try
 
 ### 前置条件
 
-对于此示例，你需要：
+对于本示例，你需要：
 
-- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [Dapr CLI 和初始化的环境](https://docs.dapr.io/getting-started)。
 - Java JDK 17（或更高版本）：
   - [Oracle JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html#JDK11)，或
   - OpenJDK
-- [Apache Maven](https://maven.apache.org/install.html) 版本 3.x。
+- [Apache Maven](https://maven.apache.org/install.html)，版本 3.x。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -427,7 +407,7 @@ try
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-克隆完成后，打开一个新终端并运行以下命令，为配置项 `orderId1` 和 `orderId2` 设置值。
+克隆完成后，打开一个新终端并运行以下命令来为配置项 `orderId1` 和 `orderId2` 设置值。
 
 ```bash
 docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
@@ -435,7 +415,7 @@ docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
 
 ### 步骤 2：运行 `order-processor` 服务
 
-在 Quickstarts 克隆目录的根目录下，导航到 `order-processor` 目录。
+从 Quickstarts 克隆目录的根目录导航到 `order-processor` 目录。
 
 ```bash
 cd configuration/java/sdk/order-processor
@@ -485,9 +465,9 @@ dapr run --app-id order-processor --resources-path ../../../components -- java -
 ### `order-processor` 服务
 
 `order-processor` 服务包含以下代码：
-- 从配置存储中获取配置项
-- 订阅配置更新（你之前在 CLI 中所做的）
-- 取消订阅配置更新并在不活动 20 秒后退出应用
+- 从配置存储获取配置项
+- 订阅配置更新（你之前在 CLI 中进行的操作）
+- 取消订阅配置更新并在 20 秒不活动后退出应用。
 
 获取配置项：
 
@@ -526,9 +506,9 @@ if (unsubscribe.getIsUnsubscribed()) {
 
 ### 前置条件
 
-对于此示例，你需要：
+对于本示例，你需要：
 
-- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [Dapr CLI 和初始化的环境](https://docs.dapr.io/getting-started)。
 - [最新版本的 Go](https://go.dev/dl/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
@@ -542,7 +522,7 @@ if (unsubscribe.getIsUnsubscribed()) {
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-克隆完成后，打开一个新终端并运行以下命令，为配置项 `orderId1` 和 `orderId2` 设置值。
+克隆完成后，打开一个新终端并运行以下命令来为配置项 `orderId1` 和 `orderId2` 设置值。
 
 ```bash
 docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
@@ -550,7 +530,7 @@ docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
 
 ### 步骤 2：运行 `order-processor` 服务
 
-在 Quickstarts 克隆目录的根目录下，导航到 `order-processor` 目录。
+从 Quickstarts 克隆目录的根目录导航到 `order-processor` 目录。
 
 ```bash
 cd configuration/go/sdk/order-processor
@@ -595,9 +575,9 @@ dapr run --app-id order-processor --app-port 6001 --resources-path ../../../comp
 ### `order-processor` 服务
 
 `order-processor` 服务包含以下代码：
-- 从配置存储中获取配置项
-- 订阅配置更新（你之前在 CLI 中所做的）
-- 取消订阅配置更新并在不活动 20 秒后退出应用
+- 从配置存储获取配置项
+- 订阅配置更新（你之前在 CLI 中进行的操作）
+- 取消订阅配置更新并在 20 秒不活动后退出应用。
 
 获取配置项：
 
@@ -652,11 +632,11 @@ case <-ctx.Done():
 
 我们正在不断努力改进我们的快速入门示例，并重视你的反馈。你觉得这个快速入门有帮助吗？你有改进建议吗？
 
-加入我们的 [discord 频道](https://discord.com/channels/778680217417809931/953427615916638238) 参与讨论。
+在我们的 [discord 频道](https://discord.com/channels/778680217417809931/953427615916638238) 中加入讨论。
 
 ## 后续步骤
 
-- 使用 HTTP 而非 SDK 来使用 Dapr 配置。
+- 使用 HTTP 而不是 SDK 来使用 Dapr 配置。
   - [Python](https://github.com/dapr/quickstarts/tree/master/configuration/python/http)
   - [JavaScript](https://github.com/dapr/quickstarts/tree/master/configuration/javascript/http)
   - [.NET](https://github.com/dapr/quickstarts/tree/master/configuration/csharp/http)

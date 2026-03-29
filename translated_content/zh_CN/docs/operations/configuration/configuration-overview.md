@@ -314,7 +314,7 @@ spec:
  - 用于存储组件规范中指定的密钥
  
  如果要禁用内置的 Kubernetes 密钥存储，则需要使用 `dapr.io/disable-builtin-k8s-secret-store` [注解]({{% ref arguments-annotations-overview.md %}})。
-{{% /alert %}} 
+{{% /alert %}}
 
 #### 启用预览功能
 
