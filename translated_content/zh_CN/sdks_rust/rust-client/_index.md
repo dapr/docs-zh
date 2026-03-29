@@ -11,7 +11,7 @@ Dapr 客户端包允许您从 Rust 应用程序与其他 Dapr 应用程序进行
 
 {{% alert title="注意" color="primary" %}}
 Dapr Rust SDK 目前处于 Alpha 阶段。我们正在努力将其推向稳定版本，期间可能会涉及破坏性变更。
-{{% /alert %}
+{{% /alert %}}
 
 ## 前置条件
 

@@ -355,7 +355,7 @@ store = PostgresVectorStore(
 
 {{% alert title="注意" color="warning" %}}
 `dapr init` 启动的 Redis 实例是**普通 Redis 服务器**，不包含 Redis Stack 所需的 Search/向量模块。要使用 `RedisVectorStore`，必须单独运行 [Redis Stack](https://redis.io/docs/latest/operate/oss_and_stack/install/install-stack/)（或启用了 `RediSearch` 模块的 Redis 部署）。
-{{% /alert %}
+{{% /alert %}}
 
 需要 `redisvl`（`pip install redisvl`）。
 

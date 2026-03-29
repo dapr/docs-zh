@@ -10,7 +10,7 @@ aliases:
 
 {{% alert title="Dapr Agents 概念" color="primary" %}}
 如果你想了解 Dapr Agents 的入门概述，并希望学习更多 Dapr Agents 基本术语，我们建议你先阅读[介绍](dapr-agents-introduction.md)和[核心概念](dapr-agents-core-concepts.md)部分。
-{{% /alert "%}}
+{{% /alert %}}
 
 ## 安装 Dapr CLI
 
@@ -27,7 +27,7 @@ dapr -h
 
 {{% alert title="注意" color="info" %}}
 请确保已安装 [Docker](https://docs.docker.com/get-started/get-docker/)。
-{{% /alert "%}}
+{{% /alert %}}
 
 在本地初始化 Dapr 以设置用于开发的自托管环境。此过程会获取并安装 Dapr 边车二进制文件、将必要的服务作为 Docker 容器运行，并为你的应用程序准备一个默认组件文件夹。详细步骤，请参阅官方[本地初始化 Dapr 指南]({{% ref install-dapr-selfhost.md %}})。
 
@@ -49,7 +49,7 @@ docker ps
 
 {{% alert title="注意" color="info" %}}
 请确保已安装 Python。`Python >=3.11`。安装说明，请访问官方 [Python 安装指南](https://www.python.org/downloads/)。
-{{% /alert "%}}
+{{% /alert %}}
 
 ## 安装 uv
 
@@ -71,7 +71,7 @@ Dapr Agents 快速入门使用 [uv](https://docs.astral.sh/uv/) 作为 Python �
 curl -fsSL https://ollama.com/install.sh | sh
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
 {{% tab header="macOS" text=true %}}
 
@@ -79,13 +79,13 @@ curl -fsSL https://ollama.com/install.sh | sh
 brew install ollama
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab header="Windows" text=true "%}}
+{{% tab header="Windows" text=true %}}
 
 从 [ollama.com/download](https://ollama.com/download) 下载并运行安装程序。
 
-{{% /tab "%}}
+{{% /tab %}}
 
 {{< /tabpane >}}
 
@@ -100,23 +100,23 @@ ollama pull qwen3:0.6b
 
 {{< tabpane text=true >}}
 
-{{% tab header="Linux/macOS" text=true "%}}
+{{% tab header="Linux/macOS" text=true %}}
 
 ```bash
 export OLLAMA_ENDPOINT=http://localhost:11434/v1
 export OLLAMA_MODEL=qwen3:0.6b
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
-{{% tab header="Windows (PowerShell)" text=true "%}}
+{{% tab header="Windows (PowerShell)" text=true %}}
 
 ```powershell
 $env:OLLAMA_ENDPOINT = "http://localhost:11434/v1"
 $env:OLLAMA_MODEL = "qwen3:0.6b"
 ```
 
-{{% /tab "%}}
+{{% /tab %}}
 
 {{< /tabpane >}}
 
