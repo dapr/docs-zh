@@ -8,11 +8,11 @@ no_list: true
 is_preview: true
 ---
 
-创建状态存储组件只需几个基本步骤。
+创建状态存储组件只需要几个基本步骤。
 
 ## 添加状态存储命名空间
 
-为状态存储相关的命名空间添加 `using` 语句。
+添加状态存储相关命名空间的 `using` 语句。
 
 ```csharp
 using Dapr.PluggableComponents.Components;
@@ -38,19 +38,19 @@ internal sealed class MyStateStore : IStateStore
 
     public Task InitAsync(MetadataRequest request, CancellationToken cancellationToken = default)
     {
-        // 使用配置的元数据初始化组件...
+        // 调用以使用配置的元数据初始化组件...
     }
 
     public Task SetAsync(StateStoreSetRequest request, CancellationToken cancellationToken = default)
     {
-        // 在状态存储中将请求的键设置为指定的值...
+        // 在状态存储中设置请求的键为指定值...
     }
 }
 ```
 
 ## 注册状态存储组件
 
-在主程序文件中（如 `Program.cs`），通过应用服务注册状态存储。
+在主程序文件（例如 `Program.cs`）中，向应用程序服务注册状态存储。
 
 ```csharp
 using Dapr.PluggableComponents;
@@ -67,9 +67,9 @@ app.RegisterService(
 app.Run();
 ```
 
-## 支持批量操作的状态存储
+## 批量状态存储
 
-如果状态存储打算支持批量操作，应实现可选的 `IBulkStateStore` 接口。其方法与基础 `IStateStore` 接口的方法相似，但包含多个请求的值。
+旨在支持批量操作的状态存储应实现可选的 `IBulkStateStore` 接口。其方法镜像了基础 `IStateStore` 接口的方法，但包含多个请求值。
 
 {{% alert title="注意" color="primary" %}}
 对于未实现 `IBulkStateStore` 的状态存储，Dapr 运行时将通过单独调用其操作来模拟批量状态存储操作。
@@ -87,19 +87,19 @@ internal sealed class MyStateStore : IStateStore, IBulkStateStore
 
     public Task<StateStoreBulkStateItem[]> BulkGetAsync(StateStoreGetRequest[] requests, CancellationToken cancellationToken = default)
     {
-        // 返回状态存储中所有请求的值...
+        // 从状态存储中返回所有请求的值...
     }
 
     public Task BulkSetAsync(StateStoreSetRequest[] requests, CancellationToken cancellationToken = default)
     {
-        // 在状态存储中设置所有请求键的值...
+        // 在状态存储中设置所有请求的键的值...
     }
 }
 ```
 
-## 事务性状态存储
+## 事务状态存储
 
-如果状态存储打算支持事务，应实现可选的 `ITransactionalStateStore` 接口。其 `TransactAsync()` 方法接收一个请求，其中包含要在事务中执行的删除和/或设置操作序列。状态存储应遍历这些操作，并调用每个操作的 `Visit()` 方法，传递相应的回调以处理每种操作类型。
+旨在支持事务的状态存储应实现可选的 `ITransactionalStateStore` 接口。其 `TransactAsync()` 方法接收一个请求，其中包含要在事务中执行的一系列删除和/或设置操作。状态存储应遍历该序列并调用每个操作的 `Visit()` 方法，传入代表对每种操作类型要执行的操作的回调。
 
 ```csharp
 internal sealed class MyStateStore : IStateStore, ITransactionalStateStore
@@ -140,7 +140,7 @@ internal sealed class MyStateStore : IStateStore, ITransactionalStateStore
 
 ## 可查询状态存储
 
-如果状态存储打算支持查询，应实现可选的 `IQueryableStateStore` 接口。其 `QueryAsync()` 方法接收有关查询的详细信息，例如过滤器、结果限制和分页，以及结果的排序顺序。状态存储应使用这些详细信息生成一组值并作为响应的一部分返回。
+旨在支持查询的状态存储应实现可选的 `IQueryableStateStore` 接口。其 `QueryAsync()` 方法接收有关查询的详细信息，例如筛选器、结果限制和分页，以及结果的排序顺序。状态存储应使用这些详细信息生成一组值作为其响应的一部分返回。
 
 ```csharp
 internal sealed class MyStateStore : IStateStore, IQueryableStateStore
@@ -156,10 +156,17 @@ internal sealed class MyStateStore : IStateStore, IQueryableStateStore
 
 ## ETag 和其他语义错误处理
 
-Dapr 运行时对某些状态存储操作导致的特定错误条件有额外的处理。状态存储可以通过从其操作逻辑中抛出特定异常来指示这些条件：
+Dapr 运行时对某些状态存储操作导致的某些错误条件有额外的处理。状态存储可以通过从其操作逻辑中抛出特定异常来指示此类情况：
 
 | 异常 | 适用操作 | 描述
 |---|---|---|
-| `ETagInvalidException` | 删除、设置、批量删除、批量设置 | 当 ETag 无效时 |
-| `ETagMismatchException`| 删除、设置、批量删除、批量设置 | 当 ETag 与预期值不匹配时 |
-| `BulkDeleteRowMismatchException` | 批量删除 | 当受影响的行数与预期行数不匹配时 |
+| `ETagInvalidException` | Delete、Set、Bulk Delete、Bulk Set | 当 ETag 无效时 |
+| `ETagMismatchException`| Delete、Set、Bulk Delete、Bulk Set | 当 ETag 与预期值不匹配时 |
+| `BulkDeleteRowMismatchException` | Bulk Delete | 当受影响的行数与预期行数不匹配时 |
+
+## 后续步骤
+
+- [了解可插拔组件 .NET SDK 的高级步骤]({{% ref "dotnet-advanced" %}})
+- 了解有关使用可插拔组件 .NET SDK 的更多信息：
+  - [绑定]({{% ref "dotnet-bindings" %}})
+  - [发布订阅]({{% ref "dotnet-pub-sub" %}})

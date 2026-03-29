@@ -1,18 +1,18 @@
 ---
 type: docs
-title: "实现一个 Go pub/sub 组件"
-linkTitle: "Pub/sub"
+title: "实现 Go 发布订阅组件"
+linkTitle: "发布订阅"
 weight: 1000
-description: 如何使用 Dapr 可插拔组件 Go SDK 创建一个 pub/sub 组件
+description: 如何使用 Dapr 可插拔组件 Go SDK 创建发布订阅组件
 no_list: true
 is_preview: true
 ---
 
-创建一个 pub/sub 组件只需几个基本步骤。
+创建发布订阅组件只需要几个基本步骤。
 
-## 导入 pub/sub 包
+## 导入发布订阅包
 
-创建文件 `components/pubsub.go` 并添加 `import` 语句以导入与 pub/sub 相关的包。
+创建文件 `components/pubsub.go` 并添加发布订阅相关包的 `import` 语句。
 
 ```go
 package components
@@ -32,7 +32,7 @@ type MyPubSubComponent struct {
 }
 
 func (component *MyPubSubComponent) Init(metadata pubsub.Metadata) error {
-	// 使用配置的元数据初始化组件...
+	// 调用此方法以使用配置的元数据初始化组件...
 }
 
 func (component *MyPubSubComponent) Close() error {
@@ -49,17 +49,19 @@ func (component *MyPubSubComponent) Publish(req *pubsub.PublishRequest) error {
 }
 
 func (component *MyPubSubComponent) Subscribe(ctx context.Context, req pubsub.SubscribeRequest, handler pubsub.Handler) error {
-	// 设置一个长时间运行的机制来检索消息，直到取消为止，并将其传递给 Dapr 运行时...
+	// 在取消之前，持续检查 topic 是否有消息并将其传递给 Dapr 运行时...
 }
 ```
 
-调用 `Subscribe()` 方法时，需要设置一个长时间运行的机制来检索消息，并立即返回 `nil`（如果无法设置该机制，则返回错误）。该机制应在取消时结束（例如，通过 `ctx.Done()` 或 `ctx.Err() != nil`）。消息的 "topic" 是通过 `req` 参数传递的，而传递给 Dapr 运行时的消息则通过 `handler` 回调来处理。回调在应用程序（由 Dapr 运行时服务）确认处理消息之前不会返回。
+对 `Subscribe()` 方法的调用预期会建立一个用于检索消息的长效机制，但立即返回 `nil`（或错误，如果无法建立该机制）。该机制应在取消时结束（例如，通过 `ctx.Done()` 或 `ctx.Err() != nil`）。应从中拉取消息的 "topic" 通过 `req` 参数传递，而传递给 Dapr 运行时则通过 `handler` 回调执行。回调在应用程序（由 Dapr 运行时提供服务）确认消息处理后才会返回。
 
 ```go
 func (component *MyPubSubComponent) Subscribe(ctx context.Context, req pubsub.SubscribeRequest, handler pubsub.Handler) error {
 	go func() {
 		for {
-			if ctx.Err() != nil {
+			err := ctx.Err()
+
+			if err != nil {
 				return
 			}
 	
@@ -82,9 +84,9 @@ func (component *MyPubSubComponent) Subscribe(ctx context.Context, req pubsub.Su
 }
 ```
 
-## 注册 pub/sub 组件
+## 注册发布订阅组件
 
-在主应用程序文件中（例如，`main.go`），注册 pub/sub 组件。
+在主应用程序文件（例如 `main.go`）中，向应用程序注册发布订阅组件。
 
 ```go
 package main
@@ -104,8 +106,8 @@ func main() {
 }
 ```
 
-## 下一步
-- [使用可插拔组件 Go SDK 的高级技术]({{% ref go-advanced %}})
-- 了解更多关于实现：
-  - [bindings]({{% ref go-bindings %}})
-  - [state]({{% ref go-state-store %}})
+## 后续步骤
+- [可插拔组件 Go SDK 的高级技巧]({{% ref go-advanced %}})
+- 了解有关实现的更多信息：
+  - [绑定]({{% ref go-bindings %}})
+  - [状态]({{% ref go-state-store %}})

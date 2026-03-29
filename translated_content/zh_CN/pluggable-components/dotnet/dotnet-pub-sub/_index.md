@@ -1,18 +1,18 @@
 ---
 type: docs
-title: "实现 .NET 发布/订阅组件"
-linkTitle: "发布/订阅"
+title: "实现 .NET 发布订阅组件"
+linkTitle: "发布订阅"
 weight: 1000
-description: 如何使用 Dapr 可插拔组件 .NET SDK 创建发布/订阅
+description: 如何使用 Dapr 可插拔组件 .NET SDK 创建发布订阅
 no_list: true
 is_preview: true
 ---
 
-创建发布/订阅组件只需几个基本步骤。
+创建发布订阅组件只需几个基本步骤。
 
-## 添加发布/订阅命名空间
+## 添加发布订阅命名空间
 
-添加与发布/订阅相关的命名空间的 `using` 语句。
+为发布订阅相关的命名空间添加 `using` 语句。
 
 ```csharp
 using Dapr.PluggableComponents.Components;
@@ -28,36 +28,36 @@ internal sealed class MyPubSub : IPubSub
 {
     public Task InitAsync(MetadataRequest request, CancellationToken cancellationToken = default)
     {
-        // 使用配置的元数据初始化组件...
+        // 调用以使用配置的元数据初始化组件...
     }
 
     public Task PublishAsync(PubSubPublishRequest request, CancellationToken cancellationToken = default)
     {
-        // 将消息发送到指定的“主题”...
+        // 将消息发送到"topic"...
     }
 
     public Task PullMessagesAsync(PubSubPullMessagesTopic topic, MessageDeliveryHandler<string?, PubSubPullMessagesResponse> deliveryHandler, CancellationToken cancellationToken = default)
     {
-        // 持续检查主题中的消息并将其传递给 Dapr 运行时，直到取消为止...
+        // 直到取消之前，检查 topic 中的消息并将其传递给 Dapr runtime...
     }
 }
 ```
 
-`PullMessagesAsync()` 方法是一个“长时间运行”的调用，因为在取消之前不期望返回（例如，通过 `cancellationToken`）。需要从中提取消息的“主题”通过 `topic` 参数传递，而传递到 Dapr 运行时是通过 `deliveryHandler` 回调执行的。传递机制允许组件在应用程序（由 Dapr 运行时服务）确认消息处理时接收通知。
+对 `PullMessagesAsync()` 方法的调用是"长期存在"的，也就是说该方法在取消之前（例如通过 `cancellationToken`）不会返回。应从中拉取消息的"topic"通过 `topic` 参数传递，而向 Dapr runtime 的传递则通过 `deliveryHandler` 回调执行。传递允许组件在应用程序（由 Dapr runtime 提供服务）确认已处理消息时接收通知。
 
 ```csharp
     public async Task PullMessagesAsync(PubSubPullMessagesTopic topic, MessageDeliveryHandler<string?, PubSubPullMessagesResponse> deliveryHandler, CancellationToken cancellationToken = default)
     {
-        TimeSpan pollInterval = // 轮询间隔（可以从初始化元数据中获取）...
+        TimeSpan pollInterval = // 轮询间隔（例如来自初始化元数据）...
 
-        // 持续轮询主题直到取消...
+        // 轮询 topic 直到取消...
         while (!cancellationToken.IsCancellationRequested)
         {
-            var messages = // 从主题中轮询获取消息...
+            var messages = // 从 topic 轮询消息...
 
             foreach (var message in messages)
             {
-                // 将消息传递给 Dapr 运行时...
+                // 将消息传递给 Dapr runtime...
                 await deliveryHandler(
                     new PubSubPullMessagesResponse(topicName)
                     {
@@ -69,20 +69,20 @@ internal sealed class MyPubSub : IPubSub
                         // 空消息表示应用程序成功处理了消息...
                         if (String.IsNullOrEmpty(errorMessage))
                         {
-                            // 从主题中删除消息...
+                            // 从 topic 中删除消息...
                         }
-                    });
+                    })
             }
 
-            // 等待下一个轮询（或取消）...
+            // 等待下一次轮询（或取消）...
             await Task.Delay(pollInterval, cancellationToken);
         }
     }
 ```
 
-## 注册发布/订阅组件
+## 注册发布订阅组件
 
-在主程序文件中（例如，`Program.cs`），使用应用程序服务注册发布/订阅组件。
+在主程序文件（例如 `Program.cs`）中，向应用程序服务注册发布订阅组件。
 
 ```csharp
 using Dapr.PluggableComponents;
@@ -97,3 +97,11 @@ app.RegisterService(
     });
 
 app.Run();
+```
+
+## 后续步骤
+
+- [了解可插拔组件 .NET SDK 的高级步骤]({{% ref "dotnet-advanced" %}})
+- 了解有关使用可插拔组件 .NET SDK 的更多信息：
+  - [绑定]({{% ref "dotnet-bindings" %}})
+  - [状态存储]({{% ref "dotnet-state-store" %}})

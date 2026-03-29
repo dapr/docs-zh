@@ -1,18 +1,18 @@
 ---
 type: docs
-title: "实现一个 Go 状态存储组件"
+title: "实现 Go 状态存储组件"
 linkTitle: "状态存储"
 weight: 1000
-description: 如何使用 Dapr 可插拔组件 Go SDK 创建一个状态存储
+description: 如何使用 Dapr 可插拔组件 Go SDK 创建状态存储
 no_list: true
 is_preview: true
 ---
 
-创建状态存储组件只需几个基本步骤。
+创建状态存储组件只需要几个基本步骤。
 
 ## 导入状态存储包
 
-创建文件 `components/statestore.go` 并添加与状态存储相关的包的 `import` 语句。
+创建文件 `components/statestore.go` 并添加状态存储相关包的 `import` 语句。
 
 ```go
 package components
@@ -32,11 +32,11 @@ type MyStateStore struct {
 }
 
 func (store *MyStateStore) Init(metadata state.Metadata) error {
-	// 使用配置的元数据初始化组件...
+	// 使用配置的元数据初始化组件时调用...
 }
 
 func (store *MyStateStore) GetComponentMetadata() map[string]string {
-    // 不用于可插拔组件...
+    // 可插拔组件不使用此方法...
 	return map[string]string{}
 }
 
@@ -53,7 +53,7 @@ func (store *MyStateStore) Get(ctx context.Context, req *state.GetRequest) (*sta
 }
 
 func (store *MyStateStore) Set(ctx context.Context, req *state.SetRequest) error {
-	// 在状态存储中将请求的键设置为指定的值...
+	// 在状态存储中将请求的键设置为指定值...
 }
 
 func (store *MyStateStore) BulkGet(ctx context.Context, req []state.GetRequest) (bool, []state.BulkGetResponse, error) {
@@ -65,13 +65,13 @@ func (store *MyStateStore) BulkDelete(ctx context.Context, req []state.DeleteReq
 }
 
 func (store *MyStateStore) BulkSet(ctx context.Context, req []state.SetRequest) error {
-	// 在状态存储中将请求的键设置为其指定的值...
+	// 在状态存储中将请求的键设置为指定的值...
 }
 ```
 
 ## 注册状态存储组件
 
-在主应用程序文件（例如，`main.go`）中，将状态存储注册到应用程序服务中。
+在主应用程序文件（例如 `main.go`）中，将状态存储注册到应用程序服务。
 
 ```go
 package main
@@ -91,13 +91,13 @@ func main() {
 }
 ```
 
-## 批量操作的状态存储
+## 批量状态存储
 
-虽然状态存储需要支持[批量操作]({{% ref "state-management-overview.md#bulk-read-operations" %}})，但它们的实现会顺序委托给各个操作方法。
+虽然状态存储需要支持[批量操作]({{% ref "state-management-overview.md#bulk-read-operations" %}})，但其实现会顺序委托给单个操作方法。
 
 ## 事务性状态存储
 
-如果状态存储计划支持事务，则应实现可选的 `TransactionalStore` 接口。其 `Multi()` 方法接收一个包含一系列 `delete` 和/或 `set` 操作的请求，以在事务中执行。状态存储应遍历序列并应用每个操作。
+支持事务的状态存储应该实现可选的 `TransactionalStore` 接口。其 `Multi()` 方法接收一个包含要在事务中执行的 `delete` 和/或 `set` 操作序列的请求。状态存储应遍历该序列并应用每个操作。
 
 ```go
 func (store *MyStateStoreComponent) Multi(ctx context.Context, request *state.TransactionalStateRequest) error {
@@ -120,9 +120,9 @@ func (store *MyStateStoreComponent) Multi(ctx context.Context, request *state.Tr
 }
 ```
 
-## 可查询的状态存储
+## 可查询状态存储
 
-如果状态存储计划支持查询，则应实现可选的 `Querier` 接口。其 `Query()` 方法传递有关查询的详细信息，例如过滤器、结果限制、分页和结果的排序顺序。状态存储使用这些详细信息生成一组值作为响应的一部分返回。
+支持查询的状态存储应该实现可选的 `Querier` 接口。其 `Query()` 方法接收有关查询的详细信息，例如过滤器、结果限制、分页和结果的排序顺序。状态存储使用这些详细信息生成一组值作为其响应的一部分返回。
 
 ```go
 func (store *MyStateStoreComponent) Query(ctx context.Context, req *state.QueryRequest) (*state.QueryResponse, error) {
@@ -130,18 +130,18 @@ func (store *MyStateStoreComponent) Query(ctx context.Context, req *state.QueryR
 }
 ```
 
-## ETag 和其他错误处理
+## ETag 和其他语义错误处理
 
-Dapr 运行时对某些状态存储操作导致的特定错误条件有额外的处理。状态存储可以通过从其操作逻辑中返回特定错误来指示这些条件：
+Dapr 运行时对某些状态存储操作导致的某些错误条件有额外的处理。状态存储可以通过从其操作逻辑返回特定错误来指示此类条件：
 
 | 错误 | 适用操作 | 描述
 |---|---|---|
-| `NewETagError(state.ETagInvalid, ...)` | Delete, Set, Bulk Delete, Bulk Set | 当 ETag 无效时 |
-| `NewETagError(state.ETagMismatch, ...)`| Delete, Set, Bulk Delete, Bulk Set | 当 ETag 与预期值不匹配时 |
+| `NewETagError(state.ETagInvalid, ...)` | Delete、Set、Bulk Delete、Bulk Set | 当 ETag 无效时 |
+| `NewETagError(state.ETagMismatch, ...)`| Delete、Set、Bulk Delete、Bulk Set | 当 ETag 与预期值不匹配时 |
 | `NewBulkDeleteRowMismatchError(...)` | Bulk Delete | 当受影响的行数与预期行数不匹配时 |
 
-## 下一步
-- [使用可插拔组件 Go SDK 的高级技术]({{% ref go-advanced %}})
-- 了解更多关于实现：
-  - [bindings]({{% ref go-bindings %}})
-  - [pubsub]({{% ref go-pub-sub %}})
+## 后续步骤
+- [可插拔组件 Go SDK 的高级技术]({{% ref go-advanced %}})
+- 了解有关实现的更多信息：
+  - [绑定]({{% ref go-bindings %}})
+  - [发布订阅]({{% ref go-pub-sub %}})
