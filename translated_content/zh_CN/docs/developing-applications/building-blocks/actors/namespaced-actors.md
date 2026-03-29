@@ -22,7 +22,7 @@ Dapr 中的命名空间提供隔离能力，从而实现多租户。通过 Actor
 {{% tab "自托管" %}}
 在自托管模式下，你可以通过设置 [`NAMESPACE` 环境变量]({{% ref environment %}})来指定 Dapr 实例的命名空间。
 
-{{% /tab)}}
+{{% /tab %}}
 
 {{% tab "Kubernetes" %}}
 在 Kubernetes 上，你可以在部署 Actor 应用程序时创建和配置命名空间。例如，从以下 `kubectl` 命令开始：
@@ -34,7 +34,7 @@ kubectl config set-context --current --namespace=namespace-actorA
 
 然后，将你的 Actor 应用程序部署到此命名空间中（本例中为 `namespace-actorA`）。
 
-{{% /tab >}}
+{{% /tab %}}
 
 {{< /tabpane >}}
 
@@ -117,7 +117,7 @@ auth:
 
 {{% alert title="注意" color="primary" %}}
 命名空间 Actor 使用多租户 Placement 服务。使用此控制平面服务时，每个应用程序部署都有自己的命名空间，属于命名空间"ActorA"应用程序的边车不会收到命名空间"ActorB"中应用程序的放置信息。
-{{% /alert >}}
+{{% /alert %}}
 
 ## 后续步骤
 

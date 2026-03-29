@@ -92,7 +92,7 @@ const client = new DaprClient(daprHost, daprPort, CommunicationProtocolEnum.HTTP
 {{% /tab %}}
 
 
-% tab "Python" %}}
+{{% tab "Python" %}}
 
 ```python
 from datetime import timedelta
@@ -114,7 +114,7 @@ ActorRuntime.set_actor_config(
 {{% /tab %}}
 
 
-% tab "Java" %}}
+{{% tab "Java" %}}
 
 ```java
 // import io.dapr.actors.runtime.ActorRuntime;
@@ -132,7 +132,7 @@ ActorRuntime.getInstance().getConfig().setActorReentrancyConfig(false, null);
 {{% /tab %}}
 
 
-% tab "Go" %}}
+{{% tab "Go" %}}
 ```go
 const (
     defaultActorType = "basicType"
@@ -183,7 +183,7 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 {{% /tab %}}
 
 
-/tabpane >}}
+{{< /tabpane >}}
 
 ## 相关链接
 
