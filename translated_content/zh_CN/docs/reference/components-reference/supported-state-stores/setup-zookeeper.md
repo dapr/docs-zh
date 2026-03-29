@@ -4,7 +4,7 @@ title: "Zookeeper"
 linkTitle: "Zookeeper"
 description: Zookeeper 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-zookeeper/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-zookeeper/"
 ---
 
 ## 组件格式

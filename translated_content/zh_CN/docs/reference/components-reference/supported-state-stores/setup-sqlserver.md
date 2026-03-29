@@ -4,7 +4,7 @@ title: "Microsoft SQL Server & Azure SQL"
 linkTitle: "Microsoft SQL Server & Azure SQL"
 description: Microsoft SQL Server 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-sqlserver/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-sqlserver/"
 ---
 
 ## 组件格式

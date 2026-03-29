@@ -4,7 +4,7 @@ title: "Cloudflare Workers KV"
 linkTitle: "Cloudflare Workers KV"
 description: Cloudflare Workers KV 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-cloudflare-workerskv/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-cloudflare-workerskv/"
 ---
 
 ## 创建 Dapr 组件

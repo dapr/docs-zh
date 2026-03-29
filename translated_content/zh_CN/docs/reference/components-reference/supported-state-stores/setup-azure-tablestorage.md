@@ -4,7 +4,7 @@ title: "Azure Table Storage "
 linkTitle: "Azure Table Storage "
 description: 关于 Azure Table Storage 状态存储组件的详细信息，该组件可用于连接到 Cosmos DB Table API 和 Azure Tables
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-azure-tablestorage/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-azure-tablestorage/"
 ---
 
 ## 组件格式

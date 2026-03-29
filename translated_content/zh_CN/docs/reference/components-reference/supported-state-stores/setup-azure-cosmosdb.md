@@ -4,7 +4,7 @@ title: "Azure Cosmos DB (SQL API)"
 linkTitle: "Azure Cosmos DB (SQL API)"
 description: Azure Cosmos DB (SQL API) 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-azure-cosmosdb/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-azure-cosmosdb/"
 ---
 
 ## 组件格式

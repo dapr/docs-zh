@@ -4,7 +4,7 @@ title: "In-memory"
 linkTitle: "In-memory"
 description: "内存状态组件的详细文档"
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-inmemory/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-inmemory/"
 ---
 
 内存状态存储组件将状态维护在 Dapr 边车的内存中。这主要用于开发目的。状态不会在多个边车之间复制，并且当 Dapr 边车重启时会丢失。

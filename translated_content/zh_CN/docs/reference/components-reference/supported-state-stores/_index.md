@@ -5,7 +5,7 @@ linkTitle: "状态存储"
 description: "与 Dapr 对接的受支持状态存储"
 weight: 10000
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/"
 no_list: true
 ---
 

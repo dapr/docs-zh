@@ -4,7 +4,7 @@ title: "Azure Blob Storage"
 linkTitle: "Azure Blob Storage"
 description: Azure Blob Store 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-azure-blobstorage/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-azure-blobstorage/"
 ---
 
 ## 组件格式

@@ -4,10 +4,10 @@ title: "PostgreSQL v1"
 linkTitle: "PostgreSQL v1"
 description: 关于 PostgreSQL v1 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-postgresql/"
-  - "/operations/components/setup-state-store/supported-state-stores/setup-postgres/"
-  - "/operations/components/setup-state-store/supported-state-stores/setup-postgresql-v1/"
-  - "/operations/components/setup-state-store/supported-state-stores/setup-postgres-v1/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-postgresql/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-postgres/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-postgresql-v1/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-postgres-v1/"
 ---
 
 {{% alert title="注意" color="primary" %}}

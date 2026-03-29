@@ -4,7 +4,7 @@ title: "SQLite"
 linkTitle: "SQLite"
 description: SQLite 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-sqlite/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-sqlite/"
 ---
 
 该组件允许将 SQLite 3 用作 Dapr 的状态存储。

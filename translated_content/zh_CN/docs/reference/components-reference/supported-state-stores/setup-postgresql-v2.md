@@ -4,8 +4,8 @@ title: "PostgreSQL"
 linkTitle: "PostgreSQL"
 description: PostgreSQL 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-postgresql-v2/"
-  - "/operations/components/setup-state-store/supported-state-stores/setup-postgres-v2/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-postgresql-v2/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-postgres-v2/"
 ---
 
 {{% alert title="注意" color="primary" %}}

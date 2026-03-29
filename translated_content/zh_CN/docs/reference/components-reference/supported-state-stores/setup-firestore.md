@@ -4,7 +4,7 @@ title: "GCP Firestore (Datastore 模式)"
 linkTitle: "GCP Firestore"
 description: GCP Firestore 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-firestore/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-firestore/"
 ---
 
 ## 组件格式

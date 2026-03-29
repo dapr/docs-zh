@@ -4,7 +4,7 @@ title: "Hazelcast"
 linkTitle: "Hazelcast"
 description: Hazelcast 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-hazelcast/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-hazelcast/"
 ---
 
 ## 创建 Dapr 组件

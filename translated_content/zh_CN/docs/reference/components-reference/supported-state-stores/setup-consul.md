@@ -4,7 +4,7 @@ title: "HashiCorp Consul"
 linkTitle: "HashiCorp Consul"
 description: HashiCorp Consul 状态存储组件的详细信息
 aliases:
-  - "/operations/components/setup-state-store/supported-state-stores/setup-consul/"
+  - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-consul/"
 ---
 
 ## 组件格式
