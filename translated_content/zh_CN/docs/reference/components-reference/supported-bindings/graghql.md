@@ -4,7 +4,7 @@ title: "GraphQL 绑定规范"
 linkTitle: "GraphQL"
 description: "GraphQL 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/graphql/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/graphql/"
 ---
 
 ## 组件格式

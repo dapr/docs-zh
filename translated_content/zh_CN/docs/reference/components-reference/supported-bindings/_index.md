@@ -5,7 +5,7 @@ linkTitle: "绑定"
 weight: 1000
 description: 与 Dapr 交互的支持的外部绑定
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/"
 no_list: true
 ---
 

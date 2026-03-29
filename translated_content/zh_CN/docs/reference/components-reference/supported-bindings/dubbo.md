@@ -4,7 +4,7 @@ title: "Apache Dubbo binding 规范"
 linkTitle: "Dubbo"
 description: "Apache Dubbo binding 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/dubbo/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/dubbo/"
 ---
 
 ## 组件格式

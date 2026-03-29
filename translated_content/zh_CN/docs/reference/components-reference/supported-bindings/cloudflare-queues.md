@@ -4,8 +4,8 @@ title: "Cloudflare Queues 绑定规范"
 linkTitle: "Cloudflare Queues"
 description: "Cloudflare Queues 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/cloudflare-queues/"
-  - "/operations/components/setup-bindings/supported-bindings/cfqueues/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/cloudflare-queues/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/cfqueues/"
 ---
 
 ## 组件格式

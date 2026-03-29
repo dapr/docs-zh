@@ -4,8 +4,8 @@ title: "MQTT3 binding 规范"
 linkTitle: "MQTT3"
 description: "MQTT3 binding 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/mqtt3/"
-  - "/operations/components/setup-bindings/supported-bindings/mqtt/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/mqtt3/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/mqtt/"
 ---
 
 ## 组件格式

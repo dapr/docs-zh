@@ -4,7 +4,7 @@ title: "commercetools GraphQL 绑定规范"
 linkTitle: "commercetools GraphQL"
 description: "commercetools GraphQL 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/commercetools/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/commercetools/"
 ---
 
 ## 组件格式

@@ -4,7 +4,7 @@ title: "Alibaba Cloud Tablestore binding 规范"
 linkTitle: "Alibaba Cloud Tablestore"
 description: "Alibaba Tablestore binding 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/alicloudtablestore/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/alicloudtablestore/"
 ---
 
 ## 组件格式

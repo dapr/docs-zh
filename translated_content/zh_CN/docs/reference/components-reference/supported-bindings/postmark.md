@@ -4,7 +4,7 @@ title: "Postmark binding 规范"
 linkTitle: "Postmark"
 description: "Postmark binding 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/postmark/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/postmark/"
 ---
 
 ## 组件格式

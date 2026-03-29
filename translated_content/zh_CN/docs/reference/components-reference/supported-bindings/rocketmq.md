@@ -4,7 +4,7 @@ title: "Apache RocketMQ binding 规范"
 linkTitle: "RocketMQ"
 description: "Apache RocketMQ binding 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/rocketmq/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/rocketmq/"
 ---
 
 

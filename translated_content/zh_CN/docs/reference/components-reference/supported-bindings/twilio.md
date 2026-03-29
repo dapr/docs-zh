@@ -4,7 +4,7 @@ title: "Twilio SMS 绑定规范"
 linkTitle: "Twilio SMS"
 description: "Twilio SMS 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/twilio/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/twilio/"
 ---
 
 ## 组件格式

@@ -4,7 +4,7 @@ title: "RabbitMQ 绑定规范"
 linkTitle: "RabbitMQ"
 description: "RabbitMQ 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/rabbitmq/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/rabbitmq/"
 ---
 
 ## 组件格式

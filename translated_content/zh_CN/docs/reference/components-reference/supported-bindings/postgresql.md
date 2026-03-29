@@ -4,8 +4,8 @@ title: "PostgreSQL 绑定规范"
 linkTitle: "PostgreSQL"
 description: "PostgreSQL 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/postgresql/"
-  - "/operations/components/setup-bindings/supported-bindings/postgres/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/postgresql/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/postgres/"
 ---
 
 ## 组件格式

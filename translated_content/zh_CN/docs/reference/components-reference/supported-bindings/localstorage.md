@@ -4,7 +4,7 @@ title: "Local Storage 绑定规范"
 linkTitle: "Local Storage"
 description: "Local Storage 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/localstorage/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/localstorage/"
 ---
 
 ## 组件格式

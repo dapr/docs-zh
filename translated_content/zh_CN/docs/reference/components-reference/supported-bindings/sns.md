@@ -4,7 +4,7 @@ title: "AWS SNS 绑定规范"
 linkTitle: "AWS SNS"
 description: "AWS SNS 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/sns/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/sns/"
 ---
 
 ## 组件格式

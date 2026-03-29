@@ -4,7 +4,7 @@ title: "AWS Kinesis 绑定规范"
 linkTitle: "AWS Kinesis"
 description: "AWS Kinesis 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/kinesis/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/kinesis/"
 ---
 ## 组件格式
 

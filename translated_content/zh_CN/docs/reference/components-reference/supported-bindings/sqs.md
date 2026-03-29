@@ -4,7 +4,7 @@ title: "AWS SQS 绑定规范"
 linkTitle: "AWS SQS"
 description: "AWS SQS 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/sqs/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/sqs/"
 ---
 
 ## 组件格式

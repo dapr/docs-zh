@@ -4,7 +4,7 @@ title: "AWS SES 绑定规范"
 linkTitle: "AWS SES"
 description: "AWS SES 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/ses/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/ses/"
 ---
 
 ## 组件格式

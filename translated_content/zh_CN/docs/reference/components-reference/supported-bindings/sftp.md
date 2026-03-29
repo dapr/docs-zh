@@ -4,7 +4,7 @@ title: "SFTP binding spec"
 linkTitle: "SFTP"
 description: "Secure File Transfer Protocol (SFTP) binding 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/sftp/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/sftp/"
 ---
 
 ## 组件格式

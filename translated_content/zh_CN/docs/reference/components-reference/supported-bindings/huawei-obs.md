@@ -4,7 +4,7 @@ title: "Huawei OBS binding 规范"
 linkTitle: "Huawei OBS"
 description: "Huawei OBS binding 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/huawei-obs/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/huawei-obs/"
 ---
 
 ## 组件格式

@@ -4,7 +4,7 @@ title: "SMTP 绑接规范"
 linkTitle: "SMTP"
 description: "SMTP 绑接组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/smtp/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/smtp/"
 ---
 
 ## 组件格式

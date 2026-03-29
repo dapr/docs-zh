@@ -4,7 +4,7 @@ title: "HTTP binding 规范"
 linkTitle: "HTTP"
 description: "HTTP binding 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/http/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/http/"
 ---
 
 ## 备选方案

@@ -4,7 +4,7 @@ title: "Azure Service Bus Queues 绑定规范"
 linkTitle: "Azure Service Bus Queues"
 description: "Azure Service Bus Queues 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/servicebusqueues/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/servicebusqueues/"
 ---
 
 ## 组件格式

@@ -4,7 +4,7 @@ title: "Azure OpenAI binding 规范"
 linkTitle: "Azure OpenAI"
 description: "Azure OpenAI binding 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/openai/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/openai/"
 ---
 
 ## 组件格式

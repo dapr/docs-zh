@@ -4,7 +4,7 @@ title: "Redis binding spec"
 linkTitle: "Redis"
 description: "Redis 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/redis/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/redis/"
 ---
 
 ## 组件格式

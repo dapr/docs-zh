@@ -4,7 +4,7 @@ title: "GCP Storage Bucket binding 规范"
 linkTitle: "GCP Storage Bucket"
 description: "GCP Storage Bucket binding 组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/gcpbucket/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/gcpbucket/"
 ---
 
 ## 组件格式

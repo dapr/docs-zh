@@ -4,7 +4,7 @@ title: "Kafka 绑定规范"
 linkTitle: "Kafka"
 description: "Kafka 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/kafka/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/kafka/"
 ---
 
 ## 组件格式

@@ -4,7 +4,7 @@ title: "Twilio SendGrid binding spec"
 linkTitle: "Twilio SendGrid"
 description: "Twilio SendGrid 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/sendgrid/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/sendgrid/"
 ---
 
 ## 组件格式

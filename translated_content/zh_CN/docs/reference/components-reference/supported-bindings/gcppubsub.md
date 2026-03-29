@@ -4,7 +4,7 @@ title: "GCP Pub/Sub 绑定规范"
 linkTitle: "GCP Pub/Sub"
 description: "GCP Pub/Sub 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/gcppubsub/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/gcppubsub/"
 ---
 
 ## 组件格式

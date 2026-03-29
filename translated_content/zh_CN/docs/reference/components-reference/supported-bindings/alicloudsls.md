@@ -4,7 +4,7 @@ title: "阿里云日志服务绑定规范"
 linkTitle: "阿里云日志服务"
 description: "阿里云日志服务绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/alicloudsls/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/alicloudsls/"
 ---
 
 ## 组件格式

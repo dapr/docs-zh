@@ -4,7 +4,7 @@ title: "KubeMQ 绑定规范"
 linkTitle: "KubeMQ"
 description: "KubeMQ 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/kubemq/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/kubemq/"
 ---
 
 ## 组件格式

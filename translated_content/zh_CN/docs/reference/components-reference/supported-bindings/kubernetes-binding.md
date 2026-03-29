@@ -4,7 +4,7 @@ title: "Kubernetes Events 绑定规范"
 linkTitle: "Kubernetes Events"
 description: "Kubernetes Events 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/kubernetes-binding/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/kubernetes-binding/"
 ---
 
 ## 组件格式

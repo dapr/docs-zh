@@ -4,7 +4,7 @@ title: "Apple Push Notification Service 绑定规范"
 linkTitle: "Apple Push Notification Service"
 description: "Apple Push Notification Service 绑定组件的详细文档"
 aliases:
-  - "/operations/components/setup-bindings/supported-bindings/apns/"
+  - "/zh-hans/operations/components/setup-bindings/supported-bindings/apns/"
 ---
 
 ## 组件格式
