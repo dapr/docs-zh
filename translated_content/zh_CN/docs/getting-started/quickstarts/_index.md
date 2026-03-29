@@ -1,37 +1,37 @@
-
 ---
 type: docs
 title: "Dapr 快速入门"
 linkTitle: "Dapr 快速入门"
 weight: 70
-description: "通过代码示例快速掌握 Dapr，帮助您轻松上手"
+description: "通过旨在帮助您快速上手 Dapr 的代码示例，尝试 Dapr 快速入门"
 no_list: true
 ---
 
-通过我们的 Dapr 快速入门指南，结合代码示例，帮助您轻松掌握 Dapr。
+通过我们的 Dapr 快速入门快速上手，其中包含旨在帮助您快速上手 Dapr 的代码示例。
 
 {{% alert title="注意" color="primary" %}}
-我们正在不断丰富快速入门指南。同时，您可以通过我们的[教程]({{% ref "getting-started/tutorials/_index.md" %}})进一步探索 Dapr。
+ 每个版本都会为 API 和 SDK 添加新的快速入门示例。您也可以通过 [教程]({{% ref "getting-started/tutorials/_index" %}}) 探索 Dapr。
 
 {{% /alert %}}
 
 #### 开始之前
 
-- [安装本地 Dapr 环境]({{% ref "install-dapr-cli.md" %}})。
+- [设置本地 Dapr 环境]({{% ref "install-dapr-cli" %}})。
 
 ## 快速入门
 
 | 快速入门 | 描述 |
 | ----------- | ----------- |
-| [服务调用]({{% ref serviceinvocation-quickstart.md %}}) | 通过 HTTP 或 gRPC 实现两个服务之间的同步通信。 |
-| [发布和订阅]({{% ref pubsub-quickstart.md %}}) | 通过消息实现两个服务之间的异步通信。 |
-| [工作流]({{% ref workflow-quickstart.md %}}) | 在长时间运行的应用中协调业务流程，确保容错和状态管理。 |
-| [状态管理]({{% ref statemanagement-quickstart.md %}}) | 以键/值对形式存储服务数据，支持多种状态存储。 |
-| [绑定]({{% ref bindings-quickstart.md %}}) | 使用输入绑定响应外部事件，使用输出绑定执行操作。 |
-| [参与者]({{% ref actors-quickstart.md %}}) | 运行微服务和简单客户端，展示 Dapr 参与者的状态化对象模式。 |
-| [秘密管理]({{% ref secrets-quickstart.md %}}) | 安全获取和管理敏感信息。 |
-| [配置]({{% ref configuration-quickstart.md %}}) | 获取配置项并监听配置更新。 |
-| [弹性]({{% ref resiliency %}}) | 为 Dapr API 请求定义和应用容错策略。 |
-| [加密]({{% ref cryptography-quickstart.md %}}) | 使用 Dapr 的加密 API 进行数据加密和解密。 |
-| [作业]({{% ref jobs-quickstart.md %}}) | 使用 Dapr 的作业 API 进行作业调度、检索和删除。 |
-
+| [服务调用]({{% ref serviceinvocation-quickstart %}}) | 使用 HTTP 或 gRPC 在两个服务之间进行同步通信。 |
+| [发布订阅]({{% ref pubsub-quickstart %}}) |  使用消息在两个服务之间进行异步通信。 |
+| [工作流]({{% ref workflow-quickstart %}}) | 在长期运行的、容错的、有状态的应用程序中编排业务工作流活动。 |
+| [Agents]({{% ref dapr-agents-quickstarts.md %}}) | 构建 LLM 驱动的自主代理应用程序。 |
+| [状态管理]({{% ref statemanagement-quickstart %}}) | 将服务的数据以键/值对的形式存储在支持的状态存储中。 |
+| [Bindings]({{% ref bindings-quickstart %}}) | 使用输入绑定响应事件，使用输出绑定调用操作，从而与外部系统交互。 |
+| [Actors]({{% ref actors-quickstart %}}) | 运行微服务和简单的控制台客户端，演示 Dapr Actors 中的有状态对象模式。 |
+| [Secrets Management]({{% ref secrets-quickstart %}}) | 安全地获取密钥。 |
+| [Configuration]({{% ref configuration-quickstart %}}) | 获取配置项并订阅配置更新。 |
+| [Resiliency]({{% ref resiliency %}}) | 为您的 Dapr API 请求定义并应用容错策略。 |
+| [Cryptography]({{% ref cryptography-quickstart %}}) | 使用 Dapr 的密码学 API 加密和解密数据。 |
+| [Jobs]({{% ref jobs-quickstart %}}) | 使用 Dapr 的 Jobs API 计划、检索和删除作业。 |
+| [Conversation]({{% ref conversation-quickstart %}}) | 安全可靠地与大语言模型（LLM）交互。 |

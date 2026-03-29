@@ -3,43 +3,44 @@ type: docs
 title: "快速入门：机密管理"
 linkTitle: "机密管理"
 weight: 77
-description: "开始使用Dapr的机密管理构建块"
+description: "开始使用 Dapr 的机密管理构建块"
 ---
 
-Dapr提供了一个专用的机密API，允许开发者从机密存储中检索机密。在本快速入门中，您将：
+Dapr 提供了一个专门的机密 API，允许开发者从机密存储中检索机密。在本快速入门中，你将：
 
-1. 运行一个带有机密存储组件的微服务。
-2. 在应用程序代码中使用Dapr机密API检索机密。
+1. 运行带有机密存储组件的微服务。
+1. 在应用程序代码中使用 Dapr 机密 API 检索机密。
 
-<img src="/images/secretsmanagement-quickstart/secrets-mgmt-quickstart.png" width=1000 alt="示例服务的机密管理图示。">
+<img src="/images/secretsmanagement-quickstart/secrets-mgmt-quickstart.png" width=1000 alt="显示示例服务机密管理的图表。">
 
-在继续快速入门之前，请选择您偏好的编程语言对应的Dapr SDK。
+
+在继续快速入门之前，请选择你喜欢的语言特定的 Dapr SDK。
 
 {{< tabpane text=true >}}
  <!-- Python -->
-{{% tab header="Python" %}}
+{{% tab "Python" %}}
 
-### 前置条件
+### 前提条件
 
-您需要准备以下环境：
+对于本示例，你需要：
 
-- [Dapr CLI和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [已安装Python 3.7+](https://www.python.org/downloads/)。
+- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [已安装 Python 3.7+](https://www.python.org/downloads/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
 
-### 步骤1：设置环境
+### 步骤 1：设置环境
 
-克隆[快速入门仓库中的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/python/sdk)。
+克隆 [Quickstarts 仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/python/sdk)。
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤2：检索机密
+### 步骤 2：检索机密
 
-在终端窗口中，导航到`order-processor`目录。
+在终端窗口中，导航到 `order-processor` 目录。
 
 ```bash
 cd secrets_management/python/sdk/order-processor
@@ -51,22 +52,23 @@ cd secrets_management/python/sdk/order-processor
 pip3 install -r requirements.txt
 ```
 
-运行`order-processor`服务及其Dapr sidecar。
+运行 `order-processor` 服务以及 Dapr 边车。
 
 ```bash
 dapr run --app-id order-processor --resources-path ../../../components/ -- python3 app.py
 ```
 
-> **注意**：在Windows中，可能需要使用`python app.py`而不是`python3 app.py`。
+> **注意**：由于 Windows 中未定义 Python3.exe，你可能需要使用 `python app.py` 而不是 `python3 app.py`。
 
-#### 背后的原理
 
-**`order-processor`服务**
+#### 幕后工作
 
-请注意，`order-processor`服务配置如下：
+**`order-processor` 服务**
 
-- 使用在`local-secret-store.yaml`组件中定义的`DAPR_SECRET_STORE`。
-- 使用在`secrets.json`中定义的机密。
+请注意下面的 `order-processor` 服务如何指向：
+
+- 在 `local-secret-store.yaml` 组件中定义的 `DAPR_SECRET_STORE`。
+- 在 `secrets.json` 中定义的机密。
 
 ```python
 # app.py
@@ -77,9 +79,9 @@ with DaprClient() as client:
     logging.info('Fetched Secret: %s', secret.secret)
 ```
 
-**`local-secret-store.yaml`组件**
+**`local-secret-store.yaml` 组件**
 
-`DAPR_SECRET_STORE`在`local-secret-store.yaml`组件文件中定义，位于[secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
+`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -97,14 +99,14 @@ spec:
     value: ":"
 ```
 
-在YAML文件中：
+在 YAML 文件中：
 
-- `metadata/name`是应用程序引用组件的名称（在代码示例中称为`DAPR_SECRET_STORE`）。
-- `spec/metadata`定义了组件使用的机密的连接信息。
+- `metadata/name` 是你的应用程序引用组件的方式（在代码示例中称为 `DAPR_SECRET_STORE`）。
+- `spec/metadata` 定义组件使用的机密的连接。
 
-**`secrets.json`文件**
+**`secrets.json` 文件**
 
-`SECRET_NAME`在`secrets.json`文件中定义，位于[secrets_management/python/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/python/sdk/order-processor/secrets.json)：
+`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/python/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/python/sdk/order-processor/secrets.json)：
 
 ```json
 {
@@ -112,11 +114,11 @@ spec:
 }
 ```
 
-### 步骤3：查看order-processor输出
+### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码中所示，`order-processor`服务通过Dapr机密存储检索机密并在控制台中显示。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr 机密存储检索机密并在控制台中显示它。
 
-Order-processor输出：
+Order-processor 输出：
 
 ```
 == APP == INFO:root:Fetched Secret: {'secret': 'YourPasskeyHere'}
@@ -125,29 +127,29 @@ Order-processor输出：
 {{% /tab %}}
 
  <!-- JavaScript -->
-{{% tab header="JavaScript" %}}
+{{% tab "JavaScript" %}}
 
-### 前置条件
+### 前提条件
 
-您需要准备以下环境：
+对于本示例，你需要：
 
-- [Dapr CLI和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [已安装最新的Node.js](https://nodejs.org/download/)。
+- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [已安装最新的 Node.js](https://nodejs.org/download/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
 
-### 步骤1：设置环境
+### 步骤 1：设置环境
 
-克隆[快速入门仓库中的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/sdk)。
+克隆 [Quickstarts 仓库中提供的示例](hhttps://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/sdk)。
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤2：检索机密
+### 步骤 2：检索机密
 
-在终端窗口中，导航到`order-processor`目录。
+在终端窗口中，导航到 `order-processor` 目录。
 
 ```bash
 cd secrets_management/javascript/sdk/order-processor
@@ -159,20 +161,20 @@ cd secrets_management/javascript/sdk/order-processor
 npm install
 ```
 
-运行`order-processor`服务及其Dapr sidecar。
+运行 `order-processor` 服务以及 Dapr 边车。
 
 ```bash
 dapr run --app-id order-processor --resources-path ../../../components/ -- npm start
 ```
 
-#### 背后的原理
+#### 幕后工作
 
-**`order-processor`服务**
+**`order-processor` 服务**
 
-请注意，`order-processor`服务配置如下：
+请注意下面的 `order-processor` 服务如何指向：
 
-- 使用在`local-secret-store.yaml`组件中定义的`DAPR_SECRET_STORE`。
-- 使用在`secrets.json`中定义的机密。
+- 在 `local-secret-store.yaml` 组件中定义的 `DAPR_SECRET_STORE`。
+- 在 `secrets.json` 中定义的机密。
 
 ```javascript
 // index.js
@@ -186,9 +188,9 @@ async function main() {
 }
 ```
 
-**`local-secret-store.yaml`组件**
+**`local-secret-store.yaml` 组件**
 
-`DAPR_SECRET_STORE`在`local-secret-store.yaml`组件文件中定义，位于[secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
+`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -206,14 +208,14 @@ spec:
     value: ":"
 ```
 
-在YAML文件中：
+在 YAML 文件中：
 
-- `metadata/name`是应用程序引用组件的名称（在代码示例中称为`DAPR_SECRET_STORE`）。
-- `spec/metadata`定义了组件使用的机密的连接信息。
+- `metadata/name` 是你的应用程序引用组件的方式（在代码示例中称为 `DAPR_SECRET_STORE`）。
+- `spec/metadata` 定义组件使用的机密的连接。
 
-**`secrets.json`文件**
+**`secrets.json` 文件**
 
-`SECRET_NAME`在`secrets.json`文件中定义，位于[secrets_management/javascript/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/sdk/order-processor/secrets.json)：
+`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/javascript/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/sdk/order-processor/secrets.json)：
 
 ```json
 {
@@ -221,11 +223,11 @@ spec:
 }
 ```
 
-### 步骤3：查看order-processor输出
+### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码中所示，`order-processor`服务通过Dapr机密存储检索机密并在控制台中显示。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr 机密存储检索机密并在控制台中显示它。
 
-Order-processor输出：
+Order-processor 输出：
 
 ```
 == APP ==
@@ -238,31 +240,31 @@ Order-processor输出：
 {{% /tab %}}
 
  <!-- .NET -->
-{{% tab header=".NET" %}}
+{{% tab ".NET" %}}
 
-### 前置条件
+### 前提条件
 
-您需要准备以下环境：
+对于本示例，你需要：
 
-- [Dapr CLI和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
-- [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0)、[.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)或[.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)已安装
+- 已安装 [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0)、[.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0) 或 [.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)
 
-**注意：** .NET 6是此版本中Dapr .NET SDK包的最低支持版本。只有.NET 8和.NET 9将在Dapr v1.16及以后版本中得到支持。
+**注意**：.NET 6 是本版本中 Dapr .NET SDK 包支持的最低 .NET 版本。在 Dapr v1.16 及更高版本中将仅支持 .NET 8 和 .NET 9。
 
-### 步骤1：设置环境
+### 步骤 1：设置环境
 
-克隆[快速入门仓库中的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/csharp/sdk)。
+克隆 [Quickstarts 仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/csharp/sdk)。
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤2：检索机密
+### 步骤 2：检索机密
 
-在终端窗口中，导航到`order-processor`目录。
+在终端窗口中，导航到 `order-processor` 目录。
 
 ```bash
 cd secrets_management/csharp/sdk/order-processor
@@ -275,20 +277,20 @@ dotnet restore
 dotnet build
 ```
 
-运行`order-processor`服务及其Dapr sidecar。
+运行 `order-processor` 服务以及 Dapr 边车。
 
 ```bash
 dapr run --app-id order-processor --resources-path ../../../components/ -- dotnet run
 ```
 
-#### 背后的原理
+#### 幕后工作
 
-**`order-processor`服务**
+**`order-processor` 服务**
 
-请注意，`order-processor`服务配置如下：
+请注意下面的 `order-processor` 服务如何指向：
 
-- 使用在`local-secret-store.yaml`组件中定义的`DAPR_SECRET_STORE`。
-- 使用在`secrets.json`中定义的机密。
+- 在 `local-secret-store.yaml` 组件中定义的 `DAPR_SECRET_STORE`。
+- 在 `secrets.json` 中定义的机密。
 
 ```csharp
 // Program.cs
@@ -301,9 +303,9 @@ var secretValue = string.Join(", ", secret);
 Console.WriteLine($"Fetched Secret: {secretValue}");
 ```
 
-**`local-secret-store.yaml`组件**
+**`local-secret-store.yaml` 组件**
 
-`DAPR_SECRET_STORE`在`local-secret-store.yaml`组件文件中定义，位于[secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
+`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -321,14 +323,14 @@ spec:
     value: ":"
 ```
 
-在YAML文件中：
+在 YAML 文件中：
 
-- `metadata/name`是应用程序引用组件的名称（在代码示例中称为`DAPR_SECRET_STORE`）。
-- `spec/metadata`定义了组件使用的机密的连接信息。
+- `metadata/name` 是你的应用程序引用组件的方式（在代码示例中称为 `DAPR_SECRET_NAME`）。
+- `spec/metadata` 定义组件使用的机密的连接。
 
-**`secrets.json`文件**
+**`secrets.json` 文件**
 
-`SECRET_NAME`在`secrets.json`文件中定义，位于[secrets_management/csharp/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/csharp/sdk/order-processor/secrets.json)：
+`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/csharp/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/csharp/sdk/order-processor/secrets.json)：
 
 ```json
 {
@@ -336,11 +338,11 @@ spec:
 }
 ```
 
-### 步骤3：查看order-processor输出
+### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码中所示，`order-processor`服务通过Dapr机密存储检索机密并在控制台中显示。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr 机密存储检索机密并在控制台中显示它。
 
-Order-processor输出：
+Order-processor 输出：
 
 ```
 == APP == Fetched Secret: [secret, YourPasskeyHere]
@@ -349,32 +351,32 @@ Order-processor输出：
 {{% /tab %}}
 
  <!-- Java -->
-{{% tab header="Java" %}}
+{{% tab "Java" %}}
 
-### 前置条件
+### 前提条件
 
-您需要准备以下环境：
+对于本示例，你需要：
 
-- [Dapr CLI和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
 - Java JDK 17（或更高版本）：
   - [Oracle JDK](https://www.oracle.com/java/technologies/downloads)，或
   - OpenJDK
-- [Apache Maven](https://maven.apache.org/install.html)，版本3.x。
+- [Apache Maven](https://maven.apache.org/install.html)，版本 3.x。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
 
-### 步骤1：设置环境
+### 步骤 1：设置环境
 
-克隆[快速入门仓库中的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/java/sdk)。
+克隆 [Quickstarts 仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/java/sdk)。
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤2：检索机密
+### 步骤 2：检索机密
 
-在终端窗口中，导航到`order-processor`目录。
+在终端窗口中，导航到 `order-processor` 目录。
 
 ```bash
 cd secrets_management/java/sdk/order-processor
@@ -386,20 +388,20 @@ cd secrets_management/java/sdk/order-processor
 mvn clean install
 ```
 
-运行`order-processor`服务及其Dapr sidecar。
+运行 `order-processor` 服务以及 Dapr 边车。
 
 ```bash
 dapr run --app-id order-processor --resources-path ../../../components/ -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
 ```
 
-#### 背后的原理
+#### 幕后工作
 
-**`order-processor`服务**
+**`order-processor` 服务**
 
-请注意，`order-processor`服务配置如下：
+请注意下面的 `order-processor` 服务如何指向：
 
-- 使用在`local-secret-store.yaml`组件中定义的`DAPR_SECRET_STORE`。
-- 使用在`secrets.json`中定义的机密。
+- 在 `local-secret-store.yaml` 组件中定义的 `DAPR_SECRET_STORE`。
+- 在 `secrets.json` 中定义的机密。
 
 ```java
 // OrderProcessingServiceApplication.java
@@ -409,9 +411,9 @@ private static final String SECRET_STORE_NAME = "localsecretstore";
     System.out.println("Fetched Secret: " + secret);
 ```
 
-**`local-secret-store.yaml`组件**
+**`local-secret-store.yaml` 组件**
 
-`DAPR_SECRET_STORE`在`local-secret-store.yaml`组件文件中定义，位于[secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
+`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -429,14 +431,14 @@ spec:
     value: ":"
 ```
 
-在YAML文件中：
+在 YAML 文件中：
 
-- `metadata/name`是应用程序引用组件的名称（在代码示例中称为`DAPR_SECRET_STORE`）。
-- `spec/metadata`定义了组件使用的机密的连接信息。
+- `metadata/name` 是你的应用程序引用组件的方式（在代码示例中称为 `DAPR_SECRET_NAME`）。
+- `spec/metadata` 定义组件使用的机密的连接。
 
-**`secrets.json`文件**
+**`secrets.json` 文件**
 
-`SECRET_NAME`在`secrets.json`文件中定义，位于[secrets_management/java/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/java/sdk/order-processor/secrets.json)：
+`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/java/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/java/sdk/order-processor/secrets.json)：
 
 ```json
 {
@@ -444,11 +446,11 @@ spec:
 }
 ```
 
-### 步骤3：查看order-processor输出
+### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码中所示，`order-processor`服务通过Dapr机密存储检索机密并在控制台中显示。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr 机密存储检索机密并在控制台中显示它。
 
-Order-processor输出：
+Order-processor 输出：
 
 ```
 == APP == Fetched Secret: {secret=YourPasskeyHere}
@@ -457,29 +459,29 @@ Order-processor输出：
 {{% /tab %}}
 
  <!-- Go -->
-{{% tab header="Go" %}}
+{{% tab "Go" %}}
 
-### 前置条件
+### 前提条件
 
-您需要准备以下环境：
+对于本示例，你需要：
 
-- [Dapr CLI和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [最新版本的Go](https://go.dev/dl/)。
+- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
+- [最新版本的 Go](https://go.dev/dl/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
 
-### 步骤1：设置环境
+### 步骤 1：设置环境
 
-克隆[快速入门仓库中的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/sdk)。
+克隆 [Quickstarts 仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/sdk)。
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤2：检索机密
+### 步骤 2：检索机密
 
-在终端窗口中，导航到`order-processor`目录。
+在终端窗口中，导航到 `order-processor` 目录。
 
 ```bash
 cd secrets_management/go/sdk/order-processor
@@ -491,20 +493,20 @@ cd secrets_management/go/sdk/order-processor
 go build .
 ```
 
-运行`order-processor`服务及其Dapr sidecar。
+运行 `order-processor` 服务以及 Dapr 边车。
 
 ```bash
 dapr run --app-id order-processor --resources-path ../../../components/ -- go run .
 ```
 
-#### 背后的原理
+#### 幕后工作
 
-**`order-processor`服务**
+**`order-processor` 服务**
 
-请注意，`order-processor`服务配置如下：
+请注意下面的 `order-processor` 服务如何指向：
 
-- 使用在`local-secret-store.yaml`组件中定义的`DAPR_SECRET_STORE`。
-- 使用在`secrets.json`中定义的机密。
+- 在 `local-secret-store.yaml` 组件中定义的 `DAPR_SECRET_STORE`。
+- 在 `secrets.json` 中定义的机密。
 
 ```go
 const DAPR_SECRET_STORE = "localsecretstore"
@@ -516,9 +518,9 @@ if secret != nil {
 }
 ```
 
-**`local-secret-store.yaml`组件**
+**`local-secret-store.yaml` 组件**
 
-`DAPR_SECRET_STORE`在`local-secret-store.yaml`组件文件中定义，位于[secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
+`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -536,14 +538,14 @@ spec:
     value: ":"
 ```
 
-在YAML文件中：
+在 YAML 文件中：
 
-- `metadata/name`是应用程序引用组件的名称（在代码示例中称为`DAPR_SECRET_STORE`）。
-- `spec/metadata`定义了组件使用的机密的连接信息。
+- `metadata/name` 是你的应用程序引用组件的方式（在代码示例中称为 `DAPR_SECRET_NAME`）。
+- `spec/metadata` 定义组件使用的机密的连接。
 
-**`secrets.json`文件**
+**`secrets.json` 文件**
 
-`SECRET_NAME`在`secrets.json`文件中定义，位于[secrets_management/go/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/sdk/order-processor/secrets.json)：
+`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/go/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/sdk/order-processor/secrets.json)：
 
 ```json
 {
@@ -551,11 +553,11 @@ spec:
 }
 ```
 
-### 步骤3：查看order-processor输出
+### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码中所示，`order-processor`服务通过Dapr机密存储检索机密并在控制台中显示。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr 机密存储检索机密并在控制台中显示它。
 
-Order-processor输出：
+Order-processor 输出：
 
 ```
 == APP == Fetched Secret:  YourPasskeyHere
@@ -565,20 +567,20 @@ Order-processor输出：
 
 {{< /tabpane >}}
 
-## 告诉我们您的想法！
+## 告诉我们你的想法！
 
-我们正在不断改进我们的快速入门示例，重视您的反馈。您觉得这个快速入门有帮助吗？您有改进建议吗？
+我们正在不断努力改进我们的快速入门示例，并重视你的反馈。你觉得这个快速入门有帮助吗？你有改进建议吗？
 
-加入我们的[discord频道](https://discord.com/channels/778680217417809931/953427615916638238)讨论。
+加入我们的 [discord 频道](https://discord.com/channels/778680217417809931/953427615916638238) 进行讨论。
 
-## 下一步
+## 后续步骤
 
-- 使用HTTP而不是SDK来使用Dapr机密管理。
+- 使用 HTTP 而不是 SDK 来使用 Dapr 机密管理。
   - [Python](https://github.com/dapr/quickstarts/tree/master/secrets_management/python/http)
   - [JavaScript](https://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/http)
   - [.NET](https://github.com/dapr/quickstarts/tree/master/secrets_management/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/secrets_management/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/http)
-- 了解更多关于[机密管理构建块]({{% ref secrets-overview %}})
+- 了解有关[机密管理构建块]({{% ref secrets-overview %}}) 的更多信息
 
-{{< button text="探索Dapr教程  >>" page="getting-started/tutorials/_index.md" >}}
+{{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}
