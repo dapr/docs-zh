@@ -5,8 +5,8 @@ linkTitle: "GitHub Codespaces"
 weight: 60
 description: "如何使用 GitHub Codespaces 为 Dapr 项目做贡献"
 aliases:
-  - "/contributing/codespaces/"
-  - "/developing-applications/ides/codespaces/"
+  - "/zh-hans/contributing/codespaces/"
+  - "/zh-hans/developing-applications/ides/codespaces/"
 ---
 
 [GitHub Codespaces](https://github.com/features/codespaces) 是开始为 Dapr 仓库做贡献的最简单方式。只需一次点击，你就可以在浏览器中获得一个具备所有先决条件的环境。
