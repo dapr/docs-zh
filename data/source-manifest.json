@@ -2,11 +2,11 @@
   "version": "v1.17",
   "sourceRepo": "repos/v1.17",
   "sourceBranch": "v1.17",
-  "batchId": "batch-20260329T040850.864Z",
-  "copiedAt": "2026-03-29T04:08:50.864Z",
+  "batchId": "batch-20261114T190533.315Z",
+  "copiedAt": "2026-11-14T19:05:33.315Z",
   "sourceRoot": "data/source",
   "metadataFile": "data/source.json",
-  "documentCount": 638,
+  "documentCount": 639,
   "failureCount": 0,
   "buckets": [
     {
@@ -39,13 +39,13 @@
       ],
       "translationRoot": "translated_content/zh_CN/docs",
       "sourceDirectory": "data/source/docs",
-      "documentCount": 533,
-      "syncedCount": 533,
+      "documentCount": 534,
+      "syncedCount": 534,
       "driftCount": 0,
       "missingSourceCount": 0,
       "translatedCount": 0,
       "staleTranslationCount": 533,
-      "missingTranslationCount": 0,
+      "missingTranslationCount": 1,
       "orphanTranslationCount": 0
     },
     {

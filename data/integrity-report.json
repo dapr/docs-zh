@@ -1,23 +1,30 @@
 {
   "version": "v1.17",
-  "generatedAt": "2026-03-29T07:46:12.287Z",
-  "latestBatchId": "batch-20260329T040850.864Z",
+  "generatedAt": "2026-11-14T19:05:33.315Z",
+  "latestBatchId": "batch-20261114T190533.315Z",
   "sourceSummary": {
-    "synced": 638,
+    "synced": 639,
     "drift": 0,
     "missingSource": 0
   },
   "translationSummary": {
-    "translated": 638,
-    "staleTranslation": 0,
-    "missingTranslation": 0,
+    "translated": 596,
+    "staleTranslation": 42,
+    "missingTranslation": 1,
     "orphanTranslation": 0
   },
   "buckets": [
     {
       "id": "contributing",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content/contributing/sdk-contrib",
+      "sourceRoots": [
+        "sdkdocs/dotnet/content/en/dotnet-sdk-contributing",
+        "sdkdocs/go/content/en/go-sdk-contributing",
+        "sdkdocs/java/content/en/java-sdk-contributing",
+        "sdkdocs/js/content/en/js-sdk-contributing",
+        "sdkdocs/python/content/en/python-sdk-contributing",
+        "sdkdocs/rust/content/en/rust-sdk-contributing"
+      ],
       "translationRoot": "translated_content/zh_CN/contributing",
       "sourceDirectory": "data/source/contributing",
       "documentCount": 6,
@@ -31,23 +38,27 @@
     },
     {
       "id": "docs",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content",
+      "sourceRoots": [
+        "daprdocs/content/en"
+      ],
       "translationRoot": "translated_content/zh_CN/docs",
       "sourceDirectory": "data/source/docs",
-      "documentCount": 533,
-      "syncedCount": 533,
+      "documentCount": 534,
+      "syncedCount": 534,
       "driftCount": 0,
       "missingSourceCount": 0,
-      "translatedCount": 533,
-      "staleTranslationCount": 0,
-      "missingTranslationCount": 0,
+      "translatedCount": 495,
+      "staleTranslationCount": 38,
+      "missingTranslationCount": 1,
       "orphanTranslationCount": 0
     },
     {
       "id": "pluggable-components/dotnet",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content/developing-applications/develop-components/pluggable-components/pluggable-components-sdks/pluggable-components-dotnet",
+      "sourceRoots": [
+        "sdkdocs/pluggable-components/dotnet/content/en/dotnet-sdk-docs"
+      ],
       "translationRoot": "translated_content/zh_CN/pluggable-components/dotnet",
       "sourceDirectory": "data/source/pluggable-components/dotnet",
       "documentCount": 8,
@@ -61,8 +72,10 @@
     },
     {
       "id": "pluggable-components/go",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content/developing-applications/develop-components/pluggable-components/pluggable-components-sdks/pluggable-components-go",
+      "sourceRoots": [
+        "sdkdocs/pluggable-components/go/content/en/go-sdk-docs"
+      ],
       "translationRoot": "translated_content/zh_CN/pluggable-components/go",
       "sourceDirectory": "data/source/pluggable-components/go",
       "documentCount": 5,
@@ -76,23 +89,27 @@
     },
     {
       "id": "sdks_dotnet",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content/developing-applications/sdks/dotnet",
+      "sourceRoots": [
+        "sdkdocs/dotnet/content/en/dotnet-sdk-docs"
+      ],
       "translationRoot": "translated_content/zh_CN/sdks_dotnet",
       "sourceDirectory": "data/source/sdks_dotnet",
       "documentCount": 41,
       "syncedCount": 41,
       "driftCount": 0,
       "missingSourceCount": 0,
-      "translatedCount": 41,
-      "staleTranslationCount": 0,
+      "translatedCount": 38,
+      "staleTranslationCount": 3,
       "missingTranslationCount": 0,
       "orphanTranslationCount": 0
     },
     {
       "id": "sdks_go",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content/developing-applications/sdks/go",
+      "sourceRoots": [
+        "sdkdocs/go/content/en/go-sdk-docs"
+      ],
       "translationRoot": "translated_content/zh_CN/sdks_go",
       "sourceDirectory": "data/source/sdks_go",
       "documentCount": 5,
@@ -106,8 +123,10 @@
     },
     {
       "id": "sdks_java",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content/developing-applications/sdks/java",
+      "sourceRoots": [
+        "sdkdocs/java/content/en/java-sdk-docs"
+      ],
       "translationRoot": "translated_content/zh_CN/sdks_java",
       "sourceDirectory": "data/source/sdks_java",
       "documentCount": 11,
@@ -121,23 +140,27 @@
     },
     {
       "id": "sdks_js",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content/developing-applications/sdks/js",
+      "sourceRoots": [
+        "sdkdocs/js/content/en/js-sdk-docs"
+      ],
       "translationRoot": "translated_content/zh_CN/sdks_js",
       "sourceDirectory": "data/source/sdks_js",
       "documentCount": 9,
       "syncedCount": 9,
       "driftCount": 0,
       "missingSourceCount": 0,
-      "translatedCount": 9,
-      "staleTranslationCount": 0,
+      "translatedCount": 8,
+      "staleTranslationCount": 1,
       "missingTranslationCount": 0,
       "orphanTranslationCount": 0
     },
     {
       "id": "sdks_php",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content/developing-applications/sdks/php",
+      "sourceRoots": [
+        "sdkdocs/php/content/en/php-sdk-docs"
+      ],
       "translationRoot": "translated_content/zh_CN/sdks_php",
       "sourceDirectory": "data/source/sdks_php",
       "documentCount": 8,
@@ -151,8 +174,10 @@
     },
     {
       "id": "sdks_python",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content/developing-applications/sdks/python",
+      "sourceRoots": [
+        "sdkdocs/python/content/en/python-sdk-docs"
+      ],
       "translationRoot": "translated_content/zh_CN/sdks_python",
       "sourceDirectory": "data/source/sdks_python",
       "documentCount": 10,
@@ -166,8 +191,10 @@
     },
     {
       "id": "sdks_rust",
-      "targetMount": "",
-      "sourceRoots": [],
+      "targetMount": "content/developing-applications/sdks/rust",
+      "sourceRoots": [
+        "sdkdocs/rust/content/en/rust-sdk-docs"
+      ],
       "translationRoot": "translated_content/zh_CN/sdks_rust",
       "sourceDirectory": "data/source/sdks_rust",
       "documentCount": 2,
@@ -180,8 +207,815 @@
       "orphanTranslationCount": 0
     }
   ],
-  "categories": [],
-  "findings": [],
-  "totalFindings": 0,
-  "status": "stable"
+  "categories": [
+    {
+      "id": "translationStateShaMismatch",
+      "label": "translation-state 的 sha 与当前源文不匹配",
+      "hint": "宜重译或等待下一次同步后再判定。",
+      "count": 42,
+      "tone": "warn"
+    }
+  ],
+  "findings": [
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "concepts/dapr-services/placement.md",
+      "sourceFile": "data/source/docs/concepts/dapr-services/placement.md",
+      "translationFile": "translated_content/zh_CN/docs/concepts/dapr-services/placement.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "3b6dbd363fa6efa923b8016bb8cf52510135ba65ede3738136d5d1fb6b96e6f4",
+        "sourceSha256": "daad265b1c8c82049f9c21a040b2919a4a5766b037708df027d657c2dad18921"
+      },
+      "expected": {
+        "translationStateSha": "daad265b1c8c82049f9c21a040b2919a4a5766b037708df027d657c2dad18921"
+      },
+      "id": "translationStateShaMismatch:docs:concepts/dapr-services/placement.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "concepts/dapr-services/scheduler.md",
+      "sourceFile": "data/source/docs/concepts/dapr-services/scheduler.md",
+      "translationFile": "translated_content/zh_CN/docs/concepts/dapr-services/scheduler.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "183b3cad75a6669d7cdf2efcae1d4689992fbaf1f05d09ce37cd50c7c5217463",
+        "sourceSha256": "3bb5993d05cedf4c6f84511e60df5f6c3c1f48a4a8378dd6ef534db9cc0fd96b"
+      },
+      "expected": {
+        "translationStateSha": "3bb5993d05cedf4c6f84511e60df5f6c3c1f48a4a8378dd6ef534db9cc0fd96b"
+      },
+      "id": "translationStateShaMismatch:docs:concepts/dapr-services/scheduler.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "concepts/dapr-services/sidecar.md",
+      "sourceFile": "data/source/docs/concepts/dapr-services/sidecar.md",
+      "translationFile": "translated_content/zh_CN/docs/concepts/dapr-services/sidecar.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "ba9b586529b557d632eb243f79579bbd97d63737da102b53e616272947cf6a4c",
+        "sourceSha256": "20c6bfab8f7bd204a463b8a0d97f910ef59c70b2f93ce08ebecfe3b66a1bf460"
+      },
+      "expected": {
+        "translationStateSha": "20c6bfab8f7bd204a463b8a0d97f910ef59c70b2f93ce08ebecfe3b66a1bf460"
+      },
+      "id": "translationStateShaMismatch:docs:concepts/dapr-services/sidecar.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "concepts/security-concept.md",
+      "sourceFile": "data/source/docs/concepts/security-concept.md",
+      "translationFile": "translated_content/zh_CN/docs/concepts/security-concept.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "87664d218e86ca133b1c4e9fc00532e18b1961ed652fe047cb65c612ae573a1f",
+        "sourceSha256": "bc986fc1222314026b0c0d741e851282621bce821169bf800dab8460e05860fa"
+      },
+      "expected": {
+        "translationStateSha": "bc986fc1222314026b0c0d741e851282621bce821169bf800dab8460e05860fa"
+      },
+      "id": "translationStateShaMismatch:docs:concepts/security-concept.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "contributing/docs-contrib/maintainer-guide.md",
+      "sourceFile": "data/source/docs/contributing/docs-contrib/maintainer-guide.md",
+      "translationFile": "translated_content/zh_CN/docs/contributing/docs-contrib/maintainer-guide.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "83e206e5c9dc848aeef357f43b45b4774e38987f028e3e01e7bfc55148fb2adf",
+        "sourceSha256": "f6c3c9ecf5e015ebeafdb6061b12b3aca93dc330fbe5a892eedd2a9358a12959"
+      },
+      "expected": {
+        "translationStateSha": "f6c3c9ecf5e015ebeafdb6061b12b3aca93dc330fbe5a892eedd2a9358a12959"
+      },
+      "id": "translationStateShaMismatch:docs:contributing/docs-contrib/maintainer-guide.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-ai/dapr-agents/_index.md",
+      "sourceFile": "data/source/docs/developing-ai/dapr-agents/_index.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-ai/dapr-agents/_index.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "e4f9f2982b822edcfcb86f714b025713e183c8b097df7b2ceea31e9fc036ab5b",
+        "sourceSha256": "29736afdcd7666fc59d008413eb8337a9bd4957769615eb523aef1e28ba5d0b2"
+      },
+      "expected": {
+        "translationStateSha": "29736afdcd7666fc59d008413eb8337a9bd4957769615eb523aef1e28ba5d0b2"
+      },
+      "id": "translationStateShaMismatch:docs:developing-ai/dapr-agents/_index.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-ai/dapr-agents/dapr-agents-core-concepts.md",
+      "sourceFile": "data/source/docs/developing-ai/dapr-agents/dapr-agents-core-concepts.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-ai/dapr-agents/dapr-agents-core-concepts.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "02084c49d50909a5dc4976153724934a5a579fbbf3ba40fe9d294233feaf5696",
+        "sourceSha256": "211afce4b82a9ab4d81634f0935719e12cece1f2619f9c48b93d524763d48a7d"
+      },
+      "expected": {
+        "translationStateSha": "211afce4b82a9ab4d81634f0935719e12cece1f2619f9c48b93d524763d48a7d"
+      },
+      "id": "translationStateShaMismatch:docs:developing-ai/dapr-agents/dapr-agents-core-concepts.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-ai/dapr-agents/dapr-agents-getting-started.md",
+      "sourceFile": "data/source/docs/developing-ai/dapr-agents/dapr-agents-getting-started.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-ai/dapr-agents/dapr-agents-getting-started.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "0454aa63c8a37f98a199a2c291d295c11e9546a639a5c1ceeb7cd2cfdcc3a647",
+        "sourceSha256": "7f1e47b6cd1b95875cf065c76cf44b7899d3f212a0f5b099cd53580ec069354c"
+      },
+      "expected": {
+        "translationStateSha": "7f1e47b6cd1b95875cf065c76cf44b7899d3f212a0f5b099cd53580ec069354c"
+      },
+      "id": "translationStateShaMismatch:docs:developing-ai/dapr-agents/dapr-agents-getting-started.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-ai/dapr-agents/dapr-agents-introduction.md",
+      "sourceFile": "data/source/docs/developing-ai/dapr-agents/dapr-agents-introduction.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-ai/dapr-agents/dapr-agents-introduction.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "87ce85da298f3210cb55ec0e2485a880fe64a9442c0eeb005e664418613d04ba",
+        "sourceSha256": "3cb8dbb0989a5817da2dbb2c97db2376a494d1b7b1bba18df93406ddb4b3850e"
+      },
+      "expected": {
+        "translationStateSha": "3cb8dbb0989a5817da2dbb2c97db2376a494d1b7b1bba18df93406ddb4b3850e"
+      },
+      "id": "translationStateShaMismatch:docs:developing-ai/dapr-agents/dapr-agents-introduction.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-ai/dapr-agents/dapr-agents-quickstarts.md",
+      "sourceFile": "data/source/docs/developing-ai/dapr-agents/dapr-agents-quickstarts.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-ai/dapr-agents/dapr-agents-quickstarts.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "43d22f0f414ee941ce604915702a52fd4c8f048c61cf507a5da89ca31056a0c8",
+        "sourceSha256": "f1ea7bbd593ba0131e9b5f40c603133e9f346bef812f929ffcc53f23beb28358"
+      },
+      "expected": {
+        "translationStateSha": "f1ea7bbd593ba0131e9b5f40c603133e9f346bef812f929ffcc53f23beb28358"
+      },
+      "id": "translationStateShaMismatch:docs:developing-ai/dapr-agents/dapr-agents-quickstarts.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-ai/dapr-agents/dapr-agents-why.md",
+      "sourceFile": "data/source/docs/developing-ai/dapr-agents/dapr-agents-why.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-ai/dapr-agents/dapr-agents-why.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "59fbcd381239f4573330d3626596badf36a2cf5bc0be58e4a5ff96127dabd325",
+        "sourceSha256": "c03cbbd0dcd58ffa85b1a75141bf8751f54893367857f6cdece8015b88f1d8d8"
+      },
+      "expected": {
+        "translationStateSha": "c03cbbd0dcd58ffa85b1a75141bf8751f54893367857f6cdece8015b88f1d8d8"
+      },
+      "id": "translationStateShaMismatch:docs:developing-ai/dapr-agents/dapr-agents-why.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-applications/building-blocks/actors/actors-runtime-config.md",
+      "sourceFile": "data/source/docs/developing-applications/building-blocks/actors/actors-runtime-config.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-applications/building-blocks/actors/actors-runtime-config.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "e6b7fc9f577835a81fa574be8ae23d817f8e394835a918a71d593cb3ae99898c",
+        "sourceSha256": "7bd1187a44bff1c082714b72d52b60bd7fea868fd608c2dc6a72d77b8eb65461"
+      },
+      "expected": {
+        "translationStateSha": "7bd1187a44bff1c082714b72d52b60bd7fea868fd608c2dc6a72d77b8eb65461"
+      },
+      "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/actors/actors-runtime-config.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-applications/building-blocks/bindings/bindings-overview.md",
+      "sourceFile": "data/source/docs/developing-applications/building-blocks/bindings/bindings-overview.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-applications/building-blocks/bindings/bindings-overview.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "702f7e5f63849e285e81180d601dd8c5204e07c7fa5b27de852d0750c440153c",
+        "sourceSha256": "19498e68e05786b6ae2bbea928b42aff9b2793c5538b5e75de713cd4b6fbefd4"
+      },
+      "expected": {
+        "translationStateSha": "19498e68e05786b6ae2bbea928b42aff9b2793c5538b5e75de713cd4b6fbefd4"
+      },
+      "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/bindings/bindings-overview.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-applications/building-blocks/bindings/howto-triggers.md",
+      "sourceFile": "data/source/docs/developing-applications/building-blocks/bindings/howto-triggers.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-applications/building-blocks/bindings/howto-triggers.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "d41d54ac55a14f5ceb6c45fab5f0daf5c52e350f24e8b851b7fdbb382b886c64",
+        "sourceSha256": "6fadf040b59a195ee6c9ccbb72e9ff3242dbe7052ddc45ba12e54ec135795f00"
+      },
+      "expected": {
+        "translationStateSha": "6fadf040b59a195ee6c9ccbb72e9ff3242dbe7052ddc45ba12e54ec135795f00"
+      },
+      "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/bindings/howto-triggers.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-applications/building-blocks/service-invocation/service-invocation-overview.md",
+      "sourceFile": "data/source/docs/developing-applications/building-blocks/service-invocation/service-invocation-overview.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-applications/building-blocks/service-invocation/service-invocation-overview.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "8dcc851fd98e6bb69799427e5ff699bd1d55fd1859cc39e571c026ea428f2a6c",
+        "sourceSha256": "66a3076205b5ab9e2f1b537e35db4afcdd476d5404707639db96332a1f572206"
+      },
+      "expected": {
+        "translationStateSha": "66a3076205b5ab9e2f1b537e35db4afcdd476d5404707639db96332a1f572206"
+      },
+      "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/service-invocation/service-invocation-overview.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-applications/building-blocks/state-management/howto-outbox.md",
+      "sourceFile": "data/source/docs/developing-applications/building-blocks/state-management/howto-outbox.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-applications/building-blocks/state-management/howto-outbox.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "1ec87b9cc270409cea02342fd4bc4373a3ec768153ba9373a6f38678cc4c3a51",
+        "sourceSha256": "60487ccdd57bd7c308c0fc87f5e48e7843fb09dbb723e1532a0d8d412672e385"
+      },
+      "expected": {
+        "translationStateSha": "60487ccdd57bd7c308c0fc87f5e48e7843fb09dbb723e1532a0d8d412672e385"
+      },
+      "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/state-management/howto-outbox.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-applications/building-blocks/workflow/howto-manage-workflow.md",
+      "sourceFile": "data/source/docs/developing-applications/building-blocks/workflow/howto-manage-workflow.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/howto-manage-workflow.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "a89161d5b089ddde05478862937fbf22912b3af282a17b238a76fc41d92b33f1",
+        "sourceSha256": "87f2069f5e7243874aeb04958b28e6736bb00a9bcfc50d1aae3bce70258df2a4"
+      },
+      "expected": {
+        "translationStateSha": "87f2069f5e7243874aeb04958b28e6736bb00a9bcfc50d1aae3bce70258df2a4"
+      },
+      "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/workflow/howto-manage-workflow.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-applications/building-blocks/workflow/workflow-features-concepts.md",
+      "sourceFile": "data/source/docs/developing-applications/building-blocks/workflow/workflow-features-concepts.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/workflow-features-concepts.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "073018fef1101084d0824a837b43c743682a112ee3187218e10095aab56270ff",
+        "sourceSha256": "da8f4788a45145927393774ddff1aeba0f2e00a9ed182a99a9471a520a69d0d0"
+      },
+      "expected": {
+        "translationStateSha": "da8f4788a45145927393774ddff1aeba0f2e00a9ed182a99a9471a520a69d0d0"
+      },
+      "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/workflow/workflow-features-concepts.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-applications/building-blocks/workflow/workflow-history-retention-policy.md",
+      "sourceFile": "data/source/docs/developing-applications/building-blocks/workflow/workflow-history-retention-policy.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/workflow-history-retention-policy.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "3d062a4ffe8b4e92cf173005d4771f48f5cf3431dccae9ee8a7c6cbb080bc512",
+        "sourceSha256": "d0355d018d2cb0c9c1180f9b48042af08f1bb497c29c6d3483fe312d8d352f53"
+      },
+      "expected": {
+        "translationStateSha": "d0355d018d2cb0c9c1180f9b48042af08f1bb497c29c6d3483fe312d8d352f53"
+      },
+      "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/workflow/workflow-history-retention-policy.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-applications/building-blocks/workflow/workflow-patterns.md",
+      "sourceFile": "data/source/docs/developing-applications/building-blocks/workflow/workflow-patterns.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/workflow-patterns.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "61ee3429ea23ee3b4586ec828584e731c61883cf93290bae1bac38e24ef1fb0a",
+        "sourceSha256": "4e6b3a9c22a6bd61d908a9cd1b8eee18c7b8c8ce86da0db5c417d86e2755e5af"
+      },
+      "expected": {
+        "translationStateSha": "4e6b3a9c22a6bd61d908a9cd1b8eee18c7b8c8ce86da0db5c417d86e2755e5af"
+      },
+      "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/workflow/workflow-patterns.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "developing-applications/error-codes/errors-overview.md",
+      "sourceFile": "data/source/docs/developing-applications/error-codes/errors-overview.md",
+      "translationFile": "translated_content/zh_CN/docs/developing-applications/error-codes/errors-overview.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "234957aaf214da71c43df257d545d5a47d11e70d552e3ae4d9bdb994135a3b78",
+        "sourceSha256": "f6ec3fe9d7df24f0cb1d77b1514c2d13055c5d72ea877719f2efb72db74b1a00"
+      },
+      "expected": {
+        "translationStateSha": "f6ec3fe9d7df24f0cb1d77b1514c2d13055c5d72ea877719f2efb72db74b1a00"
+      },
+      "id": "translationStateShaMismatch:docs:developing-applications/error-codes/errors-overview.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "operations/components/component-secrets.md",
+      "sourceFile": "data/source/docs/operations/components/component-secrets.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/components/component-secrets.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "4b533376942b13a7d200869eb41ac5a6edf1a0dcbc338231ebc2caf8eae7dd45",
+        "sourceSha256": "7cc0f05bde2d5d1ef6bea4e0953056e2466463ba6d14edd081b5748b8437ac83"
+      },
+      "expected": {
+        "translationStateSha": "7cc0f05bde2d5d1ef6bea4e0953056e2466463ba6d14edd081b5748b8437ac83"
+      },
+      "id": "translationStateShaMismatch:docs:operations/components/component-secrets.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "operations/components/component-updates.md",
+      "sourceFile": "data/source/docs/operations/components/component-updates.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/components/component-updates.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "28918724a60a05af570a1c1b5fa31009c339bc928b3a4066ca49a14680b6780a",
+        "sourceSha256": "84e8f545f1b064455d37a37f061882a0b324f393c8a18087f0158bdefef32adf"
+      },
+      "expected": {
+        "translationStateSha": "84e8f545f1b064455d37a37f061882a0b324f393c8a18087f0158bdefef32adf"
+      },
+      "id": "translationStateShaMismatch:docs:operations/components/component-updates.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "operations/hosting/kubernetes/kubernetes-job.md",
+      "sourceFile": "data/source/docs/operations/hosting/kubernetes/kubernetes-job.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/hosting/kubernetes/kubernetes-job.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "6a21b22b232ebe05ccc80c0b5735b1bc00217ae84404d1142e8fb5f76c646970",
+        "sourceSha256": "b3554808aed90e4ad4e099f6013cc840bcf630ff6ef3c6b74fc0632d07ad3ad6"
+      },
+      "expected": {
+        "translationStateSha": "b3554808aed90e4ad4e099f6013cc840bcf630ff6ef3c6b74fc0632d07ad3ad6"
+      },
+      "id": "translationStateShaMismatch:docs:operations/hosting/kubernetes/kubernetes-job.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "operations/hosting/kubernetes/kubernetes-persisting-scheduler.md",
+      "sourceFile": "data/source/docs/operations/hosting/kubernetes/kubernetes-persisting-scheduler.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/hosting/kubernetes/kubernetes-persisting-scheduler.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "e91127228f9b9ec02b43535c728a6663f01f82142b7f3497df25140d6a9b6d00",
+        "sourceSha256": "37c650b37aef6ee28a0c43a1ff13650227e808eb47278982277c5a14384e3846"
+      },
+      "expected": {
+        "translationStateSha": "37c650b37aef6ee28a0c43a1ff13650227e808eb47278982277c5a14384e3846"
+      },
+      "id": "translationStateShaMismatch:docs:operations/hosting/kubernetes/kubernetes-persisting-scheduler.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "operations/hosting/kubernetes/kubernetes-production.md",
+      "sourceFile": "data/source/docs/operations/hosting/kubernetes/kubernetes-production.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/hosting/kubernetes/kubernetes-production.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "81a1bc885dedc3f293eaad2df5939859b4105fdeef52496a8e594b5f7e590af9",
+        "sourceSha256": "a200d62469608764985fb82fb0c970c511583f9b5d6a286f44704107ea4a65b1"
+      },
+      "expected": {
+        "translationStateSha": "a200d62469608764985fb82fb0c970c511583f9b5d6a286f44704107ea4a65b1"
+      },
+      "id": "translationStateShaMismatch:docs:operations/hosting/kubernetes/kubernetes-production.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "operations/observability/tracing/tracing-overview.md",
+      "sourceFile": "data/source/docs/operations/observability/tracing/tracing-overview.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/observability/tracing/tracing-overview.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "901d7a9a336c01b9dc19fbe67133297fcbb124e9639476b20c762cfb4c3e0d2b",
+        "sourceSha256": "0c512eb1027a0be022925447965c4c5205300e724e229a0152be828b1c0f23b1"
+      },
+      "expected": {
+        "translationStateSha": "0c512eb1027a0be022925447965c4c5205300e724e229a0152be828b1c0f23b1"
+      },
+      "id": "translationStateShaMismatch:docs:operations/observability/tracing/tracing-overview.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "operations/resiliency/policies/retries/retries-overview.md",
+      "sourceFile": "data/source/docs/operations/resiliency/policies/retries/retries-overview.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/resiliency/policies/retries/retries-overview.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "7ab301a01083c5e251bff14f9a9e3e5180abbbae066d9fef299a6eba21578817",
+        "sourceSha256": "9c540927786c2d12eb77834011b005c0825e2e28e57f13e4d724ac2392916fc1"
+      },
+      "expected": {
+        "translationStateSha": "9c540927786c2d12eb77834011b005c0825e2e28e57f13e4d724ac2392916fc1"
+      },
+      "id": "translationStateShaMismatch:docs:operations/resiliency/policies/retries/retries-overview.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "operations/resiliency/targets.md",
+      "sourceFile": "data/source/docs/operations/resiliency/targets.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/resiliency/targets.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "63e170fed313431b531dbbf8967f13d1589eb5a42ff5d1ecabdc9fd1a411e429",
+        "sourceSha256": "9744dbc0d73f1b29364b515a27c400dbdba9a78a7cd3d7a880472504dccf527a"
+      },
+      "expected": {
+        "translationStateSha": "9744dbc0d73f1b29364b515a27c400dbdba9a78a7cd3d7a880472504dccf527a"
+      },
+      "id": "translationStateShaMismatch:docs:operations/resiliency/targets.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "operations/security/mtls.md",
+      "sourceFile": "data/source/docs/operations/security/mtls.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/security/mtls.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "ce15a2340297820cfcdc1b536f012e2a6a0ed254fd8f5c04ac2a2169aa96f679",
+        "sourceSha256": "19c6b2394422b9e54930b53b4c11042ac58f461ebc0e9c13844fea72fa900932"
+      },
+      "expected": {
+        "translationStateSha": "19c6b2394422b9e54930b53b4c11042ac58f461ebc0e9c13844fea72fa900932"
+      },
+      "id": "translationStateShaMismatch:docs:operations/security/mtls.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "operations/support/support-release-policy.md",
+      "sourceFile": "data/source/docs/operations/support/support-release-policy.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/support/support-release-policy.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "f753671257d25953a1301507fadfefc7f4f33351ecc784b8eaabcd3bfac09060",
+        "sourceSha256": "be0aed670203f150a30ed24ae4aa64f9d0241000eed68206ae4593e29009b567"
+      },
+      "expected": {
+        "translationStateSha": "be0aed670203f150a30ed24ae4aa64f9d0241000eed68206ae4593e29009b567"
+      },
+      "id": "translationStateShaMismatch:docs:operations/support/support-release-policy.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "reference/api/actors_api.md",
+      "sourceFile": "data/source/docs/reference/api/actors_api.md",
+      "translationFile": "translated_content/zh_CN/docs/reference/api/actors_api.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "2ba4e0b0d8c32e8e546409fd9251274a1065e4d36c6d36acbb43f1cc0b3560a0",
+        "sourceSha256": "b5f4c45de9b1b03c119daee06cbdc24c6b8058bb06824bbddabb51962378755c"
+      },
+      "expected": {
+        "translationStateSha": "b5f4c45de9b1b03c119daee06cbdc24c6b8058bb06824bbddabb51962378755c"
+      },
+      "id": "translationStateShaMismatch:docs:reference/api/actors_api.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "reference/arguments-annotations-overview.md",
+      "sourceFile": "data/source/docs/reference/arguments-annotations-overview.md",
+      "translationFile": "translated_content/zh_CN/docs/reference/arguments-annotations-overview.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "e87ad73d938684708d9047f1820930eb2b60ceb701b86c260198ab33b500ca86",
+        "sourceSha256": "62ca4fa748873ea99a47e2561e807b37bb844acf83280e48db52533b756c2c31"
+      },
+      "expected": {
+        "translationStateSha": "62ca4fa748873ea99a47e2561e807b37bb844acf83280e48db52533b756c2c31"
+      },
+      "id": "translationStateShaMismatch:docs:reference/arguments-annotations-overview.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "reference/cli/dapr-workflow.md",
+      "sourceFile": "data/source/docs/reference/cli/dapr-workflow.md",
+      "translationFile": "translated_content/zh_CN/docs/reference/cli/dapr-workflow.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "f818a5c320e9bd07e53194377e7f144c990e20864cd73d150f4b3cac1a55e882",
+        "sourceSha256": "b7b3cd37ab0cfb886b3735492100e7c1155b73b3eb7468fff24136424bc2679a"
+      },
+      "expected": {
+        "translationStateSha": "b7b3cd37ab0cfb886b3735492100e7c1155b73b3eb7468fff24136424bc2679a"
+      },
+      "id": "translationStateShaMismatch:docs:reference/cli/dapr-workflow.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "reference/components-reference/supported-bindings/eventhubs.md",
+      "sourceFile": "data/source/docs/reference/components-reference/supported-bindings/eventhubs.md",
+      "translationFile": "translated_content/zh_CN/docs/reference/components-reference/supported-bindings/eventhubs.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "c728ae8e3a82e628961e781cf5ddb01478641bc01588aa96ff5556c2d171d19e",
+        "sourceSha256": "5c623ef09547d3f20f108cc02b43915771ed77134dc266fac2a8a337dd757fb1"
+      },
+      "expected": {
+        "translationStateSha": "5c623ef09547d3f20f108cc02b43915771ed77134dc266fac2a8a337dd757fb1"
+      },
+      "id": "translationStateShaMismatch:docs:reference/components-reference/supported-bindings/eventhubs.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "reference/components-reference/supported-pubsub/setup-azure-eventhubs.md",
+      "sourceFile": "data/source/docs/reference/components-reference/supported-pubsub/setup-azure-eventhubs.md",
+      "translationFile": "translated_content/zh_CN/docs/reference/components-reference/supported-pubsub/setup-azure-eventhubs.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "dbdd808d84f2ecd39a3e4d858189d0b6e27548ba3009f6a9222779dd25130582",
+        "sourceSha256": "bfdaec855b271910da887fb6145277a7afafb21326830a9e9e72e3a6b3849e6d"
+      },
+      "expected": {
+        "translationStateSha": "bfdaec855b271910da887fb6145277a7afafb21326830a9e9e72e3a6b3849e6d"
+      },
+      "id": "translationStateShaMismatch:docs:reference/components-reference/supported-pubsub/setup-azure-eventhubs.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "reference/components-reference/supported-pubsub/setup-pulsar.md",
+      "sourceFile": "data/source/docs/reference/components-reference/supported-pubsub/setup-pulsar.md",
+      "translationFile": "translated_content/zh_CN/docs/reference/components-reference/supported-pubsub/setup-pulsar.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "3bf0ffe4a62bae7697b2d611cfb50a3cdf0b2b6ac163abd1989a64b7cf3d0aa0",
+        "sourceSha256": "50bcab01696c735e18ef1ce4dae12a8a0bd235dd32906f5f673bbd2b5ab0b579"
+      },
+      "expected": {
+        "translationStateSha": "50bcab01696c735e18ef1ce4dae12a8a0bd235dd32906f5f673bbd2b5ab0b579"
+      },
+      "id": "translationStateShaMismatch:docs:reference/components-reference/supported-pubsub/setup-pulsar.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "docs",
+      "relativePath": "reference/components-reference/supported-pubsub/setup-redis-pubsub.md",
+      "sourceFile": "data/source/docs/reference/components-reference/supported-pubsub/setup-redis-pubsub.md",
+      "translationFile": "translated_content/zh_CN/docs/reference/components-reference/supported-pubsub/setup-redis-pubsub.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "17a64097b14c3288435cadb63c3bd02ee726b56762c53d83c73d8049d252437b",
+        "sourceSha256": "e813f963d2cfd33a541b456d817ce69d158496edbe37ef8d454c653863b4176a"
+      },
+      "expected": {
+        "translationStateSha": "e813f963d2cfd33a541b456d817ce69d158496edbe37ef8d454c653863b4176a"
+      },
+      "id": "translationStateShaMismatch:docs:reference/components-reference/supported-pubsub/setup-redis-pubsub.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "sdks_dotnet",
+      "relativePath": "dotnet-actors/dotnet-actors-usage.md",
+      "sourceFile": "data/source/sdks_dotnet/dotnet-actors/dotnet-actors-usage.md",
+      "translationFile": "translated_content/zh_CN/sdks_dotnet/dotnet-actors/dotnet-actors-usage.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "515ae3b6a5e0dbd1555c2f10076e1ffaf634363fa39e2e7953be8641bec7cab4",
+        "sourceSha256": "f01b33b2b65689e382a743de656661e6a4a9ba47d81f8ebe1b99b140b066c3b9"
+      },
+      "expected": {
+        "translationStateSha": "f01b33b2b65689e382a743de656661e6a4a9ba47d81f8ebe1b99b140b066c3b9"
+      },
+      "id": "translationStateShaMismatch:sdks_dotnet:dotnet-actors/dotnet-actors-usage.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "sdks_dotnet",
+      "relativePath": "dotnet-client/dotnet-daprclient-usage.md",
+      "sourceFile": "data/source/sdks_dotnet/dotnet-client/dotnet-daprclient-usage.md",
+      "translationFile": "translated_content/zh_CN/sdks_dotnet/dotnet-client/dotnet-daprclient-usage.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "4c1024183177e2c8884853724561565e9eff8de2c14e9c39d6573f9b727b6731",
+        "sourceSha256": "4b4299daa642ba420f7fca40ca663e8c3a54bc61f31bdb0a439a7aa1e59e7129"
+      },
+      "expected": {
+        "translationStateSha": "4b4299daa642ba420f7fca40ca663e8c3a54bc61f31bdb0a439a7aa1e59e7129"
+      },
+      "id": "translationStateShaMismatch:sdks_dotnet:dotnet-client/dotnet-daprclient-usage.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "sdks_dotnet",
+      "relativePath": "dotnet-guidance/dotnet-guidance-source-generators.md",
+      "sourceFile": "data/source/sdks_dotnet/dotnet-guidance/dotnet-guidance-source-generators.md",
+      "translationFile": "translated_content/zh_CN/sdks_dotnet/dotnet-guidance/dotnet-guidance-source-generators.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "9e9afaed6234e19edbfa6015292df60d69164806706046a958e7fddca00bc24f",
+        "sourceSha256": "0b6f4de45eab3d478c9bb97f3386c0073790a9a73e44f6be06f80419961952b8"
+      },
+      "expected": {
+        "translationStateSha": "0b6f4de45eab3d478c9bb97f3386c0073790a9a73e44f6be06f80419961952b8"
+      },
+      "id": "translationStateShaMismatch:sdks_dotnet:dotnet-guidance/dotnet-guidance-source-generators.md"
+    },
+    {
+      "type": "translationStateShaMismatch",
+      "version": "v1.17",
+      "bucket": "sdks_js",
+      "relativePath": "js-actors/_index.md",
+      "sourceFile": "data/source/sdks_js/js-actors/_index.md",
+      "translationFile": "translated_content/zh_CN/sdks_js/js-actors/_index.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 的 sha 与当前源文不匹配",
+      "detail": "宜重译或等待下一次同步后再判定。",
+      "observed": {
+        "translationStateSha": "a72875020bd328bb76ad9844dc76caccc6a92cf679108b2bb9d9170b2dce83dd",
+        "sourceSha256": "2a8db3b2c450d2d50b6c08872ee0ecd1adeca79dd589fe0a66d2eb75cc48f83b"
+      },
+      "expected": {
+        "translationStateSha": "2a8db3b2c450d2d50b6c08872ee0ecd1adeca79dd589fe0a66d2eb75cc48f83b"
+      },
+      "id": "translationStateShaMismatch:sdks_js:js-actors/_index.md"
+    }
+  ],
+  "totalFindings": 42,
+  "status": "warn"
 }
