@@ -1,0 +1,72 @@
+# profile.yaml — written by `tr.mjs init`; human-owned from now on (runs never edit it). Field meanings: references/profile-spec.md
+schema: 1
+repo: "repos/v1.17_zh"   # informational; scripts locate the repo from this file's own path
+translationsRoot: translations
+defaultLocale: zh-CN
+locales:
+  zh-CN:
+    name: "简体中文"
+    cjk: true
+    notes: ""
+
+sources:
+  description: "English Dapr v1.17 documentation mirror under data/source, refreshed from repos/v1.17 by the mono zh:data:sync task; the skill never edits it."
+  glob:                                    # built-in discovery; replace with `discovery: {cwd, command}` for upstream/vendored sources
+    root: "data/source"
+    include: ["**/*.md"]
+    exclude: []
+
+output:
+  template: "translated_content/zh_CN/{doc}"      # {locale}, {dir} (locales.<L>.dir or the code), {doc}; relative to the repo
+
+externalTranslations:
+  policy: skip
+  evidence: []
+
+writeScope: [translations/, translated_content/]
+readOnly:                                  # the skill must never touch these
+  - data/
+  - site/
+  - scripts/
+forbidden:
+  - git push
+  - git stash / git reset / git checkout
+  - creating new branches
+  - --no-verify
+
+priority:                                  # tier 1 first; unmatched documents fall to tier 3; SDK docs last
+  - { tier: 1, match: ["docs/getting-started/", "docs/concepts/"] }
+  - { tier: 2, match: ["docs/developing-applications/building-blocks/"] }
+  - { tier: 4, match: ["sdks_"] }
+
+budgets:
+  maxRunMinutes: 240
+  maxDocs: 10
+  maxSourceBytes: 80000
+  minMinutesToStartDoc: 20
+
+models:                                    # hints copied into every job; the orchestrator maps them to subagent models
+  translate: haiku
+  review: haiku
+  escalate: sonnet
+
+glossary:
+  promoteAfter: 1                          # a term enters the glossary on first sighting; the screening rules still apply
+  ignore: []
+
+keepBaseSource: true                       # keep the translated source under state/base/ so later changes can be applied as a diff
+
+commit:
+  enabled: false                           # turn on once the profile and adapter are committed
+  messagePrefix: "docs(translation)"
+  trailer: ""
+
+timezone: UTC
+
+rules:
+  doNotTranslateSeeds: []                  # product / brand names that must stay as they are
+  links: Keep relative links unchanged.
+  frontmatterTranslatable: [title, description, aliases, linkTitle]
+  extra:
+    - "front matter aliases: prefix each alias path with /zh-hans (for example /zh-hans/contributing/codespaces/), as the existing zh_CN output does"
+    - "front matter type and weight: keep exactly as in the source"

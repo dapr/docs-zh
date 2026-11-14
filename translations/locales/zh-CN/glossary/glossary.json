@@ -1,0 +1,148 @@
+{
+  "schema": 1,
+  "version": 1,
+  "updatedAt": "2026-11-14T19:39:58.613Z",
+  "doNotTranslate": [],
+  "terms": [
+    {
+      "id": "building-block",
+      "source": "building block",
+      "target": "构建块",
+      "alt": [],
+      "note": "对应 Dapr 核心能力分类。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "lastSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "pluggable-component",
+      "source": "pluggable component",
+      "target": "可插拔组件",
+      "alt": [],
+      "note": "与 pluggable-components 目录语义保持一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "lastSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "service-invocation",
+      "source": "service invocation",
+      "target": "服务调用",
+      "alt": [],
+      "note": "与运行时 API 名称保持一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "lastSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "sidecar",
+      "source": "sidecar",
+      "target": "边车",
+      "alt": [],
+      "note": "沿用 Kubernetes 与 Dapr 常用译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "lastSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "state-store",
+      "source": "state store",
+      "target": "状态存储",
+      "alt": [],
+      "note": "用于组件类型与文档标题。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "lastSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "workflow",
+      "source": "workflow",
+      "target": "工作流",
+      "alt": [],
+      "note": "与工作流 API 和页面文案一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "lastSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "pub-sub",
+      "source": "pub/sub",
+      "target": "发布订阅",
+      "alt": [],
+      "note": "保留 slash 形式的英文缩写。",
+      "origin": "human",
+      "locked": true,
+      "confidence": "high",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "manual-seed"
+      },
+      "lastSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "manual-seed"
+      },
+      "conflicts": []
+    }
+  ]
+}

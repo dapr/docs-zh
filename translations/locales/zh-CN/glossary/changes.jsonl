@@ -1,0 +1,7 @@
+{"ts":"2026-11-14T19:39:58.613Z","run":"20261114-1939","op":"add","id":"building-block","target":"构建块","version":1,"doc":"copilot-glossary-seed"}
+{"ts":"2026-11-14T19:39:58.613Z","run":"20261114-1939","op":"add","id":"pluggable-component","target":"可插拔组件","version":1,"doc":"copilot-glossary-seed"}
+{"ts":"2026-11-14T19:39:58.613Z","run":"20261114-1939","op":"reject","id":"pub/sub","target":"发布订阅","reason":"identifier: looks like a path, flag or code symbol","version":1,"doc":"copilot-glossary-seed"}
+{"ts":"2026-11-14T19:39:58.613Z","run":"20261114-1939","op":"add","id":"service-invocation","target":"服务调用","version":1,"doc":"copilot-glossary-seed"}
+{"ts":"2026-11-14T19:39:58.613Z","run":"20261114-1939","op":"add","id":"sidecar","target":"边车","version":1,"doc":"copilot-glossary-seed"}
+{"ts":"2026-11-14T19:39:58.613Z","run":"20261114-1939","op":"add","id":"state-store","target":"状态存储","version":1,"doc":"copilot-glossary-seed"}
+{"ts":"2026-11-14T19:39:58.613Z","run":"20261114-1939","op":"add","id":"workflow","target":"工作流","version":1,"doc":"copilot-glossary-seed"}
