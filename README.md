@@ -5,7 +5,8 @@ Dapr v1.17 中文翻译仓。
 ## 目录约定
 
 - `translated_content/zh_CN/`：中文译文正文，按内容桶维持与源文一致的相对路径
-- `data/`：翻译管理数据，作为管理台与同步流程的单一事实源
+- `data/`：源文镜像与同步数据，由根仓 `zh:data:sync` 维护；翻译技能从不写入
+- `translations/`：翻译技能的配置与状态。`profile.yaml` 由人维护；账本、术语表与快照由 `tr.mjs` 维护
 - `data/source/`：英文源文镜像，目录结构与 `translated_content/zh_CN/` 保持一致
 - `data/source.json`：源文元数据索引，记录桶、相对路径、文件路径与来源信息
 - `site/.generated/`：本地验证站点生成的 Hugo 配置
@@ -33,6 +34,23 @@ npm run zh:data:sync -- \
 - `repos/v1.17_zh/data/source-manifest.json`
 - `repos/v1.17_zh/data/source/**/*`
 
+## 译文翻译（dapr-docs-translation）
+
+译文由 `dapr-docs-translation` 技能（`repos/agent-skills`）维护，目标即本仓。配置位于 `translations/profile.yaml`，由人维护，技能运行时不修改：
+
+- `translations/`：账本、术语表、快照与运行记录，由 `tr.mjs` 写入
+- `translated_content/zh_CN/`：译文正文
+- `data/`：归根仓 `zh:data:sync` 所有，技能从不写入
+
+在根仓执行（`tr.mjs` 位于 `repos/agent-skills`）：
+
+```bash
+node repos/agent-skills/dapr-docs-translation/scripts/tr.mjs scan --profile repos/v1.17_zh/translations/profile.yaml
+node repos/agent-skills/dapr-docs-translation/scripts/tr.mjs status --profile repos/v1.17_zh/translations/profile.yaml
+```
+
+`scan` 只读，列出下一批待译文档；`status` 报告进度。`next`、`check`、`assemble`、`finalize`、`fail` 的参数见 `repos/agent-skills/dapr-docs-translation/references/commands.md`。技能从不推送；profile 中 `commit.enabled` 为 `false`，运行默认不提交。
+
 ## 本地验证站点
 
 前置条件：
@@ -44,10 +62,10 @@ npm run zh:data:sync -- \
 在根仓执行：
 
 ```bash
-node repos/v1.17_zh/scripts/run-local-docs-verification-site.mjs \
-  --source-repo repos/v1.17 \
-  --zh-repo repos/v1.17_zh
+pnpm run docs:verify
 ```
+
+入口位于根仓 `scripts/docs-verify/`，底层仍调用本仓的 `scripts/run-local-docs-verification-site.mjs`；默认 `--source-repo repos/v1.17`、`--zh-repo repos/v1.17_zh`。`pnpm run docs:verify:test` 运行入口的测试。
 
 常用参数：
 
