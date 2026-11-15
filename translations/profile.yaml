@@ -1,6 +1,6 @@
 # profile.yaml — written by `tr.mjs init`; human-owned from now on (runs never edit it). Field meanings: references/profile-spec.md
 schema: 1
-repo: "repos/v1.17_zh"   # informational; scripts locate the repo from this file's own path
+repo: "repos/v1.19_zh"   # informational; scripts locate the repo from this file's own path
 translationsRoot: translations
 defaultLocale: zh-CN
 locales:
@@ -10,7 +10,7 @@ locales:
     notes: ""
 
 sources:
-  description: "English Dapr v1.17 documentation mirror under data/source, refreshed from repos/v1.17 by the mono zh:data:sync task; the skill never edits it."
+  description: "English Dapr v1.19 documentation mirror under data/source, refreshed from repos/v1.19 by the mono zh:data:sync task; the skill never edits it."
   glob:                                    # built-in discovery; replace with `discovery: {cwd, command}` for upstream/vendored sources
     root: "data/source"
     include: ["**/*.md"]
