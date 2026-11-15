@@ -6,10 +6,6 @@ description: "Detailed documentation on the jobs API"
 weight: 900
 ---
 
-{{% alert title="Note" color="primary" %}}
-The jobs API is currently in alpha.
-{{% /alert %}}
-
 With the jobs API, you can schedule jobs and tasks in the future.
 
 > The HTTP APIs are intended for development and testing only. For production scenarios, the use of the SDKs is strongly
@@ -20,7 +16,7 @@ With the jobs API, you can schedule jobs and tasks in the future.
 Schedule a job with a name. Jobs are scheduled based on the clock of the server where the Scheduler service is running. The timestamp is not converted to UTC. You can provide the timezone with the timestamp in RFC3339 format to specify which timezone you'd like the job to adhere to. If no timezone is provided, the server's local time is used.
 
 ```
-POST http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
+POST http://localhost:<daprPort>/v1.0/jobs/<name>
 ```
 
 ### URL parameters
@@ -32,13 +28,17 @@ At least one of `schedule` or `dueTime` must be provided, but they can also be p
 Parameter | Description
 --------- | -----------
 `name` | Name of the job you're scheduling
-`data` | A JSON serialized value or object.
+`data` | An optional JSON serialized value or object sent to the app when the job is triggered.
 `schedule` | An optional schedule at which the job is to be run. Details of the format are below.
 `dueTime` | An optional time at which the job should be active, or the "one shot" time, if other scheduling type fields are not provided. Accepts a "point in time" string in the format of RFC3339, Go duration string (calculated from creation time), or non-repeating ISO8601.
 `repeats` | An optional number of times in which the job should be triggered. If not set, the job runs indefinitely or until expiration.
 `ttl` | An optional time to live or expiration of the job. Accepts a "point in time" string in the format of RFC3339, Go duration string (calculated from job creation time), or non-repeating ISO8601.
 `overwrite` | A boolean value to specify if the job can overwrite an existing one with the same name. Default value is `false`
 `failure_policy` | An optional failure policy for the job. Details of the format are below. If not set, the job is retried up to 3 times with a delay of 1 second between retries.
+
+{{% alert title="Note" color="primary" %}}
+From Dapr 1.19, job names can contain the pipe character (`|`) and `@`. A job name is still rejected if it contains a character that is unsafe in an HTTP path segment (such as `/`, `\`, `#`, `?`, a newline, or a NUL byte), is `.` or `..`, or exceeds the maximum length.
+{{% /alert %}}
 
 #### schedule
 `schedule` accepts both systemd timer-style cron expressions, as well as human readable '@' prefixed period strings, as defined below.
@@ -63,6 +63,37 @@ Entry                  | Description                                | Equivalent
 @weekly                | Run once a week, midnight on Sunday        | 0 0 0 * * 0
 @daily (or @midnight)  | Run once a day, midnight                   | 0 0 0 * * *
 @hourly                | Run once an hour, beginning of hour        | 0 0 * * * *
+
+##### Timezones
+
+By default, a `schedule` is evaluated in the local timezone of the Scheduler
+service. To pin a job to a specific timezone instead, prefix the schedule with
+`CRON_TZ=<timezone>` (or the equivalent `TZ=<timezone>`), where `<timezone>` is an
+[IANA Time Zone database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+name such as `Europe/Rome` or `Asia/Tokyo`.
+
+```json
+{
+  "schedule": "CRON_TZ=Europe/Rome 0 0 9 * * *"
+}
+```
+
+The timezone is applied to the wall clock, so jobs keep their local time across
+daylight saving transitions. The schedule above runs at 09:00 in Rome all year
+round: the underlying UTC instant shifts from 07:00Z to 08:00Z when Rome leaves
+daylight saving time, without the job needing to be rescheduled.
+
+The prefix also works with `@` period strings that map to a fixed time of day,
+such as `CRON_TZ=Europe/Rome @daily`.
+
+{{% alert title="Note" color="primary" %}}
+A timezone prefix cannot be combined with an `@every <duration>` schedule. These
+fire at a fixed interval rather than at a wall-clock time, so there is no wall
+clock for a timezone to apply to, and the job is rejected when it is scheduled.
+{{% /alert %}}
+
+An unrecognized timezone name also causes the job to be rejected when it is
+scheduled.
 
 #### failure_policy
 
@@ -121,7 +152,7 @@ The following example curl command creates a job, naming the job `jobforjabba` a
 
 ```bash
 $ curl -X POST \
-  http://localhost:3500/v1.0-alpha1/jobs/jobforjabba \
+  http://localhost:3500/v1.0/jobs/jobforjabba \
   -H "Content-Type: application/json" \
   -d '{
         "data": "{\"value\":\"Running spice\"}",
@@ -135,7 +166,7 @@ $ curl -X POST \
 Get a job from its name.
 
 ```
-GET http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
+GET http://localhost:<daprPort>/v1.0/jobs/<name>
 ```
 
 ### URL parameters
@@ -157,7 +188,7 @@ Code | Description
 After running the following example curl command, the returned response is JSON containing the `name` of the job, the `dueTime`, and the `data`.
 
 ```bash
-$ curl -X GET http://localhost:3500/v1.0-alpha1/jobs/jobforjabba -H "Content-Type: application/json"
+$ curl -X GET http://localhost:3500/v1.0/jobs/jobforjabba -H "Content-Type: application/json"
 ```
 
 ```json
@@ -173,7 +204,7 @@ $ curl -X GET http://localhost:3500/v1.0-alpha1/jobs/jobforjabba -H "Content-Typ
 Delete a named job.
 
 ```
-DELETE http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
+DELETE http://localhost:<daprPort>/v1.0/jobs/<name>
 ```
 
 ### URL parameters
@@ -195,7 +226,7 @@ Code | Description
 In the following example curl command, the job named `test1` with app-id `sub` will be deleted
 
 ```bash
-$ curl -X DELETE http://localhost:3500/v1.0-alpha1/jobs/jobforjabba -H "Content-Type: application/json"
+$ curl -X DELETE http://localhost:3500/v1.0/jobs/jobforjabba -H "Content-Type: application/json"
 ```
 
 

@@ -255,6 +255,8 @@ This is usually due to one of the following issues
 - You may have not provided a `--resources-path` with the Dapr `run` commands or not placed your components into the default components folder for your OS. Read [define a component]({{% ref "get-started-component.md" %}}) for more information.
 - You may have a syntax issue in component YAML file. Check your component YAML with the component [YAML samples]({{% ref "components.md" %}}).
 
+When running locally, you can use the [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) to see which components each app has loaded, and stream the `daprd` logs to find component initialization errors. To avoid YAML syntax issues, you can create component files with the dashboard's component builder.
+
 ## Service invocation is failing and my Dapr service is missing an appId (macOS)
 
 Some organizations will implement software that filters out all UDP traffic, which is what mDNS is based on. Mostly commonly, on MacOS, `Microsoft Content Filter` is the culprit.
@@ -271,24 +273,28 @@ Microsoft Content Filter is disabled when the output is "Success".
 
 ## Admission webhook denied the request
 
-You may encounter an error similar to the one below due to admission webhook having an allowlist for service accounts to create or modify resources.
+You may encounter an error similar to the one below because the sidecar injector's admission webhook only processes requests from authorized service accounts. The service account that created the pod is not in the injector's allowlist.
 
 ```
 root:[dapr]$ kubectl run -i --tty --rm debug --image=busybox --restart=Never -- sh
 Error from server: admission webhook "sidecar-injector.dapr.io" denied the request: service account 'user-xdd5l' not on the list of allowed controller accounts
 ```
 
-To resolve this error, you should create a `clusterrolebind` for the current user:
+To resolve this error, either:
 
-```bash
-kubectl create clusterrolebinding dapr-<name-of-user> --clusterrole=dapr-operator-admin --user <name-of-user>
-```
+1. Add the service account to the injector's authorized list by configuring the `dapr_sidecar_injector.allowedServiceAccounts` Helm value. Glob patterns are supported (for example, `my-namespace:*` to authorize all service accounts in a namespace). See the [Sidecar Injector documentation]({{% ref "sidecar-injector" %}}) for details.
 
-You can run the below command to get all users in your cluster:
+2. Or, create a `clusterrolebinding` for the current user:
 
-```bash
-kubectl config get-users
-```
+   ```bash
+   kubectl create clusterrolebinding dapr-<name-of-user> --clusterrole=dapr-operator-admin --user <name-of-user>
+   ```
+
+   You can run the below command to get all users in your cluster:
+
+   ```bash
+   kubectl config get-users
+   ```
 
 You may learn more about webhooks [here](https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/).
 

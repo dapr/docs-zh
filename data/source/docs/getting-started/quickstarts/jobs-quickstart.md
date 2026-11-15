@@ -6,10 +6,6 @@ weight: 80
 description: Get started with the Dapr jobs building block
 ---
 
-{{% alert title="Alpha" color="warning" %}}
-The jobs building block is currently in **alpha**. 
-{{% /alert %}}
-
 Let's take a look at the [Dapr jobs building block]({{% ref jobs-overview %}}), which schedules and runs jobs at a specific time or interval. In this Quickstart, you'll schedule, get, and delete a job using Dapr's Job API.
 
 You can try out this jobs quickstart by either:
@@ -52,7 +48,7 @@ git clone https://github.com/dapr/quickstarts.git
 From the root of the Quickstarts directory, navigate into the jobs directory:
 
 ```bash
-cd jobs/go/sdk
+cd jobs/go/sdk/job-service
 ```
 
 ### Step 3: Schedule jobs
@@ -226,7 +222,7 @@ func scheduleJob(ctx context.Context, in *common.InvocationEvent) (out *common.C
 		},
 	}
 
-	err = app.daprClient.ScheduleJobAlpha1(ctx, &job)
+	err = app.daprClient.ScheduleJob(ctx, &job)
 	if err != nil {
 		fmt.Println("failed to schedule job. err: ", err)
 		return nil, err
@@ -252,7 +248,7 @@ func getJob(ctx context.Context, in *common.InvocationEvent) (out *common.Conten
 		return nil, err
 	}
 
-	job, err := app.daprClient.GetJobAlpha1(ctx, string(in.Data))
+	job, err := app.daprClient.GetJob(ctx, string(in.Data))
 	if err != nil {
 		fmt.Println("failed to get job. err: ", err)
 	}
@@ -273,7 +269,7 @@ func deleteJob(ctx context.Context, in *common.InvocationEvent) (out *common.Con
 		return nil, err
 	}
 
-	err = app.daprClient.DeleteJobAlpha1(ctx, string(in.Data))
+	err = app.daprClient.DeleteJob(ctx, string(in.Data))
 	if err != nil {
 		fmt.Println("failed to delete job. err: ", err)
 	}
@@ -475,7 +471,7 @@ cd jobs/go/sdk
 In the terminal, run the `job-service` app:
 
 ```bash
-dapr run --app-id job-service --app-port 6200 --dapr-grpc-port 6281 --app-protocol grpc -- go run .
+dapr run --app-id job-service-sdk --app-port 6200 --dapr-grpc-port 6281 --app-protocol grpc -- go run .
 ```
 
 **Expected output**
@@ -488,10 +484,11 @@ dapr run --app-id job-service --app-port 6200 --dapr-grpc-port 6281 --app-protoc
 == APP == Starting server on port: 6200
 ```
 
-In a new terminal window, run the `job-scheduler` app:
+In a new terminal window, from the root of the Quickstarts directory, navigate to the `job-scheduler` directory and run the `job-scheduler` app:
 
 ```bash
-dapr run --app-id job-scheduler --app-port 6300 -- go run .
+cd jobs/go/sdk/job-scheduler
+dapr run --app-id job-scheduler-sdk --app-port 6300 -- go run .
 ```
 
 **Expected output**
@@ -534,7 +531,7 @@ See the jobs API in action using a Go HTTP example, recorded during the [Dapr Co
 
 We're continuously working to improve our Quickstart examples and value your feedback. Did you find this Quickstart helpful? Do you have suggestions for improvement?
 
-Join the discussion in our [discord channel](https://discord.com/channels/778680217417809931/953427615916638238).
+Join our [Discord Server](https://diagrid.ws/dapr-discord) and share your thoughts.
 
 ## Next steps
 

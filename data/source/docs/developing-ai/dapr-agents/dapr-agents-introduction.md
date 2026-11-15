@@ -8,7 +8,7 @@ aliases:
   - /developing-applications/dapr-agents/dapr-agents-introduction
 ---
 
-![Agent Overview](/images/dapr-agents/concepts-agents-overview.png)
+{{< diagram name="agents-overview" width="85" >}}
 
 {{% alert title="Dapr Agents v1.0 — Generally Available" color="primary" %}}
 Dapr Agents **v1.0** is production ready with stable APIs and enterprise-grade support for agentic workloads.
@@ -48,7 +48,7 @@ Dapr Agents provides specialized modules designed for creating intelligent, auto
 ## Agentic Patterns
 Dapr Agents enables a comprehensive set of patterns that represent different approaches to building intelligent systems. 
 
-<img src="/images/dapr-agents/agents-patterns-overview.png" width=1200 style="padding-bottom:15px;">
+{{< diagram agents-patterns-overview >}}
 
 These patterns range from deterministic, workflow-driven designs to fully autonomous agents capable of dynamic planning and execution; each addresses different use cases and balances predictability against autonomy.
 
@@ -74,7 +74,7 @@ Get started with Dapr Agents by following the instructions on the [Getting Start
 
 ### Framework integrations
 
-Dapr Agents integrates with popular Python frameworks and tools. For detailed integration guides and examples, see the [integrations page]({{% ref "developing-ai/dapr-agents/dapr-agents-integrations.md" %}}).
+Dapr Agents integrates with popular Python frameworks and tools. For detailed integration guides and examples, see the [integrations page]({{% ref integrations %}}).
  
 ## Operational support
 

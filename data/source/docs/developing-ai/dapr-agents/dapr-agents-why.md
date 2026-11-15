@@ -39,8 +39,6 @@ While Dapr Agents centers around agents, it also recognizes the versatility of u
 Agents can be used standalone and create workflows behind the scene, or act as autonomous steps in deterministic workflows.
 {{% /alert %}}
 
-![Modular Principles](/images/dapr-agents/home_concepts_principles_modular.png)
-
 ### Backed by Durable Workflows
 
 Dapr Agents places durability at the core of its architecture, leveraging [Dapr Workflows]({{% ref workflow-overview.md %}}) as the foundation for durable agent execution and deterministic multi-agent orchestration.
@@ -66,6 +64,8 @@ Dapr Agents utilizes [Dapr's pluggable component framework]({{% ref components-c
 Developers can easily switch between different components (e.g., Redis to DynamoDB, OpenAI to Anthropic) based on their deployment environment, ensuring portability and adaptability.
 {{% /alert %}}
 
+{{< diagram name="components-concept" width="80" >}}
+
 ### Message-Driven Communication
 
 Dapr Agents emphasizes the use of Pub/Sub messaging for event-driven communication between agents. This principle ensures:
@@ -78,7 +78,7 @@ Dapr Agents emphasizes the use of Pub/Sub messaging for event-driven communicati
 Pub/Sub messaging serves as the backbone for Dapr Agents' event-driven workflows, enabling agents to communicate and collaborate in real time while maintaining loose coupling.
 {{% /alert %}}
 
-![Message Principles](/images/dapr-agents/home_concepts_principles_message.png)
+{{< diagram agents-message-driven >}}
 
 ### Decoupled Infrastructure Design
 
@@ -91,14 +91,14 @@ Dapr Agents ensures a clean separation between agents and the underlying infrast
 Decoupling infrastructure keeps agents focused on tasks while enabling seamless scalability and integration across systems.
 {{% /alert %}}
 
-![Decoupled Principles](/images/dapr-agents/home_concepts_principles_decoupled.png)
+{{< diagram name="agents-decoupled-infrastructure" width="80" >}}
 
 
 ## Dapr Agents Benefits
 
 ### Scalable Workflows as First-Class Citizens
 
-Dapr Agents uses a [durable-execution workflow engine]({{% ref workflow-overview.md %}}) that guarantees each agent task executes to completion despite network interruptions, node crashes, and other disruptive failures. Developers do not need to understand the underlying workflow engine concepts—simply write an agent that performs any number of tasks and these will be automatically distributed across the cluster. If any task fails, it will be retried and recover its state from where it left off.
+Dapr Agents uses a [durable execution workflow engine]({{% ref workflow-overview.md %}}) that guarantees each agent task executes to completion despite network interruptions, node crashes, and other disruptive failures. Developers do not need to understand the underlying workflow engine concepts—simply write an agent that performs any number of tasks and these will be automatically distributed across the cluster. If any task fails, it will be retried and recover its state from where it left off.
 
 ### Cost-Effective AI Adoption
 
@@ -106,7 +106,7 @@ Dapr Agents builds on Dapr's Workflow API, which represents each agent as an act
 
 ### Data-centric AI agents
 
-With built-in connectivity to over 50 enterprise data sources, Dapr Agents efficiently handles structured and unstructured data. From basic [PDF extraction]({{% ref "/developing-ai/dapr-agents/dapr-agents-integrations.md" %}}) to large-scale database interactions, it enables data-driven AI workflows with minimal code changes. Dapr's [bindings]({{% ref bindings-overview.md %}}) and [state stores]({{% ref supported-state-stores.md %}}), along with MCP support, provide access to numerous data sources for agent data ingestion.
+With built-in connectivity to over 50 enterprise data sources, Dapr Agents efficiently handles structured and unstructured data. From [basic PDF extraction to large-scale database interactions]({{% ref integrations %}}), it enables data-driven AI workflows with minimal code changes. Dapr's [bindings]({{% ref bindings-overview.md %}}) and [state stores]({{% ref supported-state-stores.md %}}), along with MCP support, provide access to numerous data sources for agent data ingestion.
 
 ### Accelerated development
 

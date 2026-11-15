@@ -8,6 +8,8 @@ description: Manage and run workflows
 
 Now that you've [authored the workflow and its activities in your application]({{% ref howto-author-workflow.md %}}), you can start, terminate, rerun, and get information about the workflow using the CLI or API calls.
 
+The SDK clients and the HTTP API can also target a workflow owned by *another* application in the same namespace, by sending that application's ID with the request. (The CLI's `--app-id` flag is different: it selects which sidecar to talk to, so those calls stay local to that application.) The target application's [workflow access policy]({{% ref workflow-access-policy.md %}}) decides whether the call is permitted. See [Multi Application Workflows]({{% ref workflow-multi-app.md %}}) for the full picture.
+
 {{< tabpane text=true >}}
 
 <!--CLI-->
@@ -29,6 +31,10 @@ dapr workflow run OrderProcessingWorkflow \
   --input '{"orderId": "12345", "amount": 100.50}'
 
 # Start with a new workflow with a specific instance ID
+# Note: an instance ID is only reusable once the existing workflow
+# and all of its child workflows have reached a terminal state;
+# otherwise the request is rejected. Purge a workflow to free up
+# its instance ID unconditionally.
 dapr workflow run OrderProcessingWorkflow \
   --app-id orderprocessing \
   --instance-id order-12345 \
@@ -195,6 +201,12 @@ dapr workflow list -k
    dapr workflow list --app-id orderprocessing --output json > workflows.json
    ```
 
+### Managing Workflows with the Dapr Dev Dashboard
+
+For local development, you can use the [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) as a visual alternative to the `dapr workflow list` and `dapr workflow history` commands. The dashboard lists the workflow instances of your running apps with their status, and shows the full event history of each instance, including activity inputs and outputs, timers, and external events. The Dev Dashboard is intended for local development and does not run inside Kubernetes.
+
+<img src="/images/workflow-overview/workflow-diagrid-dashboard.png" width=800 alt="Diagrid Dev Dashboard showing local workflow executions"/><br/>
+
 ## Managing Workflow Reminders with the Dapr CLI
 
 Workflow reminders are stored in the Scheduler and can be managed using the dapr scheduler CLI.
@@ -296,6 +308,14 @@ wf_client.purge_workflow(instance_id=instance_id)
 
 # Wait for workflow completion
 wf_client.wait_for_workflow_completion(instance_id, timeout_in_seconds=30)
+```
+
+#### Target another application
+
+Pass `app_id` to any of these operations to act on a workflow owned by another application. The target's [workflow access policy]({{% ref workflow-access-policy.md %}}) decides whether the call is allowed:
+
+```python
+wf_client.terminate_workflow(instance_id=instance_id, app_id='app2')
 ```
 
 {{% /tab %}}
@@ -403,6 +423,14 @@ await daprWorkflowClient.ResumeWorkflowAsync(orderId);
 await daprWorkflowClient.PurgeInstanceAsync(orderId);
 ```
 
+#### Target another application
+
+Pass `targetAppId` to act on a workflow owned by another application. The target's [workflow access policy]({{% ref workflow-access-policy.md %}}) decides whether the call is allowed:
+
+```csharp
+await client.TerminateWorkflowAsync(instanceId, null, "app2");
+```
+
 {{% /tab %}}
 
 <!--Java-->
@@ -466,6 +494,14 @@ public class DemoWorkflowClient {
     System.exit(0);
   }
 }
+```
+
+#### Target another application
+
+Pass the target application's ID to act on a workflow it owns. The target's [workflow access policy]({{% ref workflow-access-policy.md %}}) decides whether the call is allowed:
+
+```java
+client.terminateWorkflow(instanceId, null, "app2");
 ```
 
 {{% /tab %}}
@@ -547,6 +583,14 @@ type RaiseEventWorkflowRequest struct {
 }
 ```
 
+#### Target another application
+
+Pass the matching app ID option to act on a workflow owned by another application. The target's [workflow access policy]({{% ref workflow-access-policy.md %}}) decides whether the call is allowed:
+
+```go
+err = client.TerminateWorkflow(ctx, instanceID, workflow.WithTerminateAppID("app2"))
+```
+
 {{% /tab %}}
 
 <!--HTTP-->
@@ -563,6 +607,12 @@ curl -X POST "http://localhost:3500/v1.0/workflows/dapr/OrderProcessingWorkflow/
 ```
 
 Note that workflow instance IDs can only contain alphanumeric characters, underscores, and dashes.
+
+{{% alert title="Important" color="warning" %}}
+It is strongly recommended to give every execution a new instance ID rather than reusing an old one. See [Implications of instance ID reuse]({{% ref "workflow-features-concepts.md#implications-of-instance-id-reuse" %}}). An instance ID can only be reused once the existing workflow with that ID, and every child workflow it created (checked recursively), has reached a terminal state (`COMPLETED`, `FAILED`, or `TERMINATED`). Otherwise the request fails with HTTP `500` and error code `ERR_START_WORKFLOW`. SDK workflow clients get the gRPC `AlreadyExists` status code instead. To free up an instance ID unconditionally, first purge the existing workflow using the [purge API]({{% ref "workflow_api.md#purge-workflow-request" %}}) or configure a [retention policy]({{% ref workflow-history-retention-policy.md %}}).
+{{% /alert %}}
+
+The app that owns the workflow must be running with its workflow worker connected to its Dapr sidecar. Otherwise the start request fails at once with `no workflow worker is connected for app '<app-id>'`, instead of retrying and then returning an actor routing error.
 
 ### Terminate workflow
 
@@ -613,6 +663,14 @@ To fetch workflow information (outputs and inputs) with an ID `12345678`, run:
 ```shell
 curl -X GET "http://localhost:3500/v1.0/workflows/dapr/12345678"
 ```
+### Target another application
+
+Add the `appID` query parameter to any of the calls above to act on a workflow owned by another application. Every operation in the [workflow API reference]({{% ref workflow_api.md %}}) accepts it, and the target's [workflow access policy]({{% ref workflow-access-policy.md %}}) decides whether the call is allowed:
+
+```shell
+curl -X POST "http://localhost:3500/v1.0/workflows/dapr/12345678/terminate?appID=app2"
+```
+
 {{% /tab %}}
 
 {{< /tabpane >}}
@@ -625,8 +683,9 @@ Now that you've learned how to manage workflows, learn how to execute workflows 
 
 ## Related links
 - [Try out the Workflow quickstart]({{% ref workflow-quickstart.md %}})
+- [How-To: Apply workflow access policies]({{% ref workflow-access-policy.md %}})
 - Try out the full SDK examples:
-  - [Python example](https://github.com/dapr/python-sdk/blob/master/examples/demo_workflow/app.py)
+  - [Python example](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)
   - [JavaScript example](https://github.com/dapr/js-sdk/tree/main/examples/workflow)
   - [.NET example](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
   - [Java example](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)

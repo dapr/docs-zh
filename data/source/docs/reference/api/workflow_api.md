@@ -2,6 +2,7 @@
 type: docs
 title: "Workflow API reference"
 linkTitle: "Workflow API"
+description: "Detailed documentation on the workflow API"
 weight: 1600
 ---
 
@@ -17,13 +18,17 @@ This API is deprecated and will eventually be removed.
 
 ## Start workflow request
 
-Start a workflow instance with the given name and optionally, an instance ID.
+Start a workflow instance with the given name. Both query parameters are optional and independent of each other; see the table below.
 
 ```
-POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<workflowName>/start[?instanceID=<instanceID>]
+POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<workflowName>/start?instanceID=<instanceID>&appID=<appID>
 ```
 
 Note that workflow instance IDs can only contain alphanumeric characters, underscores, and dashes.
+
+{{% alert title="Important" color="warning" %}}
+It is strongly recommended to give every execution a new instance ID rather than reusing an old one. See [Implications of instance ID reuse]({{% ref "workflow-features-concepts.md#implications-of-instance-id-reuse" %}}). An instance ID can only be reused once the existing workflow with that ID, and every child workflow it created (checked recursively), has reached a terminal state (`COMPLETED`, `FAILED`, or `TERMINATED`). Otherwise the request fails with HTTP `500` and error code `ERR_START_WORKFLOW`, and the error message names the workflow that is not yet terminal. SDK workflow clients get the gRPC `AlreadyExists` status code instead, so they can detect the conflict without parsing the message. To free up an instance ID unconditionally, first purge the workflow using the [purge API]({{% ref "workflow_api.md#purge-workflow-request" %}}). See [workflow identity]({{% ref "workflow-features-concepts.md#workflow-identity" %}}) for more details.
+{{% /alert %}}
 
 ### URL parameters
 
@@ -32,6 +37,7 @@ Parameter | Description
 `workflowComponentName` | Use `dapr` for Dapr Workflows
 `workflowName` | Identify the workflow type
 `instanceID` | (Optional) Unique value created for each run of a specific workflow
+`appID` | (Optional) App ID of the application that should host the workflow instance. Defaults to the local app. The target app must be in the same namespace and its [workflow access policy]({{% ref workflow-access-policy %}}) governs whether the call is permitted.
 
 ### Request content
 
@@ -43,7 +49,7 @@ Code | Description
 ---- | -----------
 `202`  | Accepted
 `400`  | Request was malformed
-`500`  | Request formatted correctly, error in dapr code
+`500`  | Request formatted correctly, error in dapr code. This includes error code `ERR_START_WORKFLOW` when a workflow with the given instance ID already exists and is not yet reusable (it, or one of its child workflows, is not in a terminal state)
 
 ### Response content
 
@@ -76,6 +82,7 @@ Parameter | Description
 --------- | -----------
 `workflowComponentName` | Use `dapr` for Dapr Workflows
 `instanceId` | Unique value created for each run of a specific workflow
+`appID` | (Optional) App ID of the application hosting the workflow instance. Defaults to the local app. The target app must be in the same namespace and its [workflow access policy]({{% ref workflow-access-policy %}}) governs whether the call is permitted.
 
 ### HTTP response codes
 
@@ -108,6 +115,7 @@ Parameter | Description
 --------- | -----------
 `workflowComponentName` | Use `dapr` for Dapr Workflows
 `instanceId` | Unique value created for each run of a specific workflow
+`appID` | (Optional) App ID of the application hosting the workflow instance. Defaults to the local app. The target app must be in the same namespace and its [workflow access policy]({{% ref workflow-access-policy %}}) governs whether the call is permitted.
 `eventName` | The name of the event to raise
 
 ### HTTP response codes
@@ -136,6 +144,7 @@ Parameter | Description
 --------- | -----------
 `workflowComponentName` | Use `dapr` for Dapr Workflows
 `instanceId` | Unique value created for each run of a specific workflow
+`appID` | (Optional) App ID of the application hosting the workflow instance. Defaults to the local app. The target app must be in the same namespace and its [workflow access policy]({{% ref workflow-access-policy %}}) governs whether the call is permitted.
 
 ### HTTP response codes
 
@@ -163,6 +172,7 @@ Parameter | Description
 --------- | -----------
 `workflowComponentName` | Use `dapr` for Dapr Workflows
 `instanceId` | Unique value created for each run of a specific workflow
+`appID` | (Optional) App ID of the application hosting the workflow instance. Defaults to the local app. The target app must be in the same namespace and its [workflow access policy]({{% ref workflow-access-policy %}}) governs whether the call is permitted.
 
 ### HTTP response codes
 
@@ -194,6 +204,7 @@ Parameter | Description
 --------- | -----------
 `workflowComponentName` | Use `dapr` for Dapr Workflows
 `instanceId` | Unique value created for each run of a specific workflow
+`appID` | (Optional) App ID of the application hosting the workflow instance. Defaults to the local app. The target app must be in the same namespace and its [workflow access policy]({{% ref workflow-access-policy %}}) governs whether the call is permitted.
 
 ### HTTP response codes
 
@@ -221,6 +232,7 @@ Parameter | Description
 --------- | -----------
 `workflowComponentName` | Use `dapr` for Dapr Workflows
 `instanceId` | Unique value created for each run of a specific workflow
+`appID` | (Optional) App ID of the application hosting the workflow instance. Defaults to the local app. The target app must be in the same namespace and its [workflow access policy]({{% ref workflow-access-policy %}}) governs whether the call is permitted.
 
 ### HTTP response codes
 
@@ -250,3 +262,11 @@ The API call will provide a JSON response similar to this:
 Parameter | Description
 --------- | -----------
 `runtimeStatus` | The status of the workflow instance. Values include: `"RUNNING"`, `"COMPLETED"`, `"CONTINUED_AS_NEW"`, `"FAILED"`, `"CANCELED"`, `"TERMINATED"`, `"PENDING"`, `"SUSPENDED"`  
+
+The `properties` map does not include `dapr.workflow.output` when `runtimeStatus` is `"FAILED"`. A failed workflow has no successful output. Instead, the `properties` map carries the failure in these keys:
+
+Parameter | Description
+--------- | -----------
+`dapr.workflow.failure.error_type` | The error type for a workflow with `runtimeStatus` `"FAILED"`.
+`dapr.workflow.failure.error_message` | The error message for a workflow with `runtimeStatus` `"FAILED"`.
+`dapr.workflow.failure.stack_trace` | The stack trace for a workflow with `runtimeStatus` `"FAILED"`, when available.

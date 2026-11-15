@@ -34,8 +34,12 @@ These YAML files adhere to the generic [Dapr component schema]({{% ref "componen
 
 It is important to understand that the component spec values, particularly the spec `metadata`, can change between components of the same component type, for example between different state stores, and that some design-time spec values can be overridden at runtime when making requests to a component's API. As a result, it is strongly recommended to review a [component's specs]({{% ref "components-reference" %}}), paying particular attention to the sample payloads for requests to set the metadata used to interact with the component.
 
+{{% alert title="Tip" color="primary" %}}
+For local development, the [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) has a component builder that guides you through creating a component YAML file for any component type, so you don't have to write the spec by hand. The dashboard also shows which components each running app has loaded, which helps to confirm that Dapr picked up your component files.
+{{% /alert %}}
+
 The diagram below shows some examples of the components for each component type
-<img src="/images/concepts-components.png" width=1200>
+{{< diagram name="components-concept" width="80" >}}
 
 ## Built-in and pluggable components
 
@@ -54,11 +58,15 @@ For more information read [Pluggable components overview]({{% ref "pluggable-com
 
 ## Hot Reloading
 
-With the [`HotReload` feature enabled]({{% ref "support-preview-features" %}}), components are able to be "hot reloaded" at runtime.
+Since Dapr v1.18, components are "hot reloaded" at runtime by default. To opt out, disable the `HotReload` feature in the [Dapr application configuration]({{% ref "preview-features.md" %}}).
 This means that you can update component configuration without restarting the Dapr runtime.
 Component reloading occurs when a component resource is created, updated, or deleted, either in the Kubernetes API or in self-hosted mode when a file is changed in the `resources` directory.
 When a component is updated, the component is first closed, and then reinitialized using the new configuration.
 The component is unavailable for a short period of time during reload and reinitialization.
+
+Hot reloading also extends to [Configuration]({{% ref "configuration-overview.md" %}}), [Resiliency]({{% ref "resiliency-overview.md" %}}), and HTTPEndpoint resources.
+Changes to these resource types trigger a graceful restart of the Dapr sidecar (via SIGHUP) to apply the new configuration. SIGHUP is not supported on Windows.
+See [Updating resources]({{% ref "component-updates.md" %}}) for more details.
 
 ## Available component types
 
@@ -126,6 +134,20 @@ Dapr provides developers a way to abstract interactions with large language mode
 
 - [List of supported conversation components]({{% ref supported-conversation %}})
 - [Conversation implementations](https://github.com/dapr/components-contrib/tree/main/conversation)
+
+### Search
+
+[Search]({{% ref search-overview %}}) components are used to index, retrieve, and query documents in full-text search engines.
+
+- [List of supported search components]({{% ref supported-search %}})
+- [Search implementations](https://github.com/dapr/components-contrib/tree/main/search)
+
+### Vector
+
+[Vector]({{% ref vector-overview %}}) components are used to store pre-embedded vectors and run similarity queries against vector databases.
+
+- [List of supported vector components]({{% ref supported-vector %}})
+- [Vector implementations](https://github.com/dapr/components-contrib/tree/main/vector)
 
 ### Middleware
 

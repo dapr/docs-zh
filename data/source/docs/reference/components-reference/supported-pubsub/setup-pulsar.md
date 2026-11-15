@@ -78,7 +78,8 @@ The above example uses secrets as plain strings. It is recommended to use a [sec
 | Field              | Required | Details | Example |
 |--------------------|:--------:|---------|---------|
 | host               | Y  | Address of the Pulsar broker. Default is `"localhost:6650"` | `"localhost:6650"` OR `"http://pulsar-pj54qwwdpz4b-pulsar.ap-sg.public.pulsar.com:8080"`|
-| enableTLS          | N  | Enable TLS.  Default: `"false"` | `"true"`, `"false"` |
+| listenerName       | N  | Selects which of a broker's [advertised listeners](https://pulsar.apache.org/docs/3.0.x/concepts-multiple-advertised-listeners/) the client connects through, for brokers that expose more than one network endpoint (for example separate internal and external addresses). The value is a single listener **name** that must match one the broker operator defined in its `advertisedListeners` configuration — it is *not* the `<name>:pulsar://<host>:<port>` address map, which is configured on the broker, not in Dapr. Listener names are chosen by the operator; `internal` and `external` are common conventions rather than a fixed set of values. Default: `""` (no listener name is sent and the broker's default listener is used, so behavior is unchanged). | `"external"` |
+| enableTLS          | N  | Verifies the broker's certificate when set to `"true"`. Setting this does not switch the connection to TLS by itself. Use a TLS scheme in `host` (e.g. `pulsar+ssl://broker:6651`) to actually connect over TLS. Without this, `host` defaults to plaintext `pulsar://`. The broker must also have TLS configured. Default: `"false"` | `"true"`, `"false"` |
 | tenant             | N  | The topic tenant within the instance. Tenants are essential to multi-tenancy in Pulsar, and spread across clusters.  Default: `"public"` | `"public"` |
 | consumerID         | N  | Used to set the subscription name or consumer ID.  | Can be set to string value (such as `"channel1"` in the example above) or string format value (such as `"{podName}"`, etc.). [See all of template tags you can use in your component metadata.]({{% ref "component-schema.md#templated-metadata-values" %}})
 | namespace          | N  | The administrative unit of the topic, which acts as a grouping mechanism for related topics.  Default: `"default"` | `"default"`
@@ -86,14 +87,18 @@ The above example uses secrets as plain strings. It is recommended to use a [sec
 | disableBatching | N | disable batching.When batching enabled default batch delay is set to 10 ms and default batch size is 1000 messages,Setting `disableBatching: true` will make the producer to send messages individually. Default: `"false"` | `"true"`, `"false"`|
 | receiverQueueSize | N | Sets the size of the consumer receiver queue. Controls how many messages can be accumulated by the consumer before it is explicitly called to read messages by Dapr. Default: `"1000"` | `"1000"` |
 | redeliveryDelay | N | Delay before redelivering a message that was not acknowledged by the app. Default: `"30s"` | `"30s"`, `"200ms"` |
+| redeliveryDelay | N | Delay before redelivering a message that was not acknowledged by the app. Default: `"30s"` | `"30s"`, `"200ms"` |
 | batchingMaxPublishDelay | N | batchingMaxPublishDelay set the time period within which the messages sent will be batched,if batch messages are enabled. If set to a non zero value, messages will be queued until this time interval or  batchingMaxMessages (see below) or  batchingMaxSize (see below). There are two valid formats, one is the fraction with a unit suffix format, and the other is the pure digital format that is processed as milliseconds. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h". Default: `"10ms"` | `"10ms"`, `"10"`|
 | batchingMaxMessages | N | batchingMaxMessages set the maximum number of messages permitted in a batch.If set to a value greater than 1, messages will be queued until this threshold is reached or  batchingMaxSize (see below) has been reached or the batch interval has elapsed. Default: `"1000"` | `"1000"`|
 | batchingMaxSize | N | batchingMaxSize sets the maximum number of bytes permitted in a batch. If set to a value greater than 1, messages will be queued until this threshold is reached or batchingMaxMessages (see above) has been reached or the batch interval has elapsed. Default: `"128KB"` | `"131072"`|
+| compressionType | N | Sets the compression type for messages sent by the producer. Default: `"none"` | `"none"`, `"lz4"`, `"zlib"`, `"zstd"` |
+| compressionLevel | N | Sets the compression level used when `compressionType` is enabled. Default: `"default"` | `"default"`, `"faster"`, `"better"` |
 | <topic-name>.jsonschema          | N  | Enforces JSON schema validation for the configured topic. When CloudEvents wrapping is enabled (the default), the schema registered with the Pulsar Schema Registry is a CloudEvents envelope JSON schema containing the provided schema as the `data` field. See [Publishing & subscribing messages with Cloudevents]({{% ref pubsub-cloudevents.md %}})| |
 | <topic-name>.avroschema          | N  | Enforces Avro schema validation for the configured topic. When CloudEvents wrapping is enabled (the default), the schema registered with the Pulsar Schema Registry is a CloudEvents envelope Avro schema containing the provided schema as the `data` field. See [Publishing & subscribing messages with Cloudevents]({{% ref pubsub-cloudevents.md %}}) | |
 | <topic-name>.rawschema          | N  | When set to `"true"`, registers the raw message schema (Avro or JSON) directly with the Pulsar Schema Registry instead of wrapping it in a CloudEvents envelope. Use this for topics that exclusively receive raw payloads. Callers must also set the publisher request metadata `rawPayload=true`. See [Publishing & subscribing messages without CloudEvents]({{% ref pubsub-raw.md %}}). Default: `"false"` | `"true"`, `"false"` |
 | compressionType | N | Sets the compression type for messages sent by the producer. Default: `"none"` | `"none"`, `"lz4"`, `"zlib"`, `"zstd"` |
 | compressionLevel | N | Sets the compression level used when `compressionType` is enabled. Default: `"default"` | `"default"`, `"faster"`, `"better"` |
+| <topic-name>.rawschema          | N  | Registers the provided Avro or JSON schema as-is instead of wrapping it in a CloudEvents envelope schema. Default: `"false"` | `"true"`, `"false"` |
 | publicKey          | N  | A public key to be used for publisher and consumer encryption. Value can be one of two options: file path for a local PEM cert, or the cert data string value  |
 | privateKey          | N  | A private key to be used for consumer encryption. Value can be one of two options: file path for a local PEM cert, or the cert data string value  |
 | keys          | N  | A comma delimited string containing names of [Pulsar session keys](https://pulsar.apache.org/docs/3.0.x/security-encryption/#how-it-works-in-pulsar). Used in conjunction with `publicKey` for publisher encryption |
@@ -101,6 +106,8 @@ The above example uses secrets as plain strings. It is recommended to use a [sec
 | subscribeType | N | Pulsar supports four kinds of [subscription types](https://pulsar.apache.org/docs/3.0.x/concepts-messaging/#subscription-types). Default: `"shared"` | `"shared"`, `"exclusive"`, `"failover"`, `"key_shared"`|
 | subscribeInitialPosition | N | Subscription position is the initial position which the cursor is set when start consuming. Default: `"latest"` | `"latest"`, `"earliest"` |
 | subscribeMode | N | Subscription mode indicates the cursor persistence, durable subscription retains messages and persists the current position. Default: `"durable"` | `"durable"`, `"non_durable"` |
+| topicsPattern | N | A regular expression used to subscribe to all topics whose name matches the pattern within the configured `tenant` and `namespace`, instead of a single explicit topic. When set, it takes precedence over the subscription's topic and Pulsar automatically discovers new matching topics over time (see `autoDiscoveryPeriod`). Can be set at the component level (applies to all subscriptions) or overridden per subscription via subscription request metadata. See [Subscribe to multiple topics with a pattern](#subscribe-to-multiple-topics-with-a-pattern). Default: `""` | `"orders-.*"`, `"event-.+-v2"` |
+| autoDiscoveryPeriod | N | When `topicsPattern` is set, controls how often Pulsar re-evaluates the pattern to pick up newly created (or removed) matching topics. The component default is `"0"`, which uses the Pulsar client's own default interval (currently 1m). Has no effect unless `topicsPattern` is set. Can be overridden per subscription via subscription request metadata. Default: `"0"` | `"30s"`, `"5m"` |
 | partitionKey | N | Sets the key of the message for routing policy. Default: `""` | |
 | `maxConcurrentHandlers` | N  | Defines the maximum number of concurrent message handlers in `async` process mode. A fixed worker pool of this size processes messages concurrently. When all workers are busy, backpressure is applied. A value of `0` falls back to the default. Default: `100` | `10`
 | replicateSubscriptionState | N | Enable replication of subscription state across geo-replicated Pulsar clusters. Default: `"false"` | `"true"`, `"false"` |
@@ -376,9 +383,49 @@ spec:
 
 
 
+### Subscribe to multiple topics with a pattern
+
+By default, a Dapr subscription maps to a single explicit Pulsar topic. Setting the `topicsPattern` metadata field instead subscribes a single consumer to **every topic whose name matches a regular expression** within the configured `tenant` and `namespace`. This is useful when topics are created dynamically, or when a service needs to consume a family of related topics (for example, one topic per tenant) without declaring each one individually.
+
+When `topicsPattern` is set:
+
+- It takes precedence over the subscription's explicit topic.
+- The pattern is a regular expression (not a shell-style glob) and is matched against the local topic name within the resolved `persistent`/`non-persistent` `tenant`/`namespace` scope. For example, with the default `public` tenant and `default` namespace, `orders-.*` matches `persistent://public/default/orders-eu`, `persistent://public/default/orders-us`, and so on.
+- Pulsar periodically re-evaluates the pattern and **automatically discovers newly created (or removed) matching topics**. Use `autoDiscoveryPeriod` to control how often this happens; a value of `"0"` uses the Pulsar client's default interval.
+- Each message is delivered to your application tagged with the **concrete topic it arrived on**, not the pattern. Routing and observability therefore see the real topic name.
+
+{{% alert title="Note" color="primary" %}}
+Per-topic schema validation (`<topic-name>.avroschema` / `<topic-name>.jsonschema`) is not applied to pattern subscriptions, because the set of matching topics is not known in advance. Pattern matching is scoped to a single `tenant`/`namespace`, which mirrors Pulsar's own [pattern subscription](https://pulsar.apache.org/docs/3.0.x/client-libraries-go/#use-regular-expressions) behavior.
+{{% /alert %}}
+
+The following example subscribes to all topics beginning with `orders-` and checks for new matching topics every 30 seconds:
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: pulsar-pubsub
+spec:
+  type: pubsub.pulsar
+  version: v1
+  metadata:
+  - name: host
+    value: "localhost:6650"
+  - name: tenant
+    value: "public"
+  - name: namespace
+    value: "default"
+  - name: topicsPattern
+    value: "orders-.*"
+  - name: autoDiscoveryPeriod
+    value: "30s"
+```
+
+`topicsPattern` and `autoDiscoveryPeriod` can also be set per subscription via subscription request metadata, which overrides the component-level values for that subscription.
+
 ### Enabling message delivery retries
 
-The Pulsar pub/sub component has no built-in support for retry strategies. This means that sidecar sends a message to the service only once and is not retried in case of failures. To make Dapr use more sophisticated retry policies, you can apply a [retry resiliency policy]({{% ref "retries-overview.md" %}}) to the Pulsar pub/sub component. Note that it will be the same Dapr sidecar retrying the redelivery the message to the same app instance and not other instances.
+The Pulsar pub/sub component has no built-in support for retry strategies. This means that sidecar sends a message to the service only once and is not retried in case of failures. To make Dapr use more spohisticated retry policies, you can apply a [retry resiliency policy]({{% ref "retries-overview.md" %}}) to the Pulsar pub/sub component. This retry policy will work on top of whatever is set for the `sendTimeoutMs` on the Pulsar message broker, which is by default [30 seconds](https://pulsar.apache.org/reference/#/4.2.x/client/client-configuration-producer?id=sendtimeoutms). Note that it will be the same Dapr sidecar retrying the redelivery the message to the same app instance and not other instances.
 
 ### Delay queue
 

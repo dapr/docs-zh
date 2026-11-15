@@ -12,7 +12,7 @@ In this guide, you'll learn the basics of using the key/value state API to allow
 
 The code example below _loosely_ describes an application that processes orders with an order processing service which has a Dapr sidecar. The order processing service uses Dapr to store state in a Redis state store.
 
-<img src="/images/building-block-state-management-example.png" width=1000 alt="Diagram showing state management of example service">
+{{< diagram name="state-management-example" width="55" >}}
 
 ## Set up a state store
 
@@ -60,6 +60,10 @@ See [how to setup different state stores on Kubernetes]({{% ref "setup-state-sto
 
 {{% alert title="Important" color="warning" %}}
 Set an `app-id`, as the state keys are prefixed with this value. If you don't set an `app-id`, one is generated for you at runtime. The next time you run the command, a new `app-id` is generated and you will no longer have access to the previously saved state.
+{{% /alert %}}
+
+{{% alert title="Tip" color="primary" %}}
+When running locally, you can use the [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) to verify the results of the examples on this page. The dashboard lets you browse the records in your state store (including the `app-id` key prefixes), decode base64-encoded values, and add or delete records without writing any code.
 {{% /alert %}}
 
 ## Save and retrieve a single state

@@ -22,7 +22,7 @@ Most observability tools support OTEL, including:
 
 The following diagram demonstrates how Dapr (using OTEL and Zipkin protocols) integrates with multiple observability tools.
 
-<img src="/images/observability-tracing.png" width=1000 alt="Distributed tracing with Dapr">
+{{< diagram observability-tracing >}}
 
 ## Scenarios
 
@@ -66,6 +66,8 @@ You must propagate the headers from `service A` to `service B`. For example: `In
 ##### Pub/sub messages
 
 Dapr generates the trace headers in the published message topic. For `rawPayload` messages, it is possible to specify the `traceparent` header to propagate the tracing information. These trace headers are propagated to any services listening on that topic.
+
+From Dapr 1.19, when a delivered message carries no trace context (no `traceparent` and no legacy `traceid`), Dapr starts a new root span for the delivery and sends its `traceparent` header to the app. This covers, for example, messages published outside Dapr or re-queued from a dead letter topic. Before 1.19, these deliveries had no span and an empty `traceparent`, so they did not show up in traces. Nothing changes when tracing is disabled.
 
 #### Propagating multiple different service calls
 

@@ -30,6 +30,8 @@ spec:
     value: "true"
   - name: enableTLS
     value: "false"
+  - name: insecureSkipTLSVerify
+    value: "false"
 ```
 
 {{% alert title="Warning" color="warning" %}}
@@ -45,11 +47,14 @@ The above example uses secrets as plain strings. It is recommended to use a secr
 | redisUsername      | N        | Username for Redis host. Defaults to empty. Make sure your redis server version is 6 or above, and have created acl rule correctly. | `""`, `"default"`
 | consumerID         | N        | The consumer group ID.  | Can be set to string value (such as `"channel1"` in the example above) or string format value (such as `"{podName}"`, etc.). [See all of template tags you can use in your component metadata.]({{% ref "component-schema.md#templated-metadata-values" %}})
 | useEntraID | N | Implements EntraID support for Azure Cache for Redis. Before enabling this: <ul><li>The `redisHost` name must be specified in the form of `"server:port"`</li><li>TLS must be enabled</li></ul> Learn more about this setting under [Create a Redis instance > Azure Cache for Redis]({{% ref "#setup-redis" %}}) | `"true"`, `"false"` |
+| useOIDC | N | Authenticate using OpenID Connect with the `private_key_jwt` client authentication method (RFC 7523). The OAuth2 access token obtained from the identity provider is used as the password for the Redis `AUTH` command and refreshed automatically before expiry. Must not be combined with `redisPassword` or `useEntraID`. This component supports the full list of `oidc*` metadata fields documented in the [Redis state store documentation]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}}) | `"true"`, `"false"` |
 | enableTLS          | N        | If the Redis instance supports TLS with public certificates, can be configured to be enabled or disabled. Defaults to `"false"` | `"true"`, `"false"` |
+| insecureSkipTLSVerify | N     | Skip TLS certificate verification when `enableTLS` is `"true"`. Only use for testing. Defaults to `"false"` | `"true"`, `"false"` |
 | clientCert        | N        | The content of the client certificate, used for Redis instances that require client-side certificates. Must be used with `clientKey` and `enableTLS` must be set to true. It is recommended to use a secret store as described [here]({{% ref component-secrets.md %}})   | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
 | clientKey        | N        | The content of the client private key, used in conjunction with `clientCert` for authentication. It is recommended to use a secret store as described [here]({{% ref component-secrets.md %}}) | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
-| redeliverInterval  | N        | The interval between checking for pending messages to redeliver, as a number of milliseconds. Defaults to `"15000"` (15 seconds). `"0"` disables redelivery. | `"5000"`, `"30000"` |
-| processingTimeout  | N        | The amount time that a message must be pending before attempting to redeliver it. Can be either a Go duration string (for example "ms", "s", "m") or a milliseconds number. Defaults to `"60s"`. `"0"` disables redelivery. | `"60s"`, `"600000"` |
+| redeliverInterval  | N        | The interval between checking for pending messages to redeliver. Can be either a Go duration string (for example "ms", "s", "m") or a milliseconds number. Defaults to `"15s"`. `"0"` disables redelivery. | `"30s"`, `"30000"` |
+| entryKeepAliveInterval | N    | The interval at which the sidecar resets the idle time of the pending messages it is holding, so that messages it has read but not finished processing are not redelivered while still in flight. Defaults to half of `processingTimeout`. `"0"` disables the keep-alive, in which case time spent waiting for a free worker counts towards `processingTimeout`. | `"30s"` |
+| processingTimeout  | N        | The amount time that a message must be pending before attempting to redeliver it. Can be either a Go duration string (for example "ms", "s", "m") or a milliseconds number. Defaults to `"60s"`. `"0"` disables redelivery. When redelivery is enabled, this is also the timeout for the app's handler. From 1.18.5, it also bounds inbound resiliency retries: when it expires, Dapr stops retrying and, if the subscription has a [dead-letter topic]({{% ref pubsub-deadletter.md %}}), sends the message there. | `"60s"`, `"600000"` |
 | queueDepth         | N        | The size of the message queue for processing. Defaults to `"100"`. | `"1000"`
 | concurrency        | N        | The number of concurrent workers that are processing messages. Defaults to `"10"`. | `"15"`
 | redisType        | N        | The type of redis. There are two valid values, one is `"node"` for single node mode, the other is `"cluster"` for redis cluster mode. Defaults to `"node"`. | `"cluster"`
@@ -73,9 +78,18 @@ The above example uses secrets as plain strings. It is recommended to use a secr
 | maxLenApprox        | N        | Maximum number of items inside a stream.The old entries are automatically evicted when the specified length is reached, so that the stream is left at a constant size. Defaults to unlimited. Cannot be used together with streamTTL; only one stream trimming strategy can be active at a time. | `"10000"`
 | streamTTL        | N        | TTL duration for stream entries. Entries older than this duration will be evicted. This is an approximate value, as it's implemented using Redis stream's `MINID` trimming with the '~' modifier. The actual retention may include slightly more entries than strictly defined by the TTL, as Redis optimizes the trimming operation for efficiency by potentially keeping some additional entries. Cannot be used together with maxLenApprox; only one stream trimming strategy can be active at a time. | `"30d"`
 
+## Supported servers and versions
+
+Dapr's Redis pub/sub component is tested against the following Redis and Valkey versions:
+
+| Server | Versions |
+|--------|----------|
+| Redis | 6.x, 7.x |
+| [Valkey](https://valkey.io) | 8.x, 9.x |
+
 ## Create a Redis instance
 
-Dapr can use any Redis instance - containerized, running on your local dev machine, or a managed cloud service, provided the version of Redis is 5.x or 6.x.
+Dapr can use any Redis instance - containerized, running on your local dev machine, or a managed cloud service. The component has been tested against Redis 6.x and 7.x, and [Valkey](https://valkey.io) 8.x and 9.x.
 
 {{< tabpane text=true >}}
 

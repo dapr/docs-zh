@@ -19,9 +19,11 @@ Some scenarios where this is useful include:
 - Implementation of a workflow spans different programming languages based on team expertise or existing codebases.
 - Different team boundaries or microservice ownership.
 
-<img src="/images/workflow-overview/workflow-multi-app-complex.png" width=800 alt="Diagram showing multi-application complex workflow">
+The diagram below shows an example scenario of a complex workflow that orchestrates across multiple applications that are written in different languages.
 
-The diagram below shows an example scenario of a complex workflow that orchestrates across multiple applications that are written in different languages. Each applications' main steps and activities are:
+{{< diagram workflow-multi-app-complex >}}
+
+Each applications' main steps and activities are:
 
 • **App1: Main Workflow Service** - Top-level orchestrator that coordinates the entire ML pipeline
 - Starts the process
@@ -68,6 +70,7 @@ The final history of the workflow will be saved by the app ID that hosts the ver
 {{% alert title="Restrictions" color="primary" %}}
 Like other API building blocks and resources in Dapr, workflows are scoped to a single namespace.
 This means that all app IDs involved in a multi-application workflow must be in the same namespace.
+Cross-namespace workflows are not supported: any workflow or activity call from a caller in a different namespace than the target is always denied.
 Similarly, all app IDs must use the same workflow (or actor) state store.
 Finally, the target app ID must have the activity or child workflow defined and registered, otherwise the parent workflow retries indefinitely.
 {{% /alert %}}
@@ -94,6 +97,8 @@ When calling multi-application activities or child workflows:
 - If the target application exists but doesn't contain the specified activity or workflow, the call will return an error.
 - Standard workflow retry policies apply to multi-application calls.
 
+[Client operations](#managing-workflows-across-applications) fail at once when no workflow worker is connected for the target application, local or remote, with the error `no workflow worker is connected for app '<app-id>'`. This tells you to start the app, or wait for its worker to connect, instead of returning an actor routing error such as `did not find address for actor`. Starting a workflow no longer retries in this case, so the error comes about 20 seconds sooner. The original error stays wrapped, so existing error code checks still match.
+
 It is paramount that there is coordination between the teams owning the different app IDs to ensure that the activities and child workflows are defined and available when needed.
 
 ## Durable Activity Results
@@ -103,13 +108,13 @@ It is therefore undesirable to execute these activities more than once for the s
 Before 1.17 in multi-application scenarios, Activities would publish responses over a network call to the other application which is hosting the owning Workflow.
 In the case where the hosting workflow application is down or otherwise unreachable, the result would be lost and the Activity would be retried, leading to duplicate execution of the Activity.
 
-In 1.17, enabling the [`WorkflowsRemoteActivityReminder feature gate]({{% ref "support-preview-features.md" %}}) will make the activity result be sent to the owning workflow application with a [reminder]({{% ref "workflow-features-concepts.md#durable-timers" %}}) in the event that the workflow application is offline or unreachable, ensuring that the result is not lost and duplicate execution is avoided.
-This option should be enabled by all users who are using Dapr version 1.17 on all applications.
-It has been _**disabled** by default_ for backwards compatibility between Dapr versions, but will be enabled by default in a future release.
+In 1.17, enabling the [`WorkflowsRemoteActivityReminder` feature gate]({{% ref "support-preview-features.md" %}}) will make the activity result be sent to the owning workflow application with a [reminder]({{% ref "workflow-features-concepts.md#durable-timers" %}}) in the event that the workflow application is offline or unreachable, ensuring that the result is not lost and duplicate execution is avoided.
+This option should be enabled by all users who have all applications running Dapr version 1.17 or later.
+As of 1.18 it is _**enabled** by default_. In 1.17 it was disabled by default for backwards compatibility between Dapr versions, and can be opted into via the feature gate.
 
 ## Multi-application activity example
 
-<img src="/images/workflow-overview/workflow-multi-app-callactivity.png" width=800 alt="Diagram showing multi-application call activity workflow pattern">
+{{< diagram name="workflow-multi-app-activity" width="75" >}}
 
 The following example shows how to execute the activity `ActivityA` on the target app `App2`.
 
@@ -188,7 +193,7 @@ public sealed class BusinessWorkflow : Workflow<string, string>
 
 ## Multi-application child workflow example
 
-<img src="/images/workflow-overview/workflow-multi-app-child-workflow.png" width=800 alt="Diagram showing multi-application child workflow pattern">
+{{< diagram name="workflow-multi-app-child-workflow" width="70" >}}
 
 The following example shows how to execute the child workflow `Workflow2` on the target app `App2`.
 
@@ -243,6 +248,170 @@ public sealed class BusinessWorkflow : Workflow<string, string>
 
 {{< /tabpane >}}
 
+## Managing workflows across applications
+
+The examples above compose work across applications from *inside* a running workflow. [Client-level operations]({{% ref howto-manage-workflow.md %}}) can cross applications too: an application that holds nothing but a workflow client can start, inspect and control an instance owned by another application in the same namespace.
+
+This means the application that owns a workflow does not have to build and maintain its own API for other teams to drive it. An operations tool can terminate a stuck order by its instance ID, a support tool can raise an approval event on it, and a front-end service can start a workflow it does not host, all through the standard workflow API. The owning application stays in control: its [workflow access policy]({{% ref workflow-access-policy.md %}}) decides which callers may perform which operation on which workflow. See the [WorkflowAccessPolicy spec]({{% ref workflow-access-policy-schema.md %}}) for the resource format.
+
+### When to use it
+
+- **Client-level operations (this section)** — the caller is not inside a workflow. An HTTP handler, an operations tool acting on a known instance ID, or a service that starts work it does not host.
+- **[Child workflows and activities](#multi-application-activity-example)** — the caller *is* a workflow, composing another application's work into its own execution and awaiting the result.
+
+### How it works
+
+Take an application `app-a` that terminates the workflow instance `order-1`, which is owned by `app-b`:
+
+{{< diagram workflow-cross-app-client >}}
+
+`app-a` hosts no workflow code at all. It names the owning application, and its sidecar does the rest: it stamps `app-a` as the caller, and `app-b`'s sidecar checks that identity against its own [access policy]({{% ref workflow-access-policy.md %}}) before the operation reaches the instance. Only `app-b` ever runs the workflow.
+
+Because the caller's identity is what the policy is evaluated against, [mTLS]({{% ref mtls.md %}}) must be enabled for cross-application enforcement. With a policy loaded and mTLS off, the target cannot verify who is calling and denies the request.
+
+Leaving the app ID unset, or setting it to the calling application's own ID, is the ordinary local operation. Against a runtime that predates this feature the app ID is ignored and the operation applies to the local application.
+
+Start, get, raise event, pause, resume, terminate, purge and rerun can target another application. Rerun is available through the SDK workflow clients only, not the HTTP or gRPC workflow API. Listing instance IDs and reading instance history always apply to the local application.
+
+### HTTP
+
+Add the `appID` query parameter to any call in the [workflow API reference]({{% ref workflow_api.md %}}):
+
+```bash
+# Start a workflow hosted by app2
+curl -X POST "http://localhost:3500/v1.0-beta1/workflows/dapr/OrderWF/start?appID=app2&instanceID=order-1"
+
+# Inspect it, raise an event, and terminate it on app2
+curl "http://localhost:3500/v1.0-beta1/workflows/dapr/order-1?appID=app2"
+curl -X POST "http://localhost:3500/v1.0-beta1/workflows/dapr/order-1/raiseEvent/approval?appID=app2" -d '"approved"'
+curl -X POST "http://localhost:3500/v1.0-beta1/workflows/dapr/order-1/terminate?appID=app2"
+```
+
+### gRPC
+
+Set the `app_id` field (JSON name `appID`) on the workflow request messages: `StartWorkflowRequest`, `GetWorkflowRequest`, `TerminateWorkflowRequest`, `RaiseEventWorkflowRequest`, `PauseWorkflowRequest`, `ResumeWorkflowRequest` and `PurgeWorkflowRequest`. Each corresponds to an operation in the [workflow API reference]({{% ref workflow_api.md %}}): [start]({{% ref "workflow_api.md#start-workflow-request" %}}), [get]({{% ref "workflow_api.md#get-workflow-request" %}}), [terminate]({{% ref "workflow_api.md#terminate-workflow-request" %}}), [raise event]({{% ref "workflow_api.md#raise-event-request" %}}), [pause]({{% ref "workflow_api.md#pause-workflow-request" %}}), [resume]({{% ref "workflow_api.md#resume-workflow-request" %}}) and [purge]({{% ref "workflow_api.md#purge-workflow-request" %}}).
+
+### SDKs
+
+{{< tabpane text=true >}}
+
+{{% tab "Python" %}}
+
+<!--python-->
+
+`app_id` is a keyword-only argument on every client operation.
+
+```python
+instance_id = client.schedule_new_workflow(workflow=order_wf, app_id='app2')
+
+state = client.get_workflow_state(instance_id, app_id='app2')
+client.raise_workflow_event(instance_id, 'approval', data='approved', app_id='app2')
+client.pause_workflow(instance_id, app_id='app2')
+client.resume_workflow(instance_id, app_id='app2')
+client.terminate_workflow(instance_id, app_id='app2')
+client.purge_workflow(instance_id, app_id='app2')
+```
+
+The async client in `dapr.ext.workflow.aio` takes the same argument. [See the Python workflow examples.](https://github.com/dapr/python-sdk/tree/main/examples/workflow)
+
+{{% /tab %}}
+
+{{% tab ".NET" %}}
+
+<!--dotnet-->
+
+Scheduling takes the target through `StartWorkflowOptions`; the other operations take a `targetAppId` argument.
+
+```csharp
+var options = new StartWorkflowOptionsBuilder().WithTargetAppId("app2").Build();
+var instanceId = await client.ScheduleNewWorkflowAsync("OrderWF", input: null, options: options);
+
+var state = await client.GetWorkflowStateAsync(instanceId, "app2");
+await client.RaiseEventAsync(instanceId, "approval", "approved", "app2");
+await client.SuspendWorkflowAsync(instanceId, null, "app2");
+await client.ResumeWorkflowAsync(instanceId, null, "app2");
+await client.TerminateWorkflowAsync(instanceId, null, "app2");
+await client.PurgeInstanceAsync(instanceId, "app2");
+```
+
+{{% /tab %}}
+
+{{% tab "Java" %}}
+
+<!--java-->
+
+Scheduling takes the target through `NewWorkflowOptions`; the other operations have an overload with a trailing `appId`.
+
+```java
+NewWorkflowOptions options = new NewWorkflowOptions().setAppId("app2");
+String instanceId = client.scheduleNewWorkflow(OrderWorkflow.class, options);
+
+WorkflowState state = client.getWorkflowState(instanceId, true, "app2");
+client.raiseEvent(instanceId, "approval", "approved", "app2");
+client.suspendWorkflow(instanceId, null, "app2");
+client.resumeWorkflow(instanceId, null, "app2");
+client.terminateWorkflow(instanceId, null, "app2");
+client.purgeWorkflow(instanceId, "app2");
+```
+
+{{% /tab %}}
+
+{{% tab "Go" %}}
+
+<!--go-->
+
+Each operation has its own app ID option.
+
+```go
+instanceID, err := client.ScheduleWorkflow(ctx, "OrderWF", workflow.WithAppID("app2"))
+
+meta, err := client.FetchWorkflowMetadata(ctx, instanceID, workflow.WithFetchAppID("app2"))
+err = client.RaiseEvent(ctx, instanceID, "approval", workflow.WithRaiseEventAppID("app2"))
+err = client.SuspendWorkflow(ctx, instanceID, "", workflow.WithSuspendAppID("app2"))
+err = client.ResumeWorkflow(ctx, instanceID, "", workflow.WithResumeAppID("app2"))
+err = client.TerminateWorkflow(ctx, instanceID, workflow.WithTerminateAppID("app2"))
+err = client.PurgeWorkflowState(ctx, instanceID, workflow.WithPurgeAppID("app2"))
+```
+
+{{% /tab %}}
+
+{{< /tabpane >}}
+
+{{% alert title="SDK availability" color="warning" %}}
+Client-level cross-application operations require Dapr runtime v1.19 or later, and the SDK support shipping alongside it. The arguments and options shown above are not present in earlier SDK releases: check that your SDK version includes them before using these snippets.
+
+The JavaScript SDK does not support cross-application client operations.
+{{% /alert %}}
+
+The target application's [workflow access policy]({{% ref workflow-access-policy.md %}}) governs whether each operation is permitted, per operation and per workflow name, using the rules defined in the [WorkflowAccessPolicy spec]({{% ref workflow-access-policy-schema.md %}}). Cross-namespace targeting is not supported.
+
+## Security: Workflow access policies
+
+When using multi-application workflows, you may want to restrict which applications can schedule activities or child workflows on a target application. Dapr provides the `WorkflowAccessPolicy` resource for this purpose.
+
+Policies are a pure allow-list and self-calls are always permitted, so the target application does not need to list itself in the `callers` to execute its own activities. The following example of a workflow access policy is applied to the `ml-worker` application. All policies that target a given appID (in this case `ml-worker`) are loaded by the sidecar when the application is instantiated.
+
+This policy allows the `orchestrator-app` application to schedule the `TrainModel` and `ValidateModel` activities on the `ml-worker` application.
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: WorkflowAccessPolicy
+metadata:
+  name: ml-worker-policy
+  namespace: production
+scopes:
+  - ml-worker
+spec:
+  rules:
+    - callers:
+        - appID: orchestrator-app
+      activities:
+        - name: TrainModel
+        - name: ValidateModel
+```
+
+Read [How-To: Apply workflow access policies]({{% ref workflow-access-policy %}}) for more examples and details on the cross-app enforcement model.
+
 ## Related links
 
 - [Try out Dapr Workflows using the quickstart]({{% ref workflow-quickstart.md %}})
@@ -250,7 +419,7 @@ public sealed class BusinessWorkflow : Workflow<string, string>
 - [Workflow API reference]({{% ref workflow_api.md %}})
 - [Multi-application workflows in .NET]({{% ref "dotnet-workflow-multi-app.md" %}})
 - Try out the following examples:
-   - [Python](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
+   - [Python](https://github.com/dapr/python-sdk/tree/main/examples/workflow)
    - [JavaScript](https://github.com/dapr/js-sdk/tree/main/examples/workflow)
    - [.NET](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
    - [Java](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)

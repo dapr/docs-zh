@@ -25,7 +25,8 @@ Select your preferred language-specific Dapr SDK before proceeding with the Quic
 For this example, you will need:
 
 - [Dapr CLI and initialized environment](https://docs.dapr.io/getting-started).
-- [Python 3.7+ installed](https://www.python.org/downloads/).
+- [Python 3.11 or later installed](https://www.python.org/downloads/).
+- [uv](https://docs.astral.sh/uv/getting-started/installation/), the Python package manager that the sample uses.
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -35,7 +36,7 @@ For this example, you will need:
 Clone the [sample provided in the Quickstarts repo](https://github.com/dapr/quickstarts/tree/master/secrets_management/python/sdk).
 
 ```bash
-git clone https://github.com/dapr/quickstarts.git
+git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
 ### Step 2: Retrieve the secret
@@ -49,16 +50,15 @@ cd secrets_management/python/sdk/order-processor
 Install the dependencies:
 
 ```bash
-pip3 install -r requirements.txt
+uv sync
 ```
 
 Run the `order-processor` service alongside a Dapr sidecar.
 
 ```bash
-dapr run --app-id order-processor --resources-path ../../../components/ -- python3 app.py
+dapr run --app-id order-processor --resources-path ../../../components/ -- uv run python app.py
 ```
 
-> **Note**: Since Python3.exe is not defined in Windows, you may need to use `python app.py` instead of `python3 app.py`.
 
 
 #### Behind the scenes
@@ -81,7 +81,7 @@ with DaprClient() as client:
 
 **`local-secret-store.yaml` component**
 
-`DAPR_SECRET_STORE` is defined in the `local-secret-store.yaml` component file, located in [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml):
+`DAPR_SECRET_STORE` is defined in the `local-secret-store.yaml` component file, located in [secrets_management/components](https://github.com/dapr/quickstarts/blob/master/secrets_management/components/local-secret-store.yaml):
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -106,7 +106,7 @@ In the YAML file:
 
 **`secrets.json` file**
 
-`SECRET_NAME` is defined in the `secrets.json` file, located in [secrets_management/python/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/python/sdk/order-processor/secrets.json):
+`SECRET_NAME` is defined in the `secrets.json` file, located in [secrets_management/python/sdk/order-processor](https://github.com/dapr/quickstarts/blob/master/secrets_management/python/sdk/order-processor/secrets.json):
 
 ```json
 {
@@ -141,7 +141,7 @@ For this example, you will need:
 
 ### Step 1: Set up the environment
 
-Clone the [sample provided in the Quickstarts repo](hhttps://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/sdk).
+Clone the [sample provided in the Quickstarts repo](https://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/sdk).
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
@@ -190,7 +190,7 @@ async function main() {
 
 **`local-secret-store.yaml` component**
 
-`DAPR_SECRET_STORE` is defined in the `local-secret-store.yaml` component file, located in [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml):
+`DAPR_SECRET_STORE` is defined in the `local-secret-store.yaml` component file, located in [secrets_management/components](https://github.com/dapr/quickstarts/blob/master/secrets_management/components/local-secret-store.yaml):
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -215,7 +215,7 @@ In the YAML file:
 
 **`secrets.json` file**
 
-`SECRET_NAME` is defined in the `secrets.json` file, located in [secrets_management/javascript/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/sdk/order-processor/secrets.json):
+`SECRET_NAME` is defined in the `secrets.json` file, located in [secrets_management/javascript/sdk/order-processor](https://github.com/dapr/quickstarts/blob/master/secrets_management/javascript/sdk/order-processor/secrets.json):
 
 ```json
 {
@@ -306,7 +306,7 @@ Console.WriteLine($"Fetched Secret: {secretValue}");
 
 **`local-secret-store.yaml` component**
 
-`DAPR_SECRET_STORE` is defined in the `local-secret-store.yaml` component file, located in [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml):
+`DAPR_SECRET_STORE` is defined in the `local-secret-store.yaml` component file, located in [secrets_management/components](https://github.com/dapr/quickstarts/blob/master/secrets_management/components/local-secret-store.yaml):
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -331,7 +331,7 @@ In the YAML file:
 
 **`secrets.json` file**
 
-`SECRET_NAME` is defined in the `secrets.json` file, located in [secrets_management/csharp/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/csharp/sdk/order-processor/secrets.json):
+`SECRET_NAME` is defined in the `secrets.json` file, located in [secrets_management/csharp/sdk/order-processor](https://github.com/dapr/quickstarts/blob/master/secrets_management/csharp/sdk/order-processor/secrets.json):
 
 ```json
 {
@@ -414,7 +414,7 @@ private static final String SECRET_STORE_NAME = "localsecretstore";
 
 **`local-secret-store.yaml` component**
 
-`DAPR_SECRET_STORE` is defined in the `local-secret-store.yaml` component file, located in [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml):
+`DAPR_SECRET_STORE` is defined in the `local-secret-store.yaml` component file, located in [secrets_management/components](https://github.com/dapr/quickstarts/blob/master/secrets_management/components/local-secret-store.yaml):
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -439,7 +439,7 @@ In the YAML file:
 
 **`secrets.json` file**
 
-`SECRET_NAME` is defined in the `secrets.json` file, located in [secrets_management/java/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/java/sdk/order-processor/secrets.json):
+`SECRET_NAME` is defined in the `secrets.json` file, located in [secrets_management/java/sdk/order-processor](https://github.com/dapr/quickstarts/blob/master/secrets_management/java/sdk/order-processor/secrets.json):
 
 ```json
 {
@@ -521,7 +521,7 @@ if secret != nil {
 
 **`local-secret-store.yaml` component**
 
-`DAPR_SECRET_STORE` is defined in the `local-secret-store.yaml` component file, located in [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml):
+`DAPR_SECRET_STORE` is defined in the `local-secret-store.yaml` component file, located in [secrets_management/components](https://github.com/dapr/quickstarts/blob/master/secrets_management/components/local-secret-store.yaml):
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -546,7 +546,7 @@ In the YAML file:
 
 **`secrets.json` file**
 
-`SECRET_NAME` is defined in the `secrets.json` file, located in [secrets_management/go/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/sdk/order-processor/secrets.json):
+`SECRET_NAME` is defined in the `secrets.json` file, located in [secrets_management/go/sdk/order-processor](https://github.com/dapr/quickstarts/blob/master/secrets_management/go/sdk/order-processor/secrets.json):
 
 ```json
 {
@@ -572,7 +572,7 @@ Order-processor output:
 
 We're continuously working to improve our Quickstart examples and value your feedback. Did you find this Quickstart helpful? Do you have suggestions for improvement?
 
-Join the discussion in our [discord channel](https://discord.com/channels/778680217417809931/953427615916638238).
+Join our [Discord Server](https://diagrid.ws/dapr-discord) and share your thoughts.
 
 ## Next steps
 

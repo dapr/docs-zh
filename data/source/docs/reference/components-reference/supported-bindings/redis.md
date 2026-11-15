@@ -28,6 +28,8 @@ spec:
     value: "true"
   - name: enableTLS
     value: "<bool>"
+  - name: insecureSkipTLSVerify
+    value: "<bool>"
 ```
 
 {{% alert title="Warning" color="warning" %}}
@@ -42,7 +44,9 @@ The above example uses secrets as plain strings. It is recommended to use a secr
 | `redisPassword` | N | Output | The Redis password | `"password"` |
 | `redisUsername` | N | Output | Username for Redis host. Defaults to empty. Make sure your redis server version is 6 or above, and have created acl rule correctly. | `"username"` |
 | `useEntraID` | N | Output | Implements EntraID support for Azure Cache for Redis. Before enabling this: <ul><li>The `redisHost` name must be specified in the form of `"server:port"`</li><li>TLS must be enabled</li></ul> Learn more about this setting under [Create a Redis instance > Azure Cache for Redis]({{% ref "#create-a-redis-instance" %}}) | `"true"`, `"false"` |
+| `useOIDC` | N | Output | Authenticate using OpenID Connect with the `private_key_jwt` client authentication method (RFC 7523). The OAuth2 access token obtained from the identity provider is used as the password for the Redis `AUTH` command and refreshed automatically before expiry. Must not be combined with `redisPassword` or `useEntraID`. This component supports the full list of `oidc*` metadata fields documented in the [Redis state store documentation]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}}) | `"true"`, `"false"` |
 | `enableTLS` | N | Output |  If the Redis instance supports TLS with public certificates it can be configured to enable or disable TLS. Defaults to `"false"` | `"true"`, `"false"` |
+| `insecureSkipTLSVerify` | N | Output | Skip TLS certificate verification when `enableTLS` is `"true"`. Only use for testing. Defaults to `"false"` | `"true"`, `"false"` |
 | `clientCert`        | N | Output        | The content of the client certificate, used for Redis instances that require client-side certificates. Must be used with `clientKey` and `enableTLS` must be set to true. It is recommended to use a secret store as described [here]({{% ref component-secrets.md %}})  | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
 | `clientKey`        | N | Output        | The content of the client private key, used in conjunction with `clientCert` for authentication. It is recommended to use a secret store as described [here]({{% ref component-secrets.md %}})  | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
 | `failover`           | N | Output         | Property to enable failover configuration. Needs sentinelMasterName to be set. When enabled, redisHost should contain the sentinel addresses. Defaults to `"false"` | `"true"`, `"false"`
@@ -161,11 +165,18 @@ You can delete a record in Redis using the `delete` operation. Returns success w
 An HTTP 204 (No Content) and empty body is returned if successful.
 
 
+## Supported servers and versions
+
+Dapr's Redis binding component is tested against the following Redis and Valkey versions:
+
+| Server | Versions |
+|--------|----------|
+| Redis | 6.x, 7.x |
+| [Valkey](https://valkey.io) | 8.x, 9.x |
+
 ## Create a Redis instance
 
-Dapr can use any Redis instance - containerized, running on your local dev machine, or a managed cloud service, provided the version of Redis is 5.0.0 or later.
-
-*Note: Dapr does not support Redis >= 7. It is recommended to use Redis 6*
+Dapr can use any Redis instance - containerized, running on your local dev machine, or a managed cloud service.
 
 {{< tabpane text=true >}}
 

@@ -189,7 +189,7 @@ public class DemoWorkflowActivity implements WorkflowActivity {
 }
 ```
 
-[See the Java SDK workflow activity example in context.](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowActivity.java)
+[See the Java SDK workflow activity example in context.](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/ToUpperCaseActivity.java)
 
 {{% /tab %}}
 
@@ -454,7 +454,7 @@ public class DemoWorkflowWorker {
 }
 ```
 
-[See the Java SDK workflow in context.](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowWorker.java)
+[See the Java SDK workflow in context.](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorker.java)
 
 
 {{% /tab %}}
@@ -838,7 +838,7 @@ app.Run();
 
 <!--java-->
 
-[As in the following example](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflow.java), a hello-world application using the Java SDK and Dapr Workflow would include:
+[As in the following example](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorkflow.java), a hello-world application using the Java SDK and Dapr Workflow would include:
 
 - A Java package called `io.dapr.workflows.client` to receive the Java SDK client capabilities.
 - An import of `io.dapr.workflows.Workflow`
@@ -877,7 +877,7 @@ public class DemoWorkflow extends Workflow {
 }
 ```
 
-[See the full Java SDK workflow example in context.](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflow.java)
+[See the full Java SDK workflow example in context.](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorkflow.java)
 
 {{% /tab %}}
 
@@ -1125,26 +1125,44 @@ Because of how replay-based workflows execute, you'll write logic that does thin
 
 {{% /alert %}}
 
-## Run the workflow & inspect the workflow execution with the Diagrid Dashboard
+## Run the workflow & inspect the workflow execution with the Diagrid Dev Dashboard
 
 Start the workflow application via your IDE or the Dapr CLI ([Dapr multi-app run]({{%  ref multi-app-overview.md %}}) if you want to start multiple applications, or regular [Dapr run command](#testing-the-workflow-via-the-dapr-cli) for one application, and schedule a new workflow instance.
 
-Use the local [Diagrid Dashboard](https://diagrid.ws/diagrid-dashboard-docs) to visualize and inspect your workflow state, and drill down to see detailed workflow execution history. The dashboard runs as a container and is connected to the state store that is used by Dapr workflows (by default a local Redis instance).
+Use the local [Diagrid Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) to visualize and inspect your workflow state, and drill down to see detailed workflow execution history. The dashboard runs as a standalone tool and reads workflows from the state store that is used by Dapr workflows (by default a local Redis instance). Redis, PostgreSQL, SQLite, and MongoDB are read directly; other state stores are read through the sidecar's workflow API, which requires Dapr 1.17 or later.
 
-<img src="/images/workflow-overview/workflow-diagrid-dashboard.png" width=800 alt="Diagrid Dashboard showing local workflow executions"/><br/>
+<img src="/images/workflow-overview/workflow-diagrid-dashboard.png" width=800 alt="Diagrid Dev Dashboard showing local workflow executions"/><br/>
 
-Start the Diagrid Dashboard container using Docker:
+{{< tabpane text=true >}}
+
+Download & install the dashboard via the terminal:
+
+{{% tab "Linux/MacOS" %}}
 
 ```bash
-docker run -p 8080:8080 ghcr.io/diagridio/diagrid-dashboard:latest
+curl -sSL https://raw.githubusercontent.com/diagridio/dev-dashboard/main/scripts/install.sh | sh
 ```
 
-{{% alert title="Note" color="primary" %}}
-If you're using another state store than the default Redis instance, you need to provide some additional arguments to run the container, see the [Diagrid Dashboard reference docs](https://diagrid.ws/diagrid-dashboard-docs).
-{{% /alert %}}
+{{% /tab %}}
+
+{{% tab "Windows" %}}
+
+```bash
+iwr -useb https://raw.githubusercontent.com/diagridio/dev-dashboard/main/scripts/install.ps1 | iex
+```
+
+{{% /tab %}}
+
+{{< /tabpane >}}
+
+Start the Diagrid Dev Dashboard with:
+
+```bash
+diagrid-dev-dashboard
+```
 
 <!-- IGNORE_LINKS -->
-Open the dashboard in a browser at [http://localhost:8080](http://localhost:8080).
+The dashboard will open in a browser at [http://localhost:9090](http://localhost:9090). Navigate to the Workflows page to inspect the workflows.
 <!-- END_IGNORE -->
 
 ## Testing the workflow via the Dapr CLI
@@ -1393,14 +1411,15 @@ dapr workflow rerun <failed-instance-id> --app-id workflow-app --input '<new-inp
 
 ## Next steps
 
-Now that you've authored a workflow, learn how to manage it.
+Now that you've authored a workflow, learn how to manage it. To run a sample for each workflow pattern, see the [workflow tutorials](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow) in the Quickstarts repo.
 
 {{< button text="Manage workflows >>" page="howto-manage-workflow.md" >}}
 
 ## Related links
 - [Workflow overview]({{% ref workflow-overview.md %}})
+- [Workflow tutorials](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow) in the Quickstarts repo
 - Try out the full SDK examples:
-  - [Python example](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
+  - [Python example](https://github.com/dapr/python-sdk/tree/main/examples/workflow)
   - [JavaScript example](https://github.com/dapr/js-sdk/tree/main/examples/workflow)
   - [.NET example](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
   - [Java example](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)

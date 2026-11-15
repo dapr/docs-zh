@@ -22,15 +22,17 @@ There are two fundamental architectural approaches:
 
 On one end, we have predictable workflows with well-defined decision paths and deterministic outcomes. On the other end, we have AI agents that can dynamically direct their own strategies. While fully autonomous agents might seem appealing, workflows often provide better predictability and consistency for well-defined tasks. This aligns with enterprise requirements where reliability and maintainability are crucial.
 
-<img src="/images/dapr-agents/agents-patterns-overview.png" width=1200 style="padding-bottom:15px;">
+{{< diagram agents-patterns-overview >}}
 
 The patterns in this documentation start with the Augmented LLM, then progress through workflow-based approaches that offer predictability and control, before moving toward more autonomous patterns. Each addresses specific use cases and offers different trade-offs between deterministic outcomes and autonomy.
+
+Most of the patterns below can be combined with the [hook system]({{< ref dapr-agents-hooks.md >}}) — a small set of callbacks on `DurableAgent` that let you log, rewrite, cache, or block individual tool calls and LLM calls without changing the agent body. Hooks are how Human-in-the-Loop is implemented (see the [HITL section](#human-in-the-loop) below) and they apply equally well to any of the other patterns.
 
 ## Augmented LLM
 
 The Augmented LLM pattern is the foundational building block for any kind of agentic system. It enhances a language model with external capabilities like memory and tools, providing a basic but powerful foundation for AI-driven applications.
 
-<img src="/images/dapr-agents/agents-augmented-llm.png" width=600 alt="Diagram showing how the augmented LLM pattern works">
+{{< diagram name="agents-augmented-llm" width="60" >}}
 
 This pattern is ideal for scenarios where you need an LLM with enhanced capabilities but don't require complex orchestration or autonomous decision-making. The augmented LLM can access external tools, maintain conversation history, and provide consistent responses across interactions.
 
@@ -73,7 +75,7 @@ The foundational building block of any agentic system is the Augmented LLM - a l
 
 The Prompt Chaining pattern addresses complex requirements by decomposing tasks into a sequence of steps, where each LLM call processes the output of the previous one. This pattern allows for better control of the overall process, validation between steps, and specialization of each step.
 
-<img src="/images/dapr-agents/agents-prompt-chaining.png" width=800 alt="Diagram showing how the prompt chaining pattern works">
+{{< diagram agents-prompt-chaining >}}
 
 **Use Cases:**
 - Content generation (creating outlines first, then expanding, then reviewing)
@@ -117,7 +119,7 @@ Dapr Agents' workflow orchestration provides:
 
 The Routing pattern addresses diverse request types by classifying inputs and directing them to specialized follow-up tasks. This allows for separation of concerns and creates specialized experts for different types of queries.
 
-<img src="/images/dapr-agents/agents-routing.png" width=600 alt="Diagram showing how the routing pattern works">
+{{< diagram name="agents-routing" width="65" >}}
 
 **Use Cases:**
 - Resource optimization (sending simple queries to smaller models)
@@ -167,7 +169,7 @@ The advantages of Dapr's approach include:
 
 The Parallelization pattern enables processing multiple dimensions of a problem simultaneously, with outputs aggregated programmatically. This pattern improves efficiency for complex tasks with independent subtasks that can be processed concurrently.
 
-<img src="/images/dapr-agents/agents-parallelization.png" width=600 alt="Diagram showing how the parallelization pattern works">
+{{< diagram name="agents-parallelization" width="65" >}}
 
 **Use Cases:**
 - Complex research (processing different aspects of a topic in parallel)
@@ -221,7 +223,7 @@ The benefits of using Dapr for parallelization include:
 
 For highly complex tasks where the number and nature of subtasks can't be known in advance, the Orchestrator-Workers pattern offers a powerful solution. This pattern features a central orchestrator LLM that dynamically breaks down tasks, delegates them to worker LLMs, and synthesizes their results.
 
-<img src="/images/dapr-agents/agents-orchestrator-workers.png" width=600 alt="Diagram showing how the orchestrator-workers pattern works">
+{{< diagram agents-orchestrator-workers >}}
 
 Unlike previous patterns where workflows are predefined, the orchestrator determines the workflow dynamically based on the specific input.
 
@@ -279,7 +281,7 @@ The advantages of Dapr for the Orchestrator-Workers pattern include:
 
 Quality is often achieved through iteration and refinement. The Evaluator-Optimizer pattern implements a dual-LLM process where one model generates responses while another provides evaluation and feedback in an iterative loop.
 
-<img src="/images/dapr-agents/agents-evaluator-optimizer.png" width=600 alt="Diagram showing how the evaluator-optimizer pattern works">
+{{< diagram name="agents-evaluator-optimizer" width="65" >}}
 
 **Use Cases:**
 - Content creation requiring adherence to specific style guidelines
@@ -340,13 +342,66 @@ The benefits of using Dapr for this pattern include:
 - **Quality Criteria** - Enables clear definition of what constitutes acceptable output
 - **Maximum Iteration Control** - Prevents infinite loops by enforcing iteration limits
 
+## Human-in-the-Loop
+
+Some agent actions are too consequential to leave entirely to the model. The Human-in-the-Loop (HITL) pattern pauses the agent on specific tool calls (or other high-risk steps) and waits for a human to approve or deny before continuing. Because the wait happens inside a Dapr workflow, the pause can last seconds, hours, or days — the workflow rehydrates wherever it left off when the human responds.
+
+In Dapr Agents this pattern is implemented through the **hook system**: register a `before_tool_call` hook on a `DurableAgent` and return `RequireApproval(...)` for the steps that need human sign-off. The framework publishes an approval-request event to whichever delivery channel you've configured (HTTP, Dapr pub/sub, or a workflow event), suspends the workflow on `wait_for_external_event`, and resumes when an approve / deny response arrives — or auto-denies on timeout.
+
+**Use Cases:**
+- Approving destructive operations (deleting data, dropping tables, refunds above a threshold)
+- Compliance gates on policy-sensitive tool calls (PII access, schema changes)
+- Reviewing agent plans before execution in regulated environments
+- Long-running, multi-step processes where one step must be confirmed by a domain expert
+
+**Implementation with Dapr Agents:**
+
+```python
+from dapr_agents import DurableAgent, Hooks
+from dapr_agents.hooks import ToolHookContext, HookDecision, Proceed, RequireApproval
+from dapr_agents.agents.configs import AgentApprovalConfig, AgentExecutionConfig
+
+
+def gate_deletions(ctx: ToolHookContext) -> HookDecision:
+    if ctx.step_name.startswith("delete_"):
+        return RequireApproval(
+            timeout_seconds=3600,
+            instructions=f"Confirm deletion: {ctx.payload}",
+        )
+    return Proceed()
+
+
+approval = AgentApprovalConfig(
+    pubsub_name="messagepubsub",
+    topic="agent-approval-requests",
+    default_timeout_seconds=300,
+)
+
+agent = DurableAgent(
+    name="OpsAgent",
+    role="Operations Assistant",
+    llm=...,
+    tools=[delete_old_data, ...],
+    hooks=Hooks(before_tool_call=[gate_deletions]),
+    execution=AgentExecutionConfig(approval=approval),
+)
+```
+
+The benefits of using Dapr for this pattern include:
+- **Durable pause** - The workflow survives crashes and restarts while waiting; approvals are persisted in the state store
+- **Choice of delivery channel** - Approve over HTTP (`GET /hitl/approvals`, `POST /hitl/approvals/{id}/respond`), Dapr pub/sub, or direct workflow events
+- **Timeout safety** - Pending requests auto-deny if no human responds, so workflows never hang forever
+- **Composable with other patterns** - HITL is a hook decision, so it layers cleanly on top of any of the patterns above
+
+For the full hook API surface, including the other decisions (`Skip`, `Mutate`, `Deny`) and LLM-level hooks, see [Hooks and Human-in-the-Loop]({{< ref dapr-agents-hooks.md >}}).
+
 ## Durable Agent
 
 Moving to the far end of the agentic spectrum, the Durable Agent pattern represents a shift from workflow-based approaches. Instead of predefined steps, we have an autonomous agent that can plan its own steps and execute them based on its understanding of the goal.
 
 Enterprise applications often need durable execution and reliability that go beyond in-memory capabilities. Dapr's `DurableAgent` class helps you implement autonomous agents with the reliability of workflows, as these agents are backed by Dapr workflows behind the scenes. The `DurableAgent` extends the basic `Agent` class by adding durability to agent execution.
 
-<img src="/images/dapr-agents/agents-stateful-llm.png" width=600 alt="Diagram showing how the durable agent pattern works">
+{{< diagram name="agents-stateful-llm" width="60" >}}
 
 This pattern doesn't just persist message history – it dynamically creates workflows with durable activities for each interaction, where LLM calls and tool executions are stored reliably in Dapr's state stores. This makes it ideal for environments where reliability and durability is critical.
 

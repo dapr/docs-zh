@@ -8,11 +8,11 @@ description: "Learn how to send messages to a topic with one service and subscri
 
 Now that you've learned what the Dapr pub/sub building block provides, learn how it can work in your service. The below code example loosely describes an application that processes orders with two services, each with Dapr sidecars:
 
-- A checkout service using Dapr to subscribe to the topic in the message queue.
 - An order processing service using Dapr to publish a message to RabbitMQ.
+- A checkout service using Dapr to subscribe to the topic in the message queue.
 
 
-<img src="/images/pubsub-howto-overview.png" width=1000 alt="Diagram showing state management of example service">
+{{< diagram name="pubsub-howto-overview" width="70" >}}
 
 Dapr automatically wraps the user payload in a CloudEvents v1.0 compliant envelope, using `Content-Type` header value for `datacontenttype` attribute. [Learn more about messages with CloudEvents.]({{% ref pubsub-cloudevents %}})
 
@@ -188,9 +188,14 @@ The example above shows an event subscription to topic `orders`, for the pubsub 
 Place `subscription.yaml` in the same directory as your `pubsub.yaml` component. When Dapr starts up, it loads subscriptions along with the components.
 
 {{% alert title="Note" color="primary" %}}
-This feature is currently in preview.
-Dapr can be made to "hot reload" declarative subscriptions, whereby updates are picked up automatically without needing a restart.
-This is enabled by via the [`HotReload` feature gate]({{% ref "support-preview-features" %}}).
+Declarative subscriptions are "hot reloaded" by default, whereby updates are picked up automatically without needing a restart. To opt out, disable the `HotReload` feature in the Dapr application configuration:
+
+```yaml
+spec:
+  features:
+    - name: HotReload
+      enabled: false
+```
 To prevent reprocessing or loss of unprocessed messages, in-flight messages between Dapr and your application are unaffected during hot reload events.
 {{% /alert %}}
 
@@ -660,6 +665,10 @@ dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-g
 ## Message acknowledgement and retries
 
 In order to tell Dapr that a message was processed successfully, return a `200 OK` response. If Dapr receives any other return status code than `200`, or if your app crashes, Dapr will attempt to redeliver the message following at-least-once semantics.
+
+## Test subscriptions with the Dapr Dev Dashboard
+
+When developing locally, you can use the [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) to test your subscriber without running a publisher app. The dashboard shows the subscriptions of your running apps and lets you send test messages to them. Combined with the dashboard's per-app log streaming, this is an easy way to check how your app handles messages and what status codes it returns.
 
 ## Demo video
 

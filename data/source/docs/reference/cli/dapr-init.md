@@ -24,7 +24,6 @@ dapr init [flags]
 
 | Name                  | Environment Variable | Default       | Description                                                                          |
 | --------------------- | -------------------- | ------------- | ------------------------------------------------------------------------------------ |
-| `--dashboard-version` |                      | `latest`       | The version of the Dapr dashboard to install, for example: `1.0.0`                                                   |
 | `--enable-ha`         |                      | `false`       | Enable high availability (HA) mode                                                   |
 | `--enable-mtls`       |                      | `true`        | Enable mTLS in your cluster                                                          |
 | `--from-dir`          |                      |               | Path to a local directory containing a downloaded "Dapr Installer Bundle" release which is used to `init` the airgap environment      |
@@ -47,6 +46,7 @@ dapr init [flags]
 |  `--dev`  |              |          | Creates Redis and Zipkin deployments when run in Kubernetes. |
 |  `--scheduler-volume`  |              |          | Self-hosted only. Optionally, you can specify a volume for the scheduler service data directory. By default, without this flag, scheduler data is not persisted and not resilient to restarts. |
 |  `--scheduler-override-broadcast-host-port`  |  |  localhost:50006 (6060 for Windows)  | Self-hosted only. Specify the scheduler broadcast host and port, for example: 192.168.42.42:50006. |
+|  `--scheduler-placement`  |              |  `false`  | Self-hosted only. Serve actor placement from the scheduler service instead of running the placement service. Requires Dapr 1.19 or later. Cannot be combined with `--slim`. |
 
 
 ### Examples

@@ -18,6 +18,7 @@ Use the following resource settings as a starting point. Requirements vary depen
 | **Sidecar Injector** | Limit: 1, Request: 100m  | Request: 30Mi
 | **Sentry**    | Limit: 1, Request: 100m  | Request: 30Mi
 | **Placement** | Limit: 1, Request: 250m  | Request: 75Mi
+| **Scheduler** | Request: 250m  | Request: 250Mi
 
 {{% alert title="Note" color="primary" %}}
 For more information, refer to the Kubernetes documentation on [CPU and Memory resource units and their meaning](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#resource-units-in-kubernetes).
@@ -26,6 +27,16 @@ For more information, refer to the Kubernetes documentation on [CPU and Memory r
 ### Helm
 
 When installing Dapr using Helm, no default limit/request values are set. Each component has a `resources` option (for example, `dapr_dashboard.resources`), which you can use to tune the Dapr control plane to fit your environment.
+
+For example, to set the starting requests for the Scheduler:
+
+```yaml
+dapr_scheduler:
+  resources:
+    requests:
+      memory: 250Mi
+      cpu: 250m
+```
 
 The [Helm chart readme](https://github.com/dapr/dapr/blob/master/charts/dapr/README.md) has detailed information and examples.
 
@@ -121,6 +132,32 @@ To scale scheduler and placement to three instances independently of the `global
     --set dapr_placement.ha=true \
     --wait
    ```
+
+> **Note:** When actor placement is served by the Scheduler service (`global.scheduler.placement.enabled=true`), the Placement service is not deployed and `dapr_placement.ha` has no effect. The Scheduler replica count then determines placement availability.
+
+### Spreading Placement and Scheduler replicas
+
+With HA enabled, the default Helm values add pod anti-affinity so Scheduler and Placement service replicas are attempted to be scheduled across different failure domains if cluster resourcing allows. This is configured using the following Helm chart [options](https://github.com/dapr/dapr/blob/master/charts/dapr/README.md)
+
+- `global.ha.topologyKey`: Kubernetes label used meaning “different domain”. Set by default to `topology.kubernetes.io/zone`.
+- `global.ha.podAntiAffinityPolicy`: Enables soft spreading with `preferredDuringSchedulingIgnoredDuringExecution` (the default) or hard spreading with `requiredDuringSchedulingIgnoredDuringExecution`. 
+
+When running in production, consider the following recommendations.
+
+1. **Availability zones**: The default topology key spreads pods across zones. This limits the chance that a single zone outage removes multiple Scheduler or Placement pods at the same time.
+2. **Single zone, many nodes**:  Zone labels are often identical across the cluster; set `topologyKey` to `kubernetes.io/hostname` to enable spreading by node.
+3. **Soft spreading**: The default behaviour is recommended here allowing pod scheduling to succeed when the cluster is short on zones or nodes.
+4. **Hard spreading**: Only use when you must never place two replicas on the same topology value. This requires as many distinct values for `topologyKey` as replicas, or pods will stay `Pending`.
+
+For example, too configure hard spreading by hostname in a single-zone cluster, use the following Helm values:
+
+```yaml
+global:
+  ha:
+    enabled: true
+    topologyKey: kubernetes.io/hostname
+    podAntiAffinityPolicy: requiredDuringSchedulingIgnoredDuringExecution
+```
 
 ## Setting cluster critical priority class name for control plane services
 
@@ -239,22 +276,20 @@ Update pods that are running Dapr to pick up the new version of the Dapr runtime
    kubectl rollout restart deploy/<Application deployment name>
    ```
 
-1. View a list of all your Dapr enabled deployments via either:  
-   - The [Dapr Dashboard](https://github.com/dapr/dashboard) 
-   - Running the following command using the Dapr CLI:
+1. View a list of all your Dapr enabled deployments by running the following command using the Dapr CLI:
 
-      ```bash
-      dapr list -k
-      
-      APP ID     APP PORT  AGE  CREATED
-      nodeapp    3000      16h  2020-07-29 17:16.22
-      ```
+   ```bash
+   dapr list -k
+   
+   APP ID     APP PORT  AGE  CREATED
+   nodeapp    3000      16h  2020-07-29 17:16.22
+   ```
 
 ### Enable high availability in an existing Dapr deployment
 
 Enabling HA mode for an existing Dapr deployment requires two steps:
 
-1. Delete the existing placement stateful set.
+1. Delete the existing placement stateful set. Skip this step if the placement StatefulSet is not deployed, for example when actor placement is served by the Scheduler service (`global.scheduler.placement.enabled=true`).
 
    ```bash
    kubectl delete statefulset.apps/dapr-placement-server -n dapr-system
@@ -302,7 +337,7 @@ When running in production, it's recommended to configure the Placement service 
    2. `dapr_placement.keepAliveTimeout` sets the timeout period for Dapr sidecars to respond to the Placement service's [keep alive](https://grpc.io/docs/guides/keepalive/) pings before the Placement service closes the connection. Lower values will lead to shorter actor rebalancing time in case of pod loss/restart, but higher network traffic during normal operation. Accepts values between `1s` and `10s`. Default is `3s`.
    3. `dapr_placement.disseminateTimeout` sets the period of time in which a placement table dissemination round is considered failed if not completed. Sidecars that have not acknowledged the update within this time are considered non-responsive and are removed from the round, and their placement stream is reset. Note that sidecar-side actor draining (`drainOngoingCallTimeout`) delays the sidecar's acknowledgement and therefore counts against this deadline. Default is `8s`.
 
-
+When actor placement is served by the Scheduler service (`global.scheduler.placement.enabled=true`), the `dapr_placement.*` values above do not apply because the Placement service is not deployed. Scheduler-served placement is tuned with the Scheduler flags `--placement-disseminate-timeout` (the time a dissemination round waits for every sidecar to acknowledge before evicting the slow ones, default `8s`, a different knob than `dapr_placement.disseminateTimeout`) and `--placement-disseminate-coalesce-window` (the window in which membership changes are folded into a single dissemination round, default `0` for immediate dissemination). [Learn more about serving placement from the Scheduler service.]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})
 
 ## Service account tokens
 
@@ -359,6 +394,72 @@ If you must run a non-default UID & GID in Kubernetes, set the following env var
 ```bash
 DAPR_UNSAFE_SKIP_CONTAINER_UID_GID_CHECK="true"
 ```
+
+## Graceful shutdown for actor hosts
+
+When a pod is deleted, Kubernetes terminates its containers concurrently, with no ordering guarantee — without a delaying hook, the application container and the `daprd` sidecar receive their stop signals at about the same time. An idle application often exits within milliseconds — before the sidecar shuts down its actor runtime. The sidecar then fails to deactivate its hosted actors (connection refused; `OnDeactivateAsync` never runs), and until it exits and the placement table is re-disseminated, other sidecars keep routing calls to actors on the dying pod. An ordinary rolling restart typically produces a multi-second window of failed actor invocations.
+
+The remedy is to keep the application serving while the sidecar drains and deactivates its actors: a `preStop` hook on the *application* container, and a termination grace period sized to cover it. A working starting point — tune the durations to your workload:
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myactorapp
+spec:
+  selector:
+    matchLabels:
+      app: myactorapp
+  template:
+    metadata:
+      labels:
+        app: myactorapp
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "myactorapp"
+        dapr.io/app-port: "8080"
+    spec:
+      # Must exceed the app's preStop sleep plus the app's own graceful shutdown.
+      terminationGracePeriodSeconds: 60
+      containers:
+        - name: myactorapp
+          image: myregistry/myactorapp:latest
+          lifecycle:
+            preStop:
+              # Keep the app serving while the sidecar drains and deactivates actors.
+              sleep:
+                seconds: 15
+```
+
+On Kubernetes older than 1.30, use the `exec` form instead of the native `sleep` handler — it requires a shell and `sleep` in the application image, so it silently does nothing on distroless or `scratch` images:
+
+```yaml
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-c", "sleep 15"]
+```
+
+In the application, set `drainRebalancedActors: true` and size `drainOngoingCallTimeout` to the p99 duration of your actor method handlers; if that exceeds a few seconds, raise the Placement service's `disseminateTimeout` above it with headroom for acknowledging the placement update, otherwise Placement resets streams that outlive it; above 30s you must also raise `dapr.io/actors-disseminate-timeout`, or daprd clamps the drain to 80% of it ([Drain timeout clamping]({{% ref "actors-runtime-config.md#drain-timeout-clamping" %}})).
+
+### Sizing the durations
+
+```
+preStop sleep                 >= [block-shutdown-duration +] drainOngoingCallTimeout + 5s (actor deactivation) + margin
+terminationGracePeriodSeconds >  preStop sleep + app graceful shutdown
+```
+
+Include the `block-shutdown-duration` term only if you configure it — needed when the application calls Dapr APIs during its own shutdown. Actor deactivation runs *after* the drain, under a single fixed 5-second budget shared by every actor the host owns — it is not configurable, so hosts with very large actor populations or slow deactivation handlers may not finish within it. If `terminationGracePeriodSeconds` expires first, Kubernetes sends `SIGKILL` and you are back to the original problem.
+
+If you enable the [app health check]({{% ref "app-health.md" %}}) on an actor host, be aware it affects steady state, not just shutdown: an app reported unhealthy has all its actor types deregistered and rebalanced across the cluster, so the probe endpoint must be cheap, `dapr.io/app-health-probe-timeout` sized for it, and the threshold left at its default.
+
+{{% alert title="Important" color="warning" %}}
+Point any probe of the application container — Kubernetes liveness or the Dapr app health check — at an endpoint served by the application alone. A probe path that depends on the sidecar is circular: a Kubernetes liveness probe restarts the container you are trying to keep alive whenever the sidecar is unavailable, and a Dapr app health check marks the app unhealthy and rebalances its actors.
+{{% /alert %}}
+
+{{% alert title="Native sidecars" color="warning" %}}
+Clean actor deactivation is not currently achievable with [native sidecars]({{% ref "sidecar.md#native-sidecars-kubernetes-128" %}}): Kubernetes terminates the application container first and only then signals the sidecar, so deactivation always runs against an exited application and no `preStop` arrangement changes that ordering. Keep actor hosts on the default sidecar injection.
+{{% /alert %}}
 
 ## Best Practices
 

@@ -19,7 +19,7 @@ For more information on how to author Dapr Workflows in your application, see [H
 
 The Dapr Workflow engine is internally powered by Dapr's actor runtime. The following diagram illustrates the Dapr Workflow architecture in Kubernetes mode:
 
-<img src="/images/workflow-overview/workflows-architecture-k8s.png" width=800 alt="Diagram showing how the workflow architecture works in Kubernetes mode">
+{{< diagram workflows-architecture-k8s >}}
 
 To use the Dapr Workflow building block, you write workflow code in your application using the Dapr Workflow SDK, which internally connects to the sidecar using a gRPC stream. This registers the workflow and any workflow activities, or tasks that workflows can schedule.
 
@@ -31,10 +31,14 @@ When a workflow application starts up, it uses a workflow authoring SDK to send 
 
 The workflow app executes the appropriate workflow code and then sends a gRPC request back to the sidecar with the execution results.
 
-<img src="/images/workflow-overview/workflow-engine-protocol.png" width=500 alt="Dapr Workflow Engine Protocol" />
+{{< diagram name="workflow-engine-protocol" width="55" >}}
 
 All interactions happen over a single gRPC channel and are initiated by the application, which means the application doesn't need to open any inbound ports.
 The details of these interactions are internally handled by the language-specific Dapr Workflow authoring SDK.
+
+The history the sidecar sends over this stream is incremental: once a worker is warm for an instance, it is sent only the events added since its previous turn rather than the whole history. See [the stateful workflow client]({{% ref "workflow-stateful-client.md" %}}).
+
+A load balancer or proxy between the app and the sidecar can close a stream that carries no traffic. AWS ALB and nginx, for example, close an idle stream after 60 seconds, which costs the worker a reconnect and a full history resend. To keep the stream open, a worker can advertise the `WORKER_CAPABILITY_HEALTH_PING` capability when it opens the stream, and the sidecar then sends it a health ping every 30 seconds. Workers built with the 1.19 Python, Java, and .NET SDKs, or with the Go SDK v1.16 (durabletask-go v0.15), advertise it. The sidecar reads a `DAPR_WORKFLOW_HEALTH_PING_INTERVAL` environment variable that overrides the interval, but it exists for Dapr's integration tests and is not a supported setting. See the [environment variable reference]({{% ref environment %}}).
 
 ### Differences between workflow and application actor interactions
 
@@ -69,7 +73,7 @@ For example, if you have a workflow app named "wfapp", then the type of the work
 
 The following diagram demonstrates how workflow actors operate in a Kubernetes scenario:
 
-<img src="/images/workflow-overview/workflow-execution.png" alt="Diagram demonstrating internally registered actors across a cluster" />
+{{< diagram workflow-execution >}}
 
 Just like user-defined actors, workflow actors are distributed across the cluster by the hashing lookup table provided by the actor placement service.
 They also maintain their own state and make use of reminders.
@@ -79,6 +83,7 @@ Application code is completely unaware that these actors exist.
 {{% alert title="Note" color="primary" %}}
 The workflow actor types are only registered after an app has registered a workflow using a Dapr Workflow SDK.
 If an app never registers a workflow, then the internal workflow actors are never registered.
+{{% /alert %}}
 
 ### Workflow actors
 
@@ -88,8 +93,9 @@ A new instance of the workflow actor is activated for every workflow instance th
 The ID of the workflow actor is the ID of the workflow.
 This workflow actor stores the state of the workflow as it progresses, and determines the node on which the workflow code executes via the actor lookup table.
 
-As workflows are based on actors, all workflow and activity work is randomly distributed across all replicas of the application implementing workflows.
-There is no locality or relationship between where a workflow is started and where each work item is executed.
+As workflows are based on actors, all workflow and activity work is distributed across all replicas of the application implementing workflows by the actor placement table.
+By default there is no locality or relationship between where a workflow is started and where each work item is executed.
+With the [workflow fast path]({{% ref "workflow-fast-path.md" %}}) preview feature enabled, the host that commits an event also drives the resulting turn, and activity bodies are driven on their target host without a reminder round trip through the Scheduler.
 
 Each workflow actor saves its state using the following keys in the configured actor state store:
 
@@ -98,17 +104,19 @@ Each workflow actor saves its state using the following keys in the configured a
 | `inbox-NNNNNN` | A workflow's inbox is effectively a FIFO queue of _messages_ that drive a workflow's execution. Example messages include workflow creation messages, activity task completion messages, etc. Each message is stored in its own key in the state store with the name `inbox-NNNNNN` where `NNNNNN` is a 6-digit number indicating the ordering of the messages. These state keys are removed once the corresponding messages are consumed by the workflow. |
 | `history-NNNNNN` | A workflow's history is an ordered list of events that represent a workflow's execution history. Each key in the history holds the data for a single history event. Like an append-only log, workflow history events are only added and never removed (except when a workflow performs a "continue as new" operation, which purges all history and restarts a workflow with a new input). |
 | `customStatus` | Contains a user-defined workflow status value. There is exactly one `customStatus` key for each workflow actor instance. |
-| `metadata` | Contains meta information about the workflow as a JSON blob and includes details such as the length of the inbox, the length of the history, and a 64-bit integer representing the workflow generation (for cases where the instance ID gets reused). The length information is used to determine which keys need to be read or written to when loading or saving workflow state updates. |
+| `metadata` | Contains meta information about the workflow as a JSON blob and includes details such as the length of the inbox, the length of the history, and a 64-bit integer representing the workflow generation. The length information is used to determine which keys need to be read or written to when loading or saving workflow state updates. |
+| `parent-notify` | A marker written in the same transaction as a child workflow's terminal state, recording that the parent workflow has not yet been notified of the completion. It is cleared once the parent acknowledges. While it is present, purging the child or reusing its instance ID is refused as "not completed". |
+| `creation-input` | Written only for child workflows when [history signing]({{% ref "workflow-history-signing.md" %}}) is enabled: the input the parent created the child with, kept separately from the history so it survives `continue as new` and can be verified against the parent when the completion is attested. |
 
 {{% alert title="Warning" color="warning" %}}
 Workflow actor state remains in the state store even after a workflow has completed.
 Creating a large number of workflows could result in unbounded storage usage.
-To address this either purge workflows using their ID or directly delete entries in the workflow DB store.
+To address this, purge workflows using the [purge API]({{% ref "workflow_api.md#purge-workflow-request" %}}) or configure a [workflow retention policy]({{% ref workflow-history-retention-policy.md %}}) to automatically clean up completed workflow state.
 {{% /alert %}}
 
 The following diagram illustrates the typical lifecycle of a workflow actor.
 
-<img src="/images/workflow-overview/workflow-actor-flowchart.png" width=600 alt="Dapr Workflow Actor Flowchart"/>
+{{< diagram name="workflow-actor-flowchart" width="70" >}}
 
 To summarize:
 
@@ -122,15 +130,16 @@ To summarize:
 
 Activity actors are responsible for managing the state and placement of all workflow activity invocations.
 A new instance of the activity actor is activated for every activity task that gets scheduled by a workflow.
-The ID of the activity actor is the ID of the workflow combined with a sequence number (sequence numbers start with 0), as well as the "generation" (incremented during instances of rerunning from using `continue as new`).
-For example, if a workflow has an ID of `876bf371` and is the third activity to be scheduled by the workflow, it's ID will be `876bf371::2::1` where `2` is the sequence number, and `1` is the generation.
-If the activity is scheduled again after a `continue as new`, the ID will be `876bf371::2::2`.
+The ID of the activity actor is the ID of the workflow, the task ID of the activity (task IDs start at 0) and a constant trailing `0`, joined by `::`.
+For example, if a workflow has an ID of `876bf371` and schedules its third activity, the activity actor's ID is `876bf371::2::0`.
+The third component is kept for compatibility with earlier releases, which wrote the workflow generation there; it no longer carries information.
+Task IDs restart from 0 when a workflow uses `continue as new`, so a later generation reuses the same activity actor IDs; the engine tells the executions apart by the task execution ID carried on the scheduling and completion events.
 
-No state is stored by activity actors, and instead all resulting data is sent back to the parent workflow actor.
+Activity actors store no state of their own, and instead all resulting data is sent back to the parent workflow actor. The one exception is the [workflow fast path]({{% ref "workflow-fast-path.md#execution-claim-record" %}}), where an activity actor writes a short-lived `execution-claim` record while actor placement moves a running execution to another host.
 
 The following diagram illustrates the typical lifecycle of an activity actor.
 
-<img src="/images/workflow-overview/workflow-activity-actor-flowchart.png" width=600 alt="Workflow Activity Actor Flowchart"/>
+{{< diagram name="workflow-activity-actor-flowchart" width="85" >}}
 
 Activity actors are short-lived:
 
@@ -140,15 +149,22 @@ Activity actors are short-lived:
 1. The activity actor then deactivates itself.
 1. Once the results are sent, the workflow is triggered to move forward to its next step.
 
+With the [workflow fast path]({{% ref "workflow-fast-path.md#leg-2-local-activity-drive" %}}) enabled, the activity body runs as soon as the dispatch arrives, without the one-shot reminder, whenever the workflow actor certifies that its janitor backstop is armed. During a placement change the activity actor may write a small `execution-claim` record so that the new owner can tell a live execution from one that died with its host.
+
 ### Reminder usage and execution guarantees
 
 The Dapr Workflow ensures workflow fault-tolerance by using [actor reminders]({{% ref "../actors/actors-timers-reminders.md##actor-reminders" %}}) to recover from transient system failures.
-Prior to invoking application workflow code, the workflow or activity actor will create a new reminder.
+By default, prior to invoking application workflow code, the workflow or activity actor will create a new reminder.
 These reminders are made "one shot", meaning that they will expire after successful triggering.
 If the application code executes without interruption, the reminder is triggered and expired.
 However, if the node or the sidecar hosting the associated workflow or activity crashes, the reminder will reactivate the corresponding actor and the execution will be retried, forever.
+Retries of a failed delivery are paced with a decorrelated jittered exponential backoff between 50 ms and 2 s, so that many instances failing at once do not retry in lockstep.
 
-<img src="/images/workflow-overview/workflow-actor-reminder-flow.png" width=600 alt="Diagram showing the process of invoking workflow actors"/>
+With the [workflow fast path]({{% ref "workflow-fast-path.md" %}}) preview feature enabled, the per-event reminders are replaced by a single repeating "janitor" reminder per live workflow instance, which fires every 20 seconds, drives any turn or activity that lost its local driver, and deletes itself when the instance completes. A wake whose local drive keeps failing is left to the janitor; a failed activity drive escalates back to the one-shot `run-activity` reminder described above. Either way the recovery guarantees are the same on both paths.
+
+An instance whose state was saved but whose start can never be processed (for example because its committed start event was lost) is failed with the error type `DAPR_WORKFLOW_UNSTARTABLE_STATE` instead of remaining `PENDING` forever, and a pending start whose reminder is overdue is re-driven when the instance's status is read.
+
+{{< diagram name="workflow-actor-reminder-flow" width="85" >}}
 
 ### State store usage
 
@@ -156,7 +172,7 @@ Dapr Workflows use actors internally to drive the execution of workflows.
 Like any actors, these workflow actors store their state in the configured actor state store.
 This is done by specifying a state store component in your Dapr configuration and then referencing that state store in the `actorStateStore` property of the configuration's `actors` section.
 Read the [state API reference]({{% ref state_api %}}) and the [actors API reference]({{% ref actors_api %}}) to learn more about state stores for actors.
-{{% /alert %}}
+
 Any state store that supports actors implicitly supports Dapr Workflow.
 
 As discussed in the [workflow actors]({{% ref "workflow-architecture.md#workflow-actors" %}}) section, workflows save their state incrementally by appending to a history log.
@@ -166,7 +182,7 @@ The size of each checkpoint is determined by the number of concurrent actions sc
 [Sequential workflows]({{% ref "workflow-overview.md#task-chaining" %}}) will therefore make smaller batch updates to the state store, while [fan-out/fan-in workflows]({{% ref "workflow-overview.md#fan-outfan-in" %}}) will require larger batches.
 The size of the batch is also impacted by the size of inputs and outputs when workflows [invoke activities]({{% ref "workflow-features-concepts.md#workflow-activities" %}}) or [child workflows]({{% ref "workflow-features-concepts.md#child-workflows" %}}).
 
-<img src="/images/workflow-overview/workflow-state-store-interactions.png" width=600 alt="Diagram of workflow actor state store interactions"/>
+{{< diagram workflow-state-store-interactions >}}
 
 Different state store implementations may implicitly put restrictions on the types of workflows you can author.
 For example, the Azure Cosmos DB state store limits item sizes to 2 MB of UTF-8 encoded JSON ([source](https://learn.microsoft.com/azure/cosmos-db/concepts-limits#per-item-limits)).
@@ -190,6 +206,8 @@ This number may be larger or smaller depending on retries or concurrency.
 | Timer | 3 records |
 | Raise event | 3 records |
 | Start child workflow | 8 records |
+
+Every instance also carries the `metadata` and `customStatus` keys, which do not grow with the history. Child workflows additionally carry a transient `parent-notify` marker between their terminal commit and the parent's acknowledgement, and, when history signing is enabled, a `creation-input` row.
 
 #### Query Workflow History
 
@@ -249,7 +267,7 @@ Workflows don't control the specifics of how load is distributed across the clus
 For example, if a workflow schedules 10 activity tasks to run in parallel, all 10 tasks may run on as many as 10 different compute nodes or as few as a single compute node.
 The actual scale behavior is determined by the actor placement service, which manages the distribution of the actors that represent each of the workflow's tasks.
 
-<img src="/images/workflow-overview/workflow-actor-scale-out.png" width=800 alt="Diagram of workflow and activity actors scaled out across multiple Dapr instances"/>
+{{< diagram workflow-actor-scale-out >}}
 
 ## Workflow latency
 
@@ -264,6 +282,8 @@ Expected sources of high latency include:
 
 See the [Reminder usage and execution guarantees section]({{% ref "workflow-architecture.md#reminder-usage-and-execution-guarantees" %}}) for more details on how the design of workflow actors may impact execution latency.
 
+The [workflow fast path]({{% ref "workflow-fast-path.md" %}}) preview feature removes the per-event reminders and most of the state store commits from each turn. With it enabled, the first and third sources above apply mainly to recovery after a failure rather than to the steady-state turn.
+
 ## Increasing scheduling throughput
 
 By default, when a client schedules a workflow, the workflow engine waits for the workflow to be fully started before returning a response to the client.
@@ -276,6 +296,8 @@ An example of scheduling a workflow with a start time of "now" in the Go SDK is 
 client.ScheduleNewWorkflow(ctx, "MyCoolWorkflow", workflow.WithStartTime(time.Now()))
 ```
 
+This tip speeds up how quickly the client's scheduling call returns. To increase the throughput of the turns themselves, see the [workflow fast path]({{% ref "workflow-fast-path.md" %}}).
+
 ## Workflows cluster deployment when using Dapr Shared with workflow
 
 {{% alert title="Note" color="primary" %}}
@@ -284,7 +306,9 @@ The following feature is only available when the [Workflows Clustered Deployment
 
 When using [Dapr Shared]({{% ref "kubernetes-dapr-shared" %}}), it can be the case that there are multiple daprd sidecars running behind a single load balancer or service.
 As such, the instance to which a worker receiving work, may not be the same instance that receives the work result.
-Dapr creates a third actor type to handle this scenario: `dapr.internal.{namespace}.{appID}.executor` to handle routing of the worker results back to the correct workflow actor to ensure correct operation. 
+Dapr uses a third actor type to handle this scenario: `dapr.internal.{namespace}.{appID}.executor`.
+The daprd that holds a pending work item registers a process-local waiter for its result. A result that lands on a different daprd is forwarded with a single internal call to the executor actor, which shares its ID with the workflow or activity actor that is waiting, so actor placement resolves it to the waiting host. On a single replica no forwarding call is made.
+The `dapr_runtime_workflow_completion_route_count` metric, tagged with `task_type` and `route` (`wait_local`, `wait_watch`, `complete_local`, `complete_actor`), shows which path each result took; a sustained `wait_watch` rate indicates that results are not landing on the waiting host.
 
 ## Next steps
 
@@ -293,10 +317,12 @@ Dapr creates a third actor type to handle this scenario: `dapr.internal.{namespa
 ## Related links
 
 - [Workflow overview]({{% ref workflow-overview.md %}})
+- [Workflow fast path]({{% ref workflow-fast-path.md %}})
+- [Stateful workflow client]({{% ref workflow-stateful-client.md %}})
 - [Workflow API reference]({{% ref workflow_api.md %}})
 - [Try out the Workflow quickstart]({{% ref workflow-quickstart.md %}})
 - Try out the following examples: 
-   - [Python](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
+   - [Python](https://github.com/dapr/python-sdk/tree/main/examples/workflow)
    - [JavaScript example](https://github.com/dapr/js-sdk/tree/main/examples/workflow)
    - [.NET](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
    - [Java](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)

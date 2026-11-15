@@ -24,7 +24,11 @@ spec:
     value: <PASSWORD>
   - name: useEntraID
     value: <bool> # Optional. Allowed: true, false.
+  - name: useOIDC
+    value: <bool> # Optional. Allowed: true, false.
   - name: enableTLS
+    value: <bool> # Optional. Allowed: true, false.
+  - name: insecureSkipTLSVerify
     value: <bool> # Optional. Allowed: true, false.
   - name: failover
     value: <bool> # Optional. Allowed: true, false.
@@ -81,7 +85,9 @@ The above example uses secrets as plain strings. It is recommended to use a secr
 | redisPassword         |    N     | Password for Redis host. No Default. Can be `secretKeyRef` to use a secret reference                                                                                                                                                                                                                              | `""`, `"KeFg23!"`                                               |
 | redisUsername         |    N     | Username for Redis host. Defaults to empty. Make sure your redis server version is 6 or above, and have created acl rule correctly.                                                                                                                                                                               | `""`, `"default"`                                               |
 | useEntraID            |    N     | Implements EntraID support for Azure Cache for Redis. Before enabling this: <ul><li>The `redisHost` name must be specified in the form of `"server:port"`</li><li>TLS must be enabled</li></ul> Learn more about this setting under [Create a Redis instance > Azure Cache for Redis]({{% ref "#setup-redis" %}}) | `"true"`, `"false"`                                             |
+| useOIDC               |    N     | Authenticate using OpenID Connect with the `private_key_jwt` client authentication method (RFC 7523). The OAuth2 access token obtained from the identity provider is used as the password for the Redis `AUTH` command and refreshed automatically before expiry. Must not be combined with `redisPassword` or `useEntraID`. This component supports the full list of `oidc*` metadata fields documented in the [Redis state store documentation]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}}) | `"true"`, `"false"`                                             |
 | enableTLS             |    N     | If the Redis instance supports TLS with public certificates, can be configured to be enabled or disabled. Defaults to `"false"`                                                                                                                                                                                   | `"true"`, `"false"`                                             |
+| insecureSkipTLSVerify |    N     | Skip TLS certificate verification when `enableTLS` is `"true"`. Only use for testing. Defaults to `"false"`                                                                                                                                                                                                       | `"true"`, `"false"`                                             |
 | maxRetries            |    N     | Maximum number of retries before giving up. Defaults to `3`                                                                                                                                                                                                                                                       | `5`, `10`                                                       |
 | maxRetryBackoff       |    N     | Maximum backoff between each retry. Defaults to `2` seconds; `"-1"` disables backoff.                                                                                                                                                                                                                             | `3000000000`                                                    |
 | failover              |    N     | Property to enable failover configuration. Needs sentinelMasterName to be set. When enabled, redisHost should contain the sentinel addresses. Defaults to `"false"` | `"true"`, `"false"`                                             |
@@ -103,6 +109,15 @@ The above example uses secrets as plain strings. It is recommended to use a secr
 | minIdleConns          |    N     | Minimum number of idle connections to keep open in order to avoid the performance degradation associated with creating new connections. Defaults to `"0"`.                                                                                                                                                        | `"2"`                                                           |
 | idleCheckFrequency    |    N     | Frequency of idle checks made by idle connections reaper. Default is `"1m"`. `"-1"` disables idle connections reaper.                                                                                                                                                                                             | `"-1"`                                                          |
 | idleTimeout           |    N     | Amount of time after which the client closes idle connections. Should be less than server's timeout. Default is `"5m"`. `"-1"` disables idle timeout check.                                                                                                                                                       | `"10m"`                                                         |
+
+## Supported servers and versions
+
+Dapr's Redis lock component is tested against the following Redis and Valkey versions:
+
+| Server | Versions |
+|--------|----------|
+| Redis | 6.x, 7.x |
+| [Valkey](https://valkey.io) | 8.x, 9.x |
 
 ## Setup Redis
 

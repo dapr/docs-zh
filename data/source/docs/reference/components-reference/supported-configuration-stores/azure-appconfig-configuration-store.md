@@ -52,8 +52,8 @@ The above example uses secrets as plain strings. It is recommended to use a secr
 
 | Field                      | Required | Details                                                                                                                                                                                                                                                                                                                       | Example |
 |----------------------------|:--------:|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| connectionString  | Y*       | Connection String for the Azure App Configuration instance. No Default. Can be `secretKeyRef` to use a secret reference. *Mutually exclusive with host field. *Not to be used when [Azure Authentication](https://docs.dapr.io/developing-applications/integrations/azure/azure-authentication/authenticating-azure/) is used | `Endpoint=https://foo.azconfig.io;Id=osOX-l9-s0:sig;Secret=00000000000000000000000000000000000000000000`
-| host              | N*       | Endpoint for the Azure App Configuration instance. No Default. *Mutually exclusive with connectionString field. *To be used when [Azure Authentication](https://docs.dapr.io/developing-applications/integrations/azure/azure-authentication/authenticating-azure/) is used                                                   | `https://dapr.azconfig.io`
+| connectionString  | Y*       | Connection String for the Azure App Configuration instance. No Default. Can be `secretKeyRef` to use a secret reference. *Mutually exclusive with host field. *Not to be used when [Azure Authentication](https://docs.dapr.io/integrations/azure/azure-authentication/authenticating-azure/) is used | `Endpoint=https://foo.azconfig.io;Id=osOX-l9-s0:sig;Secret=00000000000000000000000000000000000000000000`
+| host              | N*       | Endpoint for the Azure App Configuration instance. No Default. *Mutually exclusive with connectionString field. *To be used when [Azure Authentication](https://docs.dapr.io/integrations/azure/azure-authentication/authenticating-azure/) is used                                                   | `https://dapr.azconfig.io`
 | maxRetries                 | N        | Maximum number of retries before giving up. Defaults to `3`                                                                                                                                                                                                                                                                   | `5`, `10`
 | retryDelay                 | N        | RetryDelay specifies the initial amount of delay to use before retrying an operation. The delay increases exponentially with each retry up to the maximum specified by MaxRetryDelay. Defaults to `4` seconds; `"-1"` disables delay between retries.                                                                         | `4s`
 | maxRetryDelay              | N        | MaxRetryDelay specifies the maximum delay allowed before retrying an operation. Typically the value is greater than or equal to the value specified in RetryDelay. Defaults to `120` seconds; `"-1"` disables the limit                                                                                                       | `120s`
@@ -102,6 +102,15 @@ The label can be populated using query parameters in the request URL:
 ```bash
 GET curl http://localhost:<daprPort>/v1.0/configuration/<store-name>?key=<key name>&metadata.label=<label value>
 ```
+
+## Azure App Configuration response metadata
+
+When retrieving configuration items from Azure App Configuration, Dapr includes the following Azure properties in each returned configuration item's metadata. This is included under `items.<key>.metadata` in the payload:
+
+- `label`: The label set for the key-value.
+- `contentType`: The content type set for the key-value, for example `application/json`.
+
+If a property is not set on the Azure App Configuration item, that metadata entry is omitted from the response.
 
 ## Related links
 - [Basic schema for a Dapr component]({{% ref component-schema %}})

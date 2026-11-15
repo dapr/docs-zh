@@ -11,7 +11,6 @@ You'll use the Dapr CLI as the main tool for various Dapr-related tasks. You can
 - Run an application with a Dapr sidecar.
 - Review sidecar logs.
 - List running services.
-- Run the Dapr dashboard.
 
 The Dapr CLI works with both [self-hosted]({{% ref self-hosted %}}) and [Kubernetes]({{% ref Kubernetes %}}) environments.
 
@@ -182,7 +181,7 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
 The following example shows how to install CLI version `{{% dapr-latest-version cli="true" %}}`. You can also install release candidates by specifying the version (for example, `1.10.0-rc.3`).
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | DAPR_INSTALL_DIR="$HOME/dapr" -s {{% dapr-latest-version cli="true" %}}
+curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | DAPR_INSTALL_DIR="$HOME/dapr" /bin/bash -s {{% dapr-latest-version cli="true" %}}
 ```
 
 {{% /tab %}}
@@ -231,7 +230,6 @@ Available Commands:
   completion     Generates shell completion scripts
   components     List all Dapr components. Supported platforms: Kubernetes
   configurations List all Dapr configurations. Supported platforms: Kubernetes
-  dashboard      Start Dapr dashboard. Supported platforms: Kubernetes and self-hosted
   help           Help about any command
   init           Install Dapr on supported hosting platforms. Supported platforms: Kubernetes and self-hosted
   invoke         Invoke a method on a given Dapr application. Supported platforms: Self-hosted

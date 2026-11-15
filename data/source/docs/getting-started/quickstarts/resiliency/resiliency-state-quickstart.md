@@ -25,7 +25,8 @@ Select your preferred language-specific Dapr SDK before proceeding with the Quic
 For this example, you will need:
 
 - [Dapr CLI and initialized environment](https://docs.dapr.io/getting-started).
-- [Python 3.7+ installed](https://www.python.org/downloads/).
+- [Python 3.11 or later installed](https://www.python.org/downloads/).
+- [uv](https://docs.astral.sh/uv/getting-started/installation/), the Python package manager that the sample uses.
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -35,19 +36,19 @@ For this example, you will need:
 Clone the [sample provided in the Quickstarts repo](https://github.com/dapr/quickstarts/tree/master/state_management/python/sdk).
 
 ```bash
-git clone https://github.com/dapr/quickstarts.git
+git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
-In a terminal window, navigate to the `order-processor` directory.
+In a terminal window, from the root of the Quickstarts directory, navigate to the `order-processor` directory.
 
 ```bash
-cd ../state_management/python/sdk/order-processor
+cd state_management/python/sdk/order-processor
 ```
 
 Install dependencies
 
 ```bash
-pip3 install -r requirements.txt 
+uv sync
 ```
 
 ### Step 2: Run the application
@@ -87,7 +88,7 @@ Run the `order-processor` service alongside a Dapr sidecar. The Dapr sidecar the
 
 
 ```bash
-dapr run --app-id order-processor --resources-path ../../../resources/ -- python3
+dapr run --app-id order-processor --resources-path ../../../resources/ -- uv run python app.py
 ```
 
 Once the application has started, the `order-processor`service writes and reads `orderId` key/value pairs to the `statestore` Redis instance [defined in the `statestore.yaml` component]({{% ref "statemanagement-quickstart#statestoreyaml-component-file" %}}).
@@ -209,10 +210,10 @@ Clone the [sample provided in the Quickstarts repo](https://github.com/dapr/quic
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-In a terminal window, navigate to the `order-processor` directory.
+In a terminal window, from the root of the Quickstarts directory, navigate to the `order-processor` directory.
 
 ```bash
-cd ../state_management/javascript/sdk/order-processor
+cd state_management/javascript/sdk/order-processor
 ```
 
 Install dependencies
@@ -378,10 +379,10 @@ Clone the [sample provided in the Quickstarts repo](https://github.com/dapr/quic
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-In a terminal window, navigate to the `order-processor` directory.
+In a terminal window, from the root of the Quickstarts directory, navigate to the `order-processor` directory.
 
 ```bash
-cd ../state_management/csharp/sdk/order-processor
+cd state_management/csharp/sdk/order-processor
 ```
 
 Install dependencies
@@ -550,10 +551,10 @@ Clone the [sample provided in the Quickstarts repo](https://github.com/dapr/quic
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-In a terminal window, navigate to the `order-processor` directory.
+In a terminal window, from the root of the Quickstarts directory, navigate to the `order-processor` directory.
 
 ```bash
-cd ../state_management/java/sdk/order-processor
+cd state_management/java/sdk/order-processor
 ```
 
 Install dependencies
@@ -718,10 +719,10 @@ Clone the [sample provided in the Quickstarts repo](https://github.com/dapr/quic
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-In a terminal window, navigate to the `order-processor` directory.
+In a terminal window, from the root of the Quickstarts directory, navigate to the `order-processor` directory.
 
 ```bash
-cd ../state_management/go/sdk/order-processor
+cd state_management/go/sdk/order-processor
 ```
 
 Install dependencies
@@ -867,10 +868,14 @@ INFO[0036] Recovered processing operation component[statestore] output.
 
 {{< /tabpane >}}
 
+## Build your own resiliency policies with the Dapr Dev Dashboard
+
+The [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) has a built-in resiliency builder. Instead of writing a `resiliency.yaml` file by hand, you can use the UI wizard to define timeouts, retries, and circuit breakers, and apply them to your apps, components, and actors. Try recreating the `myresiliency` policy from this quickstart, or experiment with different retry and circuit breaker settings and rerun the fault scenario.
+
 ## Tell us what you think!
 We're continuously working to improve our Quickstart examples and value your feedback. Did you find this quickstart helpful? Do you have suggestions for improvement?
 
-Join the discussion in our [discord channel](https://discord.com/channels/778680217417809931/953427615916638238).
+Join our [Discord Server](https://diagrid.ws/dapr-discord) and share your thoughts.
 
 ## Next steps
 

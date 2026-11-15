@@ -30,6 +30,8 @@ To initialize Dapr in your local or remote **Kubernetes** cluster for developmen
 {{% alert title="Docker" color="primary" %}}
 The recommended development environment requires [Docker](https://docs.docker.com/install/). While you can [initialize Dapr without a dependency on Docker]({{% ref self-hosted-no-docker.md %}}), the next steps in this guide assume the recommended Docker development environment.
 
+If you do not have Docker and cannot install it, do not use the `dapr init` step in this guide. Follow [How-To: Run Dapr in self-hosted mode without Docker]({{% ref self-hosted-no-docker.md %}}) instead.
+
 You can also install [Podman](https://podman.io/) in place of Docker. Read more about [initializing Dapr using Podman]({{% ref dapr-init.md %}}).
 {{% /alert %}}
 
@@ -178,16 +180,44 @@ To install the CLI without any default configuration files or Docker containers,
 dapr init --slim
 ```
 
-### Other tooling (optional)
+### Other recommended tooling
 
-#### Diagrid Dashboard for Dapr Workflow
+#### Dapr Dev Dashboard
 
-If you're planning to build Dapr Workflow applications, you can install the [Diagrid Dashboard](https://diagrid.ws/diagrid-dashboard-docs) to visualize workflow state during local development:
+The free [Diagrid Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) is a companion for local Dapr development. It provides insights for applications, sidecars, components, state stores, subscriptions, actors, workflows, and logs. It can also be used to create Dapr component files and resiliency policies, without hand-editing yaml.
 
-Start the Diagrid Dashboard container using Docker:
+<img src="/images/install-dapr-selfhost/diagrid-dashboard-applications.png" width=800 alt="Diagrid Dev Dashboard showing local Dapr applications"/><br/>
+
+{{< tabpane text=true >}}
+
+Download & install the dashboard via the terminal:
+
+{{% tab "Linux/MacOS" %}}
 
 ```bash
-docker run -p 8080:8080 ghcr.io/diagridio/diagrid-dashboard:latest
+curl -sSL https://raw.githubusercontent.com/diagridio/dev-dashboard/main/scripts/install.sh | sh
 ```
+
+{{% /tab %}}
+
+{{% tab "Windows" %}}
+
+```bash
+iwr -useb https://raw.githubusercontent.com/diagridio/dev-dashboard/main/scripts/install.ps1 | iex
+```
+
+{{% /tab %}}
+
+{{< /tabpane >}}
+
+Start the Dapr Dev Dashboard with:
+
+```bash
+diagrid-dev-dashboard
+```
+
+<!-- IGNORE_LINKS -->
+The dashboard will open in a browser at [http://localhost:9090](http://localhost:9090).
+<!-- END_IGNORE -->
 
 {{< button text="Next step: Use the Dapr API >>" page="getting-started/get-started-api.md" >}}

@@ -40,6 +40,14 @@ The clamp is applied at both registration sites: the global `drainOngoingCallTim
 
 The clamping only protects daprd from resetting its own placement stream. A drain timeout that doesn't get clamped can still exceed the placement service's dissemination timeout (8 seconds by default), in which case placement kicks the sidecar from the round and resets its gRPC stream, producing noisy reconnects and reschedules. It is recommended to keep `drainOngoingCallTimeout` comfortably below the Placement `disseminateTimeout` (for example, 5 seconds or lower), or raise `dapr_placement.disseminateTimeout` to accommodate a longer drain period.
 
+Most Dapr SDKs leave `drainOngoingCallTimeout` unset unless your application configures it, so the 2-second default applies. The .NET Actors.Next SDK is an exception: it sets a 30-second default, which sits exactly at the clamp boundary; configure a lower value explicitly.
+
+> **Note:** The daprd-side placement dissemination timeout discussed here (default 30 seconds) is distinct from the control plane's dissemination round timeouts: `dapr_placement.disseminateTimeout` on the Placement service, and `--placement-disseminate-timeout` on the Scheduler when it [serves placement]({{% ref "placement#serving-placement-from-the-scheduler-service" %}}). Both default to `8s`.
+
+## Draining at pod termination
+
+`drainOngoingCallTimeout` and `drainRebalancedActors` only take effect while the sidecar can still reach your application. On Kubernetes, with the default sidecar injection, both containers receive `SIGTERM` at the same time, so an application that exits promptly is gone before the sidecar drains, leaving these settings nothing to act on. With native sidecars the application is always terminated first. Configure the application container to outlive the sidecar's shutdown: see [Graceful shutdown for actor hosts]({{% ref "kubernetes-production.md#graceful-shutdown-for-actor-hosts" %}}).
+
 ## Examples
 
 {{< tabpane text=true >}}
