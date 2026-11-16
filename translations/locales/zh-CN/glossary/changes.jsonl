@@ -484,3 +484,155 @@
 {"ts":"2026-11-16T21:17:37.435Z","run":"20261116-2040","op":"add","id":"index-settings","target":"索引设置","version":177,"doc":"docs/reference/components-reference/supported-search/meilisearch.md"}
 {"ts":"2026-11-16T21:18:50.013Z","run":"20261116-2040","op":"add","id":"prompt-injection","target":"提示词注入","version":178,"doc":"docs/developing-ai/mcp/mcp-security.md"}
 {"ts":"2026-11-16T21:18:50.013Z","run":"20261116-2040","op":"add","id":"secret-sprawl","target":"机密蔓延","version":178,"doc":"docs/developing-ai/mcp/mcp-security.md"}
+{"ts":"2026-11-16T21:20:33.818Z","run":"20261116-2040","op":"add","id":"app-channel","target":"应用通道","version":179,"doc":"docs/operations/resiliency/health-checks/app-health.md"}
+{"ts":"2026-11-16T21:20:33.818Z","run":"20261116-2040","op":"add","id":"health-probe","target":"健康探测","version":179,"doc":"docs/operations/resiliency/health-checks/app-health.md"}
+{"ts":"2026-11-16T21:20:34.143Z","run":"20261116-2040","op":"add","id":"workflow-client","target":"工作流客户端","version":180,"doc":"docs/operations/support/breaking-changes-and-deprecations.md"}
+{"ts":"2026-11-16T21:20:34.143Z","run":"20261116-2040","op":"add","id":"topic-handler","target":"主题处理程序","version":180,"doc":"docs/operations/support/breaking-changes-and-deprecations.md"}
+{"ts":"2026-11-16T21:20:34.143Z","run":"20261116-2040","op":"add","id":"shim","target":"兼容层","version":180,"doc":"docs/operations/support/breaking-changes-and-deprecations.md"}
+{"ts":"2026-11-16T21:21:12.076Z","run":"20261116-2040","op":"bump","id":"activity","occurrences":2,"version":181,"doc":"docs/developing-ai/rag/rag-quickstart.md"}
+{"ts":"2026-11-16T21:21:12.076Z","run":"20261116-2040","op":"add","id":"worker","target":"工作进程","version":181,"doc":"docs/developing-ai/rag/rag-quickstart.md"}
+{"ts":"2026-11-16T21:21:12.076Z","run":"20261116-2040","op":"add","id":"s3mock","kind":"doNotTranslate","version":181,"doc":"docs/developing-ai/rag/rag-quickstart.md"}
+{"ts":"2026-11-16T21:21:12.076Z","run":"20261116-2040","op":"add","id":"azure-storage","kind":"doNotTranslate","version":181,"doc":"docs/developing-ai/rag/rag-quickstart.md"}
+{"ts":"2026-11-16T21:21:12.413Z","run":"20261116-2040","op":"add","id":"endpoint","target":"端点","version":182,"doc":"docs/reference/resource-specs/mcpserver-schema.md"}
+{"ts":"2026-11-16T21:21:12.413Z","run":"20261116-2040","op":"add","id":"scope","target":"作用域","version":182,"doc":"docs/reference/resource-specs/mcpserver-schema.md"}
+{"ts":"2026-11-16T21:21:12.413Z","run":"20261116-2040","op":"add","id":"streamable-http","kind":"doNotTranslate","version":182,"doc":"docs/reference/resource-specs/mcpserver-schema.md"}
+{"ts":"2026-11-16T21:21:12.413Z","run":"20261116-2040","op":"add","id":"sse","kind":"doNotTranslate","version":182,"doc":"docs/reference/resource-specs/mcpserver-schema.md"}
+{"ts":"2026-11-16T21:21:12.413Z","run":"20261116-2040","op":"add","id":"stdio","kind":"doNotTranslate","version":182,"doc":"docs/reference/resource-specs/mcpserver-schema.md"}
+{"ts":"2026-11-16T21:21:48.661Z","run":"20261116-2040","op":"add","id":"trust-anchor","target":"信任锚点","version":183,"doc":"docs/integrations/AWS/authenticating-aws.md"}
+{"ts":"2026-11-16T21:21:48.661Z","run":"20261116-2040","op":"add","id":"authentication-profile","target":"身份验证配置文件","version":183,"doc":"docs/integrations/AWS/authenticating-aws.md"}
+{"ts":"2026-11-16T21:21:48.661Z","run":"20261116-2040","op":"add","id":"instance-profile","target":"实例配置文件","version":183,"doc":"docs/integrations/AWS/authenticating-aws.md"}
+{"ts":"2026-11-16T21:21:48.661Z","run":"20261116-2040","op":"add","id":"secret-access-key","target":"秘密访问密钥","version":183,"doc":"docs/integrations/AWS/authenticating-aws.md"}
+{"ts":"2026-11-16T21:21:48.661Z","run":"20261116-2040","op":"add","id":"iam-roles-anywhere","kind":"doNotTranslate","version":183,"doc":"docs/integrations/AWS/authenticating-aws.md"}
+{"ts":"2026-11-16T21:21:48.661Z","run":"20261116-2040","op":"add","id":"eks-pod-identity","kind":"doNotTranslate","version":183,"doc":"docs/integrations/AWS/authenticating-aws.md"}
+{"ts":"2026-11-16T21:21:48.940Z","run":"20261116-2040","op":"add","id":"horizontal-pod-autoscaler","target":"水平 Pod 自动扩缩器","version":184,"doc":"docs/integrations/autoscale-keda.md"}
+{"ts":"2026-11-16T21:21:48.940Z","run":"20261116-2040","op":"add","id":"lag","kind":"doNotTranslate","version":184,"doc":"docs/integrations/autoscale-keda.md"}
+{"ts":"2026-11-16T21:21:51.128Z","run":"20261116-2040","op":"add","id":"claude","kind":"doNotTranslate","version":185,"doc":"docs/developing-ai/dapr-agents/integrations/providers/anthropic.md"}
+{"ts":"2026-11-16T21:21:51.128Z","run":"20261116-2040","op":"add","id":"messages-api","kind":"doNotTranslate","version":185,"doc":"docs/developing-ai/dapr-agents/integrations/providers/anthropic.md"}
+{"ts":"2026-11-16T21:21:51.128Z","run":"20261116-2040","op":"add","id":"prompty","kind":"doNotTranslate","version":185,"doc":"docs/developing-ai/dapr-agents/integrations/providers/anthropic.md"}
+{"ts":"2026-11-16T21:21:51.128Z","run":"20261116-2040","op":"add","id":"pydantic","kind":"doNotTranslate","version":185,"doc":"docs/developing-ai/dapr-agents/integrations/providers/anthropic.md"}
+{"ts":"2026-11-16T21:21:51.128Z","run":"20261116-2040","op":"add","id":"extended-thinking","target":"扩展思考","version":185,"doc":"docs/developing-ai/dapr-agents/integrations/providers/anthropic.md"}
+{"ts":"2026-11-16T21:21:51.459Z","run":"20261116-2040","op":"add","id":"open-policy-agent","kind":"doNotTranslate","version":186,"doc":"docs/developing-ai/mcp/mcp-access-control.md"}
+{"ts":"2026-11-16T21:21:51.459Z","run":"20261116-2040","op":"add","id":"json-rpc","kind":"doNotTranslate","version":186,"doc":"docs/developing-ai/mcp/mcp-access-control.md"}
+{"ts":"2026-11-16T21:21:51.459Z","run":"20261116-2040","op":"add","id":"rego","kind":"doNotTranslate","version":186,"doc":"docs/developing-ai/mcp/mcp-access-control.md"}
+{"ts":"2026-11-16T21:21:51.459Z","run":"20261116-2040","op":"reject","id":"oauth-2.0","target":"OAuth 2.0","reason":"identifier: looks like a path, flag or code symbol","version":186,"doc":"docs/developing-ai/mcp/mcp-access-control.md"}
+{"ts":"2026-11-16T21:21:51.459Z","run":"20261116-2040","op":"add","id":"bearer","kind":"doNotTranslate","version":186,"doc":"docs/developing-ai/mcp/mcp-access-control.md"}
+{"ts":"2026-11-16T21:21:51.459Z","run":"20261116-2040","op":"add","id":"access-control-list","target":"访问控制列表","version":186,"doc":"docs/developing-ai/mcp/mcp-access-control.md"}
+{"ts":"2026-11-16T21:23:02.686Z","run":"20261116-2040","op":"add","id":"mcp-client","target":"MCP 客户端","version":187,"doc":"docs/developing-ai/mcp/dapr-mcp-server/dapr-mcp-server-getting-started.md"}
+{"ts":"2026-11-16T21:23:02.963Z","run":"20261116-2040","op":"add","id":"mcp-annotations","target":"MCP 注解","version":188,"doc":"docs/developing-ai/mcp/dapr-mcp-server/dapr-mcp-server-tool-reference.md"}
+{"ts":"2026-11-16T21:25:58.270Z","run":"20261116-2040","op":"add","id":"agent-executors","target":"代理执行器","version":189,"doc":"docs/developing-ai/dapr-agents/dapr-agents-hooks.md"}
+{"ts":"2026-11-16T21:25:58.270Z","run":"20261116-2040","op":"add","id":"agentic-patterns","target":"代理模式","version":189,"doc":"docs/developing-ai/dapr-agents/dapr-agents-hooks.md"}
+{"ts":"2026-11-16T21:25:58.573Z","run":"20261116-2040","op":"add","id":"cross-cutting-apis","target":"横切 API","version":190,"doc":"docs/overview.md"}
+{"ts":"2026-11-16T21:25:58.573Z","run":"20261116-2040","op":"add","id":"hosting-environments","target":"托管环境","version":190,"doc":"docs/overview.md"}
+{"ts":"2026-11-16T21:25:58.573Z","run":"20261116-2040","op":"add","id":"resource-bindings","target":"资源绑定","version":190,"doc":"docs/overview.md"}
+{"ts":"2026-11-16T21:25:58.573Z","run":"20261116-2040","op":"collision","id":"publish-and-subscribe","target":"发布订阅","with":"pub-sub","version":190,"doc":"docs/overview.md"}
+{"ts":"2026-11-16T21:27:43.098Z","run":"20261116-2040","op":"add","id":"federated-identity-credential","target":"联合标识凭据","version":191,"doc":"docs/integrations/Azure/azure-authentication/authenticating-azure.md"}
+{"ts":"2026-11-16T21:27:43.098Z","run":"20261116-2040","op":"add","id":"azure-cli","kind":"doNotTranslate","version":191,"doc":"docs/integrations/Azure/azure-authentication/authenticating-azure.md"}
+{"ts":"2026-11-16T21:27:43.454Z","run":"20261116-2040","op":"bump","id":"declarative-subscription","occurrences":2,"version":192,"doc":"docs/reference/components-reference/supported-pubsub/setup-amqp.md"}
+{"ts":"2026-11-16T21:27:43.454Z","run":"20261116-2040","op":"add","id":"named-subscription","target":"命名订阅","version":192,"doc":"docs/reference/components-reference/supported-pubsub/setup-amqp.md"}
+{"ts":"2026-11-16T21:27:43.454Z","run":"20261116-2040","op":"add","id":"durable-subscription","target":"持久订阅","version":192,"doc":"docs/reference/components-reference/supported-pubsub/setup-amqp.md"}
+{"ts":"2026-11-16T21:27:43.454Z","run":"20261116-2040","op":"add","id":"shared-subscription","target":"共享订阅","version":192,"doc":"docs/reference/components-reference/supported-pubsub/setup-amqp.md"}
+{"ts":"2026-11-16T21:27:43.454Z","run":"20261116-2040","op":"add","id":"dead-letter-address","target":"死信地址","version":192,"doc":"docs/reference/components-reference/supported-pubsub/setup-amqp.md"}
+{"ts":"2026-11-16T21:27:43.454Z","run":"20261116-2040","op":"add","id":"activemq-artemis","kind":"doNotTranslate","version":192,"doc":"docs/reference/components-reference/supported-pubsub/setup-amqp.md"}
+{"ts":"2026-11-16T21:27:43.454Z","run":"20261116-2040","op":"reject","id":"solace-pubsub+","target":"Solace PubSub+","reason":"symbol: a UI path, label or sentence, not a term","version":192,"doc":"docs/reference/components-reference/supported-pubsub/setup-amqp.md"}
+{"ts":"2026-11-16T21:27:45.791Z","run":"20261116-2040","op":"add","id":"search-store","target":"搜索存储","version":193,"doc":"docs/reference/api/search_api.md"}
+{"ts":"2026-11-16T21:27:45.791Z","run":"20261116-2040","op":"add","id":"filter-language","target":"过滤语言","version":193,"doc":"docs/reference/api/search_api.md"}
+{"ts":"2026-11-16T21:27:45.791Z","run":"20261116-2040","op":"add","id":"indexing-options","target":"索引选项","version":193,"doc":"docs/reference/api/search_api.md"}
+{"ts":"2026-11-16T21:27:46.092Z","run":"20261116-2040","op":"add","id":"vector-store","target":"向量存储","version":194,"doc":"docs/reference/api/vector_api.md"}
+{"ts":"2026-11-16T21:27:46.092Z","run":"20261116-2040","op":"add","id":"dense-vector","target":"稠密向量","version":194,"doc":"docs/reference/api/vector_api.md"}
+{"ts":"2026-11-16T21:27:46.092Z","run":"20261116-2040","op":"bump","id":"filter-language","occurrences":2,"version":194,"doc":"docs/reference/api/vector_api.md"}
+{"ts":"2026-11-16T21:29:01.155Z","run":"20261116-2040","op":"add","id":"caller","target":"调用方","version":195,"doc":"docs/operations/security/workflow-access-policy.md"}
+{"ts":"2026-11-16T21:29:01.155Z","run":"20261116-2040","op":"add","id":"callee","target":"被调用方","version":195,"doc":"docs/operations/security/workflow-access-policy.md"}
+{"ts":"2026-11-16T21:29:01.155Z","run":"20261116-2040","op":"add","id":"glob-pattern","target":"glob 模式","version":195,"doc":"docs/operations/security/workflow-access-policy.md"}
+{"ts":"2026-11-16T21:29:01.155Z","run":"20261116-2040","op":"add","id":"self-call","target":"自调用","version":195,"doc":"docs/operations/security/workflow-access-policy.md"}
+{"ts":"2026-11-16T21:29:01.155Z","run":"20261116-2040","op":"add","id":"namespace","target":"命名空间","version":195,"doc":"docs/operations/security/workflow-access-policy.md"}
+{"ts":"2026-11-16T21:29:01.511Z","run":"20261116-2040","op":"add","id":"failover","target":"故障转移","version":196,"doc":"docs/reference/components-reference/supported-locks/redis-lock.md"}
+{"ts":"2026-11-16T21:29:01.511Z","run":"20261116-2040","op":"add","id":"redelivery","target":"重新传递","version":196,"doc":"docs/reference/components-reference/supported-locks/redis-lock.md"}
+{"ts":"2026-11-16T21:30:11.799Z","run":"20261116-2040","op":"reject","id":"key-reference","target":"密钥引用","reason":"generic: made only of ordinary words","version":197,"doc":"sdks_js/js-cryptography/_index.md"}
+{"ts":"2026-11-16T21:30:11.799Z","run":"20261116-2040","op":"add","id":"key-material","target":"密钥材料","version":197,"doc":"sdks_js/js-cryptography/_index.md"}
+{"ts":"2026-11-16T21:30:11.799Z","run":"20261116-2040","op":"add","id":"dapr-crypto-scheme","kind":"doNotTranslate","version":197,"doc":"sdks_js/js-cryptography/_index.md"}
+{"ts":"2026-11-16T21:30:14.134Z","run":"20261116-2040","op":"add","id":"search-api","target":"搜索 API","version":198,"doc":"sdks_dotnet/dotnet-search/_index.md"}
+{"ts":"2026-11-16T21:30:14.134Z","run":"20261116-2040","op":"add","id":"vector-.net-sdk","kind":"doNotTranslate","version":198,"doc":"sdks_dotnet/dotnet-search/_index.md"}
+{"ts":"2026-11-16T21:30:14.418Z","run":"20261116-2040","op":"add","id":"conversation-alpha2-api","target":"对话 Alpha2 API","version":199,"doc":"sdks_js/js-conversation/_index.md"}
+{"ts":"2026-11-16T21:30:14.418Z","run":"20261116-2040","op":"add","id":"function-tool-calls","target":"函数工具调用","version":199,"doc":"sdks_js/js-conversation/_index.md"}
+{"ts":"2026-11-16T21:40:04.691Z","run":"20261116-2040","op":"add","id":"search-.net-sdk","target":"搜索 .NET SDK","version":200,"doc":"sdks_dotnet/dotnet-vector/_index.md"}
+{"ts":"2026-11-16T21:40:45.488Z","run":"20261116-2040","op":"add","id":"state-transaction","target":"状态事务","version":201,"doc":"sdks_dotnet/dotnet-state-management/_index.md"}
+{"ts":"2026-11-16T21:41:55.666Z","run":"20261116-2040","op":"add","id":"dapr-runtime","target":"Dapr 运行时","version":202,"doc":"sdks_js/js-jobs/_index.md"}
+{"ts":"2026-11-16T21:41:57.891Z","run":"20261116-2040","op":"collision","id":"bulk-subscription","target":"批量订阅","with":"bulk-subscribe","version":202,"doc":"sdks_dotnet/dotnet-messaging/tutorial/dotnet-messaging-tutorial-bulk.md"}
+{"ts":"2026-11-16T21:41:57.891Z","run":"20261116-2040","op":"collision","id":"bulk-publishing","target":"批量发布","with":"bulk-publish","version":202,"doc":"sdks_dotnet/dotnet-messaging/tutorial/dotnet-messaging-tutorial-bulk.md"}
+{"ts":"2026-11-16T21:43:09.611Z","run":"20261116-2040","op":"add","id":"patch","target":"补丁","version":203,"doc":"sdks_js/js-workflow/js-workflow-versioning.md"}
+{"ts":"2026-11-16T21:43:09.611Z","run":"20261116-2040","op":"add","id":"workflow-versioning","target":"工作流版本控制","version":203,"doc":"sdks_js/js-workflow/js-workflow-versioning.md"}
+{"ts":"2026-11-16T21:43:09.955Z","run":"20261116-2040","op":"add","id":"databricks-lakeflow","kind":"doNotTranslate","version":204,"doc":"sdks_python/python-sdk-extensions/python-databricks-ext/_index.md"}
+{"ts":"2026-11-16T21:43:09.955Z","run":"20261116-2040","op":"add","id":"dapr-python-sdk","kind":"doNotTranslate","version":204,"doc":"sdks_python/python-sdk-extensions/python-databricks-ext/_index.md"}
+{"ts":"2026-11-16T21:43:09.955Z","run":"20261116-2040","op":"add","id":"dapr-databricks","kind":"doNotTranslate","version":204,"doc":"sdks_python/python-sdk-extensions/python-databricks-ext/_index.md"}
+{"ts":"2026-11-16T21:43:12.218Z","run":"20261116-2040","op":"add","id":"cloudevent","kind":"doNotTranslate","version":205,"doc":"sdks_dotnet/dotnet-messaging/tutorial/dotnet-messaging-tutorial-routing.md"}
+{"ts":"2026-11-16T21:43:12.518Z","run":"20261116-2040","op":"add","id":"hosted-service","target":"托管服务","version":206,"doc":"sdks_dotnet/dotnet-messaging/tutorial/dotnet-messaging-tutorial-streaming.md"}
+{"ts":"2026-11-16T21:43:12.518Z","run":"20261116-2040","op":"add","id":"poison-message","target":"有毒消息","version":206,"doc":"sdks_dotnet/dotnet-messaging/tutorial/dotnet-messaging-tutorial-streaming.md"}
+{"ts":"2026-11-16T21:44:29.166Z","run":"20261116-2040","op":"add","id":"workflow-data-references","target":"工作流数据引用","version":207,"doc":"sdks_js/js-workflow/js-workflow-serialization.md"}
+{"ts":"2026-11-16T21:45:41.510Z","run":"20261116-2040","op":"collision","id":"bulk-publishing","target":"批量发布","with":"bulk-publish","version":208,"doc":"sdks_js/js-pubsub/js-pubsub-usage.md"}
+{"ts":"2026-11-16T21:45:41.510Z","run":"20261116-2040","op":"collision","id":"bulk-subscription","target":"批量订阅","with":"bulk-subscribe","version":208,"doc":"sdks_js/js-pubsub/js-pubsub-usage.md"}
+{"ts":"2026-11-16T21:45:41.510Z","run":"20261116-2040","op":"add","id":"server-callback","target":"服务端回调","version":208,"doc":"sdks_js/js-pubsub/js-pubsub-usage.md"}
+{"ts":"2026-11-16T21:45:41.812Z","run":"20261116-2040","op":"add","id":"unary","target":"一元","version":209,"doc":"sdks_js/js-service-invocation/_index.md"}
+{"ts":"2026-11-16T21:45:41.812Z","run":"20261116-2040","op":"add","id":"grpc-proxying-protocol","target":"gRPC 代理协议","version":209,"doc":"sdks_js/js-service-invocation/_index.md"}
+{"ts":"2026-11-16T21:46:53.812Z","run":"20261116-2040","op":"add","id":"dapr-environment","target":"Dapr 环境","version":210,"doc":"sdks_js/js-conversation/js-conversation-howto.md"}
+{"ts":"2026-11-16T21:46:54.120Z","run":"20261116-2040","op":"add","id":"dead-letter","target":"死信","version":211,"doc":"sdks_js/js-pubsub/js-pubsub-streaming-howto.md"}
+{"ts":"2026-11-16T21:46:54.120Z","run":"20261116-2040","op":"add","id":"idempotent","target":"幂等","version":211,"doc":"sdks_js/js-pubsub/js-pubsub-streaming-howto.md"}
+{"ts":"2026-11-16T21:47:38.681Z","run":"20261116-2040","op":"add","id":"state-migration","target":"状态迁移","version":212,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-migration.md"}
+{"ts":"2026-11-16T21:47:38.681Z","run":"20261116-2040","op":"add","id":"upcaster","target":"升级器","version":212,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-migration.md"}
+{"ts":"2026-11-16T21:47:38.681Z","run":"20261116-2040","op":"reject","id":"graduation-offramp","target":"毕业退出通道","reason":"not-used: the translation does not contain it","version":212,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-migration.md"}
+{"ts":"2026-11-16T21:48:53.012Z","run":"20261116-2040","op":"add","id":"nuget","kind":"doNotTranslate","version":213,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/_index.md"}
+{"ts":"2026-11-16T21:48:53.012Z","run":"20261116-2040","op":"reject","id":"xunit","target":"xUnit","reason":"identifier: looks like a path, flag or code symbol","version":213,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/_index.md"}
+{"ts":"2026-11-16T21:48:53.012Z","run":"20261116-2040","op":"add","id":"interpreted-actor","target":"解释型 Actor","version":213,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/_index.md"}
+{"ts":"2026-11-16T21:48:53.317Z","run":"20261116-2040","op":"reject","id":"node.js","target":"Node.js","reason":"identifier: looks like a path, flag or code symbol","version":214,"doc":"sdks_js/js-jobs/js-jobs-cron.md"}
+{"ts":"2026-11-16T21:48:53.317Z","run":"20261116-2040","op":"add","id":"iana","kind":"doNotTranslate","version":214,"doc":"sdks_js/js-jobs/js-jobs-cron.md"}
+{"ts":"2026-11-16T21:48:53.317Z","run":"20261116-2040","op":"add","id":"descriptor","target":"描述符","version":214,"doc":"sdks_js/js-jobs/js-jobs-cron.md"}
+{"ts":"2026-11-16T21:48:53.317Z","run":"20261116-2040","op":"add","id":"builder","target":"构建器","version":214,"doc":"sdks_js/js-jobs/js-jobs-cron.md"}
+{"ts":"2026-11-16T21:50:37.151Z","run":"20261116-2040","op":"add","id":"server-subscription","target":"服务端订阅","version":215,"doc":"sdks_js/js-pubsub/js-pubsub-publish-howto.md"}
+{"ts":"2026-11-16T21:50:37.462Z","run":"20261116-2040","op":"add","id":"chunk","target":"块","version":216,"doc":"sdks_js/js-workflow/js-workflow-multi-app.md"}
+{"ts":"2026-11-16T21:50:39.926Z","run":"20261116-2040","op":"collision","id":"configuration-store","target":"配置存储","with":"config-store","version":216,"doc":"sdks_js/js-configuration/js-configuration-howto.md"}
+{"ts":"2026-11-16T21:51:18.677Z","run":"20261116-2040","op":"add","id":"activation","target":"激活","version":217,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-cart.md"}
+{"ts":"2026-11-16T21:51:18.986Z","run":"20261116-2040","op":"add","id":"non-dapr-endpoint","target":"非 Dapr 端点","version":218,"doc":"sdks_js/js-service-invocation/js-service-invocation-howto.md"}
+{"ts":"2026-11-16T21:53:39.803Z","run":"20261116-2040","op":"add","id":"zombie-fencing","target":"僵尸隔离","version":219,"doc":"docs/reference/components-reference/supported-pubsub/setup-apache-kafka.md"}
+{"ts":"2026-11-16T21:53:39.803Z","run":"20261116-2040","op":"add","id":"consume-transform-produce","target":"消费-转换-生产","version":219,"doc":"docs/reference/components-reference/supported-pubsub/setup-apache-kafka.md"}
+{"ts":"2026-11-16T21:53:39.803Z","run":"20261116-2040","op":"add","id":"schema-subject","target":"Schema 主体（subject）","version":219,"doc":"docs/reference/components-reference/supported-pubsub/setup-apache-kafka.md"}
+{"ts":"2026-11-16T21:53:39.803Z","run":"20261116-2040","op":"add","id":"schema-registry","kind":"doNotTranslate","version":219,"doc":"docs/reference/components-reference/supported-pubsub/setup-apache-kafka.md"}
+{"ts":"2026-11-16T21:53:42.043Z","run":"20261116-2040","op":"add","id":"state-provider","target":"状态提供程序","version":220,"doc":"sdks_js/js-actors/js-actors-state.md"}
+{"ts":"2026-11-16T21:53:42.043Z","run":"20261116-2040","op":"add","id":"dispatcher","target":"分发器","version":220,"doc":"sdks_js/js-actors/js-actors-state.md"}
+{"ts":"2026-11-16T21:53:42.352Z","run":"20261116-2040","op":"add","id":"local-storage-component","target":"本地存储组件","version":221,"doc":"sdks_js/js-cryptography/js-cryptography-howto.md"}
+{"ts":"2026-11-16T21:53:44.705Z","run":"20261116-2040","op":"add","id":"local-file-secret-store","target":"本地文件机密存储","version":222,"doc":"sdks_js/js-secrets/js-secrets-howto.md"}
+{"ts":"2026-11-16T21:54:25.783Z","run":"20261116-2040","op":"add","id":"typed-client","target":"类型化客户端","version":223,"doc":"sdks_dotnet/dotnet-binarystore/dotnet-binarystore-howto.md"}
+{"ts":"2026-11-16T21:54:26.091Z","run":"20261116-2040","op":"add","id":"invocation-handler","target":"调用处理程序","version":224,"doc":"sdks_js/js-service-invocation/js-service-invocation-server.md"}
+{"ts":"2026-11-16T21:54:26.091Z","run":"20261116-2040","op":"add","id":"embedded-client","target":"嵌入式客户端","version":224,"doc":"sdks_js/js-service-invocation/js-service-invocation-server.md"}
+{"ts":"2026-11-16T21:55:02.585Z","run":"20261116-2040","op":"add","id":"proxy-factory","target":"代理工厂","version":225,"doc":"sdks_dotnet/dotnet-actors/dotnet-actors-unit-testing.md"}
+{"ts":"2026-11-16T21:55:02.907Z","run":"20261116-2040","op":"conflict","id":"dispatcher","target":"派发器","version":226,"doc":"sdks_js/js-actors/js-actors-usage.md"}
+{"ts":"2026-11-16T21:55:02.907Z","run":"20261116-2040","op":"collision","id":"application-channel","target":"应用通道","with":"app-channel","version":226,"doc":"sdks_js/js-actors/js-actors-usage.md"}
+{"ts":"2026-11-16T21:55:02.907Z","run":"20261116-2040","op":"add","id":"reentrancy-context","target":"重入上下文","version":226,"doc":"sdks_js/js-actors/js-actors-usage.md"}
+{"ts":"2026-11-16T21:56:48.533Z","run":"20261116-2040","op":"add","id":"dapr-messaging","kind":"doNotTranslate","version":227,"doc":"sdks_dotnet/dotnet-messaging/dotnet-messaging-publish-howto.md"}
+{"ts":"2026-11-16T21:56:48.843Z","run":"20261116-2040","op":"add","id":"connect-rpc","kind":"doNotTranslate","version":228,"doc":"sdks_js/js-actors/js-actors-client.md"}
+{"ts":"2026-11-16T21:56:51.130Z","run":"20261116-2040","op":"add","id":"subscription-streams","target":"订阅流","version":229,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-pubsub.md"}
+{"ts":"2026-11-16T21:56:51.447Z","run":"20261116-2040","op":"add","id":"experimental-attributes","target":"实验性属性","version":230,"doc":"sdks_dotnet/dotnet-building-blocks.md"}
+{"ts":"2026-11-16T21:57:39.623Z","run":"20261116-2040","op":"add","id":"search-sdk","target":"搜索 SDK","version":231,"doc":"sdks_dotnet/dotnet-search/dotnet-search-howto.md"}
+{"ts":"2026-11-16T21:57:39.623Z","run":"20261116-2040","op":"add","id":"dapr.search","kind":"doNotTranslate","version":231,"doc":"sdks_dotnet/dotnet-search/dotnet-search-howto.md"}
+{"ts":"2026-11-16T21:57:39.623Z","run":"20261116-2040","op":"add","id":"in-memory-component","target":"in-memory 组件","version":231,"doc":"sdks_dotnet/dotnet-search/dotnet-search-howto.md"}
+{"ts":"2026-11-16T21:57:39.936Z","run":"20261116-2040","op":"add","id":"basic-workflow-api","target":"基础工作流 API","version":232,"doc":"sdks_js/js-workflow/js-workflow-management.md"}
+{"ts":"2026-11-16T21:58:17.150Z","run":"20261116-2040","op":"add","id":"secrets-client","target":"机密客户端","version":233,"doc":"sdks_js/js-secrets/js-secrets-client-usage.md"}
+{"ts":"2026-11-16T21:58:17.468Z","run":"20261116-2040","op":"add","id":"execution-id","target":"执行 ID","version":234,"doc":"sdks_js/js-workflow/js-workflow-authoring.md"}
+{"ts":"2026-11-16T21:58:17.468Z","run":"20261116-2040","op":"add","id":"history-generation","target":"历史代","version":234,"doc":"sdks_js/js-workflow/js-workflow-authoring.md"}
+{"ts":"2026-11-16T21:59:27.926Z","run":"20261116-2040","op":"add","id":"soft-close","target":"软关闭","version":235,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-auction.md"}
+{"ts":"2026-11-16T21:59:27.926Z","run":"20261116-2040","op":"add","id":"state-machine-actor","target":"状态机 Actor","version":235,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-auction.md"}
+{"ts":"2026-11-16T21:59:27.926Z","run":"20261116-2040","op":"add","id":"coyote-bridge","target":"Coyote 桥接","version":235,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-auction.md"}
+{"ts":"2026-11-16T21:59:28.251Z","run":"20261116-2040","op":"add","id":"azure-app-configuration","kind":"doNotTranslate","version":236,"doc":"sdks_js/js-configuration/js-configuration-client-usage.md"}
+{"ts":"2026-11-16T22:00:05.987Z","run":"20261116-2040","op":"add","id":"graduation-off-ramp","target":"毕业退出路径","version":237,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-serialization.md"}
+{"ts":"2026-11-16T22:00:06.305Z","run":"20261116-2040","op":"add","id":"dapr-metadata","kind":"doNotTranslate","version":238,"doc":"sdks_dotnet/dotnet-metadata/dotnet-metadata-howto.md"}
+{"ts":"2026-11-16T22:00:40.447Z","run":"20261116-2040","op":"add","id":"streaming-host","target":"流式宿主","version":239,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-streams.md"}
+{"ts":"2026-11-16T22:00:40.447Z","run":"20261116-2040","op":"add","id":"stream-registry","target":"流注册表","version":239,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-streams.md"}
+{"ts":"2026-11-16T22:01:14.780Z","run":"20261116-2040","op":"reject","id":"interpreted-state-machine","target":"解释型状态机","reason":"not-in-source: the term does not occur in the document's prose","version":240,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-interpreted.md"}
+{"ts":"2026-11-16T22:01:14.780Z","run":"20261116-2040","op":"add","id":"capability-registry","target":"能力注册表","version":240,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-interpreted.md"}
+{"ts":"2026-11-16T22:01:15.106Z","run":"20261116-2040","op":"add","id":"upsert","kind":"doNotTranslate","version":241,"doc":"sdks_dotnet/dotnet-vector/dotnet-vector-howto.md"}
+{"ts":"2026-11-16T22:01:15.106Z","run":"20261116-2040","op":"reject","id":"batch-query","target":"批量查询","reason":"not-in-source: the term does not occur in the document's prose","version":241,"doc":"sdks_dotnet/dotnet-vector/dotnet-vector-howto.md"}
+{"ts":"2026-11-16T22:01:17.358Z","run":"20261116-2040","op":"add","id":"content-based-routing","target":"基于内容的路由","version":242,"doc":"sdks_js/js-pubsub/js-pubsub-subscribe-howto.md"}
+{"ts":"2026-11-16T22:01:17.358Z","run":"20261116-2040","op":"add","id":"wildcard-topic","target":"通配符主题","version":242,"doc":"sdks_js/js-pubsub/js-pubsub-subscribe-howto.md"}
+{"ts":"2026-11-16T22:01:17.358Z","run":"20261116-2040","op":"collision","id":"bulk-subscription","target":"批量订阅","with":"bulk-subscribe","version":242,"doc":"sdks_js/js-pubsub/js-pubsub-subscribe-howto.md"}
+{"ts":"2026-11-16T22:02:51.650Z","run":"20261116-2040","op":"add","id":"custom-status","target":"自定义状态","version":243,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-authoring.md"}
+{"ts":"2026-11-16T22:02:51.650Z","run":"20261116-2040","op":"add","id":"durable-timer","target":"持久化定时器","version":243,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-authoring.md"}
+{"ts":"2026-11-16T22:02:51.650Z","run":"20261116-2040","op":"add","id":"continuation","target":"延续","version":243,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-authoring.md"}
+{"ts":"2026-11-16T22:02:51.979Z","run":"20261116-2040","op":"add","id":"invoker","target":"调用器","version":244,"doc":"sdks_js/js-service-invocation/js-service-invocation-usage.md"}

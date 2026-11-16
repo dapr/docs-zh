@@ -1,0 +1,1002 @@
+---
+type: docs
+title: "Apache Kafka"
+linkTitle: "Apache Kafka"
+description: "Detailed documentation on the Apache Kafka pubsub component"
+aliases:
+  - "/operations/components/setup-pubsub/supported-pubsub/setup-apache-kafka/"
+---
+
+## Component format
+
+To set up Apache Kafka pub/sub, create a component of type `pubsub.kafka`. See the [pub/sub broker component file]({{% ref setup-pubsub.md %}}) to learn how ConsumerID is automatically generated. Read the [How-to: Publish and Subscribe guide]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}}) on how to create and apply a pub/sub configuration.
+
+All component metadata field values can carry [templated metadata values]({{% ref "component-schema.md#templated-metadata-values" %}}), which are resolved on Dapr sidecar startup.
+For example, you can choose to use `{namespace}` as the `consumerGroup` to enable using the same `appId` in different namespaces using the same topics as described in [this article]({{% ref "howto-namespace.md#with-namespace-consumer-groups"%}}).
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: consumerGroup # Optional. Used for input bindings.
+    value: "{namespace}"
+  - name: consumerID # Optional. If not supplied, runtime will create one.
+    value: "channel1"
+  - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
+    value: "my-dapr-app-id"
+  - name: authType # Required.
+    value: "password"
+  - name: saslUsername # Required if authType is `password`.
+    value: "adminuser"
+  - name: saslPassword # Required if authType is `password`.
+    secretKeyRef:
+      name: kafka-secrets
+      key: saslPasswordSecret
+  - name: saslMechanism
+    value: "SHA-512"
+  - name: maxMessageBytes # Optional.
+    value: 1024
+  - name: consumeRetryInterval # Optional.
+    value: 200ms
+  - name: heartbeatInterval # Optional.
+    value: 5s
+  - name: sessionTimeout # Optional.
+    value: 15s
+  - name: version # Optional.
+    value: 2.0.0
+  - name: disableTls # Optional. Disable TLS. This is not safe for production!! You should read the `Mutual TLS` section for how to use TLS.
+    value: "true"
+  - name: consumerFetchMin # Optional. Advanced setting. The minimum number of message bytes to fetch in a request - the broker will wait until at least this many are available.
+    value: 1
+  - name: consumerFetchDefault # Optional. Advanced setting. The default number of message bytes to fetch from the broker in each request.
+    value: 2097152
+  - name: channelBufferSize # Optional. Advanced setting. The number of events to buffer in internal and external channels.
+    value: 512
+  - name: consumerGroupRebalanceStrategy # Optional. Advanced setting. The strategy to use for consumer group rebalancing.
+    value: sticky
+  - name: schemaRegistryURL # Optional. When using Schema Registry Avro serialization/deserialization. The Schema Registry URL.
+    value: http://localhost:8081
+  - name: schemaRegistryAPIKey # Optional. When using Schema Registry Avro serialization/deserialization. The Schema Registry API Key.
+    value: XYAXXAZ
+  - name: schemaRegistryAPISecret # Optional. When using Schema Registry Avro serialization/deserialization. The Schema Registry credentials API Secret.
+    value: "ABCDEFGMEADFF"
+  - name: schemaCachingEnabled # Optional. When using Schema Registry Avro serialization/deserialization. Enables caching for schemas.
+    value: true
+  - name: schemaLatestVersionCacheTTL # Optional. When using Schema Registry Avro serialization/deserialization. The TTL for schema caching when publishing a message with latest schema available.
+    value: 5m
+  - name: useAvroJson # Optional. Enables Avro JSON schema for serialization as opposed to Standard JSON default. Only applicable when the subscription uses valueSchemaType=Avro
+    value: "true"
+  - name: escapeHeaders # Optional.
+    value: false
+
+```
+
+> For details on using `secretKeyRef`, see the guide on [how to reference secrets in components]({{% ref component-secrets.md %}}).
+
+## Spec metadata fields
+
+| Field              | Required | Details | Example |
+|--------------------|:--------:|---------|---------|
+| brokers             | Y | A comma-separated list of Kafka brokers. | `"localhost:9092,dapr-kafka.myapp.svc.cluster.local:9093"`
+| consumerGroup       | N | A kafka consumer group to listen on. Each record published to a topic is delivered to one consumer within each consumer group subscribed to the topic. If a value for `consumerGroup` is provided, any value for `consumerID` is ignored - a combination of the consumer group and a random unique identifier will be set for the `consumerID` instead. | `"group1"`
+| consumerID       | N | Consumer ID (consumer tag) organizes one or more consumers into a group. Consumers with the same consumer ID work as one virtual consumer; for example, a message is processed only once by one of the consumers in the group. If the `consumerID` is not provided, the Dapr runtime set it to the Dapr application ID (`appID`) value. If a value for `consumerGroup` is provided, any value for `consumerID` is ignored - a combination of the consumer group and a random unique identifier will be set for the `consumerID` instead.  | Can be set to string value (such as `"channel1"` in the example above) or string format value (such as `"{podName}"`, etc.). [See all of template tags you can use in your component metadata.]({{% ref "component-schema.md#templated-metadata-values" %}})
+| clientID            | N | A user-provided string sent with every request to the Kafka brokers for logging, debugging, and auditing purposes. Defaults to `"namespace.appID"` for Kubernetes mode or `"appID"` for Self-Hosted mode. | `"my-namespace.my-dapr-app"`, `"my-dapr-app"`
+| authRequired        | N | *Deprecated* Enable [SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) authentication with the Kafka brokers. | `"true"`, `"false"`
+| authType            | Y | Configure or disable authentication. Supported values: `none`, `password`, `mtls`, `oidc`, `oidc_private_key_jwt` or `awsiam` | `"password"`, `"none"`
+| saslUsername        | N | The SASL username used for authentication. Only required if `authType` is set to `"password"`. | `"adminuser"`
+| saslPassword        | N | The SASL password used for authentication. Can be `secretKeyRef` to use a [secret reference]({{% ref component-secrets.md %}}). Only required if `authType is set to `"password"`. | `""`, `"KeFg23!"`
+| saslMechanism      | N | The SASL Authentication Mechanism you wish to use. Only required if `authType` is set to `"password"`. Defaults to `PLAINTEXT` | `"SHA-512", "SHA-256", "PLAINTEXT"`
+| initialOffset       | N | The initial offset to use if no offset was previously committed. Should be "newest" or "oldest". Defaults to "newest". | `"oldest"`
+| maxMessageBytes     | N | The maximum size in bytes allowed for a single Kafka message. Defaults to 1024. | `2048`
+| consumeRetryInterval | N | The interval between retries when attempting to consume topics. Treats numbers without suffix as milliseconds. Defaults to 100ms. | `200ms` |
+| consumeRetryEnabled | N | Disable consume retry by setting `"false"` | `"true"`, `"false"` |
+
+{{% alert title="Note" color="primary" %}}
+From Dapr 1.19, when a message's retry policy is exhausted (the subscriber returns a retriable error until a bounding [resiliency policy]({{% ref "resiliency-overview.md" %}}) gives up on it), the component commits the message's offset and moves on, logging a warning. Before 1.19, the offset was left uncommitted, so the same message was redelivered indefinitely and the partition could not make progress past it.
+{{% /alert %}}
+| version               | N | Kafka cluster version. Defaults to 2.0.0. Note that this must be set to `1.0.0` if you are using Azure EventHubs with Kafka. | `0.10.2.0` |
+| caCert | N | Certificate authority certificate, required for using TLS. Can be `secretKeyRef` to use a secret reference | `"-----BEGIN CERTIFICATE-----\n<base64-encoded DER>\n-----END CERTIFICATE-----"`
+| clientCert | N | Client certificate, required for `authType` `mtls`. Can be `secretKeyRef` to use a secret reference | `"-----BEGIN CERTIFICATE-----\n<base64-encoded DER>\n-----END CERTIFICATE-----"`
+| clientKey | N | Client key, required for `authType` `mtls` Can be `secretKeyRef` to use a secret reference | `"-----BEGIN RSA PRIVATE KEY-----\n<base64-encoded PKCS8>\n-----END RSA PRIVATE KEY-----"`
+| skipVerify | N | Skip TLS verification, this is not recommended for use in production. Defaults to `"false"` | `"true"`, `"false"` |
+| disableTls | N | Disable TLS for transport security. To disable, you're required to set value to `"true"`. This is not recommended for use in production. Defaults to `"false"`. | `"true"`, `"false"` |
+| oidcTokenEndpoint | N | Full URL to an OAuth2 identity provider access token endpoint. Required when `authType` is set to `oidc` | "https://identity.example.com/v1/token" |
+| oidcClientID | N | The OAuth2 client ID that has been provisioned in the identity provider. Required when `authType` is set to `oidc` | `dapr-kafka` |
+| oidcClientSecret | N | The OAuth2 client secret that has been provisioned in the identity provider: Required when `authType` is set to `oidc` | `"KeFg23!"` |
+| oidcScopes | N | Comma-delimited list of OAuth2/OIDC scopes to request with the access token. Recommended when `authType` is set to `oidc` or `oidc_private_key_jwt`. Defaults to `"openid"` | `"openid,kafka-prod"` |
+| oidcClientAssertionCert | N | The OAuth2 client assertion certificate used for authentication. Required when `authType` is set to `oidc_private_key_jwt`. Can be `secretKeyRef` to use a secret reference | `"-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"` |
+| oidcClientAssertionKey | N | The OAuth2 client assertion key used for authentication. Required when `authType` is set to `oidc_private_key_jwt`. Can be `secretKeyRef` to use a secret reference | `"-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"` |
+| oidcResource | N | The OAuth2 resource to request with the access token. Recommended when `authType` is set to `oidc_private_key_jwt`. | `"api://kafka"` |
+| oidcAudience | N | The OAuth2 audience to request with the access token. Recommended when `authType` is set to `oidc_private_key_jwt`. | `"http://<idp-host>/realms/local"` |
+| oidcKid | N | The OAuth2 key ID (kid) to request with the access token. Recommended when `authType` is set to `oidc_private_key_jwt`. | `"1234567890"` |
+| oidcExtensions | N | String containing a JSON-encoded dictionary of OAuth2/OIDC extensions to request with the access token | `{"cluster":"kafka","poolid":"kafkapool"}` |
+| awsRegion | N | This maintains backwards compatibility with existing fields. It will be deprecated as of Dapr 1.17. Use 'region' instead. The AWS region where the Kafka cluster is deployed to. Required when `authType` is set to `awsiam` | `us-west-1` |
+| awsAccessKey | N  |  This maintains backwards compatibility with existing fields. It will be deprecated as of Dapr 1.17. Use 'accessKey' instead. AWS access key associated with an IAM account. | `"accessKey"`
+| awsSecretKey | N  | This maintains backwards compatibility with existing fields. It will be deprecated as of Dapr 1.17. Use 'secretKey' instead. The secret key associated with the access key. | `"secretKey"`
+| awsSessionToken | N  | This maintains backwards compatibility with existing fields. It will be deprecated as of Dapr 1.17. Use 'sessionToken' instead. AWS session token to use. A session token is only required if you are using temporary security credentials. | `"sessionToken"`
+| awsIamRoleArn | N  | This maintains backwards compatibility with existing fields. It will be deprecated as of Dapr 1.17. Use 'assumeRoleArn' instead. IAM role that has access to AWS Managed Streaming for Apache Kafka (MSK). This is another option to authenticate with MSK aside from the AWS Credentials. | `"arn:aws:iam::123456789:role/mskRole"`
+| awsStsSessionName | N  | This maintains backwards compatibility with existing fields. It will be deprecated as of Dapr 1.17. Use 'sessionName' instead. Represents the session name for assuming a role. | `"DaprDefaultSession"`
+| schemaRegistryURL | N | Required when using Schema Registry Avro serialization/deserialization. The Schema Registry URL. | `http://localhost:8081` |
+| schemaRegistryAPIKey | N | When using Schema Registry Avro serialization/deserialization. The Schema Registry credentials API Key. | `XYAXXAZ` |
+| schemaRegistryAPISecret | N | When using Schema Registry Avro serialization/deserialization. The Schema Registry credentials API Secret. | `ABCDEFGMEADFF` |
+| schemaCachingEnabled | N | When using Schema Registry Avro serialization/deserialization. Enables caching for schemas. Default is `true` | `true` |
+| schemaLatestVersionCacheTTL | N | When using Schema Registry Avro serialization/deserialization. The TTL for schema caching when publishing a message with latest schema available. Default is 5 min | `5m` |
+| useAvroJson | N | Enables Avro JSON schema for serialization as opposed to Standard JSON default. Only applicable when the subscription uses valueSchemaType=Avro. Default is `"false"` | `"true"` |
+| clientConnectionTopicMetadataRefreshInterval | N | The interval for the client connection's topic metadata to be refreshed with the broker as a Go duration. Defaults to `9m`. | `"4m"` |
+| clientConnectionKeepAliveInterval | N | The maximum time for the client connection to be kept alive with the broker, as a Go duration, before closing the connection. A zero value (default) means keeping alive indefinitely. | `"4m"` |
+| consumerFetchMin | N | The minimum number of message bytes to fetch in a request - the broker will wait until at least this many are available. The default is `1`, as `0` causes the consumer to spin when no messages are available. Equivalent to the JVM's `fetch.min.bytes`. | `"2"` |
+| consumerFetchDefault | N | The default number of message bytes to fetch from the broker in each request. Default is `"1048576"` bytes. | `"2097152"` |
+| channelBufferSize | N | The number of events to buffer in internal and external channels. This permits the producer and consumer to continue processing some messages in the background while user code is working, greatly improving throughput. Defaults to `256`. | `"512"` |
+| heartbeatInterval | N | The interval between heartbeats to the consumer coordinator. At most, the value should be set to a 1/3 of the `sessionTimeout` value. Defaults to "3s". | `"5s"` |
+| sessionTimeout | N | The timeout used to detect client failures when using Kafka’s group management facility. If the broker fails to receive any heartbeats from the consumer before the expiration of this session timeout, then the consumer is removed and initiates a rebalance. Defaults to "10s". | `"20s"` |
+| consumerGroupRebalanceStrategy | N | The strategy to use for consumer group rebalancing. Supported values: `range`, `sticky`, `roundrobin`. Default is `range` | `"sticky"` |
+| escapeHeaders | N | Enables URL escaping of the message header values received by the consumer. Allows receiving content with special characters that are usually not allowed in HTTP headers. Default is `false`. | `true` |
+| excludeHeaderMetaRegex | N | A regular expression to exclude keys from being converted from headers to metadata when consuming messages and  from metadata to headers when publishing messages. This capability avoids unwanted downstream side effects for topic consumers. | '"^valueSchemaType$"`
+| dialTimeout | N | The maximum duration to wait for the initial TCP connection to a broker. Bounds how long `Init()` can block on an unreachable cluster. Default is `"30s"` (matches Sarama's built-in default). | `"10s"` |
+| readTimeout | N | The maximum duration to wait for a response from a broker after sending a request. Default is `"30s"`. | `"10s"` |
+| writeTimeout | N | The maximum duration to wait for a request to be transmitted to a broker. Default is `"30s"`. | `"10s"` |
+| metadataTimeout | N | The per-request timeout for metadata refresh operations. When `"0"` (default), Sarama computes the effective timeout from the Net timeouts and retry count. | `"5s"` |
+| producerRequiredAcks | N | The number of broker acknowledgements required before a produce request is considered successful. Accepted values: `"all"` (all in-sync replicas, highest durability), `"local"` (partition leader only), `"none"` (no acknowledgement). Default is `"all"`. | `"local"` |
+| producerRetryMax | N | The maximum number of times to retry sending a message before giving up. Default is `5`. | `3` |
+| producerTransactionsEnabled | N | When set to `"true"`, every publish (single or bulk) is wrapped in a [Kafka transaction](#kafka-transactions-and-exactly-once-processing) on an idempotent producer: an aborted publish is never visible to consumers reading with `read_committed`, and bulk publishes become atomic (all entries commit or none do). Requires `producerRequiredAcks: "all"`, `producerRetryMax` >= 1 and Kafka 0.11 or later. Transactions serialize publishes and add broker round trips, lowering publish throughput. Default is `"false"` | `"true"`, `"false"` |
+| consumerTransactionsEnabled | N | When set to `"true"`, every delivery is processed inside a Kafka transaction ([exactly-once consume-transform-produce](#exactly-once-consume-transform-produce)): publishes made by the handler that carry the delivery's transaction token join the transaction, and the consumer offset commits atomically with them on handler success. Forces `consumerIsolationLevel: "read_committed"`. Requires a consumer group (`consumerGroup`, or the `consumerID` Dapr sets for you), `producerRequiredAcks: "all"`, `producerRetryMax` >= 1 and Kafka 2.5 or later (set `version` accordingly). Default is `"false"` | `"true"`, `"false"` |
+| transactionalIdPrefix | N | Prefix for the `transactional.id` values this component registers with the broker when transactions are enabled. For the publish producer it defaults to `clientID`, then `consumerGroup`, then `"dapr"`; for consumer transactions it defaults to `clientID`, then `"dapr"`, and must resolve to the same value on every replica — see [scaling and fencing](#scaling-zombie-fencing-and-the-transactionalidprefix). | `"my-app"` |
+| consumerIsolationLevel | N | Isolation level for consumers. `"read_uncommitted"` (default) delivers all records; `"read_committed"` hides records belonging to open or aborted Kafka transactions and requires Kafka 0.11 or later. When `consumerTransactionsEnabled` is `"true"` the level must be `"read_committed"`: leaving this field unset selects it automatically, while an explicit `"read_uncommitted"` fails validation. | `"read_committed"` |
+| transactionTimeout | N | Transaction timeout requested from the broker when transactions are enabled, as a Go duration. With `consumerTransactionsEnabled` the transaction stays open for the whole handler invocation, so this must exceed the slowest expected handler. Must not exceed the broker's `transaction.max.timeout.ms` (15 minutes by default): the broker rejects larger values when the producer initializes. With `producerTransactionsEnabled` that producer is built during component initialization, so the component fails to start; with only `consumerTransactionsEnabled` the per-partition producers are built on first use, so every delivery fails while publishes that carry no transaction token keep working. Default is `"60s"` | `"90s"` |
+
+The `secretKeyRef` above is referencing  a [kubernetes secrets store]({{% ref kubernetes-secret-store.md %}}) to access the tls information. Visit [here]({{% ref setup-secret-store.md %}}) to learn more about how to configure a secret store component.
+
+#### Note
+The metadata `version` must be set to `1.0.0` when using Azure EventHubs with Kafka.
+
+### Authentication
+
+Kafka supports a variety of authentication schemes and Dapr supports several: SASL password, mTLS, OIDC/OAuth2. With the added authentication methods, the `authRequired` field has
+been deprecated from the v1.6 release and instead the `authType` field should be used. If `authRequired` is set to `true`, Dapr will attempt to configure `authType` correctly
+based on the value of `saslPassword`. The valid values for `authType` are:
+- `none`
+- `password`
+- `certificate`
+- `mtls`
+- `oidc`
+- `oidc_private_key_jwt`
+- `awsiam`
+
+{{% alert title="Note" color="primary" %}}
+`authType` is _authentication_ only. _Authorization_ is still configured within Kafka, except for `awsiam`, which can also drive authorization decisions configured in AWS IAM.
+{{% /alert %}}
+
+#### None
+
+Setting `authType` to `none` will disable any authentication. This is *NOT* recommended in production.
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub-noauth
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: consumerGroup # Optional. Used for input bindings.
+    value: "group1"
+  - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
+    value: "my-dapr-app-id"
+  - name: authType # Required.
+    value: "none"
+  - name: maxMessageBytes # Optional.
+    value: 1024
+  - name: consumeRetryInterval # Optional.
+    value: 200ms
+  - name: heartbeatInterval # Optional.
+    value: 5s
+  - name: sessionTimeout # Optional.
+    value: 15s
+  - name: version # Optional.
+    value: 0.10.2.0
+  - name: disableTls
+    value: "true"
+```
+
+#### SASL Password
+
+Setting `authType` to `password` enables [SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) authentication. This requires setting the `saslUsername` and `saslPassword` fields.
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub-sasl
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: consumerGroup # Optional. Used for input bindings.
+    value: "group1"
+  - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
+    value: "my-dapr-app-id"
+  - name: authType # Required.
+    value: "password"
+  - name: saslUsername # Required if authType is `password`.
+    value: "adminuser"
+  - name: saslPassword # Required if authType is `password`.
+    secretKeyRef:
+      name: kafka-secrets
+      key: saslPasswordSecret
+  - name: saslMechanism
+    value: "SHA-512"
+  - name: maxMessageBytes # Optional.
+    value: 1024
+  - name: consumeRetryInterval # Optional.
+    value: 200ms
+  - name: heartbeatInterval # Optional.
+    value: 5s
+  - name: sessionTimeout # Optional.
+    value: 15s
+  - name: version # Optional.
+    value: 0.10.2.0
+  - name: caCert
+    secretKeyRef:
+      name: kafka-tls
+      key: caCert
+```
+
+#### Mutual TLS
+
+Setting `authType` to `mtls` uses a x509 client certificate (the `clientCert` field) and key (the `clientKey` field) to authenticate. Note that mTLS as an
+authentication mechanism is distinct from using TLS to secure the transport layer via encryption. mTLS requires TLS transport (meaning `disableTls` must be `false`), but securing
+the transport layer does not require using mTLS. See [Communication using TLS](#communication-using-tls) for configuring underlying TLS transport.
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub-mtls
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: consumerGroup # Optional. Used for input bindings.
+    value: "group1"
+  - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
+    value: "my-dapr-app-id"
+  - name: authType # Required.
+    value: "mtls"
+  - name: caCert
+    secretKeyRef:
+      name: kafka-tls
+      key: caCert
+  - name: clientCert
+    secretKeyRef:
+      name: kafka-tls
+      key: clientCert
+  - name: clientKey
+    secretKeyRef:
+      name: kafka-tls
+      key: clientKey
+  - name: maxMessageBytes # Optional.
+    value: 1024
+  - name: consumeRetryInterval # Optional.
+    value: 200ms
+  - name: heartbeatInterval # Optional.
+    value: 5s
+  - name: sessionTimeout # Optional.
+    value: 15s
+  - name: version # Optional.
+    value: 0.10.2.0
+```
+
+#### OAuth2 or OpenID Connect
+
+Setting `authType` to `oidc` enables SASL authentication via the **OAUTHBEARER** mechanism. This supports specifying a bearer token from an external OAuth2 or [OIDC](https://en.wikipedia.org/wiki/OpenID) identity provider. Currently, only the **client_credentials** grant is supported.
+
+Configure `oidcTokenEndpoint` to the full URL for the identity provider access token endpoint.
+
+Set `oidcClientID` and `oidcClientSecret` to the client credentials provisioned in the identity provider.
+
+If `caCert` is specified in the component configuration, the certificate is appended to the system CA trust for verifying the identity provider certificate. Similarly, if `skipVerify` is specified in the component configuration, verification will also be skipped when accessing the identity provider.
+
+By default, the only scope requested for the token is `openid`; it is **highly** recommended that additional scopes be specified via `oidcScopes` in a comma-separated list and validated by the Kafka broker. If additional scopes are not used to narrow the validity of the access token,
+a compromised Kafka broker could replay the token to access other services as the Dapr clientID.
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: consumerGroup # Optional. Used for input bindings.
+    value: "group1"
+  - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
+    value: "my-dapr-app-id"
+  - name: authType # Required.
+    value: "oidc"
+  - name: oidcTokenEndpoint # Required if authType is `oidc`.
+    value: "https://identity.example.com/v1/token"
+  - name: oidcClientID      # Required if authType is `oidc`.
+    value: "dapr-myapp"
+  - name: oidcClientSecret  # Required if authType is `oidc`.
+    secretKeyRef:
+      name: kafka-secrets
+      key: oidcClientSecret
+  - name: oidcScopes        # Recommended if authType is `oidc`.
+    value: "openid,kafka-dev"
+  - name: caCert            # Also applied to verifying OIDC provider certificate
+    secretKeyRef:
+      name: kafka-tls
+      key: caCert
+  - name: maxMessageBytes # Optional.
+    value: 1024
+  - name: consumeRetryInterval # Optional.
+    value: 200ms
+  - name: heartbeatInterval # Optional.
+    value: 5s
+  - name: sessionTimeout # Optional.
+    value: 15s
+  - name: version # Optional.
+    value: 0.10.2.0
+```
+
+#### OAuth2 Private Key JWT
+
+Setting `authType` to `oidc_private_key_jwt` enables SASL authentication via the **OAUTHBEARER** mechanism. This supports specifying a private key JWT from an external OAuth2 or [OIDC](https://en.wikipedia.org/wiki/OpenID) identity provider. Currently, only the **client_credentials** grant is supported.
+
+Configure `oidcTokenEndpoint` to the full URL for the identity provider access token endpoint.
+
+Set `oidcClientID` to the client ID, `oidcClientAssertionCert` to the client assertion certificate and `oidcClientAssertionKey` to the client assertion key provisioned in the identity provider.
+
+If `caCert` is specified in the component configuration, the certificate is appended to the system CA trust for verifying the identity provider certificate. Similarly, if `skipVerify` is specified in the component configuration, verification will also be skipped when accessing the identity provider.
+
+By default, the only scope requested for the token is `openid`; it is **highly** recommended that additional scopes be specified via `oidcScopes` in a comma-separated list and validated by the Kafka broker. If additional scopes are not used to narrow the validity of the access token,
+a compromised Kafka broker could replay the token to access other services as the Dapr clientID.
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: consumerGroup # Optional. Used for input bindings.
+    value: "group1"
+  - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
+    value: "my-dapr-app-id"
+  - name: authType # Required.
+    value: "oidc_private_key_jwt"
+  - name: oidcTokenEndpoint # Required if authType is `oidc_private_key_jwt`.
+    value: "https://identity.example.com/v1/token"
+  - name: oidcClientID      # Required if authType is `oidc_private_key_jwt`.
+    value: "dapr-myapp"
+  - name: oidcClientAssertionCert # Required if authType is `oidc_private_key_jwt`.
+    secretKeyRef:
+      name: kafka-tls
+      key: oidcClientAssertionCert
+  - name: oidcClientAssertionKey # Required if authType is `oidc_private_key_jwt`.
+    secretKeyRef:
+      name: kafka-tls
+      key: oidcClientAssertionKey
+  - name: oidcScopes        # Recommended if authType is `oidc_private_key_jwt`.
+    value: "openid,kafka-dev"
+  - name: oidcResource # Optional.
+    value: "api://kafka"
+  - name: oidcAudience # Optional.
+    value: "http://<idp-host>/realms/local"
+  - name: oidcKid # Optional.
+    value: "1234567890"
+  - name: caCert # Optional.
+    secretKeyRef:
+      name: kafka-tls
+      key: caCert
+  - name: maxMessageBytes # Optional.
+    value: 1024
+  - name: consumeRetryInterval # Optional.
+    value: 200ms
+  - name: heartbeatInterval # Optional.
+    value: 5s
+  - name: sessionTimeout # Optional.
+    value: 15s
+  - name: version # Optional.
+    value: 0.10.2.0
+```
+
+#### AWS IAM
+
+Authenticating with AWS IAM is supported with MSK. Setting `authType` to `awsiam` uses AWS SDK to generate auth tokens to authenticate.
+{{% alert title="Note" color="primary" %}}
+The only required metadata field is `region`. If no `acessKey` and `secretKey` are provided, you can use AWS IAM roles for service accounts to have password-less authentication to your Kafka cluster.
+{{% /alert %}}
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub-awsiam
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: consumerGroup # Optional. Used for input bindings.
+    value: "group1"
+  - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
+    value: "my-dapr-app-id"
+  - name: authType # Required.
+    value: "awsiam"
+  - name: region # Required.
+    value: "us-west-1"
+  - name: accessKey # Optional.
+    value: <AWS_ACCESS_KEY>
+  - name: secretKey # Optional.
+    value: <AWS_SECRET_KEY>
+  - name: sessionToken # Optional.
+    value: <AWS_SESSION_KEY>
+  - name: assumeRoleArn # Optional.
+    value: "arn:aws:iam::123456789:role/mskRole"
+  - name: sessionName # Optional.
+    value: "DaprDefaultSession"
+```
+
+### Communication using TLS
+
+By default TLS is enabled to secure the transport layer to Kafka. To disable TLS, set `disableTls` to `true`. When TLS is enabled, you can
+control server certificate verification using `skipVerify` to disable verification (*NOT* recommended in production environments) and `caCert` to
+specify a trusted TLS certificate authority (CA). If no `caCert` is specified, the system CA trust will be used. To also configure mTLS authentication,
+see the section under _Authentication_.
+Below is an example of a Kafka pubsub component configured to use transport layer TLS:
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: consumerGroup # Optional. Used for input bindings.
+    value: "group1"
+  - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
+    value: "my-dapr-app-id"
+  - name: authType # Required.
+    value: "certificate"
+  - name: consumeRetryInterval # Optional.
+    value: 200ms
+  - name: heartbeatInterval # Optional.
+    value: 5s
+  - name: sessionTimeout # Optional.
+    value: 15s
+  - name: version # Optional.
+    value: 0.10.2.0
+  - name: maxMessageBytes # Optional.
+    value: 1024
+  - name: caCert # Certificate authority certificate.
+    secretKeyRef:
+      name: kafka-tls
+      key: caCert
+auth:
+  secretStore: <SECRET_STORE_NAME>
+```
+
+## Consuming from multiple topics
+
+When consuming from multiple topics using a single pub/sub component, there is no guarantee about how the consumers in your consumer group are balanced across the topic partitions.
+
+For instance, let's say you are subscribing to two topics with 10 partitions per topic and you have 20 replicas of your service consuming from the two topics. There is no guarantee that 10 will be assigned to the first topic and 10 to the second topic. Instead, the partitions could be divided unequally, with more than 10 assigned to the first topic and the rest assigned to the second topic.
+
+This can result in idle consumers listening to the first topic and over-extended consumers on the second topic, or vice versa. This same behavior can be observed when using auto-scalers such as HPA or KEDA.
+
+If you run into this particular issue, it is recommended that you configure a single pub/sub component per topic with uniquely defined consumer groups per component. This guarantees that all replicas of your service are fully allocated to the unique consumer group, where each consumer group targets one specific topic.
+
+For example, you may define two Dapr components with the following configuration:
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub-topic-one
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: consumerGroup
+    value: "{appID}-topic-one"
+```
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub-topic-two
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: consumerGroup
+    value: "{appID}-topic-two"
+```
+
+## Sending and receiving multiple messages
+
+Apache Kafka component supports sending and receiving multiple messages in a single operation using the bulk Pub/sub API.
+
+### Configuring bulk subscribe
+
+When subscribing to a topic, you can configure `bulkSubscribe` options. Refer to [Subscribing messages in bulk]({{% ref "pubsub-bulk#subscribing-messages-in-bulk" %}}) for more details. Learn more about [the bulk subscribe API]({{% ref pubsub-bulk.md %}}).
+
+Apache Kafka supports the following bulk metadata options:
+
+| Configuration | Default |
+|----------|---------|
+| `maxAwaitDurationMs` | `10000` (10s) |
+| `maxMessagesCount` | `80` |
+
+## Kafka transactions and exactly-once processing
+
+The Kafka pubsub component supports [Kafka transactions](https://kafka.apache.org/documentation/#semantics) (Kafka 0.11 or later, and 2.5 or later for consume-transform-produce) through three capabilities. They are configured independently, mirroring how Kafka itself splits transaction configuration between producers (`transactional.id`, idempotence) and consumers (`isolation.level`):
+
+- **Transactional publishing** (`producerTransactionsEnabled`): each publish — including each bulk publish — commits or aborts as a unit.
+- **Committed-only consumption** (`consumerIsolationLevel: "read_committed"`): subscribers never see records from open or aborted transactions.
+- **Exactly-once consume-transform-produce** (`consumerTransactionsEnabled`): each delivery is processed inside a Kafka transaction; publishes the handler makes as part of processing join that transaction, and the consumer offset commits atomically with them.
+
+### Transactional publishing
+
+```yaml
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+    - name: brokers
+      value: "mykafka:9092"
+    - name: authType
+      value: "none"
+    - name: producerTransactionsEnabled
+      value: "true"
+    - name: transactionalIdPrefix # Optional
+      value: "my-app"
+```
+
+With `producerTransactionsEnabled` set to `"true"`, publishes go through an idempotent producer and each publish is wrapped in its own Kafka transaction:
+
+- A failed or aborted publish is never visible to consumers reading with `read_committed`.
+- A [bulk publish]({{% ref pubsub-bulk.md %}}) is atomic: all entries commit or none do.
+
+This requires `producerRequiredAcks: "all"` and `producerRetryMax` of at least 1 (both are the component defaults). Transactions serialize publishes on the producer and add broker round trips, lowering publish throughput; enable this on a component whose publishes need the guarantee, and keep a second, non-transactional Kafka component for fire-and-forget traffic if you need both from the same app.
+
+The publish producer's `transactional.id` receives a random per-instance suffix, so scaled replicas never fence each other. The guarantee is atomicity per publish; there is no transaction recovery or fencing across component restarts.
+
+### Committed-only consumption
+
+```yaml
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+    - name: brokers
+      value: "mykafka:9092"
+    - name: authType
+      value: "none"
+    - name: consumerGroup
+      value: "my-group"
+    - name: consumerIsolationLevel
+      value: "read_committed"
+```
+
+With `consumerIsolationLevel: "read_committed"`, subscriptions on this component only receive records from committed transactions; records belonging to open transactions are withheld by the broker, and records from aborted ones are discarded by the client before they reach your handler. Use this on any consumer downstream of a transactional producer.
+
+### Exactly-once consume-transform-produce
+
+For pipelines that consume from Kafka, process, and publish back to Kafka, `consumerTransactionsEnabled` provides exactly-once semantics between the input and output topics.
+
+This capability needs **Kafka 2.5 or later**, a higher bar than the other two: the offset commit only carries the consumer group's member ID and generation from 2.5 on, and the broker needs them to fence a revoked group member that commits late. The component's default `version` is `2.0.0`, so set `version` explicitly or initialization fails.
+
+```yaml
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+    - name: brokers
+      value: "mykafka:9092"
+    - name: authType
+      value: "none"
+    - name: consumerGroup
+      value: "my-group"
+    - name: version # Consumer transactions require 2.5 or later
+      value: "2.5.0"
+    - name: consumerTransactionsEnabled
+      value: "true"
+    - name: transactionalIdPrefix # Optional
+      value: "my-app"
+    - name: transactionTimeout # Optional; must exceed the slowest handler
+      value: "60s"
+```
+
+How it works:
+
+1. For every delivery, the component opens a Kafka transaction before invoking your handler and injects a transaction token into the message metadata, which your application receives as the `__txnToken` header (HTTP) or metadata entry (gRPC).
+1. Publishes your handler makes **that echo the token back** join the delivery's open transaction:
+   - HTTP: pass the token as a `metadata.__txnToken` query parameter on the publish call.
+   - gRPC: pass a `__txnToken` key in the publish request metadata.
+   - Bulk publish: pass the token in the request-level metadata (per-entry metadata is not supported for the token).
+1. When the handler succeeds, the component commits the transaction: the published records and the consumer offset commit atomically.
+1. When the handler fails, the component aborts the transaction: the records the handler published into it — those carrying the transaction token — are never visible to `read_committed` consumers, and the message is redelivered while `consumeRetryEnabled` is `"true"` (the default). Redelivery is governed by this component's `backOff*` metadata — unbounded by default; set `backOffMaxRetries` to bound it. Dapr resiliency policies bound the individual handler call, not the redelivery loop. From Dapr 1.19, once the handler's retry policy is exhausted, the component commits the offset on its own (outside the aborted transaction) instead of redelivering the message forever.
+
+For example, an HTTP subscriber echoing the token:
+
+```
+# Delivery arrives with the token as a header:
+#   POST /orders
+#   __txnToken: <opaque token>
+
+# The handler publishes its result echoing the token, then returns success:
+curl -X POST "http://localhost:3500/v1.0/publish/kafka-pubsub/processed-orders?metadata.__txnToken=<opaque token>" \
+  -H "Content-Type: application/json" \
+  -d '{"orderId": "42", "status": "processed"}'
+```
+
+Consumer transactions imply `read_committed` isolation: leaving `consumerIsolationLevel` unset selects it automatically, and an explicit `"read_uncommitted"` fails validation. With [bulk subscribe]({{% ref pubsub-bulk.md %}}), the batch is all-or-nothing: any entry failure aborts and redelivers the whole batch.
+
+{{% alert title="Token-carrying publishes must use the same component" color="warning" %}}
+The transaction is tracked per component instance. Publishes carrying the token must go through the **same Kafka pubsub component** that delivered the message: a token-carrying publish through a *different* Kafka component fails loudly, and a stale token (for example, after the handler has returned) also fails loudly rather than silently publishing outside the transaction. A non-Kafka component would ignore the token entirely and publish outside any transaction.
+{{% /alert %}}
+
+{{% alert title="Publishes without the token stay outside the transaction" color="warning" %}}
+A publish that does **not** carry the token is an ordinary publish: it commits independently of the delivery's transaction, even when made from inside the handler. If the delivery is later retried, that publish repeats. Only token-carrying publishes are covered by the exactly-once guarantee.
+{{% /alert %}}
+
+#### Scope of the guarantee
+
+The exactly-once guarantee covers Kafka records and consumer offsets: the output publishes and the input offset commit or abort together. Your handler itself still runs at-least-once — non-Kafka side effects (database writes, external API calls) are not part of the transaction and should be idempotent.
+
+#### Transaction timeout
+
+With consumer transactions, a transaction stays open for the whole handler invocation, so `transactionTimeout` (default `60s`) must exceed your slowest expected handler; when the timeout elapses the broker aborts the transaction and the delivery is retried. The value must not exceed the broker's `transaction.max.timeout.ms` (15 minutes by default): the broker rejects larger values when the producer initializes, which fails every delivery (and, if `producerTransactionsEnabled` is also set, prevents the component from starting at all). For handlers slower than the broker maximum, raise `transaction.max.timeout.ms` on the broker.
+
+#### Scaling, zombie fencing, and the transactionalIdPrefix
+
+With consumer transactions, each topic-partition is produced to with the stable `transactional.id` `"<prefix>-<digest>-<partition>"`, where `digest` is the first 8 bytes of SHA-256 over the consumer group, a NUL byte and the topic, in lowercase hex. Stability is what provides zombie fencing: when a partition moves to another replica after a rebalance or crash, the new replica's producer fences the old one, and any transaction the old instance left open is aborted before reprocessing begins.
+
+The prefix defaults to `clientID`, then `"dapr"`, and can be set explicitly with `transactionalIdPrefix`. It must resolve to the **same value on every replica** of the consuming app — do not use a per-replica templated `clientID` (such as `"{podName}"`) as the effective prefix, or replicas cannot fence each other.
+
+The group and topic are digested rather than written into the id because `-` is legal in both: writing them out would let consumer group `a-b` on topic `c` and consumer group `a` on topic `b-c` register the same id, and two components sharing an id fence each other's producers on every transaction, with no error naming the cause. The prefix is kept verbatim, so `<prefix>-*` broker ACL patterns are unaffected.
+
+To map a `transactional.id` you see at the broker back to a consumer group and topic, recompute the digest for the candidates:
+
+```bash
+# sha256sum is coreutils; on macOS use: shasum -a 256
+printf '%s\0%s' "<consumerGroup>" "<topic>" | sha256sum | cut -c1-16
+```
+
+{{% alert title="Bindings" color="info" %}}
+Consumer transactions are only available on the Kafka **pubsub** component. The [Kafka binding]({{% ref kafka.md %}}) supports `producerTransactionsEnabled` for transactional output, but rejects `consumerTransactionsEnabled` at init: exactly-once consume-transform-produce requires the transaction token to be echoed through the same component instance, which the bindings model (separate input and output binding instances) cannot provide.
+{{% /alert %}}
+
+## Per-call metadata fields
+
+### Partition Key
+
+When invoking the Kafka pub/sub, its possible to provide an optional partition key by using the `metadata` query param in the request url.
+
+The param name can either be `partitionKey` or `__key`
+
+Example:
+
+```shell
+curl -X POST http://localhost:3500/v1.0/publish/myKafka/myTopic?metadata.partitionKey=key1 \
+  -H "Content-Type: application/json" \
+  -d '{
+        "data": {
+          "message": "Hi"
+        }
+      }'
+```
+
+### Partition Number
+
+When invoking the Kafka pub/sub, you can provide an optional partition number by using the `metadata` query param in the request url. This allows you to target a specific Kafka partition directly, bypassing the hash-based partition assignment used by `partitionKey`.
+
+The param name is `partitionNumber` and the value must be a non-negative integer within the topic's partition range (`0` to `partitionCount - 1`). Publishing fails with an error if the value is out of range, negative, or not a valid integer.
+
+If both `partitionNumber` and `partitionKey` (or `__key`) are provided, `partitionNumber` takes precedence for partition selection. The `partitionKey` is still set on the Kafka message record.
+
+Example:
+
+```shell
+curl -X POST http://localhost:3500/v1.0/publish/myKafka/myTopic?metadata.partitionNumber=3 \
+  -H "Content-Type: application/json" \
+  -d '{
+        "data": {
+          "message": "Hi"
+        }
+      }'
+```
+
+### Transaction token
+
+When [consumer transactions](#exactly-once-consume-transform-produce) are enabled, a publish can carry a `__txnToken` metadata entry to join the open transaction of the delivery it was received with. The token is never written to the outgoing Kafka message headers.
+
+### Message headers
+
+All other metadata key/value pairs (that are not `partitionKey`, `__key`, `partitionNumber`, or `__txnToken`) are set as headers in the Kafka message. Here is an example setting a `correlationId` for the message.
+
+```shell
+curl -X POST http://localhost:3500/v1.0/publish/myKafka/myTopic?metadata.correlationId=myCorrelationID&metadata.partitionKey=key1 \
+  -H "Content-Type: application/json" \
+  -d '{
+        "data": {
+          "message": "Hi"
+        }
+      }'
+```
+### Kafka Pubsub special message headers received on consumer side
+
+When consuming messages, special message metadata are being automatically passed as headers. These are:
+- `__key`: the message key if available
+- `__topic`: the topic for the message
+- `__partition`: the partition number for the message
+- `__offset`: the offset of the message in the partition
+- `__timestamp`: the timestamp for the message
+- `__txnToken`: the delivery's transaction token, only when [consumer transactions](#exactly-once-consume-transform-produce) are enabled
+
+You can access them within the consumer endpoint as follows:
+{{< tabpane text=true >}}
+
+{{% tab "Python (FastAPI)" %}}
+
+```python
+from fastapi import APIRouter, Body, Response, status
+import json
+import sys
+
+app = FastAPI()
+
+router = APIRouter()
+
+
+@router.get('/dapr/subscribe')
+def subscribe():
+    subscriptions = [{'pubsubname': 'pubsub',
+                      'topic': 'my-topic',
+                      'route': 'my_topic_subscriber',
+                      }]
+    return subscriptions
+
+@router.post('/my_topic_subscriber')
+def my_topic_subscriber(
+      key: Annotated[str, Header(alias="__key")],
+      offset: Annotated[int, Header(alias="__offset")],
+      event_data=Body()):
+    print(f"key={key} - offset={offset} - data={event_data}", flush=True)
+      return Response(status_code=status.HTTP_200_OK)
+
+app.include_router(router)
+
+```
+
+{{% /tab %}}
+
+{{< /tabpane >}}
+
+## Receiving message headers with special characters
+
+The consumer application may be required to receive message headers that include special characters, which may cause HTTP protocol validation errors.
+HTTP header values must follow specifications, making some characters not allowed. [Learn more about the protocols](https://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2).
+In this case, you can enable `escapeHeaders` configuration setting, which uses URL escaping to encode header values on the consumer side.
+
+{{% alert title="Note" color="primary" %}}
+When using this setting, the received message headers are URL escaped, and you need to URL "un-escape" it to get the original value.
+{{% /alert %}}
+
+Set `escapeHeaders` to `true` to URL escape.
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub-escape-headers
+spec:
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: consumerGroup # Optional. Used for input bindings.
+    value: "group1"
+  - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
+    value: "my-dapr-app-id"
+  - name: authType # Required.
+    value: "none"
+  - name: escapeHeaders
+    value: "true"
+```
+
+## Avro Schema Registry serialization/deserialization
+You can configure pub/sub to publish or consume data encoded using [Avro binary serialization](https://avro.apache.org/docs/), leveraging an [Apache Schema Registry](https://developer.confluent.io/courses/apache-kafka/schema-registry/) (for example, [Confluent Schema Registry](https://developer.confluent.io/courses/apache-kafka/schema-registry/), [Apicurio](https://www.apicur.io/registry/)).
+
+### Configuration
+
+{{% alert title="Important" color="warning" %}}
+Currently, only message value serialization/deserialization is supported. Since cloud events are not supported, the `rawPayload=true` metadata must be passed when publishing Avro messages.
+
+Please note that `rawPayload=true` should NOT be set for consumers, as the message value will be wrapped into a CloudEvent and base64-encoded. Leaving `rawPayload` as default (i.e. `false`) will send the Avro-decoded message to the application as a JSON payload.
+
+When setting the `useAvroJson` component metadata to `true`, the inbound/outbound Avro binary is converted into/from Avro JSON encoding.
+This can be preferable when accurate type mapping is desirable.
+The default is standard JSON which is typically easier to bind to a native type in an application.
+{{% /alert %}}
+
+When configuring the Kafka pub/sub component metadata, you must define:
+- The schema registry URL
+- The API key/secret, if applicable
+
+Schema subjects are automatically derived from topic names, using the standard naming convention. For example, for a topic named `my-topic`, the schema subject will be `my-topic-value`.
+When interacting with the message payload within the service, it is in JSON format. The payload is transparently serialized/deserialized within the Dapr component.
+Date/Datetime fields must be passed as their [Epoch Unix timestamp](https://en.wikipedia.org/wiki/Unix_time) equivalent (rather than typical Iso8601). For example:
+- `2024-01-10T04:36:05.986Z` should be passed as `1704861365986` (the number of milliseconds since Jan 1st, 1970)
+- `2024-01-10` should be passed as `19732` (the number of days since Jan 1st, 1970)
+
+### Publishing Avro messages
+In order to indicate to the Kafka pub/sub component that the message should be using Avro serialization, the `valueSchemaType` metadata must be set to `Avro`.
+
+{{< tabpane text=true >}}
+
+{{% tab "curl" %}}
+```bash
+curl -X "POST" http://localhost:3500/v1.0/publish/pubsub/my-topic?metadata.rawPayload=true&metadata.valueSchemaType=Avro -H "Content-Type: application/json" -d '{"order_number": "345", "created_date": 1704861365986}'
+```
+{{% /tab %}}
+
+{{% tab "Python SDK" %}}
+```python
+from dapr.clients import DaprClient
+
+with DaprClient() as d:
+    req_data = {
+        'order_number': '345',
+        'created_date': 1704861365986
+    }
+    # Create a typed message with content type and body
+    resp = d.publish_event(
+        pubsub_name='pubsub',
+        topic_name='my-topic',
+        data=json.dumps(req_data),
+        publish_metadata={'rawPayload': 'true', 'valueSchemaType': 'Avro'}
+    )
+    # Print the request
+    print(req_data, flush=True)
+```
+{{% /tab %}}
+
+{{< /tabpane >}}
+
+
+### Subscribing to Avro topics
+In order to indicate to the Kafka pub/sub component that the message should be deserialized using Avro, the `valueSchemaType` metadata must be set to `Avro` in the subscription metadata.
+
+{{< tabpane text=true >}}
+
+{{% tab "Python (FastAPI)" %}}
+
+```python
+from fastapi import APIRouter, Body, Response, status
+import json
+import sys
+
+app = FastAPI()
+
+router = APIRouter()
+
+
+@router.get('/dapr/subscribe')
+def subscribe():
+    subscriptions = [{'pubsubname': 'pubsub',
+                      'topic': 'my-topic',
+                      'route': 'my_topic_subscriber',
+                      'metadata': {
+                          'valueSchemaType': 'Avro',
+                      } }]
+    return subscriptions
+
+@router.post('/my_topic_subscriber')
+def my_topic_subscriber(event_data=Body()):
+    print(event_data, flush=True)
+      return Response(status_code=status.HTTP_200_OK)
+
+app.include_router(router)
+
+```
+{{% /tab %}}
+{{< /tabpane >}}
+
+### Avoiding downstream side effects when publishing messages requiring custom metadata
+Dapr allows customizing the publishing behavior by setting custom publish metadata.
+
+For instance, to publish in avro format, it is required to set the `valueSchemaType=Avro` metadata.
+
+However, by default these metadata items get converted to Kafka headers and published along with the message. This default behavior is very helpful for instance to forward tracing headers across a chain of publishers/consumers.
+
+In certain scenario, however, it has unwanted side effects.
+Let's assume you consume an Avro message using Dapr with the headers above.If this message cannot be consumed successfully and configured to be sent to a dead letter topic, `valueSchemaType=Avro` will be automatically carried forward when publishing to the dead letter topic, requiring the set up of a schema associated with this topic. In many scenarios, it is preferable to publish dead letter messages in JSON only, as complying to a determined schema is not possible.
+
+To avoid this behavior, the kafka-pubsub component can be configured to exclude certain metadata keys from being converted to/from headers.
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: kafka-pubsub-exclude-metadata
+  type: pubsub.kafka
+  version: v1
+  metadata:
+  - name: brokers # Required. Kafka broker connection setting
+    value: "dapr-kafka.myapp.svc.cluster.local:9092"
+  - name: authType # Required.
+    value: "none"
+  - name: excludeHeaderMetaRegex
+    value: "^valueSchemaType$" # Optional. Excludes `valueSchemaType` header from being published to headers and converted to metadata
+```
+
+### Overriding default consumer group rebalancing
+In Kafka, rebalancing strategies determine how partitions are assigned to consumers within a consumer group. The default strategy is "range", but "roundrobin" and "sticky" are also available.
+- `Range`:
+Partitions are assigned to consumers based on their lexicographical order.
+If you have three partitions (0, 1, 2) and two consumers (A, B), consumer A might get partitions 0 and 1, while consumer B gets partition 2.
+- `RoundRobin`:
+Partitions are assigned to consumers in a round-robin fashion.
+With the same example above, consumer A might get partitions 0 and 2, while consumer B gets partition 1.
+- `Sticky`:
+This strategy aims to preserve previous assignments as much as possible while still maintaining a balanced distribution.
+If a consumer leaves or joins the group, only the affected partitions are reassigned, minimizing disruption.
+
+#### Choosing a Strategy:
+- `Range`:
+Simple to understand and implement, but can lead to uneven distribution if partition sizes vary significantly.
+- `RoundRobin`:
+Provides a good balance in many cases, but might not be optimal if message keys are unevenly distributed.
+- `Sticky`:
+Generally preferred for its ability to minimize disruption during rebalances, especially when dealing with a large number of partitions or frequent consumer group changes.
+
+## Create a Kafka instance
+
+{{< tabpane text=true >}}
+
+{{% tab "Self-Hosted" %}}
+You can run Kafka locally using [this](https://github.com/wurstmeister/kafka-docker) Docker image.
+To run without Docker, see the getting started guide [here](https://kafka.apache.org/quickstart).
+{{% /tab %}}
+
+{{% tab "Kubernetes" %}}
+To run Kafka on Kubernetes, you can use any Kafka operator, such as [Strimzi](https://strimzi.io/quickstarts/).
+{{% /tab %}}
+
+{{< /tabpane >}}
+
+
+## Related links
+- [Basic schema for a Dapr component]({{% ref component-schema %}})
+- Read [this guide]({{% ref "howto-publish-subscribe.md##step-1-setup-the-pubsub-component" %}}) for instructions on configuring pub/sub components
+- [Pub/Sub building block]({{% ref pubsub %}})
