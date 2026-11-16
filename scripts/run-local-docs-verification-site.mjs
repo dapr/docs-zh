@@ -26,6 +26,10 @@ function parseArgs(argv) {
     port: 1313,
     hugoBin: null,
     dryRun: false,
+    build: false,
+    destination: null,
+    baseUrl: null,
+    minify: true,
   }
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -83,6 +87,31 @@ function parseArgs(argv) {
 
     if (value === '--dry-run') {
       options.dryRun = true
+      continue
+    }
+
+    // --build: one-off static build of the merged site (upstream English + translated_content) instead of `hugo server`
+    if (value === '--build') {
+      options.build = true
+      continue
+    }
+
+    if (value === '--no-minify') {
+      options.minify = false
+      continue
+    }
+
+    if (value === '--destination' || value === '--base-url') {
+      const nextValue = argv[index + 1]
+      if (!nextValue) {
+        throw new Error(`\`${value}\` 缺少值`)
+      }
+      if (value === '--destination') {
+        options.destination = path.resolve(nextValue)
+      } else {
+        options.baseUrl = nextValue
+      }
+      index += 1
       continue
     }
 
@@ -161,6 +190,41 @@ function resolveHugoBinary(sourceRepo, explicitHugoBin) {
   throw new Error(`hugo 可执行文件不可用。请先安装 Hugo，或通过 --hugo-bin 指定路径。尝试结果：${failures.join(' | ')}`)
 }
 
+function commandOutput(command, args, options = {}) {
+  const result = spawnSync(command, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], ...options })
+  if (result.error || result.status !== 0) {
+    return null
+  }
+  return `${result.stdout ?? ''}${result.stderr ?? ''}`.trim()
+}
+
+/** Everything a static build needs besides Hugo itself; each failure says what to run. */
+function verifyBuildTools(sourceRepo, hugoBin) {
+  const problems = []
+  const hugoVersion = commandOutput(hugoBin, ['version'])
+  if (!hugoVersion?.includes('+extended')) {
+    problems.push(`Hugo 不是 extended 版本（${hugoBin}）。在 ${sourceRepo} 运行 npm ci，或用 --hugo-bin 指定 hugo_extended。`)
+  }
+  if (!commandOutput('go', ['version'])) {
+    problems.push('找不到 go：Docsy 作为 Hugo 模块下载需要 Go。Fedora 运行 sudo dnf install -y golang。')
+  }
+  const postcss = path.join(sourceRepo, 'node_modules', '.bin', process.platform === 'win32' ? 'postcss.cmd' : 'postcss')
+  if (!existsSync(postcss)) {
+    problems.push(`找不到 PostCSS：${postcss}。在 ${sourceRepo} 运行 npm ci（会装 postcss-cli 与 autoprefixer）。`)
+  }
+  if (problems.length > 0) {
+    throw new Error(`构建前置条件不满足：\n  - ${problems.join('\n  - ')}`)
+  }
+  return hugoVersion.split('\n')[0]
+}
+
+// Docsy lives in the zh repository's module cache, so its postcss.config.js cannot see the source repository's
+// node_modules (autoprefixer, postcss-cli). NODE_PATH makes them resolvable without touching the source repository.
+function hugoEnv(sourceRepo) {
+  const nodeModules = path.join(sourceRepo, 'node_modules')
+  return { ...process.env, NODE_PATH: [nodeModules, process.env.NODE_PATH].filter(Boolean).join(path.delimiter) }
+}
+
 function printDiagnostics({ sourceRepo, zhRepo, generatedConfigPath, cacheDir, previewUrl, hugoBin }) {
   console.log(`[local-docs-verification] sourceRepo=${sourceRepo}`)
   console.log(`[local-docs-verification] zhRepo=${zhRepo}`)
@@ -204,6 +268,39 @@ async function main() {
     hugoBin,
   })
 
+  if (options.build) {
+    const hugoVersion = verifyBuildTools(options.sourceRepo, hugoBin)
+    const destination = options.destination ?? renderResult.writablePaths.publishDir
+    console.log(`[local-docs-verification] hugo=${hugoVersion}`)
+    console.log(`[local-docs-verification] destination=${destination}`)
+    if (options.dryRun) {
+      console.log('[local-docs-verification] mode=build dry-run (tools ok, nothing built)')
+      return
+    }
+    const buildArgs = [
+      '--config', renderResult.generatedConfigPath,
+      '--cacheDir', renderResult.writablePaths.cacheDir,
+      '--destination', destination,
+      '--cleanDestinationDir',
+    ]
+    if (options.minify) {
+      buildArgs.push('--minify')
+    }
+    if (options.baseUrl) {
+      buildArgs.push('--baseURL', options.baseUrl)
+    }
+    const logStream = createWriteStream(renderResult.writablePaths.logFilePath, { flags: 'a' })
+    const build = spawnSync(hugoBin, buildArgs, { cwd: options.sourceRepo, env: hugoEnv(options.sourceRepo), encoding: 'utf8', maxBuffer: 64 * 1024 * 1024 })
+    const output = `${build.stdout ?? ''}${build.stderr ?? ''}`
+    process.stdout.write(output)
+    logStream.end(output)
+    if (build.error || build.status !== 0) {
+      throw new Error(`hugo 构建失败（exit=${build.status ?? build.error?.message}），日志：${renderResult.writablePaths.logFilePath}`)
+    }
+    console.log(`[local-docs-verification] build ok: ${destination}（中文页面在 zh-hans/ 下）`)
+    return
+  }
+
   if (options.dryRun) {
     console.log('[local-docs-verification] mode=dry-run')
     return
@@ -228,6 +325,7 @@ async function main() {
     ],
     {
       cwd: options.sourceRepo,
+      env: hugoEnv(options.sourceRepo),
       stdio: ['inherit', 'pipe', 'pipe'],
     },
   )
