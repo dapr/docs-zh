@@ -61,10 +61,10 @@ spec:
 
 此组件支持**输出 binding**，包含以下操作：
 
-- `create`：[创建文件](#create-file)
-- `get`：[获取文件](#get-file)
-- `list`：[列出文件](#list-files)
-- `delete`：[删除文件](#delete-file)
+- `create`：[创建文件](#创建文件)
+- `get`：[获取文件](#获取文件)
+- `list`：[列出文件](#列出文件)
+- `delete`：[删除文件](#删除文件)
 
 ### 创建文件
 

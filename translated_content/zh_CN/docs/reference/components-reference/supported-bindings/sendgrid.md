@@ -52,13 +52,13 @@ spec:
 | 字段              | 必填 | 绑定支持 |  详情 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
 | `apiKey` | Y | Output | SendGrid API 密钥，应将其视为机密值 | `"apikey"` |
-| `emailFrom` | N | Output | 如果设置，则指定电子邮件的"发件人"邮箱地址。仅允许单个邮箱地址。可选字段，参见[下文](#example-request-payload) | `"me@example.com"` |
-| `emailFromName` | N | Output | 如果设置，则指定电子邮件的"发件人"名称。可选字段，参见[下文](#example-request-payload) | `"me"` |
-| `emailTo` | N | Output | 如果设置，则指定电子邮件的"收件人"邮箱地址。仅允许单个邮箱地址。可选字段，参见[下文](#example-request-payload) | `"me@example.com"` |
-| `emailToName` | N | Output | 如果设置，则指定电子邮件的"收件人"名称。可选字段，参见[下文](#example-request-payload) | `"me"` |
-| `emailCc` | N | Output | 如果设置，则指定电子邮件的"抄送"邮箱地址。仅允许单个邮箱地址。可选字段，参见[下文](#example-request-payload) | `"me@example.com"` |
-| `emailBcc` | N | Output | 如果设置，则指定电子邮件的"密送"邮箱地址。仅允许单个邮箱地址。可选字段，参见[下文](#example-request-payload) | `"me@example.com"` |
-| `subject` | N | Output | 如果设置，则指定电子邮件的主题。可选字段，参见[下文](#example-request-payload) | `"subject of the email"` |
+| `emailFrom` | N | Output | 如果设置，则指定电子邮件的"发件人"邮箱地址。仅允许单个邮箱地址。可选字段，参见[下文](#示例请求载荷) | `"me@example.com"` |
+| `emailFromName` | N | Output | 如果设置，则指定电子邮件的"发件人"名称。可选字段，参见[下文](#示例请求载荷) | `"me"` |
+| `emailTo` | N | Output | 如果设置，则指定电子邮件的"收件人"邮箱地址。仅允许单个邮箱地址。可选字段，参见[下文](#示例请求载荷) | `"me@example.com"` |
+| `emailToName` | N | Output | 如果设置，则指定电子邮件的"收件人"名称。可选字段，参见[下文](#示例请求载荷) | `"me"` |
+| `emailCc` | N | Output | 如果设置，则指定电子邮件的"抄送"邮箱地址。仅允许单个邮箱地址。可选字段，参见[下文](#示例请求载荷) | `"me@example.com"` |
+| `emailBcc` | N | Output | 如果设置，则指定电子邮件的"密送"邮箱地址。仅允许单个邮箱地址。可选字段，参见[下文](#示例请求载荷) | `"me@example.com"` |
+| `subject` | N | Output | 如果设置，则指定电子邮件的主题。可选字段，参见[下文](#示例请求载荷) | `"subject of the email"` |
 
 ## 绑定支持
 

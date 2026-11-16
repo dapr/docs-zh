@@ -173,7 +173,7 @@ $ curl http://localhost:3501/v1.0/secrets/local-secret-store/connectionStrings
 这对于模拟 Vault 或 Kubernetes 等每个密钥键返回多个键/值对的密钥存储非常有用。
 
 ## Related links
-- [Secrets building block]({{% ref secrets %}})
+- [密钥构建块]({{% ref secrets %}})
 - [How-To: Retrieve a secret]({{% ref "howto-secrets.md" %}})
 - [How-To: Reference secrets in Dapr components]({{% ref component-secrets.md %}})
 - [Secrets API reference]({{% ref secrets_api.md %}})

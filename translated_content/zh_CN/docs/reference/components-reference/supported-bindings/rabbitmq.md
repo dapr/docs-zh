@@ -67,10 +67,10 @@ spec:
 | `host` | Y | Input/Output | RabbitMQ 主机地址 | `"amqp://[username][:password]@host.domain[:port]"` 或使用 TLS：`"amqps://[username][:password]@host.domain[:port]"` |
 | `durable` | N | Output | 告诉 RabbitMQ 将消息持久化到存储。默认值为 `"false"` | `"true"`, `"false"` |
 | `deleteWhenUnused` | N | Input/Output | 启用或禁用自动删除。默认值为 `"false"` | `"true"`, `"false"` |
-| `ttlInSeconds` | N | Output | 在 RabbitMQ 队列级别设置[默认消息存活时间](https://www.rabbitmq.com/ttl.html)。如果省略此参数，消息将不会过期，会一直存在于队列中直到被处理。另请参阅[此处](#specifying-a-ttl-per-message)  | `60` |
+| `ttlInSeconds` | N | Output | 在 RabbitMQ 队列级别设置[默认消息存活时间](https://www.rabbitmq.com/ttl.html)。如果省略此参数，消息将不会过期，会一直存在于队列中直到被处理。另请参阅[此处](#为每条消息指定-ttl)  | `60` |
 | `prefetchCount` | N | Input | 设置[通道预取设置（QoS）](https://www.rabbitmq.com/confirms.html#channel-qos-prefetch)。如果省略此参数，QoS 会将值设置为 0，表示无限制 | `0` |
 | `exclusive` | N | Input/Output | 确定主题是否为独占主题。默认值为 `"false"` | `"true"`, `"false"` |
-| `maxPriority`| N | Input/Output | 用于设置[优先级队列](https://www.rabbitmq.com/priority.html)的参数。如果省略此参数，队列将创建为常规队列而非优先级队列。值范围为 1 到 255。另请参阅[此处](#specifying-a-priority-per-message) | `"1"`, `"10"` |
+| `maxPriority`| N | Input/Output | 用于设置[优先级队列](https://www.rabbitmq.com/priority.html)的参数。如果省略此参数，队列将创建为常规队列而非优先级队列。值范围为 1 到 255。另请参阅[此处](#为每条消息指定优先级) | `"1"`, `"10"` |
 | `contentType` | N | Input/Output | 消息的内容类型。默认值为 "text/plain"。 | `"text/plain"`, `"application/cloudevent+json"` 等 |
 | `reconnectWaitInSeconds` | N | Input/Output | 表示客户端在断开连接后尝试重新连接到服务器之前应等待的持续时间（秒）。默认值为 `"5"`。 | `"5"`, `"10"` |
 | `externalSasl` | N | Input/Output | 使用 TLS 时，是否应从额外字段（如 CN）获取用户名。请参阅 [RabbitMQ 身份验证机制](https://www.rabbitmq.com/access-control.html#mechanisms)。默认值为 `"false"`。 | `"true"`, `"false"` |
