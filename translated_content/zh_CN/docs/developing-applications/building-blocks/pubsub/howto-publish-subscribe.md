@@ -6,36 +6,36 @@ weight: 2000
 description: "了解如何通过一个服务向主题发送消息，并在另一个服务中订阅该主题"
 ---
 
-既然您已经了解了 Dapr 发布订阅构建块提供的能力，接下来了解如何在您的服务中使用它。下面的代码示例简单描述了一个包含两个服务的订单处理应用程序，每个服务都配置了 Dapr 边车：
+在了解了 Dapr 发布订阅构建块提供的能力之后，接下来了解它如何在你的服务中工作。下面的代码示例大致描述了一个处理订单的应用程序，它包含两个服务，每个服务都配有 Dapr 边车：
 
-- 一个结账服务，使用 Dapr 订阅消息队列中的主题。
 - 一个订单处理服务，使用 Dapr 向 RabbitMQ 发布消息。
+- 一个结账服务，使用 Dapr 订阅消息队列中的主题。
 
 
-<img src="/images/pubsub-howto-overview.png" width=1000 alt="Diagram showing state management of example service">
+{{< diagram name="pubsub-howto-overview" width="70" >}}
 
-Dapr 会自动使用 `Content-Type` 头部的值作为 `datacontenttype` 属性，将用户负载封装在一个符合 CloudEvents v1.0 标准的信封中。[了解更多关于 CloudEvents 消息的信息。]({{% ref pubsub-cloudevents %}})
+Dapr 会自动将用户负载封装在符合 CloudEvents v1.0 规范的信封中，并使用 `Content-Type` 头部的值作为 `datacontenttype` 属性。[了解有关 CloudEvents 消息的更多信息。]({{% ref pubsub-cloudevents %}})
 
-下面的示例演示了您的应用程序如何发布和订阅名为 `orders` 的主题。
+下面的示例演示了你的应用程序如何发布和订阅名为 `orders` 的主题。
 
 {{% alert title="注意" color="primary" %}}
- 如果您还没有尝试过，请先体验[发布订阅快速入门]({{% ref pubsub-quickstart %}})，快速了解如何使用发布订阅。
+如果你还没有尝试过，请先体验[发布订阅快速入门]({{% ref pubsub-quickstart %}})，快速了解如何使用发布订阅。
 
 {{% /alert %}}
 
-## 设置发布/订阅组件
+## 设置发布订阅组件
 
-第一步是设置发布/订阅组件：
+第一步是设置发布订阅组件：
 
 {{< tabpane text=true >}}
 
 {{% tab "自托管（CLI）" %}}
-当您运行 `dapr init` 时，Dapr 会创建一个默认的 Redis `pubsub.yaml` 并在您的本地机器上运行一个 Redis 容器，位于：
+当你运行 `dapr init` 时，Dapr 会创建一个默认的 Redis `pubsub.yaml`，并在本地机器上运行一个 Redis 容器，其位置如下：
 
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\pubsub.yaml`
 - 在 Linux/MacOS 上，位于 `~/.dapr/components/pubsub.yaml`
 
-通过 `pubsub.yaml` 组件，您可以轻松更换底层组件而无需更改应用程序代码。在本示例中，使用的是 RabbitMQ。
+借助 `pubsub.yaml` 组件，你无需更改应用程序代码即可轻松替换底层组件。本示例使用的是 RabbitMQ。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -63,13 +63,13 @@ scopes:
   - checkout
 ```
 
-您可以通过创建一个包含该文件的组件目录（在本例中为 `myComponents`）并在 `dapr run` CLI 命令中使用 `--resources-path` 标志，用另一个[发布订阅组件]({{% ref setup-pubsub %}})覆盖此文件。
+你可以创建一个包含该文件的组件目录（本例中为 `myComponents`），并在 `dapr run` CLI 命令中使用 `--resources-path` 标志，从而用另一个[发布订阅组件]({{% ref setup-pubsub %}})覆盖此文件。
 
 {{% /tab %}}
 
 {{% tab "Kubernetes" %}}
 
-要将其部署到 Kubernetes 集群中，请填写下面 YAML 中[发布/订阅组件]({{% ref setup-pubsub %}})的 `metadata` 连接详情，将其保存为 `pubsub.yaml`，然后运行 `kubectl apply -f pubsub.yaml`。
+要将其部署到 Kubernetes 集群中，请在下方的 YAML 中填写[发布订阅组件]({{% ref setup-pubsub %}})的 `metadata` 连接详情，将其保存为 `pubsub.yaml`，然后运行 `kubectl apply -f pubsub.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -152,7 +152,6 @@ dapr run --app-id myapp --resources-path ./myComponents -- npm start
 
 {{< /tabpane >}}
 
-
 ## 订阅主题
 
 Dapr 提供了三种订阅主题的方法：
@@ -161,9 +160,9 @@ Dapr 提供了三种订阅主题的方法：
 - **流式**，订阅在用户代码中定义。
 - **编程式**，订阅在用户代码中定义。
 
-在[声明式、流式和编程式订阅文档]({{% ref subscription-methods %}})中了解更多信息。本示例演示**声明式**订阅。
+在[声明式、流式和编程式订阅文档]({{% ref subscription-methods %}})中了解更多信息。本示例演示的是**声明式**订阅。
 
-创建一个名为 `subscription.yaml` 的文件并粘贴以下内容：
+创建一个名为 `subscription.yaml` 的文件，并粘贴以下内容：
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -180,21 +179,26 @@ scopes:
 - checkout
 ```
 
-上面的示例展示了对 `orders` 主题的事件订阅，使用的发布订阅组件是 `order-pub-sub`。
+上面的示例展示了对 `orders` 主题的事件订阅，使用的是发布订阅组件 `order-pub-sub`。
 
 - `route` 字段告诉 Dapr 将所有主题消息发送到应用程序中的 `/checkout` 端点。
 - `scopes` 字段为 ID 为 `orderprocessing` 和 `checkout` 的应用程序启用此订阅。
 
-将 `subscription.yaml` 放在与 `pubsub.yaml` 组件相同的目录中。当 Dapr 启动时，它会与组件一起加载订阅。
+将 `subscription.yaml` 放在与 `pubsub.yaml` 组件相同的目录中。Dapr 启动时，会与组件一起加载订阅。
 
 {{% alert title="注意" color="primary" %}}
-此功能目前处于预览状态。
-可以使 Dapr "热重载" 声明式订阅，从而自动应用更新而无需重启。
-这是通过 [`HotReload` 功能门控]({{% ref "support-preview-features" %}})启用的。
-为了防止重新处理或丢失未处理的消息，在热重载事件期间，Dapr 与您的应用程序之间正在传输的消息不受影响。
+声明式订阅默认会被“热重载”，即无需重启即可自动获取更新。如需退出该行为，请在 Dapr 应用程序配置中禁用 `HotReload` 功能：
+
+```yaml
+spec:
+  features:
+    - name: HotReload
+      enabled: false
+```
+为防止消息被重复处理或未处理的消息丢失，在热重载事件期间，Dapr 与你的应用程序之间正在传输的消息不受影响。
 {{% /alert %}}
 
-以下是利用 Dapr SDK 订阅您在 `subscription.yaml` 中定义的主题的代码示例。
+以下代码示例利用 Dapr SDK 订阅你在 `subscription.yaml` 中定义的主题。
 
 {{< tabpane text=true >}}
 
@@ -213,7 +217,7 @@ namespace CheckoutService.Controllers;
 [ApiController]
 public sealed class CheckoutServiceController : ControllerBase
 {
-    //从 "order-pub-sub" 组件订阅名为 "orders" 的主题 
+    //从 "order-pub-sub" 组件订阅名为 "orders" 的主题
     [Topic("order-pub-sub", "orders")]
     [HttpPost("checkout")]
     public void GetCheckout([FromBody] int orderId)
@@ -234,7 +238,7 @@ dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-por
 {{% tab "Java" %}}
 
 ```java
-//dependencies
+//依赖
 import io.dapr.Topic;
 import io.dapr.client.domain.CloudEvent;
 import org.springframework.web.bind.annotation.*;
@@ -243,7 +247,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
-//code
+//代码
 @RestController
 public class CheckoutServiceController {
 
@@ -274,16 +278,16 @@ dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-por
 {{% tab "Python" %}}
 
 ```python
-#dependencies
+#依赖
 from cloudevents.sdk.event import v1
 from dapr.ext.grpc import App
 import logging
 import json
 
-#code
+#代码
 app = App()
 logging.basicConfig(level = logging.INFO)
-#订阅一个主题 
+#订阅一个主题
 @app.subscribe(pubsub_name='order-pub-sub', topic='orders')
 def mytopic(event: v1.Event) -> None:
     data = json.loads(event.Data())
@@ -303,7 +307,7 @@ dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --app-protocol 
 {{% tab "Go" %}}
 
 ```go
-//dependencies
+//依赖
 import (
 	"log"
 	"net/http"
@@ -313,7 +317,7 @@ import (
 	daprd "github.com/dapr/go-sdk/service/http"
 )
 
-//code
+//代码
 var sub = &common.Subscription{
 	PubsubName: "order-pub-sub",
 	Topic:      "orders",
@@ -348,10 +352,10 @@ dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-por
 {{% tab "JavaScript" %}}
 
 ```javascript
-//dependencies
+//依赖
 import { DaprServer, CommunicationProtocolEnum } from '@dapr/dapr'; 
 
-//code
+//代码
 const daprHost = "127.0.0.1"; 
 const serverHost = "127.0.0.1";
 const serverPort = "6002"; 
@@ -427,7 +431,7 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '{"orderId"
 
 {{< /tabpane >}}
 
-以下是利用 Dapr SDK 发布主题的代码示例。
+以下代码示例利用 Dapr SDK 发布主题。
 
 {{< tabpane text=true >}}
 
@@ -476,7 +480,7 @@ dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-g
 {{% tab "Java" %}}
 
 ```java
-//dependencies
+//依赖
 import io.dapr.client.DaprClient;
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.domain.Metadata;
@@ -487,7 +491,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-//code
+//代码
 @SpringBootApplication
 public class OrderProcessingServiceApplication {
 
@@ -526,7 +530,7 @@ dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-g
 {{% tab "Python" %}}
 
 ```python
-#dependencies  
+#依赖
 import random
 from time import sleep    
 import requests
@@ -534,7 +538,7 @@ import logging
 import json
 from dapr.clients import DaprClient
 
-#code
+#代码
 logging.basicConfig(level = logging.INFO)
 while True:
     sleep(random.randrange(50, 5000) / 1000)
@@ -563,7 +567,7 @@ dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --app-pr
 {{% tab "Go" %}}
 
 ```go
-//dependencies
+//依赖
 import (
 	"context"
 	"log"
@@ -573,7 +577,7 @@ import (
 	dapr "github.com/dapr/go-sdk/client"
 )
 
-//code
+//代码
 var (
 	PUBSUB_NAME = "order-pub-sub"
 	TOPIC_NAME  = "orders"
@@ -611,7 +615,7 @@ dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-g
 {{% tab "JavaScript" %}}
 
 ```javascript
-//dependencies
+//依赖
 import { DaprServer, DaprClient, CommunicationProtocolEnum } from '@dapr/dapr'; 
 
 const daprHost = "127.0.0.1"; 
@@ -657,19 +661,23 @@ dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-g
 
 {{< /tabpane >}}
 
-## 消息确认和重试
+## 消息确认与重试
 
-为了告诉 Dapr 消息已成功处理，需要返回 `200 OK` 响应。如果 Dapr 收到除 `200` 以外的任何返回状态码，或者您的应用程序崩溃，Dapr 将按照至少一次语义尝试重新传递消息。
+要告知 Dapr 消息已成功处理，请返回 `200 OK` 响应。如果 Dapr 收到的返回状态码不是 `200`，或者你的应用程序崩溃，Dapr 将按照至少一次（at-least-once）语义尝试重新投递该消息。
+
+## 使用 Dapr Dev Dashboard 测试订阅
+
+在本地开发时，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 在不运行发布者应用的情况下测试订阅者。该仪表板会显示正在运行的应用的订阅，并允许你向它们发送测试消息。结合仪表板提供的按应用流式查看日志的功能，这是检查应用如何处理消息以及返回哪些状态码的简便方法。
 
 ## 演示视频
 
-观看[此演示视频](https://youtu.be/1dqe1k-FXJQ?si=s3gvWxRxeOsmXuE1)以了解更多关于使用 Dapr 进行发布订阅消息传递的信息。
+观看[此演示视频](https://youtu.be/1dqe1k-FXJQ?si=s3gvWxRxeOsmXuE1)，了解更多关于使用 Dapr 进行发布订阅消息传递的信息。
 
 {{< youtube id=1dqe1k-FXJQ >}}
 
 ## 后续步骤
 
 - 尝试[发布订阅教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)。
-- 了解[使用 CloudEvents 进行消息传递]({{% ref pubsub-cloudevents %}})以及何时可能想要[不使用 CloudEvents 发送消息]({{% ref pubsub-raw %}})。
+- 了解[使用 CloudEvents 进行消息传递]({{% ref pubsub-cloudevents %}})，以及何时可能需要[不使用 CloudEvents 发送消息]({{% ref pubsub-raw %}})。
 - 查看[发布订阅组件]({{% ref setup-pubsub %}})列表。
-- 阅读[API 参考]({{% ref pubsub_api %}})。
+- 阅读 [API 参考]({{% ref pubsub_api %}})。

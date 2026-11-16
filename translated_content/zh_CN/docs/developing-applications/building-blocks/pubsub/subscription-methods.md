@@ -3,31 +3,36 @@ type: docs
 title: "声明式、流式和编程式订阅类型"
 linkTitle: "订阅类型"
 weight: 3000
-description: "了解允许您订阅消息主题的订阅类型。"
+description: "了解可用于订阅消息主题的订阅类型。"
 ---
 
 ## 发布订阅 API 订阅类型
 
-Dapr 应用程序可以通过三种订阅类型订阅已发布的主题，这些类型支持相同的功能：声明式、流式和编程式。
+Dapr 应用程序可以通过三种订阅类型订阅已发布的主题，这三种类型支持相同的功能：声明式、流式和编程式。
 
 | 订阅类型 | 描述 |
 | ------------------- | ----------- |
-| [**声明式**]({{% ref "subscription-methods#declarative-subscriptions" %}}) | 订阅在**外部文件**中定义。声明式方法从代码中移除了 Dapr 依赖，允许现有应用程序订阅主题，而无需更改代码。 |
-| [**流式**]({{% ref "subscription-methods#streaming-subscriptions" %}}) | 订阅在**应用程序代码**中定义。流式订阅是动态的，这意味着它们允许在运行时添加或删除订阅。它们不需要在应用程序中设置订阅端点（编程式和声明式订阅都需要），使其易于在代码中配置。流式订阅也不需要将应用程序配置为通过边车来接收消息。 |
-| [**编程式**]({{% ref "subscription-methods#programmatic-subscriptions" %}}) | 订阅在**应用程序代码**中定义。编程式方法实现静态订阅并要求代码中有一个端点。 |
+| [**声明式**]({{% ref "subscription-methods#声明式订阅" %}}) | 订阅在**外部文件**中定义。声明式方法让你的代码无需依赖 Dapr，允许现有应用程序在无需更改代码的情况下订阅主题。 |
+| [**流式**]({{% ref "subscription-methods#流式订阅" %}}) | 订阅在**应用程序代码**中定义。流式订阅是动态的，这意味着可以在运行时添加或删除订阅。它们不需要应用程序提供订阅端点（编程式和声明式订阅都需要），因此易于在代码中配置。流式订阅也不要求为应用程序配置边车即可接收消息。 |
+| [**编程式**]({{% ref "subscription-methods#编程式订阅" %}}) | 订阅在**应用程序代码**中定义。编程式方法实现静态订阅，并要求代码中提供一个端点。 |
 
-下面的示例演示了 `checkout` 应用程序和 `orderprocessing` 应用程序之间通过 `orders` 主题进行的发布订阅消息传递。这些示例演示了同一个 Dapr 发布订阅组件首先以声明方式使用，然后以编程方式使用。
+下面的示例演示了 `checkout` 应用与 `orderprocessing` 应用之间通过 `orders` 主题进行的发布订阅消息传递。这些示例先以声明式方式使用同一个 Dapr 发布订阅组件，然后以编程式方式使用它。
 
 ### 声明式订阅
 
 {{% alert title="注意" color="primary" %}}
-此功能目前处于预览状态。
-Dapr 可以"热重载"声明式订阅，从而自动获取更新而无需重启。
-这是通过 [`HotReload` 功能门控]({{% ref "support-preview-features" %}})启用的。
-为了防止重新处理或丢失未处理的消息，Dapr 与应用程序之间正在传输的消息在热重载事件期间不受影响。
+声明式订阅默认会被“热重载”，即无需重启即可自动获取更新。如需退出该行为，请在 Dapr 应用程序配置中禁用 `HotReload` 功能：
+
+```yaml
+spec:
+  features:
+    - name: HotReload
+      enabled: false
+```
+为防止消息被重复处理或未处理的消息丢失，在热重载事件期间，Dapr 与你的应用程序之间正在传输的消息不受影响。
 {{% /alert %}}
 
-您可以使用外部组件文件以声明方式订阅主题。此示例使用名为 `subscription.yaml` 的 YAML 组件文件：
+你可以使用外部组件文件以声明式方式订阅主题。本示例使用名为 `subscription.yaml` 的 YAML 组件文件：
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -45,10 +50,10 @@ scopes:
 
 这里名为 `order` 的订阅：
 - 使用名为 `pubsub` 的发布订阅组件订阅名为 `orders` 的主题。
-- 设置 `route` 字段以将所有主题消息发送到应用程序中的 `/orders` 端点。
-- 设置 `scopes` 字段以将此订阅的范围限制为仅由 ID 为 `orderprocessing` 的应用程序访问。
+- 设置 `route` 字段，将所有主题消息发送到应用程序中的 `/orders` 端点。
+- 设置 `scopes` 字段，使此订阅仅可由 ID 为 `orderprocessing` 的应用程序访问。
 
-运行 Dapr 时，设置 YAML 组件文件路径以将 Dapr 指向该组件。
+运行 Dapr 时，请将 YAML 组件文件路径设置为指向该组件，使 Dapr 能够找到它。
 
 {{< tabpane text=true >}}
 
@@ -111,7 +116,7 @@ kubectl apply -f subscription.yaml
 {{% tab ".NET" %}}
 
 ```csharp
- //Subscribe to a topic 
+ //订阅一个主题
 [HttpPost("orders")]
 public void getCheckout([FromBody] int orderId)
 {
@@ -126,7 +131,7 @@ public void getCheckout([FromBody] int orderId)
 ```java
 import io.dapr.client.domain.CloudEvent;
 
- //Subscribe to a topic
+ //订阅一个主题
 @PostMapping(path = "/orders")
 public Mono<Void> getCheckout(@RequestBody(required = false) CloudEvent<String> cloudEvent) {
     return Mono.fromRunnable(() -> {
@@ -144,7 +149,7 @@ public Mono<Void> getCheckout(@RequestBody(required = false) CloudEvent<String> 
 ```python
 from cloudevents.sdk.event import v1
 
-#Subscribe to a topic 
+#订阅一个主题
 @app.route('/orders', methods=['POST'])
 def checkout(event: v1.Event) -> None:
     data = json.loads(event.Data())
@@ -161,7 +166,7 @@ const bodyParser = require('body-parser')
 const app = express()
 app.use(bodyParser.json({ type: 'application/*+json' }));
 
-// listen to the declarative route
+// 监听声明式路由
 app.post('/orders', (req, res) => {
   console.log(req.body);
   res.sendStatus(200);
@@ -173,7 +178,7 @@ app.post('/orders', (req, res) => {
 {{% tab "Go" %}}
 
 ```go
-//Subscribe to a topic
+//订阅一个主题
 var sub = &common.Subscription{
 	PubsubName: "pubsub",
 	Topic:      "orders",
@@ -190,35 +195,37 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 
 {{< /tabpane >}}
 
-`/orders` 端点与订阅中定义的 `route` 匹配，这是 Dapr 将所有主题消息发送到的地方。
+`/orders` 端点与订阅中的 `route` 相匹配，Dapr 会将所有主题消息发送到该端点。
 
 ### 流式订阅
 
-流式订阅是在应用程序代码中定义的订阅，可以在运行时动态停止和启动。
-消息由应用程序从 Dapr 拉取。这意味着不需要端点来订阅主题，并且可以在边车上根本没有配置任何应用程序的情况下进行订阅。
-可以同时订阅任意数量的发布订阅和主题。
-当消息发送到给定的消息处理程序代码时，没有路由或批量订阅的概念。
+流式订阅是在应用程序代码中定义、可以在运行时动态停止和启动的订阅。
+消息由应用程序从 Dapr 中拉取。这意味着订阅主题不需要端点，甚至可以在完全未为边车配置任何应用的情况下订阅。
+可以同时订阅任意数量的发布订阅组件和主题。
+由于消息会被发送到给定的消息处理代码，因此不存在路由或批量订阅的概念。
 
-下面的示例展示了流式订阅主题的不同方式。
+下面的示例展示了通过流式方式订阅主题的不同方法。
 
 {{< tabpane text=true >}}
 
 {{% tab ".NET" %}}
 
-您可以使用 `DaprPublishSubscribeClient` 上的 `SubscribeAsync` 方法来配置用于从流中拉取消息的消息处理程序。
+你可以使用 `DaprPublishSubscribeClient` 上的 `SubscribeAsync` 方法配置消息处理程序，用于从流中拉取消息。
 
-```c#
+```csharp
 using System.Text;
+using Dapr.Messaging;
 using Dapr.Messaging.PublishSubscribe;
-using Dapr.Messaging.PublishSubscribe.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDaprPubSubClient();
+builder.Services.AddDaprMessaging()
+    .AddDaprPubSub();
+
 var app = builder.Build();
 
 var messagingClient = app.Services.GetRequiredService<DaprPublishSubscribeClient>();
 
-//Create a dynamic streaming subscription and subscribe with a timeout of 30 seconds and 10 seconds for message handling
+// 创建动态流式订阅，订阅超时为 30 秒，消息处理超时为 10 秒
 var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
 var subscription = await messagingClient.SubscribeAsync("pubsub", "myTopic",
     new DaprSubscriptionOptions(new MessageHandlingPolicy(TimeSpan.FromSeconds(10), TopicResponseAction.Retry)),
@@ -226,16 +233,16 @@ var subscription = await messagingClient.SubscribeAsync("pubsub", "myTopic",
 
 await Task.Delay(TimeSpan.FromMinutes(1));
 
-//When you're done with the subscription, simply dispose of it
+// 使用完订阅后，将其释放以干净地停止接收事件
 await subscription.DisposeAsync();
 return;
 
-//Process each message returned from the subscription
+// 处理订阅返回的每条消息
 Task<TopicResponseAction> HandleMessageAsync(TopicMessage message, CancellationToken cancellationToken = default)
 {
     try
     {
-        //Do something with the message
+        // 对消息进行处理
         Console.WriteLine(Encoding.UTF8.GetString(message.Data.Span));
         return Task.FromResult(TopicResponseAction.Success);
     }
@@ -246,14 +253,14 @@ Task<TopicResponseAction> HandleMessageAsync(TopicMessage message, CancellationT
 }
 ```
 
-[了解有关使用 .NET SDK 客户端进行流式订阅的更多信息。]({{% ref "dotnet-messaging-pubsub-howto" %}})
+[了解有关使用 .NET SDK 进行发布订阅订阅的更多信息。]({{% ref "dotnet-messaging-subscribe-howto" %}})
 
 {{% /tab %}}
 
 
 {{% tab "Python" %}}
 
-您可以使用 `subscribe` 方法，该方法返回一个 `Subscription` 对象，并允许您通过调用 `next_message` 方法从流中拉取消息。这在等待消息时运行并可能阻塞主线程。 
+你可以使用 `subscribe` 方法，它会返回一个 `Subscription` 对象，并允许你通过调用 `next_message` 方法从流中拉取消息。该方法在主线程中运行，等待消息时可能会阻塞主线程。
 
 ```python
 import time
@@ -267,7 +274,7 @@ counter = 0
 def process_message(message):
     global counter
     counter += 1
-    # Process the message here
+    # 在此处理消息
     print(f'Processing message: {message.data()} from {message.topic()}...')
     return 'success'
 
@@ -293,7 +300,7 @@ def main():
                     print('No message received within timeout period.')
                     continue
 
-                # Process the message
+                # 处理消息
                 response_status = process_message(message)
 
                 if response_status == 'success':
@@ -313,7 +320,7 @@ if __name__ == '__main__':
 
 ```
 
-您也可以使用 `subscribe_with_handler` 方法，该方法接受一个回调函数，该函数对从流接收到的每条消息执行。这在单独的线程中运行，因此不会阻塞主线程。 
+你也可以使用 `subscribe_with_handler` 方法，它接受一个回调函数，为从流中接收到的每条消息执行该回调。该回调在单独的线程中运行，因此不会阻塞主线程。
 
 ```python
 import time
@@ -325,7 +332,7 @@ counter = 0
 
 
 def process_message(message):
-    # Process the message here
+    # 在此处理消息
     global counter
     counter += 1
     print(f'Processing message: {message.data()} from {message.topic()}...')
@@ -334,8 +341,8 @@ def process_message(message):
 
 def main():
     with (DaprClient() as client):
-        # This will start a new thread that will listen for messages
-        # and process them in the `process_message` function
+        # 这会启动一个新线程来监听消息，
+        # 并在 `process_message` 函数中处理它们
         close_fn = client.subscribe_with_handler(
             pubsub_name='pubsub', topic='orders', handler_fn=process_message,
             dead_letter_topic='orders_dead'
@@ -381,7 +388,7 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	// Close must always be called.
+	// 必须始终调用 Close。
 	defer sub.Close()
 
 	for {
@@ -390,11 +397,10 @@ func main() {
 			panic(err)
 		}
 
-		// Process the event
+		// 处理事件
 
-		// We _MUST_ always signal the result of processing the message, else the
-		// message will not be considered as processed and will be redelivered or
-		// dead lettered.
+		// 必须始终上报消息的处理结果，否则消息不会被视为已处理，
+		// 并会被重新投递或转入死信队列。
 		// msg.Retry()
 		// msg.Drop()
 		if err := msg.Success(); err != nil {
@@ -404,7 +410,7 @@ func main() {
 }
 ```
 
-或
+或者
 
 ```go
 package main
@@ -434,17 +440,17 @@ func main() {
 		panic(err)
 	}
 
-	// Stop must always be called.
+	// 必须始终调用 stop。
 	defer stop()
 
 	<-make(chan struct{})
 }
 
 func eventHandler(e *common.TopicEvent) common.SubscriptionResponseStatus {
-	// Process message here
+	// 在此处理消息
     // common.SubscriptionResponseStatusRetry
     // common.SubscriptionResponseStatusDrop
-			common.SubscriptionResponseStatusDrop, status);
+			common.SubscriptionResponseStatusDrop, status)
 	}
 
 	return common.SubscriptionResponseStatusSuccess
@@ -457,21 +463,21 @@ func eventHandler(e *common.TopicEvent) common.SubscriptionResponseStatus {
 
 ## 演示
 
-观看[此视频了解流式订阅的概述](https://youtu.be/57l-QDwgI-Y?t=841)：
+观看[此视频，了解流式订阅概览](https://youtu.be/57l-QDwgI-Y?t=841)：
 
 {{< youtube id=57l-QDwgI-Y start=841 >}}
 
 ### 编程式订阅
 
-与声明式方法的 `route` YAML 结构不同，动态编程式方法在代码中返回 `routes` JSON 结构。
+动态编程式方法在代码中返回 `routes` JSON 结构，而声明式方法使用的是 YAML 中的 `route` 结构。
 
-> **注意：** 编程式订阅仅在应用程序启动期间读取一次。您不能动态添加新的编程式订阅，只能在编译时添加新的订阅。
+> **注意：** 编程式订阅仅在应用程序启动时读取一次。你无法_动态_添加新的编程式订阅，只能在编译时添加。
 
 {{% alert title="禁用编程式订阅" color="primary" %}}
-如果您的应用程序不使用编程式订阅，可以禁用对 `/dapr/subscribe` 的自动 HTTP 调用以减少日志噪音。在 `dapr run` 中使用 `--disable-init-endpoints subscribe` 标志，或在 Kubernetes 中使用 `dapr.io/disable-init-endpoints: "subscribe"` 注解。[了解有关禁用初始化端点的更多信息。]({{% ref "arguments-annotations-overview#disable-init-endpoints" %}})
+如果你的应用程序不使用编程式订阅，可以禁用对 `/dapr/subscribe` 的自动 HTTP 调用，以减少日志噪音。在 `dapr run` 中使用 `--disable-init-endpoints subscribe` 标志，或在 Kubernetes 中使用 `dapr.io/disable-init-endpoints: "subscribe"` 注解即可。[了解有关禁用初始化端点的更多信息。]({{% ref "arguments-annotations-overview#disable-init-endpoints" %}})
 {{% /alert %}}
 
-在下面的示例中，您在应用程序代码中定义上面[声明式 YAML 订阅](#declarative-subscriptions)中找到的值。
+在下面的示例中，你将在应用程序代码中定义上方[声明式 YAML 订阅](#声明式订阅)中的各项值。
 
 {{< tabpane text=true >}}
 
@@ -482,22 +488,22 @@ func eventHandler(e *common.TopicEvent) common.SubscriptionResponseStatus {
 [HttpPost("/orders")]
 public async Task<ActionResult<Order>>Checkout(Order order, [FromServices] DaprClient daprClient)
 {
-    // Logic
+    // 业务逻辑
     return order;
 }
 ```
 
-或
+或者
 
 ```csharp
-// Dapr subscription in [Topic] routes orders topic to this route
+// Dapr 订阅（[Topic]）将 orders 主题路由到此路由
 app.MapPost("/orders", [Topic("pubsub", "orders")] (Order order) => {
     Console.WriteLine("Subscriber received : " + order);
     return Results.Ok(order);
 });
 ```
 
-上面定义的处理程序还需要映射到 `dapr/subscribe` 端点。这是在定义端点时的应用程序启动代码中完成的。
+上面定义的两个处理程序还需要进行映射，以配置 `dapr/subscribe` 端点。这需要在应用程序启动代码中定义端点时完成。
 
 ```csharp
 app.UseEndpoints(endpoints =>
@@ -630,7 +636,7 @@ type rule struct {
 	Path  string `json:"path"`
 }
 
-// This handles /dapr/subscribe
+// 处理 /dapr/subscribe
 func configureSubscribeHandler(w http.ResponseWriter, _ *http.Request) {
 	t := []subscription{
 		{
@@ -662,13 +668,17 @@ func main() {
 
 {{< /tabpane >}}
 
-## 下一步
+## 在本地检查订阅
+
+无论选择哪种订阅类型，在本地开发期间都可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用已注册的订阅，包括发布订阅组件、主题和路由。这是快速确认声明式订阅文件已加载，或确认应用返回了预期编程式订阅的便捷方法。你还可以在仪表板中向订阅发送测试消息。
+
+## 后续步骤
 
 * 尝试[发布订阅快速入门]({{% ref pubsub-quickstart %}})
-* 按照[操作指南：使用多个命名空间配置发布订阅组件]({{% ref pubsub-namespaces %}})
-* 了解有关[声明式和编程式订阅方法]({{% ref subscription-methods %}})的更多信息。 
+* 参阅[操作指南：使用多个命名空间配置发布订阅组件]({{% ref pubsub-namespaces %}})
+* 了解更多关于[声明式和编程式订阅方法]({{% ref subscription-methods %}})的信息。
 * 了解[主题作用域]({{% ref pubsub-scopes %}})
 * 了解[消息 TTL]({{% ref pubsub-message-ttl %}})
-* 了解有关[使用和不使用 CloudEvent 的发布订阅]({{% ref pubsub-cloudevents %}})
+* 了解更多关于[使用和不使用 CloudEvent 的发布订阅]({{% ref pubsub-cloudevents %}})
 * [发布订阅组件]({{% ref supported-pubsub %}})列表
 * 阅读[发布订阅 API 参考]({{% ref pubsub_api %}})

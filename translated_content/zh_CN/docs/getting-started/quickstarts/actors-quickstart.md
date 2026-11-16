@@ -6,7 +6,7 @@ weight: 76
 description: "开始使用 Dapr 的 Actors 构建块"
 ---
 
-让我们来看看 Dapr 的 [Actors 构建块]({{% ref actors %}})。在此快速入门中，你将运行一个智能设备微服务和一个简单的控制台客户端，以演示 Dapr Actors 中的有状态对象模式。
+让我们来看看 Dapr 的 [Actors 构建块]({{% ref actors %}})。在此快速入门中，你将运行一个智能设备微服务和一个简单的控制台客户端，以演示 Dapr Actors 中的有状态对象模式。  
 
 目前，你可以使用 .NET SDK 体验此 actors 快速入门。
 
@@ -20,8 +20,8 @@ description: "开始使用 Dapr 的 Actors 构建块"
 1. 使用 `SmartDevice.Service` 微服务，你托管：
    - 两个 `SmokeDetectorActor` 烟雾报警对象
    - 一个 `ControllerActor` 对象，用于命令和控制智能设备
-2. 使用 `SmartDevice.Client` 控制台应用，客户端应用与每个 actor 或控制器交互，以总体执行操作。
-3. `SmartDevice.Interfaces` 包含服务应用和客户端应用使用的共享接口和数据类型。
+2. 使用 `SmartDevice.Client` 控制台应用，客户端应用与每个 actor 或控制器交互，以共同执行操作。 
+3. `SmartDevice.Interfaces` 包含服务应用和客户端应用共同使用的共享接口和数据类型。
 
 <img src="/images/actors-quickstart/actors-quickstart.png" width=800 style="padding-bottom:15px;">
 
@@ -29,7 +29,7 @@ description: "开始使用 Dapr 的 Actors 构建块"
 
 对于此示例，你需要：
 
-- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)
+- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -121,14 +121,14 @@ dapr run --app-id actorclient -- dotnet run
 
 当你运行客户端应用时，发生了几件事：
 
-1. 两个 `SmokeDetectorActor` actors 在[客户端应用程序中创建](https://github.com/dapr/quickstarts/blob/master/actors/csharp/sdk/client/Program.cs)并使用对象状态进行初始化：
+1. 两个 `SmokeDetectorActor` actors 在[客户端应用程序中创建](https://github.com/dapr/quickstarts/blob/master/actors/csharp/sdk/client/Program.cs)，并使用对象状态进行初始化：
    - `ActorProxy.Create<ISmartDevice>(actorId, actorType)`
    - `proxySmartDevice.SetDataAsync(data)`
    
    这些对象是可重入的并保存状态，如 `proxySmartDevice.GetDataAsync()` 所示。
 
    ```csharp
-   // Actor Ids and types
+   // Actor ID 和类型
    var deviceId1 = "1";
    var deviceId2 = "2";
    var smokeDetectorActorType = "SmokeDetectorActor";
@@ -136,19 +136,19 @@ dapr run --app-id actorclient -- dotnet run
    
    Console.WriteLine("Startup up...");
    
-   // An ActorId uniquely identifies the first actor instance for the first device
+   // ActorId 唯一标识第一个设备的第一个 actor 实例
    var deviceActorId1 = new ActorId(deviceId1);
    
-   // Create a new instance of the data class that will be stored in the first actor
+   // 创建将存储在第一个 actor 中的数据类的新实例
    var deviceData1 = new SmartDeviceData(){
        Location = "First Floor",
        Status = "Ready",
    };
    
-   // Create the local proxy by using the same interface that the service implements.
+   // 使用服务实现的同一接口创建本地代理。
    var proxySmartDevice1 = ActorProxy.Create<ISmartDevice>(deviceActorId1, smokeDetectorActorType);
    
-   // Now you can use the actor interface to call the actor's methods.
+   // 现在可以使用 actor 接口调用 actor 的方法。
    Console.WriteLine($"Calling SetDataAsync on {smokeDetectorActorType}:{deviceActorId1}...");
    var setDataResponse1 = await proxySmartDevice1.SetDataAsync(deviceData1);
    Console.WriteLine($"Got response: {setDataResponse1}");
@@ -157,19 +157,19 @@ dapr run --app-id actorclient -- dotnet run
    var storedDeviceData1 = await proxySmartDevice1.GetDataAsync();
    Console.WriteLine($"Device 1 state: {storedDeviceData1}");
    
-   // Create a second actor for second device
+   // 为第二个设备创建第二个 actor
    var deviceActorId2 = new ActorId(deviceId2);
    
-   // Create a new instance of the data class that will be stored in the first actor
+   // 创建将存储在第一个 actor 中的数据类的新实例
    var deviceData2 = new SmartDeviceData(){
        Location = "Second Floor",
        Status = "Ready",
    };
    
-   // Create the local proxy by using the same interface that the service implements.
+   // 使用服务实现的同一接口创建本地代理。
    var proxySmartDevice2 = ActorProxy.Create<ISmartDevice>(deviceActorId2, smokeDetectorActorType);
    
-   // Now you can use the actor interface to call the second actor's methods.
+   // 现在可以使用 actor 接口调用第二个 actor 的方法。
    Console.WriteLine($"Calling SetDataAsync on {smokeDetectorActorType}:{deviceActorId2}...");
    var setDataResponse2 = await proxySmartDevice2.SetDataAsync(deviceData2);
    Console.WriteLine($"Got response: {setDataResponse2}");
@@ -204,7 +204,7 @@ dapr run --app-id actorclient -- dotnet run
             await proxySmartDevice.SoundAlarm();
         }
 
-        // Register a reminder to refresh and clear alarm state every 15 seconds
+        // 注册一个每 15 秒刷新并清除警报状态的提醒
         await this.RegisterReminderAsync("AlarmRefreshReminder", null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
     }
     ```
@@ -212,7 +212,7 @@ dapr run --app-id actorclient -- dotnet run
     控制台[打印一条消息，指示已检测到烟雾](https://github.com/dapr/quickstarts/blob/master/actors/csharp/sdk/client/Program.cs#L65)。
 
     ```csharp
-    // Smoke is detected on device 1 that triggers an alarm on all devices.
+    // 设备 1 检测到烟雾，触发所有设备的警报。
     Console.WriteLine($"Detecting smoke on Device 1...");
     proxySmartDevice1 = ActorProxy.Create<ISmartDevice>(deviceActorId1, smokeDetectorActorType);
     await proxySmartDevice1.DetectSmokeAsync();   
@@ -227,10 +227,10 @@ dapr run --app-id actorclient -- dotnet run
    Console.WriteLine($"Device 2 state: {storedDeviceData2}");
    ```
 
-1. `ControllerActor` 还会使用 `RegisterReminderAsync` 创建一个持久化提醒，在 15 秒后调用 `ClearAlarm`。
+1. `ControllerActor` 还会使用 `RegisterReminderAsync` 创建一个持久提醒，在 15 秒后调用 `ClearAlarm`。
 
    ```csharp
-   // Register a reminder to refresh and clear alarm state every 15 seconds
+   // 注册一个每 15 秒刷新并清除警报状态的提醒
    await this.RegisterReminderAsync("AlarmRefreshReminder", null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
    ```
 
@@ -246,11 +246,15 @@ dapr run --app-id actorclient -- dotnet run
 
 {{< /tabpane >}}
 
+## 使用 Dapr Dev Dashboard 检查 Actors
+
+在运行服务应用和客户端应用期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看已注册的 `SmokeDetectorActor` 和 `ControllerActor` 类型，以及每种类型的活跃 actor 数量。在 **State** 页面上选择 **Show internal keys** 后，仪表板还会显示存储在状态存储中的 actor 状态，因此你可以观察警报触发和提醒清除时每个设备状态的变化。
+
 ## 告诉我们你的想法！
 
 我们正在不断努力改进我们的快速入门示例，并重视你的反馈。你觉得这个快速入门有帮助吗？你有改进建议吗？
 
-加入我们的 [discord 频道](https://discord.com/channels/778680217417809931/953427615916638238) 参与讨论。
+加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord) 参与讨论。
 
 ## 后续步骤
 

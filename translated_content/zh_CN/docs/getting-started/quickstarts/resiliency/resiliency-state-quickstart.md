@@ -10,7 +10,7 @@ description: "通过状态管理 API 快速上手 Dapr 的弹性能力"
 
 - 运行一个微服务应用程序，该应用程序通过 Dapr 的状态管理 API 持续持久化和检索状态。 
 - 通过模拟系统故障来触发弹性策略。 
-- 解决故障后，微服务应用程序将恢复运行。 
+- 故障解决后，微服务应用程序将恢复运行。 
 
 <img src="/images/resiliency-quickstart-svc-component.png" width="1000" alt="显示应用于 Dapr API 的弹性的图表">
 
@@ -25,7 +25,8 @@ description: "通过状态管理 API 快速上手 Dapr 的弹性能力"
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [已安装 Python 3.7+](https://www.python.org/downloads/)。
+- [Python 3.11 或更高版本](https://www.python.org/downloads/)。
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)，即本示例所使用的 Python 包管理器。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -35,19 +36,19 @@ description: "通过状态管理 API 快速上手 Dapr 的弹性能力"
 克隆 [Quickstarts 仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/state_management/python/sdk)。
 
 ```bash
-git clone https://github.com/dapr/quickstarts.git
+git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
-在终端窗口中，导航到 `order-processor` 目录。
+在终端窗口中，从 Quickstarts 目录的根目录导航到 `order-processor` 目录。
 
 ```bash
-cd ../state_management/python/sdk/order-processor
+cd state_management/python/sdk/order-processor
 ```
 
 安装依赖项
 
 ```bash
-pip3 install -r requirements.txt 
+uv sync
 ```
 
 ### 第 2 步：运行应用程序
@@ -87,7 +88,7 @@ pip3 install -r requirements.txt
 
 
 ```bash
-dapr run --app-id order-processor --resources-path ../../../resources/ -- python3
+dapr run --app-id order-processor --resources-path ../../../resources/ -- uv run python app.py
 ```
 
 应用程序启动后，`order-processor` 服务会向 [`statestore.yaml` 组件中定义的]({{% ref "statemanagement-quickstart#statestoreyaml-component-file" %}}) `statestore` Redis 实例写入和读取 `orderId` 键值对。
@@ -139,7 +140,7 @@ retryForever:
   maxRetries: -1 
 ```
 
-一旦 5 次连续重试失败，熔断器策略 `simpleCB` 被触发，熔断器打开，停止所有请求：
+一旦 5 次连续重试失败，熔断器策略 `simpleCB` 就会被触发，熔断器打开，停止所有请求：
 
 ```bash
 INFO[0026] Circuit breaker "simpleCB-statestore" changed state from closed to open
@@ -153,7 +154,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒后，熔断器将切换到半开状态，允许一个请求通过以验证故障是否已解决。如果请求继续失败，电路将跳回打开状态。 
+5 秒过后，熔断器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，熔断器将重新跳回打开状态。 
 
 ```bash
 INFO[0031] Circuit breaker "simpleCB-statestore" changed state from open to half-open  
@@ -162,11 +163,11 @@ INFO[0036] Circuit breaker "simpleCB-statestore" changed state from open to half
 INFO[0036] Circuit breaker "simpleCB-statestore" changed state from half-open to closed  
 ```
 
-只要 Redis 容器停止，这种半开/打开行为就会持续下去。 
+只要 Redis 容器保持停止状态，这种半开/打开的行为就会持续下去。 
 
 ### 第 3 步：移除故障
 
-当你在机器上重新启动 Redis 容器后，应用程序将无缝恢复，从中断的地方继续执行。
+当你在机器上重新启动 Redis 容器后，应用程序将无缝恢复，从中断的地方继续运行。
 
 ```bash
 docker start dapr_redis
@@ -209,10 +210,10 @@ INFO[0036] Recovered processing operation component[statestore] output.
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在终端窗口中，导航到 `order-processor` 目录。
+在终端窗口中，从 Quickstarts 目录的根目录导航到 `order-processor` 目录。
 
 ```bash
-cd ../state_management/javascript/sdk/order-processor
+cd state_management/javascript/sdk/order-processor
 ```
 
 安装依赖项
@@ -308,7 +309,7 @@ retryForever:
   maxRetries: -1 
 ```
 
-一旦 5 次连续重试失败，熔断器策略 `simpleCB` 被触发，熔断器打开，停止所有请求：
+一旦 5 次连续重试失败，熔断器策略 `simpleCB` 就会被触发，熔断器打开，停止所有请求：
 
 ```bash
 INFO[0026] Circuit breaker "simpleCB-statestore" changed state from closed to open
@@ -322,7 +323,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒后，熔断器将切换到半开状态，允许一个请求通过以验证故障是否已解决。如果请求继续失败，电路将跳回打开状态。 
+5 秒过后，熔断器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，熔断器将重新跳回打开状态。 
 
 ```bash
 INFO[0031] Circuit breaker "simpleCB-statestore" changed state from open to half-open  
@@ -331,11 +332,11 @@ INFO[0036] Circuit breaker "simpleCB-statestore" changed state from open to half
 INFO[0036] Circuit breaker "simpleCB-statestore" changed state from half-open to closed  
 ```
 
-只要 Redis 容器停止，这种半开/打开行为就会持续下去。 
+只要 Redis 容器保持停止状态，这种半开/打开的行为就会持续下去。 
 
 ### 第 3 步：移除故障
 
-当你在机器上重新启动 Redis 容器后，应用程序将无缝恢复，从中断的地方继续执行。
+当你在机器上重新启动 Redis 容器后，应用程序将无缝恢复，从中断的地方继续运行。
 
 ```bash
 docker start dapr_redis
@@ -378,10 +379,10 @@ INFO[0036] Recovered processing operation component[statestore] output.
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在终端窗口中，导航到 `order-processor` 目录。
+在终端窗口中，从 Quickstarts 目录的根目录导航到 `order-processor` 目录。
 
 ```bash
-cd ../state_management/csharp/sdk/order-processor
+cd state_management/csharp/sdk/order-processor
 ```
 
 安装依赖项
@@ -477,7 +478,7 @@ retryForever:
   maxRetries: -1 
 ```
 
-一旦 5 次连续重试失败，熔断器策略 `simpleCB` 被触发，熔断器打开，停止所有请求：
+一旦 5 次连续重试失败，熔断器策略 `simpleCB` 就会被触发，熔断器打开，停止所有请求：
 
 ```bash
 INFO[0026] Circuit breaker "simpleCB-statestore" changed state from closed to open
@@ -491,7 +492,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒后，熔断器将切换到半开状态，允许一个请求通过以验证故障是否已解决。如果请求继续失败，电路将跳回打开状态。 
+5 秒过后，熔断器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，熔断器将重新跳回打开状态。 
 
 ```bash
 INFO[0031] Circuit breaker "simpleCB-statestore" changed state from open to half-open  
@@ -500,11 +501,11 @@ INFO[0036] Circuit breaker "simpleCB-statestore" changed state from open to half
 INFO[0036] Circuit breaker "simpleCB-statestore" changed state from half-open to closed  
 ```
 
-只要 Redis 容器停止，这种半开/打开行为就会持续下去。 
+只要 Redis 容器保持停止状态，这种半开/打开的行为就会持续下去。 
 
 ### 第 3 步：移除故障
 
-当你在机器上重新启动 Redis 容器后，应用程序将无缝恢复，从中断的地方继续执行。
+当你在机器上重新启动 Redis 容器后，应用程序将无缝恢复，从中断的地方继续运行。
 
 ```bash
 docker start dapr_redis
@@ -550,10 +551,10 @@ INFO[0036] Recovered processing operation component[statestore] output.
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在终端窗口中，导航到 `order-processor` 目录。
+在终端窗口中，从 Quickstarts 目录的根目录导航到 `order-processor` 目录。
 
 ```bash
-cd ../state_management/java/sdk/order-processor
+cd state_management/java/sdk/order-processor
 ```
 
 安装依赖项
@@ -648,7 +649,7 @@ retryForever:
   maxRetries: -1 
 ```
 
-一旦 5 次连续重试失败，熔断器策略 `simpleCB` 被触发，熔断器打开，停止所有请求：
+一旦 5 次连续重试失败，熔断器策略 `simpleCB` 就会被触发，熔断器打开，停止所有请求：
 
 ```bash
 INFO[0026] Circuit breaker "simpleCB-statestore" changed state from closed to open
@@ -662,7 +663,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒后，熔断器将切换到半开状态，允许一个请求通过以验证故障是否已解决。如果请求继续失败，电路将跳回打开状态。 
+5 秒过后，熔断器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，熔断器将重新跳回打开状态。 
 
 ```bash
 INFO[0031] Circuit breaker "simpleCB-statestore" changed state from open to half-open  
@@ -671,11 +672,11 @@ INFO[0036] Circuit breaker "simpleCB-statestore" changed state from open to half
 INFO[0036] Circuit breaker "simpleCB-statestore" changed state from half-open to closed  
 ```
 
-只要 Redis 容器停止，这种半开/打开行为就会持续下去。 
+只要 Redis 容器保持停止状态，这种半开/打开的行为就会持续下去。 
 
 ### 第 3 步：移除故障
 
-当你在机器上重新启动 Redis 容器后，应用程序将无缝恢复，从中断的地方继续执行。
+当你在机器上重新启动 Redis 容器后，应用程序将无缝恢复，从中断的地方继续运行。
 
 ```bash
 docker start dapr_redis
@@ -718,10 +719,10 @@ INFO[0036] Recovered processing operation component[statestore] output.
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在终端窗口中，导航到 `order-processor` 目录。
+在终端窗口中，从 Quickstarts 目录的根目录导航到 `order-processor` 目录。
 
 ```bash
-cd ../state_management/go/sdk/order-processor
+cd state_management/go/sdk/order-processor
 ```
 
 安装依赖项
@@ -816,7 +817,7 @@ retryForever:
   maxRetries: -1 
 ```
 
-一旦 5 次连续重试失败，熔断器策略 `simpleCB` 被触发，熔断器打开，停止所有请求：
+一旦 5 次连续重试失败，熔断器策略 `simpleCB` 就会被触发，熔断器打开，停止所有请求：
 
 ```bash
 INFO[0026] Circuit breaker "simpleCB-statestore" changed state from closed to open
@@ -830,7 +831,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒后，熔断器将切换到半开状态，允许一个请求通过以验证故障是否已解决。如果请求继续失败，电路将跳回打开状态。 
+5 秒过后，熔断器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，熔断器将重新跳回打开状态。 
 
 ```bash
 INFO[0031] Circuit breaker "simpleCB-statestore" changed state from open to half-open  
@@ -839,11 +840,11 @@ INFO[0036] Circuit breaker "simpleCB-statestore" changed state from open to half
 INFO[0036] Circuit breaker "simpleCB-statestore" changed state from half-open to closed  
 ```
 
-只要 Redis 容器停止，这种半开/打开行为就会持续下去。 
+只要 Redis 容器保持停止状态，这种半开/打开的行为就会持续下去。 
 
 ### 第 3 步：移除故障
 
-当你在机器上重新启动 Redis 容器后，应用程序将无缝恢复，从中断的地方继续执行。
+当你在机器上重新启动 Redis 容器后，应用程序将无缝恢复，从中断的地方继续运行。
 
 ```bash
 docker start dapr_redis
@@ -867,13 +868,17 @@ INFO[0036] Recovered processing operation component[statestore] output.
 
 {{< /tabpane >}}
 
-## 请告诉我们你的想法！
-我们正在不断努力改进我们的快速入门示例，并重视你的反馈。你觉得这个快速入门有帮助吗？你有改进建议吗？
+## 使用 Dapr Dev Dashboard 构建你自己的弹性策略
 
-在我们的 [discord 频道](https://discord.com/channels/778680217417809931/953427615916638238) 中加入讨论。
+[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 内置了弹性策略构建器。无需手动编写 `resiliency.yaml` 文件，你可以使用界面中的向导来定义超时、重试和熔断器，并将它们应用到你的应用、组件和 Actor。你可以尝试重新创建本快速入门中的 `myresiliency` 策略，或者尝试不同的重试和熔断器设置，然后重新运行故障场景。
+
+## 告诉我们你的想法！
+我们会持续改进快速入门示例，并重视你的反馈。你觉得这个快速入门有帮助吗？你对改进有什么建议？
+
+欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的想法。
 
 ## 后续步骤
 
-了解有关[弹性功能]({{% ref resiliency-overview %}})的更多信息，以及它如何与 Dapr 的构建块 API 配合使用。
+进一步了解[弹性特性]({{% ref resiliency-overview %}})及其如何与 Dapr 的构建块 API 协同工作。
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

@@ -1,0 +1,226 @@
+---
+type: docs
+title: Workflow overview
+linkTitle: Overview
+weight: 1000
+description: "Overview of Dapr Workflow, the durable execution engine in Dapr"
+---
+
+Dapr Workflow is a durable execution engine. You write workflow logic as ordinary code with a Dapr SDK.
+Dapr persists the result of each completed step and resumes the workflow from the last completed step after a crash, a restart, or a redeployment.
+Dapr workflows are stateful, so they support long-running and fault-tolerant applications.
+They also orchestrate other Dapr building blocks, such as service invocation, pub/sub, state management, and bindings.
+
+The durable, resilient Dapr Workflow capability:
+
+- Offers a built-in workflow runtime for driving Dapr Workflow execution.
+- Provides SDKs for authoring workflows in code. See the [supported SDKs](#supported-sdks).
+- Provides HTTP and gRPC APIs for managing workflows (start, query, pause/resume, raise event, terminate, purge).
+
+{{< diagram name="workflow-overview" width="80" >}}
+
+Some example scenarios that Dapr Workflow can perform are:
+
+- Order processing involving orchestration between inventory management, payment systems, and shipping services.
+- HR onboarding workflows coordinating tasks across multiple departments and participants.
+- Orchestrating the roll-out of digital menu updates in a national restaurant chain.
+- Image processing workflows involving API-based classification and storage.
+
+## Features
+
+### Workflows and activities
+
+With Dapr Workflow, you can write activities and then orchestrate those activities in a workflow.
+Workflow activities are:
+
+- The basic unit of work in a workflow
+- Used for calling other (Dapr) services, interacting with state stores, and pub/sub brokers.
+- Used for calling external third party services.
+
+[Learn more about workflow activities.]({{% ref "workflow-features-concepts.md##workflow-activities" %}})
+
+### Child workflows
+
+In addition to activities, you can write workflows to schedule other workflows as child workflows.
+A child workflow has its own instance ID, history, and status that is independent of the parent workflow that started it, except for the fact that terminating the parent workflow terminates all of the child workflows created by it.
+Child workflow also supports automatic retry policies.
+
+[Learn more about child workflows.]({{% ref "workflow-features-concepts.md#child-workflows" %}})
+
+### Detached workflows
+
+You can also schedule a new workflow as a _detached workflow_: a fire-and-forget instance that runs fully independently of the workflow that started it. The calling workflow receives the new instance ID immediately and continues, and the detached workflow's success or failure does not flow back to the caller. This is useful for triggering isolated, independent work, such as per-tenant fan-out.
+
+[Learn more about detached workflows.]({{% ref "workflow-detached.md" %}})
+
+### Multi-application workflows
+
+Multi-application workflows, enable you to orchestrate complex business processes that span across multiple applications. This allows a workflow to call activities or start child workflows in different applications, distributing the workflow execution while maintaining the security, reliability and durability guarantees of Dapr's workflow engine.
+
+[Learn more about multi-application workflows.]({{% ref "workflow-multi-app.md" %}})
+
+### History signing
+
+When mTLS and the `WorkflowHistorySigning` feature flag are enabled, Dapr cryptographically signs every workflow history event using the sidecar's X.509 SPIFFE identity.
+On each load, the full signature chain is verified, detecting any tampering of workflow state in the state store.
+
+For example, consider an order-processing workflow that captures payment, ships the goods, and emails a receipt. Without signing, an attacker with write access to the state store could rewrite the recorded order total between the payment step and the shipping step, so the workflow ships at a lower price than was actually charged, and Dapr would have no way to know. With signing enabled, the modified event no longer matches its signature, the next load fails verification, and Dapr marks the workflow as `FAILED` with error type `DAPR_WORKFLOW_HISTORY_TAMPERED` instead of acting on the forged data. The same protection applies to approvals being flipped from denied to approved, extra recipients being added to outbound messages, or fake activity results being injected into the inbox.
+
+Signing is a one-way commitment: once enabled for a workflow, it cannot be disabled.
+
+[Learn more about workflow history signing.]({{% ref "workflow-history-signing.md" %}})
+
+### Fast path
+
+The `WorkflowsFastPath` preview feature drives workflow turns and activity bodies on the host that already holds the work, and folds activity completions into the next turn's single state store commit, instead of creating a Scheduler reminder for every event. This removes the per-event Scheduler round trips and most state store commits from the workflow hot path. At-least-once execution is unchanged: a per-instance janitor reminder and automatic escalation back to durable reminders provide recovery.
+
+[Learn more about the workflow fast path.]({{% ref "workflow-fast-path.md" %}})
+
+### Timers and reminders
+
+Same as Dapr actors, you can schedule reminder-like durable delays for any time range.
+
+[Learn more about workflow timers]({{% ref "workflow-features-concepts.md#durable-timers" %}}) and [reminders]({{% ref "workflow-architecture.md#reminder-usage-and-execution-guarantees" %}})
+
+### History propagation
+
+Workflow history propagation enables a current workflow to look back over the set of events that the workflow or a another workflow has executed and verify these actually occurred. Scenarios include fraud checks, checking compliance gates (was this activity called or not), or enabling long-running AI agents/workflows to  maintain context across calls (multi-agent, multi-app workflows) to determine what the agent or workflows claims to have done, it actually true.
+
+A parent workflow can opt to share its execution history with child workflows and activities — useful for chain-of-custody verification, fraud detection, audit, and AI-agent context that must flow across hops.
+
+For details, read [workflow history propagation ]({{% ref "workflow-history-propagation.md" %}} to understand how to apply this to a workflow, child workflow and activities.
+
+
+[Learn more about workflow history propagation.]({{< ref workflow-history-propagation.md >}})
+
+### Workflow HTTP calls to manage a workflow
+
+When you create an application with workflow code and run it with Dapr, you can call specific workflows that reside in the application.
+Each individual workflow can be:
+
+- Started or terminated through a POST request
+- Triggered to deliver a named event through a POST request
+- Paused and then resumed through a POST request
+- Purged from your state store through a POST request
+- Queried for workflow status through a GET request
+
+[Learn more about how manage a workflow using HTTP calls.]({{% ref workflow_api.md %}})
+
+## Workflow patterns
+
+Dapr Workflow simplifies complex, stateful coordination requirements in microservice architectures.
+The following sections describe several application patterns that can benefit from Dapr Workflow.
+
+Learn more about [different types of workflow patterns]({{% ref workflow-patterns.md %}})
+
+## Workflow SDKs
+
+The Dapr Workflow _authoring SDKs_ are language-specific SDKs that contain types and functions to implement workflow logic.
+The workflow logic lives in your application and is orchestrated by the Dapr Workflow engine running in the Dapr sidecar via a gRPC stream.
+
+### Supported SDKs
+
+You can use the following SDKs to author a workflow.
+
+| Language stack | Package |
+| - | - |
+| Python | [dapr.ext.workflow](https://github.com/dapr/python-sdk/tree/main/dapr/ext/workflow), installed with `pip install "dapr[workflow]"` |
+| JavaScript | [DaprWorkflowClient](https://github.com/dapr/js-sdk/blob/main/src/workflow/client/DaprWorkflowClient.ts) |
+| .NET | [Dapr.Workflow](https://www.nuget.org/profiles/dapr.io) |
+| Java | [io.dapr.workflows](https://dapr.github.io/java-sdk/io/dapr/workflows/package-summary.html) |
+| Go | [workflow](https://github.com/dapr/durabletask-go/tree/main/workflow) |
+
+## Try out workflows
+
+### Quickstarts and tutorials
+
+Want to put workflows to the test? Walk through the following quickstart and tutorials to see workflows in action:
+
+| Quickstart/tutorial | Description |
+| ------------------- | ----------- |
+| [Workflow quickstart]({{% ref workflow-quickstart.md %}}) | Run a workflow application with five workflow activities to see Dapr Workflow in action  |
+| [Workflow tutorials](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow) | Run a sample for each workflow pattern in Python, .NET or Java. The samples cover task chaining, fan-out/fan-in, child workflows, monitor, external system interaction, resiliency and compensation, versioning, workflow management and history propagation. Go has the history propagation tutorial. |
+| [Workflow Python SDK example](https://github.com/dapr/python-sdk/tree/main/examples/workflow) | Learn how to create a Dapr Workflow and invoke it using the Python `dapr.ext.workflow` package. |
+| [Workflow JavaScript SDK example](https://github.com/dapr/js-sdk/tree/main/examples/workflow) | Learn how to create a Dapr Workflow and invoke it using the JavaScript SDK. |
+| [Workflow .NET SDK example](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow) | Learn how to create a Dapr Workflow and invoke it using ASP.NET Core web APIs. |
+| [Workflow Java SDK example](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows) | Learn how to create a Dapr Workflow and invoke it using the Java `io.dapr.workflows` package. |
+| [Workflow Go SDK example](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md) | Learn how to create a Dapr Workflow and invoke it using the Go `workflow` package. |
+
+### Start using workflows directly in your app
+
+Want to skip the quickstarts? Not a problem. You can try out the workflow building block directly in your application. After [Dapr is installed]({{% ref install-dapr-cli.md %}}), you can begin using  workflows, starting with [how to author a workflow]({{% ref howto-author-workflow.md %}}).
+
+## Managing Workflows
+
+Dapr provides comprehensive workflow management capabilities through both the HTTP API and the CLI.
+
+### Workflow Lifecycle Operations
+
+**Start Workflows**
+```bash
+dapr workflow run MyWorkflow --app-id myapp --input '{"key": "value"}'
+```
+
+**Monitor Workflows**
+```bash
+# List active workflows for a given application
+dapr workflow list --app-id myapp --filter-status RUNNING
+
+# View execution history
+dapr workflow history <instance-id> --app-id myapp
+```
+
+**Control Workflows**
+```bash
+# Suspend, resume, or terminate
+dapr workflow suspend <instance-id> --app-id myapp
+dapr workflow resume <instance-id> --app-id myapp
+dapr workflow terminate <instance-id> --app-id myapp
+```
+
+**Maintenance Operations**
+```bash
+# Purge completed workflows
+dapr workflow purge --app-id myapp --all-older-than 720h
+```
+
+See [How-To: Manage workflows]({{< ref howto-manage-workflow.md >}}) for detailed instructions.
+
+**Inspect Workflows Visually**
+
+During local development, you can use the [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) to browse workflow instances, check their status, and drill down into the event history of each execution.
+
+## Limitations
+
+- **State stores:** You can only use state stores which support workflows, as [described here]({{% ref supported-state-stores %}}).
+- Azure Cosmos DB has [payload and workflow complexity limitations]({{% ref "setup-azure-cosmosdb.md#workflow-limitations" %}}).
+- AWS DynamoDB has [workflow complexity limitations]({{% ref "setup-azure-cosmosdb.md#workflow-limitations" %}}).
+
+## Workflow security
+
+Dapr provides fine-grained access control for workflow and activity scheduling through the `WorkflowAccessPolicy` resource. You can restrict which applications are permitted to start specific workflows or call specific activities on your application.
+
+Workflow access policies for a given application (appID) are loaded by the sidecar when the application is instantiated, and are hot-reloaded thereafter when policies are added, updated, or removed. Policies are a pure allow-list evaluated on the callee side: a cross-app schedule is permitted only if some rule in some loaded policy matches the caller and the workflow or activity name.
+
+This is especially important for multi-application workflows, where activities and child workflows execute across application boundaries. Read [How-To: Apply workflow access policies]({{% ref workflow-access-policy %}}) for full configuration details.
+
+## Watch the demo
+
+Watch [this video for an overview on Dapr Workflow](https://youtu.be/s1p9MNl4VGo?t=131):
+
+{{< youtube id=s1p9MNl4VGo start=131 >}}
+
+## Next steps
+
+{{< button text="Workflow features and concepts >>" page="workflow-features-concepts.md" >}}
+
+## Related links
+
+- [Workflow API reference]({{% ref workflow_api.md %}})
+- [Run the workflow tutorials](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow) in the Quickstarts repo
+- Try out the full SDK examples:
+  - [Python example](https://github.com/dapr/python-sdk/tree/main/examples/workflow)
+  - [JavaScript example](https://github.com/dapr/js-sdk/tree/main/examples/workflow)
+  - [.NET example](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
+  - [Java example](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)
+  - [Go example](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)

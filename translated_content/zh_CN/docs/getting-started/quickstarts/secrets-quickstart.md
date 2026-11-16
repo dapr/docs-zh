@@ -25,7 +25,8 @@ Dapr 提供了一个专门的机密 API，允许开发者从机密存储中检�
 对于本示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [已安装 Python 3.7+](https://www.python.org/downloads/)。
+- [已安装 Python 3.11 或更高版本](https://www.python.org/downloads/)。
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)，即本示例所使用的 Python 包管理器。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -35,7 +36,7 @@ Dapr 提供了一个专门的机密 API，允许开发者从机密存储中检�
 克隆 [Quickstarts 仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/python/sdk)。
 
 ```bash
-git clone https://github.com/dapr/quickstarts.git
+git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
 ### 步骤 2：检索机密
@@ -49,16 +50,15 @@ cd secrets_management/python/sdk/order-processor
 安装依赖项：
 
 ```bash
-pip3 install -r requirements.txt
+uv sync
 ```
 
 运行 `order-processor` 服务以及 Dapr 边车。
 
 ```bash
-dapr run --app-id order-processor --resources-path ../../../components/ -- python3 app.py
+dapr run --app-id order-processor --resources-path ../../../components/ -- uv run python app.py
 ```
 
-> **注意**：由于 Windows 中未定义 Python3.exe，你可能需要使用 `python app.py` 而不是 `python3 app.py`。
 
 
 #### 幕后工作
@@ -81,7 +81,7 @@ with DaprClient() as client:
 
 **`local-secret-store.yaml` 组件**
 
-`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
+`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/blob/master/secrets_management/components/local-secret-store.yaml)：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -106,7 +106,7 @@ spec:
 
 **`secrets.json` 文件**
 
-`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/python/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/python/sdk/order-processor/secrets.json)：
+`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/python/sdk/order-processor](https://github.com/dapr/quickstarts/blob/master/secrets_management/python/sdk/order-processor/secrets.json)：
 
 ```json
 {
@@ -141,7 +141,7 @@ Order-processor 输出：
 
 ### 步骤 1：设置环境
 
-克隆 [Quickstarts 仓库中提供的示例](hhttps://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/sdk)。
+克隆 [Quickstarts 仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/sdk)。
 
 ```bash
 git clone https://github.com/dapr/quickstarts.git
@@ -190,7 +190,7 @@ async function main() {
 
 **`local-secret-store.yaml` 组件**
 
-`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
+`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/blob/master/secrets_management/components/local-secret-store.yaml)：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -215,7 +215,7 @@ spec:
 
 **`secrets.json` 文件**
 
-`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/javascript/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/sdk/order-processor/secrets.json)：
+`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/javascript/sdk/order-processor](https://github.com/dapr/quickstarts/blob/master/secrets_management/javascript/sdk/order-processor/secrets.json)：
 
 ```json
 {
@@ -252,7 +252,8 @@ Order-processor 输出：
 <!-- END_IGNORE -->
 - 已安装 [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0)、[.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0) 或 [.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)
 
-**注意**：.NET 6 是本版本中 Dapr .NET SDK 包支持的最低 .NET 版本。在 Dapr v1.16 及更高版本中将仅支持 .NET 8 和 .NET 9。
+**注意**：.NET 6 是本版本中 Dapr .NET SDK 包支持的最低 .NET 版本。在 Dapr v1.16 及更高版本中
+将仅支持 .NET 8 和 .NET 9。
 
 ### 步骤 1：设置环境
 
@@ -305,7 +306,7 @@ Console.WriteLine($"Fetched Secret: {secretValue}");
 
 **`local-secret-store.yaml` 组件**
 
-`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
+`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/blob/master/secrets_management/components/local-secret-store.yaml)：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -330,7 +331,7 @@ spec:
 
 **`secrets.json` 文件**
 
-`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/csharp/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/csharp/sdk/order-processor/secrets.json)：
+`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/csharp/sdk/order-processor](https://github.com/dapr/quickstarts/blob/master/secrets_management/csharp/sdk/order-processor/secrets.json)：
 
 ```json
 {
@@ -413,7 +414,7 @@ private static final String SECRET_STORE_NAME = "localsecretstore";
 
 **`local-secret-store.yaml` 组件**
 
-`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
+`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/blob/master/secrets_management/components/local-secret-store.yaml)：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -438,7 +439,7 @@ spec:
 
 **`secrets.json` 文件**
 
-`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/java/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/java/sdk/order-processor/secrets.json)：
+`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/java/sdk/order-processor](https://github.com/dapr/quickstarts/blob/master/secrets_management/java/sdk/order-processor/secrets.json)：
 
 ```json
 {
@@ -520,7 +521,7 @@ if secret != nil {
 
 **`local-secret-store.yaml` 组件**
 
-`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/tree/master/secrets_management/components/local-secret-store.yaml)：
+`DAPR_SECRET_STORE` 在 `local-secret-store.yaml` 组件文件中定义，位于 [secrets_management/components](https://github.com/dapr/quickstarts/blob/master/secrets_management/components/local-secret-store.yaml)：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -545,7 +546,7 @@ spec:
 
 **`secrets.json` 文件**
 
-`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/go/sdk/order-processor](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/sdk/order-processor/secrets.json)：
+`SECRET_NAME` 在 `secrets.json` 文件中定义，位于 [secrets_management/go/sdk/order-processor](https://github.com/dapr/quickstarts/blob/master/secrets_management/go/sdk/order-processor/secrets.json)：
 
 ```json
 {
@@ -571,7 +572,7 @@ Order-processor 输出：
 
 我们正在不断努力改进我们的快速入门示例，并重视你的反馈。你觉得这个快速入门有帮助吗？你有改进建议吗？
 
-加入我们的 [discord 频道](https://discord.com/channels/778680217417809931/953427615916638238) 进行讨论。
+加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的想法。
 
 ## 后续步骤
 
@@ -581,6 +582,6 @@ Order-processor 输出：
   - [.NET](https://github.com/dapr/quickstarts/tree/master/secrets_management/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/secrets_management/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/http)
-- 了解有关[机密管理构建块]({{% ref secrets-overview %}}) 的更多信息
+- 了解有关 [机密管理构建块]({{% ref secrets-overview %}}) 的更多信息
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

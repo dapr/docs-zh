@@ -6,9 +6,9 @@ weight: 80
 description: 了解有关 Actor 重入的更多信息
 ---
 
-[虚拟 Actor 模式](https://www.microsoft.com/research/project/orleans-virtual-actors/) 的一个核心原则是 Actor 执行的单线程特性。在没有重入的情况下，Dapr 运行时会对所有 Actor 请求进行加锁。第二个请求无法在第一个请求完成之前开始。这意味着 Actor 无法调用自身，或者让另一个 Actor 调用它，即使它是同一调用链的一部分。
+[虚拟 Actor 模式](https://www.microsoft.com/research/project/orleans-virtual-actors/) 的一个核心原则是 Actor 执行的单线程特性。在没有重入的情况下，Dapr 运行时会对所有 Actor 请求加锁。第二个请求必须等到第一个请求完成后才能开始。这意味着，即使属于同一调用链，Actor 也无法调用自身，或让另一个 Actor 调用它。
 
-重入通过允许来自同一链或上下文的请求重新进入已锁定的 Actor 来解决这个问题。这在以下场景中非常有用：
+重入通过允许来自同一链或上下文的请求重新进入已被锁定的 Actor 来解决这一问题。这在以下场景中非常有用：
 - Actor 想要调用自身的方法
 - Actor 在工作流中用于执行工作，然后回调到协调 Actor。
 
@@ -16,18 +16,18 @@ description: 了解有关 Actor 重入的更多信息
 
 ```
 Actor A -> Actor A
-ActorA -> Actor B -> Actor A
+Actor A -> Actor B -> Actor A
 ```
 
-通过重入，你可以执行更复杂的 Actor 调用，而不会牺牲虚拟 Actor 的单线程行为。
+借助重入，你可以执行更复杂的 Actor 调用，同时不牺牲虚拟 Actor 的单线程行为。
 
-<img src="/images/actor-reentrancy.png" width=1000 height=500 alt="显示协调工作流 Actor 调用工作 Actor 或 Actor 调用自身方法的重入图表">
+{{< diagram name="actor-reentrancy" width="85" >}}
 
-`maxStackDepth` 参数设置一个值，用于控制可以对同一 Actor 进行多少次重入调用。默认情况下，此值设置为 **32**，这在大多数情况下绰绰有余。
+`maxStackDepth` 参数用于设置一个值，控制同一 Actor 可以接受多少次重入调用。默认情况下，该值为 **32**，在大多数情况下已绰绰有余。
 
 ## 配置 Actor 运行时以启用重入
 
-可重入的 Actor 必须提供适当的配置。这是通过 Actor 的端点 `GET /dapr/config` 完成的，类似于其他 Actor 配置元素。
+可重入的 Actor 必须提供相应的配置。这通过 Actor 的端点 `GET /dapr/config` 完成，与其他 Actor 配置项类似。
 
 {{< tabpane text=true >}}
 
@@ -113,7 +113,7 @@ def do_something_reentrant():
 
 {{% tab "Go" %}}
 
-下面是用 Golang 编写的 Actor 片段，它通过 HTTP API 提供重入配置。Go SDK 尚未包含重入功能。
+下面是用 Golang 编写的 Actor 代码片段，它通过 HTTP API 提供重入配置。Go SDK 尚未支持重入功能。
 
 ```go
 type daprConfig struct {
@@ -143,9 +143,9 @@ func configHandler(w http.ResponseWriter, r *http.Request) {
 
 ### 处理重入请求
 
-重入请求的关键是 `Dapr-Reentrancy-Id` 请求头。此请求头的值用于将请求与其调用链进行匹配，并允许它们绕过 Actor 的锁。
+重入请求的关键是 `Dapr-Reentrancy-Id` 请求头。该请求头的值用于将请求与其调用链匹配，并允许它们绕过 Actor 的锁。
 
-此请求头由 Dapr 运行时为任何指定了重入配置的 Actor 请求生成。一旦生成，它就会被用来锁定 Actor，并且必须传递给所有后续请求。下面是 Actor 处理重入请求的示例：
+对于任何配置了重入的 Actor 请求，Dapr 运行时都会生成此请求头。一旦生成，它就会用于锁定 Actor，并且必须传递给之后的所有请求。下面是 Actor 处理重入请求的示例：
 
 ```go
 func reentrantCallHandler(w http.ResponseWriter, r *http.Request) {
@@ -171,6 +171,19 @@ func reentrantCallHandler(w http.ResponseWriter, r *http.Request) {
 
 {{< /tabpane >}}
 
+## 提醒与计时器回调中的重入
+
+提醒（Reminder）和计时器（Timer）回调与其他 Actor 请求一样，同样会获取 Actor 的锁。当该 Actor 类型启用了重入时，Dapr 会为回调生成 `Dapr-Reentrancy-Id`，并将其发送给你的应用：
+
+- 通过 HTTP 发送：在 `PUT /actors/<actorType>/<actorId>/method/remind/<reminderName>` 上以 `Dapr-Reentrancy-Id` 请求头的形式传递，计时器对应的路由同样如此。
+- 通过 gRPC Actor 事件流发送：放在提醒或计时器回调消息的 `metadata` 映射中。
+
+从回调中传递该标识的方式，与从方法调用中传递的方式完全相同。未携带该标识的调用会开始一条新的调用链，因此，如果回调调用的是它自身所属的 Actor，就会一直等待回调本身持有的锁，直到调用超时。
+
+{{% alert title="注意" color="primary" %}}
+从 Dapr 1.19 开始，提醒和计时器回调会携带 `Dapr-Reentrancy-Id`。在此之前的版本并未始终在这些回调上发送该请求头，因此，从提醒或计时器回调内部发起的重入调用可能会阻塞，直至超时。Actor 方法调用不受影响，一直都携带该请求头。
+{{% /alert %}}
+
 ## 演示
 
 观看此[视频](https://www.youtube.com/watch?v=QADHQ5v-gww&list=PLcip_LgkYwzuF-OV6zKRADoiBvUvGhkao&t=674s)，了解如何使用 Actor 重入。
@@ -179,9 +192,9 @@ func reentrantCallHandler(w http.ResponseWriter, r *http.Request) {
 
 ## 后续步骤
 
-{{< button text="Dapr SDK 中的 Actors" page="developing-applications/sdks/_index.md#sdk-languages" >}}
+{{< button text="SDK 中的 Actor" page="developing-applications/sdks/_index.md#sdk-languages" >}}
 
 ## 相关链接
 
-- [Actors API 参考]({{% ref actors_api %}})
-- [Actors 概述]({{% ref actors-overview %}})
+- [Actor API 参考]({{% ref actors_api %}})
+- [Actor 概述]({{% ref actors-overview %}})

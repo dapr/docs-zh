@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 12,
-  "updatedAt": "2026-11-15T23:13:01.871Z",
+  "version": 51,
+  "updatedAt": "2026-11-16T18:55:19.302Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -182,9 +182,189 @@
       "note": "Dapr 的证书颁发与身份服务名称。",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "Homebrew",
+      "note": "Package manager product name, kept in English.",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Multi-App Run",
+      "note": "Dapr 多应用运行功能名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Jobs API",
+      "note": "Dapr Jobs API 名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Quickstarts",
+      "note": "示例仓库名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Cron",
+      "note": "Cron 调度表达式名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "PostgreSQL",
+      "note": "数据库产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Docker Desktop",
+      "note": "Docker 产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Diagrid Dev Dashboard",
+      "note": "产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Jobs",
+      "note": "Dapr 产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Scheduler",
+      "note": "Dapr 调度器组件名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Diagrid",
+      "note": "公司名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Placement",
+      "note": "Dapr Placement 服务的组件名，保留英文；“服务”为通用词。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "CloudEvents",
+      "note": "CNCF 事件规范名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Kafka",
+      "note": "消息系统产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Workflow",
+      "note": "产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Cosmos DB",
+      "note": "产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Actors API",
+      "note": "Dapr API 名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Servicebus",
+      "note": "产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Eventhubs",
+      "note": "产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "App ID",
+      "note": "Dapr 应用标识，保留英文。",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
+    {
+      "id": "activity",
+      "source": "activity",
+      "target": "活动",
+      "alt": [],
+      "note": "Dapr 工作流中的活动（activity）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-concurrency.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-concurrency.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "actor-runtime",
+      "source": "Actor runtime",
+      "target": "Actor 运行时",
+      "alt": [],
+      "note": "Dapr Actor 运行时（actor runtime）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-timers-reminders.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-timers-reminders.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "actors",
+      "source": "actors",
+      "target": "Actor",
+      "alt": [],
+      "note": "Dapr 构建块名称，保留英文 Actor。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/concepts/components-concept.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/concepts/components-concept.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
     {
       "id": "binary-store",
       "source": "Binary Store",
@@ -206,6 +386,26 @@
       "conflicts": []
     },
     {
+      "id": "binding",
+      "source": "binding",
+      "target": "绑定",
+      "alt": [],
+      "note": "Dapr 绑定构建块（Bindings）的译法，与“绑定构建块”一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/bindings-quickstart.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/bindings-quickstart.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
       "id": "building-block",
       "source": "building block",
       "target": "构建块",
@@ -222,6 +422,406 @@
       "lastSeen": {
         "doc": "copilot-glossary-seed",
         "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "bulk-publish",
+      "source": "Bulk Publish",
+      "target": "批量发布",
+      "alt": [],
+      "note": "批量发布 API 的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-bulk.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-bulk.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "bulk-subscribe",
+      "source": "Bulk Subscribe",
+      "target": "批量订阅",
+      "alt": [],
+      "note": "批量订阅 API 的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-bulk.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-bulk.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "child-workflow",
+      "source": "child workflow",
+      "target": "子工作流",
+      "alt": [],
+      "note": "Dapr 工作流中由父工作流调度的工作流实例。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 2,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-multi-app.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "circuit-breaker",
+      "source": "circuit breaker",
+      "target": "断路器",
+      "alt": [],
+      "note": "Dapr 弹性策略中的断路器策略名称。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/resiliency/resiliency-serviceinvo-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/resiliency/resiliency-serviceinvo-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "competing-consumer-pattern",
+      "source": "competing consumer pattern",
+      "target": "竞争消费者模式",
+      "alt": [],
+      "note": "消息队列的设计模式名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/distributed-lock/distributed-lock-api-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/distributed-lock/distributed-lock-api-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "component",
+      "source": "component",
+      "target": "组件",
+      "alt": [],
+      "note": "Dapr 组件文件（component YAML）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/bindings-quickstart.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/bindings-quickstart.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "config-store",
+      "source": "config store",
+      "target": "配置存储",
+      "alt": [],
+      "note": "指 Dapr 配置存储组件，与“配置项”配合使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/configuration-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/configuration-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "configuration-api",
+      "source": "Configuration API",
+      "target": "配置 API",
+      "alt": [],
+      "note": "Dapr 配置 API 的译名，文中多次出现。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/configuration-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/configuration-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "configuration-building-block",
+      "source": "Configuration building block",
+      "target": "配置构建块",
+      "alt": [],
+      "note": "Dapr 构建块名称，由“building block → 构建块”组合而来。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/configuration-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/configuration-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "consumer-group",
+      "source": "consumer group",
+      "target": "消费者组",
+      "alt": [],
+      "note": "Dapr 发布订阅的消费者组，与 app-id 对应；本篇多次出现。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/howto-namespace.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/howto-namespace.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "control-plane",
+      "source": "control plane",
+      "target": "控制平面",
+      "alt": [],
+      "note": "Dapr 控制平面组件的通用译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/concepts/faq/service-mesh.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/concepts/faq/service-mesh.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "conversation-api",
+      "source": "conversation API",
+      "target": "对话 API",
+      "alt": [],
+      "note": "Dapr 对话 API（conversation API）的产品名称译法，全文一致使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/conversation/conversation-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/conversation/conversation-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "conversation-building-block",
+      "source": "conversation building block",
+      "target": "对话构建块",
+      "alt": [],
+      "note": "Dapr 对话构建块名称，与 building block 的译法一致",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/conversation-quickstart.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/conversation-quickstart.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "cryptographic-engine",
+      "source": "cryptographic engine",
+      "target": "加密引擎",
+      "alt": [],
+      "note": "指 Dapr 自身在边车内执行加密操作的引擎。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/cryptography/cryptography-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/cryptography/cryptography-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "cryptography-building-block",
+      "source": "cryptography building block",
+      "target": "密码学构建块",
+      "alt": [],
+      "note": "Dapr 构建块名称，对应 building block 术语。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/cryptography-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/cryptography-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "dead-letter-subscription",
+      "source": "dead letter subscription",
+      "target": "死信订阅",
+      "alt": [],
+      "note": "负责处理死信主题消息的订阅，全文一致使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-deadletter.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-deadletter.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "dead-letter-topic",
+      "source": "dead letter topic",
+      "target": "死信主题",
+      "alt": [],
+      "note": "Dapr 死信主题（dead letter topic）功能名称，全文一致使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-deadletter.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-deadletter.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "declarative-subscription",
+      "source": "declarative subscription",
+      "target": "声明式订阅",
+      "alt": [],
+      "note": "Dapr 声明式订阅（declarative subscription）方式的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-deadletter.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-deadletter.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "detached-workflow",
+      "source": "detached workflow",
+      "target": "分离工作流",
+      "alt": [],
+      "note": "即发即忘（fire-and-forget）的独立工作流实例。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "distributed-lock",
+      "source": "distributed lock",
+      "target": "分布式锁",
+      "alt": [],
+      "note": "分布式锁 API 构建块的名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 2,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/distributed-lock/distributed-lock-api-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/distributed-lock/howto-use-distributed-lock.md",
+        "run": "20261116-1828"
       },
       "conflicts": []
     },
@@ -266,6 +866,426 @@
       "conflicts": []
     },
     {
+      "id": "fast-path",
+      "source": "fast path",
+      "target": "快速路径",
+      "alt": [],
+      "note": "工作流快速路径（WorkflowsFastPath 预览功能）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-concurrency.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-concurrency.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "feature-gate",
+      "source": "feature gate",
+      "target": "特性门控",
+      "alt": [],
+      "note": "Dapr 功能开关（feature gate）的译法，如 WorkflowsRemoteActivityReminder 特性门控。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-multi-app.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-multi-app.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "fqdn",
+      "source": "FQDN",
+      "target": "完全限定域名",
+      "alt": [],
+      "note": "Fully Qualified Domain Name 的译法，沿用旧译文。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/service-invocation/howto-invoke-non-dapr-endpoints.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/service-invocation/howto-invoke-non-dapr-endpoints.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "history-propagation",
+      "source": "history propagation",
+      "target": "历史传播",
+      "alt": [],
+      "note": "父工作流与子工作流/活动共享执行历史、用于验证的功能。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "history-signing",
+      "source": "history signing",
+      "target": "历史签名",
+      "alt": [],
+      "note": "对工作流历史事件进行加密签名并验证的功能。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "hot-reloading",
+      "source": "hot reloading",
+      "target": "热重载",
+      "alt": [],
+      "note": "Dapr 组件热重载特性的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/secrets/secrets-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/secrets/secrets-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "job",
+      "source": "job",
+      "target": "作业",
+      "alt": [],
+      "note": "Dapr Jobs 语境下的 job，沿用旧译“作业”。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/jobs/jobs-features-concepts.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/jobs/jobs-features-concepts.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "jobs-building-block",
+      "source": "jobs building block",
+      "target": "Jobs 构建块",
+      "alt": [],
+      "note": "Dapr 构建块名称，与 Jobs 构建块页面保持一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/jobs-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/jobs-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "key-vault",
+      "source": "key vault",
+      "target": "密钥保管库",
+      "alt": [],
+      "note": "Azure Key Vault 等同类保管库的统称；旧译文同用此译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/cryptography/cryptography-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/cryptography/cryptography-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "lease",
+      "source": "lease",
+      "target": "租约",
+      "alt": [],
+      "note": "锁的租约（lease）超时机制",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/distributed-lock/distributed-lock-api-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/distributed-lock/distributed-lock-api-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "llm",
+      "source": "LLM",
+      "target": "大型语言模型 (LLM)",
+      "alt": [],
+      "note": "首次出现写作“大型语言模型 (LLM)”，之后直接使用 LLM，与旧译文一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/conversation/conversation-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/conversation/conversation-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "lock-store",
+      "source": "lock store",
+      "target": "锁存储",
+      "alt": [],
+      "note": "Dapr 支持的锁后端组件类别，参见支持的锁存储参考页。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/distributed-lock/howto-use-distributed-lock.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/distributed-lock/howto-use-distributed-lock.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "message-broker",
+      "source": "message broker",
+      "target": "消息代理",
+      "alt": [],
+      "note": "发布订阅所用的中心化消息中间件，本篇统一译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/howto-namespace.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/howto-namespace.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "message-ttl",
+      "source": "message TTL",
+      "target": "消息 TTL",
+      "alt": [],
+      "note": "Dapr 消息存活时间（TTL）的译法，保留 TTL 缩写。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/subscription-methods.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/subscription-methods.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "mock-llm",
+      "source": "mock LLM",
+      "target": "模拟 LLM",
+      "alt": [],
+      "note": "示例中的模拟大语言模型（echo 组件）",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/conversation-quickstart.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/conversation-quickstart.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "multi-application-workflow",
+      "source": "multi-application workflow",
+      "target": "多应用程序工作流",
+      "alt": [],
+      "note": "跨多个应用程序编排的工作流，沿用旧译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "outbox-pattern",
+      "source": "outbox pattern",
+      "target": "发件箱模式",
+      "alt": [],
+      "note": "Dapr 的发件箱模式（outbox pattern），与 transactional outbox 的译法一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/state-management/state-management-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/state-management/state-management-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "output-binding",
+      "source": "output binding",
+      "target": "输出绑定",
+      "alt": [],
+      "note": "Dapr 输出绑定（output binding）的译法，与“绑定”一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/bindings/howto-bindings.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/bindings/howto-bindings.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "per-sidecar-limit",
+      "source": "per-sidecar limit",
+      "target": "每边车限制",
+      "alt": [],
+      "note": "按单个边车范围生效的并发限制。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-concurrency.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-concurrency.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "pii-scrubbing",
+      "source": "PII scrubbing",
+      "target": "PII 清理",
+      "alt": [],
+      "note": "对话 API 的功能名称，与高级功能列表一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/conversation/howto-conversation-layer.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/conversation/howto-conversation-layer.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "placement-service",
+      "source": "placement service",
+      "target": "放置服务",
+      "alt": [],
+      "note": "Dapr 放置服务（placement service）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
       "id": "pluggable-component",
       "source": "pluggable component",
       "target": "可插拔组件",
@@ -282,6 +1302,46 @@
       "lastSeen": {
         "doc": "copilot-glossary-seed",
         "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "programmatic-subscription",
+      "source": "programmatic subscription",
+      "target": "编程式订阅",
+      "alt": [],
+      "note": "Dapr 三种订阅类型之一，需要代码中的端点。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 2,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/subscription-methods.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "prompt-caching",
+      "source": "prompt caching",
+      "target": "提示缓存",
+      "alt": [],
+      "note": "对话 API 的功能名称，与高级功能列表一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/conversation/howto-conversation-layer.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/conversation/howto-conversation-layer.md",
+        "run": "20261116-1828"
       },
       "conflicts": []
     },
@@ -306,6 +1366,346 @@
       "conflicts": []
     },
     {
+      "id": "quickstart",
+      "source": "Quickstart",
+      "target": "快速入门",
+      "alt": [],
+      "note": "Dapr 文档的快速入门栏目名称。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/cryptography-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/cryptography-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "raw-key-material",
+      "source": "raw key material",
+      "target": "原始密钥材料",
+      "alt": [],
+      "note": "指不暴露给应用的原始加密密钥。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/cryptography/cryptography-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/cryptography/cryptography-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "raw-payload",
+      "source": "raw payload",
+      "target": "原始负载",
+      "alt": [],
+      "note": "rawPayload 元数据对应的消息负载含义。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-raw.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-raw.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "redis-lock-component",
+      "source": "Redis lock component",
+      "target": "Redis 锁组件",
+      "alt": [],
+      "note": "Redis 锁组件的名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/distributed-lock/distributed-lock-api-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/distributed-lock/distributed-lock-api-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "reentrancy",
+      "source": "reentrancy",
+      "target": "重入",
+      "alt": [],
+      "note": "Dapr Actor 重入特性（reentrancy）的译法，沿用旧译文。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actor-reentrancy.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actor-reentrancy.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "reminder",
+      "source": "reminder",
+      "target": "提醒",
+      "alt": [],
+      "note": "Dapr actor 提醒（reminder）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "resiliency",
+      "source": "resiliency",
+      "target": "弹性策略",
+      "alt": [],
+      "note": "Dapr 弹性策略资源（Resiliency）的译名。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/concepts/components-concept.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/concepts/components-concept.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "scheduler",
+      "source": "Scheduler",
+      "target": "调度器",
+      "alt": [],
+      "note": "Dapr Scheduler 组件的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-concurrency.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-concurrency.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "scheduler-control-plane",
+      "source": "scheduler control plane",
+      "target": "Scheduler 控制平面",
+      "alt": [],
+      "note": "Dapr 调度器控制平面名称。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/jobs-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/jobs-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "scheduler-control-plane-service",
+      "source": "Scheduler control plane service",
+      "target": "Scheduler 控制平面服务",
+      "alt": [],
+      "note": "与术语 scheduler control plane 的译法 Scheduler 控制平面 一致",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/jobs/jobs-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/jobs/jobs-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "scheduler-service",
+      "source": "Scheduler service",
+      "target": "Scheduler 服务",
+      "alt": [],
+      "note": "Scheduler 服务的名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/jobs/jobs-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/jobs/jobs-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "secret-scoping",
+      "source": "secret scoping",
+      "target": "机密作用域",
+      "alt": [],
+      "note": "Dapr 机密作用域特性的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/secrets/secrets-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/secrets/secrets-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "secret-store",
+      "source": "secret store",
+      "target": "机密存储",
+      "alt": [],
+      "note": "Dapr secret store component; used consistently for secretstores.",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/secrets-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/secrets-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "secrets-api",
+      "source": "secrets API",
+      "target": "密钥 API",
+      "alt": [],
+      "note": "Dapr Secrets API，沿用旧译“密钥 API”。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/secrets/howto-secrets.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/secrets/howto-secrets.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "secrets-management",
+      "source": "Secrets Management",
+      "target": "机密管理",
+      "alt": [],
+      "note": "Dapr Secrets Management building block name, as in the existing zh_CN output.",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/secrets-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/secrets-quickstart.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "self-hosted",
+      "source": "self-hosted",
+      "target": "自托管",
+      "alt": [],
+      "note": "Deployment mode name, used in the link text and platform lists.",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/install-dapr-cli.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/install-dapr-cli.md",
+        "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "server-sent-events",
+      "source": "Server-Sent Events",
+      "target": "服务器发送事件",
+      "alt": [],
+      "note": "SSE 的通行译法，沿用旧译文。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/service-invocation/howto-invoke-non-dapr-endpoints.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/service-invocation/howto-invoke-non-dapr-endpoints.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
       "id": "service-invocation",
       "source": "service invocation",
       "target": "服务调用",
@@ -322,6 +1722,26 @@
       "lastSeen": {
         "doc": "copilot-glossary-seed",
         "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "service-mesh",
+      "source": "service mesh",
+      "target": "服务网格",
+      "alt": [],
+      "note": "与文档标题及正文保持一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/concepts/faq/service-mesh.md",
+        "run": "20261116-1020"
+      },
+      "lastSeen": {
+        "doc": "docs/concepts/faq/service-mesh.md",
+        "run": "20261116-1020"
       },
       "conflicts": []
     },
@@ -366,6 +1786,26 @@
       "conflicts": []
     },
     {
+      "id": "state-management",
+      "source": "State Management",
+      "target": "状态管理",
+      "alt": [],
+      "note": "Dapr 状态管理构建块名称（链接文字、linkTitle 与标题中使用）",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/getting-started/quickstarts/statemanagement-quickstart.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/getting-started/quickstarts/statemanagement-quickstart.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
       "id": "state-store",
       "source": "state store",
       "target": "状态存储",
@@ -386,6 +1826,172 @@
       "conflicts": []
     },
     {
+      "id": "streaming-subscription",
+      "source": "streaming subscription",
+      "target": "流式订阅",
+      "alt": [],
+      "note": "Dapr 三种订阅类型之一（声明式、流式、编程式）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "high",
+      "occurrences": 3,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/subscription-methods.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "timer",
+      "source": "timer",
+      "target": "定时器",
+      "alt": [],
+      "note": "Dapr actor 定时器（timer）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "tool-calling",
+      "source": "tool calling",
+      "target": "工具调用",
+      "alt": [],
+      "note": "对话 API 的功能名称，与高级功能列表一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/conversation/howto-conversation-layer.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/conversation/howto-conversation-layer.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "topic-scoping",
+      "source": "topic scoping",
+      "target": "主题限制",
+      "alt": [],
+      "note": "Dapr 限制哪些应用程序可以发布或订阅主题的功能。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": [
+        {
+          "target": "主题作用域",
+          "doc": "docs/developing-applications/building-blocks/pubsub/subscription-methods.md",
+          "run": "20261116-1828"
+        }
+      ]
+    },
+    {
+      "id": "trigger-invocation",
+      "source": "trigger invocation",
+      "target": "触发调用",
+      "alt": [],
+      "note": "Dapr 将已触发的作业发送回应用程序的调用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/jobs/howto-schedule-and-handle-triggered-jobs.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/jobs/howto-schedule-and-handle-triggered-jobs.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "turn-based",
+      "source": "turn-based",
+      "target": "基于轮次",
+      "alt": [],
+      "note": "Actor 并发模型中 turn-based access 的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-features-concepts.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-features-concepts.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "turn-based-access",
+      "source": "turn-based access",
+      "target": "基于轮次的访问",
+      "alt": [],
+      "note": "Dapr actor 并发访问模型的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "virtual-actor",
+      "source": "virtual actor",
+      "target": "虚拟 Actor",
+      "alt": [],
+      "note": "虚拟 Actor 模式（virtual actor pattern）的译法，沿用旧译文。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actor-reentrancy.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actor-reentrancy.md",
+        "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
       "id": "workflow",
       "source": "workflow",
       "target": "工作流",
@@ -402,6 +2008,26 @@
       "lastSeen": {
         "doc": "copilot-glossary-seed",
         "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "workflow-access-policy",
+      "source": "workflow access policy",
+      "target": "工作流访问策略",
+      "alt": [],
+      "note": "WorkflowAccessPolicy 资源的功能名称。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 2,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
+        "run": "20261116-1828"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-multi-app.md",
+        "run": "20261116-1828"
       },
       "conflicts": []
     }

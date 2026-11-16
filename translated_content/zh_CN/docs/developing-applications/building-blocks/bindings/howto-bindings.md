@@ -7,19 +7,19 @@ weight: 300
 ---
 
 
-使用输出绑定，您可以调用外部资源。调用请求中可以发送可选的有效负载和元数据。
+使用输出绑定，你可以调用外部资源。调用请求中可以发送可选的有效负载和元数据。
 
-<img src="/images/howto-bindings/kafka-output-binding.png" width=1000 alt="Diagram showing bindings of example service">
+{{< diagram name="binding-output-kafka" width="65" >}}
 
-本指南以 Kafka 绑定为例。您可以从[绑定组件列表]({{% ref setup-bindings %}})中找到您需要的绑定规范。在本指南中：
+本指南以 Kafka 绑定为例。你可以从[绑定组件列表]({{% ref setup-bindings %}})中找到你需要的绑定规范。在本指南中：
 
 1. 示例通过调用 `/binding` 端点，并传递 `checkout`（要调用的绑定名称）来执行操作。
 1. 有效负载放入必需的 `data` 字段中，可以是任何可序列化为 JSON 的值。
 1. `operation` 字段告诉绑定需要执行什么操作。例如，[Kafka 绑定支持 `create` 操作]({{% ref "kafka#binding-support" %}})。
-   - 您可以查看[每个输出绑定支持的操作（特定于各组件）]({{% ref supported-bindings %}})。
+   - 你可以查看[每个输出绑定支持的操作（特定于各组件）]({{% ref supported-bindings %}})。
 
 {{% alert title="注意" color="primary" %}}
- 如果您还没有尝试过，可以先体验[绑定快速入门]({{% ref bindings-quickstart %}})，快速了解如何使用绑定 API。
+如果你还没有尝试过，可以先体验[绑定快速入门]({{% ref bindings-quickstart %}})，快速了解如何使用绑定 API。
 
 {{% /alert %}}
 
@@ -29,7 +29,7 @@ weight: 300
 
 创建一个名为 `checkout` 的新绑定组件。在 `metadata` 部分中，配置以下与 Kafka 相关的属性：
 
-- 您要向其发布消息的主题
+- 你要向其发布消息的主题
 - 代理
 
 创建绑定组件时，[指定绑定的受支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。
@@ -38,7 +38,7 @@ weight: 300
 
 {{% tab "自托管 (CLI)" %}}
 
-使用 `dapr run` 命令时，通过 `--resources-path` 标志指向您的自定义资源目录。
+使用 `dapr run` 命令时，通过 `--resources-path` 标志指向你的自定义资源目录。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -286,7 +286,7 @@ function sleep(ms) {
 
 {{< /tabpane >}}
 
-您也可以使用 HTTP 来调用输出绑定端点：
+你也可以使用 HTTP 来调用输出绑定端点：
 
 ```bash
 curl -X POST -H 'Content-Type: application/json' http://localhost:3601/v1.0/bindings/checkout -d '{ "data": 100, "operation": "create" }'

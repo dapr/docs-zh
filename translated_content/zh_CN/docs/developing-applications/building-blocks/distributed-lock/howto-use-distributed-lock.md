@@ -6,19 +6,21 @@ weight: 2000
 description: "了解如何使用分布式锁为资源提供独占访问"
 ---
 
-现在你已经了解了 Dapr 分布式锁 API 构建块所提供的功能，接下来学习它如何在你的服务中工作。在本指南中，一个示例应用程序使用 Redis 锁组件获取锁，以演示如何锁定资源。有关支持的锁存储列表，请参阅[此参考页面](/reference/components-reference/supported-locks/)。
+既然你已经了解了 Dapr 分布式锁 API 构建块所提供的功能，接下来学习它如何在你的服务中发挥作用。在本指南中，示例应用程序使用 Redis 锁组件获取锁，以演示如何锁定资源。有关支持的锁存储列表，请参阅[此参考页面](/reference/components-reference/supported-locks/)。
 
 在下图中，同一应用程序的两个实例尝试获取锁，其中一个实例成功，另一个被拒绝。
 
-<img src="/images/building-block-lock-example.png" width=1000 alt="下图显示同一应用程序的两个实例尝试获取锁，其中一个实例成功，另一个被拒绝">
+{{< diagram name="lock-example" width="75" >}}
 
-下图显示同一应用程序的两个实例，其中一个实例释放锁后，另一个实例能够获取该锁。
+下图展示同一应用程序的两个实例：其中一个实例释放锁后，另一个实例即可获取该锁。
 
-<img src="/images/building-block-lock-unlock-example.png" width=1000 alt="显示从同一应用程序的多个实例释放锁的示意图">
+{{< diagram name="lock-unlock-example" width="75" >}}
 
-下图显示两个不同应用程序的实例，在同一资源上获取不同的锁。
+下图展示两个不同应用程序的实例，它们在同一资源上获取不同的锁。
 
-<img src="/images/building-block-lock-multiple-example.png" width=1000 alt="下图显示两个不同应用程序的实例，在同一资源上获取不同的锁">
+{{< diagram name="lock-multiple-example" width="75" >}}
+
+锁的作用范围限定在 Dapr 应用 ID（app-id）内，因此这两把锁彼此独立：每把锁只会排斥其所属应用的其他实例，而不会排斥另一个应用。两个应用无法通过锁 API 互相排斥，以独占同一资源。
 
 ### 配置锁组件
 
@@ -52,8 +54,9 @@ curl -X POST http://localhost:3500/v1.0-alpha1/lock/lockstore
 ```
 
 {{% /tab %}}
-<br>
+
 {{% tab ".NET" %}}
+
 ```csharp
 using System;
 using Dapr.Client;
@@ -84,9 +87,11 @@ namespace LockService
     }
 }
 ```
+
 {{% /tab %}}
-<br>
+
 {{% tab "Go" %}}
+
 ```go
 package main
 
@@ -112,8 +117,9 @@ func main() {
     fmt.Println(resp.Success)
 }
 ```
+
 {{% /tab %}}
-<br>
+
 {{< /tabpane >}}
 
 ### 解锁现有锁
@@ -121,14 +127,17 @@ func main() {
 {{< tabpane text=true >}}
 
 {{% tab "HTTP" %}}
+
 ```bash
 curl -X POST http://localhost:3500/v1.0-alpha1/unlock/lockstore
    -H 'Content-Type: application/json'
    -d '{"resourceId":"my_file_name", "lockOwner":"random_id_abc123"}'
 ```
+
 {{% /tab %}}
-<br>
+
 {{% tab ".NET" %}}
+
 ```csharp
 using System;
 using Dapr.Client;
@@ -148,9 +157,11 @@ namespace LockService
     }
 }
 ```
+
 {{% /tab %}}
-<br>
+
 {{% tab "Go" %}}
+
 ```go
 package main
 
@@ -175,8 +186,9 @@ func main() {
     fmt.Println(resp.Status)
 }
 ```
+
 {{% /tab %}}
-<br>
+
 {{< /tabpane >}}
 
 ## 下一步

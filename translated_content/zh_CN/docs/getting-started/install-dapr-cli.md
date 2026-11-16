@@ -3,7 +3,7 @@ type: docs
 title: "安装 Dapr CLI"
 linkTitle: "安装 Dapr CLI"
 weight: 10
-description: "安装 Dapr CLI 作为运行 Dapr 相关任务的主要工具"
+description: "安装 Dapr CLI，作为运行 Dapr 相关任务的主要工具"
 ---
 
 您将使用 Dapr CLI 作为各种 Dapr 相关任务的主要工具。您可以使用它来：
@@ -11,7 +11,6 @@ description: "安装 Dapr CLI 作为运行 Dapr 相关任务的主要工具"
 - 使用 Dapr 边车运行应用程序。
 - 查看边车日志。
 - 列出运行中的服务。
-- 运行 Dapr 仪表板。
 
 Dapr CLI 同时支持 [自托管]({{% ref self-hosted %}}) 和 [Kubernetes]({{% ref Kubernetes %}}) 环境。
 
@@ -83,7 +82,7 @@ powershell -Command "$script=iwr -useb https://raw.githubusercontent.com/dapr/cl
 
 #### 不使用管理员权限安装
 
-如果您没有管理员权限，可以通过 `DAPR_INSTALL_DIR` 环境变量将 Dapr 安装到备用目录。如果目录不存在，以下脚本会创建该目录。
+如果您没有管理员权限，可以通过 `DAPR_INSTALL_DIR` 环境变量将 Dapr 安装到备用目录。以下脚本会在目录不存在时创建该目录。
 
 ```powershell
 $Env:DAPR_INSTALL_DIR = "<your_alt_install_dir_path>"
@@ -117,7 +116,7 @@ winget install Dapr.CLI.Preview
 
 #### 使用 MSI 安装程序安装
 
-每个 Dapr CLI 版本都包含 Windows 安装程序。您可以手动下载 MSI：
+每个 Dapr CLI 版本还包含 Windows 安装程序。您可以手动下载 MSI：
 
 1. 从最新的 [Dapr Release](https://github.com/dapr/cli/releases) 下载 MSI 安装包 `dapr.msi`。
 2. 导航到下载的 MSI 文件并双击运行。
@@ -146,7 +145,7 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
 
 **对于 ARM64 Mac：**
 
-从终端安装时，提供原生 ARM64 二进制文件。
+从终端安装时，可以使用原生 ARM64 二进制文件。 
 
 要安装 Rosetta 模拟：
 
@@ -182,13 +181,13 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
 以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。您也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | DAPR_INSTALL_DIR="$HOME/dapr" -s {{% dapr-latest-version cli="true" %}}
+curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | DAPR_INSTALL_DIR="$HOME/dapr" /bin/bash -s {{% dapr-latest-version cli="true" %}}
 ```
 
 {{% /tab %}}
 
 {{% tab header="二进制文件" text=true %}}
-每个 Dapr CLI 版本都包含各种操作系统和架构。您可以手动下载并安装这些二进制版本。
+每个 Dapr CLI 版本都包含多种操作系统和架构的构建。您可以手动下载并安装这些二进制版本。
 
 1. 从最新的 [Dapr Release](https://github.com/dapr/cli/releases) 下载所需的 Dapr CLI。
 2. 解压缩文件（例如 dapr_linux_amd64.tar.gz、dapr_windows_amd64.zip）。
@@ -205,7 +204,7 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
 
 ### 步骤 2：验证安装
 
-通过重启终端/命令提示符并运行以下命令来验证 CLI 是否已安装：
+重启终端或命令提示符后，运行以下命令以验证 CLI 是否已安装：
 
 ```bash
 dapr -h
@@ -222,35 +221,34 @@ dapr -h
               /_/
 
 ===============================
-分布式应用运行时
+Distributed Application Runtime
 
 Usage:
   dapr [command]
 
 Available Commands:
-  completion     生成 shell 自动补全脚本
-  components     列出所有 Dapr 组件。支持平台：Kubernetes
-  configurations 列出所有 Dapr 配置。支持平台：Kubernetes
-  dashboard      启动 Dapr 仪表板。支持平台：Kubernetes 和自托管
-  help           显示任意命令的帮助信息
-  init           在支持的托管平台上安装 Dapr。支持平台：Kubernetes 和自托管
-  invoke         调用给定 Dapr 应用的方法。支持平台：自托管
-  list           列出所有 Dapr 实例。支持平台：Kubernetes 和自托管
-  logs           获取应用的 Dapr 边车日志。支持平台：Kubernetes
-  mtls           检查是否启用了 mTLS。支持平台：Kubernetes
-  publish        发布发布订阅事件。支持平台：自托管
-  run            并排运行 Dapr 和（可选的）您的应用。支持平台：自托管
-  status         显示 Dapr 服务的健康状态。支持平台：Kubernetes
-  stop           停止 Dapr 实例及其关联的应用。支持平台：自托管
-  uninstall      卸载 Dapr 运行时。支持平台：Kubernetes 和自托管
-  upgrade        升级集群中的 Dapr 控制平面安装。支持平台：Kubernetes
-  version        打印 Dapr 运行时和 CLI 版本
+  completion     Generates shell completion scripts
+  components     List all Dapr components. Supported platforms: Kubernetes
+  configurations List all Dapr configurations. Supported platforms: Kubernetes
+  help           Help about any command
+  init           Install Dapr on supported hosting platforms. Supported platforms: Kubernetes and self-hosted
+  invoke         Invoke a method on a given Dapr application. Supported platforms: Self-hosted
+  list           List all Dapr instances. Supported platforms: Kubernetes and self-hosted
+  logs           Get Dapr sidecar logs for an application. Supported platforms: Kubernetes
+  mtls           Check if mTLS is enabled. Supported platforms: Kubernetes
+  publish        Publish a pub-sub event. Supported platforms: Self-hosted
+  run            Run Dapr and (optionally) your application side by side. Supported platforms: Self-hosted
+  status         Show the health status of Dapr services. Supported platforms: Kubernetes
+  stop           Stop Dapr instances and their associated apps. . Supported platforms: Self-hosted
+  uninstall      Uninstall Dapr runtime. Supported platforms: Kubernetes and self-hosted
+  upgrade        Upgrades a Dapr control plane installation in a cluster. Supported platforms: Kubernetes
+  version        Print the Dapr runtime and CLI version
 
 Flags:
-  -h, --help      dapr 的帮助信息
-  -v, --version   dapr 的版本
+  -h, --help      help for dapr
+  -v, --version   version for dapr
 
-使用 "dapr [command] --help" 获取有关命令的更多信息。
+Use "dapr [command] --help" for more information about a command.
 ```
 
 {{< button text="下一步：初始化 Dapr >>" page="install-dapr-selfhost.md" >}}

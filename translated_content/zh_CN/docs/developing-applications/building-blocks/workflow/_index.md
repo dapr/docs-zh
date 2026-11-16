@@ -2,8 +2,8 @@
 type: docs
 title: "工作流"
 linkTitle: "工作流"
-weight: 30
-description: "跨多个微服务编排逻辑"
+weight: 5
+description: "面向长时间运行的工作流与 AI 智能体的持久执行，以代码方式编写"
 ---
 
 {{% alert title="了解更多关于 Dapr 工作流" color="primary" %}}

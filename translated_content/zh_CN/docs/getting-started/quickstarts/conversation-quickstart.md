@@ -3,27 +3,27 @@ type: docs
 title: "快速入门：对话"
 linkTitle: 对话
 weight: 90
-description: Dapr 对话构建块入门
+description: "开始使用 Dapr 对话构建块"
 ---
 
 {{% alert title="Alpha" color="warning" %}}
-对话构建块目前处于 **alpha** 阶段。
+对话构建块目前处于 **alpha** 阶段。 
 {{% /alert %}}
 
-让我们来看看 [Dapr 对话构建块]({{% ref conversation-overview %}}) 如何简化与大语言模型（LLMs）的交互。在这个快速入门中，你使用 echo 组件与模拟 LLM 通信，并要求它定义 Dapr。
+让我们来看看 [Dapr 对话构建块]({{% ref conversation-overview %}})如何让与大语言模型（LLM）的交互变得更简单。在本快速入门中，你将使用 echo 组件与模拟 LLM 通信，并让它定义 Dapr。 
 
-你可以通过以下方式尝试此对话快速入门：
+你可以通过以下任一方式试用本对话快速入门：
 
-- [使用多应用运行模板文件运行此示例中的应用]({{% ref "#run-the-app-with-the-template-file" %}})，或
-- [不使用模板运行应用]({{% ref "#run-the-app-without-the-template" %}})
+- [使用 Multi-App Run 模板文件运行本示例中的应用]({{% ref "#使用-multi-app-run-模板文件运行应用" %}})，或
+- [不使用模板运行应用]({{% ref "#不使用模板运行应用" %}})
 
 {{% alert title="注意" color="primary" %}}
-目前，在此快速入门示例中只能通过 HTTP 使用 JavaScript，而不能使用 JavaScript SDK。
+目前，快速入门示例只能通过 HTTP 使用 JavaScript，而不能使用 JavaScript SDK。  
 {{% /alert %}}
 
-## 使用模板文件运行应用
+## 使用 Multi-App Run 模板文件运行应用
 
-在继续快速入门之前，请选择你首选的语言特定的 Dapr SDK。
+在继续本快速入门之前，请选择你偏好的特定语言 Dapr SDK。
 
 {{< tabpane text=true >}}
 
@@ -31,12 +31,13 @@ description: Dapr 对话构建块入门
 {{% tab "Python" %}}
 
 
-### 步骤 1：先决条件
+### 步骤 1：前置条件
 
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [已安装 Python 3.7+](https://www.python.org/downloads/)。
+- [已安装 Python 3.11 或更高版本](https://www.python.org/downloads/)。
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)，即本示例使用的 Python 包管理器。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -46,29 +47,28 @@ description: Dapr 对话构建块入门
 克隆 [Quickstarts 仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/conversation)。
 
 ```bash
-git clone https://github.com/dapr/quickstarts.git
+git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
-从 Quickstarts 目录的根目录，导航到 conversation 目录：
+从 Quickstarts 目录的根目录进入 `python/sdk` 目录。`dapr.yaml` 文件位于此目录中：
 
 ```bash
-cd conversation/python/sdk/conversation
+cd conversation/python/sdk
 ```
 
 安装依赖项：
 
 ```bash
-pip3 install -r requirements.txt
+uv sync
 ```
 
 ### 步骤 3：启动对话服务
 
 
 ```bash
-dapr run -f .
+uv run dapr run -f .
 ```
 
-> **注意**：由于 Windows 中未定义 Python3.exe，你可能需要使用 `python app.py` 而不是 `python3 app.py`。
 
 **预期输出**
 
@@ -79,11 +79,11 @@ dapr run -f .
 
 ### 发生了什么？
 
-在此快速入门中运行 `dapr run -f .` 会启动 [app.py]({{% ref "#programcs-conversation-app" %}})。
+在本快速入门中运行 `dapr run -f .` 会启动 [app.py]({{% ref "#programcs-conversation-app" %}})。
 
-#### `dapr.yaml` 多应用运行模板文件
+#### `dapr.yaml` Multi-App Run 模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 会启动项目中的所有应用。此快速入门只有一个应用，因此 `dapr.yaml` 文件包含以下内容：
+使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}}) 运行 `dapr run -f .` 会启动项目中的所有应用。本快速入门只有一个应用，因此 `dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -92,12 +92,12 @@ common:
 apps:
   - appID: conversation
     appDirPath: ./conversation/
-    command: ["python3", "app.py"]
+    command: ["uv", "run", "python", "app.py"]
 ```
 
 #### Echo 模拟 LLM 组件
 
-在 quickstart 的 [`conversation/components`](https://github.com/dapr/quickstarts/tree/master/conversation/components) 目录中，[`conversation.yaml` 文件](https://github.com/dapr/quickstarts/tree/master/conversation/components/conversation.yaml) 配置了 echo LLM 组件。
+在快速入门的 [`conversation/components`](https://github.com/dapr/quickstarts/tree/master/conversation/components) 目录下，[`conversation.yaml` 文件](https://github.com/dapr/quickstarts/blob/master/conversation/components/conversation.yaml)配置了 echo LLM 组件。
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -109,13 +109,13 @@ spec:
   version: v1
 ```
 
-要与真实的 LLM 交互，请将模拟组件替换为[支持的对话组件之一]({{% ref "supported-conversation" %}})。例如，要使用 OpenAI 组件，请参阅[对话操作指南中的示例]({{% ref "howto-conversation-layer#use-the-openai-component" %}})
+要与真实的 LLM 对接，请将模拟组件替换为[支持的对话组件]({{% ref "supported-conversation" %}})之一。例如，若要使用 OpenAI 组件，请参阅[对话操作指南中的示例]({{% ref "howto-conversation-layer#use-the-openai-component" %}})。
 
 #### `app.py` 对话应用
 
 在应用代码中：
-- 应用向 echo 模拟 LLM 组件发送输入 "What is dapr?"。
-- 模拟 LLM 回显 "What is dapr?"。
+- 应用会将输入 “What is dapr?” 发送给 echo 模拟 LLM 组件。
+- 模拟 LLM 会回显 “What is dapr?”。
 
 ```python
 from dapr.clients import DaprClient
@@ -144,15 +144,16 @@ with DaprClient() as d:
 {{% tab "JavaScript" %}}
 
 
-### 步骤 1：先决条件
+### 步骤 1：前置条件
 
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [已安装最新的 Node.js](https://nodejs.org/)。
+- [已安装最新版本的 Node.js](https://nodejs.org/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
+- 已安装 [Ollama](https://ollama.com/) 并正在运行，且已拉取 `llama3.2:latest` 模型（`ollama pull llama3.2:latest`）。该示例会将输入发送给 `ollama` 对话组件，因此响应来自该模型。它与下面的预期输出不同，后者来自 echo 模拟 LLM。
 
 ### 步骤 2：设置环境
 
@@ -162,7 +163,7 @@ with DaprClient() as d:
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-从 Quickstarts 目录的根目录，导航到 conversation 目录：
+从 Quickstarts 目录的根目录进入 conversation 目录：
 
 ```bash
 cd conversation/javascript/http/conversation
@@ -176,7 +177,7 @@ npm install
 
 ### 步骤 3：启动对话服务
 
-返回到 `http` 目录，并使用以下命令启动对话服务：
+导航回 `http` 目录，并使用以下命令启动对话服务：
 
 ```bash
 dapr run -f .
@@ -195,11 +196,11 @@ dapr run -f .
 
 ### 发生了什么？
 
-在此快速入门中运行 `dapr run -f .` 会启动 [conversation.go]({{% ref "#programcs-conversation-app" %}})。
+在本快速入门中运行 `dapr run -f .` 会启动 [conversation.go]({{% ref "#programcs-conversation-app" %}})。
 
-#### `dapr.yaml` 多应用运行模板文件
+#### `dapr.yaml` Multi-App Run 模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 会启动项目中的所有应用。此快速入门只有一个应用，因此 `dapr.yaml` 文件包含以下内容：
+使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}}) 运行 `dapr run -f .` 会启动项目中的所有应用。本快速入门只有一个应用，因此 `dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -214,7 +215,7 @@ apps:
 
 #### Echo 模拟 LLM 组件
 
-在 quickstart 的 [`conversation/components`](https://github.com/dapr/quickstarts/tree/master/conversation/components) 目录中，[`conversation.yaml` 文件](https://github.com/dapr/quickstarts/tree/master/conversation/components/conversation.yaml) 配置了 echo LLM 组件。
+在快速入门的 [`conversation/components`](https://github.com/dapr/quickstarts/tree/master/conversation/components) 目录下，[`conversation.yaml` 文件](https://github.com/dapr/quickstarts/blob/master/conversation/components/conversation.yaml)配置了 echo LLM 组件。 
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -226,13 +227,13 @@ spec:
   version: v1
 ```
 
-要与真实的 LLM 交互，请将模拟组件替换为[支持的对话组件之一]({{% ref "supported-conversation" %}})。例如，要使用 OpenAI 组件，请参阅[对话操作指南中的示例]({{% ref "howto-conversation-layer#use-the-openai-component" %}})
+要与真实的 LLM 对接，请将模拟组件替换为[支持的对话组件]({{% ref "supported-conversation" %}})之一。例如，若要使用 OpenAI 组件，请参阅[对话操作指南中的示例]({{% ref "howto-conversation-layer#use-the-openai-component" %}})。
 
 #### `index.js` 对话应用
 
 在应用代码的第一部分中：
-- 应用向 echo 模拟 LLM 组件发送输入 "What is dapr?"。
-- 模拟 LLM 回显 "What is dapr?"。
+- 应用会将输入 “What is dapr?” 发送给 echo 模拟 LLM 组件。
+- 模拟 LLM 会回显 “What is dapr?”。
 
 ```javascript
 const daprHost = process.env.DAPR_HOST || "http://localhost";
@@ -240,7 +241,7 @@ const daprHttpPort = process.env.DAPR_HTTP_PORT || "3500";
 
 const reqURL = `${daprHost}:${daprHttpPort}/v1.0-alpha2/conversation/${conversationComponentName}/converse`;
 
-// Plain conversation
+// 普通对话
 try {
   const converseInputBody = {
     inputs: [
@@ -281,8 +282,8 @@ try {
 ```
 
 在应用代码的第二部分中：
-- 应用发送输入 "What is the weather like in San Francisco in celsius"，同时提供可用工具 `get_weather` 的定义。
-- 模拟 LLM 回显 "What is the weather like in San Francisco in celsius?" 和函数定义，这些内容会在响应中被检测到。
+- 应用会将输入 “What is the weather like in San Francisco in celsius” 连同可用工具 `get_weather` 的定义一起发送。
+- 模拟 LLM 会回显 “What is the weather like in San Francisco in celsius?” 以及函数定义，该定义会在响应中被检测到。
 
 ```javascript
 try {
@@ -370,12 +371,12 @@ try {
 {{% tab ".NET" %}}
 
 
-### 步骤 1：先决条件
+### 步骤 1：前置条件
 
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [已安装 .NET 8 SDK+](https://dotnet.microsoft.com/download)。
+- 已安装 [.NET 8 SDK 或更高版本](https://dotnet.microsoft.com/download)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -388,7 +389,7 @@ try {
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-从 Quickstarts 目录的根目录，导航到 conversation 目录：
+从 Quickstarts 目录的根目录进入 conversation 目录：
 
 ```bash
 cd conversation/csharp/sdk
@@ -417,11 +418,11 @@ dapr run -f .
 
 ### 发生了什么？
 
-在此快速入门中运行 `dapr run -f .` 会启动 [conversation Program.cs]({{% ref "#programcs-conversation-app" %}})。
+在本快速入门中运行 `dapr run -f .` 会启动 [conversation Program.cs]({{% ref "#programcs-conversation-app" %}})。
 
-#### `dapr.yaml` 多应用运行模板文件
+#### `dapr.yaml` Multi-App Run 模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 会启动项目中的所有应用。此快速入门只有一个应用，因此 `dapr.yaml` 文件包含以下内容：
+使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}}) 运行 `dapr run -f .` 会启动项目中的所有应用。本快速入门只有一个应用，因此 `dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -436,7 +437,7 @@ apps:
 
 #### Echo 模拟 LLM 组件
 
-在 [`conversation/components`](https://github.com/dapr/quickstarts/tree/master/conversation/components) 目录中，[`conversation.yaml` 文件](https://github.com/dapr/quickstarts/tree/master/conversation/components/conversation.yaml) 配置了 echo 模拟 LLM 组件。
+在快速入门的 [`conversation/components`](https://github.com/dapr/quickstarts/tree/master/conversation/components) 目录下，[`conversation.yaml` 文件](https://github.com/dapr/quickstarts/blob/master/conversation/components/conversation.yaml)配置了 echo 模拟 LLM 组件。 
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -448,15 +449,15 @@ spec:
   version: v1
 ```
 
-要与真实的 LLM 交互，请将模拟组件替换为[支持的对话组件之一]({{% ref "supported-conversation" %}})。例如，要使用 OpenAI 组件，请参阅[对话操作指南中的示例]({{% ref "howto-conversation-layer#use-the-openai-component" %}})
+要与真实的 LLM 对接，请将模拟组件替换为[支持的对话组件]({{% ref "supported-conversation" %}})之一。例如，若要使用 OpenAI 组件，请参阅[对话操作指南中的示例]({{% ref "howto-conversation-layer#use-the-openai-component" %}})。
 
 #### `Program.cs` 对话应用
 
 在应用代码中：
-- 应用向 echo 模拟 LLM 组件发送输入 "What is dapr?"。
-- 模拟 LLM 回显 "What is dapr?"。
-- 应用发送输入 "What is the weather like in San Francisco in celsius"，同时提供可用工具 `get_weather` 的定义。
-- 模拟 LLM 回显 "What is the weather like in San Francisco in celsius?" 和函数定义，这些内容会在响应中被检测到。
+- 应用会将输入 “What is dapr?” 发送给 echo 模拟 LLM 组件。
+- 模拟 LLM 会回显 “What is dapr?”。
+- 应用会将输入 “What is the weather like in San Francisco in celsius” 连同可用工具 `get_weather` 的定义一起发送。
+- 模拟 LLM 会回显 “What is the weather like in San Francisco in celsius?” 以及函数定义，该定义会在响应中被检测到。
 
 
 ```csharp
@@ -475,7 +476,7 @@ builder.Services.AddDaprConversationClient();
 var app = builder.Build();
 
 //
-// Setup
+// 设置
 
 var conversationClient = app.Services.GetRequiredService<DaprConversationClient>();
 
@@ -511,7 +512,7 @@ var conversationOptions = new ConversationOptions(conversationComponentName)
 };
 
 //
-// Simple Conversation
+// 简单对话
 
 var conversationResponse = await conversationClient.ConverseAsync(
     [new ConversationInput(new List<IConversationMessage>
@@ -530,7 +531,7 @@ Console.WriteLine($"Conversation input sent: {conversationText}");
 Console.WriteLine($"Output response: {conversationResponse.Outputs.First().Choices.First().Message.Content}");
 
 //
-// Tool Calling
+// 工具调用
 
 var toolCallResponse = await conversationClient.ConverseAsync(
     [new ConversationInput(new List<IConversationMessage>
@@ -574,7 +575,7 @@ Console.WriteLine($"Function arguments: {functionToolCall.JsonArguments}");
 {{% tab "Java" %}}
 
 
-### 步骤 1：先决条件
+### 步骤 1：前置条件
 
 对于此示例，你需要：
 
@@ -595,7 +596,7 @@ Console.WriteLine($"Function arguments: {functionToolCall.JsonArguments}");
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-从 Quickstarts 目录的根目录，导航到 conversation 目录：
+从 Quickstarts 目录的根目录进入 conversation 目录：
 
 ```bash
 cd conversation/java/sdk/conversation
@@ -609,7 +610,7 @@ mvn clean install
 
 ### 步骤 3：启动对话服务
 
-返回到 sdk 目录，并使用以下命令启动对话服务：
+返回 sdk 目录，并使用以下命令启动对话服务：
 
 ```bash
 dapr run -f .
@@ -624,11 +625,11 @@ dapr run -f .
 
 ### 发生了什么？
 
-在此快速入门中运行 `dapr run -f .` 会启动 [Conversation.java]({{% ref "#programcs-conversation-app" %}})。
+在本快速入门中运行 `dapr run -f .` 会启动 [Conversation.java]({{% ref "#programcs-conversation-app" %}})。
 
-#### `dapr.yaml` 多应用运行模板文件
+#### `dapr.yaml` Multi-App Run 模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 会启动项目中的所有应用。此快速入门只有一个应用，因此 `dapr.yaml` 文件包含以下内容：
+使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}}) 运行 `dapr run -f .` 会启动项目中的所有应用。本快速入门只有一个应用，因此 `dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -642,7 +643,7 @@ apps:
 
 #### Echo 模拟 LLM 组件
 
-在 quickstart 的 [`conversation/components`](https://github.com/dapr/quickstarts/tree/master/conversation/components) 目录中，[`conversation.yaml` 文件](https://github.com/dapr/quickstarts/tree/master/conversation/components/conversation.yaml) 配置了 echo LLM 组件。
+在快速入门的 [`conversation/components`](https://github.com/dapr/quickstarts/tree/master/conversation/components) 目录下，[`conversation.yaml` 文件](https://github.com/dapr/quickstarts/blob/master/conversation/components/conversation.yaml)配置了 echo LLM 组件。
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -654,13 +655,13 @@ spec:
   version: v1
 ```
 
-要与真实的 LLM 交互，请将模拟组件替换为[支持的对话组件之一]({{% ref "supported-conversation" %}})。例如，要使用 OpenAI 组件，请参阅[对话操作指南中的示例]({{% ref "howto-conversation-layer#use-the-openai-component" %}})
+要与真实的 LLM 对接，请将模拟组件替换为[支持的对话组件]({{% ref "supported-conversation" %}})之一。例如，若要使用 OpenAI 组件，请参阅[对话操作指南中的示例]({{% ref "howto-conversation-layer#use-the-openai-component" %}})。
 
 #### `Conversation.java` 对话应用
 
 在应用代码中：
-- 应用向 echo 模拟 LLM 组件发送输入 "What is dapr?"。
-- 模拟 LLM 回显 "What is dapr?"。
+- 应用会将输入 “What is dapr?” 发送给 echo 模拟 LLM 组件。
+- 模拟 LLM 会回显 “What is dapr?”。
 
 ```java
 package com.service;
@@ -684,7 +685,7 @@ public class Conversation {
 
       ConversationInput daprConversationInput = new ConversationInput(prompt);
 
-      // Component name is the name provided in the metadata block of the conversation.yaml file.
+      // 组件名称即 conversation.yaml 文件 metadata 块中提供的名称。
       Mono<ConversationResponse> responseMono = client.converse(new ConversationRequest("echo",
               List.of(daprConversationInput))
               .setContextId("contextId")
@@ -704,7 +705,7 @@ public class Conversation {
 {{% tab "Go" %}}
 
 
-### 步骤 1：先决条件
+### 步骤 1：前置条件
 
 对于此示例，你需要：
 
@@ -713,6 +714,7 @@ public class Conversation {
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
+- 已安装 [Ollama](https://ollama.com/) 并正在运行，且已拉取 `llama3.2:latest` 模型（`ollama pull llama3.2:latest`）。该示例会将输入发送给 `ollama` 对话组件，因此响应来自该模型。它与下面的预期输出不同，后者来自 echo 模拟 LLM。
 
 ### 步骤 2：设置环境
 
@@ -722,7 +724,7 @@ public class Conversation {
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-从 Quickstarts 目录的根目录，导航到 conversation 目录：
+从 Quickstarts 目录的根目录进入 conversation 目录：
 
 ```bash
 cd conversation/go/sdk
@@ -748,11 +750,11 @@ dapr run -f .
 
 ### 发生了什么？
 
-在此快速入门中运行 `dapr run -f .` 会启动 [conversation.go]({{% ref "#programcs-conversation-app" %}})。
+在本快速入门中运行 `dapr run -f .` 会启动 [conversation.go]({{% ref "#programcs-conversation-app" %}})。
 
-#### `dapr.yaml` 多应用运行模板文件
+#### `dapr.yaml` Multi-App Run 模板文件
 
-使用 `dapr run -f .` 运行 [多应用运行模板文件]({{% ref multi-app-dapr-run %}}) 会启动项目中的所有应用。此快速入门只有一个应用，因此 `dapr.yaml` 文件包含以下内容：
+使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}}) 运行 `dapr run -f .` 会启动项目中的所有应用。本快速入门只有一个应用，因此 `dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -767,7 +769,7 @@ apps:
 
 #### Echo 模拟 LLM 组件
 
-在 quickstart 的 [`conversation/components`](https://github.com/dapr/quickstarts/tree/master/conversation/components) 目录中，[`conversation.yaml` 文件](https://github.com/dapr/quickstarts/tree/master/conversation/components/conversation.yaml) 配置了 echo LLM 组件。
+在快速入门的 [`conversation/components`](https://github.com/dapr/quickstarts/tree/master/conversation/components) 目录下，[`conversation.yaml` 文件](https://github.com/dapr/quickstarts/blob/master/conversation/components/conversation.yaml)配置了 echo LLM 组件。 
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -779,15 +781,15 @@ spec:
   version: v1
 ```
 
-要与真实的 LLM 交互，请将模拟组件替换为[支持的对话组件之一]({{% ref "supported-conversation" %}})。例如，要使用 OpenAI 组件，请参阅[对话操作指南中的示例]({{% ref "howto-conversation-layer#use-the-openai-component" %}})
+要与真实的 LLM 对接，请将模拟组件替换为[支持的对话组件]({{% ref "supported-conversation" %}})之一。例如，若要使用 OpenAI 组件，请参阅[对话操作指南中的示例]({{% ref "howto-conversation-layer#use-the-openai-component" %}})。
 
 #### `conversation.go` 对话应用
 
 在应用代码中：
-- 应用向 echo 模拟 LLM 组件发送输入 "What is dapr?"。
-- 模拟 LLM 回显 "What is dapr?"。
-- 应用发送输入 "What is the weather like in San Francisco in celsius"，同时提供可用工具 `get_weather` 的定义。
-- 模拟 LLM 回显 "What is the weather like in San Francisco in celsius?" 和函数定义，这些内容会在响应中被检测到。
+- 应用会将输入 “What is dapr?” 发送给 echo 模拟 LLM 组件。
+- 模拟 LLM 会回显 “What is dapr?”。
+- 应用会将输入 “What is the weather like in San Francisco in celsius” 连同可用工具 `get_weather` 的定义一起发送。
+- 模拟 LLM 会回显 “What is the weather like in San Francisco in celsius?” 以及函数定义，该定义会在响应中被检测到。
 
 ```go
 import (
@@ -804,7 +806,7 @@ import (
   dapr "github.com/dapr/go-sdk/client"
 )
 
-// createMapOfArgsForEcho is a helper function to deal with the issue with the echo component not returning args as a map but in csv format
+// createMapOfArgsForEcho 是一个辅助函数，用于处理 echo 组件不以 map 形式而以 CSV 格式返回参数的问题
 func createMapOfArgsForEcho(s string) ([]byte, error) {
   m := map[string]any{}
   for _, p := range strings.Split(s, ",") {
@@ -813,7 +815,7 @@ func createMapOfArgsForEcho(s string) ([]byte, error) {
   return json.Marshal(m)
 }
 
-// getWeatherInLocation is an example function to use as a tool call
+// getWeatherInLocation 是一个用作工具调用的示例函数
 func getWeatherInLocation(request GetDegreesWeatherRequest, defaultValues GetDegreesWeatherRequest) string {
   location := request.Location
   unit := request.Unit
@@ -831,7 +833,7 @@ type GetDegreesWeatherRequest struct {
   Unit     string `json:"unit" jsonschema:"enum=celsius,enum=fahrenheit,description=Unit"`
 }
 
-// GenerateFunctionTool helper method to create jsonschema input
+// GenerateFunctionTool 是用于创建 jsonschema 输入的辅助方法
 func GenerateFunctionTool[T any](name, description string) (*dapr.ConversationToolsAlpha2, error) {
   reflector := jsonschema.Reflector{
     AllowAdditionalProperties: false,
@@ -858,7 +860,7 @@ func GenerateFunctionTool[T any](name, description string) (*dapr.ConversationTo
   }), nil
 }
 
-// createUserMessageInput is a helper method to create user messages in expected proto format
+// createUserMessageInput 是用于按预期 proto 格式创建用户消息的辅助方法
 func createUserMessageInput(msg string) *dapr.ConversationInputAlpha2 {
   return &dapr.ConversationInputAlpha2{
     Messages: []*dapr.ConversationMessageAlpha2{
@@ -919,24 +921,24 @@ func main() {
   for _, toolCalls := range resp.Outputs[0].Choices[0].Message.ToolCalls {
     fmt.Printf("Tool Call: Name: %s - Arguments: %v\n", toolCalls.ToolTypes.Name, toolCalls.ToolTypes.Arguments)
 
-    // parse the arguments and execute tool
+    // 解析参数并执行工具
     args := []byte(toolCalls.ToolTypes.Arguments)
     if conversationComponent == "echo" {
-      // The echo component does not return a compliant tool calling response in json format but rather returns a csv
+      // echo 组件不会以 JSON 格式返回符合规范的工具调用响应，而是返回 CSV
       args, err = createMapOfArgsForEcho(toolCalls.ToolTypes.Arguments)
       if err != nil {
         log.Fatalf("err: %v", err)
       }
     }
 
-    // find the tool (only one in this case) and execute
+    // 查找工具（本例中只有一个）并执行
     for _, toolInfo := range requestWithTool.Tools {
       if toolInfo.Name == toolCalls.ToolTypes.Name && toolInfo.Name == "getWeather" {
         var reqArgs GetDegreesWeatherRequest
         if err = json.Unmarshal(args, &reqArgs); err != nil {
           log.Fatalf("err: %v", err)
         }
-        // execute tool
+        // 执行工具
         toolExecutionOutput := getWeatherInLocation(reqArgs, GetDegreesWeatherRequest{Location: "San Francisco", Unit: "Celsius"})
         fmt.Printf("Tool Call Output: %s\n", toolExecutionOutput)
       }
@@ -957,12 +959,13 @@ func main() {
 {{% tab "Python" %}}
 
 
-### 步骤 1：先决条件
+### 步骤 1：前置条件
 
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [已安装 Python 3.7+](https://www.python.org/downloads/)。
+- [已安装 Python 3.11 或更高版本](https://www.python.org/downloads/)。
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)，即本示例使用的 Python 包管理器。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -972,10 +975,10 @@ func main() {
 克隆 [Quickstarts 仓库中提供的示例](https://github.com/dapr/quickstarts/tree/master/conversation)。
 
 ```bash
-git clone https://github.com/dapr/quickstarts.git
+git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
-从 Quickstarts 目录的根目录，导航到 conversation 目录：
+从 Quickstarts 目录的根目录进入 conversation 目录：
 
 ```bash
 cd conversation/python/sdk/conversation
@@ -984,18 +987,17 @@ cd conversation/python/sdk/conversation
 安装依赖项：
 
 ```bash
-pip3 install -r requirements.txt
+uv sync
 ```
 
 ### 步骤 3：启动对话服务
 
-返回到 `sdk` 目录，并使用以下命令启动对话服务：
+在 `conversation` 目录中，使用以下命令启动对话服务：
 
 ```bash
-dapr run --app-id conversation --resources-path ../../../components -- python3 app.py
+dapr run --app-id conversation --resources-path ../../../components -- uv run python app.py
 ```
 
-> **注意**：由于 Windows 中未定义 Python3.exe，你可能需要使用 `python app.py` 而不是 `python3 app.py`。
 
 **预期输出**
 
@@ -1010,15 +1012,16 @@ dapr run --app-id conversation --resources-path ../../../components -- python3 a
 {{% tab "JavaScript" %}}
 
 
-### 步骤 1：先决条件
+### 步骤 1：前置条件
 
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [已安装最新的 Node.js](https://nodejs.org/)。
+- [已安装最新版本的 Node.js](https://nodejs.org/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
+- 已安装 [Ollama](https://ollama.com/) 并正在运行，且已拉取 `llama3.2:latest` 模型（`ollama pull llama3.2:latest`）。该示例会将输入发送给 `ollama` 对话组件，因此响应来自该模型。它与下面的预期输出不同，后者来自 echo 模拟 LLM。
 
 ### 步骤 2：设置环境
 
@@ -1028,7 +1031,7 @@ dapr run --app-id conversation --resources-path ../../../components -- python3 a
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-从 Quickstarts 目录的根目录，导航到 conversation 目录：
+从 Quickstarts 目录的根目录进入 conversation 目录：
 
 ```bash
 cd conversation/javascript/http/conversation
@@ -1063,7 +1066,7 @@ dapr run --app-id conversation --resources-path ../../../components -- npm run s
 {{% tab ".NET" %}}
 
 
-### 步骤 1：先决条件
+### 步骤 1：前置条件
 
 对于此示例，你需要：
 
@@ -1081,7 +1084,7 @@ dapr run --app-id conversation --resources-path ../../../components -- npm run s
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-从 Quickstarts 目录的根目录，导航到 conversation 目录：
+从 Quickstarts 目录的根目录进入 conversation 目录：
 
 ```bash
 cd conversation/csharp/sdk/conversation
@@ -1120,7 +1123,7 @@ dapr run --app-id conversation --resources-path ../../../components/ -- dotnet r
 {{% tab "Java" %}}
 
 
-### 步骤 1：先决条件
+### 步骤 1：前置条件
 
 对于此示例，你需要：
 
@@ -1141,7 +1144,7 @@ dapr run --app-id conversation --resources-path ../../../components/ -- dotnet r
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-从 Quickstarts 目录的根目录，导航到 conversation 目录：
+从 Quickstarts 目录的根目录进入 conversation 目录：
 
 ```bash
 cd conversation/java/sdk/conversation
@@ -1174,7 +1177,7 @@ dapr run --app-id conversation --resources-path ../../../components/ -- java -ja
 {{% tab "Go" %}}
 
 
-### 步骤 1：先决条件
+### 步骤 1：前置条件
 
 对于此示例，你需要：
 
@@ -1183,6 +1186,7 @@ dapr run --app-id conversation --resources-path ../../../components/ -- java -ja
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
+- 已安装 [Ollama](https://ollama.com/) 并正在运行，且已拉取 `llama3.2:latest` 模型（`ollama pull llama3.2:latest`）。该示例会将输入发送给 `ollama` 对话组件，因此响应来自该模型。它与下面的预期输出不同，后者来自 echo 模拟 LLM。
 
 ### 步骤 2：设置环境
 
@@ -1192,7 +1196,7 @@ dapr run --app-id conversation --resources-path ../../../components/ -- java -ja
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-从 Quickstarts 目录的根目录，导航到 conversation 目录：
+从 Quickstarts 目录的根目录进入 conversation 目录：
 
 ```bash
 cd conversation/go/sdk/conversation
@@ -1229,23 +1233,23 @@ dapr run --app-id conversation --resources-path ../../../components/ -- go run .
 
 ## 演示
 
-观看 [Diagrid 的 Dapr v1.15 庆祝活动](https://www.diagrid.io/videos/dapr-1-15-deep-dive) 中展示的演示，了解对话 API 如何使用 .NET SDK 工作。
+观看 [Diagrid 的 Dapr v1.15 庆祝活动](https://www.diagrid.io/videos/dapr-1-15-deep-dive)期间的演示，了解对话 API 如何使用 .NET SDK 工作。
 
 {{< youtube id=NTnwoDhHIcQ start=5444 >}}
 
 ## 告诉我们你的想法！
 
-我们一直在努力改进我们的快速入门示例，并重视你的反馈。你是否觉得这个快速入门有帮助？你有改进建议吗？
+我们一直在努力改进快速入门示例，并重视你的反馈。你觉得本快速入门有帮助吗？你对改进有什么建议吗？
 
-加入我们的 [discord 频道](https://discord.com/channels/778680217417809931/953427615916638238) 参与讨论。
+欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的想法。
 
 ## 后续步骤
 
-- 此快速入门的 HTTP 示例：
+- 本快速入门的 HTTP 示例：
   - [Python](https://github.com/dapr/quickstarts/tree/master/conversation/python/http)
   - [JavaScript](https://github.com/dapr/quickstarts/tree/master/conversation/javascript/http)
   - [.NET](https://github.com/dapr/quickstarts/tree/master/conversation/csharp/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/conversation/go/http)
-- 了解更多关于[对话构建块]({{% ref conversation-overview %}})的信息
+- 进一步了解[对话构建块]({{% ref conversation-overview %}})
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

@@ -6,30 +6,26 @@ weight: 80
 description: 开始使用 Dapr Jobs 构建块
 ---
 
-{{% alert title="Alpha" color="warning" %}}
-Jobs 构建块目前处于 **alpha** 阶段。
-{{% /alert %}}
+让我们来看看 [Dapr Jobs 构建块]({{% ref jobs-overview %}})，它可以在特定时间或按间隔调度并运行作业。在本快速入门中，您将使用 Dapr 的 Job API 调度、获取和删除一个作业。
 
-让我们来看看 [Dapr Jobs 构建块]({{% ref jobs-overview %}})，它可以安排作业在特定时间或间隔运行。在本快速入门中，您将使用 Dapr 的 Job API 来调度、获取和删除作业。
-
-您可以通过以下方式尝试此 Jobs 快速入门：
+您可以通过以下任一方式尝试此 Jobs 快速入门：
 
 - [使用 Multi-App Run 模板文件同时运行此示例中的所有应用程序]({{% ref "#run-using-multi-app-run" %}})，或
 - [一次运行一个应用程序]({{% ref "#run-one-job-application-at-a-time" %}})
 
 ## 使用 Multi-App Run 运行
 
-在继续快速入门之前，选择您首选的特定语言的 Dapr SDK。目前，您可以使用 Go SDK 来试验 Jobs API。
+在继续快速入门之前，请选择您首选的特定语言 Dapr SDK。目前，您可以使用 Go SDK 来试验 Jobs API。
 
 {{< tabpane text=true >}}
 
  <!-- Go -->
 {{% tab "Go" %}}
 
-此快速入门包含两个应用程序：
+本快速入门包含两个应用程序：
 
-- **`job-scheduler.go`**：调度、检索和删除作业。
-- **`job-service.go`**：处理已调度的作业。
+- **`job-scheduler.go`：** 调度、检索和删除作业。
+- **`job-service.go`：** 处理已调度的作业。
 
 ### 步骤 1：先决条件
 
@@ -52,7 +48,7 @@ git clone https://github.com/dapr/quickstarts.git
 从 Quickstarts 目录的根目录，导航到 jobs 目录：
 
 ```bash
-cd jobs/go/sdk
+cd jobs/go/sdk/job-service
 ```
 
 ### 步骤 3：调度作业
@@ -81,7 +77,7 @@ dapr run -f .
 == APP - job-scheduler == Deleted job:  BB-8
 ```
 
-您最终应该会看到在调度器中调度的作业：
+您最终应该会在调度器中看到已调度的作业：
 
 ```bash
 $ dapr scheduler list
@@ -111,7 +107,7 @@ $ dapr scheduler list
 NAME  TARGET  BEGIN  COUNT  LAST TRIGGER
 ```
 
-流程完成后，您可以使用单个命令停止并清理应用程序进程。
+流程完成后，您可以使用一个命令停止并清理应用程序进程。
 
 ```bash
 dapr stop -f .
@@ -119,12 +115,12 @@ dapr stop -f .
 
 ### 发生了什么？
 
-当您在 Dapr 安装期间运行 `dapr init` 时：
+当您在安装 Dapr 期间运行 `dapr init` 时：
 
 - `dapr_scheduler` 控制平面与其他 Dapr 服务一起启动。
-- [ `dapr.yaml` Multi-App Run 模板文件]({{% ref "#dapryaml-multi-app-run-template-file" %}}) 在 `.dapr/components` 目录中生成。
+- [`dapr.yaml` Multi-App Run 模板文件]({{% ref "#dapryaml-multi-app-run-template-file" %}}) 在 `.dapr/components` 目录中生成。
 
-在此快速入门中运行 `dapr run -f .` 会同时启动 `job-scheduler` 和 `job-service`。在终端输出中，您可以看到以下作业被调度、检索和删除。
+在本快速入门中运行 `dapr run -f .` 会同时启动 `job-scheduler` 和 `job-service`。在终端输出中，您可以看到以下作业被调度、检索和删除。
 
 - `R2-D2` 作业正在被调度。
 - `C-3PO` 作业正在被调度。
@@ -137,7 +133,7 @@ dapr stop -f .
 
 #### `dapr.yaml` Multi-App Run 模板文件
 
-使用 `dapr run -f .` 运行 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}}) 会启动项目中的所有应用程序。在此快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}}) 会启动项目中的所有应用程序。在本快速入门中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -188,10 +184,10 @@ if err = server.Start(); err != nil {
 }
 ```
 
-然后 `job-service` 调用处理调度、获取、删除和处理作业事件的函数。
+`job-service` 随后会调用处理调度、获取、删除和处理作业事件的函数。
 
 ```go
-// Handler that schedules a DroidJob
+// 调度 DroidJob 的处理程序
 func scheduleJob(ctx context.Context, in *common.InvocationEvent) (out *common.Content, err error) {
 
 	if in == nil {
@@ -217,7 +213,7 @@ func scheduleJob(ctx context.Context, in *common.InvocationEvent) (out *common.C
 		return nil, err
 	}
 
-	// schedule job
+	// 调度作业
 	job := daprc.Job{
 		Name:    droidJob.Name,
 		DueTime: droidJob.DueTime,
@@ -226,7 +222,7 @@ func scheduleJob(ctx context.Context, in *common.InvocationEvent) (out *common.C
 		},
 	}
 
-	err = app.daprClient.ScheduleJobAlpha1(ctx, &job)
+	err = app.daprClient.ScheduleJob(ctx, &job)
 	if err != nil {
 		fmt.Println("failed to schedule job. err: ", err)
 		return nil, err
@@ -244,7 +240,7 @@ func scheduleJob(ctx context.Context, in *common.InvocationEvent) (out *common.C
 
 }
 
-// Handler that gets a job by name
+// 按名称获取作业的处理程序
 func getJob(ctx context.Context, in *common.InvocationEvent) (out *common.Content, err error) {
 
 	if in == nil {
@@ -252,7 +248,7 @@ func getJob(ctx context.Context, in *common.InvocationEvent) (out *common.Conten
 		return nil, err
 	}
 
-	job, err := app.daprClient.GetJobAlpha1(ctx, string(in.Data))
+	job, err := app.daprClient.GetJob(ctx, string(in.Data))
 	if err != nil {
 		fmt.Println("failed to get job. err: ", err)
 	}
@@ -266,14 +262,14 @@ func getJob(ctx context.Context, in *common.InvocationEvent) (out *common.Conten
 	return out, err
 }
 
-// Handler that deletes a job by name
+// 按名称删除作业的处理程序
 func deleteJob(ctx context.Context, in *common.InvocationEvent) (out *common.Content, err error) {
 	if in == nil {
 		err = errors.New("no invocation parameter")
 		return nil, err
 	}
 
-	err = app.daprClient.DeleteJobAlpha1(ctx, string(in.Data))
+	err = app.daprClient.DeleteJob(ctx, string(in.Data))
 	if err != nil {
 		fmt.Println("failed to delete job. err: ", err)
 	}
@@ -287,7 +283,7 @@ func deleteJob(ctx context.Context, in *common.InvocationEvent) (out *common.Con
 	return out, err
 }
 
-// Handler that handles job events
+// 处理作业事件的处理程序
 func handleJob(ctx context.Context, job *common.JobEvent) error {
     var jobData common.Job
     if err := json.Unmarshal(job.Data, &jobData); err != nil {
@@ -308,7 +304,7 @@ func handleJob(ctx context.Context, job *common.JobEvent) error {
 
 #### `job-scheduler` 应用程序
 
-在 `job-scheduler` 应用程序中，R2D2、C3PO 和 BB8 作业首先被定义为 `[]DroidJob`：
+在 `job-scheduler` 应用程序中，首先将 R2D2、C3PO 和 BB8 作业定义为 `[]DroidJob`：
 
 ```go
 droidJobs := []DroidJob{
@@ -322,23 +318,23 @@ droidJobs := []DroidJob{
 然后使用 Jobs API 调度、检索和删除作业。正如您从终端输出中看到的那样，首先调度 R2D2 作业：
 
 ```go
-// Schedule R2D2 job
+// 调度 R2D2 作业
 err = schedule(droidJobs[0])
 if err != nil {
 	log.Fatalln("Error scheduling job: ", err)
 }
 ```
 
-然后调度 C3PO 作业并返回作业数据：
+然后调度 C3PO 作业，并返回作业数据：
 
 ```go
-// Schedule C-3PO job
+// 调度 C-3PO 作业
 err = schedule(droidJobs[1])
 if err != nil {
 	log.Fatalln("Error scheduling job: ", err)
 }
 
-// Get C-3PO job
+// 获取 C-3PO 作业
 resp, err := get(droidJobs[1])
 if err != nil {
 	log.Fatalln("Error retrieving job: ", err)
@@ -349,20 +345,20 @@ fmt.Println("Get job response: ", resp)
 然后调度、检索和删除 BB8 作业：
 
 ```go
-// Schedule BB-8 job
+// 调度 BB-8 作业
 err = schedule(droidJobs[2])
 if err != nil {
 	log.Fatalln("Error scheduling job: ", err)
 }
 
-// Get BB-8 job
+// 获取 BB-8 作业
 resp, err = get(droidJobs[2])
 if err != nil {
 	log.Fatalln("Error retrieving job: ", err)
 }
 fmt.Println("Get job response: ", resp)
 
-// Delete BB-8 job
+// 删除 BB-8 作业
 err = delete(droidJobs[2])
 if err != nil {
 	log.Fatalln("Error deleting job: ", err)
@@ -370,10 +366,10 @@ if err != nil {
 fmt.Println("Job deleted: ", droidJobs[2].Name)
 ```
 
-`job-scheduler.go` 还定义了 `schedule`、`get` 和 `delete` 函数，从 `job-service.go` 调用。
+`job-scheduler.go` 还定义了 `schedule`、`get` 和 `delete` 函数，用于调用 `job-service.go` 中的服务。
 
 ```go
-// Schedules a job by invoking grpc service from job-service passing a DroidJob as an argument
+// 通过调用 job-service 的 gRPC 服务来调度作业，并将 DroidJob 作为参数传入
 func schedule(droidJob DroidJob) error {
 	jobData, err := json.Marshal(droidJob)
 	if err != nil {
@@ -386,7 +382,7 @@ func schedule(droidJob DroidJob) error {
 		Data:        []byte(jobData),
 	}
 
-	// Schedule Job
+	// 调度作业
 	_, err = app.daprClient.InvokeMethodWithContent(context.Background(), "job-service", "scheduleJob", "POST", content)
 	if err != nil {
 		fmt.Println("Error invoking method: ", err)
@@ -396,14 +392,14 @@ func schedule(droidJob DroidJob) error {
 	return nil
 }
 
-// Gets a job by invoking grpc service from job-service passing a job name as an argument
+// 通过调用 job-service 的 gRPC 服务来获取作业，并将作业名称作为参数传入
 func get(droidJob DroidJob) (string, error) {
 	content := &daprc.DataContent{
 		ContentType: "text/plain",
 		Data:        []byte(droidJob.Name),
 	}
 
-	//get job
+	// 获取作业
 	resp, err := app.daprClient.InvokeMethodWithContent(context.Background(), "job-service", "getJob", "GET", content)
 	if err != nil {
 		fmt.Println("Error invoking method: ", err)
@@ -413,7 +409,7 @@ func get(droidJob DroidJob) (string, error) {
 	return string(resp), nil
 }
 
-// Deletes a job by invoking grpc service from job-service passing a job name as an argument
+// 通过调用 job-service 的 gRPC 服务来删除作业，并将作业名称作为参数传入
 func delete(droidJob DroidJob) error {
 	content := &daprc.DataContent{
 		ContentType: "text/plain",
@@ -434,17 +430,17 @@ func delete(droidJob DroidJob) error {
 
 {{< /tabpane >}}
 
-## 一次运行一个作业应用程序
+## 一次运行一个应用程序
 
 {{< tabpane text=true >}}
 
  <!-- Go -->
 {{% tab "Go" %}}
 
-此快速入门包含两个应用程序：
+本快速入门包含两个应用程序：
 
-- **`job-scheduler.go`**：调度、检索和删除作业。
-- **`job-service.go`**：处理已调度的作业。
+- **`job-scheduler.go`：** 调度、检索和删除作业。
+- **`job-service.go`：** 处理已调度的作业。
 
 ### 步骤 1：先决条件
 
@@ -472,10 +468,10 @@ cd jobs/go/sdk
 
 ### 步骤 3：调度作业
 
-在终端中，运行 `job-service` 应用程序：
+在终端中运行 `job-service` 应用程序：
 
 ```bash
-dapr run --app-id job-service --app-port 6200 --dapr-grpc-port 6281 --app-protocol grpc -- go run .
+dapr run --app-id job-service-sdk --app-port 6200 --dapr-grpc-port 6281 --app-protocol grpc -- go run .
 ```
 
 **预期输出**
@@ -488,10 +484,11 @@ dapr run --app-id job-service --app-port 6200 --dapr-grpc-port 6281 --app-protoc
 == APP == Starting server on port: 6200
 ```
 
-在新的终端窗口中，运行 `job-scheduler` 应用程序：
+在新的终端窗口中，从 Quickstarts 目录的根目录导航到 `job-scheduler` 目录，并运行 `job-scheduler` 应用程序：
 
 ```bash
-dapr run --app-id job-scheduler --app-port 6300 -- go run .
+cd jobs/go/sdk/job-scheduler
+dapr run --app-id job-scheduler-sdk --app-port 6300 -- go run .
 ```
 
 **预期输出**
@@ -517,7 +514,7 @@ dapr run --app-id job-scheduler --app-port 6300 -- go run .
 == APP == Executing maintenance job: Memory Wipe
 ```
 
-了解当您运行 `dapr run` 时 [`job-service`]({{% ref "#job-service-app" %}}) 和 [`job-scheduler`]({{% ref "#job-scheduler-app" %}}) 应用程序中发生了什么。
+请梳理一下您运行 `dapr run` 时 [`job-service`]({{% ref "#job-service-app" %}}) 和 [`job-scheduler`]({{% ref "#job-scheduler-app" %}}) 应用程序中发生的事情。
 
 {{% /tab %}}
 
@@ -526,15 +523,15 @@ dapr run --app-id job-scheduler --app-port 6300 -- go run .
 
 ## 观看演示
 
-观看使用 Go HTTP 示例演示 Jobs API 的实际操作，录制于 [Dapr Community Call #107](https://www.youtube.com/live/WHGOc7Ec_YQ?si=JlOlcJKkhRuhf5R1&t=849)。
+观看使用 Go HTTP 示例演示 Jobs API 的实际操作，该演示录制于 [Dapr Community Call #107](https://www.youtube.com/live/WHGOc7Ec_YQ?si=JlOlcJKkhRuhf5R1&t=849)。
 
 {{< youtube id=WHGOc7Ec_YQ start=849 >}}
 
 ## 告诉我们您的想法！
 
-我们正在不断努力改进我们的快速入门示例，并重视您的反馈。您是否觉得此快速入门有帮助？您有改进建议吗？
+我们正在不断努力改进快速入门示例，并重视您的反馈。您是否觉得此快速入门有帮助？您有改进建议吗？
 
-加入我们的 [Discord 频道](https://discord.com/channels/778680217417809931/953427615916638238) 进行讨论。
+欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享您的想法。
 
 ## 后续步骤
 

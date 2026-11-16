@@ -26,7 +26,7 @@ Dapr 与服务网格之间的另一个区别是可观测性（追踪和指标）
 
 下图展示了 Dapr 和服务网格提供的重叠功能和独特能力：
 
-<img src="/images/service-mesh.png" width=1000>
+{{< diagram service-mesh >}}
 
 ## 将 Dapr 与服务网格一起使用
 Dapr 确实可以与服务网格一起工作。在两者一起部署的情况下，Dapr 和服务网格边车都在应用程序环境中运行。在这种情况下，建议只配置 Dapr 或只配置服务网格来执行 mTLS 加密和分布式追踪。
@@ -34,6 +34,31 @@ Dapr 确实可以与服务网格一起工作。在两者一起部署的情况下
 观看以下 Dapr 社区会议的录像，这些录像展示了将 Dapr 与不同服务网格一起运行的演示：
 - [Dapr 和 Linkerd](https://youtu.be/xxU68ewRmz8?t=142)的概述和演示
 - 运行 [Dapr 和 Istio](https://youtu.be/ngIDOQApx8g?t=335)的演示
+
+### Kubernetes 中 Dapr 服务的协议声明
+
+Dapr 创建的每个 Kubernetes Service 都会在其每个端口上设置 [`appProtocol`](https://kubernetes.io/docs/concepts/services-networking/service/#application-protocol) 字段。这包括 Dapr Helm Chart 安装的控制平面 Service，以及 Dapr Operator 为每个启用 Dapr 的应用创建的 `<app-id>-dapr` Service。Istio 等服务网格会读取该字段来选择端口的协议，而不是根据流量内容或端口名称进行推断。
+
+在 Dapr mTLS 中承载 gRPC 的端口声明为 `tls`，而不是 `grpc`。Istio 会将 `appProtocol: grpc` 视为明文 HTTP/2（h2c）。如果这些端口声明为 `grpc`，网格代理会把 TLS 字节按 HTTP/2 解析，从而导致连接中断。
+
+| Service | 端口 | `appProtocol` |
+|---------|------|---------------|
+| `<app-id>-dapr` | `dapr-http`、`dapr-metrics` | `http` |
+| `<app-id>-dapr` | `dapr-grpc` | `grpc` |
+| `<app-id>-dapr` | `dapr-internal` | 在 `daprsystem` Configuration 中启用 mTLS 时为 `tls`，否则为 `grpc` |
+| `dapr-api` | `grpc`、`legacy` | `tls` |
+| `dapr-webhook` | webhook 端口（443） | `https` |
+| `dapr-sentry` | `grpc` | `tls` |
+| `dapr-sentry` | `oidc` | `dapr_sentry.oidc.tls.enabled` 为 `true` 时为 `https`，否则为 `http` |
+| `dapr-placement-server` | `api`、`raft-node` | `tls` |
+| `dapr-scheduler-server` | `api`、`etcd-peer` | `tls` |
+| `dapr-scheduler-server` | `etcd-client` | `tcp` |
+| `dapr-sidecar-injector` | `https` | `https` |
+| 所有控制平面 Service | `metrics` | `http` |
+
+{{% alert title="注意" color="primary" %}}
+Dapr 从 1.19 版本开始设置 `appProtocol`。在更早的版本中，该字段未设置，Istio 会回退到协议检测。部分 Dapr 控制平面端口名为 `grpc` 但实际承载 TLS，因此在这些版本上，基于名称的检测可能会对其分类错误。
+{{% /alert %}}
 
 ## 何时使用 Dapr 或服务网格或两者兼用
 您应该使用 Dapr、服务网格，还是两者兼用？答案取决于您的需求。例如，如果您希望将 Dapr 用于一个或多个构建块（如状态管理或发布订阅），并且您正在考虑使用服务网格只是为了网络安全或可观测性，您可能会发现 Dapr 是一个很好的选择，而无需使用服务网格。

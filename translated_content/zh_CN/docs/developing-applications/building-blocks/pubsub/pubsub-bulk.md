@@ -6,13 +6,13 @@ weight: 7100
 description: "了解如何在 Dapr 中使用批量发布和订阅 API。"
 ---
 
-借助批量发布和订阅 API，您可以在单个请求中发布和订阅多条消息。在编写需要发送或接收大量消息的应用程序时，使用批量操作可以通过减少 Dapr 边车、应用程序与底层发布/订阅代理之间的总体请求数量，从而实现高吞吐量。
+借助批量发布和订阅 API，你可以在单个请求中发布和订阅多条消息。在编写需要发送或接收大量消息的应用程序时，使用批量操作可以减少 Dapr 边车、应用程序与底层发布订阅代理之间的请求总数，从而实现高吞吐量。
 
 ## 批量发布消息
 
 ### 批量发布消息的限制
 
-批量发布 API 允许您在单个请求中向主题发布多条消息。它是*非事务性的*，也就是说，在单个批量请求中，部分消息可能成功，部分消息可能失败。如果有任何消息发布失败，批量发布操作会返回失败消息列表。
+批量发布 API 允许你在单个请求中向一个主题发布多条消息。它是*非事务性的*，也就是说，在同一个批量请求中，部分消息可能成功，部分消息可能失败。如果任何消息发布失败，批量发布操作会返回失败消息的列表。
 
 批量发布操作也不保证消息的任何顺序。
 
@@ -144,30 +144,38 @@ else
 {{% tab "Python" %}}
 
 ```python
-import requests
 import json
 
-base_url = "http://localhost:3500/v1.0/publish/bulk/{}/{}"
-pubsub_name = "my-pubsub-name"
-topic_name = "topic-a"
-payload = [
-  {
-    "entryId": "ae6bf7c6-4af2-11ed-b878-0242ac120002",
-    "event": "first text message",
-    "contentType": "text/plain"
-  },
-  {
-    "entryId": "b1f40bd6-4af2-11ed-b878-0242ac120002",
-    "event": {
-      "message": "second JSON message"
-    },
-    "contentType": "application/json"
-  }
-]
+from dapr.clients import BulkPublishEntry, DaprClient
 
-response = requests.post(base_url.format(pubsub_name, topic_name), json=payload)
-print(response.status_code)
+with DaprClient() as client:
+    response = client.publish_events(
+        pubsub_name='my-pubsub-name',
+        topic_name='topic-a',
+        data=[
+            'first text message',
+            BulkPublishEntry(
+                event=json.dumps({'message': 'second JSON message'}),
+                content_type='application/json',
+                metadata={'partitionKey': 'tenant-a'},
+                entry_id='b1f40bd6-4af2-11ed-b878-0242ac120002',
+            ),
+        ],
+        data_content_type='text/plain',
+        publish_metadata={'ttlInSeconds': '60'},
+    )
+
+    for entry in response.failed_entries:
+        print(f'failed entry {entry.entry_id}: {entry.error}')
 ```
+
+每个事件可以是 `str`、`bytes` 或 `BulkPublishEntry`。使用 `BulkPublishEntry` 可以为单个事件设置元数据、内容类型或条目 ID。`publish_metadata` 适用于每个事件，单个条目的元数据会覆盖它。内容类型依次取自每个事件自身的 `content_type`、`data_content_type`，最后是根据事件类型确定的默认值（`str` 为 `text/plain`，`bytes` 为 `application/octet-stream`）。
+
+当你未设置条目 ID 时，SDK 会为每个事件生成一个 `entry_id`。当你需要将 `failed_entries` 中的条目与你发送的事件对应起来时，请设置自己的 `entry_id`。
+
+{{% alert title="注意" color="primary" %}}
+`BulkPublishEntry` 需要 Python SDK v1.19.0 或更高版本。
+{{% /alert %}}
 
 {{% /tab %}}
 
@@ -267,14 +275,14 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Uri 'http://loca
 
 ## 批量订阅消息
 
-批量订阅 API 允许您在单个请求中从主题订阅多条消息。
-正如我们从[如何操作：发布和订阅主题]({{% ref howto-publish-subscribe %}})中了解到的，有三种方式订阅主题：
+批量订阅 API 允许你在单个请求中从一个主题订阅多条消息。
+正如在[如何操作：发布和订阅主题]({{% ref howto-publish-subscribe %}})中介绍的，订阅主题有三种方式：
 
-- **声明式** - 订阅在外部文件中定义。
-- **编程式** - 订阅在代码中定义。
-- **流式** - *不支持*批量订阅，因为消息会发送到处理程序代码。
+- **声明式**：订阅在外部文件中定义。
+- **编程式**：订阅在代码中定义。
+- **流式**：批量订阅*不支持*流式，因为消息会被发送到处理程序代码。
 
-要批量订阅主题，我们只需要使用 `bulkSubscribe` 规范属性，如下所示：
+要批量订阅主题，只需使用 `bulkSubscribe` 规范属性，示例如下：
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -295,16 +303,16 @@ scopes:
 - checkout
 ```
 
-在上面的示例中，`bulkSubscribe` 是_可选的_。如果您使用 `bulkSubscribe`，则：
-- `enabled` 是必需的，用于在此主题上启用或禁用批量订阅
-- 您可以选择配置在批量消息中传递的最大消息数量（`maxMessagesCount`）。
-对于不支持批量订阅的组件，`maxMessagesCount` 的默认值为 100，即应用程序与 Dapr 之间的默认批量事件。请参阅[组件如何处理批量消息的发布和订阅]({{% ref pubsub-bulk %}})。
-如果组件支持批量订阅，则可以在该组件的文档中找到此参数的默认值。
-- 您可以选择在批量消息发送到应用程序之前提供等待的最大持续时间（`maxAwaitDurationMs`）。
-对于不支持批量订阅的组件，`maxAwaitDurationMs` 的默认值为 1000，即应用程序与 Dapr 之间的默认批量事件。请参阅[组件如何处理批量消息的发布和订阅]({{% ref pubsub-bulk %}})。
-如果组件支持批量订阅，则可以在该组件的文档中找到此参数的默认值。
+在上面的示例中，`bulkSubscribe` 是*可选的*。如果使用 `bulkSubscribe`，则：
+- `enabled` 为必填项，用于启用或禁用该主题上的批量订阅
+- 你可以选择配置一条批量消息中传递的最大消息数量（`maxMessagesCount`）。
+对于不支持批量订阅的组件，`maxMessagesCount` 的默认值为 100，即应用程序与 Dapr 之间默认的批量事件。请参阅[组件如何处理批量消息的发布和订阅]({{% ref pubsub-bulk %}})。
+如果组件支持批量订阅，则该参数的默认值可以在该组件的文档中找到。
+- 你可以选择提供在批量消息发送给应用程序之前等待的最长时长（`maxAwaitDurationMs`）。
+对于不支持批量订阅的组件，`maxAwaitDurationMs` 的默认值为 1000，即应用程序与 Dapr 之间默认的批量事件。请参阅[组件如何处理批量消息的发布和订阅]({{% ref pubsub-bulk %}})。
+如果组件支持批量订阅，则该参数的默认值可以在该组件的文档中找到。
 
-应用程序会收到与批量消息中每个条目（单独的消息）关联的 `EntryId`。应用程序必须使用此 `EntryId` 来传达该特定条目的状态。如果应用程序未能通知 `EntryId` 状态，则视为 `RETRY`。
+应用程序会收到与批量消息中每个条目（即单条消息）关联的 `EntryId`。应用程序必须使用此 `EntryId` 来告知该条目的处理状态。如果应用程序未能报告某个 `EntryId` 的状态，则视为 `RETRY`。
 
 需要发送一个 JSON 编码的负载正文，其中包含每个条目的处理状态：
 
@@ -324,7 +332,7 @@ scopes:
 }
 ```
 
-可能的状态值：
+可能的状态值如下：
 
 状态 | 描述
 --------- | -----------
@@ -332,7 +340,7 @@ scopes:
 `RETRY` | 消息将由 Dapr 重试
 `DROP` | 记录警告并丢弃消息
 
-有关响应的更多见解，请参阅[批量订阅的预期 HTTP 响应]({{% ref pubsub_api %}})。
+有关响应的更多信息，请参阅[批量订阅的预期 HTTP 响应]({{% ref pubsub_api %}})。
 
 ### 示例
 
@@ -393,7 +401,7 @@ const topic = "topicbulk";
 const daprHost = process.env.DAPR_HOST || "127.0.0.1";
 const daprPort = process.env.DAPR_HTTP_PORT || "3502";
 const serverHost = process.env.SERVER_HOST || "127.0.0.1";
-const serverPort = process.env.APP_PORT || "5001";
+const serverPort = process.env.APP_PORT || 5001;
 
 async function start() {
     const server = new DaprServer({
@@ -408,7 +416,7 @@ async function start() {
     // 使用默认配置向主题发布多条消息。
     await client.pubsub.bulkSubscribeWithDefaultConfig(pubSubName, topic, (data) => console.log("Subscriber received: " + JSON.stringify(data)));
 
-    // 使用特定的 maxMessagesCount 和 maxAwaitDurationMs 向主题发布多条消息。
+    // 使用指定的 maxMessagesCount 和 maxAwaitDurationMs 向主题发布多条消息。
     await client.pubsub.bulkSubscribeWithConfig(pubSubName, topic, (data) => console.log("Subscriber received: " + JSON.stringify(data)), 100, 40);
 }
 
@@ -467,7 +475,7 @@ public class BulkMessageController : ControllerBase
 {{% /tab %}}
 
 {{% tab "Python" %}}
-目前，您只能在 Python 中使用 HTTP 客户端进行批量订阅。
+目前，你只能在 Python 中使用 HTTP 客户端进行批量订阅。
 
 ```python
 import json
@@ -512,19 +520,19 @@ if __name__ == '__main__':
 
 ## 组件如何处理批量消息的发布和订阅
 
-对于事件发布/订阅，涉及两种类型的网络传输。
-1. 从/到*应用程序*到/从*Dapr*。
-1. 从/到*Dapr*到/从*Pubsub 代理*。
+对于事件的发布/订阅，涉及两类网络传输：
+1. *应用程序*与 *Dapr* 之间的传输。
+1. *Dapr* 与*发布订阅代理*之间的传输。
 
-这些是可以进行优化的机会。当优化时，会发出批量请求，从而减少总体调用次数，因此提高吞吐量并提供更好的延迟。
+这些环节都可以进行优化。优化后会发出批量请求，从而减少调用总次数，进而提高吞吐量并改善延迟。
 
-在启用批量发布和/或批量订阅时，应用程序与 Dapr 边车之间的通信（上面的第 1 点）对所有组件都进行了优化。
+启用批量发布和/或批量订阅后，应用程序与 Dapr 边车之间的通信（即上面的第 1 点）会针对**所有组件**进行优化。
 
-从 Dapr 边车到发布/订阅代理的优化取决于许多因素，例如：
-- 代理必须本身支持批量发布/订阅
-- Dapr 组件必须更新以支持代理提供的批量 API 的使用
+Dapr 边车与发布订阅代理之间的优化取决于多种因素，例如：
+- 代理本身必须支持批量发布订阅
+- Dapr 组件必须更新为支持使用代理提供的批量 API
 
-目前，以下组件已更新以支持此级别的优化：
+目前，以下组件已更新，支持这一级别的优化：
 
 | 组件              | 批量发布 | 批量订阅 |
 |:--------------------:|:--------:|--------|
@@ -534,7 +542,7 @@ if __name__ == '__main__':
 
 ## 演示
 
-观看以下关于批量发布/订阅的演示和演示文稿。
+观看以下关于批量发布订阅的演示和演讲。
 
 ### [KubeCon Europe 2023 演讲](https://youtu.be/WMBAo-UNg6o)
 
@@ -547,5 +555,5 @@ if __name__ == '__main__':
 
 ## 相关链接
 
-- [支持的发布/订阅组件]({{% ref supported-pubsub %}})列表
-- 阅读[API 参考]({{% ref pubsub_api %}})
+- [支持的发布订阅组件]({{% ref supported-pubsub %}})列表
+- 阅读 [API 参考]({{% ref pubsub_api %}})

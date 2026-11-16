@@ -6,19 +6,19 @@ weight: 2200
 description: "了解何时可能不使用 CloudEvents 以及如何禁用它们。"
 ---
 
-在向应用程序添加 Dapr 时，某些服务可能仍需要通过未封装在 CloudEvents 中的发布/订阅消息进行通信，原因可能是兼容性要求，或某些应用程序未使用 Dapr。这些被称为"原始"发布/订阅消息。Dapr 使应用程序能够[发布和订阅原始事件]({{% ref "pubsub-cloudevents#publishing-raw-messages" %}})，这些事件未包装在 CloudEvent 中，以实现兼容性并发送不可 JSON 序列化的数据。
+在向应用程序添加 Dapr 时，某些服务可能仍需要通过未封装在 CloudEvents 中的发布订阅消息进行通信，原因可能是兼容性要求，也可能是某些应用程序并未使用 Dapr。这些消息被称为“原始”发布订阅消息。Dapr 使应用程序能够[发布和订阅原始事件]({{% ref "pubsub-cloudevents#publishing-raw-messages" %}})，即未包装在 CloudEvent 中的事件，以实现兼容性，并发送无法进行 JSON 序列化的数据。
 
 ## 发布原始消息
 
-Dapr 应用程序能够向发布/订阅主题发布不包含 CloudEvent 封装的原始事件，以实现与非 Dapr 应用程序的兼容。
+Dapr 应用程序能够在不进行 CloudEvent 封装的情况下，向发布订阅主题发布原始事件，以便与非 Dapr 应用程序兼容。
 
-<img src="/images/pubsub_publish_raw.png" alt="图表展示当订阅者不使用 Dapr 或 CloudEvent 时如何使用 Dapr 发布消息" width=1000>
+{{< diagram name="pubsub-publish-raw" width="65" >}}
 
 {{% alert title="警告" color="warning" %}}
-不使用 CloudEvents 将禁用对追踪、基于 messageId 的事件去重、内容类型元数据以及使用 CloudEvent schema 构建的任何其他功能的支持。
+不使用 CloudEvents 会禁用对追踪、基于 messageId 的事件去重、内容类型（content-type）元数据，以及使用 CloudEvent schema 构建的任何其他功能的支持。
 {{% /alert %}}
 
-要禁用 CloudEvent 包装，请在发布请求中设置 `rawPayload` 元数据为 `true`。这允许订阅者接收这些消息而无需解析 CloudEvent schema。
+要禁用 CloudEvent 封装，请在发布请求中将 `rawPayload` 元数据设置为 `true`。这样，订阅者无需解析 CloudEvent schema 即可接收这些消息。
 
 {{< tabpane text=true >}}
 
@@ -47,9 +47,9 @@ app.MapPost("/publish", async (DaprClient daprClient) =>
     );
 
     await daprClient.PublishEventAsync(
-        "pubsub",           // pubsub name
-        "messages",         // topic name
-        message,           // message data
+        "pubsub",           // pubsub 名称
+        "messages",         // 主题名称
+        message,           // 消息数据
         new Dictionary<string, string> 
         { 
             { "rawPayload", "true" },
@@ -73,14 +73,14 @@ with DaprClient() as d:
     req_data = {
         'order-number': '345'
     }
-    # Create a typed message with content type and body
+    # 创建包含内容类型和正文的类型化消息
     resp = d.publish_event(
         pubsub_name='pubsub',
         topic_name='TOPIC_A',
         data=json.dumps(req_data),
         publish_metadata={'rawPayload': 'true'}
     )
-    # Print the request
+    # 打印请求
     print(req_data, flush=True)
 ```
 {{% /tab %}}
@@ -121,11 +121,11 @@ public class PublishController {
         Message message = new Message(UUID.random().toString(), "Hello from Dapr");
 
         client.publishEvent(
-            "pubsub", // pubsub name
-            "messages", // topic name
-            message, // message data
-            metadata) // metadata
-                .block(); // wait for completion
+            "pubsub", // pubsub 名称
+            "messages", // 主题名称
+            message, // 消息数据
+            metadata) // 元数据
+                .block(); // 等待完成
     }
 }
 ```
@@ -135,15 +135,15 @@ public class PublishController {
 
 ## 订阅原始消息
 
-Dapr 应用程序可以订阅来自发布/订阅主题的原始消息，即使这些消息不是作为 CloudEvents 发布的。然而，订阅的 Dapr 进程仍会在将这些原始消息传递给订阅应用程序之前将其包装在 CloudEvent 中。
+Dapr 应用程序可以订阅来自发布订阅主题的原始消息，即使这些消息并非以 CloudEvents 形式发布。然而，订阅端的 Dapr 进程在将这些原始消息交付给订阅应用程序之前，仍会将其包装在 CloudEvent 中。
 
-<img src="/images/pubsub_subscribe_raw.png" alt="图表展示当发布者不使用 Dapr 或 CloudEvent 时如何使用 Dapr 订阅消息" width=1000>
+{{< diagram name="pubsub-subscribe-raw" width="65" >}}
 
 ### 以编程方式订阅原始事件
 
-以编程方式订阅时，添加 `rawPayload` 的额外元数据条目以允许订阅者接收未由 CloudEvent 包装的消息。对于 .NET，此元数据条目称为 `isRawPayload`。
+以编程方式订阅时，请添加 `rawPayload` 这一额外的元数据条目，以允许订阅者接收未被 CloudEvent 包装的消息。对于 .NET，此元数据条目名为 `isRawPayload`。
 
-使用原始负载时，消息始终使用 base64 编码，内容类型为 `application/octet-stream`。
+使用原始负载时，消息始终以 base64 编码，内容类型为 `application/octet-stream`。
 
 {{< tabpane text=true >}}
 
@@ -244,6 +244,7 @@ $app->post('/dsstatus', function(
 
 $app->start();
 ```
+
 {{% /tab %}}
 
 {{% tab "Java" %}}
@@ -263,7 +264,7 @@ public class MessageConsumerController {
     @ResponseStatus(HttpStatus.OK)
     @Topic(pubsubName = "pubsub", name = "another-topic", metadata = """
             {"rawPayload": "true", "content-type": "application/json"}
-            """) // Using Java 15 text block
+            """) // 使用 Java 15 文本块
     public void consumeAnother(@RequestBody Message message) {
         System.out.println("Message received: " + message);
     }
@@ -276,7 +277,7 @@ public class MessageConsumerController {
 
 ## 以声明方式订阅原始事件
 
-同样，您可以通过在订阅规范中添加 `rawPayload` 元数据条目来以声明方式订阅原始事件。
+同样，你可以通过在订阅规范中添加 `rawPayload` 元数据条目，以声明方式订阅原始事件。
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -297,7 +298,7 @@ scopes:
 
 ## 后续步骤
 
-- 了解更多关于[发布和订阅消息]({{% ref pubsub-overview %}})
-- [发布/订阅组件]({{% ref supported-pubsub %}})列表
-- 阅读[API 参考文档]({{% ref pubsub_api %}})
+- 进一步了解[发布和订阅消息]({{% ref pubsub-overview %}})
+- [发布订阅组件]({{% ref supported-pubsub %}})列表
+- 阅读 [API 参考文档]({{% ref pubsub_api %}})
 - 阅读关于如何[不使用 CloudEvents 消费 Kafka 消息](https://github.com/dapr/samples/pubsub-raw-payload)的 .NET 示例
