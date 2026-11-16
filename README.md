@@ -85,6 +85,39 @@ pnpm run docs:verify
 
 重点是：脚本以 `repos/v1.17` 作为 Hugo 工作目录，但所有生成物只写入 `repos/v1.17_zh/site/**`。生成配置固定落在 `repos/v1.17_zh/site/.generated/hugo.verification.yaml`，中文 mount 会自动改写到当前 zh 仓的 `translated_content/zh_CN/**`。
 
+### 静态构建（合并官方英文站点）
+
+`--build` 用同一份生成配置做一次完整的 `hugo --minify` 构建，不启动服务。产物默认写入 `repos/v1.19_zh/site/tmp/public/`（中文页面在 `zh-hans/` 下），日志在 `site/logs/`。
+
+本机一次性准备（Fedora）：
+
+```bash
+sudo dnf install -y golang                      # Docsy 作为 Hugo 模块下载，需要 Go（首次联网约 2 到 3 分钟，之后走缓存）
+cd repos/v1.19 && npm ci                           # 装 hugo-extended、postcss-cli、autoprefixer、rtlcss
+```
+
+`npm ci` 之后 `repos/v1.19/node_modules/.bin/hugo` 就是默认使用的 Hugo，不需要放进 PATH。如果 npm 报 `EALLOWSCRIPTS`，是环境里残留了 `npm_config_allow_scripts`，用 `env -u npm_config_allow_scripts npm ci`。
+
+在根仓执行：
+
+```bash
+pnpm run docs:build
+```
+
+`docs:build` 与 `docs:verify` 使用同一套参数（`--version`、`--source-repo`、`--zh-repo`、`--hugo-bin`、`--dry-run`），另可加 `--no-minify`、`--destination <dir>`、`--base-url <url>`；也可直接调用本仓脚本：
+
+```bash
+node repos/v1.19_zh/scripts/run-local-docs-verification-site.mjs --build \
+  --source-repo repos/v1.19 --zh-repo repos/v1.19_zh
+```
+
+- `--dry-run`：只检查 Hugo（需 extended）、Go、PostCSS 是否齐备，并生成配置，不构建
+- `--destination <目录>`：改输出目录
+- `--base-url <URL>`：覆盖 `baseURL`
+- `--no-minify`：关闭压缩
+
+缺少前置条件时会在构建前列出缺哪一项以及该运行什么命令。
+
 ### 常见故障排查
 
 - 提示 `sourceRepo 缺少 Hugo 配置`：确认 `--source-repo` 指向 Dapr 文档源仓根目录
