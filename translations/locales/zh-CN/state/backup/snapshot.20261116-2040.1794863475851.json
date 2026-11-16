@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "locale": "zh-CN",
-  "updatedAt": "2026-11-16T21:08:50.645Z",
+  "updatedAt": "2026-11-16T21:10:06.106Z",
   "lastRun": "20261116-2040",
   "sourceRevision": "33677ee6f2813f81f4579f9e5f59174b7ca2d6e5",
-  "glossaryVersion": 155,
-  "glossarySha256": "04b8cffe24a325199add39974d2105a5170eb52b4a36ed5b236dfd70c297eb3a",
+  "glossaryVersion": 157,
+  "glossarySha256": "282d1d1deb8cf1cd607cb572b6e1e78e41a803d2dae20c4e31d59a9e4f0bee24",
   "docs": {
     "contributing/dotnet-contributing.md": {
       "status": "done_flagged",
@@ -12976,6 +12976,131 @@
         "in-memory-binary-store": "内存二进制存储",
         "metadata": "元数据",
         "sidecar": "边车"
+      }
+    },
+    "docs/reference/components-reference/supported-conversation/openrouter.md": {
+      "status": "done",
+      "sourceSha256": "b7bb558797c987a1f325826e20ebf8de9df6bd8a4a70fb10f5d31cbb0d16d61c",
+      "sourceRevision": "33677ee6f2813f81f4579f9e5f59174b7ca2d6e5",
+      "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-conversation/openrouter.md",
+      "translationSha256": "a68160bcb10a26ca699bc06f3b35c249902113dbc3a55e04013d55d631ae606d",
+      "glossaryVersion": 155,
+      "attempts": 1,
+      "runId": "20261116-2040",
+      "doneAt": "2026-11-16T21:08:50.745Z",
+      "reviewedAt": null,
+      "flags": [],
+      "note": "",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 17,
+      "termTargets": {
+        "component": "组件",
+        "conversation": "对话",
+        "conversation-api": "对话 API",
+        "conversation-component": "对话组件",
+        "metadata": "元数据",
+        "secret-store": "机密存储",
+        "secrets": "机密",
+        "time-to-live": "生存时间"
+      }
+    },
+    "docs/enterprise-support/_index.md": {
+      "status": "done",
+      "sourceSha256": "203bf0b76be35ce4e5916288e905203699a66a3310ca0fc9f1e915e6ba2f4b74",
+      "sourceRevision": "33677ee6f2813f81f4579f9e5f59174b7ca2d6e5",
+      "translationPath": "translated_content/zh_CN/docs/enterprise-support/_index.md",
+      "translationSha256": "14573dcef4f1d712a9fbfa004a2ada08ac08e5ff90d9174072e0126445019b58",
+      "glossaryVersion": 155,
+      "attempts": 1,
+      "runId": "20261116-2040",
+      "doneAt": "2026-11-16T21:08:52.695Z",
+      "reviewedAt": null,
+      "flags": [],
+      "note": "",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 54,
+      "termTargets": {
+        "durable-execution": "持久执行",
+        "workflow": "工作流"
+      }
+    },
+    "docs/integrations/Diagrid/dapr-ops-dashboard.md": {
+      "status": "done",
+      "sourceSha256": "4018735cdd18527c1ffdf88f2ebdfe3d7ac5011366b8b33b48edd203f0bb10d7",
+      "sourceRevision": "33677ee6f2813f81f4579f9e5f59174b7ca2d6e5",
+      "translationPath": "translated_content/zh_CN/docs/integrations/Diagrid/dapr-ops-dashboard.md",
+      "translationSha256": "c072217ef15452a3b5392392293aed629550f96f30a9531b540f6dd4ef542af9",
+      "glossaryVersion": 155,
+      "attempts": 1,
+      "runId": "20261116-2040",
+      "doneAt": "2026-11-16T21:08:52.782Z",
+      "reviewedAt": null,
+      "flags": [],
+      "note": "",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 54,
+      "termTargets": {
+        "component": "组件"
+      }
+    },
+    "docs/reference/components-reference/supported-search/in-memory.md": {
+      "status": "done",
+      "sourceSha256": "00ecd6a9552e5bc4c56f45fd5616dbd132105e85386ea2b0eab8a8ae61f576dc",
+      "sourceRevision": "33677ee6f2813f81f4579f9e5f59174b7ca2d6e5",
+      "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-search/in-memory.md",
+      "translationSha256": "d4513e4f3ab692305152a5f37e7d984c5f0a964260fd1b7c77f3fbafd3b186b2",
+      "glossaryVersion": 155,
+      "attempts": 1,
+      "runId": "20261116-2040",
+      "doneAt": "2026-11-16T21:10:05.830Z",
+      "reviewedAt": null,
+      "flags": [],
+      "note": "",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 120,
+      "termTargets": {
+        "component": "组件",
+        "continuation-token": "延续令牌",
+        "metadata": "元数据",
+        "queued-acknowledgement": "排队确认",
+        "search": "搜索",
+        "search-component": "搜索组件",
+        "sidecar": "边车",
+        "total-hits": "总命中数",
+        "vector": "向量"
+      }
+    },
+    "docs/reference/components-reference/supported-vector/in-memory.md": {
+      "status": "done",
+      "sourceSha256": "78d7b696e992074a7a83f10257bfa7ac8c58f56cfaead29ed5abe0d345dcef4e",
+      "sourceRevision": "33677ee6f2813f81f4579f9e5f59174b7ca2d6e5",
+      "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-vector/in-memory.md",
+      "translationSha256": "cb88843830ec35afa3e8065b342cb342e101e1ef0768f5f6e4ea23dc33f57a82",
+      "glossaryVersion": 156,
+      "attempts": 1,
+      "runId": "20261116-2040",
+      "doneAt": "2026-11-16T21:10:06.087Z",
+      "reviewedAt": null,
+      "flags": [],
+      "note": "",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 120,
+      "termTargets": {
+        "collection": "集合",
+        "component": "组件",
+        "distance-metric": "距离度量",
+        "metadata": "元数据",
+        "queued-acknowledgement": "排队确认",
+        "record": "记录",
+        "search": "搜索",
+        "search-component": "搜索组件",
+        "sidecar": "边车",
+        "vector": "向量"
       }
     }
   }

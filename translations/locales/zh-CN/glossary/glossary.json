@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 157,
-  "updatedAt": "2026-11-16T21:10:06.097Z",
+  "version": 162,
+  "updatedAt": "2026-11-16T21:11:21.396Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -782,6 +782,18 @@
       "note": "GitHub Marketplace 中的 Dapr 安装程序名称，保留原文。",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "Cloudflare R2",
+      "note": "兼容 S3 的对象存储服务名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Ceph",
+      "note": "兼容 S3 的对象存储服务名称，保留原文。",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
@@ -1426,6 +1438,46 @@
       "conflicts": []
     },
     {
+      "id": "client-id",
+      "source": "client ID",
+      "target": "客户端 ID",
+      "alt": [],
+      "note": "Microsoft Entra ID 应用程序 ID（client ID）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-aad.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-aad.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "client-secret",
+      "source": "client secret",
+      "target": "客户端密钥",
+      "alt": [],
+      "note": "Azure 应用凭据 client secret 的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-aad.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-aad.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "collection",
       "source": "collection",
       "target": "集合",
@@ -1441,6 +1493,26 @@
       },
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "compartment",
+      "source": "compartment",
+      "target": "区间",
+      "alt": [],
+      "note": "OCI 区间（compartment）的译法，首次出现处括注原文。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-binarystores/binarystore-oci-objectstorage.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-binarystores/binarystore-oci-objectstorage.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -1582,6 +1654,26 @@
       "lastSeen": {
         "doc": "docs/reference/components-reference/supported-state-stores/setup-oracledatabase.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "conditional-writes",
+      "source": "conditional writes",
+      "target": "条件写入",
+      "alt": [],
+      "note": "依赖端点遵守 If-None-Match 条件的写入行为。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-binarystores/binarystore-s3.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-binarystores/binarystore-s3.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -2486,6 +2578,26 @@
       "conflicts": []
     },
     {
+      "id": "graceful-shutdown",
+      "source": "graceful shutdown",
+      "target": "优雅关闭",
+      "alt": [],
+      "note": "Dapr 边车的优雅关闭流程，与强制关闭模式相对。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/api/shutdown_api.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/api/shutdown_api.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "headless-agents",
       "source": "headless agents",
       "target": "无头代理",
@@ -2782,6 +2894,26 @@
       "lastSeen": {
         "doc": "docs/reference/api/workflow_api.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "instance-principal",
+      "source": "instance principal",
+      "target": "实例主体",
+      "alt": [],
+      "note": "OCI 实例主体身份验证的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-binarystores/binarystore-oci-objectstorage.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-binarystores/binarystore-oci-objectstorage.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -3282,6 +3414,26 @@
       "lastSeen": {
         "doc": "docs/reference/api/placement_api.md",
         "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "multipart-upload",
+      "source": "multipart upload",
+      "target": "分段上传",
+      "alt": [],
+      "note": "S3 分片上传机制，part size 配置相关。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-binarystores/binarystore-s3.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-binarystores/binarystore-s3.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -5580,6 +5732,26 @@
       "lastSeen": {
         "doc": "docs/operations/hosting/kubernetes/kubernetes-upgrade.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "workload-identity-federation",
+      "source": "workload identity federation",
+      "target": "工作负载身份联合",
+      "alt": [],
+      "note": "Azure 工作负载身份联合功能的译法，与术语表中 workload identity（工作负载身份）区分使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-wif.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-wif.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
