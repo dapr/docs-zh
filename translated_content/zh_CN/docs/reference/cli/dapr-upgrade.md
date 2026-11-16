@@ -10,9 +10,9 @@ description: "upgrade CLI 命令的详细信息"
 在支持的托管平台上升级或降级 Dapr。
 
 {{% alert title="Warning" color="warning" %}}
-版本升级或降级时，应该逐步进行，包括小版本。
+升级或降级版本时，应逐步进行，包括小版本。
 
-在降级之前，请确认组件向后兼容，并且应用程序代码未使用 Dapr 早期版本不支持的 API。
+降级之前，请确认组件向后兼容，并且应用程序代码未使用 Dapr 早期版本不支持的 API。
 {{% /alert %}}
 
 ### 支持的平台
@@ -42,16 +42,16 @@ dapr upgrade [flags]
 dapr upgrade -k
 
 # 在 Kubernetes 中升级或降级到指定的 Dapr 运行时版本
-dapr upgrade -k --runtime-version 1.2
+dapr upgrade -k --runtime-version {{% dapr-latest-version long="true" %}}
 
 # 在 Kubernetes 中升级或降级到指定的 Dapr 运行时版本并设置值
-dapr upgrade -k --runtime-version 1.2 --set global.logAsJson=true
+dapr upgrade -k --runtime-version {{% dapr-latest-version long="true" %}} --set global.logAsJson=true
 ```
 ```bash
 # 使用私有仓库升级或降级，如果您使用私有仓库托管 dapr 镜像并在执行 `dapr init -k` 时使用了它
-# 场景 1：dapr 镜像直接托管在私有仓库的根目录下 - 
+# 场景 1：dapr 镜像直接托管在私有仓库的根目录下 -
 dapr init -k --image-registry docker.io/username
-# 场景 2：dapr 镜像托管在私有仓库的新/不同目录下 - 
+# 场景 2：dapr 镜像托管在私有仓库的新/不同目录下 -
 dapr init -k --image-registry docker.io/username/<directory-name>
 ```
 

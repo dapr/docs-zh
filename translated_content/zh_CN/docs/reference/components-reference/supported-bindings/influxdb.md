@@ -9,7 +9,7 @@ aliases:
 
 ## 组件格式
 
-要设置 InfluxDB 绑定，请创建一个类型为 `bindings.influx` 的组件。有关如何创建和应用绑定配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
+要设置 InfluxDB 绑定，请创建一个类型为 `bindings.influx` 的组件。关于如何创建并应用绑定配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
 
 
 ```yaml
@@ -32,7 +32,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例将密钥作为纯字符串使用。建议按照[此处]({{% ref component-secrets.md %}})所述使用密钥存储来管理密钥。
+上述示例将密钥作为纯字符串使用。建议按照[此处]({{% ref component-secrets.md %}})所述，使用机密存储来管理密钥。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -51,9 +51,26 @@ spec:
 - `create`
 - `query`
 
+### 创建
+
+要向 InfluxDB 写入数据点，请在请求中使用 `create` 操作，并提供 `measurement`、`tags` 和 `values` 键。`tags` 与 `values` 的格式分别是 [InfluxDB 行协议](https://docs.influxdata.com/influxdb/v2/reference/syntax/line-protocol/)中的标签集和字段集，例如 `host=serverA,region=us-west` 和 `temperature=25.3`：
+
+```shell
+curl -X POST http://localhost:3500/v1.0/bindings/myInfluxBinding \
+  -H "Content-Type: application/json" \
+  -d "{
+        \"data\": {
+          \"measurement\": \"temperature\",
+          \"tags\": \"host=serverA,region=us-west\",
+          \"values\": \"value=25.3\"
+        },
+        \"operation\": \"create\"
+      }"
+```
+
 ### 查询
 
-要查询 InfluxDB，请使用 `query` 操作，并在调用元数据中提供一个 `raw` 键，其值为查询语句：
+要查询 InfluxDB，请使用 `query` 操作，并在调用的元数据中提供一个 `raw` 键，其值为查询语句：
 
 ```
 curl -X POST http://localhost:3500/v1.0/bindings/myInfluxBinding \

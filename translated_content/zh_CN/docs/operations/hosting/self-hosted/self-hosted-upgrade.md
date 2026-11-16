@@ -10,7 +10,7 @@ description: "按照以下步骤在自托管模式下升级 Dapr 并确保顺利
 1. 卸载当前的 Dapr 部署：
 
    {{% alert title="注意" color="warning" %}}
-   此操作将删除默认的 `$HOME/.dapr` 目录、二进制文件以及所有容器（dapr_redis、dapr_placement 和 dapr_zipkin）。如果 docker 命令需要 sudo，Linux 用户需要运行 `sudo`。
+   此操作将删除默认的 `$HOME/.dapr` 目录、二进制文件以及所有容器（dapr_redis、dapr_placement、dapr_scheduler 和 dapr_zipkin），并删除 dapr_scheduler 卷。如果 docker 命令需要 sudo，Linux 用户需要运行 `sudo`。
    {{% /alert %}}
 
    ```bash
@@ -19,17 +19,19 @@ description: "按照以下步骤在自托管模式下升级 Dapr 并确保顺利
 
 1. 通过访问[此指南]({{% ref install-dapr-cli.md %}})下载并安装最新的 CLI。
 
-1. 初始化 Dapr runtime：
+1. 初始化 Dapr runtime。请使用完整版本号，`1.19` 这样的简写形式无法解析：
 
    ```bash
-   dapr init
+   dapr init --runtime-version={{% dapr-latest-version long="true" %}}
    ```
 
-1. 使用以下命令确保您使用的是最新版本的 Dapr (v{{% dapr-latest-version long="true" %}}）：
+   若要让调度器代替 Placement 服务提供 Actor 放置（Dapr 1.19 或更高版本），请添加 `--scheduler-placement`。此时不会启动 `dapr_placement` 容器。[了解更多关于由 Scheduler 服务提供放置的信息。]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})
+
+1. 使用以下命令确保你使用的是最新版本的 Dapr（v{{% dapr-latest-version long="true" %}}）：
 
    ```bash
    $ dapr --version
 
-   CLI version: {{% dapr-latest-version short="true" %}}
-   Runtime version: {{% dapr-latest-version short="true" %}}
+   CLI version: {{% dapr-latest-version cli="true" %}}
+   Runtime version: {{% dapr-latest-version long="true" %}}
    ```

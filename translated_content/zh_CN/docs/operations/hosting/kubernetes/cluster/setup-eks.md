@@ -7,7 +7,7 @@ description: >
   了解如何设置 EKS 集群
 ---
 
-本指南将引导您完成安装 Elastic Kubernetes Service (EKS) 集群的过程。如需更多信息，请参阅[创建 Amazon EKS 集群](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html)
+本指南将引导你完成安装 Elastic Kubernetes Service (EKS) 集群的过程。如需更多信息，请参阅[创建 Amazon EKS 集群](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html)。
 
 ## 前置条件
 
@@ -26,7 +26,7 @@ description: >
    aws configure
    ```
 
-1. 创建一个名为 `cluster-config.yaml` 的新文件并添加以下内容，将 `[your_cluster_name]`、`[your_cluster_region]` 和 `[your_k8s_version]` 替换为适当的值：
+1. 创建一个名为 `cluster-config.yaml` 的新文件，并添加以下内容，将 `[your_cluster_name]`、`[your_cluster_region]` 和 `[your_k8s_version]` 替换为适当的值：
 
     ```yaml
     apiVersion: eksctl.io/v1alpha5
@@ -77,7 +77,7 @@ description: >
 
 ## 添加 Dapr 的边车访问和默认存储类要求
 
-1. 更新安全组规则以允许 EKS 集群与 Dapr 边车通信，为端口 4000 创建入站规则。
+1. 更新安全组规则，为端口 4000 创建入站规则，以允许 EKS 集群与 Dapr 边车通信。
 
    ```bash
    aws ec2 authorize-security-group-ingress --region [your_aws_region] \
@@ -87,7 +87,7 @@ description: >
    --source-group [your_security_group]
    ```
 
-2. 如果您没有默认存储类，请添加一个： 
+2. 如果你还没有默认存储类，请添加一个：
 
   ```bash
   kubectl patch storageclass gp2 -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
@@ -101,7 +101,7 @@ description: >
 dapr init -k
 ```
 
-您应该看到以下响应：
+你应该会看到如下响应：
 
 ```bash
 ⌛  Making the jump to hyperspace...
@@ -109,15 +109,14 @@ dapr init -k
 
 ℹ️  Container images will be pulled from Docker Hub
 ✅  Deploying the Dapr control plane with latest version to your cluster...
-✅  Deploying the Dapr dashboard with latest version to your cluster...
 ✅  Success! Dapr has been installed to namespace dapr-system. To verify, run `dapr status -k' in your terminal. To get started, go here: https://docs.dapr.io/getting-started
 ```
 
-## 服务账户的 IAM 角色 (IRSA)
+## 服务账户的 IAM 角色（IRSA）
 
-您可以为 `dapr_rbac` Helm 子图表创建的 ServiceAccounts 附加自定义注解——这对于在 AWS EKS 上启用服务账户的 IAM 角色 (IRSA) 非常有用。
-这可以通过 EKS 的 IRSA 机制为 Dapr 组件启用细粒度的安全访问控制。
-更新您的 Dapr Helm 值文件以包含以下 ServiceAccounts 所需的注解。
+你可以为 `dapr_rbac` Helm 子图表创建的 ServiceAccounts 附加自定义注解，这对于在 AWS EKS 上启用服务账户的 IAM 角色（IRSA）非常有用。
+这可以通过 EKS 的 IRSA 机制为 Dapr 组件启用细粒度、安全的访问控制。
+更新你的 Dapr Helm 值文件，为 ServiceAccounts 加入以下必要的注解。
 
 有关 AWS 身份验证的更多信息，请参阅[此处]({{% ref authenticating-aws.md %}})。
 
@@ -140,7 +139,7 @@ serviceAccount:
 
 ### 访问权限
 
-如果遇到任何访问权限问题，请确保您使用的是创建集群时所用的同一 AWS 配置文件。如需要，请使用正确的配置文件更新 kubectl 配置。更多信息请参见[此处](https://repost.aws/knowledge-center/eks-api-server-unauthorized-error)：
+如果遇到任何访问权限问题，请确保你使用的是创建集群时所用的同一个 AWS 配置文件。如有需要，请使用正确的配置文件更新 kubectl 配置。更多信息请参阅[此处](https://repost.aws/knowledge-center/eks-api-server-unauthorized-error)：
 
 ```bash
 aws eks --region [your_aws_region] update-kubeconfig --name [your_eks_cluster_name] --profile [your_profile_name]
@@ -148,8 +147,8 @@ aws eks --region [your_aws_region] update-kubeconfig --name [your_eks_cluster_na
 
 ## 相关链接
 
-- [了解更多关于 EKS 集群的信息](https://docs.aws.amazon.com/eks/latest/userguide/clusters.html)
-- [了解更多关于 eksctl 的信息](https://eksctl.io/getting-started/)
+- [进一步了解 EKS 集群](https://docs.aws.amazon.com/eks/latest/userguide/clusters.html)
+- [进一步了解 eksctl](https://eksctl.io/getting-started/)
 - [尝试 Dapr 快速入门]({{% ref quickstarts.md %}})
-- 了解如何[在您的集群上部署 Dapr]({{% ref kubernetes-deploy.md %}})
+- 了解如何[在你的集群上部署 Dapr]({{% ref kubernetes-deploy.md %}})
 - [Kubernetes 生产环境指南]({{% ref kubernetes-production.md %}})

@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "locale": "zh-CN",
-  "updatedAt": "2026-11-16T18:55:19.308Z",
-  "lastRun": "20261116-1828",
-  "sourceRevision": "b312c4192fc7007c84c56b7b3614da1cbd77cee6",
-  "glossaryVersion": 51,
-  "glossarySha256": "90e627bc06d584114595be6aa1de87b7a490b009e9d712ed68fcca55fbe6c15d",
+  "updatedAt": "2026-11-16T19:23:58.629Z",
+  "lastRun": "20261116-1902",
+  "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
+  "glossaryVersion": 73,
+  "glossarySha256": "6d660ba8c85190da9dcb47165462d6981cca2a3e3171585790e49fb08e3a001f",
   "docs": {
     "contributing/dotnet-contributing.md": {
       "status": "done",
@@ -530,34 +530,57 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/contributing/docs-contrib/docs-templates/quickstart-template.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "c566755b2878c09c24892522770aa92a589251796bf1d870b926534a3c19b2f0",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "3d74b9b8432fefcae15d787e81fcebc970907ee8d3211dc1f01d9d67196c58d2",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/contributing/docs-contrib/docs-templates/quickstart-template.md",
-      "translationSha256": "16887dde3f5c4f54ddb9ab77f01e2453d08acb2feeb379aa48ebca5e739625b3",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "f21e12b1f190b5a7caa63104d3e18a30a439b47cc5a319bbabd04c6e1020aef7",
+      "glossaryVersion": 58,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:12:00.082Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "cross-doc-anchor: contributing-docs#front-matter 与 contributing-docs#shortcodes 指向其他文档的锚点,保持原样",
+        "fence-english: 示例代码块内的标题、段落与多行 HTML 注释续行按 fenceComments 规则保持英文,仅译注释标记后的文字",
+        "checker-gap: check-translation 把多行 <!-- --> 注释的续行当作代码行核对,译文无法通过硬校验;已发布的 zh_CN 译文按同一规则也不通过(已用 check-translation 直接核对确认),需校验器修复后复核"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 1,
+      "seconds": 240,
+      "termTargets": {
+        "building-block": "构建块",
+        "quickstart": "快速入门"
+      }
     },
     "docs/contributing/presentations.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "b87d218d782fc8187d0b0e59b7d6eca3e39383939ea39369e611874f2d6f314a",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "9f03a295dc6a055c22702887c7a189fab8a6d9564c57c6f5e3dcf8b10c74b923",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/contributing/presentations.md",
-      "translationSha256": "a9e01fce87e9d4aca886cc812956201a3e29a2b02a05055c33a186eb5494a5b6",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "d47b9340956284419ab87da03813d837adae71fea545e62ea4020a5f1a96f70a",
+      "glossaryVersion": 55,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:09:54.185Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: workflow 在 Dapr Workflow 中作为产品名保留原文（doNotTranslate），故“工作流”少计 1 次，属自然省略",
+        "frontmatter: 与旧译文不同，按 profile 规则不改 frontmatter 之外的字段；本篇无 aliases",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: workflow → 工作流 (source ×4, translation ×3)"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 45,
+      "termTargets": {
+        "building-block": "构建块",
+        "dapr-presentation-decks": "Dapr 演示文稿套件",
+        "durable-execution": "持久执行",
+        "quickstart": "快速入门",
+        "workflow": "工作流"
+      }
     },
     "docs/contributing/protocol-reference/_index.md": {
       "status": "done",
@@ -605,19 +628,36 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-execution-api.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "d4695061ffbea5d16d0d3222ae756666f4c8453de35b511308f40abbdd4cfbd6",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "1223e747eba1cac750ff71f94e0226c49b217603e29a2bc125937bbce813c047",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-execution-api.md",
-      "translationSha256": "25fe9718e64570923741819bcad6554a047033a0c9399a487bae514ecda6b15c",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "ae5075638351e37d4be4cc62e2aa13afde8b1143d9e4502c0601f32d9c2f2fb9",
+      "glossaryVersion": 69,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:21:25.692Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: workflow 在源文中出现 13 次，译文 11 次；差额来自保留原文的产品名与 API 名（Workflow Execution API、Dapr Workflow SDK），属预期",
+        "review: front matter 的 title 保持英文 \"Workflow Protocol - Execution API\"，与上一版译文一致，请主控确认是否改为译名",
+        "review: 新增「定时器来源」小节（源文新增内容），已按源文整节译出，术语按 glossary 统一为定时器",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: workflow → 工作流 (source ×13, translation ×11)"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 60,
+      "termTargets": {
+        "activity": "活动",
+        "building-block": "构建块",
+        "child-workflow": "子工作流",
+        "replay": "重放",
+        "sidecar": "边车",
+        "timer": "定时器",
+        "work-item": "工作项",
+        "workflow": "工作流"
+      }
     },
     "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-management-api.md": {
       "status": "done",
@@ -651,18 +691,35 @@
     },
     "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-state-and-history.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "7530f84f33ea6c3985b83f6801ba2e7e81f2a014c90f5677e90b694333559ced",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "28cbbc3f9dbe0f1618fcc5f6a76010d823aa069dec618984465f3b0386c1bc1b",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-state-and-history.md",
-      "translationSha256": "8f6faa01d2d4eb600c62fb239a49724189f243edd161201642afaf1246b0e3b3",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "600a349087afde7d1e6a75262cf9a080d62074c1a15ae23136dd4497f9d72cea",
+      "glossaryVersion": 67,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:19:49.757Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 45,
+      "termTargets": {
+        "activity": "活动",
+        "actors": "Actor",
+        "building-block": "构建块",
+        "child-workflow": "子工作流",
+        "component": "组件",
+        "fast-path": "快速路径",
+        "history-signing": "历史签名",
+        "inbox": "收件箱",
+        "reminder": "提醒",
+        "sidecar": "边车",
+        "state-store": "状态存储",
+        "timer": "定时器",
+        "workflow": "工作流"
+      }
     },
     "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-versioning.md": {
       "status": "done",
@@ -725,19 +782,34 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/developing-ai/agent-integrations/_index.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "a6faf98888f0ddfedc339f34066eb7916e77916e420b03476acf2fc613fc2b4e",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "bb97f0f15834592d17887c276f4e18955d999b3f303ecc5071907152b4398698",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/developing-ai/agent-integrations/_index.md",
-      "translationSha256": "fa0385cdd34a5f7d84bfe7208961c13db4666c28d1bb86377284b3b7fa08ae54",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "1fd05029acb584bab1e719e14c57ede8a2d9ba30d0c64af28babe41695b000be",
+      "glossaryVersion": 61,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:15:19.278Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: LLM 的首选译法为“大型语言模型 (LLM)”。按术语表备注，首次出现用全称，其后直接用 LLM；源文 5 次出现、译文全称 1 次，软校验因此报 glossary，请主控确认是否统一为每次都用全称。",
+        "glossary: workflow 的其余出现是产品名 Dapr Workflow（doNotTranslate，保留原文），非漏译。",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: LLM → 大型语言模型 (LLM) (source ×5, translation ×1);"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 40,
+      "termTargets": {
+        "activity": "活动",
+        "blackboard": "黑板",
+        "durable-execution": "持久执行",
+        "llm": "大型语言模型 (LLM)",
+        "quickstart": "快速入门",
+        "state-store": "状态存储",
+        "workflow": "工作流"
+      }
     },
     "docs/developing-ai/agent-integrations/crewai/_index.md": {
       "status": "done",
@@ -860,19 +932,45 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/developing-ai/mcp/_index.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "e8e9d8c901b44c851dc2cc2d86d12f275badd7e8c5ddb082405fb05063522f02",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "ff7e3acc409011f4535ba3310ddfa35b0478d21cfbf4cdfd20e4cb53b35b283f",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/developing-ai/mcp/_index.md",
-      "translationSha256": "68eac8d560072c91f0eb1c2362bd7e22c38cd8d366300f30bf0b50a92b140863",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "801ea5351d1601a581ac6851d83e89513146999675e45bfebb82977c6fadc4fb",
+      "glossaryVersion": 71,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:23:58.449Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: Quickstart 译为快速入门 1 处；另 1 处是示例仓库名 quickstarts（doNotTranslate），按规则保留英文，属自然省略",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: Quickstart → 快速入门 (source ×2, translation ×1)"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 60,
+      "termTargets": {
+        "actors": "Actor",
+        "binding": "绑定",
+        "building-block": "构建块",
+        "child-workflow": "子工作流",
+        "conversation": "对话",
+        "cryptography": "加密",
+        "dapr-mcp-server": "Dapr MCP 服务器",
+        "lock": "锁",
+        "middleware": "中间件",
+        "pub-sub": "发布订阅",
+        "quickstart": "快速入门",
+        "reminder": "提醒",
+        "resiliency": "弹性策略",
+        "scheduler": "调度器",
+        "secrets": "密钥",
+        "service-invocation": "服务调用",
+        "sidecar": "边车",
+        "state-store": "状态存储",
+        "workflow": "工作流"
+      }
     },
     "docs/developing-ai/mcp/mcp-authentication.md": {
       "status": "done",
@@ -2080,19 +2178,31 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/developing-applications/building-blocks/state-management/howto-get-save-state.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "39e476c187a2c61fd540cbc0bfda916150bb1e34f5789d448e1645a0b043d5ee",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "07418748126f1444843a26bb0dc7642af142d5de1a4d7e5939ecf158ebd0e7a1",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/state-management/howto-get-save-state.md",
-      "translationSha256": "294c786e73e4a26c9472dfdb03a008f1a80ab4aea45442051ee29e42e74730c6",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "a45646b16bd7a73dd562c45ca563686550b294e8ba655109e224c050231a6b37",
+      "glossaryVersion": 54,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:09:18.157Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "source-typo: 源文代码中的 `builder.Serivces`、`mulitpleStateResult` 为拼写错误，代码按原样保留，未修正",
+        "source-comment: JavaScript 删除示例中的注释 `//Using Dapr SDK to save and get state` 与代码操作不符，按原文译出，未修改"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 300,
+      "termTargets": {
+        "component": "组件",
+        "self-hosted": "自托管",
+        "sidecar": "边车",
+        "state-management": "状态管理",
+        "state-store": "状态存储"
+      }
     },
     "docs/developing-applications/building-blocks/state-management/howto-share-state.md": {
       "status": "done",
@@ -2268,34 +2378,84 @@
       }
     },
     "docs/developing-applications/building-blocks/workflow/howto-author-workflow.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "589ac17352cc8b46353c280c4e16aa5819169b5f23e285ec23381e5983f8aaba",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "1f00c02512a73812807a2c65fc5f76cdf52879bfe7b6fa87ddb32ffaf2b3fb18",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/howto-author-workflow.md",
-      "translationSha256": "9d9e125fb9392249c98319615cd0c5af3370a1dd5c3af65451faf5ea11695e19",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "8d90b2ec4447cf95ab060ea22e9e25bb676452348e377b245ba175407ccd00ae",
+      "glossaryVersion": 51,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:07:32.287Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: Quickstart 在源文中出现 3 次，其中 2 处是仓库名 Quickstarts（doNotTranslate，保留原文），仅 1 处译作“快速入门”，属正常情况",
+        "cross-doc-anchor: workflow-features-concepts.md#workflow-activites（fragment 保持源文原样）",
+        "anchor: 译文中两处 ref 短代码 #write-the-workflow、#write-the-workflow-activities 保留了源文 slug，校验器不核对 ref 短代码，请主控确认 Hugo 生成的译文标题锚点是否可解析",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: Quickstart → 快速入门 (source ×3, translation ×1)"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 1,
+      "seconds": 150,
+      "termTargets": {
+        "activity": "活动",
+        "binding": "绑定",
+        "quickstart": "快速入门",
+        "sidecar": "边车",
+        "state-store": "状态存储",
+        "workflow": "工作流",
+        "workflow-registry": "工作流注册表",
+        "workflow-runtime": "工作流运行时"
+      }
     },
     "docs/developing-applications/building-blocks/workflow/workflow-architecture.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "7069828fc2863733033dc3c2af52de585997485cd09cf74395e2aaa2c12dea03",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "fac8ea8da7e8eaaaf9c259132a8a75aec10cc5a3b8a149b1fd170e7c5667f19c",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/workflow-architecture.md",
-      "translationSha256": "481c46a879f1df114639dff6ecf510982275ecb7e4a855c736649613af91f807",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "0530ea64272e15878d9a053a7281b0cd6673e8ea4adf2306594d4ddbc4ddecf8",
+      "glossaryVersion": 54,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:09:18.310Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "numbers: 原文 “There are 2 different types of actors” 译为“两种”（汉字数词，属正常译法，非遗漏）",
+        "glossary: resiliency 在原文中是通用词（durability and resiliency guarantees），译作“弹性”，未用术语“弹性策略”（Resiliency 资源名）",
+        "glossary: component 在原文 “The third component” 中是“部分”之义，译作“第三个部分”；“state store component”译为“状态存储组件”",
+        "glossary: workflow 译为“工作流”197 处，其余为 Dapr Workflow / Dapr Workflows 等产品名，按 doNotTranslate 保留原文",
+        "cross-doc-anchor: workflow-fast-path.md#execution-claim-record、workflow-fast-path.md#leg-2-local-activity-drive、../actors/actors-timers-reminders.md##actor-reminders 的 fragment 保持原样",
+        "anchor: 同文档锚点已按 github-slugger 规则改写：#workflow-actors → #工作流-actor，#reminder-usage-and-execution-guarantees → #提醒使用和执行保证",
+        "term-uncertain: janitor（快速路径的单循环兜底提醒）保留英文，未给译名，建议复审",
+        "review: 未执行独立复审（第 6 步），建议人工复核快速路径相关段落（janitor、execution-claim、health ping）的译法",
+        "numbers: numbers in prose differ from the source (check for dropped or altered values)",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: component → 组件 (source ×2, translation ×1); res"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 300,
+      "termTargets": {
+        "activity": "活动",
+        "actor-runtime": "Actor 运行时",
+        "actors": "Actor",
+        "building-block": "构建块",
+        "child-workflow": "子工作流",
+        "component": "组件",
+        "continue-as-new": "继续作为新",
+        "fast-path": "快速路径",
+        "history-signing": "历史签名",
+        "placement-service": "放置服务",
+        "quickstart": "快速入门",
+        "reminder": "提醒",
+        "resiliency": "弹性策略",
+        "scheduler": "调度器",
+        "sidecar": "边车",
+        "state-store": "状态存储",
+        "timer": "定时器",
+        "workflow": "工作流"
+      }
     },
     "docs/developing-applications/building-blocks/workflow/workflow-concurrency.md": {
       "status": "done_flagged",
@@ -2458,19 +2618,27 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/developing-applications/debugging/debug-k8s/debug-dapr-services.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "d9acad3907a0c9593ddb830e1f71b95506ff71943dd3f7d3f9b547225665ce53",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "0f335a42cc5d52bf96b6e3d6f160e7268bfbc30526dbe20042f23672337d6cd8",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/debugging/debug-k8s/debug-dapr-services.md",
-      "translationSha256": "97ed5a70a7e9785cbf11775f1e9fb553f0a1a0abcc2892cf308dab1e55b4d48d",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "b04cb26258d5b175dd6b32b5f9b932d4d57332501ce5e687b35cf73c59ad9494",
+      "glossaryVersion": 70,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:21:58.972Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "source-typo: 源文中的 `ming32-make.exe` 疑为 `mingw32-make.exe` 的拼写错误，译文按原样保留，请复审"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 28,
+      "termTargets": {
+        "control-plane": "控制平面",
+        "quickstart": "快速入门"
+      }
     },
     "docs/developing-applications/debugging/debug-k8s/debug-daprd.md": {
       "status": "done",
@@ -2563,19 +2731,35 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "051805d18940f73778cb2b49b98f27302bd29fe44d3159e375ff9f890e4d68d8",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "4d7f4098dac2c7adb99c7cd62c90eba1d66073fd3fa8dfb8c452d6521351d3c9",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md",
-      "translationSha256": "67bd34bdd669178d76bdee3c9ec90f75a8af42acce0d3c1bfbbabe99b525b39a",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "6a20d938a1a9c940164f05358f985428c469bd6a08b6f4e067570261d528a970",
+      "glossaryVersion": 72,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:23:58.615Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "cross-doc-anchor: components-concept.md#component-specification 为其他文档的锚点，fragment 保持原样"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 60,
+      "termTargets": {
+        "binding": "绑定",
+        "building-block": "构建块",
+        "built-in-component": "内置组件",
+        "component": "组件",
+        "component-specification": "组件规范",
+        "output-binding": "输出绑定",
+        "pluggable-component": "可插拔组件",
+        "pub-sub": "发布订阅",
+        "state-store": "状态存储",
+        "unix-domain-socket": "Unix 域套接字"
+      }
     },
     "docs/developing-applications/develop-components/pluggable-components/pluggable-components-sdks/_index.md": {
       "status": "done",
@@ -2939,18 +3123,21 @@
     },
     "docs/developing-applications/local-development/_index.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "fea7f1567b87ad1235643353aa4d89a2c9519ce984b087af0a7ceb39171de3b1",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "d9cdc2b8b8adab8fbae7677e93f32ae8df91f4638ac6f23400aef9a97c5d0b34",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/local-development/_index.md",
-      "translationSha256": "7f602cda669f3824c9c0d55b97ce3540a67bbd76d9379036ecdb09129a5bf6cb",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "55b799343a6837a9e9fd12bfc5a33bc7212fe97f64ce735a9acf63f0e4c088e8",
+      "glossaryVersion": 52,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:07:32.381Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 1,
+      "seconds": 60,
+      "termTargets": {}
     },
     "docs/developing-applications/local-development/gRPC-integration.md": {
       "status": "done",
@@ -3842,19 +4029,40 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/operations/configuration/api-allowlist.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "de1666f1673f85a165be9558f03bfd6d8fe47b62de7ac1fb4cf1a30bae58ea61",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "b6155693f2c7445d7000dc2bf8f3ff4aa60ad02e99c5c1d8b0784e8e8c09f72f",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/configuration/api-allowlist.md",
-      "translationSha256": "8733cc5104a091c9891dcc8a25a9d815114e5350417b105c4c9ebe97d3b59b27",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "810ad31b6fb31cfe414b5d16167a38089736c66cf3240c202f8c89e5d9ea7605",
+      "glossaryVersion": 66,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:18:44.765Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "review: 称呼按风格笔记用“你”，前版译文用“您”，请主控确认与同版其他文档的称呼统一"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 70,
+      "termTargets": {
+        "actors": "Actor",
+        "allowlist": "允许列表",
+        "binding": "绑定",
+        "conversation": "对话",
+        "cryptography": "加密",
+        "denylist": "拒绝列表",
+        "distributed-lock": "分布式锁",
+        "output-binding": "输出绑定",
+        "pub-sub": "发布订阅",
+        "search": "搜索",
+        "secrets": "密钥",
+        "service-invocation": "服务调用",
+        "sidecar": "边车",
+        "vector": "向量",
+        "workflow": "工作流"
+      }
     },
     "docs/operations/configuration/configuration-overview.md": {
       "status": "done",
@@ -3873,18 +4081,30 @@
     },
     "docs/operations/configuration/control-concurrency.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "7816b3bfbb8c6860180d360d566628eb8f07745221b0583c030e2b4b19e67527",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "1839bc32753fe3f0707538280826592a6321dacf95267a60dd9df0d6d553ae6d",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/configuration/control-concurrency.md",
-      "translationSha256": "dab4cd22696b4484b7245c16b1ab60059ef32234ff591bbb24218e0a0c85b1e5",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "1f6873c1ee7fdf80133ef23d6de1366860658e8b7f685f0d1805ee1bb152ee73",
+      "glossaryVersion": 57,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:10:59.165Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 18,
+      "termTargets": {
+        "activity": "活动",
+        "binding": "绑定",
+        "middleware": "中间件",
+        "pub-sub": "发布订阅",
+        "rate-limit-middleware": "速率限制中间件",
+        "secret-store": "机密存储",
+        "sidecar": "边车",
+        "workflow": "工作流"
+      }
     },
     "docs/operations/configuration/environment-variables-secrets.md": {
       "status": "done",
@@ -4083,18 +4303,26 @@
     },
     "docs/operations/hosting/kubernetes/cluster/setup-eks.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "bff2247d87070d96ceae4b920680ea8fc6401ff6531d4002534cf426dbfb1ba6",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "72df369d35c1e4be40498e80e6cb60e36470630a6a0652c690d3b9c9b505d0a8",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/hosting/kubernetes/cluster/setup-eks.md",
-      "translationSha256": "38988d7579e1c8c525412b0df294f1c0af068c7fae5f440960033e18c1b4a55c",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "4339b21b7d28b7cd691e83aedab48adecf8abf4a52e2827e760239f5d7655ea7",
+      "glossaryVersion": 68,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:19:49.952Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 40,
+      "termTargets": {
+        "component": "组件",
+        "quickstart": "快速入门",
+        "sidecar": "边车",
+        "storage-class": "存储类"
+      }
     },
     "docs/operations/hosting/kubernetes/cluster/setup-gke.md": {
       "status": "done",
@@ -4112,19 +4340,30 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/operations/hosting/kubernetes/cluster/setup-kind.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "5b3980cf47b956e0650193cb83190aaa776d99466d7c0e2dd9f2a8b7bb52d28a",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "dd36c73913b20a6c4fedf6a9fe0b93ba90a82ddf8c2ee033cebc4db787b51e64",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/hosting/kubernetes/cluster/setup-kind.md",
-      "translationSha256": "ada7fa3e83f605145e0f2a7477c25eb07a49ed6d8258f23e9deacdbd1dad0d01",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "5d0834ad0f5074ae6d39bafcd4d76ea77102529a81568110772487e877ea56c4",
+      "glossaryVersion": 65,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:17:34.765Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: component 在源文中计 3 次，其中 components.yaml 两处为文件名（保留原文，不译），实际术语出现 2 次，译文 2 次“组件”，无遗漏",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: component → 组件 (source ×3, translation ×2)"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 90,
+      "termTargets": {
+        "component": "组件",
+        "control-plane": "控制平面",
+        "quickstart": "快速入门",
+        "sidecar": "边车"
+      }
     },
     "docs/operations/hosting/kubernetes/cluster/setup-minikube.md": {
       "status": "done",
@@ -4187,19 +4426,43 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/operations/hosting/kubernetes/kubernetes-overview.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "3377d58dc540117e09183a0b877a571d5f99037f2a0d24cd961cf921e2569c56",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "a30715bc5eae0df37c07444132afee17d447868cc0a9dabd1135b4c567ffb373",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/hosting/kubernetes/kubernetes-overview.md",
-      "translationSha256": "7a230972a03dd5f68aef88403007165e10ecd6a20794779a4e8d7367e4f458cc",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "84317b42d9d781a323503f1a7ce9ef6e6ba3f44edb72b9f6f8bb550ca81ece5e",
+      "glossaryVersion": 70,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:21:25.789Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "cross-doc-anchor: 表格中指向 placement 文档的 {{% ref \"placement#serving-placement-from-the-scheduler-service\" %}} 保持原样，未改 fragment",
+        "glossary: job 在源文中出现 2 次（Jobs API 为保留名称，仅 1 次译为作业），属预期",
+        "glossary: Scheduler 在源文中出现 1 次，译文使用 glossary 中 scheduler-service 的译名 Scheduler 服务，属预期",
+        "glossary: workflow 在源文中出现 1 次，此处为保留名称 Workflow API，属预期",
+        "review: 源文将旧版 <img> 替换为 {{< diagram hosting-kubernetes >}} 短代码，译文保持源文写法，请主控确认站点渲染",
+        "review: 站内锚点 #adding-dapr-to-a-kubernetes-deployment 已改写为译文标题的 slug #将-dapr-添加到-kubernetes-部署（旧译文此处锚点失效）",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: job → 作业 (source ×2, translation ×1); Scheduler"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 40,
+      "termTargets": {
+        "actors": "Actor",
+        "component": "组件",
+        "control-plane": "控制平面",
+        "job": "作业",
+        "pub-sub": "发布订阅",
+        "quickstart": "快速入门",
+        "reminder": "提醒",
+        "scheduler": "调度器",
+        "scheduler-service": "Scheduler 服务",
+        "sidecar": "边车",
+        "state-store": "状态存储",
+        "workflow": "工作流"
+      }
     },
     "docs/operations/hosting/kubernetes/kubernetes-upgrade.md": {
       "status": "done",
@@ -4247,19 +4510,29 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/operations/hosting/self-hosted/self-hosted-airgap.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "b0791f8bef39921eed0123c240be25578d064d6891fc90c686d0ae5700ff0704",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "e280c5d0ab972eb0dbfe806c35b2308ba27f50e821e9f7f674080939c149e060",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/hosting/self-hosted/self-hosted-airgap.md",
-      "translationSha256": "1236d74366f55396e92d08f52f7de8e5a2dba5c86d1732c4bd5b7d9cc4b59213",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "5efcab479003ed8144c213d49a4fe27c2114c2b922c6548abe05b150884e0555",
+      "glossaryVersion": 63,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:15:55.111Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "source: 源文 `$HOME.dapr/bin` 缺少斜杠，译文沿用原文",
+        "anchor: 源文中的 (#Prerequisites) 没有对应标题，链接的 fragment 原样保留"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 33,
+      "termTargets": {
+        "airgap": "隔离",
+        "dapr-installer-bundle": "Dapr 安装程序包",
+        "self-hosted": "自托管"
+      }
     },
     "docs/operations/hosting/self-hosted/self-hosted-no-docker.md": {
       "status": "done",
@@ -4322,19 +4595,32 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/operations/hosting/self-hosted/self-hosted-upgrade.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "5020e67c3a96ed995f2f814fca0ae08abee02ae442a188046dbbb051bf89fb76",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "134a31ce43cb0b5e6422a5036eba5b1d83e7d588abe6edfa821a61710a5a92fa",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/hosting/self-hosted/self-hosted-upgrade.md",
-      "translationSha256": "467b9f4d361fd1013169031bb23ca30b228cf4733162f73a6b3ed7031729e634",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "f08bacf13544baf8fb128249864482313f3ca66b15c85c3ba70b15f7e66ce051",
+      "glossaryVersion": 51,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:06:52.883Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: placement service 的首选译法为“放置服务”；本篇按 doNotTranslate 中 Placement 组件名的规定译为“Placement 服务”，请主控裁决",
+        "glossary: Scheduler 服务（scheduler-service）中的 Scheduler 计入 scheduler 术语，“调度器”出现 1 次少于源文 2 次，属 Scheduler 服务 的术语要求，非漏译",
+        "cross-doc-anchor: placement#serving-placement-from-the-scheduler-service",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: placement service → 放置服务 (source ×1, translatio"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 19,
+      "termTargets": {
+        "placement-service": "放置服务",
+        "scheduler": "调度器",
+        "scheduler-service": "Scheduler 服务",
+        "self-hosted": "自托管"
+      }
     },
     "docs/operations/hosting/self-hosted/self-hosted-with-docker.md": {
       "status": "done",
@@ -4727,19 +5013,27 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/operations/observability/tracing/zipkin.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "a5bccc310d24fca3966bec2a179f6fa367a57fd114073bbf95b38eda0db5f074",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "32c7de83b4186a7908a17cae9e69e5d22f9f4c88e3dc613fa72abb7f31de37c3",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/observability/tracing/zipkin.md",
-      "translationSha256": "a4d7ff05e0a738fcccc42e72a8d1564f54aa9a3c29dc2fa2cb30d1e04f5863a3",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "60d95dae46ba47cc29dca3933dd67222251a2b158c95dbb52ad8d9455ed74937",
+      "glossaryVersion": 57,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:10:27.220Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "source-quirk: 源文第 13 行 `overridden `: 中的反引号不成对，译文沿用旧译文写法“被覆盖：”，未保留该反引号，供主控确认"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 19,
+      "termTargets": {
+        "self-hosted": "自托管",
+        "sidecar": "边车"
+      }
     },
     "docs/operations/performance-and-scalability/_index.md": {
       "status": "done",
@@ -4773,18 +5067,23 @@
     },
     "docs/operations/performance-and-scalability/perf-results.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "6f3b3765c9f584d91ecc4ee6b73f4b0f4e6fbcccfa445fdc6ca94e4674c3c5eb",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "83df7469b48788afa1eb390566ec82de49bf9e0dfdb81d26a2b0f7b7a6eaaf54",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/performance-and-scalability/perf-results.md",
-      "translationSha256": "3e2caff0dc1942c357efccdc53bc263b2336c429dc61719f81cad89dfd8f5589",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "cb177e9ea6e6866a6c91bcf0f27a253dfb2e2da1203c5af4b12c40e0707ee0c9",
+      "glossaryVersion": 51,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:05:17.423Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": null,
+      "termTargets": {
+        "sidecar": "边车"
+      }
     },
     "docs/operations/resiliency/_index.md": {
       "status": "done",
@@ -5042,19 +5341,43 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/operations/support/alpha-beta-apis.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "83f4da8b5fc440838354c650cbea97c0441201888352ddce96c380eef03ada5c",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "d32916aa2c35d673150b69ce50c46472825d0d6ad6c3f74bb6136c110803bb0d",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/support/alpha-beta-apis.md",
-      "translationSha256": "15d75fda33e710436de637774aa6dcfedc5532317f178e1b811adee29ef7ded3",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "bb81a4b92ca3d66fb17117a27cee38eba8c57252f116bd18c262b785a328fa33",
+      "glossaryVersion": 59,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:12:38.398Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: Binary Store 与 Streaming Subscription 各有一处 proto 链接的可见文字保留英文（Binary Store proto、Streaming Subscription proto，属 proto 名称），软校验计数各少 1 次，保留为有意处理",
+        "cross-doc-anchor: subscription-methods/#streaming-subscriptions 与 certification-lifecycle.md#certification-levels 的 fragment 保持原样",
+        "frontmatter: title 与 linkTitle 已译为中文（Alpha 和 Beta API / Alpha 与 Beta API）；旧译文保留英文 Alpha and Beta APIs，请复审是否统一",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: Binary Store → 二进制存储 (source ×4, translation ×3"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 85,
+      "termTargets": {
+        "actor-app-initiated-streams": "Actor 应用发起的流",
+        "actors": "Actor",
+        "binary-store": "二进制存储",
+        "building-block": "构建块",
+        "component": "组件",
+        "conversation-api": "对话 API",
+        "cryptography": "加密",
+        "distributed-lock": "分布式锁",
+        "query-state": "状态查询",
+        "reminder": "提醒",
+        "search": "搜索",
+        "state-store": "状态存储",
+        "streaming-subscription": "流式订阅",
+        "timer": "定时器",
+        "vector": "向量"
+      }
     },
     "docs/operations/support/breaking-changes-and-deprecations.md": {
       "status": "done",
@@ -5072,19 +5395,45 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/operations/support/support-preview-features.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "c09c716eb7a6a32704ece79a34115e96cdb5aba16164c19153d668bc4522011a",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "115c96b32e1d8422c92a603b5d96ca6773dd60794094751a70b3118c6fb28d0e",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/operations/support/support-preview-features.md",
-      "translationSha256": "5a8b396be0b388f4dbccaa21898dab62b8f07f00031dd45628cb92e047d43e15",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "a043e6a0426008f0c75892937f02869deda0ff4c789b386a1b6de12c4603a4d9",
+      "glossaryVersion": 60,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:12:38.556Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "cross-doc-anchor: components-concept#pluggable-components、components-concept#cryptography 与 workflow-multi-app.md#durable-activity-results 的 fragment 保持原样",
+        "review: 功能名 Dapr Shared 按术语表 doNotTranslate 保留原文，旧译文曾译为 Dapr 共享；Multi-App Run 同样保留英文，请确认表格列名与旧译文风格一致"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 85,
+      "termTargets": {
+        "activity": "活动",
+        "actor-state-ttl": "Actor 状态 TTL",
+        "actors": "Actor",
+        "binding": "绑定",
+        "component": "组件",
+        "cryptography": "加密",
+        "fast-path": "快速路径",
+        "history-signing": "历史签名",
+        "multi-application-workflow": "多应用程序工作流",
+        "pluggable-component": "可插拔组件",
+        "pub-sub": "发布订阅",
+        "reminder": "提醒",
+        "scheduler": "调度器",
+        "self-hosted": "自托管",
+        "sidecar": "边车",
+        "state-store": "状态存储",
+        "workflow": "工作流",
+        "workflows-clustered-deployment": "工作流集群部署",
+        "workflows-durable-activity-results": "工作流持久化活动结果"
+      }
     },
     "docs/operations/support/support-security-issues.md": {
       "status": "done",
@@ -5342,19 +5691,34 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/reference/api/placement_api.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "99918d5c3c08b1efafc9f10e5a4739ff231f2f5f5272752c599042133c2b9ff0",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "83795c5af2369b79fb5f8248ad7c4c7299b5ce25422d1fe68087dd5eb6ae0ebd",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/api/placement_api.md",
-      "translationSha256": "84ded06877c646b5a5545c6d0df3913362ec240c0b1b122ded741991dffc44ae",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "767ead850c9a38560b8874cc0d712c91056f0fdbc3c77b67b28438f5dd119de1",
+      "glossaryVersion": 62,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:15:19.446Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: placement service 的术语表译法为“放置服务”，但 doNotTranslate 规定 Placement 保留英文（“服务”为通用词）。译文按 doNotTranslate 与旧译文统一写作“Placement 服务”；源文 6 次出现，软校验因此报 glossary，请主控裁决术语表是否需要修正。",
+        "glossary: Scheduler 的通用译法“调度器”仅用于“由调度器提供”一处；其余 Scheduler service 按术语 scheduler-service 译为“Scheduler 服务”，软校验因此报 glossary。",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: placement service → 放置服务 (source ×6, translatio"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 40,
+      "termTargets": {
+        "actors": "Actor",
+        "multi-tenant-mode": "多租户模式",
+        "placement-service": "放置服务",
+        "scheduler": "调度器",
+        "scheduler-service": "Scheduler 服务",
+        "self-hosted": "自托管",
+        "sidecar": "边车"
+      }
     },
     "docs/reference/api/pubsub_api.md": {
       "status": "done",
@@ -5447,19 +5811,32 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/reference/cli/cli-overview.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "30e7d5864e7173b75e4bad438783864071f1cbd9ab32b185a5d8157d5dbddbf5",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "78ea8251d1e3d8cdf310acfffef7e6d80bd63441e31f9e06adb46fa6a83a6a88",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/cli/cli-overview.md",
-      "translationSha256": "59d5686ac70895261b5e06adde946bf5e2310b8d484bd7b274bd16b52f601761",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "b9229344c4b29ff3816793b055a9ec00d5869dba736fa8b6f9577860bc7cf523",
+      "glossaryVersion": 67,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:18:44.857Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "review: frontmatter aliases 按 profile 规则加 /zh-hans 前缀（前版缺少 aliases 键，本次补回）",
+        "review: 源文新增的 dapr dashboard 提示框与「输出流」一节前版译文没有，本次已补译，请确认",
+        "review: 称呼按风格笔记用“你”，前版译文用“您”，请主控确认与同版其他文档的称呼统一"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 50,
+      "termTargets": {
+        "actors": "Actor",
+        "component": "组件",
+        "scheduler": "调度器",
+        "sidecar": "边车",
+        "workflow": "工作流"
+      }
     },
     "docs/reference/cli/dapr-annotate.md": {
       "status": "done",
@@ -5717,19 +6094,33 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/reference/cli/dapr-scheduler.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "04d5ad547a5e04eafc4b0d9a42d8284013e8032e06517c3f178f9201dc439156",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "60ea45f1012139b718d8543a9ab1149a1d18fc8ea54c939c9bd89bcca3759372",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/cli/dapr-scheduler.md",
-      "translationSha256": "06b8645ef6bbb2924ff1c60a9f7b5f57d1429314d86a194018cfe42805c5d4ca",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "13fdb44426d4ceb3d66ca1bdddcc09503a808ebde8452176da127b1bdbffda5a",
+      "glossaryVersion": 70,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:21:59.139Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: 软校验提示属正常：Scheduler 出现在 Dapr Scheduler 产品名中（doNotTranslate，保留英文），activity 与 workflow 在 --filter 枚举值与键格式中作为标识符保留英文，其余出现处已按首选译法译出",
+        "source-typo: 源文“可用命令”列表中 `[delete-all)]` 链接文字多了一个右括号，译文按原样保留，请复审",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: activity → 活动 (source ×2, translation ×1); Sche"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 28,
+      "termTargets": {
+        "activity": "活动",
+        "activity-reminder": "活动提醒",
+        "job": "作业",
+        "reminder": "提醒",
+        "scheduler": "调度器",
+        "workflow": "工作流"
+      }
     },
     "docs/reference/cli/dapr-status.md": {
       "status": "done",
@@ -5777,19 +6168,27 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/reference/cli/dapr-upgrade.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "f16bf45a7203ffc12b8a9eec7879173eddd727beab27a7723540d582fea119da",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "2e327a26f3baa361060b45cfbdc62977d892e486f163d8759b7684c17b572a26",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/cli/dapr-upgrade.md",
-      "translationSha256": "ca4741bb610eca7614a224f2587740c71ccb15ac6f1414d9ca7d060c419b78e4",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "e5ea2482e5d2fc06b62d1270e2bae8c47d2efe3aba60ebe9a34499182f42f2eb",
+      "glossaryVersion": 58,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:10:59.275Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "source-typo: 源文 \"application code does ultilize APIs\" 疑似漏写 not，按上下文译为“未使用”（与旧译文一致），请复审",
+        "shortcode-restored: 旧译文把 {{% dapr-latest-version %}} 写成 1.2，本译文按源文保留短代码，请复审"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 18,
+      "termTargets": {
+        "component": "组件"
+      }
     },
     "docs/reference/cli/dapr-version.md": {
       "status": "done",
@@ -6107,19 +6506,33 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/reference/components-reference/supported-bindings/influxdb.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "a9a37baab11b49e13822a965721c2d35a76030872a83642f8abf35035c79bae9",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "9b8a37502adfe3452e6e034866ea2d25c122a24dd6c520ee9aed37109e0e99cd",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-bindings/influxdb.md",
-      "translationSha256": "eead95882182e0f8ab651d2c5938b7d06f25ef5b1e8372c8e3767cd19e8f9284",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "6a803b3617d102c76740fcff0ce09d100c0a2db8752ff4a151986a72d4e1ea0b",
+      "glossaryVersion": 58,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:12:00.229Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "cross-doc-anchor: howto-bindings.md#1-create-a-binding 指向其他文档的锚点,保持原样",
+        "restored-section: 已发布的旧译文缺少源文的 \"### Create\" 小节,本译文按源文补全"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 150,
+      "termTargets": {
+        "binding": "绑定",
+        "building-block": "构建块",
+        "component": "组件",
+        "input-binding": "输入绑定",
+        "line-protocol": "行协议",
+        "output-binding": "输出绑定",
+        "secret-store": "机密存储"
+      }
     },
     "docs/reference/components-reference/supported-bindings/kafka.md": {
       "status": "done",
@@ -6633,138 +7046,216 @@
     },
     "docs/reference/components-reference/supported-conversation/anthropic.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "af810a3f541987a897736d8933596ec8972dfcff55bf43f89625e11b4b1ea642",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "697d9352ad572f9aaa8597b8ec4c21382e16c4e5acbc30d55b015b681020caf8",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-conversation/anthropic.md",
-      "translationSha256": "a60477c9294cb49590967e6180e3231b1ef3498faa183b9f50d072a3943c57bc",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "8b25f064fa4ae4d374c9083c74d076960cb38dfb3a058aeade2163a23d5d9a45",
+      "glossaryVersion": 52,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:08:07.559Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 90,
+      "termTargets": {
+        "component": "组件",
+        "conversation-api": "对话 API",
+        "llm": "大型语言模型 (LLM)",
+        "secret-store": "机密存储",
+        "sidecar": "边车"
+      }
     },
     "docs/reference/components-reference/supported-conversation/aws-bedrock.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "2bd2975c05a3b9575ec9af2e9a4c6f1f0c85ace00e8f4e86620d37dd3c562df5",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "c234b1cc0738e5cb52c57d5863e483181b5239aa8c58d24bd9bcebea2fcf33b4",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-conversation/aws-bedrock.md",
-      "translationSha256": "50c854e9dec549a23a7d218e11be504aec6a2de06a846cfa5e72cef902d2131b",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "3f92eff62532ba9f0c99515ed15b883f8d41133564be107bdeee583bfa11746a",
+      "glossaryVersion": 57,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:10:27.333Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary-gap: token 译为“令牌”（maxTokens 新增行），术语表中尚无该条目，全库已用“令牌”约 357 处",
+        "wording: conversation component 由旧译“会话组件”改为“对话组件”，与术语表 conversation API→对话 API 一致；secret store 由旧译“密钥存储”改为术语表译法“机密存储”"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 19,
+      "termTargets": {
+        "component": "组件",
+        "conversation-api": "对话 API",
+        "llm": "大型语言模型 (LLM)",
+        "secret-store": "机密存储"
+      }
     },
     "docs/reference/components-reference/supported-conversation/deepseek.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "cc935a212828900b4589906011b22fecbc494dc425d4a3d94767694f184cf989",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "0a54a46d769bfdda64a8acd481cea296222bf5f8ae788aba2cc556d8a177aaf3",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-conversation/deepseek.md",
-      "translationSha256": "d10646e9e3bf8e8a14532b9eaeb645f07ac0c630cba15c4cfc75caff06492e34",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "875620aee91e2008cbbd2cd8bd4facdbb2e482dda543480bdf7ab5c508336319",
+      "glossaryVersion": 51,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:05:17.506Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": null,
+      "termTargets": {
+        "component": "组件",
+        "conversation-api": "对话 API",
+        "secret-store": "机密存储"
+      }
     },
     "docs/reference/components-reference/supported-conversation/googleai.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "72ca3e059f93c3d32c586594647256c9b5410eac795f1f48f3b3eff58a83d2c5",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "520f3c767422f72bc3164d54b68144987beb49459c1bf7dfd0109d28b46d056d",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-conversation/googleai.md",
-      "translationSha256": "cf61a2b79f9a675fd5db89d3cc92a30249a9b637189f473290a5a601f8e75464",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "afe6f39cbfea6dc91fbde84143e0a97d1e6940c6c38fe769c1b7007c4b201d7e",
+      "glossaryVersion": 51,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:06:53.019Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 19,
+      "termTargets": {
+        "component": "组件",
+        "conversation-api": "对话 API",
+        "llm": "大型语言模型 (LLM)",
+        "secret-store": "机密存储"
+      }
     },
     "docs/reference/components-reference/supported-conversation/hugging-face.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "645ff5934f94b513351b658c54c8c2d5f3deba8a6e5e9387c5ae0cb74117f2e0",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "d7ec0692419b3f34a613763f07d4b2b2c6f0c8e00a48427b36278fea2ea2c390",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-conversation/hugging-face.md",
-      "translationSha256": "5b791acd0ba32f4cc731426f2bb66278bf1d740c7de030716b7c9f97997c30b9",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "6079bba140ca9d7aecb802366a9c64f3569d5a96e39b62ced2e36502b9ec0b49",
+      "glossaryVersion": 52,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:08:07.644Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 90,
+      "termTargets": {
+        "component": "组件",
+        "conversation-api": "对话 API",
+        "llm": "大型语言模型 (LLM)",
+        "secret-store": "机密存储"
+      }
     },
     "docs/reference/components-reference/supported-conversation/local-echo.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "870b08c3e1389107ff4c8ea8ef74758e04b3d74139f0a247c2fbb58eb9b2105c",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "5557e17d925897f038d7af8cab3cdb784bf6d810da48f4c961d5b43820826ffb",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-conversation/local-echo.md",
-      "translationSha256": "cceccab377d0dcd76681e3c680c521bf0aada91a300baf55c91f437dce9416e9",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "9851faaf53d59586816d39901eb32a581d44c54e33b49bdd3c22bc5e316e4e3e",
+      "glossaryVersion": 51,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:06:06.083Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 11,
+      "termTargets": {
+        "component": "组件",
+        "conversation-api": "对话 API",
+        "llm": "大型语言模型 (LLM)"
+      }
     },
     "docs/reference/components-reference/supported-conversation/mistral.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "9abc8dd86c4a459863b9896229a75db1dfc33ab4c446c0e0839d2d085642f108",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "779c8d5e70d45229dac27933876a9dec2d61a39ca2be51418ccde338152fbe09",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-conversation/mistral.md",
-      "translationSha256": "f2ce4429485182242255d1385357e28a77f4b46475eae8139c770b101a10e04e",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "83bf439045eacd8dd5ad12133b3a38139e63cc183a37be105cc29686f9bb8d4b",
+      "glossaryVersion": 51,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:06:06.224Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 11,
+      "termTargets": {
+        "component": "组件",
+        "conversation-api": "对话 API",
+        "llm": "大型语言模型 (LLM)",
+        "secret-store": "机密存储"
+      }
     },
     "docs/reference/components-reference/supported-conversation/ollama.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "bb99eb689e92eaf152e65b384a1517130fd6d12ba4446be3cf2dbf975d7e4e3b",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "4926cbbf349701d285536aa4497c843dbd370cd8fe9ec1d6ceca051f11926350",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-conversation/ollama.md",
-      "translationSha256": "511e9b4c827a903bbc2e142690a8d43c0551b6d93dc166156946f5f0c44af26e",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "745462207e3be2f5b7a71390eea7ab129b7fefb5427d4016b7ba23186c267e92",
+      "glossaryVersion": 52,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:08:43.288Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: secret store 在本文译为“机密存储”，旧译文为“密钥存储”，已按术语表改用术语表译法，请主控复核",
+        "new-source: 规格表新增 maxTokens 字段，已按源文译出"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 12,
+      "termTargets": {
+        "component": "组件",
+        "conversation-api": "对话 API",
+        "llm": "大型语言模型 (LLM)",
+        "secret-store": "机密存储"
+      }
     },
     "docs/reference/components-reference/supported-conversation/openai.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "3b869884b9b6fd40e101eb3a8cf1e8bda8b1d0d18cce9e88cb9df16cb25d44aa",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "77617165f21446dd1f48218d301bf4a40064e0d61780f330b7060c1a9c8b7066",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-conversation/openai.md",
-      "translationSha256": "34c851d92cb66ee2a0c885256421a893e7a54d4d58f4b979fd906aa0467e286f",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "f0584b67c6720a345c9978369b17d26e0ee1bf20e2aff316988222602f178166",
+      "glossaryVersion": 65,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:17:34.934Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "claude-haiku-5-5",
+      "retries": 0,
+      "seconds": 90,
+      "termTargets": {
+        "component": "组件",
+        "conversation-api": "对话 API",
+        "llm": "大型语言模型 (LLM)",
+        "reasoning-model": "推理模型",
+        "secret-store": "机密存储"
+      }
     },
     "docs/reference/components-reference/supported-cryptography/_index.md": {
       "status": "done",
@@ -6947,19 +7438,34 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/reference/components-reference/supported-middleware/middleware-rate-limit.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "5cb382877582e41af509dc8aa4ea0077081ef1dcc4fbe4a466c8172d44080ee3",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "d3d2e7919f99741abe93c242c842899fbd7bd1c53be5e8c4b808074debd293c6",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-middleware/middleware-rate-limit.md",
-      "translationSha256": "b82d7c7edbf47887c40f6204cd119b191c1302ba7d16c20d914b4c0b4697b987",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "244fa0c5e154edfd6a40a9c312c1a22d8c23035b64bbabb9cdd58982dd6d396f",
+      "glossaryVersion": 56,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:09:54.347Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "cross-doc-anchor: middleware.md#customize-processing-pipeline（指向其他文档的 fragment 保持原样）",
+        "numbers: 源文 “3rd party” 译为“第三方”，数字省略属正常译法",
+        "frontmatter: aliases 按 profile 规则加上 /zh-hans 前缀（旧译文未加）",
+        "numbers: numbers in prose differ from the source (check for dropped or altered values)"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 45,
+      "termTargets": {
+        "activity": "活动",
+        "component": "组件",
+        "middleware": "中间件",
+        "scheduler": "调度器",
+        "sidecar": "边车",
+        "workflow": "工作流"
+      }
     },
     "docs/reference/components-reference/supported-middleware/middleware-routeralias.md": {
       "status": "done",
@@ -7352,19 +7858,32 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/reference/components-reference/supported-secret-stores/_index.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "4e9867091f24aba6a7f967c5395223756d31307da7a59323842371771d38e81c",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "5b9d57f94d6875c49a3efe7ca5dfe35a3d43ae30a4e34de75c61acb99191a5f6",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-secret-stores/_index.md",
-      "translationSha256": "96b40f9ed107970686abb57f5034adb64b636f2cebde6f316066179684c0d147",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "b382c45960399e6378e8391d0a96298205cf4b17aa42c663b99ff0157a4d0d38",
+      "glossaryVersion": 53,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:08:43.459Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "glossary: secret store 在标题与正文中译为“机密存储”，旧译文标题为“密钥存储”，已按术语表改用术语表译法，请主控复核",
+        "glossary: 源文 secrets building block 译为“机密管理构建块”（术语表 Secrets Management → 机密管理），旧译为“密钥管理构建块”，请主控复核",
+        "new-source: 正文新增“每个密钥的多键值”一节（源文新增内容），已按源文译出"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 12,
+      "termTargets": {
+        "building-block": "构建块",
+        "component": "组件",
+        "secret-store": "机密存储",
+        "secrets-api": "密钥 API",
+        "secrets-management": "机密管理"
+      }
     },
     "docs/reference/components-reference/supported-secret-stores/alicloud-oos-parameter-store.md": {
       "status": "done",
@@ -7507,19 +8026,35 @@
       "note": "adopted: existing translation assumed current for this source"
     },
     "docs/reference/components-reference/supported-secret-stores/kubernetes-secret-store.md": {
-      "status": "done",
-      "adopted": true,
-      "sourceSha256": "990af21a7a36cf857675fa2c56b04171ea3d59503c5afdbefe023f32264d548b",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "status": "done_flagged",
+      "sourceSha256": "00e79b33d8511eae7d1bd30bffded5a5f3b021a90b9fa982d2ac9b76e4bc75d7",
+      "sourceRevision": "f3a4874dfbacbb1a7281348260dfd3e3e0348823",
       "translationPath": "translated_content/zh_CN/docs/reference/components-reference/supported-secret-stores/kubernetes-secret-store.md",
-      "translationSha256": "8bd4d501f3428d778ab69506b1eb1c287fcfbb7d78a6efee2ecc6c71095a8829",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "f599090033a92a90e3c1b2f770fbc1a7ce6fb6ce59769070b9e8c40b6adc68e2",
+      "glossaryVersion": 64,
+      "attempts": 1,
+      "runId": "20261116-1902",
+      "doneAt": "2026-11-16T19:15:55.277Z",
       "reviewedAt": null,
-      "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "flags": [
+        "table: 源文表头为 4 列、分隔行为 5 列，列数不一致，译文原样保留",
+        "glossary: secret store 统一译为机密存储，标题与正文中的 secrets 仍用密钥"
+      ],
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 33,
+      "termTargets": {
+        "building-block": "构建块",
+        "component": "组件",
+        "hot-reloading": "热重载",
+        "secret-rotation": "密钥轮换",
+        "secret-scoping": "机密作用域",
+        "secret-store": "机密存储",
+        "secrets-api": "密钥 API",
+        "self-hosted": "自托管",
+        "sidecar": "边车"
+      }
     },
     "docs/reference/components-reference/supported-secret-stores/openbao.md": {
       "status": "done",

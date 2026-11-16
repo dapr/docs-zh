@@ -4,10 +4,10 @@ title: "速率限制"
 linkTitle: "速率限制"
 description: "使用速率限制中间件来限制每秒请求数"
 aliases:
-- /developing-applications/middleware/supported-middleware/middleware-rate-limit/
+- /zh-hans/developing-applications/middleware/supported-middleware/middleware-rate-limit/
 ---
 
-速率限制 [HTTP 中间件]({{% ref middleware.md %}}) 允许限制每秒允许的最大 HTTP 请求数。速率限制可以保护您的应用程序免受拒绝服务（DoS）攻击。DoS 攻击可能由恶意的第三方发起，也可能由您软件中的错误引起（即"友军误伤"式 DoS 攻击）。
+速率限制 [HTTP 中间件]({{% ref middleware.md %}}) 允许限制每秒允许的最大 HTTP 请求数。速率限制可以保护你的应用程序免受拒绝服务（DoS）攻击。DoS 攻击可能由恶意的第三方发起，也可能由你软件中的错误引起（即“友军误伤”式 DoS 攻击）。
 
 ## 组件格式
 
@@ -35,10 +35,12 @@ spec:
 一旦达到限制，请求将失败并返回 HTTP 状态码 *429: Too Many Requests*。
 
 {{% alert title="重要" color="warning" %}}
-速率限制在每个 Dapr 边车中独立执行，而不是集群范围的。
+速率限制在每个 Dapr 边车中独立执行，而不是在整个集群范围内执行。
 {{% /alert %}}
 
-或者，可以使用[最大并发设置]({{% ref control-concurrency.md %}})来对应用程序进行速率限制，该设置适用于所有流量，无论远程 IP、协议或路径如何。
+或者：
+- [最大并发设置]({{% ref control-concurrency.md %}})可用于对应用程序进行速率限制，它适用于所有流量，无论远程 IP、协议或路径如何。
+- [工作流并发限制]({{% ref workflow-concurrency.md %}})提供按工作流和按活动的并发控制，包括由调度器跨所有副本强制执行的全局限制。
 
 ## Dapr 配置
 

@@ -151,3 +151,65 @@
 {"ts":"2026-11-16T18:55:19.302Z","run":"20261116-1828","op":"bump","id":"child-workflow","occurrences":2,"version":51,"doc":"docs/developing-applications/building-blocks/workflow/workflow-multi-app.md"}
 {"ts":"2026-11-16T18:55:19.302Z","run":"20261116-1828","op":"add","id":"feature-gate","target":"特性门控","version":51,"doc":"docs/developing-applications/building-blocks/workflow/workflow-multi-app.md"}
 {"ts":"2026-11-16T18:55:19.302Z","run":"20261116-1828","op":"add","id":"app-id","kind":"doNotTranslate","version":51,"doc":"docs/developing-applications/building-blocks/workflow/workflow-multi-app.md"}
+{"ts":"2026-11-16T19:06:06.232Z","run":"20261116-1902","op":"reject","id":"mistral","target":"Mistral","reason":"title: the document's own title is not a term","version":51,"doc":"docs/reference/components-reference/supported-conversation/mistral.md"}
+{"ts":"2026-11-16T19:06:52.891Z","run":"20261116-1902","op":"reject","id":"actor","target":"Actor","reason":"not-used: the translation does not contain it","version":51,"doc":"docs/operations/hosting/self-hosted/self-hosted-upgrade.md"}
+{"ts":"2026-11-16T19:06:53.028Z","run":"20261116-1902","op":"reject","id":"googleai","target":"GoogleAI","reason":"title: the document's own title is not a term","version":51,"doc":"docs/reference/components-reference/supported-conversation/googleai.md"}
+{"ts":"2026-11-16T19:07:32.295Z","run":"20261116-1902","op":"add","id":"workflow-runtime","target":"工作流运行时","version":52,"doc":"docs/developing-applications/building-blocks/workflow/howto-author-workflow.md"}
+{"ts":"2026-11-16T19:07:32.295Z","run":"20261116-1902","op":"add","id":"workflow-registry","target":"工作流注册表","version":52,"doc":"docs/developing-applications/building-blocks/workflow/howto-author-workflow.md"}
+{"ts":"2026-11-16T19:08:43.297Z","run":"20261116-1902","op":"reject","id":"ollama","target":"Ollama","reason":"title: the document's own title is not a term","version":53,"doc":"docs/reference/components-reference/supported-conversation/ollama.md"}
+{"ts":"2026-11-16T19:08:43.297Z","run":"20261116-1902","op":"add","id":"openai","kind":"doNotTranslate","version":53,"doc":"docs/reference/components-reference/supported-conversation/ollama.md"}
+{"ts":"2026-11-16T19:08:43.466Z","run":"20261116-1902","op":"add","id":"aws-secrets-manager","kind":"doNotTranslate","version":54,"doc":"docs/reference/components-reference/supported-secret-stores/_index.md"}
+{"ts":"2026-11-16T19:08:43.466Z","run":"20261116-1902","op":"add","id":"hashicorp-vault","kind":"doNotTranslate","version":54,"doc":"docs/reference/components-reference/supported-secret-stores/_index.md"}
+{"ts":"2026-11-16T19:09:18.319Z","run":"20261116-1902","op":"add","id":"dapr-shared","kind":"doNotTranslate","version":55,"doc":"docs/developing-applications/building-blocks/workflow/workflow-architecture.md"}
+{"ts":"2026-11-16T19:09:18.319Z","run":"20261116-1902","op":"add","id":"continue-as-new","target":"继续作为新","version":55,"doc":"docs/developing-applications/building-blocks/workflow/workflow-architecture.md"}
+{"ts":"2026-11-16T19:09:18.319Z","run":"20261116-1902","op":"add","id":"janitor","kind":"doNotTranslate","version":55,"doc":"docs/developing-applications/building-blocks/workflow/workflow-architecture.md"}
+{"ts":"2026-11-16T19:09:54.194Z","run":"20261116-1902","op":"add","id":"dapr-presenter","kind":"doNotTranslate","version":56,"doc":"docs/contributing/presentations.md"}
+{"ts":"2026-11-16T19:09:54.194Z","run":"20261116-1902","op":"add","id":"dapr-presentation-decks","target":"Dapr 演示文稿套件","version":56,"doc":"docs/contributing/presentations.md"}
+{"ts":"2026-11-16T19:09:54.355Z","run":"20261116-1902","op":"add","id":"middleware","target":"中间件","version":57,"doc":"docs/reference/components-reference/supported-middleware/middleware-rate-limit.md"}
+{"ts":"2026-11-16T19:10:59.177Z","run":"20261116-1902","op":"add","id":"rate-limit-middleware","target":"速率限制中间件","version":58,"doc":"docs/operations/configuration/control-concurrency.md"}
+{"ts":"2026-11-16T19:12:00.237Z","run":"20261116-1902","op":"add","id":"input-binding","target":"输入绑定","version":59,"doc":"docs/reference/components-reference/supported-bindings/influxdb.md"}
+{"ts":"2026-11-16T19:12:00.237Z","run":"20261116-1902","op":"add","id":"line-protocol","target":"行协议","version":59,"doc":"docs/reference/components-reference/supported-bindings/influxdb.md"}
+{"ts":"2026-11-16T19:12:38.406Z","run":"20261116-1902","op":"add","id":"query-state","target":"状态查询","version":60,"doc":"docs/operations/support/alpha-beta-apis.md"}
+{"ts":"2026-11-16T19:12:38.406Z","run":"20261116-1902","op":"add","id":"actor-app-initiated-streams","target":"Actor 应用发起的流","version":60,"doc":"docs/operations/support/alpha-beta-apis.md"}
+{"ts":"2026-11-16T19:12:38.406Z","run":"20261116-1902","op":"add","id":"cryptography","target":"加密","version":60,"doc":"docs/operations/support/alpha-beta-apis.md"}
+{"ts":"2026-11-16T19:12:38.406Z","run":"20261116-1902","op":"add","id":"search","target":"搜索","version":60,"doc":"docs/operations/support/alpha-beta-apis.md"}
+{"ts":"2026-11-16T19:12:38.406Z","run":"20261116-1902","op":"add","id":"vector","target":"向量","version":60,"doc":"docs/operations/support/alpha-beta-apis.md"}
+{"ts":"2026-11-16T19:12:38.564Z","run":"20261116-1902","op":"add","id":"workflows-clustered-deployment","target":"工作流集群部署","version":61,"doc":"docs/operations/support/support-preview-features.md"}
+{"ts":"2026-11-16T19:12:38.564Z","run":"20261116-1902","op":"add","id":"workflows-durable-activity-results","target":"工作流持久化活动结果","version":61,"doc":"docs/operations/support/support-preview-features.md"}
+{"ts":"2026-11-16T19:12:38.564Z","run":"20261116-1902","op":"add","id":"actor-state-ttl","target":"Actor 状态 TTL","version":61,"doc":"docs/operations/support/support-preview-features.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"blackboard","target":"黑板","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"google-adk","kind":"doNotTranslate","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"claude-agent-sdk","kind":"doNotTranslate","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"crewai","kind":"doNotTranslate","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"langchain-deep-agents","kind":"doNotTranslate","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"holmesgpt","kind":"doNotTranslate","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"langgraph","kind":"doNotTranslate","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"pydantic-ai","kind":"doNotTranslate","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"strands-agents","kind":"doNotTranslate","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"microsoft-agent-framework","kind":"doNotTranslate","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.288Z","run":"20261116-1902","op":"add","id":"flock","kind":"doNotTranslate","version":62,"doc":"docs/developing-ai/agent-integrations/_index.md"}
+{"ts":"2026-11-16T19:15:19.455Z","run":"20261116-1902","op":"add","id":"multi-tenant-mode","target":"多租户模式","version":63,"doc":"docs/reference/api/placement_api.md"}
+{"ts":"2026-11-16T19:15:19.455Z","run":"20261116-1902","op":"add","id":"helm","kind":"doNotTranslate","version":63,"doc":"docs/reference/api/placement_api.md"}
+{"ts":"2026-11-16T19:15:55.120Z","run":"20261116-1902","op":"add","id":"dapr-installer-bundle","target":"Dapr 安装程序包","version":64,"doc":"docs/operations/hosting/self-hosted/self-hosted-airgap.md"}
+{"ts":"2026-11-16T19:15:55.120Z","run":"20261116-1902","op":"add","id":"airgap","target":"隔离","version":64,"doc":"docs/operations/hosting/self-hosted/self-hosted-airgap.md"}
+{"ts":"2026-11-16T19:15:55.285Z","run":"20261116-1902","op":"add","id":"secret-rotation","target":"密钥轮换","version":65,"doc":"docs/reference/components-reference/supported-secret-stores/kubernetes-secret-store.md"}
+{"ts":"2026-11-16T19:15:55.285Z","run":"20261116-1902","op":"reject","id":"pod","target":"Pod","reason":"not-used: the translation does not contain it","version":65,"doc":"docs/reference/components-reference/supported-secret-stores/kubernetes-secret-store.md"}
+{"ts":"2026-11-16T19:17:34.943Z","run":"20261116-1902","op":"add","id":"reasoning-model","target":"推理模型","version":66,"doc":"docs/reference/components-reference/supported-conversation/openai.md"}
+{"ts":"2026-11-16T19:17:34.943Z","run":"20261116-1902","op":"reject","id":"function-tools","target":"函数工具","reason":"generic: made only of ordinary words","version":66,"doc":"docs/reference/components-reference/supported-conversation/openai.md"}
+{"ts":"2026-11-16T19:18:44.772Z","run":"20261116-1902","op":"add","id":"allowlist","target":"允许列表","version":67,"doc":"docs/operations/configuration/api-allowlist.md"}
+{"ts":"2026-11-16T19:18:44.772Z","run":"20261116-1902","op":"add","id":"denylist","target":"拒绝列表","version":67,"doc":"docs/operations/configuration/api-allowlist.md"}
+{"ts":"2026-11-16T19:18:44.772Z","run":"20261116-1902","op":"add","id":"dapr-configuration","kind":"doNotTranslate","version":67,"doc":"docs/operations/configuration/api-allowlist.md"}
+{"ts":"2026-11-16T19:18:44.772Z","run":"20261116-1902","op":"add","id":"secrets","target":"密钥","version":67,"doc":"docs/operations/configuration/api-allowlist.md"}
+{"ts":"2026-11-16T19:18:44.772Z","run":"20261116-1902","op":"add","id":"conversation","target":"对话","version":67,"doc":"docs/operations/configuration/api-allowlist.md"}
+{"ts":"2026-11-16T19:19:49.767Z","run":"20261116-1902","op":"reject","id":"event-sourcing","target":"事件溯源","reason":"not-in-source: the term does not occur in the document's prose","version":68,"doc":"docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-state-and-history.md"}
+{"ts":"2026-11-16T19:19:49.767Z","run":"20261116-1902","op":"add","id":"inbox","target":"收件箱","version":68,"doc":"docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-state-and-history.md"}
+{"ts":"2026-11-16T19:19:49.961Z","run":"20261116-1902","op":"bump","id":"control-plane","occurrences":2,"version":69,"doc":"docs/operations/hosting/kubernetes/cluster/setup-eks.md"}
+{"ts":"2026-11-16T19:19:49.961Z","run":"20261116-1902","op":"add","id":"storage-class","target":"存储类","version":69,"doc":"docs/operations/hosting/kubernetes/cluster/setup-eks.md"}
+{"ts":"2026-11-16T19:21:25.701Z","run":"20261116-1902","op":"add","id":"work-item","target":"工作项","version":70,"doc":"docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-execution-api.md"}
+{"ts":"2026-11-16T19:21:25.701Z","run":"20261116-1902","op":"add","id":"replay","target":"重放","version":70,"doc":"docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-execution-api.md"}
+{"ts":"2026-11-16T19:21:59.146Z","run":"20261116-1902","op":"add","id":"activity-reminder","target":"活动提醒","version":71,"doc":"docs/reference/cli/dapr-scheduler.md"}
+{"ts":"2026-11-16T19:23:58.457Z","run":"20261116-1902","op":"add","id":"lock","target":"锁","version":72,"doc":"docs/developing-ai/mcp/_index.md"}
+{"ts":"2026-11-16T19:23:58.457Z","run":"20261116-1902","op":"add","id":"dapr-mcp-server","target":"Dapr MCP 服务器","version":72,"doc":"docs/developing-ai/mcp/_index.md"}
+{"ts":"2026-11-16T19:23:58.623Z","run":"20261116-1902","op":"add","id":"built-in-component","target":"内置组件","version":73,"doc":"docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md"}
+{"ts":"2026-11-16T19:23:58.623Z","run":"20261116-1902","op":"add","id":"component-specification","target":"组件规范","version":73,"doc":"docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md"}
+{"ts":"2026-11-16T19:23:58.623Z","run":"20261116-1902","op":"add","id":"unix-domain-socket","target":"Unix 域套接字","version":73,"doc":"docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md"}

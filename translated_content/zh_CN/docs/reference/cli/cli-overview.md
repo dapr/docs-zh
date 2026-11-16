@@ -4,9 +4,14 @@ title: "Dapr 命令行界面（CLI）参考"
 linkTitle: "概览"
 description: "Dapr CLI 的详细信息"
 weight: 10
+aliases: [/zh-hans/reference/cli/dapr-dashboard/]
 ---
 
-Dapr CLI 允许您在本地开发机器或 Kubernetes 集群上设置 Dapr，提供调试支持，并启动和管理 Dapr 实例。
+Dapr CLI 允许你在本地开发机器或 Kubernetes 集群上设置 Dapr，提供调试支持，并启动和管理 Dapr 实例。
+
+{{% alert title="正在寻找 `dapr dashboard` 吗？" color="primary" %}}
+`dapr dashboard` 命令已不再是 Dapr CLI 的一部分。如需在本机查看应用、边车、工作流、Actor、订阅、组件、状态和日志的本地视图，请使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}})。
+{{% /alert %}}
 
 ```bash
 
@@ -21,6 +26,7 @@ Dapr CLI 允许您在本地开发机器或 Kubernetes 集群上设置 Dapr，提
 Distributed Application Runtime
 
 Usage:
+  dapr [flags]
   dapr [command]
 
 Available Commands:
@@ -29,52 +35,61 @@ Available Commands:
   completion     Generates shell completion scripts
   components     List all Dapr components. Supported platforms: Kubernetes
   configurations List all Dapr configurations. Supported platforms: Kubernetes
-  dashboard      Start Dapr dashboard. Supported platforms: Kubernetes and self-hosted
   help           Help about any command
   init           Install Dapr on supported hosting platforms. Supported platforms: Kubernetes and self-hosted
   invoke         Invoke a method on a given Dapr application. Supported platforms: Self-hosted
   list           List all Dapr instances. Supported platforms: Kubernetes and self-hosted
   logs           Get Dapr sidecar logs for an application. Supported platforms: Kubernetes
+  mcpservers     List all Dapr MCPServer resources. Supported platforms: Kubernetes and self-hosted
   mtls           Check if mTLS is enabled. Supported platforms: Kubernetes
   publish        Publish a pub-sub event. Supported platforms: Self-hosted
   run            Run Dapr and (optionally) your application side by side. Supported platforms: Self-hosted
+  scheduler      Scheduler management commands. Use -k to target a Kubernetes Dapr cluster.
   status         Show the health status of Dapr services. Supported platforms: Kubernetes
   stop           Stop Dapr instances and their associated apps. Supported platforms: Self-hosted
   uninstall      Uninstall Dapr runtime. Supported platforms: Kubernetes and self-hosted
-  upgrade        Upgrades a Dapr control plane installation in a cluster. Supported platforms: Kubernetes
+  upgrade        Upgrades or downgrades a Dapr control plane installation in a cluster. Supported platforms: Kubernetes
   version        Print the Dapr runtime and CLI version
+  workflow       Workflow management commands. Use -k to target a Kubernetes Dapr cluster.
 
 Flags:
-  -h, --help          help for dapr
-      --log-as-json   Log output in JSON format
-  -v, --version       version for dapr
+  -h, --help                  help for dapr
+      --log-as-json           Log output in JSON format
+      --runtime-path string   The path to the dapr runtime installation directory
+  -v, --version               version for dapr
 
 Use "dapr [command] --help" for more information about a command.
 ```
 
 ### 命令参考
 
-您可以通过以下链接了解每个 Dapr 命令的详细信息。
+你可以通过以下链接了解每个 Dapr 命令的详细信息。
 
  - [`dapr annotate`]({{% ref dapr-annotate.md %}})
  - [`dapr build-info`]({{% ref dapr-build-info.md %}})
  - [`dapr completion`]({{% ref dapr-completion.md %}})
  - [`dapr components`]({{% ref dapr-components.md %}})
  - [`dapr configurations`]({{% ref dapr-configurations.md %}})
- - [`dapr dashboard`]({{% ref dapr-dashboard.md %}})
  - [`dapr help`]({{% ref dapr-help.md %}})
  - [`dapr init`]({{% ref dapr-init.md %}})
  - [`dapr invoke`]({{% ref dapr-invoke.md %}})
  - [`dapr list`]({{% ref dapr-list.md %}})
  - [`dapr logs`]({{% ref dapr-logs.md %}})
+ - [`dapr mcpservers`]({{% ref dapr-mcpservers.md %}})
  - [`dapr mtls`]({{% ref dapr-mtls %}})
  - [`dapr publish`]({{% ref dapr-publish.md %}})
  - [`dapr run`]({{% ref dapr-run.md %}})
+ - [`dapr scheduler`]({{% ref dapr-scheduler.md %}})
  - [`dapr status`]({{% ref dapr-status.md %}})
  - [`dapr stop`]({{% ref dapr-stop.md %}})
  - [`dapr uninstall`]({{% ref dapr-uninstall.md %}})
  - [`dapr upgrade`]({{% ref dapr-upgrade.md %}})
  - [`dapr version`]({{% ref dapr-version.md %}})
+ - [`dapr workflow`]({{% ref dapr-workflow.md %}})
+
+### 输出流
+
+从 Dapr CLI 1.19 起，`dapr init`、`dapr list`、`dapr uninstall`、`dapr version` 以及 `dapr workflow` 子命令会将错误和警告信息写入标准错误（stderr），使标准输出（stdout）上的 `-o json` 输出保持可解析。退出码保持不变。请更新那些从标准输出读取这些信息的脚本。
 
 ### 环境变量
 

@@ -2,7 +2,7 @@
 type: docs
 title: "Huggingface"
 linkTitle: "Huggingface"
-description: Huggingface 会话组件的详细信息
+description: Huggingface 对话组件的详细信息
 ---
 
 ## 组件格式
@@ -26,7 +26,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用纯文本字符串作为密钥。建议使用密钥存储来管理密钥，具体说明请参见[此处]({{% ref component-secrets.md %}})。
+上述示例使用纯文本字符串作为密钥。建议使用机密存储来管理密钥，具体说明请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -34,9 +34,10 @@ spec:
 | 字段              | 必填 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
 | `key`   | Y | Huggingface 的 API 密钥。 | `mykey` |
-| `model` | N | 要使用的 Huggingface LLM。默认为 `meta-llama/Meta-Llama-3-8B`。  | `meta-llama/Meta-Llama-3-8B` |
+| `model` | N | 要使用的 Huggingface 大型语言模型 (LLM)。默认为 `meta-llama/Meta-Llama-3-8B`。 | `meta-llama/Meta-Llama-3-8B` |
+| `maxTokens` | N | 模型在每次请求中可生成的默认最大令牌数。请求级别的 `maxTokens` 值会覆盖此默认值。未设置时，不发送上限，将使用提供方自身的默认值。 | `2048` |
 | `responseCacheTTL` | N | 内存响应缓存的生存时间。设置后，相同的请求将从缓存中提供，直到过期。 | `10m` |
 
 ## 相关链接
 
-- [会话 API 概述]({{% ref conversation-overview.md %}})
+- [对话 API 概览]({{% ref conversation-overview.md %}})

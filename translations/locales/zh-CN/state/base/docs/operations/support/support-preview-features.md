@@ -1,0 +1,25 @@
+---
+type: docs
+title: "Preview features"
+linkTitle: "Preview features"
+weight: 4000
+description: "List of current preview features"
+---
+Preview features in Dapr are considered experimental when they are first released.
+
+Runtime preview features require explicit opt-in in order to be used. The runtime opt-in is specified in a preview setting feature in Dapr's application configuration. See [How-To: Enable preview features]({{%ref preview-features%}}) for more information.
+
+For CLI there is no explicit opt-in, just the version that this was first made available.
+
+## Current preview features
+
+| Feature | Description | Setting | Documentation | Version introduced |
+| --- | --- | --- | --- | --- |
+| **Pluggable components** | Allows creating self-hosted gRPC-based components written in any language that supports gRPC. The following component APIs are supported: State stores, Pub/sub, Bindings | N/A | [Pluggable components concept]({{%ref "components-concept#pluggable-components" %}})| v1.9  |
+| **Multi-App Run for Kubernetes** | Configure multiple Dapr applications from a single configuration file and run from a single command on Kubernetes | `dapr run -k -f` | [Multi-App Run]({{% ref multi-app-dapr-run.md %}}) | v1.12 |
+| **Cryptography** | Encrypt or decrypt data without having to manage secrets keys  | N/A | [Cryptography concept]({{% ref "components-concept#cryptography" %}})| v1.11  |
+| **Actor State TTL** | Allow actors to save records to state stores with Time To Live (TTL) set to automatically clean up old data. In its current implementation, actor state with TTL may not be reflected correctly by clients, read [Actor State Transactions]({{% ref actors_api.md %}}) for more information. | `ActorStateTTL` | [Actor State Transactions]({{% ref actors_api.md %}}) | v1.11  |
+| **Workflows Clustered Deployment** | Enable Workflows to function when workflow clients communicate to multiple daprds of the same appID who are behind a loadbalancer. Only relevant when using [Dapr shared]({{% ref "kubernetes-dapr-shared" %}}) | `WorkflowsClusteredDeployment`| [Dapr Shared]({{% ref "kubernetes-dapr-shared" %}}) | v1.16  |
+| **Workflows Durable Activity Results** | If set, ensures that activity results are durably sent to the owning workflow in multi-application scenarios, even when the owning workflow application is unavailable. Strongly recommended to always be enabled when all Dapr applications are running the same version. Enabled by default as of v1.18.  | `WorkflowsRemoteActivityReminder` | [Multi-application Workflows]({{% ref "workflow-multi-app.md#durable-activity-results" %}}) | v1.17 |
+| **Workflow History Signing** | Cryptographic signing and verification of workflow history events using the sidecar's mTLS X.509 identity. Detects tampering of workflow state. **Disabled by default**; set to `true` to enable. Signing is a one-way commitment: once enabled for a workflow, it cannot be disabled. | `WorkflowHistorySigning` | [Workflow History Signing]({{% ref "workflow-history-signing.md" %}}) | v1.18 |
+| **Workflow fast path** | Drives workflow wake-ups and activity executions locally and folds activity completions into a single state store commit, removing the per-event Scheduler reminders and most state store commits from the workflow hot path. At-least-once execution is unchanged. **Disabled by default**; disables itself when Scheduler-enforced workflow concurrency limits are configured. | `WorkflowsFastPath` | [Workflow fast path]({{% ref "workflow-fast-path.md" %}}) | v1.19 |

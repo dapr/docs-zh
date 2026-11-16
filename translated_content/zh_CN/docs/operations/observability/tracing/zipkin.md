@@ -35,7 +35,7 @@ spec:
 docker run -d -p 9411:9411 openzipkin/zipkin
 ```
 
-3. 使用 `dapr run` 启动的应用程序默认引用 `$HOME/.dapr/config.yaml` 或 `%USERPROFILE%\.dapr\config.yaml` 中的配置文件，并可以通过使用 `--config` 参数的 Dapr CLI 覆盖它：
+3. 使用 `dapr run` 启动的应用程序默认引用 `$HOME/.dapr/config.yaml` 或 `%USERPROFILE%\.dapr\config.yaml` 中的配置文件，并可以通过 Dapr CLI 使用 `--config` 参数覆盖它：
 
 ```bash
 dapr run --app-id mynode --app-port 3000 node app.js

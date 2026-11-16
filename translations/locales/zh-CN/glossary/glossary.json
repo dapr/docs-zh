@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 51,
-  "updatedAt": "2026-11-16T18:55:19.302Z",
+  "version": 73,
+  "updatedAt": "2026-11-16T19:23:58.623Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -302,6 +302,114 @@
       "note": "Dapr 应用标识，保留英文。",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "OpenAI",
+      "note": "产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "AWS Secrets Manager",
+      "note": "产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "HashiCorp Vault",
+      "note": "产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Shared",
+      "note": "Dapr 的共享部署模式名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "janitor",
+      "note": "快速路径中每个工作流实例的单个循环兜底提醒（janitor reminder），译文保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Presenter",
+      "note": "社区徽章名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Google ADK",
+      "note": "框架产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Claude Agent SDK",
+      "note": "框架产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "CrewAI",
+      "note": "框架产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "LangChain Deep Agents",
+      "note": "框架产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "HolmesGPT",
+      "note": "框架产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "LangGraph",
+      "note": "框架产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Pydantic AI",
+      "note": "框架产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Strands Agents",
+      "note": "框架产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Microsoft Agent Framework",
+      "note": "框架产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Flock",
+      "note": "框架产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Helm",
+      "note": "部署工具名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Configuration",
+      "note": "Dapr 资源类型名称，保留英文。",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
@@ -326,6 +434,46 @@
       "conflicts": []
     },
     {
+      "id": "activity-reminder",
+      "source": "activity reminder",
+      "target": "活动提醒",
+      "alt": [],
+      "note": "Dapr Scheduler 中 activity reminder 的译法，由“活动”与“提醒”的术语组合而来。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/cli/dapr-scheduler.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/cli/dapr-scheduler.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "actor-app-initiated-streams",
+      "source": "Actor App-Initiated Streams",
+      "target": "Actor 应用发起的流",
+      "alt": [],
+      "note": "Actor 应用发起的流式传输能力名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/support/alpha-beta-apis.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/support/alpha-beta-apis.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "actor-runtime",
       "source": "Actor runtime",
       "target": "Actor 运行时",
@@ -346,6 +494,26 @@
       "conflicts": []
     },
     {
+      "id": "actor-state-ttl",
+      "source": "Actor State TTL",
+      "target": "Actor 状态 TTL",
+      "alt": [],
+      "note": "预览功能名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/support/support-preview-features.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/support/support-preview-features.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "actors",
       "source": "actors",
       "target": "Actor",
@@ -362,6 +530,46 @@
       "lastSeen": {
         "doc": "docs/concepts/components-concept.md",
         "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "airgap",
+      "source": "airgap",
+      "target": "隔离",
+      "alt": [],
+      "note": "airgap 环境的译法（隔离环境、隔离初始化），沿用旧译。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/hosting/self-hosted/self-hosted-airgap.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/hosting/self-hosted/self-hosted-airgap.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "allowlist",
+      "source": "allowlist",
+      "target": "允许列表",
+      "alt": [],
+      "note": "API 允许列表（API allowlist）的译法，与拒绝列表对应。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/configuration/api-allowlist.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/configuration/api-allowlist.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -406,6 +614,26 @@
       "conflicts": []
     },
     {
+      "id": "blackboard",
+      "source": "Blackboard",
+      "target": "黑板",
+      "alt": [],
+      "note": "Flock 中黑板状态（blackboard state）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/agent-integrations/_index.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/agent-integrations/_index.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "building-block",
       "source": "building block",
       "target": "构建块",
@@ -422,6 +650,26 @@
       "lastSeen": {
         "doc": "copilot-glossary-seed",
         "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "built-in-component",
+      "source": "built-in component",
+      "target": "内置组件",
+      "alt": [],
+      "note": "Dapr 内置组件（随运行时提供）的译法，与可插拔组件相对",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -546,6 +794,26 @@
       "conflicts": []
     },
     {
+      "id": "component-specification",
+      "source": "component specification",
+      "target": "组件规范",
+      "alt": [],
+      "note": "Dapr 组件规范（component specification）的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "config-store",
       "source": "config store",
       "target": "配置存储",
@@ -626,6 +894,26 @@
       "conflicts": []
     },
     {
+      "id": "continue-as-new",
+      "source": "continue as new",
+      "target": "继续作为新",
+      "alt": [],
+      "note": "工作流的“继续作为新”操作：清除历史并以新输入重新启动工作流。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-architecture.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-architecture.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "control-plane",
       "source": "control plane",
       "target": "控制平面",
@@ -634,14 +922,34 @@
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
-      "occurrences": 1,
+      "occurrences": 2,
       "firstSeen": {
         "doc": "docs/concepts/faq/service-mesh.md",
         "run": "20261116-1020"
       },
       "lastSeen": {
-        "doc": "docs/concepts/faq/service-mesh.md",
-        "run": "20261116-1020"
+        "doc": "docs/operations/hosting/kubernetes/cluster/setup-eks.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "conversation",
+      "source": "Conversation",
+      "target": "对话",
+      "alt": [],
+      "note": "Dapr 对话构建块（Conversation API）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/configuration/api-allowlist.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/configuration/api-allowlist.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -706,6 +1014,26 @@
       "conflicts": []
     },
     {
+      "id": "cryptography",
+      "source": "Cryptography",
+      "target": "加密",
+      "alt": [],
+      "note": "Cryptography API 的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/support/alpha-beta-apis.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/support/alpha-beta-apis.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "cryptography-building-block",
       "source": "cryptography building block",
       "target": "密码学构建块",
@@ -722,6 +1050,66 @@
       "lastSeen": {
         "doc": "docs/getting-started/quickstarts/cryptography-quickstart.md",
         "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "dapr-installer-bundle",
+      "source": "Dapr Installer Bundle",
+      "target": "Dapr 安装程序包",
+      "alt": [],
+      "note": "Dapr 官方安装程序包（installer bundle）的译法，沿用旧译。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/hosting/self-hosted/self-hosted-airgap.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/hosting/self-hosted/self-hosted-airgap.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "dapr-mcp-server",
+      "source": "Dapr MCP server",
+      "target": "Dapr MCP 服务器",
+      "alt": [],
+      "note": "Dapr 独立 MCP 服务器的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/_index.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/_index.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "dapr-presentation-decks",
+      "source": "Dapr Presentation Decks",
+      "target": "Dapr 演示文稿套件",
+      "alt": [],
+      "note": "Dapr 官方演示文稿下载包的名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/contributing/presentations.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/contributing/presentations.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -782,6 +1170,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-deadletter.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "denylist",
+      "source": "denylist",
+      "target": "拒绝列表",
+      "alt": [],
+      "note": "API 拒绝列表（API denylist）的译法，与允许列表对应。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/configuration/api-allowlist.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/configuration/api-allowlist.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -986,6 +1394,46 @@
       "conflicts": []
     },
     {
+      "id": "inbox",
+      "source": "inbox",
+      "target": "收件箱",
+      "alt": [],
+      "note": "工作流引擎中尚未被编排器处理的待处理事件集合的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-state-and-history.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-state-and-history.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "input-binding",
+      "source": "input binding",
+      "target": "输入绑定",
+      "alt": [],
+      "note": "Dapr 输入绑定,与“输出绑定”对应。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-bindings/influxdb.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-bindings/influxdb.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "job",
       "source": "job",
       "target": "作业",
@@ -1066,6 +1514,26 @@
       "conflicts": []
     },
     {
+      "id": "line-protocol",
+      "source": "line protocol",
+      "target": "行协议",
+      "alt": [],
+      "note": "InfluxDB 行协议(line protocol)的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-bindings/influxdb.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-bindings/influxdb.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "llm",
       "source": "LLM",
       "target": "大型语言模型 (LLM)",
@@ -1082,6 +1550,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/conversation/conversation-overview.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "lock",
+      "source": "lock",
+      "target": "锁",
+      "alt": [],
+      "note": "Dapr 锁构建块（Lock API）的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/_index.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/_index.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -1146,6 +1634,26 @@
       "conflicts": []
     },
     {
+      "id": "middleware",
+      "source": "middleware",
+      "target": "中间件",
+      "alt": [],
+      "note": "Dapr 中间件（HTTP middleware、middleware pipeline）的译法，与现有译文一致",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-middleware/middleware-rate-limit.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-middleware/middleware-rate-limit.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "mock-llm",
       "source": "mock LLM",
       "target": "模拟 LLM",
@@ -1182,6 +1690,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "multi-tenant-mode",
+      "source": "multi-tenant mode",
+      "target": "多租户模式",
+      "alt": [],
+      "note": "Dapr 多租户部署模式的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/api/placement_api.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/api/placement_api.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -1366,6 +1894,26 @@
       "conflicts": []
     },
     {
+      "id": "query-state",
+      "source": "Query State",
+      "target": "状态查询",
+      "alt": [],
+      "note": "Query State API 的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/support/alpha-beta-apis.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/support/alpha-beta-apis.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "quickstart",
       "source": "Quickstart",
       "target": "快速入门",
@@ -1382,6 +1930,26 @@
       "lastSeen": {
         "doc": "docs/getting-started/quickstarts/cryptography-quickstart.md",
         "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "rate-limit-middleware",
+      "source": "rate limit middleware",
+      "target": "速率限制中间件",
+      "alt": [],
+      "note": "Dapr 速率限制中间件（middleware.http.ratelimit）的译法，与旧译文一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/configuration/control-concurrency.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/configuration/control-concurrency.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -1422,6 +1990,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/pubsub/pubsub-raw.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "reasoning-model",
+      "source": "reasoning model",
+      "target": "推理模型",
+      "alt": [],
+      "note": "指在 Chat Completions 上拒绝工具的推理模型，文中一致使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-conversation/openai.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-conversation/openai.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -1482,6 +2070,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "replay",
+      "source": "replay",
+      "target": "重放",
+      "alt": [],
+      "note": "SDK 通过重放历史事件（HistoryEvent）来确定 orchestration 的下一步操作。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-execution-api.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-execution-api.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -1586,6 +2194,46 @@
       "conflicts": []
     },
     {
+      "id": "search",
+      "source": "Search",
+      "target": "搜索",
+      "alt": [],
+      "note": "Search API 的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/support/alpha-beta-apis.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/support/alpha-beta-apis.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "secret-rotation",
+      "source": "secret rotation",
+      "target": "密钥轮换",
+      "alt": [],
+      "note": "密钥轮换流程的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-secret-stores/kubernetes-secret-store.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-secret-stores/kubernetes-secret-store.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "secret-scoping",
       "source": "secret scoping",
       "target": "机密作用域",
@@ -1622,6 +2270,26 @@
       "lastSeen": {
         "doc": "docs/getting-started/quickstarts/secrets-quickstart.md",
         "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "secrets",
+      "source": "Secrets",
+      "target": "密钥",
+      "alt": [],
+      "note": "Dapr 密钥构建块（Secrets API）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/configuration/api-allowlist.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/configuration/api-allowlist.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -1826,6 +2494,26 @@
       "conflicts": []
     },
     {
+      "id": "storage-class",
+      "source": "storage class",
+      "target": "存储类",
+      "alt": [],
+      "note": "Kubernetes 存储类（StorageClass）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/hosting/kubernetes/cluster/setup-eks.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/hosting/kubernetes/cluster/setup-eks.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "streaming-subscription",
       "source": "streaming subscription",
       "target": "流式订阅",
@@ -1972,6 +2660,46 @@
       "conflicts": []
     },
     {
+      "id": "unix-domain-socket",
+      "source": "Unix domain socket",
+      "target": "Unix 域套接字",
+      "alt": [],
+      "note": "Unix 域套接字的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/develop-components/pluggable-components/pluggable-components-overview.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "vector",
+      "source": "Vector",
+      "target": "向量",
+      "alt": [],
+      "note": "Vector API 的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/support/alpha-beta-apis.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/support/alpha-beta-apis.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
       "id": "virtual-actor",
       "source": "virtual actor",
       "target": "虚拟 Actor",
@@ -1988,6 +2716,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/actors/actor-reentrancy.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "work-item",
+      "source": "work item",
+      "target": "工作项",
+      "alt": [],
+      "note": "Dapr Workflow SDK 与 sidecar 之间传递的工作单元，译文中用于 WorkItem 相关说明。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-execution-api.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-execution-api.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     },
@@ -2028,6 +2776,86 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-multi-app.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "workflow-registry",
+      "source": "workflow registry",
+      "target": "工作流注册表",
+      "alt": [],
+      "note": "Go SDK 中用于注册工作流与活动的注册表对象的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/howto-author-workflow.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/howto-author-workflow.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "workflow-runtime",
+      "source": "workflow runtime",
+      "target": "工作流运行时",
+      "alt": [],
+      "note": "Dapr 工作流 SDK 中的运行时对象（WorkflowRuntime）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/howto-author-workflow.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/howto-author-workflow.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "workflows-clustered-deployment",
+      "source": "Workflows Clustered Deployment",
+      "target": "工作流集群部署",
+      "alt": [],
+      "note": "预览功能名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/support/support-preview-features.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/support/support-preview-features.md",
+        "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "workflows-durable-activity-results",
+      "source": "Workflows Durable Activity Results",
+      "target": "工作流持久化活动结果",
+      "alt": [],
+      "note": "预览功能名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/support/support-preview-features.md",
+        "run": "20261116-1902"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/support/support-preview-features.md",
+        "run": "20261116-1902"
       },
       "conflicts": []
     }

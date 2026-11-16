@@ -12,12 +12,15 @@ description: "了解如何控制可以同时调用您的应用程序的请求数
 
 ## 不同的方法
 
-本指南重点介绍 `app-max-concurrency`，您也可以使用 **`middleware.http.ratelimit`** 中间件来限制每秒的请求速率。但是，了解这两种方法之间的区别很重要：
+Dapr 提供了多种并发和速率限制的方法。了解它们之间的区别很重要：
 
-- `middleware.http.ratelimit`：时间受限，限制每秒的请求数
-- `app-max-concurrency`：指定在任何时间点的最大并发请求（和事件）数
+| 方法 | 控制内容 | 范围 |
+|------|---------|------|
+| `app-max-concurrency` | 发送到应用程序的最大并发请求和事件数 | 每个边车 |
+| `middleware.http.ratelimit` | 按远程 IP 统计的每秒 HTTP 请求数 | 每个边车 |
+| [工作流并发限制]({{% ref workflow-concurrency.md %}}) | 工作流和活动的执行，可按名称细分 | 每个边车，或全局（跨所有副本） |
 
-有关该方法的更多信息，请参阅[速率限制中间件]({{% ref middleware-rate-limit.md %}})。
+本指南重点介绍 `app-max-concurrency`。有关其他方法，请参阅[速率限制中间件]({{% ref middleware-rate-limit.md %}})和[工作流并发限制]({{% ref workflow-concurrency.md %}})。
 
 ## 演示
 
@@ -44,7 +47,7 @@ description: "了解如何控制可以同时调用您的应用程序的请求数
 dapr run --app-max-concurrency 1 --app-port 5000 python ./app.py
 ```
 
-上述示例有效地将您的应用程序转换为顺序处理服务。
+上述示例实际上将您的应用程序转换为顺序处理服务。
 
 {{% /tab %}}
 
@@ -85,8 +88,7 @@ spec:
 ## 限制
 
 ### 控制外部请求的并发性
-
-对于来自 Dapr 的每个事件，包括发布订阅事件、来自其他服务的直接调用、绑定事件等，都可以保证速率限制。但是，Dapr 无法对从外部到您的应用程序的请求强制执行并发策略。
+对于来自 Dapr 的每个事件（包括发布订阅事件、来自其他服务的直接调用、绑定事件等），都可以保证速率限制。但是，Dapr 无法对从外部发送到您的应用程序的请求强制执行并发策略。
 
 ## 相关链接
 
@@ -94,4 +96,4 @@ spec:
 
 ## 后续步骤
 
-{{< button text="限制 secret store 访问" page="secret-scope.md" >}}
+{{< button text="限制机密存储访问" page="secret-scope.md" >}}

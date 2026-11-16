@@ -26,7 +26,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-以上示例将密钥以纯字符串形式使用。建议使用密钥存储来管理密钥，具体说明请参见[此处]({{< ref component-secrets.md >}})。
+以上示例将密钥以纯字符串形式使用。建议使用机密存储来管理密钥，具体说明请参见[此处]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 规格元数据字段
@@ -34,7 +34,8 @@ spec:
 | 字段              | 必填 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
 | `key`   | Y | GoogleAI 的 API 密钥。 | `mykey` |
-| `model` | N | 要使用的 GoogleAI 大语言模型。默认为 `gemini-1.5-flash`。  | `gemini-2.0-flash` |
+| `model` | N | 要使用的 GoogleAI 大型语言模型 (LLM)。默认为 `gemini-1.5-flash`。  | `gemini-2.0-flash` |
+| `maxTokens` | N | 模型每次请求可生成的最大令牌数（默认值）。请求级别的 `maxTokens` 值会覆盖此默认值。未设置时，不发送上限，由提供方自身的默认值决定。 | `2048` |
 | `responseCacheTTL` | N | 内存响应缓存的有效期。设置后，相同的请求将从缓存中提供响应，直到过期。 | `10m` |
 
 ## 相关链接

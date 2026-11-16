@@ -1,0 +1,43 @@
+---
+type: docs
+title: "Anthropic"
+linkTitle: "Anthropic"
+description: Detailed information on the Anthropic conversation component
+---
+
+## Component format
+
+A Dapr `conversation.yaml` component file has the following structure:
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: anthropic
+spec:
+  type: conversation.anthropic
+  metadata:
+  - name: key
+    value: "mykey"
+  - name: model
+    value: claude-sonnet-4-6
+  - name: responseCacheTTL
+    value: 10m
+```
+
+{{% alert title="Warning" color="warning" %}}
+The above example uses secrets as plain strings. It is recommended to use a secret store for the secrets, as described [here]({{% ref component-secrets.md %}}).
+{{% /alert %}}
+
+## Spec metadata fields
+
+| Field              | Required | Details | Example |
+|--------------------|:--------:|---------|---------|
+| `key`   | Y | API key for Anthropic. | `"mykey"` |
+| `model` | N | The Anthropic LLM to use. Defaults to `claude-sonnet-4-6`. If the `ANTHROPIC_MODEL` environment variable is set on the Dapr sidecar, its value overrides this field. | `claude-sonnet-4-6` |
+| `maxTokens` | N | Default maximum number of tokens the model may generate per request. A request-level `maxTokens` value overrides this default. When unset, no cap is sent and the provider's own default applies. | `2048` |
+| `responseCacheTTL` | N | Time-to-live for the in-memory response cache. When set, identical requests are served from cache until they expire. | `10m` |
+
+## Related links
+
+- [Conversation API overview]({{% ref conversation-overview.md %}})

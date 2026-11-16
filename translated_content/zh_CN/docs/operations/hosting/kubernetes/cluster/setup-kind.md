@@ -20,7 +20,7 @@ description: >
 
 [请参阅 KiND 文档进行安装。](https://kind.sigs.k8s.io/docs/user/quick-start)
 
-如果您使用的是 Docker Desktop，请确保您已[配置推荐的设置](https://kind.sigs.k8s.io/docs/user/quick-start#settings-for-docker-desktop)。
+如果你使用的是 Docker Desktop，请确保你已[配置推荐的设置](https://kind.sigs.k8s.io/docs/user/quick-start#settings-for-docker-desktop)。
 
 ## 配置和创建 KiND 集群
 
@@ -86,7 +86,7 @@ description: >
    dapr init --kubernetes
    ```
 
-   Dapr 完成初始化后，您可以在集群上使用其核心组件。
+   Dapr 完成初始化后，你可以在集群上使用其核心组件。
 
 1. 验证 Dapr 组件的状态：
 
@@ -101,17 +101,8 @@ description: >
      dapr-sentry            dapr-system  True     Running  1         1.5.1    53s  2021-12-10 09:27.17
      dapr-operator          dapr-system  True     Running  1         1.5.1    53s  2021-12-10 09:27.17
      dapr-sidecar-injector  dapr-system  True     Running  1         1.5.1    53s  2021-12-10 09:27.17
-     dapr-dashboard         dapr-system  True     Running  1         0.9.0    53s  2021-12-10 09:27.17
      dapr-placement-server  dapr-system  True     Running  1         1.5.1    52s  2021-12-10 09:27.18
    ```
-
-1. 转发端口到 [Dapr 仪表板](https://docs.dapr.io/reference/cli/dapr-dashboard/)：
-
-   ```bash
-   dapr dashboard -k -p 9999
-   ```
-
-1. 导航到 `http://localhost:9999` 以验证设置成功。
 
 ## 在 Kind Kubernetes 集群上安装 metrics-server
 
@@ -152,6 +143,6 @@ description: >
 
 ## 相关链接
 - [尝试 Dapr 快速入门]({{% ref quickstarts.md %}})
-- 了解如何[在您的集群上部署 Dapr]({{% ref kubernetes-deploy.md %}})
+- 了解如何[在你的集群上部署 Dapr]({{% ref kubernetes-deploy.md %}})
 - [在 Kubernetes 上升级 Dapr]({{% ref kubernetes-upgrade.md %}})
 - [Kubernetes 生产指南]({{% ref kubernetes-production.md %}})

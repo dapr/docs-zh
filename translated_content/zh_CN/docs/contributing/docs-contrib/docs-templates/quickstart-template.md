@@ -8,15 +8,15 @@ description: 创建快速入门指南的建议模板和指导
 
 ## 贡献新的快速入门指南
 
-Dapr 快速入门指南包含简明的说明，引导读者完成准备好的快速入门，这些内容保存在 [dapr/quickstarts 仓库](https://github.com/dapr/quickstarts)中。这些快速入门将整个功能或构建块打包在一起，使读者能够轻松体验其工作方式，而无需影响自己的项目。
+Dapr 快速入门指南由简明的说明组成，引导读者完成一个已经准备好的快速入门。这些快速入门保存在 [dapr/quickstarts 仓库](https://github.com/dapr/quickstarts)中。每个快速入门将一整个功能或构建块打包在一起，让读者无需改动自己的项目，就能轻松体验它的工作方式。
 
-快速入门说明应简洁、直接、清晰。快速入门指南的唯一目的是简单地指导读者完成准备好的快速入门。如果您想解释快速入门背后的概念，请引导读者阅读概念文章以获取更多背景信息。
+快速入门说明应简洁、直接、清晰。快速入门指南的唯一目的，是引导读者完成准备好的快速入门。如果你想解释快速入门背后的概念，请引导读者阅读概念文章，以获取更多背景信息。
 
 {{% alert title="注意" color="primary" %}}
-此模板仅作为建议。您可以根据文档的目的自由更改。
+此模板仅作为建议。你可以根据文档的用途自由修改。
 {{% /alert %}}
 
-了解有关[贡献 Dapr 文档]({{% ref contributing-docs %}})的更多信息，例如 [front-matter]({{% ref "contributing-docs#front-matter" %}}) 和 [shortcodes]({{% ref "contributing-docs#shortcodes" %}})。
+了解更多关于[贡献 Dapr 文档]({{% ref contributing-docs %}})的信息，例如 [front-matter]({{% ref "contributing-docs#front-matter" %}}) 和 [shortcodes]({{% ref "contributing-docs#shortcodes" %}})。
 
 ### 模板
 
@@ -30,63 +30,63 @@ description: #必需；一句话描述文章内容
 ---
 
 <!--
-在提交 PR 之前，请删除此模板中的所有注释。
+Remove all the comments in this template before opening a PR.
 -->
 
 <!-- 
-H1：Hugo front-matter 中的标题作为文章的 markdown H1。 
+H1: The title in the Hugo front-matter serves as the article's markdown H1. 
 -->
 
-<!-- 介绍性段落  
-必需。简短的介绍，简要描述快速入门将涵盖的内容。链接到相应的概念或概述文档以提供背景信息。 -->
+<!-- Introductory paragraph  
+Required. Light intro that briefly describes what the quickstart will cover. Link off to the appropriate concept or overview docs to provide context. -->
 
 <!-- 
-如果可能，请包含图表或图像。 
+Include a diagram or image, if possible. 
 -->
 
 <!-- 
-确保快速入门包含多种编程语言的示例。 
+Make sure the quickstart includes examples for multiple programming languages. 
 -->
 
-## 前置条件
+## Pre-requisites
 
 <!--
-通过列出读者可能需要的内容，确保读者为成功完成快速入门做好准备。
+Make sure the reader is prepared for a successful quickstart walk through by listing what they may need.
 -->
 
-## 步骤 1：设置环境
+## Step 1: Set up the environment
 
 <!-- 
-提供快速入门示例的链接，供读者克隆。 
+Link to the quickstart sample for the reader to clone. 
 -->
 
-## 步骤 2：<动作或任务>
+## Step 2: <action or task>
 
 <!-- 
-每个 H2 步骤应以动词/动作词开头。
--->
-
-<!--
-尽可能包含代码片段。 
--->
-
-## 告诉我们您的想法！
-
-我们正在不断努力改进我们的快速入门示例，并重视您的反馈。您觉得这个快速入门有帮助吗？您有改进建议吗？
-
-加入我们的 [discord 频道](https://discord.gg/22ZtJrNe)参与讨论。
-
-<!-- 由于 Dapr 是一个开放的贡献者社区，请确保提供 discord 讨论的链接以欢迎反馈。
--->
-
-## 后续步骤
-
-<!--
-链接到相关页面和示例。例如，构建块概述、SDK 快速入门示例的 HTTP 版本等。
+Each H2 step should start with a verb/action word.
 -->
 
 <!--
-使用按钮 shortcode 引导读者访问更深入的相关场景，例如 Dapr 教程。
+Include code snippets where possible. 
+-->
+
+## Tell us what you think!
+
+We're continuously working to improve our Quickstart examples and value your feedback. Did you find this quickstart helpful? Do you have suggestions for improvement?
+
+Join our [Discord Server](https://diagrid.ws/dapr-discord) and share your thoughts.
+
+<!-- 由于 Dapr 是一个开放的贡献者社区，请务必提供 Discord 讨论的链接，以欢迎反馈。
+-->
+
+## Next steps
+
+<!--
+Link to related pages and examples. For example, the building block overview, the HTTP version of an SDK quickstart sample, etc.
+-->
+
+<!--
+Use the button shortcode to direct readers to more in-depth, related scenarios, like the Dapr tutorials.
 -->
 
 ```

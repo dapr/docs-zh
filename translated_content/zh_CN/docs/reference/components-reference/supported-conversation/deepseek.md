@@ -23,17 +23,17 @@ spec:
     value: 2048
 ```
 
-{{% alert title="Warning" color="warning" %}}
-The above example uses secrets as plain strings. It is recommended to use a secret store for the secrets, as described [here]({{% ref component-secrets.md %}}).
+{{% alert title="警告" color="warning" %}}
+上述示例将机密以明文字符串的形式提供。建议使用机密存储来保存机密，具体方法请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段
 
-| Field              | Required | Details | Example |
+| 字段              | 必填 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
 | `key`   | Y | DeepSeek 的 API 密钥。 | `mykey` |
-| `maxTokens` | N | 每次请求的最大令牌数。  | `2048` |
+| `maxTokens` | N | 模型在每次请求中可生成的默认最大令牌数。请求级别的 `maxTokens` 值会覆盖此默认值。未设置时，不发送上限，将使用提供方自身的默认值。 | `2048` |
 
 ## 相关链接
 
-- [Conversation API 概览]({{% ref conversation-overview.md %}})
+- [对话 API 概览]({{% ref conversation-overview.md %}})

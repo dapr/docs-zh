@@ -24,14 +24,15 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上面的示例使用明文字符串作为密钥。建议按照[此处]({{< ref component-secrets.md >}})的说明使用密钥存储来管理密钥。
+上面的示例使用明文字符串作为密钥。建议按照[此处]({{< ref component-secrets.md >}})的说明，使用机密存储保管这些密钥。
 {{% /alert %}}
 
 ## 规格元数据字段
 
 | Field              | Required | Details | Example |
 |--------------------|:--------:|---------|---------|
-| `model` | N | 要使用的 Ollama LLM。默认为 `llama3.2:latest`。  | `phi4:latest` |
+| `model` | N | 要使用的 Ollama 大型语言模型 (LLM)。默认为 `llama3.2:latest`。  | `phi4:latest` |
+| `maxTokens` | N | 模型单次请求可生成的默认最大令牌数。请求级别的 `maxTokens` 值会覆盖此默认值。未设置时，不发送上限，由提供方自身的默认值决定。 | `2048` |
 | `responseCacheTTL` | N | 内存响应缓存的生存时间。设置后，相同的请求将从缓存中提供，直到它们过期。 | `10m` |
 
 ### OpenAI 兼容性
