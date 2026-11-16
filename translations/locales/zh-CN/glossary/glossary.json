@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 244,
-  "updatedAt": "2026-11-16T22:02:51.979Z",
+  "version": 263,
+  "updatedAt": "2026-11-16T22:27:21.276Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -1094,6 +1094,12 @@
       "note": "按 ID 写入或替换记录的操作名，保留英文",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "Coyote",
+      "note": "Microsoft Coyote 深度测试框架名称，保留英文",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
@@ -1153,6 +1159,26 @@
       },
       "lastSeen": {
         "doc": "sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-cart.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "activation-factory",
+      "source": "activation factory",
+      "target": "激活工厂",
+      "alt": [],
+      "note": "源生成器为 Actor 生成的、通过依赖注入构造实例的工厂",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -2438,6 +2464,26 @@
       "conflicts": []
     },
     {
+      "id": "content-addressed",
+      "source": "content-addressed",
+      "target": "内容寻址",
+      "alt": [],
+      "note": "按内容哈希生成存储键的方式（content-addressed keys）的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_js/js-workflow/js-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_js/js-workflow/js-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "content-based-routing",
       "source": "content-based routing",
       "target": "基于内容的路由",
@@ -2653,6 +2699,26 @@
       },
       "lastSeen": {
         "doc": "sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-auction.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "cron-builder",
+      "source": "cron builder",
+      "target": "cron 构建器",
+      "alt": [],
+      "note": "CronExpressionBuilder 所指的 cron 表达式构建器的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_js/js-jobs/js-jobs-client-usage.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_js/js-jobs/js-jobs-client-usage.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -3018,6 +3084,26 @@
       "conflicts": []
     },
     {
+      "id": "delivery-mode",
+      "source": "delivery mode",
+      "target": "投递模式",
+      "alt": [],
+      "note": "[DaprTopic] 的 Delivery 属性（Streaming / Programmatic / Http）的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-messaging/dotnet-messaging-subscribe-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-messaging/dotnet-messaging-subscribe-howto.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "dense-vector",
       "source": "dense vector",
       "target": "稠密向量",
@@ -3094,6 +3180,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "discriminator",
+      "source": "discriminator",
+      "target": "判别标识",
+      "alt": [],
+      "note": "存储值中用于标识其所属节点的版本标记",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -3224,6 +3330,26 @@
       "conflicts": []
     },
     {
+      "id": "durable-deferral",
+      "source": "durable deferral",
+      "target": "持久延迟",
+      "alt": [],
+      "note": "Defer<TEvent>() 将事件持久化到 Actor 状态并在之后重新引发的机制",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "durable-execution",
       "source": "durable execution",
       "target": "持久执行",
@@ -3279,6 +3405,66 @@
       },
       "lastSeen": {
         "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-authoring.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "dynamic-client",
+      "source": "dynamic client",
+      "target": "动态客户端",
+      "alt": [],
+      "note": "IDynamicActorClient：在运行时才确定 Actor 类型或方法时使用的调用客户端",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "dynamic-invocation",
+      "source": "dynamic invocation",
+      "target": "动态调用",
+      "alt": [],
+      "note": "Dapr .NET SDK 动态调用（dynamic invocation）功能的名称，标题与链接文字使用",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-dynamic.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-dynamic.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "effect",
+      "source": "effect",
+      "target": "效果",
+      "alt": [],
+      "note": "进入状态或转换时执行的已注册动作（entry effect，对应 IActorEffect）",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 2,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-approvals.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -3364,6 +3550,26 @@
       "conflicts": []
     },
     {
+      "id": "envelope",
+      "source": "envelope",
+      "target": "信封",
+      "alt": [],
+      "note": "带结构指纹与判别标识的存储包装形式（enveloped form）",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "error-model",
       "source": "error model",
       "target": "错误模型",
@@ -3400,6 +3606,26 @@
       "lastSeen": {
         "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-orchestration-lifecycle.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "exactly-once",
+      "source": "exactly-once",
+      "target": "恰好一次",
+      "alt": [],
+      "note": "恰好一次（exactly-once）投递语义；文中用于说明不提供该保证",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -3532,14 +3758,34 @@
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
-      "occurrences": 1,
+      "occurrences": 2,
       "firstSeen": {
         "doc": "docs/reference/api/jobs_api.md",
         "run": "20261116-1934"
       },
       "lastSeen": {
-        "doc": "docs/reference/api/jobs_api.md",
-        "run": "20261116-1934"
+        "doc": "sdks_js/js-jobs/js-jobs-client-usage.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "family",
+      "source": "family",
+      "target": "族",
+      "alt": [],
+      "note": "通过跳转相互连通的节点集合，即一个状态类型的版本族（如 CartState 族）",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -3600,6 +3846,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-concurrency.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "fault-injection",
+      "source": "fault injection",
+      "target": "故障注入",
+      "alt": [],
+      "note": "ActorTestRuntime 的故障注入能力",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -3784,6 +4050,26 @@
       "conflicts": []
     },
     {
+      "id": "graduation",
+      "source": "graduation",
+      "target": "毕业",
+      "alt": [],
+      "note": "GraduateAsync<T> 提供的单个条目退出迁移的出口（offramp）",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "graduation-off-ramp",
       "source": "graduation off-ramp",
       "target": "毕业退出路径",
@@ -3819,6 +4105,26 @@
       },
       "lastSeen": {
         "doc": "sdks_js/js-service-invocation/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "guard",
+      "source": "guard",
+      "target": "守卫",
+      "alt": [],
+      "note": "状态转换上的前置条件（Guards），与效果（effect）并列出现",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-approvals.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-approvals.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -4019,6 +4325,26 @@
       },
       "lastSeen": {
         "doc": "docs/developing-ai/mcp/howto-use-mcpserver.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "hop",
+      "source": "hop",
+      "target": "跳转",
+      "alt": [],
+      "note": "IActorStateUpcaster<TFrom, TTo> 作为节点之间有向边的概念；节点之间的一次版本迁移",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -4319,6 +4645,26 @@
       },
       "lastSeen": {
         "doc": "docs/developing-ai/rag/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "inline",
+      "source": "inline",
+      "target": "内联",
+      "alt": [],
+      "note": "负载直接写入工作流历史记录（相对于引用）的译法，如“内联数据”“内联负载”",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-data-references.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -4824,6 +5170,26 @@
       "conflicts": []
     },
     {
+      "id": "mailbox",
+      "source": "mailbox",
+      "target": "邮箱",
+      "alt": [],
+      "note": "Actor 的消息邮箱（mailbox）；定时器与提醒回调对应的邮箱轮次",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "managed-identity",
       "source": "managed identity",
       "target": "托管标识",
@@ -4920,6 +5286,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/pubsub/howto-namespace.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "message-disposition",
+      "source": "message disposition",
+      "target": "消息处置",
+      "alt": [],
+      "note": "HandleAsync 通过 TopicResponseAction 决定消息确认方式的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-messaging/dotnet-messaging-subscribe-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-messaging/dotnet-messaging-subscribe-howto.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -5039,6 +5425,26 @@
       },
       "lastSeen": {
         "doc": "docs/developing-ai/mcp/dapr-mcp-server/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "multi-app-workflow",
+      "source": "multi-app workflow",
+      "target": "多应用工作流",
+      "alt": [],
+      "note": "跨多个 Dapr 应用运行的工作流场景，本篇链接标题与正文一致使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-history-propagation.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-history-propagation.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -5304,6 +5710,66 @@
       "conflicts": []
     },
     {
+      "id": "non-remoting",
+      "source": "non-remoting",
+      "target": "非远程处理",
+      "alt": [],
+      "note": "非远程处理代理（non-remoting proxy）的前缀用法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "non-remoting-proxy",
+      "source": "non-remoting proxy",
+      "target": "非远程处理代理",
+      "alt": [],
+      "note": "Dapr.Actors 中跨应用调用使用的代理（JSON 序列化），与远程处理代理相对",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "offload-threshold",
+      "source": "offload threshold",
+      "target": "卸载阈值",
+      "alt": [],
+      "note": "offloadThreshold 选项的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_js/js-workflow/js-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_js/js-workflow/js-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "offloading",
       "source": "offloading",
       "target": "卸载",
@@ -5320,6 +5786,26 @@
       "lastSeen": {
         "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-serialization.md",
         "run": "20261116-2011"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "optimistic-concurrency",
+      "source": "optimistic concurrency",
+      "target": "乐观并发控制",
+      "alt": [],
+      "note": "基于 ETag 的并发控制方式",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-state-management/dotnet-statemanagement-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-state-management/dotnet-statemanagement-howto.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -5504,6 +5990,26 @@
       "conflicts": []
     },
     {
+      "id": "payload-resolver",
+      "source": "payload resolver",
+      "target": "负载解析器",
+      "alt": [],
+      "note": "IWorkflowPayloadResolver 的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "per-sidecar-limit",
       "source": "per-sidecar limit",
       "target": "每边车限制",
@@ -5584,6 +6090,26 @@
       "conflicts": []
     },
     {
+      "id": "placement",
+      "source": "placement",
+      "target": "放置",
+      "alt": [],
+      "note": "Actor 放置（placement）：运行时决定 Actor 所在位置的机制；作为通用概念译作“放置”，与保留英文的 Dapr Placement 服务名区分",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "placement-service",
       "source": "placement service",
       "target": "放置服务",
@@ -5639,6 +6165,26 @@
       },
       "lastSeen": {
         "doc": "sdks_dotnet/dotnet-messaging/tutorial/dotnet-messaging-tutorial-streaming.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "portable-filter-dsl",
+      "source": "portable filter DSL",
+      "target": "可移植过滤 DSL",
+      "alt": [],
+      "note": "Vector 查询 filter 字段使用的可移植过滤语言（DSL），作用于记录元数据、带点号路径。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_js/js-vector/js-vector-client-usage.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_js/js-vector/js-vector-client-usage.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -5740,6 +6286,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/pubsub/subscription-methods.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "projection",
+      "source": "projection",
+      "target": "投影",
+      "alt": [],
+      "note": "查询结果中的字段投影（ReturnFields），文内小节标题使用",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-search/dotnet-search-client-usage.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-search/dotnet-search-client-usage.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -6244,6 +6810,26 @@
       "conflicts": []
     },
     {
+      "id": "rehydration",
+      "source": "rehydration",
+      "target": "重新水化",
+      "alt": [],
+      "note": "把存储中的值载入内存并反序列化的过程（maxInMemoryRehydrationSize）的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_js/js-workflow/js-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_js/js-workflow/js-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "reminder",
       "source": "reminder",
       "target": "提醒",
@@ -6259,6 +6845,46 @@
       },
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/actors/howto-actors-app-initiated-streams.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "remoting",
+      "source": "remoting",
+      "target": "远程处理",
+      "alt": [],
+      "note": "远程处理代理（remoting proxy）的前缀用法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "remoting-proxy",
+      "source": "remoting proxy",
+      "target": "远程处理代理",
+      "alt": [],
+      "note": "Dapr.Actors 中 .NET 到 .NET 调用使用的代理，与非远程处理代理相对",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/_index.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -6344,6 +6970,26 @@
       "conflicts": []
     },
     {
+      "id": "resolver",
+      "source": "resolver",
+      "target": "解析器",
+      "alt": [],
+      "note": "BinaryStoreWorkflowPayloadResolver / payload resolver（负载解析器）的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_js/js-workflow/js-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_js/js-workflow/js-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "resource-bindings",
       "source": "Resource bindings",
       "target": "资源绑定",
@@ -6379,6 +7025,26 @@
       },
       "lastSeen": {
         "doc": "docs/developing-ai/rag/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "run-to-completion",
+      "source": "run-to-completion",
+      "target": "运行至完成",
+      "alt": [],
+      "note": "状态机语义：一个事件及其内部引发的事件处理到稳定状态后，才接受下一个事件",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -6836,6 +7502,26 @@
       "conflicts": []
     },
     {
+      "id": "seed",
+      "source": "seed",
+      "target": "种子",
+      "alt": [],
+      "note": "调度器随机化使用的种子（seed），用于复现排序决策",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "self-call",
       "source": "self-call",
       "target": "自调用",
@@ -6872,6 +7558,26 @@
       "lastSeen": {
         "doc": "docs/getting-started/install-dapr-cli.md",
         "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "serializer",
+      "source": "serializer",
+      "target": "序列化器",
+      "alt": [],
+      "note": "Dapr JavaScript SDK 的客户端级序列化器（JsonSerializer、IDaprSerializer）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_js/js-state-management/js-state-management-client-usage.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_js/js-state-management/js-state-management-client-usage.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -7096,6 +7802,26 @@
       "conflicts": []
     },
     {
+      "id": "silent-rehydration",
+      "source": "silent rehydration",
+      "target": "静默再水合",
+      "alt": [],
+      "note": "空闲 Actor 重新激活时恢复 CurrentState 与 Data、且不运行 OnEntry/OnExit 的机制",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "single-active-consumer",
       "source": "single active consumer",
       "target": "单一活跃消费者",
@@ -7232,6 +7958,46 @@
       "lastSeen": {
         "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-orchestration-lifecycle.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "state-envelope",
+      "source": "state envelope",
+      "target": "状态信封",
+      "alt": [],
+      "note": "Dapr .NET Actors Next 状态结构的外层封装（state envelope），状态迁移与升级器章节使用",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "state-machine",
+      "source": "state machine",
+      "target": "状态机",
+      "alt": [],
+      "note": "Dapr Actors 状态机 Actor 类型",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -7656,6 +8422,26 @@
       "conflicts": []
     },
     {
+      "id": "token-usage",
+      "source": "token usage",
+      "target": "token 用量",
+      "alt": [],
+      "note": "对话响应中的 usage 统计（token 用量统计）字段，本篇统一译为“token 用量”。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_js/js-conversation/js-conversation-client-usage.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_js/js-conversation/js-conversation-client-usage.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "tool-calling",
       "source": "tool calling",
       "target": "工具调用",
@@ -7902,6 +8688,26 @@
       "conflicts": []
     },
     {
+      "id": "turn-filter",
+      "source": "turn filter",
+      "target": "轮次过滤器",
+      "alt": [],
+      "note": "IActorTurnFilter：包裹每个 Actor 轮次的横切中间件管道",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "typed-client",
       "source": "typed client",
       "target": "类型化客户端",
@@ -7917,6 +8723,26 @@
       },
       "lastSeen": {
         "doc": "sdks_dotnet/dotnet-binarystore/dotnet-binarystore-howto.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "typed-state-store",
+      "source": "typed state store",
+      "target": "强类型状态存储",
+      "alt": [],
+      "note": "由 [StateStore] 特性与源生成器生成的强类型存储接口",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-state-management/dotnet-statemanagement-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-state-management/dotnet-statemanagement-howto.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -8118,6 +8944,46 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/actors/actor-reentrancy.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "virtual-time",
+      "source": "virtual time",
+      "target": "虚拟时间",
+      "alt": [],
+      "note": "ActorTestRuntime 的虚拟时间",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "wall-clock-time",
+      "source": "wall-clock time",
+      "target": "墙钟时间",
+      "alt": [],
+      "note": "真实时钟时间，与 TimeProvider 提供的虚拟时间相对",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -8437,6 +9303,66 @@
       },
       "lastSeen": {
         "doc": "docs/integrations/Azure/azure-authentication/howto-wif.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "write-acknowledgement",
+      "source": "write acknowledgement",
+      "target": "写入确认",
+      "alt": [],
+      "note": "索引与删除操作的写入确认模式（write acknowledgement mode）及确认字符串的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 2,
+      "firstSeen": {
+        "doc": "sdks_js/js-search/js-search-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-search/dotnet-search-client-usage.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "write-behind-cache",
+      "source": "write-behind cache",
+      "target": "写后缓存",
+      "alt": [],
+      "note": "Actor 状态的激活作用域写后缓存；修改在轮次结束或显式 SaveStateAsync 时保存",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "write-preference",
+      "source": "write preference",
+      "target": "写入偏好",
+      "alt": [],
+      "note": "PayloadWritePreference（Preserve / PreferReference / PreferInline）的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 2,
+      "firstSeen": {
+        "doc": "sdks_js/js-workflow/js-workflow-data-references.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-data-references.md",
         "run": "20261116-2040"
       },
       "conflicts": []

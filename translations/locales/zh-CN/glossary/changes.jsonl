@@ -636,3 +636,60 @@
 {"ts":"2026-11-16T22:02:51.650Z","run":"20261116-2040","op":"add","id":"durable-timer","target":"持久化定时器","version":243,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-authoring.md"}
 {"ts":"2026-11-16T22:02:51.650Z","run":"20261116-2040","op":"add","id":"continuation","target":"延续","version":243,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-authoring.md"}
 {"ts":"2026-11-16T22:02:51.979Z","run":"20261116-2040","op":"add","id":"invoker","target":"调用器","version":244,"doc":"sdks_js/js-service-invocation/js-service-invocation-usage.md"}
+{"ts":"2026-11-16T22:14:50.243Z","run":"20261116-2040","op":"add","id":"dynamic-invocation","target":"动态调用","version":245,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-dynamic.md"}
+{"ts":"2026-11-16T22:14:50.563Z","run":"20261116-2040","op":"add","id":"write-acknowledgement","target":"写入确认","version":246,"doc":"sdks_js/js-search/js-search-howto.md"}
+{"ts":"2026-11-16T22:15:31.971Z","run":"20261116-2040","op":"add","id":"multi-app-workflow","target":"多应用工作流","version":247,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-history-propagation.md"}
+{"ts":"2026-11-16T22:15:32.298Z","run":"20261116-2040","op":"add","id":"token-usage","target":"token 用量","version":248,"doc":"sdks_js/js-conversation/js-conversation-client-usage.md"}
+{"ts":"2026-11-16T22:15:34.522Z","run":"20261116-2040","op":"bump","id":"write-acknowledgement","occurrences":2,"version":249,"doc":"sdks_dotnet/dotnet-search/dotnet-search-client-usage.md"}
+{"ts":"2026-11-16T22:15:34.522Z","run":"20261116-2040","op":"add","id":"projection","target":"投影","version":249,"doc":"sdks_dotnet/dotnet-search/dotnet-search-client-usage.md"}
+{"ts":"2026-11-16T22:15:36.931Z","run":"20261116-2040","op":"add","id":"state-envelope","target":"状态信封","version":250,"doc":"sdks_dotnet/dotnet-actors-next/_index.md"}
+{"ts":"2026-11-16T22:15:36.931Z","run":"20261116-2040","op":"add","id":"remoting-proxy","target":"远程处理代理","version":250,"doc":"sdks_dotnet/dotnet-actors-next/_index.md"}
+{"ts":"2026-11-16T22:15:36.931Z","run":"20261116-2040","op":"add","id":"non-remoting-proxy","target":"非远程处理代理","version":250,"doc":"sdks_dotnet/dotnet-actors-next/_index.md"}
+{"ts":"2026-11-16T22:15:36.931Z","run":"20261116-2040","op":"add","id":"coyote","kind":"doNotTranslate","version":250,"doc":"sdks_dotnet/dotnet-actors-next/_index.md"}
+{"ts":"2026-11-16T22:15:37.265Z","run":"20261116-2040","op":"reject","id":"temporal","target":"Temporal","reason":"not-in-source: the term does not occur in the document's prose","version":250,"doc":"sdks_js/js-actors/js-actors-timers-reminders.md"}
+{"ts":"2026-11-16T22:19:05.625Z","run":"20261116-2040","op":"reject","id":"typed-collection-client","target":"类型化集合客户端","reason":"not-used: the translation does not contain it","version":250,"doc":"sdks_dotnet/dotnet-vector/dotnet-vector-client-usage.md"}
+{"ts":"2026-11-16T22:19:42.779Z","run":"20261116-2040","op":"add","id":"portable-filter-dsl","target":"可移植过滤 DSL","version":251,"doc":"sdks_js/js-vector/js-vector-client-usage.md"}
+{"ts":"2026-11-16T22:19:45.743Z","run":"20261116-2040","op":"add","id":"guard","target":"守卫","version":252,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-approvals.md"}
+{"ts":"2026-11-16T22:19:45.743Z","run":"20261116-2040","op":"add","id":"effect","target":"效果","version":252,"doc":"sdks_dotnet/dotnet-actors-next/tutorial/dotnet-actorsnext-tutorial-approvals.md"}
+{"ts":"2026-11-16T22:19:46.148Z","run":"20261116-2040","op":"add","id":"typed-state-store","target":"强类型状态存储","version":253,"doc":"sdks_dotnet/dotnet-state-management/dotnet-statemanagement-howto.md"}
+{"ts":"2026-11-16T22:19:46.148Z","run":"20261116-2040","op":"add","id":"optimistic-concurrency","target":"乐观并发控制","version":253,"doc":"sdks_dotnet/dotnet-state-management/dotnet-statemanagement-howto.md"}
+{"ts":"2026-11-16T22:20:25.223Z","run":"20261116-2040","op":"bump","id":"failure-policy","occurrences":2,"version":254,"doc":"sdks_js/js-jobs/js-jobs-client-usage.md"}
+{"ts":"2026-11-16T22:20:25.223Z","run":"20261116-2040","op":"add","id":"cron-builder","target":"cron 构建器","version":254,"doc":"sdks_js/js-jobs/js-jobs-client-usage.md"}
+{"ts":"2026-11-16T22:20:25.564Z","run":"20261116-2040","op":"add","id":"serializer","target":"序列化器","version":255,"doc":"sdks_js/js-state-management/js-state-management-client-usage.md"}
+{"ts":"2026-11-16T22:20:27.929Z","run":"20261116-2040","op":"bump","id":"effect","occurrences":2,"version":256,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md"}
+{"ts":"2026-11-16T22:20:27.929Z","run":"20261116-2040","op":"add","id":"run-to-completion","target":"运行至完成","version":256,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md"}
+{"ts":"2026-11-16T22:20:27.929Z","run":"20261116-2040","op":"add","id":"silent-rehydration","target":"静默再水合","version":256,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md"}
+{"ts":"2026-11-16T22:20:27.929Z","run":"20261116-2040","op":"add","id":"durable-deferral","target":"持久延迟","version":256,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemachine.md"}
+{"ts":"2026-11-16T22:20:28.275Z","run":"20261116-2040","op":"add","id":"hop","target":"跳转","version":257,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md"}
+{"ts":"2026-11-16T22:20:28.275Z","run":"20261116-2040","op":"add","id":"family","target":"族","version":257,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md"}
+{"ts":"2026-11-16T22:20:28.275Z","run":"20261116-2040","op":"add","id":"graduation","target":"毕业","version":257,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md"}
+{"ts":"2026-11-16T22:20:28.275Z","run":"20261116-2040","op":"add","id":"envelope","target":"信封","version":257,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md"}
+{"ts":"2026-11-16T22:20:28.275Z","run":"20261116-2040","op":"add","id":"discriminator","target":"判别标识","version":257,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-statemigration.md"}
+{"ts":"2026-11-16T22:24:31.319Z","run":"20261116-2040","op":"add","id":"delivery-mode","target":"投递模式","version":258,"doc":"sdks_dotnet/dotnet-messaging/dotnet-messaging-subscribe-howto.md"}
+{"ts":"2026-11-16T22:24:31.319Z","run":"20261116-2040","op":"collision","id":"bulk-subscription","target":"批量订阅","with":"bulk-subscribe","version":258,"doc":"sdks_dotnet/dotnet-messaging/dotnet-messaging-subscribe-howto.md"}
+{"ts":"2026-11-16T22:24:31.319Z","run":"20261116-2040","op":"add","id":"message-disposition","target":"消息处置","version":258,"doc":"sdks_dotnet/dotnet-messaging/dotnet-messaging-subscribe-howto.md"}
+{"ts":"2026-11-16T22:24:31.319Z","run":"20261116-2040","op":"reject","id":"subscriber-registry","target":"订阅者注册表","reason":"not-in-source: the term does not occur in the document's prose","version":258,"doc":"sdks_dotnet/dotnet-messaging/dotnet-messaging-subscribe-howto.md"}
+{"ts":"2026-11-16T22:24:31.667Z","run":"20261116-2040","op":"add","id":"resolver","target":"解析器","version":259,"doc":"sdks_js/js-workflow/js-workflow-data-references.md"}
+{"ts":"2026-11-16T22:24:31.667Z","run":"20261116-2040","op":"add","id":"write-preference","target":"写入偏好","version":259,"doc":"sdks_js/js-workflow/js-workflow-data-references.md"}
+{"ts":"2026-11-16T22:24:31.667Z","run":"20261116-2040","op":"add","id":"offload-threshold","target":"卸载阈值","version":259,"doc":"sdks_js/js-workflow/js-workflow-data-references.md"}
+{"ts":"2026-11-16T22:24:31.667Z","run":"20261116-2040","op":"add","id":"rehydration","target":"重新水化","version":259,"doc":"sdks_js/js-workflow/js-workflow-data-references.md"}
+{"ts":"2026-11-16T22:24:31.667Z","run":"20261116-2040","op":"add","id":"content-addressed","target":"内容寻址","version":259,"doc":"sdks_js/js-workflow/js-workflow-data-references.md"}
+{"ts":"2026-11-16T22:26:45.767Z","run":"20261116-2040","op":"add","id":"fault-injection","target":"故障注入","version":260,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md"}
+{"ts":"2026-11-16T22:26:45.767Z","run":"20261116-2040","op":"add","id":"virtual-time","target":"虚拟时间","version":260,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md"}
+{"ts":"2026-11-16T22:26:45.767Z","run":"20261116-2040","op":"add","id":"remoting","target":"远程处理","version":260,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md"}
+{"ts":"2026-11-16T22:26:45.767Z","run":"20261116-2040","op":"add","id":"non-remoting","target":"非远程处理","version":260,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md"}
+{"ts":"2026-11-16T22:26:45.767Z","run":"20261116-2040","op":"add","id":"state-machine","target":"状态机","version":260,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md"}
+{"ts":"2026-11-16T22:26:46.131Z","run":"20261116-2040","op":"add","id":"mailbox","target":"邮箱","version":261,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md"}
+{"ts":"2026-11-16T22:26:46.131Z","run":"20261116-2040","op":"add","id":"seed","target":"种子","version":261,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md"}
+{"ts":"2026-11-16T22:26:46.131Z","run":"20261116-2040","op":"add","id":"wall-clock-time","target":"墙钟时间","version":261,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md"}
+{"ts":"2026-11-16T22:26:46.131Z","run":"20261116-2040","op":"add","id":"exactly-once","target":"恰好一次","version":261,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-testing.md"}
+{"ts":"2026-11-16T22:27:20.834Z","run":"20261116-2040","op":"add","id":"write-behind-cache","target":"写后缓存","version":262,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md"}
+{"ts":"2026-11-16T22:27:20.834Z","run":"20261116-2040","op":"add","id":"turn-filter","target":"轮次过滤器","version":262,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md"}
+{"ts":"2026-11-16T22:27:20.834Z","run":"20261116-2040","op":"add","id":"activation-factory","target":"激活工厂","version":262,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md"}
+{"ts":"2026-11-16T22:27:20.834Z","run":"20261116-2040","op":"add","id":"placement","target":"放置","version":262,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md"}
+{"ts":"2026-11-16T22:27:20.834Z","run":"20261116-2040","op":"add","id":"dynamic-client","target":"动态客户端","version":262,"doc":"sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-howto.md"}
+{"ts":"2026-11-16T22:27:21.276Z","run":"20261116-2040","op":"bump","id":"write-preference","occurrences":2,"version":263,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-data-references.md"}
+{"ts":"2026-11-16T22:27:21.276Z","run":"20261116-2040","op":"add","id":"payload-resolver","target":"负载解析器","version":263,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-data-references.md"}
+{"ts":"2026-11-16T22:27:21.276Z","run":"20261116-2040","op":"reject","id":"payload-manifest","target":"负载清单","reason":"not-in-source: the term does not occur in the document's prose","version":263,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-data-references.md"}
+{"ts":"2026-11-16T22:27:21.276Z","run":"20261116-2040","op":"add","id":"inline","target":"内联","version":263,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-data-references.md"}
+{"ts":"2026-11-16T22:27:21.276Z","run":"20261116-2040","op":"reject","id":"materialize","target":"物化","reason":"not-in-source: the term does not occur in the document's prose","version":263,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-data-references.md"}
