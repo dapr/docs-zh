@@ -2,8 +2,8 @@
   "version": "v1.19",
   "sourceRepo": "repos/v1.19",
   "sourceBranch": "v1.19",
-  "batchId": "batch-20261116T204001.373Z",
-  "copiedAt": "2026-11-16T20:40:01.373Z",
+  "batchId": "batch-20261116T224922.808Z",
+  "copiedAt": "2026-11-16T22:49:22.808Z",
   "sourceRoot": "data/source",
   "metadataFile": "data/source.json",
   "documentCount": 811,
@@ -44,8 +44,8 @@
       "driftCount": 0,
       "missingSourceCount": 0,
       "translatedCount": 0,
-      "staleTranslationCount": 509,
-      "missingTranslationCount": 96,
+      "staleTranslationCount": 605,
+      "missingTranslationCount": 0,
       "orphanTranslationCount": 0
     },
     {
@@ -95,8 +95,8 @@
       "driftCount": 0,
       "missingSourceCount": 0,
       "translatedCount": 0,
-      "staleTranslationCount": 40,
-      "missingTranslationCount": 50,
+      "staleTranslationCount": 90,
+      "missingTranslationCount": 0,
       "orphanTranslationCount": 0
     },
     {
@@ -146,8 +146,8 @@
       "driftCount": 0,
       "missingSourceCount": 0,
       "translatedCount": 0,
-      "staleTranslationCount": 9,
-      "missingTranslationCount": 50,
+      "staleTranslationCount": 59,
+      "missingTranslationCount": 0,
       "orphanTranslationCount": 0
     },
     {
@@ -180,8 +180,8 @@
       "driftCount": 0,
       "missingSourceCount": 0,
       "translatedCount": 0,
-      "staleTranslationCount": 10,
-      "missingTranslationCount": 2,
+      "staleTranslationCount": 12,
+      "missingTranslationCount": 0,
       "orphanTranslationCount": 0
     },
     {

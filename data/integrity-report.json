@@ -1,7 +1,7 @@
 {
   "version": "v1.19",
-  "generatedAt": "2026-11-16T20:40:01.373Z",
-  "latestBatchId": "batch-20261116T204001.373Z",
+  "generatedAt": "2026-11-16T22:49:22.808Z",
+  "latestBatchId": "batch-20261116T224922.808Z",
   "sourceSummary": {
     "synced": 811,
     "drift": 0,
@@ -9,8 +9,8 @@
   },
   "translationSummary": {
     "translated": 364,
-    "staleTranslation": 249,
-    "missingTranslation": 198,
+    "staleTranslation": 447,
+    "missingTranslation": 0,
     "orphanTranslation": 30
   },
   "buckets": [
@@ -49,8 +49,8 @@
       "driftCount": 0,
       "missingSourceCount": 29,
       "translatedCount": 320,
-      "staleTranslationCount": 189,
-      "missingTranslationCount": 96,
+      "staleTranslationCount": 285,
+      "missingTranslationCount": 0,
       "orphanTranslationCount": 29
     },
     {
@@ -100,8 +100,8 @@
       "driftCount": 0,
       "missingSourceCount": 1,
       "translatedCount": 4,
-      "staleTranslationCount": 36,
-      "missingTranslationCount": 50,
+      "staleTranslationCount": 86,
+      "missingTranslationCount": 0,
       "orphanTranslationCount": 1
     },
     {
@@ -151,8 +151,8 @@
       "driftCount": 0,
       "missingSourceCount": 0,
       "translatedCount": 4,
-      "staleTranslationCount": 5,
-      "missingTranslationCount": 50,
+      "staleTranslationCount": 55,
+      "missingTranslationCount": 0,
       "orphanTranslationCount": 0
     },
     {
@@ -185,8 +185,8 @@
       "driftCount": 0,
       "missingSourceCount": 0,
       "translatedCount": 1,
-      "staleTranslationCount": 9,
-      "missingTranslationCount": 2,
+      "staleTranslationCount": 11,
+      "missingTranslationCount": 0,
       "orphanTranslationCount": 0
     },
     {
