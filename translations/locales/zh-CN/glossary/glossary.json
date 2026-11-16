@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 162,
-  "updatedAt": "2026-11-16T21:11:21.396Z",
+  "version": 178,
+  "updatedAt": "2026-11-16T21:18:50.013Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -794,6 +794,108 @@
       "note": "兼容 S3 的对象存储服务名称，保留原文。",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "Elastic Agent",
+      "note": "Elastic 产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Text Splitter",
+      "note": "Dapr Agents 文本切分模块的组件名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "PyPDF Reader",
+      "note": "Dapr Agents PDF 读取器的名称（代码中为 PyPDFReader），保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Claude Desktop",
+      "note": "MCP 客户端产品名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Claude Code",
+      "note": "MCP 客户端产品名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "VS Code",
+      "note": "MCP 客户端产品名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Cursor",
+      "note": "MCP 客户端产品名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Elastic Cloud",
+      "note": "Elastic 产品名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Pod",
+      "note": "Kubernetes 资源名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Arxiv Fetcher",
+      "note": "Dapr Agents 中的模块名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Amazon S3",
+      "note": "云存储服务名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Blob Storage",
+      "note": "Azure 存储服务名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure AI Search",
+      "note": "Azure 产品名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure OpenAI",
+      "note": "Azure 产品名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "SPIFFE",
+      "note": "身份标准与规范名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Go SDK",
+      "note": "产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Meilisearch Cloud",
+      "note": "Meilisearch 托管服务的产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
@@ -814,6 +916,26 @@
       "lastSeen": {
         "doc": "docs/developing-ai/mcp/mcp-authentication.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "activation-hook",
+      "source": "activation hook",
+      "target": "激活钩子",
+      "alt": [],
+      "note": "Dapr Agents 的扩展接入机制名称，正文首次出现处附英文原词。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/dapr-agents/dapr-agents-extensions.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/dapr-agents/dapr-agents-extensions.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -954,6 +1076,26 @@
       "lastSeen": {
         "doc": "docs/concepts/components-concept.md",
         "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "agent",
+      "source": "agent",
+      "target": "代理",
+      "alt": [],
+      "note": "Dapr Agents 文档中 agent 的译法，与语料中既有译法一致；与 proxy 的译法需在术语表中区分。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/dapr-agents/integrations/providers/drasi.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/dapr-agents/integrations/providers/drasi.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -1398,6 +1540,26 @@
       "conflicts": []
     },
     {
+      "id": "change-data-capture",
+      "source": "change data capture",
+      "target": "变更数据捕获",
+      "alt": [],
+      "note": "CDC 的译法，首次出现处保留缩写（CDC）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/dapr-agents/integrations/providers/drasi.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/dapr-agents/integrations/providers/drasi.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "child-workflow",
       "source": "child workflow",
       "target": "子工作流",
@@ -1473,6 +1635,26 @@
       },
       "lastSeen": {
         "doc": "docs/integrations/Azure/azure-authentication/howto-aad.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "closer",
+      "source": "closer",
+      "target": "关闭器",
+      "alt": [],
+      "note": "扩展回调返回的、由运行器在 shutdown 时调用的无参可调用对象（本文用语）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/dapr-agents/dapr-agents-extensions.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/dapr-agents/dapr-agents-extensions.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -2338,6 +2520,26 @@
       "conflicts": []
     },
     {
+      "id": "embedder",
+      "source": "embedder",
+      "target": "嵌入器",
+      "alt": [],
+      "note": "Meilisearch 索引中配置用户提供向量的嵌入器（userProvided embedder）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-vector/meilisearch.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-vector/meilisearch.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "embeddings",
       "source": "embeddings",
       "target": "嵌入向量",
@@ -2413,6 +2615,26 @@
       },
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "external-event",
+      "source": "external event",
+      "target": "外部事件",
+      "alt": [],
+      "note": "event.raised 所匹配的外部事件名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/resource-specs/workflow-access-policy-schema.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/resource-specs/workflow-access-policy-schema.md",
         "run": "20261116-2040"
       },
       "conflicts": []
@@ -2638,6 +2860,26 @@
       "conflicts": []
     },
     {
+      "id": "histogram",
+      "source": "histogram",
+      "target": "直方图",
+      "alt": [],
+      "note": "OpenTelemetry 指标类型，用于耗时等分布统计。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/dapr-mcp-server/dapr-mcp-server-observability.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/dapr-mcp-server/dapr-mcp-server-observability.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "history-cache",
       "source": "history cache",
       "target": "历史缓存",
@@ -2714,6 +2956,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "hook",
+      "source": "hook",
+      "target": "钩子",
+      "alt": [],
+      "note": "MCPServer 中间件的 beforeCallTool/afterCallTool 钩子（以工作流形式注册）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/howto-use-mcpserver.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/howto-use-mcpserver.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -2854,6 +3116,46 @@
       "lastSeen": {
         "doc": "docs/reference/components-reference/supported-bindings/zeebe-command.md",
         "run": "20261116-2011"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "index-settings",
+      "source": "index settings",
+      "target": "索引设置",
+      "alt": [],
+      "note": "Meilisearch 索引设置（index settings），在创建索引的 metadata 中传入。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "ingestion",
+      "source": "ingestion",
+      "target": "摄取",
+      "alt": [],
+      "note": "RAG 文档中文档摄取（ingestion）的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/rag/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/rag/_index.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -3378,6 +3680,26 @@
       "conflicts": []
     },
     {
+      "id": "model-context-protocol",
+      "source": "Model Context Protocol",
+      "target": "模型上下文协议",
+      "alt": [],
+      "note": "MCP 全称的译法，全文首次出现时写作“模型上下文协议（MCP）”",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/dapr-mcp-server/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/dapr-mcp-server/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "multi-application-workflow",
       "source": "multi-application workflow",
       "target": "多应用程序工作流",
@@ -3534,6 +3856,26 @@
       "lastSeen": {
         "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-multi-app.md",
         "run": "20261116-2011"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "native-query",
+      "source": "native query",
+      "target": "原生查询",
+      "alt": [],
+      "note": "Meilisearch 组件中 query.native 的功能名称，文内小节标题与功能表格使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -3998,6 +4340,46 @@
       "conflicts": []
     },
     {
+      "id": "prompt-injection",
+      "source": "prompt injection",
+      "target": "提示词注入",
+      "alt": [],
+      "note": "提示词注入，安全威胁类别名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-security.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-security.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "propagated-history",
+      "source": "propagated history",
+      "target": "传播历史",
+      "alt": [],
+      "note": "父工作流传播给调用方的执行历史，requires 规则据此匹配",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/resource-specs/workflow-access-policy-schema.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/resource-specs/workflow-access-policy-schema.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "propagation-scope",
       "source": "propagation scope",
       "target": "传播范围",
@@ -4174,6 +4556,26 @@
       "lastSeen": {
         "doc": "docs/reference/api/workflow_api.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "ranking-score",
+      "source": "ranking score",
+      "target": "排序分数",
+      "alt": [],
+      "note": "Meilisearch 的 ranking score，即命中分数。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -4438,6 +4840,26 @@
       "conflicts": []
     },
     {
+      "id": "retrieval-augmented-generation",
+      "source": "retrieval-augmented generation",
+      "target": "检索增强生成",
+      "alt": [],
+      "note": "RAG 全称的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/rag/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/rag/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "scheduler",
       "source": "Scheduler",
       "target": "调度器",
@@ -4618,6 +5040,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/secrets/secrets-overview.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "secret-sprawl",
+      "source": "secret sprawl",
+      "target": "机密蔓延",
+      "alt": [],
+      "note": "威胁模型中的故障模式名称：API 密钥散落在日志、提示词或下游调用中",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-security.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-security.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -4930,6 +5372,26 @@
       "conflicts": []
     },
     {
+      "id": "span",
+      "source": "span",
+      "target": "跨度",
+      "alt": [],
+      "note": "OpenTelemetry 追踪中的 span，服务端跨度与工具调用跨度。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/dapr-mcp-server/dapr-mcp-server-observability.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/dapr-mcp-server/dapr-mcp-server-observability.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "spiffe-verifiable-identity-document",
       "source": "SPIFFE Verifiable Identity Document",
       "target": "SPIFFE 可验证身份文档",
@@ -5146,6 +5608,46 @@
       "lastSeen": {
         "doc": "docs/reference/api/conversation_api.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "system-assigned-identity",
+      "source": "system-assigned identity",
+      "target": "系统分配标识",
+      "alt": [],
+      "note": "源文中与 system-managed identity 对应的说法，用于组件的 azureClientId 行为说明。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-mi.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-mi.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "system-managed-identity",
+      "source": "system-managed identity",
+      "target": "系统托管标识",
+      "alt": [],
+      "note": "Azure 资源的系统托管标识（system-managed identity）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-mi.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-mi.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -5452,6 +5954,26 @@
       "lastSeen": {
         "doc": "docs/reference/api/conversation_api.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "user-assigned-identity",
+      "source": "user-assigned identity",
+      "target": "用户分配标识",
+      "alt": [],
+      "note": "用户分配标识（user-assigned identity）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-mi.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-mi.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
