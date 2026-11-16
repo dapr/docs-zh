@@ -2,12 +2,12 @@
 type: docs
 title: "Google Cloud Storage 存储桶"
 linkTitle: "Google Cloud Storage"
-description: "Google Cloud Storage 二进制存储组件的配置"
+description: "Google Cloud Storage Binary Store 组件的配置"
 aliases:
   - "/zh-hans/reference/components-reference/supported-binarystore/gcp-bucket/"
 ---
 
-Google Cloud Storage 二进制存储会将每个文件作为一个对象存储到已配置的存储桶中。该组件处于 Alpha 阶段，并使用 Dapr 内置的 GCP 身份验证配置文件。
+Google Cloud Storage Binary Store 会将每个文件作为一个对象存储到已配置的存储桶中。该组件处于 Alpha 阶段，并使用 Dapr 内置的 GCP 身份验证配置文件。
 
 ## 组件格式
 
@@ -42,4 +42,4 @@ spec:
 
 - [Google Cloud Storage 文档](https://cloud.google.com/storage/docs)
 - [Dapr 组件的基本架构]({{% ref "reference/resource-specs/component-schema.md" %}})
-- [如何使用二进制存储]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})
+- [如何使用 Binary Store]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})

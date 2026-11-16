@@ -27,7 +27,7 @@ description: >
 
 ## 使用 Dapr 实现应用程序的可观测性
 
-当你利用 Dapr API 构建块执行服务间调用、发布订阅消息传递和其他 API 操作时，Dapr 在[分布式追踪]({{% ref tracing %}})方面具有优势。由于这些服务间通信都流经 Dapr 运行时（或“边车”），Dapr 能够独特地卸载应用程序级检测的负担。
+当你利用 Dapr API 构建块执行服务间调用、pub/sub 消息传递和其他 API 操作时，Dapr 在[分布式追踪]({{% ref tracing %}})方面具有优势。由于这些服务间通信都流经 Dapr 运行时（或“边车”），Dapr 能够独特地卸载应用程序级检测的负担。
 
 ### 分布式追踪
 
@@ -66,7 +66,7 @@ Dapr [控制平面指标](https://github.com/dapr/dapr/blob/master/docs/developm
 
 Dapr 边车会公开一个用于[健康检查]({{% ref sidecar-health %}})的 HTTP 端点。通过此 API，用户代码或托管环境可以探测 Dapr 边车，以确定其状态并发现边车未就绪等问题。
 
-反过来，也可以将 Dapr 配置为探测[应用程序的健康状况]({{% ref app-health %}})，并对应用程序健康状况的变化做出响应，包括停止发布订阅订阅和短路服务调用。
+反过来，也可以将 Dapr 配置为探测[应用程序的健康状况]({{% ref app-health %}})，并对应用程序健康状况的变化做出响应，包括停止 pub/sub 订阅和短路服务调用。
 
 ## 后续步骤
 

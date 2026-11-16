@@ -86,7 +86,7 @@ export default class WorkflowActivityContext {
 
 <!--csharp-->
 
-定义你希望工作流执行的工作流活动。活动是一个类定义，可以接受输入和输出。活动也参与依赖注入，例如绑定到 Dapr 客户端。
+定义你希望工作流执行的工作流活动。活动是一个类定义，可以接受输入和输出。活动也参与依赖注入，例如 binding 到 Dapr 客户端。
 
 下面示例中调用的活动包括：
 - `NotifyActivity`：接收新订单的通知。
@@ -1128,7 +1128,7 @@ func FailActivity(ctx workflow.ActivityContext) (any, error) {
 
 通过 IDE 或 Dapr CLI 启动工作流应用程序，并调度一个新的工作流实例。如果要同时启动多个应用程序，请使用 [Dapr multi-app run]({{%  ref multi-app-overview.md %}})；如果只启动一个应用程序，请使用常规的 [Dapr run 命令](#通过-dapr-cli-测试工作流)。
 
-使用本地的 [Diagrid Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 可视化并检查工作流状态，还可以深入查看详细的工作流执行历史。该仪表板作为独立工具运行，并从 Dapr 工作流所使用的状态存储中读取工作流（默认为本地 Redis 实例）。Redis、PostgreSQL、SQLite 和 MongoDB 会被直接读取；其他状态存储则通过边车的工作流 API 读取，这需要 Dapr 1.17 或更高版本。
+使用本地的 [Diagrid Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 可视化并检查工作流状态，还可以深入查看详细的工作流执行历史。该仪表板作为独立工具运行，并从 Dapr 工作流所使用的 state store 中读取工作流（默认为本地 Redis 实例）。Redis、PostgreSQL、SQLite 和 MongoDB 会被直接读取；其他 state store 则通过边车的工作流 API 读取，这需要 Dapr 1.17 或更高版本。
 
 <img src="/images/workflow-overview/workflow-diagrid-dashboard.png" width=800 alt="Diagrid Dev Dashboard 显示本地工作流执行情况"/><br/>
 

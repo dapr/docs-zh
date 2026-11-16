@@ -27,7 +27,7 @@ no_list: true
 | [服务调用]({{% ref serviceinvocation-quickstart %}}) | 使用 HTTP 或 gRPC 在两个服务之间进行同步通信。 |
 | [发布和订阅]({{% ref pubsub-quickstart %}}) | 使用消息在两个服务之间进行异步通信。 |
 | [Agents]({{% ref dapr-agents-quickstarts.md %}}) | 构建由 LLM 驱动的自主智能体应用程序。 |
-| [状态管理]({{% ref statemanagement-quickstart %}}) | 将服务的数据以键/值对的形式存储在受支持的状态存储中。 |
+| [状态管理]({{% ref statemanagement-quickstart %}}) | 将服务的数据以键/值对的形式存储在受支持的 state store 中。 |
 | [Bindings]({{% ref bindings-quickstart %}}) | 使用输入绑定响应事件，并使用输出绑定调用操作，以便与外部系统交互。 |
 | [Actors]({{% ref actors-quickstart %}}) | 运行微服务和简单的控制台客户端，以演示 Dapr Actors 中的有状态对象模式。 |
 | [Secrets Management]({{% ref secrets-quickstart %}}) | 安全地获取密钥。 |

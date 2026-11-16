@@ -248,7 +248,7 @@ dapr run --app-id actorclient -- dotnet run
 
 ## 使用 Dapr Dev Dashboard 检查 Actors
 
-在运行服务应用和客户端应用期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看已注册的 `SmokeDetectorActor` 和 `ControllerActor` 类型，以及每种类型的活跃 actor 数量。在 **State** 页面上选择 **Show internal keys** 后，仪表板还会显示存储在状态存储中的 actor 状态，因此你可以观察警报触发和提醒清除时每个设备状态的变化。
+在运行服务应用和客户端应用期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看已注册的 `SmokeDetectorActor` 和 `ControllerActor` 类型，以及每种类型的活跃 actor 数量。在 **State** 页面上选择 **Show internal keys** 后，仪表板还会显示存储在 state store 中的 actor 状态，因此你可以观察警报触发和提醒清除时每个设备状态的变化。
 
 ## 告诉我们你的想法！
 

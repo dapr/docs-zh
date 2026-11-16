@@ -114,4 +114,4 @@ Invoke-RestMethod -Uri 'http://localhost:3500/v1.0/secrets/my-secret-store/my-se
 {"my-secret":"I'm Batman"}
 ```
 
-{{< button text="下一步：设置发布订阅代理 >>" page="pubsub-quickstart.md" >}}
+{{< button text="下一步：设置 pub/sub 代理 >>" page="pubsub-quickstart.md" >}}

@@ -28,13 +28,13 @@ POST/GET/PUT/DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/meth
 
 你可以通过 HTTP/gRPC 端点与 Dapr 交互，利用 Dapr Actor 状态管理能力可靠地保存状态。
 
-要使用 Actor，你的状态存储必须支持多项事务。这意味着你的状态存储组件必须实现 `TransactionalStore` 接口。
+要使用 Actor，你的 state store 必须支持多项事务。这意味着你的 state store 组件必须实现 `TransactionalStore` 接口。
 
-[查看支持事务/Actor 的组件列表]({{% ref supported-state-stores %}})。所有 Actor 只能使用单个状态存储组件作为状态存储。
+[查看支持事务/Actor 的组件列表]({{% ref supported-state-stores %}})。所有 Actor 只能使用单个 state store 组件作为 state store。
 
 ## 在本地检查 Actor
 
-在本地开发时，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看应用注册的 Actor 类型，以及每种类型的活跃 Actor 数量。在 **State** 页面中，选择 **Show internal keys**，即可查看存储在状态存储中的 Actor 状态。这有助于验证你的 Actor 方法是否按预期保存了状态。
+在本地开发时，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看应用注册的 Actor 类型，以及每种类型的活跃 Actor 数量。在 **State** 页面中，选择 **Show internal keys**，即可查看存储在 state store 中的 Actor 状态。这有助于验证你的 Actor 方法是否按预期保存了状态。
 
 ## 后续步骤
 

@@ -12,7 +12,7 @@ description: 开始使用 Dapr 的配置构建块
 - 数据库名称等
 
 在本快速入门中，你将运行一个使用配置 API 的 `order-processor` 微服务。该服务：
-1. 从配置存储获取配置项。
+1. 从 config store 获取配置项。
 1. 订阅配置更新。
 
 <img src="/images/configuration-quickstart/configuration-quickstart-flow.png" width=1000 alt="演示使用键/值对的配置 API 快速入门流程的图表。">
@@ -106,14 +106,14 @@ dapr run --app-id order-processor --resources-path ../../../components/ --app-po
 ### `order-processor` 服务
 
 `order-processor` 服务包含以下功能的代码：
-- 从配置存储获取配置项
+- 从 config store 获取配置项
 - 订阅配置更新（你之前已在 CLI 中进行过此操作）
 - 取消订阅配置更新，并在 20 秒无活动后退出应用
 
 获取配置项：
 
 ```python
-# 从配置存储获取配置项
+# 从 config store 获取配置项
 for config_item in CONFIGURATION_ITEMS:
     config = client.get_configuration(store_name=DAPR_CONFIGURATION_STORE, keys=[config_item], config_metadata={})
     print(f"Configuration for {config_item} : {config.items[config_item]}", flush=True)
@@ -221,14 +221,14 @@ dapr run --app-id order-processor --resources-path ../../../components/ --app-pr
 ### `order-processor` 服务
 
 `order-processor` 服务包含以下功能的代码：
-- 从配置存储获取配置项
+- 从 config store 获取配置项
 - 订阅配置更新（你之前已在 CLI 中进行过此操作）
 - 取消订阅配置更新，并在 20 秒无活动后退出应用
 
 获取配置项：
 
 ```javascript
-// 从配置存储获取配置项
+// 从 config store 获取配置项
 //...
   const config = await client.configuration.get(DAPR_CONFIGURATION_STORE, CONFIGURATION_ITEMS);
   Object.keys(config.items).forEach((key) => {
@@ -346,14 +346,14 @@ dapr run --app-id order-processor-http --resources-path ../../../components/ --a
 ### `order-processor` 服务
 
 `order-processor` 服务包含以下功能的代码：
-- 从配置存储获取配置项
+- 从 config store 获取配置项
 - 订阅配置更新（你之前已在 CLI 中进行过此操作）
 - 取消订阅配置更新，并在 20 秒无活动后退出应用
 
 获取配置项：
 
 ```csharp
-// 从配置存储获取配置
+// 从 config store 获取配置
 GetConfigurationResponse config = await client.GetConfiguration(DAPR_CONFIGURATION_STORE, CONFIGURATION_ITEMS);
 foreach (var item in config.Items)
 {
@@ -465,14 +465,14 @@ dapr run --app-id order-processor --resources-path ../../../components -- java -
 ### `order-processor` 服务
 
 `order-processor` 服务包含以下功能的代码：
-- 从配置存储获取配置项
+- 从 config store 获取配置项
 - 订阅配置更新（你之前已在 CLI 中进行过此操作）
 - 取消订阅配置更新，并在 20 秒无活动后退出应用
 
 获取配置项：
 
 ```java
-// 从配置存储获取配置项
+// 从 config store 获取配置项
 try (DaprPreviewClient client = (new DaprClientBuilder()).buildPreviewClient()) {
     for (String configurationItem : CONFIGURATION_ITEMS) {
         ConfigurationItem item = client.getConfiguration(DAPR_CONFIGURATON_STORE, configurationItem).block();
@@ -575,14 +575,14 @@ dapr run --app-id order-processor --app-port 6001 --resources-path ../../../comp
 ### `order-processor` 服务
 
 `order-processor` 服务包含以下功能的代码：
-- 从配置存储获取配置项
+- 从 config store 获取配置项
 - 订阅配置更新（你之前已在 CLI 中进行过此操作）
 - 取消订阅配置更新，并在 20 秒无活动后退出应用
 
 获取配置项：
 
 ```go
-// 从配置存储获取配置项
+// 从 config store 获取配置项
 for _, item := range CONFIGURATION_ITEMS {
 	config, err := client.GetConfigurationItem(ctx, DAPR_CONFIGURATION_STORE, item)
 	//...

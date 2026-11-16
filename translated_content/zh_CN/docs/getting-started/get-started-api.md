@@ -95,7 +95,7 @@ Invoke-RestMethod -Uri 'http://localhost:3500/v1.0/state/statestore/name'
 
 ### 步骤 4：查看状态在 Redis 中的存储方式
 
-查看 Redis 容器，并验证 Dapr 是否将其用作状态存储。使用以下命令启动 Redis CLI：
+查看 Redis 容器，并验证 Dapr 是否将其用作 state store。使用以下命令启动 Redis CLI：
 
 ```bash
 docker exec -it dapr_redis redis-cli
@@ -129,12 +129,12 @@ exit
 ```
 
 {{% alert title="提示" color="primary" %}}
-你也可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 浏览状态存储，而不使用 Redis CLI。它会列出 `myapp||name` 键，显示其值，并允许你通过 UI 添加或删除状态记录。
+你也可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 浏览 state store，而不使用 Redis CLI。它会列出 `myapp||name` 键，显示其值，并允许你通过 UI 添加或删除状态记录。
 {{% /alert %}}
 
 ### 步骤 5：删除状态
 
-在同一终端窗口中，从状态存储中删除 `name` 状态对象。
+在同一终端窗口中，从 state store 中删除 `name` 状态对象。
 
 {{< tabpane text=true >}}
 

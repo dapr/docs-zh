@@ -14,7 +14,7 @@ description: "无需暴露服务器端口，即可通过应用发起的 gRPC 流
 
 从 Dapr v1.18 开始，Actor 宿主也可以改为由应用向边车打开一条**单一的双向 gRPC 流**（`SubscribeActorEventsAlpha1`），并通过该连接接收全部四种回调类型。应用是 gRPC _客户端_：它连接 daprd、打开流，然后等待回调。无需入站端口。
 
-这使 Actor 回调投递方式与 Dapr 中发布订阅的流式订阅（`SubscribeTopicEventsAlpha1`）、配置监听流和调度器作业流保持一致。
+这使 Actor 回调投递方式与 Dapr 中 pub/sub 的流式订阅（`SubscribeTopicEventsAlpha1`）、配置监听流和调度器作业流保持一致。
 
 [Go SDK](https://github.com/dapr/go-sdk) 为该 API 提供了一个高级辅助工具（[`client.SubscribeActorEvents`](https://github.com/dapr/go-sdk/tree/main/examples/actor-grpc)）。其他 Dapr SDK 目前只能通过其生成的 gRPC 客户端使用 `SubscribeActorEventsAlpha1`。详见 [SDK 支持](#sdk-支持)。
 

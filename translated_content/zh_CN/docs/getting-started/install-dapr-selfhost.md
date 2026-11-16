@@ -17,7 +17,7 @@ Dapr 作为边车与应用程序一起运行。在自托管模式下，这意味
 
 Dapr 初始化包括：
 
-1. 运行 **Redis 容器实例**，将其用作本地状态存储和消息代理。
+1. 运行 **Redis 容器实例**，将其用作本地 state store 和消息代理。
 1. 运行 **Zipkin 容器实例**，用于可观测性。
 1. 创建一个**默认组件文件夹**，其中包含上述组件的定义。
 1. 运行 **Dapr placement 服务容器实例**，以支持本地 Actor。
@@ -127,7 +127,7 @@ docker ps
 
 ### 步骤 5：验证组件目录已初始化
 
-运行 `dapr init` 时，CLI 还会创建一个默认组件文件夹，其中包含多个 YAML 文件，定义了状态存储、发布订阅和 Zipkin。Dapr 边车会读取这些组件并使用：
+运行 `dapr init` 时，CLI 还会创建一个默认组件文件夹，其中包含多个 YAML 文件，定义了 state store、pub/sub 和 Zipkin。Dapr 边车会读取这些组件并使用：
 
 - Redis 容器进行状态管理和消息传递。
 - Zipkin 容器收集追踪数据。
@@ -184,7 +184,7 @@ dapr init --slim
 
 #### Dapr Dev Dashboard
 
-免费的 [Diagrid Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 是用于本地 Dapr 开发的配套工具。它可以让你深入了解应用程序、边车、组件、状态存储、订阅、Actor、工作流和日志。你还可以使用它创建 Dapr 组件文件和弹性策略，而无需手动编辑 yaml。
+免费的 [Diagrid Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 是用于本地 Dapr 开发的配套工具。它可以让你深入了解应用程序、边车、组件、state store、订阅、Actor、工作流和日志。你还可以使用它创建 Dapr 组件文件和弹性策略，而无需手动编辑 yaml。
 
 <img src="/images/install-dapr-selfhost/diagrid-dashboard-applications.png" width=800 alt="显示本地 Dapr 应用程序的 Diagrid Dev Dashboard"/><br/>
 

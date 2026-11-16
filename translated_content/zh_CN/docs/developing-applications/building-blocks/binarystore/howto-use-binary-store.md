@@ -1,23 +1,23 @@
 ---
 type: docs
-title: "操作指南：使用二进制存储 API"
-linkTitle: "操作指南：使用二进制存储"
+title: "操作指南：使用 Binary Store API"
+linkTitle: "操作指南：使用 Binary Store"
 weight: 200
-description: "使用 Dapr 二进制存储 API 上传、获取、覆盖和删除文件"
+description: "使用 Dapr Binary Store API 上传、获取、覆盖和删除文件"
 ---
 
-本指南介绍如何配置二进制存储组件，并使用 Dapr HTTP API 或 .NET SDK 上传、获取和删除文件。示例使用运行时的内存组件进行本地开发。
+本指南介绍如何配置 Binary Store 组件，并使用 Dapr HTTP API 或 .NET SDK 上传、获取和删除文件。示例使用运行时的内存组件进行本地开发。
 
 ## 前提条件
 
 - 已安装 [Dapr CLI]({{% ref install-dapr-cli %}})
 - 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost %}})
-- Dapr 运行时支持二进制存储 API（Dapr 1.19 或更高版本）
+- Dapr 运行时支持 Binary Store API（Dapr 1.19 或更高版本）
 - 对于 .NET 示例，需要 `Dapr.BinaryStore` NuGet 包
 
-## 配置二进制存储
+## 配置 Binary Store
 
-二进制存储组件表示 Dapr 所使用的存储后端。将以下内存组件定义保存为 `components/binary-store.yaml`：
+Binary Store 组件表示 Dapr 所使用的存储后端。将以下内存组件定义保存为 `components/binary-store.yaml`：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -36,7 +36,7 @@ spec:
 
 `maxSize` 和 `maxTotalSize` 的值可以是字节数，也可以是带单位的大小字符串，例如 `16Mi` 或 `64Mi`。由于组件元数据的值都是字符串，因此在 YAML 中需要为数字形式的字节数加引号（例如 `"16777216"`）。
 
-组件名称 `mystore` 会用在 API 的 URL 中。这种内存实现适合用来体验 API，但它不会在边车重启后保留文件，也无法在多个边车实例之间共享文件。生产环境请配置合适的持久化二进制存储组件及其所需的元数据。
+组件名称 `mystore` 会用在 API 的 URL 中。这种内存实现适合用来体验 API，但它不会在边车重启后保留文件，也无法在多个边车实例之间共享文件。生产环境请配置合适的持久化 Binary Store 组件及其所需的元数据。
 
 启动 Dapr 边车时，请让它能够访问组件目录。例如，使用以下命令在端口 `3500` 上公开 HTTP API：
 
@@ -202,10 +202,10 @@ HTTP 删除成功时返回 `204 No Content`。.NET 客户端完成该操作后�
 
 ## 文件名与嵌套路径
 
-文件名是所选二进制存储中的相对路径。支持诸如 `images/profile.png` 之类的嵌套路径。构造 HTTP URL 时，请按需对路径字符进行编码。运行时会拒绝以下名称：以斜杠开头或结尾的名称、包含空路径段的名称、包含 `.` 或 `..` 段的名称，以及包含 `\`、`*`、`?`、`[`、`]` 或 `#` 的名称。
+文件名是所选 Binary Store 中的相对路径。支持诸如 `images/profile.png` 之类的嵌套路径。构造 HTTP URL 时，请按需对路径字符进行编码。运行时会拒绝以下名称：以斜杠开头或结尾的名称、包含空路径段的名称、包含 `.` 或 `..` 段的名称，以及包含 `\`、`*`、`?`、`[`、`]` 或 `#` 的名称。
 
 ## 后续步骤
 
-- 阅读[二进制存储概述]({{% ref binarystore-overview.md %}})。
-- 查阅[二进制存储 API 参考]({{% ref binary_store_api.md %}})。
-- 参阅 [Dapr .NET 二进制存储文档](https://docs.dapr.io/developing-applications/sdks/dotnet/dotnet-binarystore/)，了解 SDK 特定用法。
+- 阅读[Binary Store 概述]({{% ref binarystore-overview.md %}})。
+- 查阅[Binary Store API 参考]({{% ref binary_store_api.md %}})。
+- 参阅 [Dapr .NET Binary Store 文档](https://docs.dapr.io/developing-applications/sdks/dotnet/dotnet-binarystore/)，了解 SDK 特定用法。

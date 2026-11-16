@@ -2,12 +2,12 @@
 type: docs
 title: "In-memory"
 linkTitle: "In-memory"
-description: "内存二进制存储组件的配置说明"
+description: "In-memory Binary Store 组件的配置说明"
 aliases:
   - "/zh-hans/reference/components-reference/supported-binarystore/in-memory/"
 ---
 
-内存二进制存储（In-memory Binary Store）将文件保存在 Dapr 边车进程中。它适用于本地开发、测试和演示，但不具持久性：数据不会写入磁盘，进程停止时数据会丢失，并且不会在不同的边车实例之间共享。
+In-memory Binary Store 将文件保存在 Dapr 边车进程中。它适用于本地开发、测试和演示，但不具持久性：数据不会写入磁盘，进程停止时数据会丢失，并且不会在不同的边车实例之间共享。
 
 ## 组件格式
 
@@ -45,5 +45,5 @@ spec:
 ## 相关链接
 
 - [Dapr 组件的基础架构]({{% ref "reference/resource-specs/component-schema.md" %}})
-- [二进制存储构建块]({{% ref "developing-applications/building-blocks/binarystore/binarystore-overview.md" %}})
-- [如何使用二进制存储]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})
+- [Binary Store 构建块]({{% ref "developing-applications/building-blocks/binarystore/binarystore-overview.md" %}})
+- [如何使用 Binary Store]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})

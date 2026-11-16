@@ -26,7 +26,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用纯文本字符串作为密钥。建议使用机密存储来管理密钥，具体说明请参见[此处]({{% ref component-secrets.md %}})。
+上述示例使用纯文本字符串作为密钥。建议使用 secret store 来管理密钥，具体说明请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段

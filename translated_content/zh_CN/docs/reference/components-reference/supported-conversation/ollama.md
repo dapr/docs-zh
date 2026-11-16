@@ -24,7 +24,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上面的示例使用明文字符串作为密钥。建议按照[此处]({{< ref component-secrets.md >}})的说明，使用机密存储保管这些密钥。
+上面的示例使用明文字符串作为密钥。建议按照[此处]({{< ref component-secrets.md >}})的说明，使用 secret store 保管这些密钥。
 {{% /alert %}}
 
 ## 规格元数据字段

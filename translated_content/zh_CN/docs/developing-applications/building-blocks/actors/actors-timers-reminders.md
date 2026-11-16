@@ -199,7 +199,7 @@ DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 ## 错误处理
 
 当 Actor 的方法成功完成时，运行时会继续按照指定的定时器或提醒计划调用该方法。
-为了让 Actor 能够从故障中恢复，并在崩溃或重启后重试，你可以配置状态存储（例如 Redis 或 Azure Cosmos DB）来持久化 Actor 的状态。
+为了让 Actor 能够从故障中恢复，并在崩溃或重启后重试，你可以配置 state store（例如 Redis 或 Azure Cosmos DB）来持久化 Actor 的状态。
 
 如果方法调用失败，定时器不会被删除。只有在以下情况下定时器才会被删除：
 - 边车终止

@@ -1,38 +1,38 @@
 ---
 type: docs
-title: "操作指南：使用输出绑定与外部资源交互"
-linkTitle: "操作指南：输出绑定"
-description: "通过输出绑定调用外部系统"
+title: "操作指南：使用 output binding 与外部资源交互"
+linkTitle: "操作指南：output binding"
+description: "通过 output binding 调用外部系统"
 weight: 300
 ---
 
 
-使用输出绑定，你可以调用外部资源。调用请求中可以发送可选的有效负载和元数据。
+使用 output binding，你可以调用外部资源。调用请求中可以发送可选的有效负载和元数据。
 
 {{< diagram name="binding-output-kafka" width="65" >}}
 
-本指南以 Kafka 绑定为例。你可以从[绑定组件列表]({{% ref setup-bindings %}})中找到你需要的绑定规范。在本指南中：
+本指南以 Kafka binding 为例。你可以从[binding 组件列表]({{% ref setup-bindings %}})中找到你需要的 binding 规范。在本指南中：
 
-1. 示例通过调用 `/binding` 端点，并传递 `checkout`（要调用的绑定名称）来执行操作。
+1. 示例通过调用 `/binding` 端点，并传递 `checkout`（要调用的 binding 名称）来执行操作。
 1. 有效负载放入必需的 `data` 字段中，可以是任何可序列化为 JSON 的值。
-1. `operation` 字段告诉绑定需要执行什么操作。例如，[Kafka 绑定支持 `create` 操作]({{% ref "kafka#binding-support" %}})。
-   - 你可以查看[每个输出绑定支持的操作（特定于各组件）]({{% ref supported-bindings %}})。
+1. `operation` 字段告诉 binding 需要执行什么操作。例如，[Kafka binding 支持 `create` 操作]({{% ref "kafka#binding-support" %}})。
+   - 你可以查看[每个 output binding 支持的操作（特定于各组件）]({{% ref supported-bindings %}})。
 
 {{% alert title="注意" color="primary" %}}
-如果你还没有尝试过，可以先体验[绑定快速入门]({{% ref bindings-quickstart %}})，快速了解如何使用绑定 API。
+如果你还没有尝试过，可以先体验[binding 快速入门]({{% ref bindings-quickstart %}})，快速了解如何使用 binding API。
 
 {{% /alert %}}
 
-## 创建绑定
+## 创建 binding
 
 创建一个 `binding.yaml` 文件，并将其保存到应用程序目录中的 `components` 子文件夹中。
 
-创建一个名为 `checkout` 的新绑定组件。在 `metadata` 部分中，配置以下与 Kafka 相关的属性：
+创建一个名为 `checkout` 的新 binding 组件。在 `metadata` 部分中，配置以下与 Kafka 相关的属性：
 
 - 你要向其发布消息的主题
 - 代理
 
-创建绑定组件时，[指定绑定的受支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。
+创建 binding 组件时，[指定 binding 的受支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。
 
 {{< tabpane text=true >}}
 
@@ -102,9 +102,9 @@ spec:
 
 {{< /tabpane >}}
 
-## 发送事件（输出绑定）
+## 发送事件（output binding）
 
-下面的代码示例利用 Dapr SDK 来调用运行中的 Dapr 实例上的输出绑定端点。
+下面的代码示例利用 Dapr SDK 来调用运行中的 Dapr 实例上的 output binding 端点。
 
 {{< tabpane text=true >}}
 
@@ -165,7 +165,7 @@ public class OrderProcessingServiceApplication {
 			Random random = new Random();
 			int orderId = random.nextInt(1000-1) + 1;
 			DaprClient client = new DaprClientBuilder().build();
-          //使用 Dapr SDK 调用输出绑定
+          //使用 Dapr SDK 调用 output binding
 			client.invokeBinding(BINDING_NAME, BINDING_OPERATION, orderId).block();
 			log.info("Sending message: " + orderId);
 		}
@@ -195,7 +195,7 @@ while True:
     sleep(random.randrange(50, 5000) / 1000)
     orderId = random.randint(1, 1000)
     with DaprClient() as client:
-        #使用 Dapr SDK 调用输出绑定
+        #使用 Dapr SDK 调用 output binding
         resp = client.invoke_binding(BINDING_NAME, BINDING_OPERATION, json.dumps(orderId))
     logging.basicConfig(level = logging.INFO)
     logging.info('Sending message: ' + str(orderId))
@@ -231,7 +231,7 @@ func main() {
 		}
 		defer client.Close()
 		ctx := context.Background()
-        //使用 Dapr SDK 调用输出绑定
+        //使用 Dapr SDK 调用 output binding
 		in := &dapr.InvokeBindingRequest{ Name: BINDING_NAME, Operation: BINDING_OPERATION , Data: []byte(strconv.Itoa(orderId))}
 		err = client.InvokeOutputBinding(ctx, in)
 		log.Println("Sending message: " + strconv.Itoa(orderId))
@@ -272,7 +272,7 @@ async function sendOrder(orderId) {
         daprPort: process.env.DAPR_HTTP_PORT,
         communicationProtocol: CommunicationProtocolEnum.HTTP,
     });
-    //使用 Dapr SDK 调用输出绑定
+    //使用 Dapr SDK 调用 output binding
     const result = await client.binding.send(BINDING_NAME, BINDING_OPERATION, orderId);
     console.log("Sending message: " + orderId);
 }
@@ -286,18 +286,18 @@ function sleep(ms) {
 
 {{< /tabpane >}}
 
-你也可以使用 HTTP 来调用输出绑定端点：
+你也可以使用 HTTP 来调用 output binding 端点：
 
 ```bash
 curl -X POST -H 'Content-Type: application/json' http://localhost:3601/v1.0/bindings/checkout -d '{ "data": 100, "operation": "create" }'
 ```
 
-观看此[视频](https://www.youtube.com/watch?v=ysklxm81MTs&feature=youtu.be&t=1960)了解如何使用双向输出绑定。
+观看此[视频](https://www.youtube.com/watch?v=ysklxm81MTs&feature=youtu.be&t=1960)了解如何使用双向 output binding。
 
 {{< youtube id=ysklxm81MTs start=1960 >}}
 
 ## 参考
 
-- [绑定 API]({{% ref bindings_api %}})
-- [绑定组件]({{% ref bindings %}})
-- [绑定详细规范]({{% ref supported-bindings %}})
+- [binding API]({{% ref bindings_api %}})
+- [binding 组件]({{% ref bindings %}})
+- [binding 详细规范]({{% ref supported-bindings %}})

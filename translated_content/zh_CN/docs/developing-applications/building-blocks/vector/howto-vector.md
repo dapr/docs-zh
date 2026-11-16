@@ -56,7 +56,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上面的示例将机密作为明文字符串直接使用。建议使用机密存储来保存这些机密，具体方法见[此处]({{% ref component-secrets.md %}})。
+上面的示例将 secrets 作为明文字符串直接使用。建议使用 secret store 来保存这些 secrets，具体方法见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 有关所有受支持的向量组件，请参阅[向量组件规范]({{% ref supported-vector %}})。

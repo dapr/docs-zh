@@ -22,9 +22,9 @@ Dapr 提供以下构建块：
 |----------------|----------|-------------|
 | [**工作流**]({{% ref "workflow-overview" %}}) | `/v1.0/workflow` | Dapr 的持久执行引擎。工作流 API 使你能够定义跨多个微服务的长时间运行的持久化流程或数据流，并确保每个步骤即使遇到崩溃、重启和中断也能运行完成。工作流历史记录可以[经过加密签名和验证]({{% ref "workflow-history-signing.md" %}})，从而使执行过程具有防篡改性且可审计。工作流 API 可以与其他 Dapr API 构建块结合使用。例如，工作流可以通过服务调用调用另一个服务或检索密钥，从而提供灵活性和可移植性。
 | [**服务到服务调用**]({{% ref "service-invocation-overview" %}}) | `/v1.0/invoke` | 服务调用使应用程序能够通过已知端点相互通信，并以 http 或 gRPC 消息的形式传递信息。Dapr 提供的端点兼具反向代理和内置服务发现的功能，同时利用内置的分布式跟踪和错误处理。
-| [**发布和订阅**]({{% ref "pubsub-overview" %}}) | `/v1.0/publish` `/v1.0/subscribe`| 发布订阅是一种松耦合的消息传递模式，发送者（或发布者）向主题发布消息，订阅者则订阅该主题。Dapr 支持应用程序之间的发布订阅模式。
-| [**状态管理**]({{% ref "state-management-overview" %}}) | `/v1.0/state` | 应用程序状态是应用程序希望在单次会话结束后继续保留的任何内容。Dapr 提供基于键/值的状态和查询 API，并支持可插拔的状态存储以实现持久化。
-| **二进制存储** | `/v1.0-alpha1/binarystore` | 二进制存储 API 使你能够使用可插拔的存储组件存储、检索和删除二进制文件。上传和下载会以流的形式进行，不会在 Dapr 边车中缓冲整个文件。
+| [**发布和订阅**]({{% ref "pubsub-overview" %}}) | `/v1.0/publish` `/v1.0/subscribe`| pub/sub 是一种松耦合的消息传递模式，发送者（或发布者）向主题发布消息，订阅者则订阅该主题。Dapr 支持应用程序之间的 pub/sub 模式。
+| [**状态管理**]({{% ref "state-management-overview" %}}) | `/v1.0/state` | 应用程序状态是应用程序希望在单次会话结束后继续保留的任何内容。Dapr 提供基于键/值的状态和查询 API，并支持可插拔的 state store 以实现持久化。
+| **Binary Store** | `/v1.0-alpha1/binarystore` | Binary Store API 使你能够使用可插拔的存储组件存储、检索和删除二进制文件。上传和下载会以流的形式进行，不会在 Dapr 边车中缓冲整个文件。
 | [**绑定**]({{% ref "bindings-overview" %}}) | `/v1.0/bindings` | 绑定提供与外部云端或本地服务、系统的双向连接。Dapr 允许你通过 Dapr 绑定 API 调用外部服务，也允许应用程序由连接的服务发送的事件触发。
 | [**Actors**]({{% ref "actors-overview" %}}) | `/v1.0/actors` | Actor 是一个隔离、独立的计算和状态单元，以单线程方式执行。Dapr 提供基于虚拟 Actor 模式的 Actor 实现，该模式提供单线程编程模型，并在 Actor 不再使用时对其进行垃圾回收。
 | [**密钥**]({{% ref "secrets-overview" %}}) | `/v1.0/secrets` | Dapr 提供密钥构建块 API，并与公共云存储、本地存储和 Kubernetes 等密钥存储集成以存储密钥。服务可以调用密钥 API 来检索密钥，例如获取数据库连接字符串。

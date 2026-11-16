@@ -73,7 +73,7 @@ Dapr 支持命名空间 actor。actor 类型可以部署到不同的命名空间
 1. 对未使用的 actor 的内存对象进行垃圾回收。
 1. 保留 actor 存在的信息，以便之后重新激活。
 
-actor 的状态比对象的生命周期更长，因为状态存储在为 Dapr 运行时配置的状态提供程序中。
+actor 的状态比对象的生命周期更长，因为 state store 在为 Dapr 运行时配置的状态提供程序中。
 
 [了解有关 actor 生命周期的更多信息。]({{% ref "actors-features-concepts#actor-lifetime" %}})
 
@@ -104,10 +104,10 @@ Dapr actor 运行时为访问 actor 方法提供了一种简单的基于轮次�
 
 ### 状态
 
-可以使用事务性状态存储来存储 actor 状态。无论你是否打算在 actor 中存储任何状态，都必须在状态存储组件的元数据部分为属性 `actorStateStore` 指定值 `true`。actor 状态以特定方案存储在事务性状态存储中，从而支持一致的查询。只能使用单个状态存储组件作为所有 actor 的状态存储。阅读[状态 API 参考]({{% ref state_api %}})和 [actor API 参考]({{% ref actors_api %}})，了解有关 actor 状态存储的更多信息。
+可以使用事务性 state store 来存储 actor 状态。无论你是否打算在 actor 中存储任何状态，都必须在 state store 组件的元数据部分为属性 `actorStateStore` 指定值 `true`。actor 状态以特定方案存储在事务性 state store 中，从而支持一致的查询。只能使用单个 state store 组件作为所有 actor 的 state store。阅读[状态 API 参考]({{% ref state_api %}})和 [actor API 参考]({{% ref actors_api %}})，了解有关 actor state store 的更多信息。
 
 {{% alert title="提示" color="primary" %}}
-在本地开发期间，使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 检查正在运行的应用的 actor 类型以及每种类型的活动 actor 数量，并浏览状态存储中的 actor 状态。
+在本地开发期间，使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 检查正在运行的应用的 actor 类型以及每种类型的活动 actor 数量，并浏览 state store 中的 actor 状态。
 {{% /alert %}}
 
 ### Actor 定时器和提醒

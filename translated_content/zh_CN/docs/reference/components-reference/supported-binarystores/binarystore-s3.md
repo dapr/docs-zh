@@ -2,12 +2,12 @@
 type: docs
 title: "AWS S3 存储桶"
 linkTitle: "AWS S3"
-description: "AWS S3 和兼容 S3 的二进制存储组件的配置"
+description: "AWS S3 和兼容 S3 的 Binary Store 组件的配置"
 aliases:
   - "/zh-hans/reference/components-reference/supported-binarystore/s3/"
 ---
 
-AWS S3 二进制存储会将文件作为对象存储在 Amazon S3 存储桶中。它也可以连接到 MinIO、Ceph 或 Cloudflare R2 等兼容 S3 的服务。该组件处于 Alpha 阶段，并使用 Dapr 内置的 AWS 身份验证配置文件。
+AWS S3 Binary Store 会将文件作为对象存储在 Amazon S3 存储桶中。它也可以连接到 MinIO、Ceph 或 Cloudflare R2 等兼容 S3 的服务。该组件处于 Alpha 阶段，并使用 Dapr 内置的 AWS 身份验证配置文件。
 
 ## 组件格式
 
@@ -50,4 +50,4 @@ spec:
 
 - [AWS S3 文档](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html)
 - [Dapr 组件的基础结构]({{% ref "reference/resource-specs/component-schema.md" %}})
-- [如何使用二进制存储]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})
+- [如何使用 Binary Store]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})

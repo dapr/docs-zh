@@ -1,20 +1,20 @@
 ---
 type: docs
-title: "快速入门：发布订阅"
-linkTitle: "发布订阅"
+title: "快速入门：pub/sub"
+linkTitle: "pub/sub"
 weight: 72
-description: "Dapr 发布订阅构建块入门"
+description: "Dapr pub/sub 构建块入门"
 ---
 
-让我们来了解一下 Dapr 的[发布订阅构建块]({{% ref pubsub %}})。在本快速入门中，你将运行一个发布者微服务和一个订阅者微服务，以演示 Dapr 如何实现发布订阅模式。
+让我们来了解一下 Dapr 的[pub/sub 构建块]({{% ref pubsub %}})。在本快速入门中，你将运行一个发布者微服务和一个订阅者微服务，以演示 Dapr 如何实现 pub/sub 模式。
 
 1. 使用发布者服务，开发者可以反复向某个主题发布消息。
-1. [发布订阅组件](https://docs.dapr.io/concepts/components-concept/#pubsub-brokers)会对这些消息进行排队或代理。下面的示例使用 Redis，你也可以使用 RabbitMQ、Kafka 等。
+1. [pub/sub 组件](https://docs.dapr.io/concepts/components-concept/#pubsub-brokers)会对这些消息进行排队或代理。下面的示例使用 Redis，你也可以使用 RabbitMQ、Kafka 等。
 1. 该主题的订阅者从队列中拉取消息并进行处理。
 
 <img src="/images/pubsub-quickstart/pubsub-diagram.png" width=800 style="padding-bottom:15px;">
 
-你可以通过以下任一方式尝试此发布订阅快速入门：
+你可以通过以下任一方式尝试此 pub/sub 快速入门：
 
 - [使用 Multi-App Run 模板文件同时运行本示例中的所有应用程序]({{% ref "#使用-multi-app-run-运行" %}})，或
 - [一次运行一个应用程序]({{% ref "#一次运行一个应用程序" %}})
@@ -46,7 +46,7 @@ description: "Dapr 发布订阅构建块入门"
 git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
-在 Quickstarts 目录的根目录下，进入发布订阅目录：
+在 Quickstarts 目录的根目录下，进入 pub/sub 目录：
 
 ```bash
 cd pub_sub/python/sdk
@@ -153,7 +153,7 @@ spec:
 在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例[（定义见 `pubsub.yaml` 组件）]({{% ref "#pubsubyaml-组件文件" %}})以及主题 `orders`。这使你的应用代码能够通过 Dapr 边车与 Redis 组件实例通信。
 
 ```py
-# 注册 Dapr 发布订阅的订阅
+# 注册 Dapr pub/sub 的订阅
 @app.route('/dapr/subscribe', methods=['GET'])
 def subscribe():
     subscriptions = [{
@@ -215,7 +215,7 @@ with DaprClient() as client:
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在 Quickstarts 目录的根目录下，进入发布订阅目录：
+在 Quickstarts 目录的根目录下，进入 pub/sub 目录：
 
 ```bash
 cd pub_sub/javascript/sdk
@@ -366,7 +366,7 @@ console.log("Published data: " + JSON.stringify(order));
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在 Quickstarts 目录的根目录下，进入发布订阅目录：
+在 Quickstarts 目录的根目录下，进入 pub/sub 目录：
 
 ```bash
 cd pub_sub/csharp/sdk
@@ -523,7 +523,7 @@ Console.WriteLine("Published data: " + order);
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在 Quickstarts 目录的根目录下，进入发布订阅目录：
+在 Quickstarts 目录的根目录下，进入 pub/sub 目录：
 
 ```bash
 cd pub_sub/java/sdk
@@ -684,7 +684,7 @@ logger.info("Published data: " + order.getOrderId());
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在 Quickstarts 目录的根目录下，进入发布订阅目录：
+在 Quickstarts 目录的根目录下，进入 pub/sub 目录：
 
 ```bash
 cd pub_sub/go/sdk
@@ -869,7 +869,7 @@ dapr run --app-id order-processor --resources-path ../../../components/ --app-po
 在 `order-processor` 订阅者中，我们订阅了名为 `orderpubsub` 的 Redis 实例[（定义见 `pubsub.yaml` 组件）]({{% ref "#pubsubyaml-组件文件" %}})以及主题 `orders`。这使你的应用代码能够通过 Dapr 边车与 Redis 组件实例通信。
 
 ```py
-# 注册 Dapr 发布订阅的订阅
+# 注册 Dapr pub/sub 的订阅
 @app.route('/dapr/subscribe', methods=['GET'])
 def subscribe():
     subscriptions = [{
@@ -927,7 +927,7 @@ with DaprClient() as client:
     )
 ```
 
-### 步骤 5：查看发布订阅输出
+### 步骤 5：查看 pub/sub 输出
 
 发布者将订单发送到 Dapr 边车，同时订阅者接收这些订单。
 
@@ -1081,7 +1081,7 @@ await client.pubsub.publish(PUBSUB_NAME, PUBSUB_TOPIC, order);
 console.log("Published data: " + JSON.stringify(order));
 ```
 
-### 步骤 5：查看发布订阅输出
+### 步骤 5：查看 pub/sub 输出
 
 请注意，如上面的代码所示，发布者会向 Dapr 边车推送一个随机数，同时订阅者会接收它。
 
@@ -1234,7 +1234,7 @@ await client.PublishEventAsync("orderpubsub", "orders", order);
 Console.WriteLine("Published data: " + order);
 ```
 
-### 步骤 5：查看发布订阅输出
+### 步骤 5：查看 pub/sub 输出
 
 请注意，如上面的代码所示，发布者会向 Dapr 边车推送一个随机数，同时订阅者会接收它。
 
@@ -1394,7 +1394,7 @@ client.publishEvent(
 logger.info("Published data: " + order.getOrderId());
 ```
 
-### 步骤 5：查看发布订阅输出
+### 步骤 5：查看 pub/sub 输出
 
 请注意，如上面的代码所示，发布者会向 Dapr 边车推送一个随机数，同时订阅者会接收它。
 
@@ -1547,7 +1547,7 @@ if err := client.PublishEvent(ctx, PUBSUB_NAME, PUBSUB_TOPIC, []byte(order)); er
 fmt.Println("Published data: ", order)
 ```
 
-### 步骤 5：查看发布订阅输出
+### 步骤 5：查看 pub/sub 输出
 
 请注意，如上面的代码所示，发布者会将一条带编号的消息推送到 Dapr 边车，同时订阅者会接收它。
 
@@ -1634,12 +1634,12 @@ scopes:
 
 ## 后续步骤
 
-- 使用 HTTP 而非 SDK 设置发布订阅。
+- 使用 HTTP 而非 SDK 设置 pub/sub。
   - [Python](https://github.com/dapr/quickstarts/tree/master/pub_sub/python/http)
   - [JavaScript](https://github.com/dapr/quickstarts/tree/master/pub_sub/javascript/http)
   - [.NET](https://github.com/dapr/quickstarts/tree/master/pub_sub/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/pub_sub/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/pub_sub/go/http)
-- 了解更多关于作为 Dapr 构建块的[发布订阅]({{% ref pubsub-overview %}})的信息
+- 了解更多关于作为 Dapr 构建块的[pub/sub]({{% ref pubsub-overview %}})的信息
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

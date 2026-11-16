@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 263,
-  "updatedAt": "2026-11-16T22:27:21.276Z",
+  "version": 268,
+  "updatedAt": "2026-11-16T23:07:40.989Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -1100,6 +1100,180 @@
       "note": "Microsoft Coyote 深度测试框架名称，保留英文",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "Binary Store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "binding",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "client secret",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "config store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "In-memory Binary Store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "input binding",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Kubernetes secret store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "local file secret store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "lock store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "output binding",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "pub/sub",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Resource bindings",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "search store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Secret Access Key",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "secret rotation",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "secret scoping",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "secret sprawl",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "secret store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "secrets",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "secrets API",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "secrets client",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Secrets Management",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "state store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "typed state store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "vector store",
+      "note": "2026-11-16 人工裁决:保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Consul",
+      "note": "Consul 名称解析组件所用的服务发现产品名称,保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "protobuf",
+      "note": "协议缓冲区（Protocol Buffers）的 JSON 映射，技术名称保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Key Vault",
+      "note": "Azure 产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Google Cloud Storage",
+      "note": "Google Cloud 产品名称,保留英文。",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
@@ -1666,9 +1840,11 @@
     {
       "id": "binary-store",
       "source": "Binary Store",
-      "target": "二进制存储",
-      "alt": [],
-      "note": "Name of a Dapr building block API.",
+      "target": "Binary Store",
+      "alt": [
+        "二进制存储"
+      ],
+      "note": "Name of a Dapr building block API. 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1686,9 +1862,11 @@
     {
       "id": "binding",
       "source": "binding",
-      "target": "绑定",
-      "alt": [],
-      "note": "Dapr 绑定构建块（Bindings）的译法，与“绑定构建块”一致。",
+      "target": "binding",
+      "alt": [
+        "绑定"
+      ],
+      "note": "Dapr 绑定构建块（Bindings）的译法，与“绑定构建块”一致。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2086,9 +2264,11 @@
     {
       "id": "client-secret",
       "source": "client secret",
-      "target": "客户端密钥",
-      "alt": [],
-      "note": "Azure 应用凭据 client secret 的译法。",
+      "target": "client secret",
+      "alt": [
+        "客户端密钥"
+      ],
+      "note": "Azure 应用凭据 client secret 的译法。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2326,9 +2506,11 @@
     {
       "id": "config-store",
       "source": "config store",
-      "target": "配置存储",
-      "alt": [],
-      "note": "指 Dapr 配置存储组件，与“配置项”配合使用。",
+      "target": "config store",
+      "alt": [
+        "配置存储"
+      ],
+      "note": "指 Dapr 配置存储组件，与“配置项”配合使用。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4512,9 +4694,11 @@
     {
       "id": "in-memory-binary-store",
       "source": "In-memory Binary Store",
-      "target": "内存二进制存储",
-      "alt": [],
-      "note": "内存型二进制存储组件的名称，正文中作为组件说明的主语出现。",
+      "target": "In-memory Binary Store",
+      "alt": [
+        "内存二进制存储"
+      ],
+      "note": "内存型二进制存储组件的名称，正文中作为组件说明的主语出现。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4672,9 +4856,11 @@
     {
       "id": "input-binding",
       "source": "input binding",
-      "target": "输入绑定",
-      "alt": [],
-      "note": "Dapr 输入绑定,与“输出绑定”对应。",
+      "target": "input binding",
+      "alt": [
+        "输入绑定"
+      ],
+      "note": "Dapr 输入绑定,与“输出绑定”对应。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4952,9 +5138,11 @@
     {
       "id": "kubernetes-secret-store",
       "source": "Kubernetes secret store",
-      "target": "Kubernetes 机密存储",
-      "alt": [],
-      "note": "Dapr Kubernetes 机密存储组件名称。",
+      "target": "Kubernetes secret store",
+      "alt": [
+        "Kubernetes 机密存储"
+      ],
+      "note": "Dapr Kubernetes 机密存储组件名称。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5072,9 +5260,11 @@
     {
       "id": "local-file-secret-store",
       "source": "local file secret store",
-      "target": "本地文件机密存储",
-      "alt": [],
-      "note": "Dapr 本地文件机密存储组件（secretstores.local.file）的译法。",
+      "target": "local file secret store",
+      "alt": [
+        "本地文件机密存储"
+      ],
+      "note": "Dapr 本地文件机密存储组件（secretstores.local.file）的译法。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5152,9 +5342,11 @@
     {
       "id": "lock-store",
       "source": "lock store",
-      "target": "锁存储",
-      "alt": [],
-      "note": "Dapr 支持的锁后端组件类别，参见支持的锁存储参考页。",
+      "target": "lock store",
+      "alt": [
+        "锁存储"
+      ],
+      "note": "Dapr 支持的锁后端组件类别，参见支持的锁存储参考页。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5650,6 +5842,26 @@
       "conflicts": []
     },
     {
+      "id": "namespace-consumer-group",
+      "source": "namespace consumer group",
+      "target": "命名空间消费者组",
+      "alt": [],
+      "note": "Dapr 命名空间消费者组（namespaced consumer groups）功能的名称，标题与正文统一使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/howto-namespace.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/pubsub/howto-namespace.md",
+        "run": "20261116-2249"
+      },
+      "conflicts": []
+    },
+    {
       "id": "native-query",
       "source": "native query",
       "target": "原生查询",
@@ -5892,9 +6104,11 @@
     {
       "id": "output-binding",
       "source": "output binding",
-      "target": "输出绑定",
-      "alt": [],
-      "note": "Dapr 输出绑定（output binding）的译法，与“绑定”一致。",
+      "target": "output binding",
+      "alt": [
+        "输出绑定"
+      ],
+      "note": "Dapr 输出绑定（output binding）的译法，与“绑定”一致。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6452,9 +6666,11 @@
     {
       "id": "pub-sub",
       "source": "pub/sub",
-      "target": "发布订阅",
-      "alt": [],
-      "note": "保留 slash 形式的英文缩写。",
+      "target": "pub/sub",
+      "alt": [
+        "发布订阅"
+      ],
+      "note": "保留 slash 形式的英文缩写。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "human",
       "locked": true,
       "confidence": "high",
@@ -6992,9 +7208,11 @@
     {
       "id": "resource-bindings",
       "source": "Resource bindings",
-      "target": "资源绑定",
-      "alt": [],
-      "note": "资源绑定构建块的名称，与 binding 的译法 绑定 一致",
+      "target": "Resource bindings",
+      "alt": [
+        "资源绑定"
+      ],
+      "note": "资源绑定构建块的名称，与 binding 的译法 绑定 一致 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7292,9 +7510,11 @@
     {
       "id": "search-store",
       "source": "search store",
-      "target": "搜索存储",
-      "alt": [],
-      "note": "搜索组件中的存储实例（search store）。",
+      "target": "search store",
+      "alt": [
+        "搜索存储"
+      ],
+      "note": "搜索组件中的存储实例（search store）。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7312,9 +7532,11 @@
     {
       "id": "secret-access-key",
       "source": "Secret Access Key",
-      "target": "秘密访问密钥",
-      "alt": [],
-      "note": "AWS 凭证中 Secret Access Key 的译法，与 Access Key ID（访问密钥 ID）配对使用。",
+      "target": "Secret Access Key",
+      "alt": [
+        "秘密访问密钥"
+      ],
+      "note": "AWS 凭证中 Secret Access Key 的译法，与 Access Key ID（访问密钥 ID）配对使用。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7332,11 +7554,12 @@
     {
       "id": "secret-rotation",
       "source": "secret rotation",
-      "target": "机密轮换",
+      "target": "secret rotation",
       "alt": [
-        "密钥轮换"
+        "密钥轮换",
+        "机密轮换"
       ],
-      "note": "密钥轮换流程的译法。 2026-11-16 人工裁决:Secrets 系列统一译为“机密”。",
+      "note": "密钥轮换流程的译法。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7354,11 +7577,12 @@
     {
       "id": "secret-scoping",
       "source": "secret scoping",
-      "target": "机密作用域",
+      "target": "secret scoping",
       "alt": [
-        "密钥作用域"
+        "密钥作用域",
+        "机密作用域"
       ],
-      "note": "Dapr 机密作用域特性的译法。 2026-11-16 人工裁决:Secrets 系列统一译为“机密”。",
+      "note": "Dapr 机密作用域特性的译法。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7376,9 +7600,11 @@
     {
       "id": "secret-sprawl",
       "source": "secret sprawl",
-      "target": "机密蔓延",
-      "alt": [],
-      "note": "威胁模型中的故障模式名称：API 密钥散落在日志、提示词或下游调用中",
+      "target": "secret sprawl",
+      "alt": [
+        "机密蔓延"
+      ],
+      "note": "威胁模型中的故障模式名称：API 密钥散落在日志、提示词或下游调用中 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7396,11 +7622,12 @@
     {
       "id": "secret-store",
       "source": "secret store",
-      "target": "机密存储",
+      "target": "secret store",
       "alt": [
-        "密钥存储"
+        "密钥存储",
+        "机密存储"
       ],
-      "note": "Dapr secret store component; used consistently for secretstores. 2026-11-16 人工裁决:Secrets 系列统一译为“机密”。",
+      "note": "Dapr secret store component; used consistently for secretstores. 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7418,11 +7645,12 @@
     {
       "id": "secrets",
       "source": "Secrets",
-      "target": "机密",
+      "target": "secrets",
       "alt": [
-        "密钥"
+        "密钥",
+        "机密"
       ],
-      "note": "Dapr 密钥构建块（Secrets API）的译法。 2026-11-16 人工裁决:Secrets 系列统一译为“机密”。",
+      "note": "Dapr 密钥构建块（Secrets API）的译法。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7440,11 +7668,12 @@
     {
       "id": "secrets-api",
       "source": "secrets API",
-      "target": "机密 API",
+      "target": "secrets API",
       "alt": [
-        "密钥 API"
+        "密钥 API",
+        "机密 API"
       ],
-      "note": "Dapr Secrets API，沿用旧译“密钥 API”。 2026-11-16 人工裁决:Secrets 系列统一译为“机密”。",
+      "note": "Dapr Secrets API，沿用旧译“密钥 API”。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7462,9 +7691,11 @@
     {
       "id": "secrets-client",
       "source": "secrets client",
-      "target": "机密客户端",
-      "alt": [],
-      "note": "DaprClient.secret 所指的机密客户端（JavaScript SDK）。",
+      "target": "secrets client",
+      "alt": [
+        "机密客户端"
+      ],
+      "note": "DaprClient.secret 所指的机密客户端（JavaScript SDK）。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7482,11 +7713,12 @@
     {
       "id": "secrets-management",
       "source": "Secrets Management",
-      "target": "机密管理",
+      "target": "Secrets Management",
       "alt": [
-        "密钥管理"
+        "密钥管理",
+        "机密管理"
       ],
-      "note": "Dapr Secrets Management building block name, as in the existing zh_CN output. 2026-11-16 人工裁决:Secrets 系列统一译为“机密”。",
+      "note": "Dapr Secrets Management building block name, as in the existing zh_CN output. 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8104,9 +8336,11 @@
     {
       "id": "state-store",
       "source": "state store",
-      "target": "状态存储",
-      "alt": [],
-      "note": "用于组件类型与文档标题。",
+      "target": "state store",
+      "alt": [
+        "状态存储"
+      ],
+      "note": "用于组件类型与文档标题。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8730,9 +8964,11 @@
     {
       "id": "typed-state-store",
       "source": "typed state store",
-      "target": "强类型状态存储",
-      "alt": [],
-      "note": "由 [StateStore] 特性与源生成器生成的强类型存储接口",
+      "target": "typed state store",
+      "alt": [
+        "强类型状态存储"
+      ],
+      "note": "由 [StateStore] 特性与源生成器生成的强类型存储接口 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8868,11 +9104,33 @@
       "conflicts": []
     },
     {
+      "id": "vector-api",
+      "source": "Vector API",
+      "target": "向量 API",
+      "alt": [],
+      "note": "Dapr 向量 API 的译法，与术语 vector → 向量 一致",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2249"
+      },
+      "conflicts": []
+    },
+    {
       "id": "vector-store",
       "source": "vector store",
-      "target": "向量存储",
-      "alt": [],
-      "note": "向量组件中的存储实例（vector store）。",
+      "target": "vector store",
+      "alt": [
+        "向量存储"
+      ],
+      "note": "向量组件中的存储实例（vector store）。 2026-11-16 人工裁决:保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",

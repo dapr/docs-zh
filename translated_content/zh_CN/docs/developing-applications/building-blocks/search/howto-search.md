@@ -20,7 +20,7 @@ description: "了解如何使用搜索 API 索引、查询和管理文档"
 
 HTTP API 使用 [protobuf 消息的 JSON 映射](https://protobuf.dev/programming-guides/json/)：字段名为 camelCase，64 位整数为字符串，字节使用 base64 编码。响应会包含设为零值的字段，并省略未设置的可选字段。JavaScript SDK 隐藏了这些细节：文档内容是普通对象，枚举则是 `"completed"` 或 `"asc"` 这样的短字符串。
 
-关于使用类型化文档、查询选项、分页和生成的索引客户端的 .NET 示例，请参阅 [Search .NET SDK 指南]({{% ref dotnet-search-howto.md %}})，其适用于 SDK 1.19.0 或更高版本。
+关于使用类型化文档、查询选项、分页和生成的索引客户端的 .NET 示例，请参阅 [搜索 .NET SDK 指南]({{% ref dotnet-search-howto.md %}})，其适用于 SDK 1.19.0 或更高版本。
 
 ## 前提条件
 
@@ -57,7 +57,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上面的示例以明文字符串形式使用机密。建议使用机密存储来保存这些机密，具体参见[此处]({{% ref component-secrets.md %}})。
+上面的示例以明文字符串形式使用 secrets。建议使用 secret store 来保存这些 secrets，具体参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 有关所有受支持的搜索组件，请参阅[搜索组件规范]({{% ref supported-search %}})。
@@ -546,6 +546,6 @@ curl -X DELETE http://localhost:3500/v1.0-alpha1/search/mysearch/indexes/article
 
 ## 后续步骤
 
-- [Search API 参考]({{% ref search_api %}})
+- [搜索 API 参考]({{% ref search_api %}})
 - [搜索组件规范]({{% ref supported-search %}})
 - [How-To: 存储和查询向量]({{% ref howto-vector %}})

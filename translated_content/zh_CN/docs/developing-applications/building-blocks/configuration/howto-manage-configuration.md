@@ -52,7 +52,7 @@ MSET orderId1 "101||1" orderId2 "102||1"
 - 使用 Dapr CLI 运行时。
 
 {{% alert title="注意" color="primary" %}}
- 由于 Redis 配置组件与 Redis `statestore.yaml` 组件的元数据相同，如果你已经有 Redis `statestore.yaml`，只需复制并修改 Redis 状态存储组件的类型即可。
+ 由于 Redis 配置组件与 Redis `statestore.yaml` 组件的元数据相同，如果你已经有 Redis `statestore.yaml`，只需复制并修改 Redis state store 组件的类型即可。
 
 {{% /alert %}}
 

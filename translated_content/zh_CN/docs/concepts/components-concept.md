@@ -15,7 +15,7 @@ Dapr 采用模块化设计，功能以组件的形式交付。每个组件都有
 
 一个构建块可以使用任意组件组合。例如，[Actor]({{% ref "actors-overview" %}})和[状态管理]({{% ref "state-management-overview" %}})构建块都使用[状态组件](https://github.com/dapr/components-contrib/tree/master/state)。
 
-再举一个例子，[发布订阅]({{% ref "pubsub-overview" %}})构建块使用[发布订阅组件](https://github.com/dapr/components-contrib/tree/master/pubsub)。
+再举一个例子，[pub/sub]({{% ref "pubsub-overview" %}})构建块使用[pub/sub 组件](https://github.com/dapr/components-contrib/tree/master/pubsub)。
 
 您可以使用 `dapr components` CLI 命令获取托管环境中当前可用组件的列表。
 
@@ -32,7 +32,7 @@ Dapr 采用模块化设计，功能以组件的形式交付。每个组件都有
 
 这些 YAML 文件遵循通用的 [Dapr 组件架构]({{% ref "component-schema" %}})，但每个文件都针对特定的组件规范。
 
-需要明确的是，组件规范的值，尤其是规范中的 `metadata`，在同一组件类型的不同组件之间可能有所不同，例如不同的状态存储之间；并且部分设计时的规范值可以在运行时向组件 API 发出请求时被覆盖。因此，强烈建议查看[组件规范]({{% ref "components-reference" %}})，特别留意用于设置与组件交互所用 metadata 的请求示例负载。
+需要明确的是，组件规范的值，尤其是规范中的 `metadata`，在同一组件类型的不同组件之间可能有所不同，例如不同的 state store 之间；并且部分设计时的规范值可以在运行时向组件 API 发出请求时被覆盖。因此，强烈建议查看[组件规范]({{% ref "components-reference" %}})，特别留意用于设置与组件交互所用 metadata 的请求示例负载。
 
 {{% alert title="提示" color="primary" %}}
 在本地开发时，[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 提供了组件构建器，可以引导您为任何组件类型创建组件 YAML 文件，无需手动编写规范。该仪表板还会显示每个正在运行的应用已加载的组件，有助于确认 Dapr 是否正确读取了您的组件文件。
@@ -78,19 +78,19 @@ Dapr 还允许用户创建自己的私有组件，称为可插拔组件。这些
 - [名称解析组件列表]({{% ref supported-name-resolution %}})
 - [名称解析实现](https://github.com/dapr/components-contrib/tree/master/nameresolution)
 
-### 发布订阅代理
+### pub/sub 代理
 
-发布订阅代理组件是消息代理，可以作为[发布和订阅]({{% ref pubsub-overview %}})构建块的一部分在服务之间传递消息。
+pub/sub 代理组件是消息代理，可以作为[发布和订阅]({{% ref pubsub-overview %}})构建块的一部分在服务之间传递消息。
 
-- [发布订阅代理列表]({{% ref supported-pubsub %}})
-- [发布订阅代理实现](https://github.com/dapr/components-contrib/tree/master/pubsub)
+- [pub/sub 代理列表]({{% ref supported-pubsub %}})
+- [pub/sub 代理实现](https://github.com/dapr/components-contrib/tree/master/pubsub)
 
-### 状态存储
+### state store
 
-状态存储组件是数据存储（数据库、文件、内存），作为[状态管理]({{% ref "state-management-overview" %}})构建块的一部分存储键值对。
+state store 组件是数据存储（数据库、文件、内存），作为[状态管理]({{% ref "state-management-overview" %}})构建块的一部分存储键值对。
 
-- [状态存储列表]({{% ref supported-state-stores %}})
-- [状态存储实现](https://github.com/dapr/components-contrib/tree/master/state)
+- [state store 列表]({{% ref supported-state-stores %}})
+- [state store 实现](https://github.com/dapr/components-contrib/tree/master/state)
 
 ### 绑定
 

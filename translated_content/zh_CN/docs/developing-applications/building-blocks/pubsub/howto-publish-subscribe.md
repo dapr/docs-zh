@@ -6,7 +6,7 @@ weight: 2000
 description: "了解如何通过一个服务向主题发送消息，并在另一个服务中订阅该主题"
 ---
 
-在了解了 Dapr 发布订阅构建块提供的能力之后，接下来了解它如何在你的服务中工作。下面的代码示例大致描述了一个处理订单的应用程序，它包含两个服务，每个服务都配有 Dapr 边车：
+在了解了 Dapr pub/sub 构建块提供的能力之后，接下来了解它如何在你的服务中工作。下面的代码示例大致描述了一个处理订单的应用程序，它包含两个服务，每个服务都配有 Dapr 边车：
 
 - 一个订单处理服务，使用 Dapr 向 RabbitMQ 发布消息。
 - 一个结账服务，使用 Dapr 订阅消息队列中的主题。
@@ -19,13 +19,13 @@ Dapr 会自动将用户负载封装在符合 CloudEvents v1.0 规范的信封中
 下面的示例演示了你的应用程序如何发布和订阅名为 `orders` 的主题。
 
 {{% alert title="注意" color="primary" %}}
-如果你还没有尝试过，请先体验[发布订阅快速入门]({{% ref pubsub-quickstart %}})，快速了解如何使用发布订阅。
+如果你还没有尝试过，请先体验[pub/sub 快速入门]({{% ref pubsub-quickstart %}})，快速了解如何使用 pub/sub。
 
 {{% /alert %}}
 
-## 设置发布订阅组件
+## 设置 pub/sub 组件
 
-第一步是设置发布订阅组件：
+第一步是设置 pub/sub 组件：
 
 {{< tabpane text=true >}}
 
@@ -63,13 +63,13 @@ scopes:
   - checkout
 ```
 
-你可以创建一个包含该文件的组件目录（本例中为 `myComponents`），并在 `dapr run` CLI 命令中使用 `--resources-path` 标志，从而用另一个[发布订阅组件]({{% ref setup-pubsub %}})覆盖此文件。
+你可以创建一个包含该文件的组件目录（本例中为 `myComponents`），并在 `dapr run` CLI 命令中使用 `--resources-path` 标志，从而用另一个[pub/sub 组件]({{% ref setup-pubsub %}})覆盖此文件。
 
 {{% /tab %}}
 
 {{% tab "Kubernetes" %}}
 
-要将其部署到 Kubernetes 集群中，请在下方的 YAML 中填写[发布订阅组件]({{% ref setup-pubsub %}})的 `metadata` 连接详情，将其保存为 `pubsub.yaml`，然后运行 `kubectl apply -f pubsub.yaml`。
+要将其部署到 Kubernetes 集群中，请在下方的 YAML 中填写[pub/sub 组件]({{% ref setup-pubsub %}})的 `metadata` 连接详情，将其保存为 `pubsub.yaml`，然后运行 `kubectl apply -f pubsub.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -179,7 +179,7 @@ scopes:
 - checkout
 ```
 
-上面的示例展示了对 `orders` 主题的事件订阅，使用的是发布订阅组件 `order-pub-sub`。
+上面的示例展示了对 `orders` 主题的事件订阅，使用的是 pub/sub 组件 `order-pub-sub`。
 
 - `route` 字段告诉 Dapr 将所有主题消息发送到应用程序中的 `/checkout` 端点。
 - `scopes` 字段为 ID 为 `orderprocessing` 和 `checkout` 的应用程序启用此订阅。
@@ -671,13 +671,13 @@ dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-g
 
 ## 演示视频
 
-观看[此演示视频](https://youtu.be/1dqe1k-FXJQ?si=s3gvWxRxeOsmXuE1)，了解更多关于使用 Dapr 进行发布订阅消息传递的信息。
+观看[此演示视频](https://youtu.be/1dqe1k-FXJQ?si=s3gvWxRxeOsmXuE1)，了解更多关于使用 Dapr 进行 pub/sub 消息传递的信息。
 
 {{< youtube id=1dqe1k-FXJQ >}}
 
 ## 后续步骤
 
-- 尝试[发布订阅教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)。
+- 尝试[pub/sub 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)。
 - 了解[使用 CloudEvents 进行消息传递]({{% ref pubsub-cloudevents %}})，以及何时可能需要[不使用 CloudEvents 发送消息]({{% ref pubsub-raw %}})。
-- 查看[发布订阅组件]({{% ref setup-pubsub %}})列表。
+- 查看[pub/sub 组件]({{% ref setup-pubsub %}})列表。
 - 阅读 [API 参考]({{% ref pubsub_api %}})。

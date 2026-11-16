@@ -21,7 +21,7 @@ description: Dapr 文档中常见术语和缩写的定义
 | Dapr Workflows（Dapr 工作流） | 一个 Dapr 构建块，用于编写代码优先的工作流，具有持久执行能力，可从崩溃中恢复，支持长时间运行的进程，并支持人在环交互。 | [工作流概述]({{% ref workflow-overview %}})
 | HTTPEndpoint | HTTPEndpoint 是一种 Dapr 资源，用于标识可通过服务调用 API 调用的非 Dapr 端点。 | [服务调用 API]({{% ref service_invocation_api %}})
 | MCPServer | 一种 Dapr 资源，用于声明与 MCP（Model Context Protocol）服务器的连接，以便通过内置工作流编排实现持久化工具执行。 | [MCPServer 资源]({{% ref "mcp-server-resource.md" %}})
-| Namespacing | Dapr 中的命名空间可提供隔离，从而实现多租户。 | 了解有关命名空间的更多信息：[组件]({{% ref component-scopes %}})、[服务调用]({{% ref service-invocation-namespaces %}})、[发布订阅]({{% ref pubsub-namespaces %}})和 [actors]({{% ref namespaced-actors %}})
+| Namespacing | Dapr 中的命名空间可提供隔离，从而实现多租户。 | 了解有关命名空间的更多信息：[组件]({{% ref component-scopes %}})、[服务调用]({{% ref service-invocation-namespaces %}})、[pub/sub]({{% ref pubsub-namespaces %}})和 [actors]({{% ref namespaced-actors %}})
 | Self-hosted | 可在其中使用 Dapr 运行应用程序的 Windows/macOS/Linux 机器。Dapr 支持在机器上以“自托管”模式运行。 | [自托管模式]({{% ref self-hosted-overview %}})
 | Service | 正在运行的应用程序或二进制文件。这可以指你的应用程序或 Dapr 应用程序。                       
 | Sidecar（边车） | 作为单独进程或容器与应用程序一起运行的程序。 | [边车模式](https://docs.microsoft.com/azure/architecture/patterns/sidecar)

@@ -1,17 +1,17 @@
 ---
 type: docs
-title: "快速入门：机密管理"
-linkTitle: "机密管理"
+title: "快速入门：Secrets Management"
+linkTitle: "Secrets Management"
 weight: 77
-description: "开始使用 Dapr 的机密管理构建块"
+description: "开始使用 Dapr 的 Secrets Management 构建块"
 ---
 
-Dapr 提供了一个专门的机密 API，允许开发者从机密存储中检索机密。在本快速入门中，你将：
+Dapr 提供了一个专门的机密 API，允许开发者从 secret store 中检索机密。在本快速入门中，你将：
 
-1. 运行带有机密存储组件的微服务。
+1. 运行带有 secret store 组件的微服务。
 1. 在应用程序代码中使用 Dapr 机密 API 检索机密。
 
-<img src="/images/secretsmanagement-quickstart/secrets-mgmt-quickstart.png" width=1000 alt="显示示例服务机密管理的图表。">
+<img src="/images/secretsmanagement-quickstart/secrets-mgmt-quickstart.png" width=1000 alt="显示示例服务 Secrets Management 的图表。">
 
 
 在继续快速入门之前，请选择你喜欢的语言特定的 Dapr SDK。
@@ -116,7 +116,7 @@ spec:
 
 ### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr 机密存储检索机密并在控制台中显示它。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索机密并在控制台中显示它。
 
 Order-processor 输出：
 
@@ -225,7 +225,7 @@ spec:
 
 ### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr 机密存储检索机密并在控制台中显示它。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索机密并在控制台中显示它。
 
 Order-processor 输出：
 
@@ -341,7 +341,7 @@ spec:
 
 ### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr 机密存储检索机密并在控制台中显示它。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索机密并在控制台中显示它。
 
 Order-processor 输出：
 
@@ -449,7 +449,7 @@ spec:
 
 ### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr 机密存储检索机密并在控制台中显示它。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索机密并在控制台中显示它。
 
 Order-processor 输出：
 
@@ -556,7 +556,7 @@ spec:
 
 ### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr 机密存储检索机密并在控制台中显示它。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索机密并在控制台中显示它。
 
 Order-processor 输出：
 
@@ -576,12 +576,12 @@ Order-processor 输出：
 
 ## 后续步骤
 
-- 使用 HTTP 而不是 SDK 来使用 Dapr 机密管理。
+- 使用 HTTP 而不是 SDK 来使用 Dapr Secrets Management。
   - [Python](https://github.com/dapr/quickstarts/tree/master/secrets_management/python/http)
   - [JavaScript](https://github.com/dapr/quickstarts/tree/master/secrets_management/javascript/http)
   - [.NET](https://github.com/dapr/quickstarts/tree/master/secrets_management/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/secrets_management/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/http)
-- 了解有关 [机密管理构建块]({{% ref secrets-overview %}}) 的更多信息
+- 了解有关 [Secrets Management 构建块]({{% ref secrets-overview %}}) 的更多信息
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

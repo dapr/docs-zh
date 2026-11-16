@@ -23,7 +23,7 @@ Dapr 工作流引擎内部由 Dapr 的 Actor 运行时驱动。下图展示了 K
 
 要使用 Dapr Workflow 构建块，你需要使用 Dapr Workflow SDK 在应用程序中编写工作流代码。该 SDK 在内部通过 gRPC 流连接到边车，从而注册工作流以及工作流可以调度的工作流活动（即任务）。
 
-引擎直接嵌入在边车中，并基于 [`durabletask-go`](https://github.com/dapr/durabletask-go) 框架库实现。该框架允许你替换不同的存储提供程序，其中包括为 Dapr 创建的、在幕后利用内部 Actor 的存储提供程序。由于 Dapr Workflows 使用 Actor，你可以将工作流状态存储在状态存储中。
+引擎直接嵌入在边车中，并基于 [`durabletask-go`](https://github.com/dapr/durabletask-go) 框架库实现。该框架允许你替换不同的存储提供程序，其中包括为 Dapr 创建的、在幕后利用内部 Actor 的存储提供程序。由于 Dapr Workflows 使用 Actor，你可以将工作流状态存储在 state store 中。
 
 ## 边车交互
 
@@ -97,11 +97,11 @@ Dapr 工作流引擎内部由 Dapr 的 Actor 运行时驱动。下图展示了 K
 默认情况下，工作流的启动位置与每个工作项的执行位置之间没有局部性或关联关系。
 启用[工作流快速路径]({{% ref "workflow-fast-path.md" %}})预览功能后，提交事件的主机也会驱动随之产生的轮次，并且活动体会直接在其目标主机上执行，无需经由调度器进行一次提醒往返。
 
-每个工作流 Actor 使用配置的 Actor 状态存储中的以下键来保存其状态：
+每个工作流 Actor 使用配置的 Actor state store 中的以下键来保存其状态：
 
 | 键 | 描述 |
 | --- | ----------- |
-| `inbox-NNNNNN` | 工作流的收件箱实际上是一个先进先出（FIFO）队列，其中存放着驱动工作流执行的_消息_。示例消息包括工作流创建消息、活动任务完成消息等。每条消息都存储在状态存储中自己的键里，键名为 `inbox-NNNNNN`，其中 `NNNNNN` 是一个 6 位数字，表示消息的顺序。当工作流消费了相应的消息后，这些状态键就会被删除。 |
+| `inbox-NNNNNN` | 工作流的收件箱实际上是一个先进先出（FIFO）队列，其中存放着驱动工作流执行的_消息_。示例消息包括工作流创建消息、活动任务完成消息等。每条消息都存储在 state store 中自己的键里，键名为 `inbox-NNNNNN`，其中 `NNNNNN` 是一个 6 位数字，表示消息的顺序。当工作流消费了相应的消息后，这些状态键就会被删除。 |
 | `history-NNNNNN` | 工作流的历史是表示工作流执行过程的事件有序列表。历史中的每个键保存单个历史事件的数据。与仅追加日志一样，工作流历史事件只会被添加，从不删除（但执行“继续作为新”（continue as new）操作时除外，该操作会清除所有历史并以新输入重新启动工作流）。 |
 | `customStatus` | 包含用户定义的工作流状态值。每个工作流 Actor 实例恰好有一个 `customStatus` 键。 |
 | `metadata` | 以 JSON 块的形式包含工作流的元信息，例如收件箱长度、历史长度，以及表示工作流代次（generation）的 64 位整数。长度信息用于确定在加载或保存工作流状态更新时需要读取或写入哪些键。 |
@@ -109,7 +109,7 @@ Dapr 工作流引擎内部由 Dapr 的 Actor 运行时驱动。下图展示了 K
 | `creation-input` | 仅在启用[历史签名]({{% ref "workflow-history-signing.md" %}})时为子工作流写入：父工作流创建子工作流时使用的输入。它与历史分开保存，因此在 `continue as new` 之后依然存在，并可在完成结果被证明时与父工作流进行校验。 |
 
 {{% alert title="警告" color="warning" %}}
-工作流 Actor 的状态在工作流完成后仍保留在状态存储中。
+工作流 Actor 的状态在工作流完成后仍保留在 state store 中。
 创建大量工作流可能导致存储用量无限增长。
 为解决此问题，请使用[清除 API]({{% ref "workflow_api.md#purge-workflow-request" %}})清除工作流，或配置[工作流保留策略]({{% ref workflow-history-retention-policy.md %}})以自动清理已完成的工作流状态。
 {{% /alert %}}
@@ -123,7 +123,7 @@ Dapr 工作流引擎内部由 Dapr 的 Actor 运行时驱动。下图展示了 K
 1. 工作流 Actor 在收到新消息时被激活。
 1. 新消息随后触发（在你的应用程序中）相关的工作流代码运行，并将执行结果返回给工作流 Actor。
 1. 收到结果后，Actor 根据需要调度任何任务。
-1. 调度完成后，Actor 更新其在状态存储中的状态。
+1. 调度完成后，Actor 更新其在 state store 中的状态。
 1. 最后，Actor 进入空闲状态，直到收到另一条消息。在此空闲期间，边车可能会决定将工作流 Actor 从内存中卸载。
 
 ### 活动 Actor
@@ -166,34 +166,34 @@ Dapr Workflow 通过使用 [Actor 提醒]({{% ref "../actors/actors-timers-remin
 
 {{< diagram name="workflow-actor-reminder-flow" width="85" >}}
 
-### 状态存储使用
+### state store 使用
 
 Dapr Workflow 在内部使用 Actor 驱动工作流的执行。
-与任何 Actor 一样，这些工作流 Actor 将其状态存储在已配置的 Actor 状态存储中。
-具体做法是：在 Dapr 配置中指定一个状态存储组件，然后在 `actors` 配置段的 `actorStateStore` 属性中引用该状态存储。
-请阅读[状态 API 参考]({{% ref state_api %}})和[Actor API 参考]({{% ref actors_api %}})，以了解更多关于 Actor 状态存储的信息。
+与任何 Actor 一样，这些工作流 Actor 将其状态存储在已配置的 Actor state store 中。
+具体做法是：在 Dapr 配置中指定一个 state store 组件，然后在 `actors` 配置段的 `actorStateStore` 属性中引用该 state store。
+请阅读[状态 API 参考]({{% ref state_api %}})和[Actor API 参考]({{% ref actors_api %}})，以了解更多关于 Actor state store 的信息。
 
-任何支持 Actor 的状态存储都隐式地支持 Dapr Workflow。
+任何支持 Actor 的 state store 都隐式地支持 Dapr Workflow。
 
 如[工作流 Actor]({{% ref "workflow-architecture.md#工作流-actor" %}})一节所述，工作流通过追加到历史日志来增量保存其状态。
-工作流的历史日志分布在多个状态存储键中，因此每个“检查点”只需追加最新的条目。
+工作流的历史日志分布在多个 state store 键中，因此每个“检查点”只需追加最新的条目。
 
-每个检查点的大小取决于工作流在进入空闲状态之前所调度的并发操作数量。因此，[顺序工作流]({{% ref "workflow-overview.md#task-chaining" %}})对状态存储的批量更新较小，而[扇出/扇入工作流]({{% ref "workflow-overview.md#fan-outfan-in" %}})则需要更大的批量。批量大小还会受到工作流[调用活动]({{% ref "workflow-features-concepts.md#workflow-activities" %}})或[子工作流]({{% ref "workflow-features-concepts.md#child-workflows" %}})时的输入和输出大小的影响。
+每个检查点的大小取决于工作流在进入空闲状态之前所调度的并发操作数量。因此，[顺序工作流]({{% ref "workflow-overview.md#task-chaining" %}})对 state store 的批量更新较小，而[扇出/扇入工作流]({{% ref "workflow-overview.md#fan-outfan-in" %}})则需要更大的批量。批量大小还会受到工作流[调用活动]({{% ref "workflow-features-concepts.md#workflow-activities" %}})或[子工作流]({{% ref "workflow-features-concepts.md#child-workflows" %}})时的输入和输出大小的影响。
 
 {{< diagram workflow-state-store-interactions >}}
 
-不同的状态存储实现可能会隐式地对你可以编写的工作流类型施加限制。
-例如，Azure Cosmos DB 状态存储将单个项的大小限制为 2 MB 的 UTF-8 编码 JSON（[来源](https://learn.microsoft.com/azure/cosmos-db/concepts-limits#per-item-limits)）。
-活动或子工作流的输入或输出负载会作为单条记录存储在状态存储中，因此 2 MB 的单项限制意味着工作流和活动的输入与输出都不能超过 2 MB 的 JSON 序列化数据。
+不同的 state store 实现可能会隐式地对你可以编写的工作流类型施加限制。
+例如，Azure Cosmos DB state store 将单个项的大小限制为 2 MB 的 UTF-8 编码 JSON（[来源](https://learn.microsoft.com/azure/cosmos-db/concepts-limits#per-item-limits)）。
+活动或子工作流的输入或输出负载会作为单条记录存储在 state store 中，因此 2 MB 的单项限制意味着工作流和活动的输入与输出都不能超过 2 MB 的 JSON 序列化数据。
 
-同样，如果状态存储对批量事务的大小有所限制，这可能会限制工作流可调度的并行操作数量。
+同样，如果 state store 对批量事务的大小有所限制，这可能会限制工作流可调度的并行操作数量。
 
-工作流状态（包括其全部历史）可以从状态存储中清除。
+工作流状态（包括其全部历史）可以从 state store 中清除。
 每个 Dapr SDK 都提供用于清除特定工作流实例全部元数据的 API。
 
-#### 状态存储记录数
+#### state store 记录数
 
-每次工作流运行在状态存储中保存为历史的记录数，取决于其复杂度或“形状”。换句话说，即活动、定时器、子工作流等的数量。
+每次工作流运行在 state store 中保存为历史的记录数，取决于其复杂度或“形状”。换句话说，即活动、定时器、子工作流等的数量。
 下表给出了不同工作流任务所保存记录数的大致指南。
 由于重试或并发情况，实际数量可能更多或更少。
 
@@ -214,9 +214,9 @@ dapr workflow --app-id myapp list
 dapr workflow --app-id myapp history <instance-id>
 ```
 
-### 支持的状态存储
+### 支持的 state store
 
-工作流引擎支持以下状态存储：
+工作流引擎支持以下 state store：
 - PostgreSQL
 - MySQL
 - SQL Server
@@ -238,7 +238,7 @@ dapr workflow --app-id myapp history <instance-id>
 
 - 用于托管工作流应用程序的机器数量
 - 运行工作流的机器上可用的 CPU 和内存资源
-- 为 Actor 配置的状态存储的可扩展性
+- 为 Actor 配置的 state store 的可扩展性
 - Actor 放置服务和提醒子系统的可扩展性
 
 目标应用程序中工作流代码的实现细节，也会影响单个工作流实例的可扩展性。
@@ -268,18 +268,18 @@ Dapr 工作流引擎要求工作流应用的所有实例注册完全相同的一
 
 ## 工作流延迟
 
-为了提供持久性和弹性保证，Dapr Workflow 会频繁写入状态存储，并依赖提醒来驱动执行。
+为了提供持久性和弹性保证，Dapr Workflow 会频繁写入 state store，并依赖提醒来驱动执行。
 因此，Dapr Workflow 可能不适用于对延迟敏感的工作负载。
 预期的高延迟来源包括：
 
-- 持久化工作流状态时，状态存储的延迟。
-- 重新加载带有大型历史记录的工作流时，状态存储的延迟。
+- 持久化工作流状态时，state store 的延迟。
+- 重新加载带有大型历史记录的工作流时，state store 的延迟。
 - 集群中活动提醒过多所导致的延迟。
 - 集群中 CPU 使用率过高所导致的延迟。
 
 有关工作流 Actor 的设计如何影响执行延迟的更多细节，请参阅[提醒使用和执行保证]({{% ref "workflow-architecture.md#提醒使用和执行保证" %}})一节。
 
-[工作流快速路径]({{% ref "workflow-fast-path.md" %}})预览功能会移除每个事件的提醒，并减少每个轮次中的大部分状态存储提交。启用该功能后，上述第一项和第三项主要影响的是故障后的恢复，而不是稳定运行时的轮次。
+[工作流快速路径]({{% ref "workflow-fast-path.md" %}})预览功能会移除每个事件的提醒，并减少每个轮次中的大部分 state store 提交。启用该功能后，上述第一项和第三项主要影响的是故障后的恢复，而不是稳定运行时的轮次。
 
 ## 提高调度吞吐量
 

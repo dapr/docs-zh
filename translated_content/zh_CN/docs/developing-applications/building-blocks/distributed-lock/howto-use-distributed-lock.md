@@ -6,7 +6,7 @@ weight: 2000
 description: "了解如何使用分布式锁为资源提供独占访问"
 ---
 
-既然你已经了解了 Dapr 分布式锁 API 构建块所提供的功能，接下来学习它如何在你的服务中发挥作用。在本指南中，示例应用程序使用 Redis 锁组件获取锁，以演示如何锁定资源。有关支持的锁存储列表，请参阅[此参考页面](/reference/components-reference/supported-locks/)。
+既然你已经了解了 Dapr 分布式锁 API 构建块所提供的功能，接下来学习它如何在你的服务中发挥作用。在本指南中，示例应用程序使用 Redis 锁组件获取锁，以演示如何锁定资源。有关支持的 lock store 列表，请参阅[此参考页面](/reference/components-reference/supported-locks/)。
 
 在下图中，同一应用程序的两个实例尝试获取锁，其中一个实例成功，另一个被拒绝。
 

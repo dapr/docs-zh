@@ -7,7 +7,7 @@ description: 开始使用 Dapr 工作流构建块
 ---
 
 {{% alert title="注意" color="primary" %}}
-Redis 目前在快速入门中被用作工作流的状态存储组件。但是，Redis 不支持事务回滚，因此不应在生产环境中用作 actor 状态存储。
+Redis 目前在快速入门中被用作工作流的 state store 组件。但是，Redis 不支持事务回滚，因此不应在生产环境中用作 actor state store。
 
 要在不使用 Docker 和 Redis 的情况下运行快速入门，请使用示例提供的 SQLite 运行文件。每个示例的 README 中都有一个“Run without Docker”部分：[Python](https://github.com/dapr/quickstarts/tree/master/workflows/python/sdk#run-without-docker)、[JavaScript](https://github.com/dapr/quickstarts/tree/master/workflows/javascript/sdk#run-without-docker)、[.NET](https://github.com/dapr/quickstarts/tree/master/workflows/csharp/sdk#run-without-docker)、[Java](https://github.com/dapr/quickstarts/tree/master/workflows/java/sdk#run-without-docker) 和 [Go](https://github.com/dapr/quickstarts/tree/master/workflows/go/sdk#run-without-docker)。
 {{% /alert %}}
@@ -25,10 +25,10 @@ Redis 目前在快速入门中被用作工作流的状态存储组件。但是�
 该工作流包含以下活动：
 
 - `NotifyActivity`：使用日志记录器在整个工作流中输出消息。
-- `VerifyInventoryActivity`：检查状态存储，确保有足够的库存可供购买。
+- `VerifyInventoryActivity`：检查 state store，确保有足够的库存可供购买。
 - `RequestApprovalActivity`：对超过特定成本阈值的订单请求批准。
 - `ProcessPaymentActivity`：处理并授权付款。
-- `UpdateInventoryActivity`：从状态存储中移除所请求的商品，并使用新的剩余库存值更新存储。
+- `UpdateInventoryActivity`：从 state store 中移除所请求的商品，并使用新的剩余库存值更新存储。
 
 该工作流还包含以下业务逻辑：
 - 如果库存不足，工作流将不会继续处理付款。
@@ -48,10 +48,10 @@ Redis 目前在快速入门中被用作工作流的状态存储组件。但是�
 - `notify_activity`：在整个工作流中输出消息。这些消息会在以下情况下通知你：
   - 库存不足
   - 付款无法处理，等等
-- `verify_inventory_activity`：检查状态存储，确保有足够的库存可供购买。
+- `verify_inventory_activity`：检查 state store，确保有足够的库存可供购买。
 - `request_approval_activity`：对超过特定成本阈值的订单请求批准。
 - `process_payment_activity`：处理并授权付款。
-- `update_inventory_activity`：从状态存储中移除所请求的商品，并使用新的剩余库存值更新存储。
+- `update_inventory_activity`：从 state store 中移除所请求的商品，并使用新的剩余库存值更新存储。
 
 ### 步骤 1：前提条件
 
@@ -369,13 +369,13 @@ def request_approval_activity(ctx: WorkflowActivityContext,
  <!-- JavaScript -->
 {{% tab "JavaScript" %}}
 
-`order-processor` 控制台应用会启动并管理订单处理工作流的生命周期，该工作流会在状态存储中存取数据。该工作流包含五个工作流活动（即任务）：
+`order-processor` 控制台应用会启动并管理订单处理工作流的生命周期，该工作流会在 state store 中存取数据。该工作流包含五个工作流活动（即任务）：
 
 - `notifyActivity`：使用日志记录器在整个工作流中输出消息。这些消息会告知用户库存不足、付款无法处理等情况。
-- `verifyInventoryActivity`：检查状态存储，确保有足够的库存可供购买。
+- `verifyInventoryActivity`：检查 state store，确保有足够的库存可供购买。
 - `requestApprovalActivity`：对超过特定阈值的订单请求批准。
 - `processPaymentActivity`：处理并授权付款。
-- `updateInventoryActivity`：使用新的剩余库存值更新状态存储。
+- `updateInventoryActivity`：使用新的剩余库存值更新 state store。
 
 ### 步骤 1：前提条件
 
@@ -535,7 +535,7 @@ start().catch((error) => {
 在 `orderProcessor.ts` 中：
 
 - 注册工作流及其调用的工作流活动
-- 将库存保存到状态存储
+- 将库存保存到 state store
 - 生成唯一的工作流订单 ID 并调度工作流
 - 应用等待工作流启动和完成，然后获取工作流状态和结果
 
@@ -701,13 +701,13 @@ export function* orderProcessingWorkflow(
  <!-- .NET -->
 {{% tab ".NET" %}}
 
-`order-processor` 控制台应用会启动并管理订单处理工作流的生命周期，该工作流会在状态存储中存取数据。该工作流包含五个工作流活动（即任务）：
+`order-processor` 控制台应用会启动并管理订单处理工作流的生命周期，该工作流会在 state store 中存取数据。该工作流包含五个工作流活动（即任务）：
 
 - `NotifyActivity`：使用日志记录器在整个工作流中输出消息
-- `VerifyInventoryActivity`：检查状态存储，确保有足够的库存可供购买。
+- `VerifyInventoryActivity`：检查 state store，确保有足够的库存可供购买。
 - `RequestApprovalActivity`：对超过特定阈值的订单请求批准。
 - `ProcessPaymentActivity`：处理并授权付款。
-- `UpdateInventoryActivity`：从状态存储中移除所请求的商品，并使用新的剩余库存值更新存储。
+- `UpdateInventoryActivity`：从 state store 中移除所请求的商品，并使用新的剩余库存值更新存储。
 
 ### 步骤 1：前提条件
 
@@ -843,7 +843,7 @@ docker run -d -p 9411:9411 openzipkin/zipkin
 在应用程序的程序文件中：
 
 - 生成唯一的工作流订单 ID
-- 通过 `IInventoryStore` 客户端将库存保存到状态存储
+- 通过 `IInventoryStore` 客户端将库存保存到 state store
 - 调度工作流
 - 获取工作流状态
 
@@ -1038,13 +1038,13 @@ internal sealed partial class OrderProcessingWorkflow : Workflow<OrderPayload, O
  <!-- Java -->
 {{% tab "Java" %}}
 
-`order-processor` 控制台应用会启动并管理订单处理工作流的生命周期，该工作流会在状态存储中存取数据。该工作流包含五个工作流活动（即任务）：
+`order-processor` 控制台应用会启动并管理订单处理工作流的生命周期，该工作流会在 state store 中存取数据。该工作流包含五个工作流活动（即任务）：
 
 - `NotifyActivity`：使用日志记录器在整个工作流中输出消息。
 - `RequestApprovalActivity`：对超过特定成本阈值的订单请求批准。
-- `VerifyInventoryActivity`：检查状态存储，确保有足够的库存可供购买。
+- `VerifyInventoryActivity`：检查 state store，确保有足够的库存可供购买。
 - `ProcessPaymentActivity`：处理并授权付款。
-- `UpdateInventoryActivity`：从状态存储中移除所请求的商品，并使用新的剩余库存值更新存储。
+- `UpdateInventoryActivity`：从 state store 中移除所请求的商品，并使用新的剩余库存值更新存储。
 
 ### 步骤 1：前提条件
 
@@ -1417,10 +1417,10 @@ public class OrderProcessingWorkflow implements Workflow {
 - `NotifyActivity`：在整个工作流中输出消息。这些消息会在以下情况下通知你：
   - 库存不足
   - 付款无法处理，等等
-- `VerifyInventoryActivity`：检查状态存储，确保有足够的库存可供购买。
+- `VerifyInventoryActivity`：检查 state store，确保有足够的库存可供购买。
 - `RequestApprovalActivity`：对超过特定成本阈值的订单请求批准。
 - `ProcessPaymentActivity`：处理并授权付款。
-- `UpdateInventoryActivity`：从状态存储中移除所请求的商品，并使用新的剩余库存值更新存储。
+- `UpdateInventoryActivity`：从 state store 中移除所请求的商品，并使用新的剩余库存值更新存储。
 
 ### 步骤 1：前提条件
 

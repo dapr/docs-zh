@@ -6,13 +6,13 @@ weight: 74
 description: "开始使用 Dapr 状态管理构建块"
 ---
 
-让我们来看看 Dapr 的[状态管理构建块]({{% ref state-management %}})。在本快速入门中，你将使用 Redis 状态存储来保存、获取和删除状态，方式可以是以下任一种：
+让我们来看看 Dapr 的[状态管理构建块]({{% ref state-management %}})。在本快速入门中，你将使用 Redis state store 来保存、获取和删除状态，方式可以是以下任一种：
 - [使用 Multi-App Run 模板文件同时运行所有应用]({{% ref "#使用-multi-app-run-运行" %}})，或
 - [一次运行一个应用]({{% ref "#一次运行一个应用" %}})
 
 <img src="/images/state-management-quickstart.png" width=1000 style="padding-bottom:15px;">
 
-虽然此示例使用 Redis，但你可以将其替换为任何[支持的状态存储]({{% ref supported-state-stores.md %}})。
+虽然此示例使用 Redis，但你可以将其替换为任何[支持的 state store]({{% ref supported-state-stores.md %}})。
 
 ## 使用 Multi-App Run 运行
 
@@ -66,22 +66,22 @@ uv run dapr run -f .
 ```python
 with DaprClient() as client:
 
-    # 将状态保存到状态存储中
+    # 将状态保存到 state store 中
     client.save_state(DAPR_STORE_NAME, orderId, str(order))
     logging.info('Saving Order: %s', order)
 
-    # 从状态存储中获取状态
+    # 从 state store 中获取状态
     result = client.get_state(DAPR_STORE_NAME, orderId)
     logging.info('Result after get: ' + str(result.data))
 
-    # 从状态存储中删除状态
+    # 从 state store 中删除状态
     client.delete_state(store_name=DAPR_STORE_NAME, key=orderId)
     logging.info('Deleting Order: %s', order)
 ```
 
 ### 步骤 3：查看 order-processor 输出
 
-注意，如上面的代码所示，代码将应用状态保存到 Dapr 状态存储中，读取后再将其删除。
+注意，如上面的代码所示，代码将应用状态保存到 Dapr state store 中，读取后再将其删除。
 
 Order-processor 输出：
 ```
@@ -120,7 +120,7 @@ apps:
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\statestore.yaml`
 - 在 Linux/macOS 上，位于 `~/.dapr/components/statestore.yaml`
 
-借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[状态存储](/reference/components-reference/supported-state-stores/)。
+借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[state store](/reference/components-reference/supported-state-stores/)。
 
 本快速入门随附的 Redis `statestore.yaml` 文件内容如下：
 
@@ -194,21 +194,21 @@ dapr run -f .
 ```js
 const client = new DaprClient()
 
-// 将状态保存到状态存储中
+// 将状态保存到 state store 中
 await client.state.save(DAPR_STATE_STORE_NAME, order)
 console.log("Saving Order: ", order)
 
-// 从状态存储中获取状态
+// 从 state store 中获取状态
 const savedOrder = await client.state.get(DAPR_STATE_STORE_NAME, order.orderId)
 console.log("Getting Order: ", savedOrder)
 
-// 从状态存储中删除状态
+// 从 state store 中删除状态
 await client.state.delete(DAPR_STATE_STORE_NAME, order.orderId)
 console.log("Deleting Order: ", order)
 ```
 ### 步骤 3：查看 order-processor 输出
 
-注意，如上面的代码所示，代码将应用状态保存到 Dapr 状态存储中，读取后再将其删除。
+注意，如上面的代码所示，代码将应用状态保存到 Dapr state store 中，读取后再将其删除。
 
 Order-processor 输出：
 ```
@@ -252,7 +252,7 @@ apps:
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\statestore.yaml`
 - 在 Linux/macOS 上，位于 `~/.dapr/components/statestore.yaml`
 
-借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[状态存储](/reference/components-reference/supported-state-stores/)。
+借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[state store](/reference/components-reference/supported-state-stores/)。
 
 本快速入门随附的 Redis `statestore.yaml` 文件内容如下：
 
@@ -329,21 +329,21 @@ dapr run -f .
 ```cs
 var client = new DaprClientBuilder().Build();
 
-// 将状态保存到状态存储中
+// 将状态保存到 state store 中
 await client.SaveStateAsync(DAPR_STORE_NAME, orderId.ToString(), order.ToString());
 Console.WriteLine("Saving Order: " + order);
 
-// 从状态存储中获取状态
+// 从 state store 中获取状态
 var result = await client.GetStateAsync<string>(DAPR_STORE_NAME, orderId.ToString());
 Console.WriteLine("Getting Order: " + result);
 
-// 从状态存储中删除状态
+// 从 state store 中删除状态
 await client.DeleteStateAsync(DAPR_STORE_NAME, orderId.ToString());
 Console.WriteLine("Deleting Order: " + order);
 ```
 ### 步骤 3：查看 order-processor 输出
 
-注意，如上面的代码所示，代码将应用状态保存到 Dapr 状态存储中，读取后再将其删除。
+注意，如上面的代码所示，代码将应用状态保存到 Dapr state store 中，读取后再将其删除。
 
 Order-processor 输出：
 ```
@@ -385,7 +385,7 @@ apps:
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\statestore.yaml`
 - 在 Linux/macOS 上，位于 `~/.dapr/components/statestore.yaml`
 
-借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[状态存储](/reference/components-reference/supported-state-stores/)。
+借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[state store](/reference/components-reference/supported-state-stores/)。
 
 本快速入门随附的 Redis `statestore.yaml` 文件内容如下：
 
@@ -466,15 +466,15 @@ try (DaprClient client = new DaprClientBuilder().build()) {
     Order order = new Order();
     order.setOrderId(orderId);
 
-    // 将状态保存到状态存储中
+    // 将状态保存到 state store 中
     client.saveState(DAPR_STATE_STORE, String.valueOf(orderId), order).block();
     LOGGER.info("Saving Order: " + order.getOrderId());
 
-    // 从状态存储中获取状态
+    // 从 state store 中获取状态
     State<Order> response = client.getState(DAPR_STATE_STORE, String.valueOf(orderId), Order.class).block();
     LOGGER.info("Getting Order: " + response.getValue().getOrderId());
 
-    // 从状态存储中删除状态
+    // 从 state store 中删除状态
     client.deleteState(DAPR_STATE_STORE, String.valueOf(orderId)).block();
     LOGGER.info("Deleting Order: " + orderId);
     TimeUnit.MILLISECONDS.sleep(1000);
@@ -482,7 +482,7 @@ try (DaprClient client = new DaprClientBuilder().build()) {
 ```
 ### 步骤 3：查看 order-processor 输出
 
-注意，如上面的代码所示，代码将应用状态保存到 Dapr 状态存储中，读取后再将其删除。
+注意，如上面的代码所示，代码将应用状态保存到 Dapr state store 中，读取后再将其删除。
 
 Order-processor 输出：
 ```
@@ -521,7 +521,7 @@ apps:
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\statestore.yaml`
 - 在 Linux/macOS 上，位于 `~/.dapr/components/statestore.yaml`
 
-借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[状态存储](/reference/components-reference/supported-state-stores/)。
+借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[state store](/reference/components-reference/supported-state-stores/)。
 
 本快速入门随附的 Redis `statestore.yaml` 文件内容如下：
 
@@ -595,22 +595,22 @@ dapr run -f .
 ```go
   client, err := dapr.NewClient()
 
-  // 将状态保存到状态存储中
+  // 将状态保存到 state store 中
   _ = client.SaveState(ctx, STATE_STORE_NAME, strconv.Itoa(orderId), []byte(order))
   log.Print("Saving Order: " + string(order))
 
-  // 从状态存储中获取状态
+  // 从 state store 中获取状态
   result, _ := client.GetState(ctx, STATE_STORE_NAME, strconv.Itoa(orderId))
   fmt.Println("Getting Order: " + string(result.Value))
 
-  // 从状态存储中删除状态
+  // 从 state store 中删除状态
   _ = client.DeleteState(ctx, STATE_STORE_NAME, strconv.Itoa(orderId))
   log.Print("Deleting Order: " + string(order))
 ```
 
 ### 步骤 3：查看 order-processor 输出
 
-注意，如上面的代码所示，代码将应用状态保存到 Dapr 状态存储中，读取后再将其删除。
+注意，如上面的代码所示，代码将应用状态保存到 Dapr state store 中，读取后再将其删除。
 
 Order-processor 输出：
 ```
@@ -653,7 +653,7 @@ apps:
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\statestore.yaml`
 - 在 Linux/macOS 上，位于 `~/.dapr/components/statestore.yaml`
 
-借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[状态存储](/reference/components-reference/supported-state-stores/)。
+借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[state store](/reference/components-reference/supported-state-stores/)。
 
 本快速入门随附的 Redis `statestore.yaml` 文件内容如下：
 
@@ -736,22 +736,22 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- uv run
 ```python
 with DaprClient() as client:
 
-    # 将状态保存到状态存储中
+    # 将状态保存到 state store 中
     client.save_state(DAPR_STORE_NAME, orderId, str(order))
     logging.info('Saving Order: %s', order)
 
-    # 从状态存储中获取状态
+    # 从 state store 中获取状态
     result = client.get_state(DAPR_STORE_NAME, orderId)
     logging.info('Result after get: ' + str(result.data))
 
-    # 从状态存储中删除状态
+    # 从 state store 中删除状态
     client.delete_state(store_name=DAPR_STORE_NAME, key=orderId)
     logging.info('Deleting Order: %s', order)
 ```
 
 ### 步骤 3：查看 order-processor 输出
 
-注意，如上面的代码所示，代码将应用状态保存到 Dapr 状态存储中，读取后再将其删除。
+注意，如上面的代码所示，代码将应用状态保存到 Dapr state store 中，读取后再将其删除。
 
 Order-processor 输出：
 ```
@@ -776,7 +776,7 @@ Order-processor 输出：
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\statestore.yaml`
 - 在 Linux/macOS 上，位于 `~/.dapr/components/statestore.yaml`
 
-借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[状态存储](/reference/components-reference/supported-state-stores/)。
+借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[state store](/reference/components-reference/supported-state-stores/)。
 
 本快速入门随附的 Redis `statestore.yaml` 文件内容如下：
 
@@ -854,21 +854,21 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- npm ru
 ```js
 const client = new DaprClient()
 
-// 将状态保存到状态存储中
+// 将状态保存到 state store 中
 await client.state.save(DAPR_STATE_STORE_NAME, order)
 console.log("Saving Order: ", order)
 
-// 从状态存储中获取状态
+// 从 state store 中获取状态
 const savedOrder = await client.state.get(DAPR_STATE_STORE_NAME, order.orderId)
 console.log("Getting Order: ", savedOrder)
 
-// 从状态存储中删除状态
+// 从 state store 中删除状态
 await client.state.delete(DAPR_STATE_STORE_NAME, order.orderId)
 console.log("Deleting Order: ", order)
 ```
 ### 步骤 3：查看 order-processor 输出
 
-注意，如上面的代码所示，代码将应用状态保存到 Dapr 状态存储中，读取后再将其删除。
+注意，如上面的代码所示，代码将应用状态保存到 Dapr state store 中，读取后再将其删除。
 
 Order-processor 输出：
 ```
@@ -898,7 +898,7 @@ Order-processor 输出：
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\statestore.yaml`
 - 在 Linux/macOS 上，位于 `~/.dapr/components/statestore.yaml`
 
-借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[状态存储](/reference/components-reference/supported-state-stores/)。
+借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[state store](/reference/components-reference/supported-state-stores/)。
 
 本快速入门随附的 Redis `statestore.yaml` 文件内容如下：
 
@@ -973,21 +973,21 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- dotnet
 ```cs
 var client = new DaprClientBuilder().Build();
 
-// 将状态保存到状态存储中
+// 将状态保存到 state store 中
 await client.SaveStateAsync(DAPR_STORE_NAME, orderId.ToString(), order.ToString());
 Console.WriteLine("Saving Order: " + order);
 
-// 从状态存储中获取状态
+// 从 state store 中获取状态
 var result = await client.GetStateAsync<string>(DAPR_STORE_NAME, orderId.ToString());
 Console.WriteLine("Getting Order: " + result);
 
-// 从状态存储中删除状态
+// 从 state store 中删除状态
 await client.DeleteStateAsync(DAPR_STORE_NAME, orderId.ToString());
 Console.WriteLine("Deleting Order: " + order);
 ```
 ### 步骤 3：查看 order-processor 输出
 
-注意，如上面的代码所示，代码将应用状态保存到 Dapr 状态存储中，读取后再将其删除。
+注意，如上面的代码所示，代码将应用状态保存到 Dapr state store 中，读取后再将其删除。
 
 Order-processor 输出：
 ```
@@ -1015,7 +1015,7 @@ Order-processor 输出：
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\statestore.yaml`
 - 在 Linux/macOS 上，位于 `~/.dapr/components/statestore.yaml`
 
-借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[状态存储](/reference/components-reference/supported-state-stores/)。
+借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[state store](/reference/components-reference/supported-state-stores/)。
 
 本快速入门随附的 Redis `statestore.yaml` 文件内容如下：
 
@@ -1096,15 +1096,15 @@ try (DaprClient client = new DaprClientBuilder().build()) {
     Order order = new Order();
     order.setOrderId(orderId);
 
-    // 将状态保存到状态存储中
+    // 将状态保存到 state store 中
     client.saveState(DAPR_STATE_STORE, String.valueOf(orderId), order).block();
     LOGGER.info("Saving Order: " + order.getOrderId());
 
-    // 从状态存储中获取状态
+    // 从 state store 中获取状态
     State<Order> response = client.getState(DAPR_STATE_STORE, String.valueOf(orderId), Order.class).block();
     LOGGER.info("Getting Order: " + response.getValue().getOrderId());
 
-    // 从状态存储中删除状态
+    // 从 state store 中删除状态
     client.deleteState(DAPR_STATE_STORE, String.valueOf(orderId)).block();
     LOGGER.info("Deleting Order: " + orderId);
     TimeUnit.MILLISECONDS.sleep(1000);
@@ -1112,7 +1112,7 @@ try (DaprClient client = new DaprClientBuilder().build()) {
 ```
 ### 步骤 3：查看 order-processor 输出
 
-注意，如上面的代码所示，代码将应用状态保存到 Dapr 状态存储中，读取后再将其删除。
+注意，如上面的代码所示，代码将应用状态保存到 Dapr state store 中，读取后再将其删除。
 
 Order-processor 输出：
 ```
@@ -1137,7 +1137,7 @@ Order-processor 输出：
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\statestore.yaml`
 - 在 Linux/macOS 上，位于 `~/.dapr/components/statestore.yaml`
 
-借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[状态存储](/reference/components-reference/supported-state-stores/)。
+借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[state store](/reference/components-reference/supported-state-stores/)。
 
 本快速入门随附的 Redis `statestore.yaml` 文件内容如下：
 
@@ -1211,22 +1211,22 @@ dapr run --app-id order-processor --resources-path ../../../resources -- go run 
 ```go
   client, err := dapr.NewClient()
 
-  // 将状态保存到状态存储中
+  // 将状态保存到 state store 中
   _ = client.SaveState(ctx, STATE_STORE_NAME, strconv.Itoa(orderId), []byte(order))
   log.Print("Saving Order: " + string(order))
 
-  // 从状态存储中获取状态
+  // 从 state store 中获取状态
   result, _ := client.GetState(ctx, STATE_STORE_NAME, strconv.Itoa(orderId))
   fmt.Println("Getting Order: " + string(result.Value))
 
-  // 从状态存储中删除状态
+  // 从 state store 中删除状态
   _ = client.DeleteState(ctx, STATE_STORE_NAME, strconv.Itoa(orderId))
   log.Print("Deleting Order: " + string(order))
 ```
 
 ### 步骤 3：查看 order-processor 输出
 
-注意，如上面的代码所示，代码将应用状态保存到 Dapr 状态存储中，读取后再将其删除。
+注意，如上面的代码所示，代码将应用状态保存到 Dapr state store 中，读取后再将其删除。
 
 Order-processor 输出：
 ```
@@ -1255,7 +1255,7 @@ Order-processor 输出：
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\statestore.yaml`
 - 在 Linux/macOS 上，位于 `~/.dapr/components/statestore.yaml`
 
-借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[状态存储](/reference/components-reference/supported-state-stores/)。
+借助 `statestore.yaml` 组件，你无需修改代码即可轻松替换[state store](/reference/components-reference/supported-state-stores/)。
 
 本快速入门随附的 Redis `statestore.yaml` 文件内容如下：
 
@@ -1285,9 +1285,9 @@ spec:
 
 {{< /tabpane >}}
 
-## 使用 Dapr Dev Dashboard 检查状态存储
+## 使用 Dapr Dev Dashboard 检查 state store
 
-在快速入门运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看 `order-processor` 应用及其 `statestore` 组件。你可以浏览该应用保存在状态存储中的订单记录、解码其值，并添加或删除记录，以观察应用的行为。
+在快速入门运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看 `order-processor` 应用及其 `statestore` 组件。你可以浏览该应用保存在 state store 中的订单记录、解码其值，并添加或删除记录，以观察应用的行为。
 
 ## 告诉我们你的想法！
 我们一直在努力改进快速入门示例，并重视你的反馈。你觉得本快速入门有帮助吗？你对改进有什么建议吗？

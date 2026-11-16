@@ -19,7 +19,7 @@ description: "打开一条从应用到 daprd 的 gRPC 流，无需暴露服务�
 ## 前提条件
 
 - [Dapr v1.18 或更高版本]({{% ref "getting-started" %}})
-- 为 Actor 配置的状态存储（要求参见 [Actor 概述]({{% ref "actors-overview" %}})）
+- 为 Actor 配置的 state store（要求参见 [Actor 概述]({{% ref "actors-overview" %}})）
 - 你所用语言的 Dapr proto 定义（Go 示例使用 `github.com/dapr/dapr/pkg/proto/runtime/v1`）
 
 ## 协议概览

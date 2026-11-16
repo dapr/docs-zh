@@ -6,7 +6,7 @@ weight: 3000
 description: "了解可用于订阅消息主题的订阅类型。"
 ---
 
-## 发布订阅 API 订阅类型
+## pub/sub API 订阅类型
 
 Dapr 应用程序可以通过三种订阅类型订阅已发布的主题，这三种类型支持相同的功能：声明式、流式和编程式。
 
@@ -16,7 +16,7 @@ Dapr 应用程序可以通过三种订阅类型订阅已发布的主题，这三
 | [**流式**]({{% ref "subscription-methods#流式订阅" %}}) | 订阅在**应用程序代码**中定义。流式订阅是动态的，这意味着可以在运行时添加或删除订阅。它们不需要应用程序提供订阅端点（编程式和声明式订阅都需要），因此易于在代码中配置。流式订阅也不要求为应用程序配置边车即可接收消息。 |
 | [**编程式**]({{% ref "subscription-methods#编程式订阅" %}}) | 订阅在**应用程序代码**中定义。编程式方法实现静态订阅，并要求代码中提供一个端点。 |
 
-下面的示例演示了 `checkout` 应用与 `orderprocessing` 应用之间通过 `orders` 主题进行的发布订阅消息传递。这些示例先以声明式方式使用同一个 Dapr 发布订阅组件，然后以编程式方式使用它。
+下面的示例演示了 `checkout` 应用与 `orderprocessing` 应用之间通过 `orders` 主题进行的 pub/sub 消息传递。这些示例先以声明式方式使用同一个 Dapr pub/sub 组件，然后以编程式方式使用它。
 
 ### 声明式订阅
 
@@ -49,7 +49,7 @@ scopes:
 ```
 
 这里名为 `order` 的订阅：
-- 使用名为 `pubsub` 的发布订阅组件订阅名为 `orders` 的主题。
+- 使用名为 `pubsub` 的 pub/sub 组件订阅名为 `orders` 的主题。
 - 设置 `route` 字段，将所有主题消息发送到应用程序中的 `/orders` 端点。
 - 设置 `scopes` 字段，使此订阅仅可由 ID 为 `orderprocessing` 的应用程序访问。
 
@@ -109,7 +109,7 @@ kubectl apply -f subscription.yaml
 
 {{< /tabpane >}}
 
-在应用程序代码中，订阅 Dapr 发布订阅组件中指定的主题。
+在应用程序代码中，订阅 Dapr pub/sub 组件中指定的主题。
 
 {{< tabpane text=true >}}
 
@@ -201,7 +201,7 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 
 流式订阅是在应用程序代码中定义、可以在运行时动态停止和启动的订阅。
 消息由应用程序从 Dapr 中拉取。这意味着订阅主题不需要端点，甚至可以在完全未为边车配置任何应用的情况下订阅。
-可以同时订阅任意数量的发布订阅组件和主题。
+可以同时订阅任意数量的 pub/sub 组件和主题。
 由于消息会被发送到给定的消息处理代码，因此不存在路由或批量订阅的概念。
 
 下面的示例展示了通过流式方式订阅主题的不同方法。
@@ -253,7 +253,7 @@ Task<TopicResponseAction> HandleMessageAsync(TopicMessage message, CancellationT
 }
 ```
 
-[了解有关使用 .NET SDK 进行发布订阅订阅的更多信息。]({{% ref "dotnet-messaging-subscribe-howto" %}})
+[了解有关使用 .NET SDK 进行 pub/sub 订阅的更多信息。]({{% ref "dotnet-messaging-subscribe-howto" %}})
 
 {{% /tab %}}
 
@@ -670,15 +670,15 @@ func main() {
 
 ## 在本地检查订阅
 
-无论选择哪种订阅类型，在本地开发期间都可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用已注册的订阅，包括发布订阅组件、主题和路由。这是快速确认声明式订阅文件已加载，或确认应用返回了预期编程式订阅的便捷方法。你还可以在仪表板中向订阅发送测试消息。
+无论选择哪种订阅类型，在本地开发期间都可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用已注册的订阅，包括 pub/sub 组件、主题和路由。这是快速确认声明式订阅文件已加载，或确认应用返回了预期编程式订阅的便捷方法。你还可以在仪表板中向订阅发送测试消息。
 
 ## 后续步骤
 
-* 尝试[发布订阅快速入门]({{% ref pubsub-quickstart %}})
-* 参阅[操作指南：使用多个命名空间配置发布订阅组件]({{% ref pubsub-namespaces %}})
+* 尝试[pub/sub 快速入门]({{% ref pubsub-quickstart %}})
+* 参阅[操作指南：使用多个命名空间配置 pub/sub 组件]({{% ref pubsub-namespaces %}})
 * 了解更多关于[声明式和编程式订阅方法]({{% ref subscription-methods %}})的信息。
-* 了解[主题作用域]({{% ref pubsub-scopes %}})
+* 了解[主题限制]({{% ref pubsub-scopes %}})
 * 了解[消息 TTL]({{% ref pubsub-message-ttl %}})
-* 了解更多关于[使用和不使用 CloudEvent 的发布订阅]({{% ref pubsub-cloudevents %}})
-* [发布订阅组件]({{% ref supported-pubsub %}})列表
-* 阅读[发布订阅 API 参考]({{% ref pubsub_api %}})
+* 了解更多关于[使用和不使用 CloudEvent 的 pub/sub]({{% ref pubsub-cloudevents %}})
+* [pub/sub 组件]({{% ref supported-pubsub %}})列表
+* 阅读[pub/sub API 参考]({{% ref pubsub_api %}})

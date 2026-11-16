@@ -6,11 +6,11 @@ weight: 2200
 description: "了解何时可能不使用 CloudEvents 以及如何禁用它们。"
 ---
 
-在向应用程序添加 Dapr 时，某些服务可能仍需要通过未封装在 CloudEvents 中的发布订阅消息进行通信，原因可能是兼容性要求，也可能是某些应用程序并未使用 Dapr。这些消息被称为“原始”发布订阅消息。Dapr 使应用程序能够[发布和订阅原始事件]({{% ref "pubsub-cloudevents#publishing-raw-messages" %}})，即未包装在 CloudEvent 中的事件，以实现兼容性，并发送无法进行 JSON 序列化的数据。
+在向应用程序添加 Dapr 时，某些服务可能仍需要通过未封装在 CloudEvents 中的 pub/sub 消息进行通信，原因可能是兼容性要求，也可能是某些应用程序并未使用 Dapr。这些消息被称为“原始”pub/sub 消息。Dapr 使应用程序能够[发布和订阅原始事件]({{% ref "pubsub-cloudevents#publishing-raw-messages" %}})，即未包装在 CloudEvent 中的事件，以实现兼容性，并发送无法进行 JSON 序列化的数据。
 
 ## 发布原始消息
 
-Dapr 应用程序能够在不进行 CloudEvent 封装的情况下，向发布订阅主题发布原始事件，以便与非 Dapr 应用程序兼容。
+Dapr 应用程序能够在不进行 CloudEvent 封装的情况下，向 pub/sub 主题发布原始事件，以便与非 Dapr 应用程序兼容。
 
 {{< diagram name="pubsub-publish-raw" width="65" >}}
 
@@ -135,7 +135,7 @@ public class PublishController {
 
 ## 订阅原始消息
 
-Dapr 应用程序可以订阅来自发布订阅主题的原始消息，即使这些消息并非以 CloudEvents 形式发布。然而，订阅端的 Dapr 进程在将这些原始消息交付给订阅应用程序之前，仍会将其包装在 CloudEvent 中。
+Dapr 应用程序可以订阅来自 pub/sub 主题的原始消息，即使这些消息并非以 CloudEvents 形式发布。然而，订阅端的 Dapr 进程在将这些原始消息交付给订阅应用程序之前，仍会将其包装在 CloudEvent 中。
 
 {{< diagram name="pubsub-subscribe-raw" width="65" >}}
 
@@ -299,6 +299,6 @@ scopes:
 ## 后续步骤
 
 - 进一步了解[发布和订阅消息]({{% ref pubsub-overview %}})
-- [发布订阅组件]({{% ref supported-pubsub %}})列表
+- [pub/sub 组件]({{% ref supported-pubsub %}})列表
 - 阅读 [API 参考文档]({{% ref pubsub_api %}})
 - 阅读关于如何[不使用 CloudEvents 消费 Kafka 消息](https://github.com/dapr/samples/pubsub-raw-payload)的 .NET 示例
