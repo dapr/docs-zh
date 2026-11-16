@@ -2,8 +2,8 @@
   "version": "v1.19",
   "sourceRepo": "repos/v1.19",
   "sourceBranch": "v1.19",
-  "batchId": "batch-20261115T230654.065Z",
-  "copiedAt": "2026-11-15T23:06:54.065Z",
+  "batchId": "batch-20261116T190248.207Z",
+  "copiedAt": "2026-11-16T19:02:48.207Z",
   "sourceRoot": "data/source",
   "metadataFile": "data/source.json",
   "documentCount": 811,
@@ -44,8 +44,8 @@
       "driftCount": 0,
       "missingSourceCount": 0,
       "translatedCount": 0,
-      "staleTranslationCount": 504,
-      "missingTranslationCount": 101,
+      "staleTranslationCount": 509,
+      "missingTranslationCount": 96,
       "orphanTranslationCount": 0
     },
     {

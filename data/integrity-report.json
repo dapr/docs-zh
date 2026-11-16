@@ -1,7 +1,7 @@
 {
   "version": "v1.19",
-  "generatedAt": "2026-11-15T23:06:54.065Z",
-  "latestBatchId": "batch-20261115T230654.065Z",
+  "generatedAt": "2026-11-16T19:02:48.207Z",
+  "latestBatchId": "batch-20261116T190248.207Z",
   "sourceSummary": {
     "synced": 811,
     "drift": 0,
@@ -9,8 +9,8 @@
   },
   "translationSummary": {
     "translated": 364,
-    "staleTranslation": 244,
-    "missingTranslation": 203,
+    "staleTranslation": 249,
+    "missingTranslation": 198,
     "orphanTranslation": 30
   },
   "buckets": [
@@ -49,8 +49,8 @@
       "driftCount": 0,
       "missingSourceCount": 29,
       "translatedCount": 320,
-      "staleTranslationCount": 184,
-      "missingTranslationCount": 101,
+      "staleTranslationCount": 189,
+      "missingTranslationCount": 96,
       "orphanTranslationCount": 29
     },
     {
@@ -3086,10 +3086,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "532129ad4493722a3b79eeadd96718fb40f7aa48ceb40ee65f41aadfea0b7dcd",
-        "sourceSha256": "bda19e9b195dc9fd38cb9bb648ae57807549543e67bcfbe7ad5e9c0d3a677911"
+        "sourceSha256": "5a661a3f13433fad1d9d76c547120b9b44b7b411cc0f76ab6ff42673b0b2c06a"
       },
       "expected": {
-        "translationStateSha": "bda19e9b195dc9fd38cb9bb648ae57807549543e67bcfbe7ad5e9c0d3a677911"
+        "translationStateSha": "5a661a3f13433fad1d9d76c547120b9b44b7b411cc0f76ab6ff42673b0b2c06a"
       },
       "id": "translationStateShaMismatch:docs:operations/observability/metrics/metrics-overview.md"
     },
@@ -3542,10 +3542,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "e87ad73d938684708d9047f1820930eb2b60ceb701b86c260198ab33b500ca86",
-        "sourceSha256": "e5832b127cbf9f6cc49c498413387f6045201c2c54c1c3e81e9e002e0b6a44cd"
+        "sourceSha256": "3331b62057246d3fc48fb2ccfbb34c73022446cca64e1e9f402c5cf1206f720c"
       },
       "expected": {
-        "translationStateSha": "e5832b127cbf9f6cc49c498413387f6045201c2c54c1c3e81e9e002e0b6a44cd"
+        "translationStateSha": "3331b62057246d3fc48fb2ccfbb34c73022446cca64e1e9f402c5cf1206f720c"
       },
       "id": "translationStateShaMismatch:docs:reference/arguments-annotations-overview.md"
     },
