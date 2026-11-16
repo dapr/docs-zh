@@ -1,9 +1,210 @@
 {
   "schema": 1,
-  "version": 1,
-  "updatedAt": "2026-11-14T19:39:58.613Z",
-  "doNotTranslate": [],
+  "version": 12,
+  "updatedAt": "2026-11-15T23:13:01.871Z",
+  "doNotTranslate": [
+    {
+      "term": "Dapr",
+      "note": "Dapr 产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Dev Dashboard",
+      "note": "产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Actors",
+      "note": "Dapr 构建块名称",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Agents",
+      "note": "基于 Dapr Python SDK 的开发框架名称",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "HTTPEndpoint",
+      "note": "Dapr 资源类型名称",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "MCPServer",
+      "note": "Dapr 资源类型名称",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr CLI",
+      "note": "Dapr 命令行工具名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Redis",
+      "note": "产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Open Telemetry",
+      "note": "可观测性产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Zipkin",
+      "note": "分布式追踪产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "W3C",
+      "note": "标准组织缩写，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Fluentd",
+      "note": "日志收集产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "New Relic",
+      "note": "可观测性产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Monitor",
+      "note": "Azure 监控产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Kubernetes",
+      "note": "平台名称。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Docker",
+      "note": "产品名称。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Podman",
+      "note": "产品名称。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Diagrid Dapr Dev Dashboard",
+      "note": "产品名称。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "PowerShell",
+      "note": "产品名称。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Windows Terminal",
+      "note": "产品名称。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Meilisearch",
+      "note": "向量数据库名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Pinecone",
+      "note": "向量数据库名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Qdrant",
+      "note": "向量数据库名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Milvus",
+      "note": "向量数据库名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "pgvector",
+      "note": "向量数据库扩展名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "OpenTelemetry",
+      "note": "可观测性项目名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Tesla",
+      "note": "汽车品牌名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Elasticsearch",
+      "note": "搜索引擎产品名，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "OpenSearch",
+      "note": "搜索引擎产品名，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Sentry",
+      "note": "Dapr 的证书颁发与身份服务名称。",
+      "origin": "auto",
+      "locked": false
+    }
+  ],
   "terms": [
+    {
+      "id": "binary-store",
+      "source": "Binary Store",
+      "target": "二进制存储",
+      "alt": [],
+      "note": "Name of a Dapr building block API.",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/concepts/building-blocks-concept.md",
+        "run": "20261115-2211"
+      },
+      "lastSeen": {
+        "doc": "docs/concepts/building-blocks-concept.md",
+        "run": "20261115-2211"
+      },
+      "conflicts": []
+    },
     {
       "id": "building-block",
       "source": "building block",
@@ -25,6 +226,46 @@
       "conflicts": []
     },
     {
+      "id": "durable-ai-agents",
+      "source": "durable AI agents",
+      "target": "持久 AI 代理",
+      "alt": [],
+      "note": "Dapr 文档中关于持久执行支持的 AI 代理概念。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/concepts/_index.md",
+        "run": "20261115-2211"
+      },
+      "lastSeen": {
+        "doc": "docs/concepts/_index.md",
+        "run": "20261115-2211"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "durable-execution",
+      "source": "durable execution",
+      "target": "持久执行",
+      "alt": [],
+      "note": "Dapr 的核心执行模型概念。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/concepts/_index.md",
+        "run": "20261115-2211"
+      },
+      "lastSeen": {
+        "doc": "docs/concepts/_index.md",
+        "run": "20261115-2211"
+      },
+      "conflicts": []
+    },
+    {
       "id": "pluggable-component",
       "source": "pluggable component",
       "target": "可插拔组件",
@@ -41,6 +282,26 @@
       "lastSeen": {
         "doc": "copilot-glossary-seed",
         "run": "20261114-1939"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "pub-sub",
+      "source": "pub/sub",
+      "target": "发布订阅",
+      "alt": [],
+      "note": "保留 slash 形式的英文缩写。",
+      "origin": "human",
+      "locked": true,
+      "confidence": "high",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "manual-seed"
+      },
+      "lastSeen": {
+        "doc": "copilot-glossary-seed",
+        "run": "manual-seed"
       },
       "conflicts": []
     },
@@ -85,6 +346,26 @@
       "conflicts": []
     },
     {
+      "id": "spiffe-verifiable-identity-document",
+      "source": "SPIFFE Verifiable Identity Document",
+      "target": "SPIFFE 可验证身份文档",
+      "alt": [],
+      "note": "用于描述工作负载的 SPIFFE 身份凭据。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-history-signing.md",
+        "run": "20261115-1506"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-history-signing.md",
+        "run": "20261115-1506"
+      },
+      "conflicts": []
+    },
+    {
       "id": "state-store",
       "source": "state store",
       "target": "状态存储",
@@ -121,26 +402,6 @@
       "lastSeen": {
         "doc": "copilot-glossary-seed",
         "run": "20261114-1939"
-      },
-      "conflicts": []
-    },
-    {
-      "id": "pub-sub",
-      "source": "pub/sub",
-      "target": "发布订阅",
-      "alt": [],
-      "note": "保留 slash 形式的英文缩写。",
-      "origin": "human",
-      "locked": true,
-      "confidence": "high",
-      "occurrences": 1,
-      "firstSeen": {
-        "doc": "copilot-glossary-seed",
-        "run": "manual-seed"
-      },
-      "lastSeen": {
-        "doc": "copilot-glossary-seed",
-        "run": "manual-seed"
       },
       "conflicts": []
     }

@@ -5,3 +5,37 @@
 {"ts":"2026-11-14T19:39:58.613Z","run":"20261114-1939","op":"add","id":"sidecar","target":"边车","version":1,"doc":"copilot-glossary-seed"}
 {"ts":"2026-11-14T19:39:58.613Z","run":"20261114-1939","op":"add","id":"state-store","target":"状态存储","version":1,"doc":"copilot-glossary-seed"}
 {"ts":"2026-11-14T19:39:58.613Z","run":"20261114-1939","op":"add","id":"workflow","target":"工作流","version":1,"doc":"copilot-glossary-seed"}
+{"ts":"2026-11-15T22:14:51.823Z","run":"20261115-2211","op":"add","id":"durable-execution","target":"持久执行","version":2,"doc":"docs/concepts/_index.md"}
+{"ts":"2026-11-15T22:14:51.823Z","run":"20261115-2211","op":"add","id":"durable-ai-agents","target":"持久 AI 代理","version":2,"doc":"docs/concepts/_index.md"}
+{"ts":"2026-11-15T22:14:51.936Z","run":"20261115-2211","op":"add","id":"dapr","kind":"doNotTranslate","version":3,"doc":"docs/concepts/resiliency-concept.md"}
+{"ts":"2026-11-15T22:14:52.051Z","run":"20261115-2211","op":"add","id":"dapr-dev-dashboard","kind":"doNotTranslate","version":4,"doc":"docs/getting-started/quickstarts/_index.md"}
+{"ts":"2026-11-15T22:17:10.737Z","run":"20261115-2211","op":"add","id":"dapr-actors","kind":"doNotTranslate","version":5,"doc":"docs/concepts/terminology.md"}
+{"ts":"2026-11-15T22:17:10.737Z","run":"20261115-2211","op":"add","id":"dapr-agents","kind":"doNotTranslate","version":5,"doc":"docs/concepts/terminology.md"}
+{"ts":"2026-11-15T22:17:10.737Z","run":"20261115-2211","op":"add","id":"httpendpoint","kind":"doNotTranslate","version":5,"doc":"docs/concepts/terminology.md"}
+{"ts":"2026-11-15T22:17:10.737Z","run":"20261115-2211","op":"add","id":"mcpserver","kind":"doNotTranslate","version":5,"doc":"docs/concepts/terminology.md"}
+{"ts":"2026-11-15T22:17:10.864Z","run":"20261115-2211","op":"add","id":"dapr-cli","kind":"doNotTranslate","version":6,"doc":"docs/getting-started/get-started-api.md"}
+{"ts":"2026-11-15T22:17:10.864Z","run":"20261115-2211","op":"add","id":"redis","kind":"doNotTranslate","version":6,"doc":"docs/getting-started/get-started-api.md"}
+{"ts":"2026-11-15T22:17:10.996Z","run":"20261115-2211","op":"add","id":"open-telemetry","kind":"doNotTranslate","version":7,"doc":"docs/concepts/observability-concept.md"}
+{"ts":"2026-11-15T22:17:10.996Z","run":"20261115-2211","op":"add","id":"zipkin","kind":"doNotTranslate","version":7,"doc":"docs/concepts/observability-concept.md"}
+{"ts":"2026-11-15T22:17:10.996Z","run":"20261115-2211","op":"add","id":"w3c","kind":"doNotTranslate","version":7,"doc":"docs/concepts/observability-concept.md"}
+{"ts":"2026-11-15T22:17:10.996Z","run":"20261115-2211","op":"add","id":"fluentd","kind":"doNotTranslate","version":7,"doc":"docs/concepts/observability-concept.md"}
+{"ts":"2026-11-15T22:17:10.996Z","run":"20261115-2211","op":"add","id":"new-relic","kind":"doNotTranslate","version":7,"doc":"docs/concepts/observability-concept.md"}
+{"ts":"2026-11-15T22:17:10.996Z","run":"20261115-2211","op":"add","id":"azure-monitor","kind":"doNotTranslate","version":7,"doc":"docs/concepts/observability-concept.md"}
+{"ts":"2026-11-15T22:17:11.126Z","run":"20261115-2211","op":"add","id":"binary-store","target":"二进制存储","version":8,"doc":"docs/concepts/building-blocks-concept.md"}
+{"ts":"2026-11-15T22:17:11.279Z","run":"20261115-2211","op":"add","id":"kubernetes","kind":"doNotTranslate","version":9,"doc":"docs/getting-started/install-dapr-selfhost.md"}
+{"ts":"2026-11-15T22:17:11.279Z","run":"20261115-2211","op":"add","id":"docker","kind":"doNotTranslate","version":9,"doc":"docs/getting-started/install-dapr-selfhost.md"}
+{"ts":"2026-11-15T22:17:11.279Z","run":"20261115-2211","op":"add","id":"podman","kind":"doNotTranslate","version":9,"doc":"docs/getting-started/install-dapr-selfhost.md"}
+{"ts":"2026-11-15T22:17:11.279Z","run":"20261115-2211","op":"add","id":"diagrid-dapr-dev-dashboard","kind":"doNotTranslate","version":9,"doc":"docs/getting-started/install-dapr-selfhost.md"}
+{"ts":"2026-11-15T22:17:11.279Z","run":"20261115-2211","op":"add","id":"powershell","kind":"doNotTranslate","version":9,"doc":"docs/getting-started/install-dapr-selfhost.md"}
+{"ts":"2026-11-15T22:17:11.279Z","run":"20261115-2211","op":"add","id":"windows-terminal","kind":"doNotTranslate","version":9,"doc":"docs/getting-started/install-dapr-selfhost.md"}
+{"ts":"2026-11-15T23:13:01.618Z","run":"20261115-1506","op":"add","id":"meilisearch","kind":"doNotTranslate","version":10,"doc":"docs/developing-applications/building-blocks/vector/vector-overview.md"}
+{"ts":"2026-11-15T23:13:01.618Z","run":"20261115-1506","op":"add","id":"pinecone","kind":"doNotTranslate","version":10,"doc":"docs/developing-applications/building-blocks/vector/vector-overview.md"}
+{"ts":"2026-11-15T23:13:01.618Z","run":"20261115-1506","op":"add","id":"qdrant","kind":"doNotTranslate","version":10,"doc":"docs/developing-applications/building-blocks/vector/vector-overview.md"}
+{"ts":"2026-11-15T23:13:01.618Z","run":"20261115-1506","op":"add","id":"milvus","kind":"doNotTranslate","version":10,"doc":"docs/developing-applications/building-blocks/vector/vector-overview.md"}
+{"ts":"2026-11-15T23:13:01.618Z","run":"20261115-1506","op":"add","id":"pgvector","kind":"doNotTranslate","version":10,"doc":"docs/developing-applications/building-blocks/vector/vector-overview.md"}
+{"ts":"2026-11-15T23:13:01.618Z","run":"20261115-1506","op":"add","id":"opentelemetry","kind":"doNotTranslate","version":10,"doc":"docs/developing-applications/building-blocks/vector/vector-overview.md"}
+{"ts":"2026-11-15T23:13:01.618Z","run":"20261115-1506","op":"add","id":"tesla","kind":"doNotTranslate","version":10,"doc":"docs/developing-applications/building-blocks/vector/vector-overview.md"}
+{"ts":"2026-11-15T23:13:01.741Z","run":"20261115-1506","op":"add","id":"elasticsearch","kind":"doNotTranslate","version":11,"doc":"docs/developing-applications/building-blocks/search/search-overview.md"}
+{"ts":"2026-11-15T23:13:01.741Z","run":"20261115-1506","op":"add","id":"opensearch","kind":"doNotTranslate","version":11,"doc":"docs/developing-applications/building-blocks/search/search-overview.md"}
+{"ts":"2026-11-15T23:13:01.871Z","run":"20261115-1506","op":"add","id":"spiffe-verifiable-identity-document","target":"SPIFFE 可验证身份文档","version":12,"doc":"docs/developing-applications/building-blocks/workflow/workflow-history-signing.md"}
+{"ts":"2026-11-15T23:13:01.871Z","run":"20261115-1506","op":"add","id":"sentry","kind":"doNotTranslate","version":12,"doc":"docs/developing-applications/building-blocks/workflow/workflow-history-signing.md"}

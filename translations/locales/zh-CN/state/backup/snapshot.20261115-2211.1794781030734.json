@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "locale": "zh-CN",
-  "updatedAt": "2026-11-14T19:34:01.077Z",
-  "lastRun": "adopt-20261114-1934",
-  "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
-  "glossaryVersion": null,
-  "glossarySha256": null,
+  "updatedAt": "2026-11-15T22:14:52.270Z",
+  "lastRun": "20261115-2211",
+  "sourceRevision": "b793aff8e00869b4df53bc14c9324a6ec46fe507",
+  "glossaryVersion": 4,
+  "glossarySha256": "e50ab1907d6014e213cc81cb6dccff58970a3278b7df93ab2715254d4bb7fc45",
   "docs": {
     "contributing/dotnet-contributing.md": {
       "status": "done",
@@ -114,18 +114,26 @@
     },
     "docs/concepts/_index.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "adb9113083eaf97b9a3e8f5c677fa024979e76665a8990b021f414247de031c0",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "e45e104c8ec2c503020547392c2ed06c5d4f812fc8bba29a9fd8ed324ead36bf",
+      "sourceRevision": "b793aff8e00869b4df53bc14c9324a6ec46fe507",
       "translationPath": "translated_content/zh_CN/docs/concepts/_index.md",
-      "translationSha256": "412409879cbe225393a0c7ab7b8ea3a92870a0c74c3e18f035a86c55b3cc67e5",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "d1051ae6fab4417b6b6bde0baa6dff5eda4ab7d4a18c2df27bdb6a87ca7ca3dc",
+      "glossaryVersion": 1,
+      "attempts": 1,
+      "runId": "20261115-2211",
+      "doneAt": "2026-11-15T22:14:51.817Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 95,
+      "termTargets": {
+        "building-block": "构建块",
+        "durable-ai-agents": "持久 AI 代理",
+        "durable-execution": "持久执行",
+        "workflow": "工作流"
+      }
     },
     "docs/concepts/building-blocks-concept.md": {
       "status": "done",
@@ -159,18 +167,24 @@
     },
     "docs/concepts/configuration-concept.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "189140e0531e65441cf216d947dee1f7ef3ec3ed624814ea7d92674b5ef1c144",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "a9bb4b9029cbf95511298273cec610dda5ca1431c7b8629c81a63ec1cf0422ea",
+      "sourceRevision": "b793aff8e00869b4df53bc14c9324a6ec46fe507",
       "translationPath": "translated_content/zh_CN/docs/concepts/configuration-concept.md",
-      "translationSha256": "1d5894e56412e10a0fb26154cf24490dd744b179a48653a91ab22169479c97ed",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "5022e2f6ff614d3bc4d9d3f6ddb0cbefd0d05d7d74235a4f8f96329e4842ae10",
+      "glossaryVersion": 4,
+      "attempts": 1,
+      "runId": "20261115-2211",
+      "doneAt": "2026-11-15T22:14:52.163Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 41,
+      "termTargets": {
+        "building-block": "构建块",
+        "sidecar": "边车"
+      }
     },
     "docs/concepts/dapr-services/_index.md": {
       "status": "done",
@@ -279,18 +293,23 @@
     },
     "docs/concepts/resiliency-concept.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "be04152d4d8d756f3dec9fc444e74f2b46e74f6918ed26c81ecf0623c5493f70",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "3556328cd9a7752183b2890fc407752cb7cf8e604173fbdbe719f17e346ecb54",
+      "sourceRevision": "b793aff8e00869b4df53bc14c9324a6ec46fe507",
       "translationPath": "translated_content/zh_CN/docs/concepts/resiliency-concept.md",
-      "translationSha256": "92061add2a33b2e5fd628c03e6fc4eaaa742365fd7a039bf7fb177a325022167",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "36d4d5cff46068ebc9b8ae0a5552685e501fb1f7079f232eccd64c78a6386ab8",
+      "glossaryVersion": 2,
+      "attempts": 1,
+      "runId": "20261115-2211",
+      "doneAt": "2026-11-15T22:14:51.928Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 180,
+      "termTargets": {
+        "sidecar": "边车"
+      }
     },
     "docs/concepts/terminology.md": {
       "status": "done",
@@ -2604,18 +2623,25 @@
     },
     "docs/getting-started/quickstarts/_index.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "7ddc100559d8ee0db5e9882bb9e2b2fe37bc8e1fa11ff98ce0706ddd5c745d2d",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "06d4c1a833c3f62333d5ac78b091cebf063f550029199e88b7ccd07711493fcc",
+      "sourceRevision": "b793aff8e00869b4df53bc14c9324a6ec46fe507",
       "translationPath": "translated_content/zh_CN/docs/getting-started/quickstarts/_index.md",
-      "translationSha256": "78b2293a5e90c1f1448a1ace1d68ca240bb99bf54065844e7b0b8033b00cbe8b",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "40c275df970f8850382780acb20e89f36ed058067b19f835e65a2266d932929a",
+      "glossaryVersion": 3,
+      "attempts": 1,
+      "runId": "20261115-2211",
+      "doneAt": "2026-11-15T22:14:52.043Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 50,
+      "termTargets": {
+        "service-invocation": "服务调用",
+        "state-store": "状态存储",
+        "workflow": "工作流"
+      }
     },
     "docs/getting-started/quickstarts/actors-quickstart.md": {
       "status": "done",
@@ -2859,18 +2885,25 @@
     },
     "docs/getting-started/tutorials/get-started-component.md": {
       "status": "done",
-      "adopted": true,
-      "sourceSha256": "bdc0b6336f26e1f3a13e6abc8323342e142a9e30f9c1ffbb624c0d40691cd531",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
+      "sourceSha256": "36f34e72e17dadc16e4e193a16db0209110ae9a8d858a9330747695480de5e58",
+      "sourceRevision": "b793aff8e00869b4df53bc14c9324a6ec46fe507",
       "translationPath": "translated_content/zh_CN/docs/getting-started/tutorials/get-started-component.md",
-      "translationSha256": "19f7ba0b69270a04bf333809288a4840c8f8d844615f45af5d2a38f746c98ec4",
-      "glossaryVersion": null,
-      "attempts": 0,
-      "runId": "adopt-20261114-1934",
-      "doneAt": "2026-11-14T19:34:01.077Z",
+      "translationSha256": "1a35b88f6e28f30e7ad40bdc7f482eee0d8f5ad16863d8a8c3be1eaaa76f5dba",
+      "glossaryVersion": 4,
+      "attempts": 1,
+      "runId": "20261115-2211",
+      "doneAt": "2026-11-15T22:14:52.270Z",
       "reviewedAt": null,
       "flags": [],
-      "note": "adopted: existing translation assumed current for this source"
+      "note": "adopted: existing translation assumed current for this source",
+      "model": "haiku",
+      "retries": 0,
+      "seconds": 1,
+      "termTargets": {
+        "building-block": "构建块",
+        "pub-sub": "发布订阅",
+        "sidecar": "边车"
+      }
     },
     "docs/operations/_index.md": {
       "status": "done",
