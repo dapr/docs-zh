@@ -42,7 +42,7 @@ Dapr 借助其[服务调用 API]({{% ref service-invocation-overview.md %}})支�
 
 ## 为智能体提供 Dapr 工具：Dapr MCP 服务器
 
-本页介绍的路径用于将智能体连接到你已经运行的 MCP 服务器。[Dapr MCP 服务器]({{% ref dapr-mcp-server %}})是一个独立的 MCP 服务器，与 Dapr 边车一同运行，并将 Dapr 的构建块（状态、发布订阅、绑定、密钥、服务调用、Actor、锁、加密和对话）以 MCP 工具的形式对外提供。当你希望智能体从任意 MCP 客户端直接调用 Dapr API 时，请使用它。[Dapr MCP 服务器的 quickstarts](https://github.com/dapr/quickstarts/tree/master/dapr-mcp-server) 展示了它与 LangGraph、Dapr Agents 和 OpenAI Agents SDK 的配合方式。
+本页介绍的路径用于将智能体连接到你已经运行的 MCP 服务器。[Dapr MCP 服务器]({{% ref dapr-mcp-server %}})是一个独立的 MCP 服务器，与 Dapr 边车一同运行，并将 Dapr 的构建块（状态、发布订阅、绑定、机密、服务调用、Actor、锁、加密和对话）以 MCP 工具的形式对外提供。当你希望智能体从任意 MCP 客户端直接调用 Dapr API 时，请使用它。[Dapr MCP 服务器的 quickstarts](https://github.com/dapr/quickstarts/tree/master/dapr-mcp-server) 展示了它与 LangGraph、Dapr Agents 和 OpenAI Agents SDK 的配合方式。
 
 ## 替代方案：`MCPServer` 资源（以工作流为中心的路径）
 

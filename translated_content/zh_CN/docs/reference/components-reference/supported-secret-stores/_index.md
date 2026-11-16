@@ -36,4 +36,4 @@ no_list: true
 }
 ```
 
-部分机密存储允许通过组件元数据字段在这两种行为之间选择，例如 [AWS Secrets Manager]({{% ref aws-secret-manager.md %}}) 的 `multipleKeyValuesPerSecret`、[本地文件机密存储]({{% ref file-secret-store.md %}}) 的 `multiValued`，以及 [HashiCorp Vault]({{% ref hashicorp-vault.md %}}) 的 `vaultValueType`。有关响应格式的更多详细信息，请参阅[密钥 API 参考]({{% ref "secrets_api.md#response-body" %}})。
+部分机密存储允许通过组件元数据字段在这两种行为之间选择，例如 [AWS Secrets Manager]({{% ref aws-secret-manager.md %}}) 的 `multipleKeyValuesPerSecret`、[本地文件机密存储]({{% ref file-secret-store.md %}}) 的 `multiValued`，以及 [HashiCorp Vault]({{% ref hashicorp-vault.md %}}) 的 `vaultValueType`。有关响应格式的更多详细信息，请参阅[机密 API 参考]({{% ref "secrets_api.md#response-body" %}})。

@@ -8,7 +8,9 @@ description: 用于开发 Dapr 应用程序的 JavaScript Server SDK
 
 ## 简介
 
-Dapr Server 将允许您接收来自 Dapr 边车的通信，并访问其面向服务器的功能，例如：订阅事件、接收输入绑定等。
+Dapr Server 允许你接收来自 Dapr 边车的通信，并访问其面向服务端的功能，例如：订阅事件、接收输入绑定以及更多功能。
+
+使用 JavaScript SDK **3.19.0 或更高版本**时，可通过 `server.jobs.listen(name, callback)` 注册定时作业的回调。可运行的示例请参阅[作业操作指南]({{% ref js-jobs-howto.md %}})，关于确认、重试和协议要求，请参阅[回调用法指南]({{% ref js-jobs-client-usage.md %}})。
 
 ## 前置条件
 
@@ -29,23 +31,23 @@ npm i @dapr/dapr --save
 ```typescript
 import { DaprServer, CommunicationProtocolEnum } from "@dapr/dapr";
 
-const daprHost = "127.0.0.1"; // Dapr Sidecar Host
-const daprPort = "3500"; // Dapr Sidecar Port of this Example Server
-const serverHost = "127.0.0.1"; // App Host of this Example Server
-const serverPort = "50051"; // App Port of this Example Server
+const daprHost = "127.0.0.1"; // Dapr 边车主机
+const daprPort = "3500"; // 此示例服务器的 Dapr 边车端口
+const serverHost = "127.0.0.1"; // 此示例服务器的应用主机
+const serverPort = "50051"; // 此示例服务器的应用端口
 
-// HTTP Example
+// HTTP 示例
 const server = new DaprServer({
   serverHost,
   serverPort,
-  communicationProtocol: CommunicationProtocolEnum.HTTP, // DaprClient to use same communication protocol as DaprServer, in case DaprClient protocol not mentioned explicitly
+  communicationProtocol: CommunicationProtocolEnum.HTTP, // DaprClient 使用与 DaprServer 相同的通信协议，以防 DaprClient 未显式指定协议
   clientOptions: {
     daprHost,
     daprPort,
   },
 });
 
-// GRPC Example
+// gRPC 示例
 const server = new DaprServer({
   serverHost,
   serverPort,
@@ -59,7 +61,7 @@ const server = new DaprServer({
 
 ## 运行
 
-要运行示例，您可以使用两种不同的协议与 Dapr sidecar 交互：HTTP（默认）或 gRPC。
+要运行这些示例，你可以使用两种不同的协议与 Dapr 边车交互：HTTP（默认）或 gRPC。
 
 ### 使用 HTTP（内置 express webserver）
 
@@ -74,28 +76,28 @@ const server = new DaprServer({
     daprPort,
   },
 });
-// initialize subscribtions, ... before server start
-// the dapr sidecar relies on these
+// 在服务器启动前初始化订阅等内容
+// Dapr 边车依赖这些内容
 await server.start();
 ```
 
 ```bash
-# Using dapr run
+# 使用 dapr run
 dapr run --app-id example-sdk --app-port 50051 --app-protocol http -- npm run start
 
-# or, using npm script
+# 或者，使用 npm 脚本
 npm run start:dapr-http
 ```
 
-> ℹ️ **Note:** The `app-port` is required here, as this is where our server will need to bind to. Dapr will check for the application to bind to this port, before finishing start-up.
+> ℹ️ **注意：** 这里必须设置 `app-port`，因为服务器需要绑定到该端口。Dapr 会在完成启动前检查应用程序是否已绑定到此端口。
 
-### 使用 HTTP（自备 express webserver）
+### 使用 HTTP（自带 express webserver）
 
-您不一定要使用 Dapr sidecar 的内置 web 服务器与应用程序通信，您也可以自带实例。这在构建 REST API 后端并希望直接集成 Dapr 的场景中非常有用。
+除了使用 Dapr 边车内置的 Web 服务器与应用程序通信之外，你也可以使用自己的实例。当你在构建 REST API 后端并希望直接在其中集成 Dapr 时，这种方式很有帮助。
 
-注意，目前仅适用于 [`express`](https://www.npmjs.com/package/express)。
+注意，目前仅支持 [`express`](https://www.npmjs.com/package/express)。
 
-> 💡 Note: when using a custom web-server, the SDK will configure server properties like max body size, and add new routes to it. The routes are unique on their own to avoid any collisions with your application, but it's not guaranteed to not collide.
+> 💡 **注意：** 使用自定义 Web 服务器时，SDK 会配置最大请求体大小等服务器属性，并向其中添加新路由。这些路由本身是唯一的，以避免与你的应用程序发生冲突，但不保证绝不会冲突。
 
 ```typescript
 import { DaprServer, CommunicationProtocolEnum } from "@dapr/dapr";
@@ -108,8 +110,8 @@ myApp.get("/my-custom-endpoint", (req, res) => {
 });
 
 const daprServer = new DaprServer({
-      serverHost: "127.0.0.1", // App Host
-      serverPort: "50002", // App Port
+      serverHost: "127.0.0.1", // 应用主机
+      serverPort: "50002", // 应用端口
       serverHttp: myApp,
       clientOptions: {
         daprHost
@@ -117,12 +119,12 @@ const daprServer = new DaprServer({
       }
     });
 
-// Initialize subscriptions before the server starts, the Dapr sidecar uses it.
-// This will also initialize the app server itself (removing the need for `app.listen` to be called).
+// 在服务器启动前初始化订阅，Dapr 边车会使用这些订阅。
+// 这也会初始化应用服务器本身（无需再调用 `app.listen`）。
 await daprServer.start();
 ```
 
-配置好上述内容后，您可以像往常一样调用自定义端点：
+完成上述配置后，你可以像平常一样调用自定义端点：
 
 ```typescript
 const res = await fetch(`http://127.0.0.1:50002/my-custom-endpoint`);
@@ -131,10 +133,10 @@ const json = await res.json();
 
 ### 使用 gRPC
 
-由于 HTTP 是默认协议，您需要调整通信协议以使用 gRPC。您可以通过向客户端或服务器构造函数传递额外参数来实现这一点。
+由于 HTTP 是默认协议，若要使用 gRPC，需要调整通信协议。你可以通过向客户端或服务端构造函数传递额外参数来实现这一点。
 
 ```typescript
-import { DaprServer, CommunicationProtocol } from "@dapr/dapr";
+import { DaprServer, CommunicationProtocolEnum } from "@dapr/dapr";
 
 const server = new DaprServer({
   serverHost: appHost,
@@ -145,36 +147,39 @@ const server = new DaprServer({
     daprPort,
   },
 });
-// initialize subscribtions, ... before server start
-// the dapr sidecar relies on these
+// 在服务器启动前初始化订阅等内容
+// Dapr 边车依赖这些内容
 await server.start();
 ```
 
 ```bash
-# Using dapr run
+# 使用 dapr run
 dapr run --app-id example-sdk --app-port 50051 --app-protocol grpc -- npm run start
 
-# or, using npm script
+# 或者，使用 npm 脚本
 npm run start:dapr-grpc
 ```
 
-> ℹ️ **Note:** The `app-port` is required here, as this is where our server will need to bind to. Dapr will check for the application to bind to this port, before finishing start-up.
+> ℹ️ **注意：** 这里必须设置 `app-port`，因为服务器需要绑定到该端口。Dapr 会在完成启动前检查应用程序是否已绑定到此端口。
 
 ## 构建块
 
-JavaScript Server SDK 允许您与所有 [Dapr 构建块]({{% ref building-blocks %}}) 进行交互，主要专注于 Sidecar 到应用程序的功能。
+JavaScript Server SDK 允许你与所有 [Dapr 构建块]({{% ref building-blocks %}}) 交互，重点是边车到应用程序的功能。
 
 ### Invocation API
 
-#### Listen to an Invocation
+对于 JavaScript SDK 3.19.0 或更高版本，关于 HTTP 和 gRPC 的能力，请参阅[服务调用概述]({{% ref js-service-invocation %}})。
+
+#### 监听调用
 
 ```typescript
-import { DaprServer, DaprInvokerCallbackContent } from "@dapr/dapr";
+import { DaprServer, HttpMethod } from "@dapr/dapr";
+import type { DaprInvokerCallbackContent } from "@dapr/dapr";
 
-const daprHost = "127.0.0.1"; // Dapr Sidecar Host
-const daprPort = "3500"; // Dapr Sidecar Port of this Example Server
-const serverHost = "127.0.0.1"; // App Host of this Example Server
-const serverPort = "50051"; // App Port of this Example Server "
+const daprHost = "127.0.0.1"; // Dapr 边车主机
+const daprPort = "3500"; // 此示例服务器的 Dapr 边车端口
+const serverHost = "127.0.0.1"; // 此示例服务器的应用主机
+const serverPort = "50051"; // 此示例服务器的应用端口 "
 
 async function start() {
   const server = new DaprServer({
@@ -186,16 +191,17 @@ async function start() {
     },
   });
 
-  const callbackFunction = (data: DaprInvokerCallbackContent) => {
+  const callbackFunction = async (data: DaprInvokerCallbackContent) => {
     console.log("Received body: ", data.body);
     console.log("Received metadata: ", data.metadata);
     console.log("Received query: ", data.query);
-    console.log("Received headers: ", data.headers); // only available in HTTP
+    console.log("Received headers: ", data.headers); // 仅在 HTTP 中可用
+    return { received: true };
   };
 
   await server.invoker.listen("hello-world", callbackFunction, { method: HttpMethod.GET });
 
-  // You can now invoke the service with your app id and method "hello-world"
+  // 现在你可以使用应用 ID 和方法 "hello-world" 调用此服务
 
   await server.start();
 }
@@ -206,365 +212,65 @@ start().catch((e) => {
 });
 ```
 
-> For a full guide on service invocation visit [How-To: Invoke a service]({{% ref howto-invoke-discover-services.md %}}).
+关于匹配的启动命令、回调字段结构、响应行为以及已有的 Express 应用程序，请参阅[接收调用]({{% ref js-service-invocation-server.md %}})。关于自定义序列化和故障处理，请参阅[配置与用法]({{% ref js-service-invocation-usage.md %}})。
 
 ### PubSub API
 
-#### Subscribe to messages
+对于 JavaScript SDK 3.19.0 或更高版本，请参阅[发布与订阅概述]({{% ref js-pubsub %}})以选择投递模式。由客户端发起的[流式订阅]({{% ref js-pubsub-streaming-howto.md %}})不需要 `DaprServer`。
 
-订阅消息可以通过多种方式完成，以提供在主题上接收消息的灵活性：
+#### 订阅消息
 
-- 通过 `subscribe` 方法直接订阅
-- 通过 `subscribeWithOptions` 方法带选项直接订阅
-- 之后通过 `susbcribeOnEvent` 方法订阅
-
-每次事件到达时，我们将其正文作为 `data` 传递，将标头作为 `headers` 传递，这些标头可能包含事件发布者的属性（例如，来自 IoT Hub 的设备 ID）
-
-> Dapr 要求在启动时设置订阅，但在 JS SDK 中，我们也允许之后添加事件处理程序，为您提供编程的灵活性。
-
-下面提供了一个示例
+请在 `server.start()` 之前为每个组件/主题组合注册一次。本示例使用端口 `50002` 上的 HTTP 监听器：
 
 ```typescript
-import { DaprServer } from "@dapr/dapr";
-
-const daprHost = "127.0.0.1"; // Dapr Sidecar Host
-const daprPort = "3500"; // Dapr Sidecar Port of this Example Server
-const serverHost = "127.0.0.1"; // App Host of this Example Server
-const serverPort = "50051"; // App Port of this Example Server "
+import { DaprPubSubStatusEnum, DaprServer } from "@dapr/dapr";
 
 async function start() {
   const server = new DaprServer({
-    serverHost,
-    serverPort,
-    clientOptions: {
-      daprHost,
-      daprPort,
-    },
+    serverHost: "127.0.0.1",
+    serverPort: "50002",
+    clientOptions: { daprHost: "127.0.0.1", daprPort: "3500" },
   });
 
-  const pubSubName = "my-pubsub-name";
-  const topic = "topic-a";
-
-  // Configure Subscriber for a Topic
-  // Method 1: Direct subscription through the `subscribe` method
-  await server.pubsub.subscribe(pubSubName, topic, async (data: any, headers: object) =>
-    console.log(`Received Data: ${JSON.stringify(data)} with headers: ${JSON.stringify(headers)}`),
-  );
-
-  // Method 2: Direct susbcription with options through the `subscribeWithOptions` method
-  await server.pubsub.subscribeWithOptions(pubSubName, topic, {
-    callback: async (data: any, headers: object) =>
-      console.log(`Received Data: ${JSON.stringify(data)} with headers: ${JSON.stringify(headers)}`),
-  });
-
-  // Method 3: Subscription afterwards through the `susbcribeOnEvent` method
-  // Note: we use default, since if no route was passed (empty options) we utilize "default" as the route name
-  await server.pubsub.subscribeWithOptions("pubsub-redis", "topic-options-1", {});
-  server.pubsub.subscribeToRoute("pubsub-redis", "topic-options-1", "default", async (data: any, headers: object) => {
-    console.log(`Received Data: ${JSON.stringify(data)} with headers: ${JSON.stringify(headers)}`);
-  });
-
-  // Start the server
-  await server.start();
-}
-```
-
-> For a full list of state operations visit [How-To: Publish & subscribe]({{% ref howto-publish-subscribe.md %}}).
-
-#### Subscribe with SUCCESS/RETRY/DROP status
-
-Dapr 支持[重试逻辑的状态码](https://docs.dapr.io/reference/api/pubsub_api/#expected-http-response)来指定消息处理后应该发生什么。
-
-> ⚠️ JS SDK 允许在同一主题上设置多个回调，我们按 `RETRY` > `DROP` > `SUCCESS` 的顺序处理状态优先级，并默认为 `SUCCESS`
-
-> ⚠️ 确保在应用程序中[配置弹性](https://docs.dapr.io/operations/resiliency/resiliency-overview/)以处理 `RETRY` 消息
-
-在 JS SDK 中，我们通过 `DaprPubSubStatusEnum` 枚举支持这些消息。为了确保 Dapr 将重试，我们还配置了弹性策略。
-
-**components/resiliency.yaml**
-
-```yaml
-apiVersion: dapr.io/v1alpha1
-kind: Resiliency
-metadata:
-  name: myresiliency
-spec:
-  policies:
-    retries:
-      # Global Retry Policy for Inbound Component operations
-      DefaultComponentInboundRetryPolicy:
-        policy: constant
-        duration: 500ms
-        maxRetries: 10
-  targets:
-    components:
-      messagebus:
-        inbound:
-          retry: DefaultComponentInboundRetryPolicy
-```
-
-**src/index.ts**
-
-```typescript
-import { DaprServer, DaprPubSubStatusEnum } from "@dapr/dapr";
-
-const daprHost = "127.0.0.1"; // Dapr Sidecar Host
-const daprPort = "3500"; // Dapr Sidecar Port of this Example Server
-const serverHost = "127.0.0.1"; // App Host of this Example Server
-const serverPort = "50051"; // App Port of this Example Server "
-
-async function start() {
-  const server = new DaprServer({
-    serverHost,
-    serverPort,
-    clientOptions: {
-      daprHost,
-      daprPort,
-    },
-  });
-
-  const pubSubName = "my-pubsub-name";
-  const topic = "topic-a";
-
-  // Process a message successfully
-  await server.pubsub.subscribe(pubSubName, topic, async (data: any, headers: object) => {
+  await server.pubsub.subscribe("pubsub", "orders", async (data) => {
+    console.log("Order received:", data);
     return DaprPubSubStatusEnum.SUCCESS;
   });
 
-  // Retry a message
-  // Note: this example will keep on retrying to deliver the message
-  // Note 2: each component can have their own retry configuration
-  //   e.g., https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-redis-pubsub/
-  await server.pubsub.subscribe(pubSubName, topic, async (data: any, headers: object) => {
-    return DaprPubSubStatusEnum.RETRY;
-  });
-
-  // Drop a message
-  await server.pubsub.subscribe(pubSubName, topic, async (data: any, headers: object) => {
-    return DaprPubSubStatusEnum.DROP;
-  });
-
-  // Start the server
   await server.start();
 }
+
+start().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
 ```
 
-#### Subscribe to messages rule based
+关于对应的 `dapr run` 命令、gRPC 配置、注册方法以及回调的数据和标头，请参阅[服务端订阅指南]({{% ref js-pubsub-subscribe-howto.md %}})。关于序列化和关闭，请参阅[配置与用法]({{% ref js-pubsub-usage.md %}})。
 
-Dapr [支持根据规则将消息路由](https://docs.dapr.io/developing-applications/building-blocks/pubsub/howto-route-messages/)到不同的处理程序（路由）。
+#### 使用 SUCCESS/RETRY/DROP 状态订阅
 
-> 例如，您正在编写一个需要根据消息的"type"处理消息的应用程序，使用 Dapr，您可以将它们发送到不同的路由 `handlerType1` 和 `handlerType2`，默认路由为 `handlerDefault`
+请返回 `DaprPubSubStatusEnum` 的值，而不是响应对象。关于状态优先级、抛出的错误以及入站弹性策略，请参阅[确认与重试]({{% ref "js-pubsub-subscribe-howto.md#acknowledge-retry-or-drop" %}})。
 
-```typescript
-import { DaprServer } from "@dapr/dapr";
+#### 基于规则订阅消息
 
-const daprHost = "127.0.0.1"; // Dapr Sidecar Host
-const daprPort = "3500"; // Dapr Sidecar Port of this Example Server
-const serverHost = "127.0.0.1"; // App Host of this Example Server
-const serverPort = "50051"; // App Port of this Example Server "
+使用 `subscribeWithOptions()` 声明路由，使用 `subscribeToRoute()` 绑定处理程序。请参阅[基于内容的路由示例]({{% ref "js-pubsub-subscribe-howto.md#content-based-routing" %}})。
 
-async function start() {
-  const server = new DaprServer({
-    serverHost,
-    serverPort,
-    clientOptions: {
-      daprHost,
-      daprPort,
-    },
-  });
+#### 通配符订阅
 
-  const pubSubName = "my-pubsub-name";
-  const topic = "topic-a";
+关于 MQTT 风格的 `#` 和 `+` 示例以及组件要求，请参阅[通配符主题]({{% ref "js-pubsub-subscribe-howto.md#wildcard-topics" %}})。
 
-  // Configure Subscriber for a Topic with rule set
-  // Note: the default route and match patterns are optional
-  await server.pubsub.subscribe("pubsub-redis", "topic-1", {
-    default: "/default",
-    rules: [
-      {
-        match: `event.type == "my-type-1"`,
-        path: "/type-1",
-      },
-      {
-        match: `event.type == "my-type-2"`,
-        path: "/type-2",
-      },
-    ],
-  });
+#### 批量订阅消息
 
-  // Add handlers for each route
-  server.pubsub.subscribeToRoute("pubsub-redis", "topic-1", "default", async (data) => {
-    console.log(`Handling Default`);
-  });
-  server.pubsub.subscribeToRoute("pubsub-redis", "topic-1", "type-1", async (data) => {
-    console.log(`Handling Type 1`);
-  });
-  server.pubsub.subscribeToRoute("pubsub-redis", "topic-1", "type-2", async (data) => {
-    console.log(`Handling Type 2`);
-  });
+`subscribeBulk()` 会逐条将条目投递给你的回调，并为每个条目生成确认。关于批处理选项和 HTTP 负载限制，请参阅[批量订阅]({{% ref "js-pubsub-subscribe-howto.md#bulk-subscriptions" %}})。
 
-  // Start the server
-  await server.start();
-}
-```
+#### 死信主题
 
-#### Susbcribe with Wildcards
-
-支持通配符 `*` 和 `+`（请确保验证 [pubsub 组件是否支持它](https://docs.dapr.io/reference/components-reference/supported-pubsub/)），可以按如下方式订阅：
-
-```typescript
-import { DaprServer } from "@dapr/dapr";
-
-const daprHost = "127.0.0.1"; // Dapr Sidecar Host
-const daprPort = "3500"; // Dapr Sidecar Port of this Example Server
-const serverHost = "127.0.0.1"; // App Host of this Example Server
-const serverPort = "50051"; // App Port of this Example Server "
-
-async function start() {
-  const server = new DaprServer({
-    serverHost,
-    serverPort,
-    clientOptions: {
-      daprHost,
-      daprPort,
-    },
-  });
-
-  const pubSubName = "my-pubsub-name";
-
-  // * Wildcard
-  await server.pubsub.subscribe(pubSubName, "/events/*", async (data: any, headers: object) =>
-    console.log(`Received Data: ${JSON.stringify(data)}`),
-  );
-
-  // + Wildcard
-  await server.pubsub.subscribe(pubSubName, "/events/+/temperature", async (data: any, headers: object) =>
-    console.log(`Received Data: ${JSON.stringify(data)}`),
-  );
-
-  // Start the server
-  await server.start();
-}
-```
-
-#### Bulk Subscribe to messages
-
-批量订阅受支持，可通过以下 API 使用：
-
-- 通过 `subscribeBulk` 方法批量订阅：`maxMessagesCount` 和 `maxAwaitDurationMs` 是可选的；如果未提供，将使用相关组件的默认值。
-
-在监听消息时，应用程序从 Dapr 批量接收消息。然而，与常规订阅一样，回调函数一次接收一条消息，用户可以选择返回 `DaprPubSubStatusEnum` 值来确认成功、重试或丢弃消息。默认行为是返回成功响应。
-
-有关更多详细信息，请参阅[本文档](https://v1-10.docs.dapr.io/developing-applications/building-blocks/pubsub/pubsub-bulk/)。
-
-```typescript
-import { DaprServer } from "@dapr/dapr";
-
-const pubSubName = "orderPubSub";
-const topic = "topicbulk";
-
-const daprHost = process.env.DAPR_HOST || "127.0.0.1";
-const daprHttpPort = process.env.DAPR_HTTP_PORT || "3502";
-const serverHost = process.env.SERVER_HOST || "127.0.0.1";
-const serverPort = process.env.APP_PORT || 5001;
-
-async function start() {
-  const server = new DaprServer({
-    serverHost,
-    serverPort,
-    clientOptions: {
-      daprHost,
-      daprPort: daprHttpPort,
-    },
-  });
-
-  // Publish multiple messages to a topic with default config.
-  await client.pubsub.subscribeBulk(pubSubName, topic, (data) =>
-    console.log("Subscriber received: " + JSON.stringify(data)),
-  );
-
-  // Publish multiple messages to a topic with specific maxMessagesCount and maxAwaitDurationMs.
-  await client.pubsub.subscribeBulk(
-    pubSubName,
-    topic,
-    (data) => {
-      console.log("Subscriber received: " + JSON.stringify(data));
-      return DaprPubSubStatusEnum.SUCCESS; // If App doesn't return anything, the default is SUCCESS. App can also return RETRY or DROP based on the incoming message.
-    },
-    {
-      maxMessagesCount: 100,
-      maxAwaitDurationMs: 40,
-    },
-  );
-}
-```
-
-#### Dead Letter Topics
-
-Dapr 支持[死信主题](https://docs.dapr.io/developing-applications/building-blocks/pubsub/pubsub-deadletter/)。这意味着当消息处理失败时，它将被发送到死信队列。例如，当消息在 `/my-queue` 上处理失败时，它将被发送到 `/my-queue-failed`。
-例如，当消息在 `/my-queue` 上处理失败时，它将被发送到 `/my-queue-failed`。
-
-您可以将以下选项与 `subscribeWithOptions` 方法一起使用：
-
-- `deadletterTopic`：指定死信主题名称（注意：如果未提供，我们将创建一个名为 `deadletter` 的主题）
-- `deadletterCallback`：作为死信处理程序触发的方法
-
-在 JS SDK 中实现死信支持可以通过以下方式完成：
-
-- 将 `deadletterCallback` 作为选项传递
-- 通过 `subscribeToRoute` 手动订阅路由
-
-下面提供了一个示例
-
-```typescript
-import { DaprServer } from "@dapr/dapr";
-
-const daprHost = "127.0.0.1"; // Dapr Sidecar Host
-const daprPort = "3500"; // Dapr Sidecar Port of this Example Server
-const serverHost = "127.0.0.1"; // App Host of this Example Server
-const serverPort = "50051"; // App Port of this Example Server "
-
-async function start() {
-  const server = new DaprServer({
-    serverHost,
-    serverPort,
-    clientOptions: {
-      daprHost,
-      daprPort,
-    },
-  });
-
-  const pubSubName = "my-pubsub-name";
-
-  // Method 1 (direct subscribing through subscribeWithOptions)
-  await server.pubsub.subscribeWithOptions("pubsub-redis", "topic-options-5", {
-    callback: async (data: any) => {
-      throw new Error("Triggering Deadletter");
-    },
-    deadLetterCallback: async (data: any) => {
-      console.log("Handling Deadletter message");
-    },
-  });
-
-  // Method 2 (subscribe afterwards)
-  await server.pubsub.subscribeWithOptions("pubsub-redis", "topic-options-1", {
-    deadletterTopic: "my-deadletter-topic",
-  });
-  server.pubsub.subscribeToRoute("pubsub-redis", "topic-options-1", "default", async () => {
-    throw new Error("Triggering Deadletter");
-  });
-  server.pubsub.subscribeToRoute("pubsub-redis", "topic-options-1", "my-deadletter-topic", async () => {
-    console.log("Handling Deadletter message");
-  });
-
-  // Start server
-  await server.start();
-}
-```
+在源订阅上设置 `deadLetterTopic`，并为处理失败的消息注册一个单独的消费者。完整示例以及 `deadLetterCallback` 的限制，请参阅[死信主题]({{% ref "js-pubsub-subscribe-howto.md#dead-letter-topics" %}})。
 
 ### Bindings API
 
-#### Receive an Input Binding
+#### 接收输入绑定
 
 ```typescript
 import { DaprServer } from "@dapr/dapr";
@@ -599,66 +305,19 @@ start().catch((e) => {
 });
 ```
 
-> For a full guide on output bindings visit [How-To: Use bindings]({{% ref howto-bindings.md %}}).
+> 有关输出绑定的完整指南，请参阅[操作指南：使用绑定]({{% ref howto-bindings.md %}})。
 
 ### Configuration API
 
-> 💡 The configuration API is currently only available through gRPC
+配置 API 是一个客户端侧的构建块，即使在同时运行 `DaprServer` 的应用程序中也是如此。请使用 gRPC `DaprClient` 读取配置或订阅更新。配置订阅通过客户端的 gRPC 流接收更新，不需要服务端回调路由。
 
-#### Getting a configuration value
+#### 获取配置值
 
-```typescript
-import { DaprServer } from "@dapr/dapr";
+请使用 `client.configuration.get(storeName, keys?, metadata?)`。关于客户端设置以及使用 `@dapr/dapr` 3.19.0 或更高版本的示例，请参阅[配置操作指南]({{% ref "js-configuration-howto.md#retrieve-configuration-items" %}})。
 
-const daprHost = "127.0.0.1";
-const daprPort = "3500";
-const serverHost = "127.0.0.1";
-const serverPort = "5051";
+#### 订阅键变更
 
-async function start() {
-  const client = new DaprClient({
-    daprHost,
-    daprPort,
-    communicationProtocol: CommunicationProtocolEnum.GRPC,
-  });
-  const config = await client.configuration.get("config-redis", ["myconfigkey1", "myconfigkey2"]);
-}
-
-start().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
-```
-
-#### Subscribing to Key Changes
-
-```typescript
-import { DaprServer } from "@dapr/dapr";
-
-const daprHost = "127.0.0.1";
-const daprPort = "3500";
-const serverHost = "127.0.0.1";
-const serverPort = "5051";
-
-async function start() {
-  const client = new DaprClient({
-    daprHost,
-    daprPort,
-    communicationProtocol: CommunicationProtocolEnum.GRPC,
-  });
-  const stream = await client.configuration.subscribeWithKeys("config-redis", ["myconfigkey1", "myconfigkey2"], () => {
-    // Received a key update
-  });
-
-  // When you are ready to stop listening, call the following
-  await stream.close();
-}
-
-start().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
-```
+请在 `client.configuration` 上使用 `subscribe`、`subscribeWithKeys` 或 `subscribeWithMetadata`。保留每个返回的句柄，并在关闭时调用 `await subscription.stop()`，而不是 `close()`。关于回调行为、清理以及流失败的限制，请参阅[订阅示例]({{% ref "js-configuration-howto.md#subscribe-to-configuration-changes" %}})和[客户端用法指南]({{% ref js-configuration-client-usage.md %}})。
 
 ## 相关链接
 

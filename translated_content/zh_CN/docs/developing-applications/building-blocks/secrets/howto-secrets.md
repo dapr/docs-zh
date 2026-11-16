@@ -6,12 +6,12 @@ weight: 2000
 description: "使用机密存储构建块安全地获取密钥"
 ---
 
-既然你已经了解了 [Dapr 密钥构建块提供的功能]({{% ref secrets-overview %}})，接下来让我们学习它如何在你的服务中工作。本指南演示如何调用密钥 API，并在应用代码中从已配置的机密存储获取密钥。
+既然你已经了解了 [Dapr 密钥构建块提供的功能]({{% ref secrets-overview %}})，接下来让我们学习它如何在你的服务中工作。本指南演示如何调用机密 API，并在应用代码中从已配置的机密存储获取密钥。
 
 {{< diagram name="secrets-mgmt-overview" width="80" >}}
 
 {{% alert title="Note" color="primary" %}}
- 如果你还没有尝试过，请先[试用机密管理快速入门]({{% ref secrets-quickstart %}})，快速了解如何使用密钥 API。
+ 如果你还没有尝试过，请先[试用机密管理快速入门]({{% ref secrets-quickstart %}})，快速了解如何使用机密 API。
 
 {{% /alert %}}
 
@@ -59,7 +59,7 @@ spec:
 
 ## 获取密钥
 
-通过密钥 API 调用 Dapr 边车来获取密钥：
+通过机密 API 调用 Dapr 边车来获取密钥：
 
 ```bash
 curl http://localhost:3601/v1.0/secrets/localsecretstore/secret
@@ -67,7 +67,7 @@ curl http://localhost:3601/v1.0/secrets/localsecretstore/secret
 
 查阅[完整的 API 参考]({{% ref secrets_api %}})。
 
-## 从代码中调用密钥 API
+## 从代码中调用机密 API
 
 既然你已经设置好了本地机密存储，接下来就可以在应用代码中调用 Dapr 获取密钥。以下代码示例利用 Dapr SDK 获取密钥。
 
@@ -234,7 +234,7 @@ main();
 
 ## 相关链接
 
-- 查阅 [Dapr 密钥 API 功能]({{% ref secrets-overview %}})。
+- 查阅 [Dapr 机密 API 功能]({{% ref secrets-overview %}})。
 - 了解如何[使用密钥作用域]({{% ref secrets-scopes %}})。
-- 阅读[密钥 API 参考]({{% ref secrets_api %}})，并查阅[支持的密钥]({{% ref supported-secret-stores %}})。
+- 阅读[机密 API 参考]({{% ref secrets_api %}})，并查阅[支持的密钥]({{% ref supported-secret-stores %}})。
 - 了解如何[设置不同的机密存储组件]({{% ref setup-secret-store %}})，以及如何[在组件中引用密钥]({{% ref component-secrets %}})。

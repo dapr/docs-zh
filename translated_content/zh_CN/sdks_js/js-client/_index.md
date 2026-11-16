@@ -8,15 +8,17 @@ description: 用于开发 Dapr 应用的 JavaScript 客户端 SDK
 
 ## 简介
 
-Dapr 客户端允许您与 Dapr 边车通信，并访问其面向客户端的功能，如发布事件、调用输出绑定、状态管理、密钥管理等。
+Dapr 客户端允许你与 Dapr 边车通信，并访问其面向客户端的功能，例如发布事件、调用输出绑定、状态管理、机密管理等。
 
-## 前置条件
+对于大型语言模型 (LLM) 交互，请使用 `client.conversation.converse(request)`。[对话指南]({{% ref js-conversation %}}) 介绍了在 JavaScript SDK **3.19.0 或更高版本**中的设置、消息历史、结构化输出、缓存、Token 用量和工具调用。
+
+## 前提条件
 
 - 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
 - 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
-- [最新的 Node.js LTS 版本或更高版本](https://nodejs.org/en/)
+- [最新 LTS 版本的 Node.js 或更高版本](https://nodejs.org/en/)
 
-## 安装和导入 Dapr JS SDK
+## 安装并导入 Dapr 的 JS SDK
 
 1. 使用 `npm` 安装 SDK：
 
@@ -24,26 +26,26 @@ Dapr 客户端允许您与 Dapr 边车通信，并访问其面向客户端的功
 npm i @dapr/dapr --save
 ```
 
-2. 导入库：
+2. 导入相关库：
 
 ```typescript
 import { DaprClient, DaprServer, HttpMethod, CommunicationProtocolEnum } from "@dapr/dapr";
 
 const daprHost = "127.0.0.1"; // Dapr 边车主机
-const daprPort = "3500"; // 此示例服务器的 Dapr 边车端口
-const serverHost = "127.0.0.1"; // 此示例服务器的应用主机
-const serverPort = "50051"; // 此示例服务器的应用端口
+const daprPort = "3500"; // 本示例服务器对应的 Dapr 边车端口
+const serverHost = "127.0.0.1"; // 本示例服务器的应用主机
+const serverPort = "50051"; // 本示例服务器的应用端口
 
 // HTTP 示例
 const client = new DaprClient({ daprHost, daprPort });
 
-// GRPC 示例
+// gRPC 示例
 const client = new DaprClient({ daprHost, daprPort, communicationProtocol: CommunicationProtocolEnum.GRPC });
 ```
 
 ## 运行
 
-要运行示例，您可以使用两种不同的协议与 Dapr 边车交互：HTTP（默认）或 gRPC。
+要运行这些示例，你可以使用两种协议与 Dapr 边车交互：HTTP（默认）或 gRPC。
 
 ### 使用 HTTP（默认）
 
@@ -56,24 +58,24 @@ const client = new DaprClient({ daprHost, daprPort });
 # 使用 dapr run
 dapr run --app-id example-sdk --app-protocol http -- npm run start
 
-# 或，使用 npm script
+# 或者使用 npm 脚本
 npm run start:dapr-http
 ```
 
 ### 使用 gRPC
 
-由于 HTTP 是默认协议，您需要调整通信协议以使用 gRPC。您可以通过向客户端或服务器构造函数传递额外的参数来实现。
+由于默认使用 HTTP，要使用 gRPC 需要调整通信协议。你可以在客户端或服务器的构造函数中传入一个额外参数来实现。
 
 ```typescript
-import { DaprClient, CommunicationProtocol } from "@dapr/dapr";
-const client = new DaprClient({ daprHost, daprPort, communicationProtocol: CommunicationProtocol.GRPC });
+import { DaprClient, CommunicationProtocolEnum } from "@dapr/dapr";
+const client = new DaprClient({ daprHost, daprPort, communicationProtocol: CommunicationProtocolEnum.GRPC });
 ```
 
 ```bash
 # 使用 dapr run
 dapr run --app-id example-sdk --app-protocol grpc -- npm run start
 
-# 或，使用 npm script
+# 或者使用 npm 脚本
 npm run start:dapr-grpc
 ```
 
@@ -81,76 +83,66 @@ npm run start:dapr-grpc
 
 ##### Dapr 边车端点
 
-您可以使用 `DAPR_HTTP_ENDPOINT` 和 `DAPR_GRPC_ENDPOINT` 环境变量来分别设置 Dapr 边车的 HTTP 和 gRPC 端点。当设置这些变量时，构造函数的选项参数中不必设置 `daprHost` 和 `daprPort`，客户端会自动从提供的端点中解析它们。
+你可以使用 `DAPR_HTTP_ENDPOINT` 和 `DAPR_GRPC_ENDPOINT` 环境变量分别设置 Dapr 边车的 HTTP 和 gRPC 端点。设置这些变量后，构造函数的选项参数中无需再设置 `daprHost` 和 `daprPort`，客户端会自动从所提供的端点中解析出它们。
 
 ```typescript
-import { DaprClient, CommunicationProtocol } from "@dapr/dapr";
+import { DaprClient, CommunicationProtocolEnum } from "@dapr/dapr";
 
-// 使用 HTTP，当设置了 DAPR_HTTP_ENDPOINT 时
+// 设置了 DAPR_HTTP_ENDPOINT 时使用 HTTP
 const client = new DaprClient();
 
-// 使用 gRPC，当设置了 DAPR_GRPC_ENDPOINT 时
-const client = new DaprClient({ communicationProtocol: CommunicationProtocol.GRPC });
+// 设置了 DAPR_GRPC_ENDPOINT 时使用 gRPC
+const client = new DaprClient({ communicationProtocol: CommunicationProtocolEnum.GRPC });
 ```
 
-如果设置了环境变量，但向构造函数传递了 `daprHost` 和 `daprPort` 值，后者将优先于环境变量。
+如果设置了环境变量，同时又在构造函数中传入了 `daprHost` 和 `daprPort` 的值，则以后者为准，覆盖环境变量。
 
 ##### Dapr API 令牌
 
-您可以使用 `DAPR_API_TOKEN` 环境变量来设置 Dapr API 令牌。当设置此变量时，构造函数的选项参数中不必设置 `daprApiToken`，客户端会自动获取它。
+你可以使用 `DAPR_API_TOKEN` 环境变量设置 Dapr API 令牌。设置该变量后，构造函数的选项参数中无需再设置 `daprApiToken`，客户端会自动获取它。
 
 ## 通用
 
-### 增加主体大小
+### 增大请求体大小
 
-您可以使用 `DaprClient` 的选项来增加应用程序用于与边车通信的主体大小。
+你可以通过 `DaprClient` 的选项，增大应用与边车通信时使用的请求体大小。
 
 ```typescript
-import { DaprClient, CommunicationProtocol } from "@dapr/dapr";
+import { DaprClient, CommunicationProtocolEnum } from "@dapr/dapr";
 
-// 允许使用 10Mb 的主体大小
-// 默认为 4Mb
+// 允许使用 10MB 的请求体
+// 默认值为 4MB
 const client = new DaprClient({
   daprHost,
   daprPort,
-  communicationProtocol: CommunicationProtocol.HTTP,
+  communicationProtocol: CommunicationProtocolEnum.HTTP,
   maxBodySizeMb: 10,
 });
 ```
 
 ### 代理请求
 
-通过代理请求，我们可以利用 Dapr 通过其边车架构带来的独特能力，如服务发现、日志记录等，使我们能够立即"升级"我们的 gRPC 服务。gRPC 代理的此功能在 [社区会议 41](https://www.youtube.com/watch?v=B_vkXqptpXY&t=71s) 中进行了演示。
+在 JavaScript SDK 3.19.0 中，`client.proxy.create()` 对 HTTP 和 gRPC ConnectRPC 传输均不受支持，调用时会直接拒绝。请使用 `client.invoker.invoke()` 进行 Dapr 服务调用。
 
-#### 创建代理
-
-要执行 gRPC 代理，只需调用 `client.proxy.create()` 方法创建代理：
-
-```typescript
-// 像往常一样，为我们的 dapr 边车创建一个客户端
-// 此客户端负责确保边车已启动、我们可以通信等
-const clientSidecar = new DaprClient({ daprHost, daprPort, communicationProtocol: CommunicationProtocol.GRPC });
-
-// 创建一个允许我们使用 gRPC 代码的代理
-const clientProxy = await clientSidecar.proxy.create<GreeterClient>(GreeterClient);
-```
-
-现在我们可以按照 `GreeterClient` 接口中定义的方法调用（在本例中，该接口来自 [Hello World 示例](https://github.com/grpc/grpc-go/blob/master/examples/helloworld/helloworld/helloworld.proto)）
-
-#### 幕后（技术工作原理）
-
-![架构](assets/architecture.png)
-
-1. gRPC 服务在 Dapr 中启动。我们通过 `--app-port` 告诉 Dapr 此 gRPC 服务器运行在哪个端口，并使用 `--app-id <APP_ID_HERE>` 为其提供唯一的 Dapr 应用 ID
-2. 我们现在可以通过连接到边车的客户端调用 Dapr 边车
-3. 在调用 Dapr 边车时，我们提供一个名为 `dapr-app-id` 的元数据键，其值为在 Dapr 中启动的 gRPC 服务器（例如在我们的示例中为 `server`）
-4. Dapr 现在将调用转发到配置的 gRPC 服务器
+对于原生 protobuf 服务，请使用你生成的 gRPC 客户端，并通过 `dapr-app-id` 元数据连接到 Dapr 边车。参见[原生 gRPC 服务与流式传输]({{% ref "js-service-invocation-usage.md#native-grpc-services-and-streaming" %}})以及[运行时 gRPC 代理指南]({{% ref howto-invoke-services-grpc.md %}})。
 
 ## 构建块
 
-JavaScript 客户端 SDK 允许您与所有 [Dapr 构建块]({{% ref building-blocks %}}) 交互，重点关注客户端到边车的功能。
+JavaScript 客户端 SDK 允许你与所有 [Dapr 构建块]({{% ref building-blocks %}}) 交互，重点关注客户端到边车的功能。
 
-### 调用 API
+### 搜索 API
+
+使用 `client.search` 通过 HTTP 或 gRPC 管理索引，并对 JSON 文档进行索引、检索、删除和查询。需要 Dapr 运行时 1.19 或更高版本，以及 JavaScript SDK 3.19.0 或更高版本。
+
+完整示例请参阅[搜索操作指南]({{% ref js-search-howto.md %}})；方法签名、查询选项、写入确认、取消操作和错误处理请参阅[搜索客户端用法]({{% ref js-search-client-usage.md %}})。
+
+### Jobs API
+
+使用 `client.jobs` 以 JavaScript SDK **3.19.0 或更高版本**调度、获取和删除作业。有关调度选项、负载、运行时兼容性和错误处理，请参阅[作业操作指南]({{% ref js-jobs-howto.md %}})和[客户端用法说明]({{% ref js-jobs-client-usage.md %}})。
+
+### 服务调用 API
+
+对于 JavaScript SDK 3.19.0 或更高版本，请参阅[服务调用概述]({{% ref js-service-invocation %}})，了解 HTTP 和 gRPC 的功能。
 
 #### 调用服务
 
@@ -166,20 +158,18 @@ async function start() {
   const serviceAppId = "my-app-id";
   const serviceMethod = "say-hello";
 
-  // POST 请求
-  const response = await client.invoker.invoke(serviceAppId, serviceMethod, HttpMethod.POST, { hello: "world" });
-
-  // 带请求头的 POST 请求
-  const response = await client.invoker.invoke(
-    serviceAppId,
-    serviceMethod,
-    HttpMethod.POST,
-    { hello: "world" },
-    { headers: { "X-User-ID": "123" } },
-  );
-
-  // GET 请求
-  const response = await client.invoker.invoke(serviceAppId, serviceMethod, HttpMethod.GET);
+  try {
+    const response = await client.invoker.invoke(
+      serviceAppId,
+      serviceMethod,
+      HttpMethod.POST,
+      { hello: "world" },
+      { headers: { "X-User-ID": "123" } },
+    );
+    console.log(response);
+  } finally {
+    await client.stop();
+  }
 }
 
 start().catch((e) => {
@@ -188,128 +178,25 @@ start().catch((e) => {
 });
 ```
 
-> 有关服务调用的完整指南，请访问 [操作指南：调用服务]({{% ref howto-invoke-discover-services.md %}})。
+有关可运行的客户端与服务器设置、其他动词、查询参数、命名空间以及非 Dapr 端点，请参阅[调用服务]({{% ref js-service-invocation-howto.md %}})。有关序列化和错误处理，请参阅[配置与用法]({{% ref js-service-invocation-usage.md %}})。自定义请求头由 HTTP 调用器转发，gRPC 调用器不会转发。
 
 ### 状态管理 API
 
+使用 `client.state` 通过 HTTP 或 gRPC 访问已配置的状态存储。[状态管理指南]({{% ref js-state-management %}})涵盖 JavaScript SDK 3.19.0 或更高版本，包括批量删除、ETag、状态选项、TTL、事务、序列化以及特定协议的错误。
+
 #### 保存、获取和删除应用状态
 
-```typescript
-import { DaprClient } from "@dapr/dapr";
+有关包含组件配置、保存/获取/删除、批量读取与删除、条件更新和事务的可运行示例，请参阅[操作指南：管理状态]({{% ref js-state-management-howto.md %}})。
 
-const daprHost = "127.0.0.1";
-const daprPort = "3500";
+HTTP 的 `save`、`delete` 和 `deleteBulk` 可能返回 `{ error }`，而不是拒绝 Promise。请检查该字段，同时处理 Promise 的拒绝；gRPC 的 RPC 失败会以拒绝 Promise 的形式返回。完整的方法与响应参考请参阅[状态客户端用法]({{% ref js-state-management-client-usage.md %}})。
 
-async function start() {
-  const client = new DaprClient({ daprHost, daprPort });
+#### 状态查询 API
 
-  const serviceStoreName = "my-state-store-name";
-
-  // 保存状态
-  const response = await client.state.save(
-    serviceStoreName,
-    [
-      {
-        key: "first-key-name",
-        value: "hello",
-        metadata: {
-          foo: "bar",
-        },
-      },
-      {
-        key: "second-key-name",
-        value: "world",
-      },
-    ],
-    {
-      metadata: {
-        ttlInSeconds: "3", // 这应该覆盖状态项中的 ttl
-      },
-    },
-  );
-
-  // 获取状态
-  const response = await client.state.get(serviceStoreName, "first-key-name");
-
-  // 批量获取状态
-  const response = await client.state.getBulk(serviceStoreName, ["first-key-name", "second-key-name"]);
-
-  // 状态事务
-  await client.state.transaction(serviceStoreName, [
-    {
-      operation: "upsert",
-      request: {
-        key: "first-key-name",
-        value: "new-data",
-      },
-    },
-    {
-      operation: "delete",
-      request: {
-        key: "second-key-name",
-      },
-    },
-  ]);
-
-  // 删除状态
-  const response = await client.state.delete(serviceStoreName, "first-key-name");
-}
-
-start().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
-```
-
-> 有关状态操作的完整列表，请访问 [操作指南：获取和保存状态]({{% ref howto-get-save-state.md %}})。
-
-#### 查询状态 API
-
-```typescript
-import { DaprClient } from "@dapr/dapr";
-
-async function start() {
-  const client = new DaprClient({ daprHost, daprPort });
-
-  const res = await client.state.query("state-mongodb", {
-    filter: {
-      OR: [
-        {
-          EQ: { "person.org": "Dev Ops" },
-        },
-        {
-          AND: [
-            {
-              EQ: { "person.org": "Finance" },
-            },
-            {
-              IN: { state: ["CA", "WA"] },
-            },
-          ],
-        },
-      ],
-    },
-    sort: [
-      {
-        key: "state",
-        order: "DESC",
-      },
-    ],
-    page: {
-      limit: 10,
-    },
-  });
-
-  console.log(res);
-}
-
-start().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
-```
+alpha 版查询 API 支持在可查询的存储上通过 HTTP 和 gRPC 进行过滤、排序和分页。有关查询表达式、延续令牌和结果解码，请参阅[操作指南：状态查询]({{% ref js-state-management-query.md %}})。
 
 ### 发布订阅 API
+
+对于 JavaScript SDK 3.19.0 或更高版本，请参阅[发布与订阅概述]({{% ref js-pubsub %}})，选择合适的投递模式。
 
 #### 发布消息
 
@@ -322,65 +209,14 @@ const daprPort = "3500";
 async function start() {
   const client = new DaprClient({ daprHost, daprPort });
 
-  const pubSubName = "my-pubsub-name";
-  const topic = "topic-a";
-
-  // 以 text/plain 格式向主题发布消息
-  // 注意，除非明确指定，内容类型是从消息类型推断的
-  const response = await client.pubsub.publish(pubSubName, topic, "hello, world!");
-  // 如果发布失败，response 包含错误
-  console.log(response);
-
-  // 以 application/json 格式向主题发布消息
-  await client.pubsub.publish(pubSubName, topic, { hello: "world" });
-
-  // 以纯文本形式发布 JSON 消息
-  const options = { contentType: "text/plain" };
-  await client.pubsub.publish(pubSubName, topic, { hello: "world" }, options);
-
-  // 以 application/cloudevents+json 格式向主题发布消息
-  // 您也可以使用 cloudevent SDK 创建云事件 https://github.com/cloudevents/sdk-javascript
-  const cloudEvent = {
-    specversion: "1.0",
-    source: "/some/source",
-    type: "example",
-    id: "1234",
-  };
-  await client.pubsub.publish(pubSubName, topic, cloudEvent);
-
-  // 以原始负载形式发布云事件
-  const options = { metadata: { rawPayload: true } };
-  await client.pubsub.publish(pubSubName, topic, "hello, world!", options);
-
-  // 以 text/plain 格式向主题发布多条消息
-  await client.pubsub.publishBulk(pubSubName, topic, ["message 1", "message 2", "message 3"]);
-
-  // 以 application/json 格式向主题发布多条消息
-  await client.pubsub.publishBulk(pubSubName, topic, [
-    { hello: "message 1" },
-    { hello: "message 2" },
-    { hello: "message 3" },
-  ]);
-
-  // 使用显式批量发布消息发布多条消息
-  const bulkPublishMessages = [
-    {
-      entryID: "entry-1",
-      contentType: "application/json",
-      event: { hello: "foo message 1" },
-    },
-    {
-      entryID: "entry-2",
-      contentType: "application/cloudevents+json",
-      event: { ...cloudEvent, data: "foo message 2", datacontenttype: "text/plain" },
-    },
-    {
-      entryID: "entry-3",
-      contentType: "text/plain",
-      event: "foo message 3",
-    },
-  ];
-  await client.pubsub.publishBulk(pubSubName, topic, bulkPublishMessages);
+  try {
+    const response = await client.pubsub.publish("pubsub", "orders", { orderId: "101" });
+    if (response.error) {
+      throw response.error;
+    }
+  } finally {
+    await client.stop();
+  }
 }
 
 start().catch((e) => {
@@ -388,6 +224,12 @@ start().catch((e) => {
   process.exit(1);
 });
 ```
+
+有关批量操作、元数据、CloudEvents、原始负载以及特定传输的错误处理，请参阅[发布事件]({{% ref js-pubsub-publish-howto.md %}})。有关客户端生命周期和序列化，请参阅[配置与用法]({{% ref js-pubsub-usage.md %}})。
+
+#### 流式消息订阅
+
+使用 gRPC 客户端时，`client.pubsub.subscribeStream()` 无需 `DaprServer` 或应用回调端口即可接收消息。请按照[流式订阅指南]({{% ref js-pubsub-streaming-howto.md %}})了解完整的工作进程示例、运行时要求、确认、取消以及故障监督。
 
 ### 绑定 API
 
@@ -417,11 +259,11 @@ start().catch((e) => {
 });
 ```
 
-> 有关输出绑定的完整指南，请访问 [操作指南：使用绑定]({{% ref howto-bindings.md %}})。
+> 有关输出绑定的完整指南，请参阅[操作指南：使用绑定]({{% ref howto-bindings.md %}})。
 
-### 密钥 API
+### 机密 API
 
-#### 检索密钥
+#### 获取机密
 
 ```typescript
 import { DaprClient } from "@dapr/dapr";
@@ -435,11 +277,11 @@ async function start() {
   const secretStoreName = "my-secret-store";
   const secretKey = "secret-key";
 
-  // 从密钥存储中检索单个密钥
-  const response = await client.secret.get(secretStoreName, secretKey);
+  // 获取单个机密；结果为该机密的键值数据
+  const secret = await client.secret.get(secretStoreName, secretKey);
 
-  // 从密钥存储中检索所有密钥
-  const response = await client.secret.getBulk(secretStoreName);
+  // 获取所有可访问的机密，按机密名称嵌套
+  const secrets = await client.secret.getBulk(secretStoreName);
 }
 
 start().catch((e) => {
@@ -448,26 +290,38 @@ start().catch((e) => {
 });
 ```
 
-> 有关密钥的完整指南，请访问 [操作指南：检索密钥]({{% ref howto-secrets.md %}})。
+对于 JavaScript SDK 3.19.0 或更高版本，请参阅[机密操作指南]({{% ref js-secrets-howto.md %}})获取可运行的示例，或阅读[机密客户端用法说明]({{% ref js-secrets-client-usage.md %}})，了解配置、TypeScript 响应校验和错误处理。
+
+在 3.19.0 中，HTTP `get` 接受以查询字符串形式传入的元数据，并保留多值机密的所有值。gRPC `get` 会忽略元数据，只返回第一个键值对。批量获取在两种协议下都会保留嵌套值，但两者都不提供批量元数据。
+
+关于底层构建块，请参阅[操作指南：获取机密]({{% ref howto-secrets.md %}})。
 
 ### 配置 API
+
+使用 `client.configuration` 读取应用设置并订阅其变更。JavaScript SDK 的所有配置方法都要求使用 **gRPC**，不支持 HTTP 客户端。
+
+[配置操作指南]({{% ref js-configuration-howto.md %}})为 `@dapr/dapr` 3.19.0 或更高版本提供了可运行的示例。[客户端用法说明]({{% ref js-configuration-client-usage.md %}})涵盖所有方法、元数据、响应结构以及订阅的错误限制。
 
 #### 获取配置键
 
 ```typescript
-import { DaprClient } from "@dapr/dapr";
+import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
 
 const daprHost = "127.0.0.1";
 
 async function start() {
   const client = new DaprClient({
     daprHost,
-    daprPort: process.env.DAPR_GRPC_PORT,
+    daprPort: process.env.DAPR_GRPC_PORT ?? "50001",
     communicationProtocol: CommunicationProtocolEnum.GRPC,
   });
 
-  const config = await client.configuration.get("config-store", ["key1", "key2"]);
-  console.log(config);
+  try {
+    const config = await client.configuration.get("config-store", ["key1", "key2"]);
+    console.log(config);
+  } finally {
+    await client.stop();
+  }
 }
 
 start().catch((e) => {
@@ -490,25 +344,30 @@ start().catch((e) => {
 #### 订阅配置更新
 
 ```typescript
-import { DaprClient } from "@dapr/dapr";
+import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
 
 const daprHost = "127.0.0.1";
 
 async function start() {
   const client = new DaprClient({
     daprHost,
-    daprPort: process.env.DAPR_GRPC_PORT,
+    daprPort: process.env.DAPR_GRPC_PORT ?? "50001",
     communicationProtocol: CommunicationProtocolEnum.GRPC,
   });
 
-  // 订阅键 "key1" 和 "key2" 的配置存储更改
-  const stream = await client.configuration.subscribeWithKeys("config-store", ["key1", "key2"], async (data) => {
-    console.log("订阅收到来自配置存储的更新：", data);
-  });
+  try {
+    const stream = await client.configuration.subscribeWithKeys("config-store", ["key1", "key2"], async (data) => {
+      console.log("Subscribe received updates from config store: ", data);
+    });
 
-  // 等待 60 秒并取消订阅。
-  await new Promise((resolve) => setTimeout(resolve, 60000));
-  stream.stop();
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 60000));
+    } finally {
+      await stream.stop();
+    }
+  } finally {
+    await client.stop();
+  }
 }
 
 start().catch((e) => {
@@ -520,93 +379,44 @@ start().catch((e) => {
 示例输出：
 
 ```log
-订阅收到来自配置存储的更新： {
+Subscribe received updates from config store:  {
   items: { key2: { key: 'key2', value: 'bar', version: '', metadata: {} } }
 }
-订阅收到来自配置存储的更新： {
+Subscribe received updates from config store:  {
   items: { key1: { key: 'key1', value: 'foobar', version: '', metadata: {} } }
 }
 ```
 
+要监听所有键，请使用 `subscribe(storeName, callback)`。要包含特定于存储的元数据，请使用 `subscribeWithMetadata(storeName, keys, metadata, callback)`。全部键的行为取决于组件。在依赖该订阅获取最新配置之前，请参阅[订阅生命周期与回调]({{% ref "js-configuration-client-usage.md#subscription-lifetime-and-callbacks" %}})。
+
 ### 加密 API
 
-> JavaScript SDK 中仅在 gRPC 客户端上支持加密 API。
+在 **`@dapr/dapr` 3.19.0 或更高版本**中，`client.crypto` 同时支持通过 HTTP 和 gRPC 进行加密和解密。传入数据和选项时返回 `Buffer`；只传入选项时返回 Node.js `Duplex` 流。
+
+对于大负载和生产环境中的流式处理，建议优先使用 gRPC。Dapr 会将 HTTP 加密输出缓冲，直到请求的数据被完全读取。
 
 ```typescript
-import { createReadStream, createWriteStream } from "node:fs";
-import { readFile, writeFile } from "node:fs/promises";
-import { pipeline } from "node:stream/promises";
-
 import { DaprClient, CommunicationProtocolEnum } from "@dapr/dapr";
-
-const daprHost = "127.0.0.1";
-const daprPort = "50050"; // 此示例服务器的 Dapr 边车端口
 
 async function start() {
   const client = new DaprClient({
-    daprHost,
-    daprPort,
+    daprHost: "127.0.0.1",
+    daprPort: "50001",
     communicationProtocol: CommunicationProtocolEnum.GRPC,
   });
 
-  // 使用流加密和解密消息
-  await encryptDecryptStream(client);
-
-  // 使用缓冲区加密和解密消息
-  await encryptDecryptBuffer(client);
-}
-
-async function encryptDecryptStream(client: DaprClient) {
-  // 首先，加密消息
-  console.log("== 使用流加密消息");
-  console.log("将 plaintext.txt 加密为 ciphertext.out");
-
-  await pipeline(
-    createReadStream("plaintext.txt"),
-    await client.crypto.encrypt({
+  try {
+    const ciphertext = await client.crypto.encrypt("A message to encrypt", {
       componentName: "crypto-local",
       keyName: "symmetric256",
       keyWrapAlgorithm: "A256KW",
-    }),
-    createWriteStream("ciphertext.out"),
-  );
-
-  // 解密消息
-  console.log("== 使用流解密消息");
-  console.log("将 ciphertext.out 解密为 plaintext.out");
-  await pipeline(
-    createReadStream("ciphertext.out"),
-    await client.crypto.decrypt({
+    });
+    const plaintext = await client.crypto.decrypt(ciphertext, {
       componentName: "crypto-local",
-    }),
-    createWriteStream("plaintext.out"),
-  );
-}
-
-async function encryptDecryptBuffer(client: DaprClient) {
-  // 读取 "plaintext.txt" 以便我们有一些内容
-  const plaintext = await readFile("plaintext.txt");
-
-  // 首先，加密消息
-  console.log("== 使用缓冲区加密消息");
-
-  const ciphertext = await client.crypto.encrypt(plaintext, {
-    componentName: "crypto-local",
-    keyName: "my-rsa-key",
-    keyWrapAlgorithm: "RSA",
-  });
-
-  await writeFile("test.out", ciphertext);
-
-  // 解密消息
-  console.log("== 使用缓冲区解密消息");
-  const decrypted = await client.crypto.decrypt(ciphertext, {
-    componentName: "crypto-local",
-  });
-
-  // 内容应该相等
-  if (plaintext.compare(decrypted) !== 0) {
-    throw new Error("解密的消息与原始消息不匹配");
+    });
+    console.log("Decrypted bytes:", plaintext.length);
+  } finally {
+    await client.stop();
   }
 }
 
@@ -616,11 +426,11 @@ start().catch((e) => {
 });
 ```
 
-> 有关加密的完整指南，请访问 [操作指南：加密]({{% ref howto-cryptography.md %}})。
+本示例需要已配置的 `crypto-local` 组件和兼容的 `symmetric256` 密钥。完整的设置和文件流示例请参阅 [JavaScript 加密操作指南]({{% ref js-cryptography-howto.md %}})。有关加密算法、密钥引用、错误和运行时限制，请参阅[客户端用法说明]({{% ref js-cryptography-client-usage.md %}})。
 
 ### 分布式锁 API
 
-#### 尝试锁定和解锁 API
+#### 尝试加锁与解锁 API
 
 ```typescript
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";
@@ -637,13 +447,13 @@ async function start() {
   const lockOwner = "owner1";
   let expiryInSeconds = 1000;
 
-  console.log(`在 ${storeName}、${resourceId} 上获取锁，所有者：${lockOwner}`);
+  console.log(`Acquiring lock on ${storeName}, ${resourceId} as owner: ${lockOwner}`);
   const lockResponse = await client.lock.lock(storeName, resourceId, lockOwner, expiryInSeconds);
   console.log(lockResponse);
 
-  console.log(`在 ${storeName}、${resourceId} 上解锁，所有者：${lockOwner}`);
+  console.log(`Unlocking on ${storeName}, ${resourceId} as owner: ${lockOwner}`);
   const unlockResponse = await client.lock.unlock(storeName, resourceId, lockOwner);
-  console.log("解锁 API 响应： " + getResponseStatus(unlockResponse.status));
+  console.log("Unlock API response: " + getResponseStatus(unlockResponse.status));
 }
 
 function getResponseStatus(status: LockStatus) {
@@ -665,9 +475,13 @@ start().catch((e) => {
 });
 ```
 
-> 有关分布式锁的完整指南，请访问 [操作指南：使用分布式锁]({{% ref howto-use-distributed-lock.md %}})。
+> 有关分布式锁的完整指南，请参阅[操作指南：使用分布式锁]({{% ref howto-use-distributed-lock.md %}})。
 
 ### 工作流 API
+
+`DaprClient.workflow` 通过 HTTP 或 gRPC 提供基本的工作流管理 API。对于 `@dapr/dapr` **3.19.0 或更高版本**，请使用 `scheduleNewWorkflow`、`getWorkflowState` 和 `raiseEvent`；较旧的 `start`、`get` 和 `raise` 名称是已弃用的别名。
+
+如需编写工作进程，以及使用持久等待、列表、历史记录获取、重新运行和二进制存储中的负载引用，请参阅独立的[工作流 SDK 指南]({{% ref js-workflow-management.md %}})。`DaprWorkflowClient` 使用 gRPC，返回 `WorkflowState`，而不是下方基本 API 所示的响应对象。
 
 #### 工作流管理
 
@@ -678,37 +492,37 @@ async function start() {
   const client = new DaprClient();
 
   // 启动新的工作流实例
-  const instanceId = await client.workflow.start("OrderProcessingWorkflow", {
+  const instanceId = await client.workflow.scheduleNewWorkflow("OrderProcessingWorkflow", {
     Name: "Paperclips",
     TotalCost: 99.95,
     Quantity: 4,
   });
-  console.log(`已启动工作流实例 ${instanceId}`);
+  console.log(`Started workflow instance ${instanceId}`);
 
   // 获取工作流实例
-  const workflow = await client.workflow.get(instanceId);
+  const workflow = await client.workflow.getWorkflowState(instanceId);
   console.log(
-    `工作流 ${workflow.workflowName}，创建于 ${workflow.createdAt.toUTCString()}，状态为 ${
+    `Workflow ${workflow.workflowName}, created at ${workflow.createdAt.toUTCString()}, has status ${
       workflow.runtimeStatus
     }`,
   );
-  console.log(`其他属性：${JSON.stringify(workflow.properties)}`);
+  console.log(`Additional properties: ${JSON.stringify(workflow.properties)}`);
 
   // 暂停工作流实例
   await client.workflow.pause(instanceId);
-  console.log(`已暂停工作流实例 ${instanceId}`);
+  console.log(`Paused workflow instance ${instanceId}`);
 
   // 恢复工作流实例
   await client.workflow.resume(instanceId);
-  console.log(`已恢复工作流实例 ${instanceId}`);
+  console.log(`Resumed workflow instance ${instanceId}`);
 
   // 终止工作流实例
   await client.workflow.terminate(instanceId);
-  console.log(`已终止工作流实例 ${instanceId}`);
+  console.log(`Terminated workflow instance ${instanceId}`);
 
   // 清除工作流实例
   await client.workflow.purge(instanceId);
-  console.log(`已清除工作流实例 ${instanceId}`);
+  console.log(`Purged workflow instance ${instanceId}`);
 }
 
 start().catch((e) => {

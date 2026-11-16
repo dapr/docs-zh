@@ -49,11 +49,11 @@ Query Parameter | Description
 
 ## 更新组件引用的密钥
 
-在 Kubernetes 中运行时，在组件定义中通过 `secretKeyRef` 引用的、来自此机密存储的密钥，会在底层 Kubernetes 密钥发生变化时自动[热重载]({{% ref "component-updates.md#hot-reloading" %}})：组件会在 60 秒内使用新的密钥值重新初始化，无需重启应用程序 Pod 或 Dapr 边车。这使得内置的 Kubernetes 机密存储成为密钥轮换流程的理想目标，包括将密钥同步到原生 Kubernetes 密钥中的外部密钥管理器。有关详细信息，请阅读[更新已引用的密钥]({{% ref "component-secrets.md#updating-referenced-secrets" %}})。
+在 Kubernetes 中运行时，在组件定义中通过 `secretKeyRef` 引用的、来自此机密存储的密钥，会在底层 Kubernetes 密钥发生变化时自动[热重载]({{% ref "component-updates.md#hot-reloading" %}})：组件会在 60 秒内使用新的密钥值重新初始化，无需重启应用程序 Pod 或 Dapr 边车。这使得内置的 Kubernetes 机密存储成为机密轮换流程的理想目标，包括将密钥同步到原生 Kubernetes 密钥中的外部密钥管理器。有关详细信息，请阅读[更新已引用的密钥]({{% ref "component-secrets.md#updating-referenced-secrets" %}})。
 
 ## 相关链接
 - [密钥构建块]({{% ref secrets %}})
 - [如何操作：检索密钥]({{% ref "howto-secrets.md" %}})
 - [如何操作：在 Dapr 组件中引用密钥]({{% ref component-secrets.md %}})
-- [密钥 API 参考]({{% ref secrets_api.md %}})
+- [机密 API 参考]({{% ref secrets_api.md %}})
 - [如何操作：使用机密作用域]({{%ref secrets-scopes.md%}})

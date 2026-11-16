@@ -3,75 +3,183 @@ type: docs
 title: "使用 DaprWorkflowClient 进行工作流管理操作"
 linkTitle: "工作流管理操作"
 weight: 2000
-description: 了解如何使用 `DaprWorkflowClient` 管理工作流
+description: 调度、查询、等待、发送事件、重新运行和管理工作流实例
 ---
 
-## 使用 `DaprWorkflowClient` 进行工作流管理操作
+`DaprWorkflowClient` 在 SDK 1.19.0 中提供以下操作。若要使用完整功能，尤其是列出实例、查看历史记录以及从事件重新运行，请使用 Dapr 1.19 运行时。请按照[客户端注册]({{% ref dotnet-workflowclient-usage.md %}})中的说明注册或构造客户端。
 
-`DaprWorkflowClient` 类提供了管理工作流实例的方法。以下是你可以使用 `DaprWorkflowClient` 执行的操作。
+## 调度新的工作流实例
 
-### 调度新的工作流实例
-
-要启动新的工作流实例，请使用 `ScheduleNewWorkflowAsync` 方法。此方法需要工作流类型名称和工作流所需的输入参数。工作流的 `instanceId` 是一个可选参数；如果未提供，`DaprWorkflowClient` 会生成一个新的 GUID。最后一个可选参数是 `DateTimeOffset` 类型的 `startTime`，可用于定义工作流实例应该何时开始。该方法返回已调度工作流的 `instanceId`，用于其他工作流管理操作。
+`ScheduleNewWorkflowAsync` 返回的是实例 ID，而不是工作流的结果。请提供已注册的工作流名称以及可选的输入。省略 `instanceId` 时会生成一个 GUID。指定将来的启动时间会延迟执行；启动时间为过去时间或省略时，则立即启动。
 
 ```csharp
-var instanceId = $"order-workflow-{Guid.NewGuid().ToString()[..8]}";
-var input = new Order("Paperclips", 1000, 9.95);
-await daprWorkflowClient.ScheduleNewWorkflowAsync(
-  nameof(OrderProcessingWorkflow),
-  instanceId,
-  input);
+var instanceId = await client.ScheduleNewWorkflowAsync(
+    name: "OrderProcessingWorkflow",
+    instanceId: null,
+    input: new { Product = "Paperclips", Quantity = 1000 },
+    startTime: DateTimeOffset.UtcNow.AddMinutes(5),
+    cancellation: cancellationToken);
 ```
 
-### 获取工作流实例的状态
+支持取消的重载接受 `name`、`instanceId`、`input`、`DateTimeOffset? startTime` 和 `cancellation` 参数。三参数的便捷重载以及旧版 `DateTime?` 重载不接受取消令牌。取消只会停止客户端请求，不会终止已经调度的实例。
 
-要获取工作流实例的当前状态，请使用 `GetWorkflowStateAsync` 方法。此方法需要工作流的实例 ID，并返回一个包含工作流当前状态详细信息的 `WorkflowStatus` 对象。
+启用[基于名称的版本控制]({{% ref dotnet-workflow-versioning.md %}})时，创建新实例应优先使用规范名称，以便目标应用选择其最新注册的版本。
+
+## 获取工作流实例的状态
+
+`GetWorkflowStateAsync` 返回一个 **`WorkflowState`** 快照：
 
 ```csharp
-var workflowStatus = await daprWorkflowClient.GetWorkflowStateAsync(instanceId);
+var state = await client.GetWorkflowStateAsync(
+    instanceId, getInputsAndOutputs: true, cancellation: cancellationToken);
+
+if (!state.Exists)
+{
+    throw new InvalidOperationException($"Workflow {instanceId} does not exist.");
+}
+
+var status = state.RuntimeStatus;
 ```
 
-### 向正在运行的工作流实例发送事件
+| 成员 | 含义 |
+| --- | --- |
+| `Exists`、`WorkflowName` | 是否找到该实例，以及其工作流名称。 |
+| `RuntimeStatus` | 当前的 `WorkflowRuntimeStatus`，包括待处理、运行中、已挂起、终止或未知状态。 |
+| `IsWorkflowRunning` | 仅当状态为 `Running` 时为 true，待处理或已挂起的实例不包括在内。 |
+| `IsWorkflowCompleted` | 任何终止状态（已完成、已失败或已终止）均为 true。这并不代表执行成功。 |
+| `CreatedAt`、`LastUpdatedAt` | 以 `DateTimeOffset` 形式公开的 UTC 时间戳。 |
+| `FailureDetails` | 失败类型、消息，以及可用时的可选堆栈跟踪。 |
+| `ReadInputAs<T>()`、`ReadOutputAs<T>()`、`ReadCustomStatusAs<T>()` | 使用已配置的工作流序列化器反序列化已捕获的值。 |
 
-要向正在等待外部事件的运行中工作流实例发送事件，请使用 `RaiseEventAsync` 方法。此方法需要工作流的实例 ID、事件名称，以及可选的事件负载。
+轮询状态时，可设置 `getInputsAndOutputs: false`，以避免获取输入和输出数据。请让自定义状态保持精简：即使此标志为 false，SDK 仍会处理运行时返回的自定义状态。类型化读取器不会在之后补取缺失的数据。使用[数据引用]({{% ref dotnet-workflow-data-references.md %}})时，元数据读取还可能下载二进制对象。
+
+实例不存在（包括 gRPC `NotFound`）时，结果为 `Exists == false`。其他 gRPC 失败会以 `RpcException` 的形式抛出；请勿将传输层故障视为工作流不存在。能否获取失败详情取决于运行时响应中包含的数据。
+
+## 等待启动或完成
+
+`WaitForWorkflowStartAsync` 会等待，直到实例离开待处理状态。`WaitForWorkflowCompletionAsync` 会等待实例进入已完成、已失败或已终止状态。两者都返回 `WorkflowState`；若目标状态已经达到，可立即返回；若运行时报告实例不存在，则抛出 `InvalidOperationException`。
 
 ```csharp
-await daprWorkflowClient.RaiseEventAsync(instanceId, "Approval", true);
+using var timeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+timeout.CancelAfter(TimeSpan.FromMinutes(10));
+
+var finalState = await client.WaitForWorkflowCompletionAsync(
+    instanceId, getInputsAndOutputs: true, cancellation: timeout.Token);
+
+if (finalState.RuntimeStatus != WorkflowRuntimeStatus.Completed)
+{
+    throw new InvalidOperationException(
+        $"Workflow ended with {finalState.RuntimeStatus}: {finalState.FailureDetails?.ErrorMessage}");
+}
+
+var result = finalState.ReadOutputAs<string>();
 ```
 
-### 暂停正在运行的工作流实例
+等待操作会以退避方式重试 gRPC `Unavailable` 和 `DeadlineExceeded`，直到成功或调用方取消。务必设置与应用相适应的取消时间或截止时间：永不结束的工作流可能永远不会完成。取消等待并不会取消工作流本身。
 
-可以使用 `SuspendWorkflowAsync` 方法暂停正在运行的工作流实例。此方法需要工作流的实例 ID。你可以选择性地提供暂停工作流的原因。
+## 向正在运行的工作流实例发送事件
 
 ```csharp
-await daprWorkflowClient.SuspendWorkflowAsync(instanceId);
+await client.RaiseEventAsync(instanceId, "Approval", true, cancellation: cancellationToken);
 ```
 
-### 恢复已暂停的工作流实例
+工作流通过 `WaitForExternalEventAsync<T>("Approval")` 接收该值。事件可以在工作流开始等待之前被缓冲。提交操作并不确认应用已处理该事件；对于缺失或已完成的目标，请勿依赖此调用来确认事件已被消费。
 
-可以使用 `ResumeWorkflowAsync` 方法恢复已暂停的工作流实例。此方法需要工作流的实例 ID。你可以选择性地提供恢复工作流的原因。
+## 挂起正在运行的工作流实例
 
 ```csharp
-await daprWorkflowClient.ResumeWorkflowAsync(instanceId);
+await client.SuspendWorkflowAsync(instanceId, reason: "Manual review", cancellation: cancellationToken);
 ```
 
-### 终止工作流实例
+挂起会暂停工作流的推进，直到恢复为止；它并不会取消活动中外部的副作用。
 
-要终止工作流实例，请使用 `TerminateWorkflowAsync` 方法。此方法需要工作流的实例 ID。你可以选择性地提供一个 `string` 类型的 `output` 参数。终止工作流实例也会终止所有子工作流实例，但对正在执行的活动没有影响。
+## 恢复已挂起的工作流实例
 
 ```csharp
-await daprWorkflowClient.TerminateWorkflowAsync(instanceId);
+await client.ResumeWorkflowAsync(instanceId, reason: "Review complete", cancellation: cancellationToken);
 ```
 
-### 清除工作流实例
-
-要从 Dapr Workflow 状态存储中删除工作流实例历史记录，请使用 `PurgeWorkflowAsync` 方法。此方法需要工作流的实例 ID。只有已完成、失败或已终止的工作流实例才能被清除。
+## 终止工作流实例
 
 ```csharp
-await daprWorkflowClient.PurgeWorkflowAsync(instanceId);
+await client.TerminateWorkflowAsync(
+    instanceId, output: new { Reason = "Canceled by operator" }, cancellation: cancellationToken);
 ```
+
+`output` 是一个可选的可序列化**对象**，而不仅仅是字符串。该请求会递归终止子工作流，但不会停止正在执行的活动，也不会终止独立的分离工作流。请求完成并不意味着所有受影响的工作流都已完成状态切换；请查询或等待其最终状态。
+
+## 清除工作流实例
+
+公开方法是 **`PurgeInstanceAsync`**，而不是 `PurgeWorkflowAsync`：
+
+```csharp
+bool purged = await client.PurgeInstanceAsync(instanceId, cancellation: cancellationToken);
+```
+
+只有终止状态的实例才能被清除。SDK 会请求递归删除子实例及其历史记录；布尔返回值表示运行时是否删除了任何实例。运行时错误仍会正常抛出。清除不可撤销，且不会删除二进制负载对象。请遵循[负载保留与清理指南]({{% ref dotnet-workflow-data-references.md %}}#retain-and-clean-up-payloads)。
+
+## 分页列出实例 ID
+
+`ListInstanceIdsAsync` 返回一个 `WorkflowInstancePage`，其中包含 `InstanceIds` 以及一个可选的 `ContinuationToken`。请将该令牌原样传回，以获取下一页：
+
+```csharp
+string? continuationToken = null;
+do
+{
+    var page = await client.ListInstanceIdsAsync(
+        continuationToken, pageSize: 100, cancellation: cancellationToken);
+    foreach (var id in page.InstanceIds)
+    {
+        Console.WriteLine(id);
+    }
+    continuationToken = page.ContinuationToken;
+}
+while (!string.IsNullOrEmpty(continuationToken));
+```
+
+提供 `pageSize` 时，其值必须大于零。此 API 只列出 ID，而不是完整状态；它不支持按状态、日期或名称过滤。请根据需要单独获取各实例的状态，并在大规模列出时限制请求并发数。
+
+## 查看执行历史
+
+```csharp
+var events = await client.GetInstanceHistoryAsync(instanceId, cancellation: cancellationToken);
+foreach (var historyEvent in events)
+{
+    Console.WriteLine($"{historyEvent.EventId}: {historyEvent.EventType} at {historyEvent.Timestamp:O}");
+}
+```
+
+返回的 `IReadOnlyList<WorkflowHistoryEvent>` 包含事件 ID、事件类型和时间戳。它**不会**公开原始的序列化输入和输出，也不会暴露完整的 protobuf 历史记录。事件类型可区分活动的调度、完成或失败、子工作流、定时器、事件、挂起与恢复、继续执行，以及分离工作流的创建。
+
+## 从历史事件重新运行
+
+`RerunWorkflowFromEventAsync` 会根据源历史记录和事件 ID 创建一个**新的**工作流实例。它不会重置源实例。请从历史记录中选择运行时支持的重新运行点；事件 ID 不是列表索引，并非每个事件都是有效的重新运行边界。
+
+```csharp
+using Dapr.Workflow.Client;
+
+// 选择一个重新运行点：源历史记录中第一个已调度的活动。
+var history = await client.GetInstanceHistoryAsync(instanceId, cancellationToken);
+var scheduledEvent = history.First(e => e.EventType == WorkflowHistoryEventType.TaskScheduled);
+
+var rerunId = await client.RerunWorkflowFromEventAsync(
+    sourceInstanceId: instanceId,
+    eventId: (uint)scheduledEvent.EventId,
+    options: new RerunWorkflowFromEventOptions
+    {
+        NewInstanceId = null,
+        OverwriteInput = true,
+        Input = new { Quantity = 3 }
+    },
+    cancellation: cancellationToken);
+```
+
+`eventId` 参数为 `uint` 类型，而 `WorkflowHistoryEvent.EventId` 为 `int` 类型，因此从历史记录中传入 ID 时需要进行强制转换。活动也可以通过 `WorkflowActivityContext.ScheduledEventId` 记录自身的重新运行点。省略 options 时，将保留记录的输入，并由运行时分配 ID。`NewInstanceId` 可选地指定新 ID。提供 `Input` 时请设置 `OverwriteInput = true`；否则非空输入会被拒绝。该覆盖会应用于重新运行点处的下一个活动事件，而并非对之前所有历史记录的全面替换。
+
+请保留工作流和活动的实现，以及复制历史记录所需的任何已引用负载对象。重新运行不等于补偿：此前的外部副作用依然存在，而重新执行的工作仍要求活动是幂等的。
 
 ## 后续步骤
 
-- [了解如何编写工作流和活动]({{% ref howto-author-workflow.md %}}) 
+- [使用 .NET 编写工作流和活动]({{% ref dotnet-workflow-authoring.md %}})
+- [工作流版本控制]({{% ref dotnet-workflow-versioning.md %}})
 - [试用 Dapr Workflow 快速入门]({{% ref workflow-quickstart.md %}})

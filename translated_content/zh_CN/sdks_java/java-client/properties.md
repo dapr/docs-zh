@@ -39,7 +39,7 @@ Dapr 支持两种类型的 API 令牌来保护通信：
 | 环境变量 | 描述 | 默认值 |
 |---------------------|-------------|---------|
 | `DAPR_API_TOKEN` | 用于验证**从你的应用向 Dapr 边车发起**请求的 API 令牌。当使用 `DaprClient` 时，Java SDK 会自动在请求中包含此令牌。 | `null` |
-| `APP_API_TOKEN` | 用于验证**从 Dapr 向你的应用发起**请求的 API 令牌。当设置此变量时，Dapr 在调用你的应用程序时（例如发布订阅订阅者、输入绑定或任务触发器），会在 `dapr-api-token` 请求头/元数据中包含此令牌。你的应用程序必须验证此令牌。 | `null` |
+| `APP_API_TOKEN` | 用于验证**从 Dapr 向你的应用发起**请求的 API 令牌。当设置此变量时，Dapr 在调用你的应用程序时（例如发布订阅订阅者、输入绑定或作业触发器），会在 `dapr-api-token` 请求头/元数据中包含此令牌。你的应用程序必须验证此令牌。 | `null` |
 
 有关实现示例，请参阅 [App API Token Authentication]({{% ref "java-client#app-api-token-authentication" %}})。更多详情请参阅 [Dapr API token authentication](https://docs.dapr.io/operations/security/api-token/)。
 
@@ -65,12 +65,20 @@ Dapr 支持两种类型的 API 令牌来保护通信：
 | `DAPR_GRPC_KEEP_ALIVE_TIMEOUT_SECONDS` | gRPC keepalive 超时（秒） | `5` |
 | `DAPR_GRPC_KEEP_ALIVE_WITHOUT_CALLS` | 是否在没有调用时保持 gRPC 连接存活 | `true` |
 
+#### 工作流 Keepalive 设置
+工作流运行时运行期间，SDK 会以固定间隔调用边车的 `Hello` RPC，以便不把 HTTP/2 PING 帧视为活动的负载均衡器（例如 AWS Application Load Balancer）不会关闭空闲的工作项流：
+
+| 环境变量 | 描述 | 默认值 |
+|---------------------|-------------|---------|
+| `DAPR_WORKFLOWS_RUNTIME_APP_KEEP_ALIVE_ENABLED` | 工作流运行时是否发送 keepalive `Hello` 调用 | `true` |
+| `DAPR_WORKFLOWS_APP_KEEP_ALIVE_INTERVAL_SECONDS` | keepalive `Hello` 调用之间的间隔（秒） | `30` |
+
 #### 入站消息设置
 使用以下环境变量配置 gRPC 入站消息设置：
 
 | 环境变量 | 描述 | 默认值 |
 |---------------------|-------------|---------|
-| `DAPR_GRPC_MAX_INBOUND_MESSAGE_SIZE_BYTES` | Dapr 的 gRPC 最大入站消息大小（字节）。此值设置应用程序可以接收的 gRPC 消息的最大大小	| `4194304` |
+| `DAPR_GRPC_MAX_INBOUND_MESSAGE_SIZE_BYTES` | Dapr 的 gRPC 最大入站消息大小（字节）。此值设置应用程序可接收的 gRPC 消息的最大大小 | `4194304` |
 | `DAPR_GRPC_MAX_INBOUND_METADATA_SIZE_BYTES` | Dapr 的 gRPC 最大入站元数据大小（字节） | `8192` |
 
 ### HTTP 客户端配置
@@ -116,6 +124,8 @@ Dapr 支持两种类型的 API 令牌来保护通信：
 | `dapr.grpc.keep.alive.time.seconds` | gRPC keepalive 时间（秒） | `10` |
 | `dapr.grpc.keep.alive.timeout.seconds` | gRPC keepalive 超时（秒） | `5` |
 | `dapr.grpc.keep.alive.without.calls` | 是否在没有调用时保持 gRPC 连接存活 | `true` |
+| `dapr.workflows.runtime.app.keep.alive.enabled` | 工作流运行时是否向边车发送 keepalive `Hello` 调用 | `true` |
+| `dapr.workflows.app.keep.alive.interval.seconds` | 工作流 keepalive `Hello` 调用之间的间隔（秒） | `30` |
 | `dapr.http.endpoint` | 远程边车的 HTTP 端点 | `null` |
 | `dapr.api.maxRetries` | API 调用的最大重试次数 | `0` |
 | `dapr.api.timeoutMilliseconds` | API 调用的超时时间（毫秒） | `0` |

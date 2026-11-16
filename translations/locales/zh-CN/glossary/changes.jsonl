@@ -348,3 +348,79 @@
 {"ts":"2026-11-16T20:27:13.403Z","run":"20261116-2011","op":"bump","id":"source-generator","occurrences":2,"version":124,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflowclient-usage.md"}
 {"ts":"2026-11-16T20:27:13.403Z","run":"20261116-2011","op":"reject","id":"replay-safe-logger","target":"重放安全日志记录器","reason":"not-in-source: the term does not occur in the document's prose","version":124,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflowclient-usage.md"}
 {"ts":"2026-11-16T20:27:13.403Z","run":"20261116-2011","op":"add","id":"name-based-workflow-versioning","target":"基于名称的工作流版本控制","version":124,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflowclient-usage.md"}
+{"ts":"2026-11-16T20:44:54.867Z","run":"20261116-2040","op":"add","id":"dapr-server","kind":"doNotTranslate","version":125,"doc":"sdks_js/js-server/_index.md"}
+{"ts":"2026-11-16T20:44:57.580Z","run":"20261116-2040","op":"add","id":"testcontainers","kind":"doNotTranslate","version":126,"doc":"sdks_dotnet/_index.md"}
+{"ts":"2026-11-16T20:44:57.580Z","run":"20261116-2040","op":"add","id":"a2a","kind":"doNotTranslate","version":126,"doc":"sdks_dotnet/_index.md"}
+{"ts":"2026-11-16T20:44:57.580Z","run":"20261116-2040","op":"add","id":"streaming-pull","target":"流式拉取","version":126,"doc":"sdks_dotnet/_index.md"}
+{"ts":"2026-11-16T20:44:57.580Z","run":"20261116-2040","op":"add","id":"embeddings","target":"嵌入向量","version":126,"doc":"sdks_dotnet/_index.md"}
+{"ts":"2026-11-16T20:44:57.801Z","run":"20261116-2040","op":"add","id":"keepalive","kind":"doNotTranslate","version":127,"doc":"sdks_java/java-client/properties.md"}
+{"ts":"2026-11-16T20:44:57.801Z","run":"20261116-2040","op":"add","id":"aws-application-load-balancer","kind":"doNotTranslate","version":127,"doc":"sdks_java/java-client/properties.md"}
+{"ts":"2026-11-16T20:45:41.088Z","run":"20261116-2040","op":"add","id":"analyzer","target":"分析器","version":128,"doc":"sdks_dotnet/dotnet-jobs/dotnet-jobs-howto.md"}
+{"ts":"2026-11-16T20:45:41.349Z","run":"20261116-2040","op":"reject","id":"worker","target":"worker","reason":"untranslated: the rendering equals the source (use do-not-translate)","version":128,"doc":"sdks_python/python-sdk-extensions/python-workflow-ext/python-workflow.md"}
+{"ts":"2026-11-16T20:45:43.642Z","run":"20261116-2040","op":"add","id":"name-based-versioning","target":"基于名称的版本控制","version":129,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-management-methods.md"}
+{"ts":"2026-11-16T20:45:43.642Z","run":"20261116-2040","op":"reject","id":"data-references","target":"数据引用","reason":"generic: made only of ordinary words","version":129,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-management-methods.md"}
+{"ts":"2026-11-16T20:45:45.762Z","run":"20261116-2040","op":"add","id":"conversation-component","target":"对话组件","version":130,"doc":"sdks_dotnet/dotnet-ai/dotnet-ai-conversation-usage.md"}
+{"ts":"2026-11-16T20:45:45.762Z","run":"20261116-2040","op":"add","id":"ai-client","target":"AI 客户端","version":130,"doc":"sdks_dotnet/dotnet-ai/dotnet-ai-conversation-usage.md"}
+{"ts":"2026-11-16T20:45:45.994Z","run":"20261116-2040","op":"add","id":"canonical-name","target":"规范名称","version":131,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-versioning.md"}
+{"ts":"2026-11-16T20:45:45.994Z","run":"20261116-2040","op":"add","id":"versioning-strategy","target":"版本策略","version":131,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-versioning.md"}
+{"ts":"2026-11-16T20:49:44.907Z","run":"20261116-2040","op":"add","id":"outbound-channel","target":"出站通道","version":132,"doc":"sdks_dotnet/dotnet-client/_index.md"}
+{"ts":"2026-11-16T20:49:45.137Z","run":"20261116-2040","op":"add","id":"task-execution-key","target":"任务执行键","version":133,"doc":"sdks_java/java-workflow/java-workflow-howto.md"}
+{"ts":"2026-11-16T20:49:45.137Z","run":"20261116-2040","op":"add","id":"history-cache","target":"历史缓存","version":133,"doc":"sdks_java/java-workflow/java-workflow-howto.md"}
+{"ts":"2026-11-16T20:50:21.008Z","run":"20261116-2040","op":"add","id":"native-aot","kind":"doNotTranslate","version":134,"doc":"sdks_dotnet/dotnet-messaging/dotnet-messaging-pubsub-usage.md"}
+{"ts":"2026-11-16T20:50:59.666Z","run":"20261116-2040","op":"add","id":"dapr-api-token","target":"Dapr API 令牌","version":135,"doc":"sdks_js/js-client/_index.md"}
+{"ts":"2026-11-16T20:50:59.666Z","run":"20261116-2040","op":"add","id":"connectrpc","kind":"doNotTranslate","version":135,"doc":"sdks_js/js-client/_index.md"}
+{"ts":"2026-11-16T20:50:59.900Z","run":"20261116-2040","op":"bump","id":"dapr-api-token","occurrences":2,"version":136,"doc":"sdks_python/python-client.md"}
+{"ts":"2026-11-16T20:52:10.474Z","run":"20261116-2040","op":"add","id":"data-contract-serializer","kind":"doNotTranslate","version":137,"doc":"sdks_dotnet/dotnet-actors/dotnet-actors-serialization.md"}
+{"ts":"2026-11-16T20:52:10.750Z","run":"20261116-2040","op":"add","id":"workflow-instance","target":"工作流实例","version":138,"doc":"sdks_go/go-client/_index.md"}
+{"ts":"2026-11-16T20:52:10.750Z","run":"20261116-2040","op":"add","id":"history-event","target":"历史事件","version":138,"doc":"sdks_go/go-client/_index.md"}
+{"ts":"2026-11-16T20:52:10.750Z","run":"20261116-2040","op":"add","id":"continuation-token","target":"延续令牌","version":138,"doc":"sdks_go/go-client/_index.md"}
+{"ts":"2026-11-16T20:52:10.750Z","run":"20261116-2040","op":"reject","id":"grpc","target":"gRPC","reason":"identifier: looks like a path, flag or code symbol","version":138,"doc":"sdks_go/go-client/_index.md"}
+{"ts":"2026-11-16T20:54:37.078Z","run":"20261116-2040","op":"add","id":"alpha","target":"Alpha 阶段","version":139,"doc":"docs/developing-applications/building-blocks/binarystore/binarystore-overview.md"}
+{"ts":"2026-11-16T20:55:22.464Z","run":"20261116-2040","op":"add","id":"dispatch","target":"派发","version":140,"doc":"docs/developing-applications/building-blocks/workflow/workflow-payload-size.md"}
+{"ts":"2026-11-16T20:55:22.464Z","run":"20261116-2040","op":"add","id":"orchestrator","target":"编排器","version":140,"doc":"docs/developing-applications/building-blocks/workflow/workflow-payload-size.md"}
+{"ts":"2026-11-16T20:56:31.821Z","run":"20261116-2040","op":"add","id":"app-api-token-authentication","target":"App API 令牌认证","version":141,"doc":"sdks_java/java-client/_index.md"}
+{"ts":"2026-11-16T20:56:33.922Z","run":"20261116-2040","op":"add","id":"app-initiated-stream","target":"应用发起的流","version":142,"doc":"docs/developing-applications/building-blocks/actors/actors-app-initiated-streams.md"}
+{"ts":"2026-11-16T20:56:34.147Z","run":"20261116-2040","op":"add","id":"fire-and-forget","target":"即发即忘","version":143,"doc":"docs/developing-applications/building-blocks/workflow/workflow-detached.md"}
+{"ts":"2026-11-16T20:56:36.356Z","run":"20261116-2040","op":"bump","id":"reminder","occurrences":2,"version":144,"doc":"docs/developing-applications/building-blocks/actors/howto-actors-app-initiated-streams.md"}
+{"ts":"2026-11-16T20:56:36.593Z","run":"20261116-2040","op":"add","id":"collection","target":"集合","version":145,"doc":"docs/developing-applications/building-blocks/vector/howto-vector.md"}
+{"ts":"2026-11-16T20:56:36.593Z","run":"20261116-2040","op":"add","id":"record","target":"记录","version":145,"doc":"docs/developing-applications/building-blocks/vector/howto-vector.md"}
+{"ts":"2026-11-16T20:56:36.593Z","run":"20261116-2040","op":"add","id":"payload","target":"负载","version":145,"doc":"docs/developing-applications/building-blocks/vector/howto-vector.md"}
+{"ts":"2026-11-16T20:56:36.593Z","run":"20261116-2040","op":"add","id":"metadata","target":"元数据","version":145,"doc":"docs/developing-applications/building-blocks/vector/howto-vector.md"}
+{"ts":"2026-11-16T20:59:04.747Z","run":"20261116-2040","op":"add","id":"chain-of-custody","target":"保管链","version":146,"doc":"docs/developing-applications/building-blocks/workflow/workflow-history-propagation.md"}
+{"ts":"2026-11-16T20:59:04.747Z","run":"20261116-2040","op":"add","id":"ancestor-chain","target":"祖先链","version":146,"doc":"docs/developing-applications/building-blocks/workflow/workflow-history-propagation.md"}
+{"ts":"2026-11-16T20:59:04.747Z","run":"20261116-2040","op":"add","id":"propagation-scope","target":"传播范围","version":146,"doc":"docs/developing-applications/building-blocks/workflow/workflow-history-propagation.md"}
+{"ts":"2026-11-16T20:59:04.989Z","run":"20261116-2040","op":"reject","id":"stateful-workflow-client","target":"有状态工作流客户端","reason":"title: the document's own title is not a term","version":147,"doc":"docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md"}
+{"ts":"2026-11-16T20:59:04.989Z","run":"20261116-2040","op":"add","id":"watermark","target":"水位线","version":147,"doc":"docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md"}
+{"ts":"2026-11-16T20:59:04.989Z","run":"20261116-2040","op":"add","id":"rendezvous-hashing","target":"会合哈希","version":147,"doc":"docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md"}
+{"ts":"2026-11-16T20:59:04.989Z","run":"20261116-2040","op":"reject","id":"cold-start","target":"冷启动","reason":"not-in-source: the term does not occur in the document's prose","version":147,"doc":"docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md"}
+{"ts":"2026-11-16T21:00:17.685Z","run":"20261116-2040","op":"collision","id":"managed-identities","target":"托管标识","with":"managed-identity","version":147,"doc":"docs/integrations/Azure/azure-authentication/_index.md"}
+{"ts":"2026-11-16T21:01:34.762Z","run":"20261116-2040","op":"add","id":"provider-native-query","target":"提供方原生查询","version":148,"doc":"docs/developing-applications/building-blocks/search/howto-search.md"}
+{"ts":"2026-11-16T21:01:34.762Z","run":"20261116-2040","op":"add","id":"portable-request","target":"可移植请求","version":148,"doc":"docs/developing-applications/building-blocks/search/howto-search.md"}
+{"ts":"2026-11-16T21:01:34.762Z","run":"20261116-2040","op":"add","id":"search-component","target":"搜索组件","version":148,"doc":"docs/developing-applications/building-blocks/search/howto-search.md"}
+{"ts":"2026-11-16T21:01:35.030Z","run":"20261116-2040","op":"add","id":"execution-claim-record","target":"执行认领记录","version":149,"doc":"docs/developing-applications/building-blocks/workflow/workflow-fast-path.md"}
+{"ts":"2026-11-16T21:01:35.030Z","run":"20261116-2040","op":"add","id":"completion-folding","target":"完成折叠","version":149,"doc":"docs/developing-applications/building-blocks/workflow/workflow-fast-path.md"}
+{"ts":"2026-11-16T21:01:35.030Z","run":"20261116-2040","op":"add","id":"local-wake","target":"本地唤醒","version":149,"doc":"docs/developing-applications/building-blocks/workflow/workflow-fast-path.md"}
+{"ts":"2026-11-16T21:01:35.030Z","run":"20261116-2040","op":"add","id":"local-activity-drive","target":"本地活动驱动","version":149,"doc":"docs/developing-applications/building-blocks/workflow/workflow-fast-path.md"}
+{"ts":"2026-11-16T21:01:35.030Z","run":"20261116-2040","op":"add","id":"janitor-backstop","target":"janitor 兜底","version":149,"doc":"docs/developing-applications/building-blocks/workflow/workflow-fast-path.md"}
+{"ts":"2026-11-16T21:01:35.030Z","run":"20261116-2040","op":"add","id":"turn","target":"轮次","version":149,"doc":"docs/developing-applications/building-blocks/workflow/workflow-fast-path.md"}
+{"ts":"2026-11-16T21:01:35.030Z","run":"20261116-2040","op":"add","id":"heartbeat","target":"心跳","version":149,"doc":"docs/developing-applications/building-blocks/workflow/workflow-fast-path.md"}
+{"ts":"2026-11-16T21:01:35.030Z","run":"20261116-2040","op":"add","id":"fan-in","target":"扇入","version":149,"doc":"docs/developing-applications/building-blocks/workflow/workflow-fast-path.md"}
+{"ts":"2026-11-16T21:01:35.030Z","run":"20261116-2040","op":"add","id":"fan-out","target":"扇出","version":149,"doc":"docs/developing-applications/building-blocks/workflow/workflow-fast-path.md"}
+{"ts":"2026-11-16T21:02:48.137Z","run":"20261116-2040","op":"add","id":"azure-api-management","kind":"doNotTranslate","version":150,"doc":"docs/integrations/Azure/azure-api-management.md"}
+{"ts":"2026-11-16T21:02:48.479Z","run":"20261116-2040","op":"add","id":"kratix","kind":"doNotTranslate","version":151,"doc":"docs/integrations/kratix-marketplace.md"}
+{"ts":"2026-11-16T21:02:48.479Z","run":"20261116-2040","op":"add","id":"promise","kind":"doNotTranslate","version":151,"doc":"docs/integrations/kratix-marketplace.md"}
+{"ts":"2026-11-16T21:04:36.293Z","run":"20261116-2040","op":"add","id":"aks-dapr-extension","target":"AKS Dapr 扩展","version":152,"doc":"docs/integrations/Azure/azure-kubernetes-service-extension.md"}
+{"ts":"2026-11-16T21:04:36.536Z","run":"20261116-2040","op":"reject","id":"dapr-support","target":"Dapr Support","reason":"title: the document's own title is not a term","version":152,"doc":"docs/integrations/Diagrid/dapr-support.md"}
+{"ts":"2026-11-16T21:04:36.536Z","run":"20261116-2040","op":"reject","id":"diagrid-dapr-distribution-for-enterprise","target":"Diagrid Dapr Distribution for Enterprise","reason":"too-long: a sentence fragment, not a term","version":152,"doc":"docs/integrations/Diagrid/dapr-support.md"}
+{"ts":"2026-11-16T21:08:09.381Z","run":"20261116-2040","op":"add","id":"verifiable-execution","target":"可验证执行","version":153,"doc":"docs/integrations/Diagrid/diagrid-platform.md"}
+{"ts":"2026-11-16T21:08:09.381Z","run":"20261116-2040","op":"add","id":"zero-trust-security","target":"零信任安全","version":153,"doc":"docs/integrations/Diagrid/diagrid-platform.md"}
+{"ts":"2026-11-16T21:08:09.381Z","run":"20261116-2040","op":"add","id":"diagrid-cloud","kind":"doNotTranslate","version":153,"doc":"docs/integrations/Diagrid/diagrid-platform.md"}
+{"ts":"2026-11-16T21:08:09.381Z","run":"20261116-2040","op":"add","id":"dedicated-cloud","kind":"doNotTranslate","version":153,"doc":"docs/integrations/Diagrid/diagrid-platform.md"}
+{"ts":"2026-11-16T21:08:09.381Z","run":"20261116-2040","op":"add","id":"byoc","kind":"doNotTranslate","version":153,"doc":"docs/integrations/Diagrid/diagrid-platform.md"}
+{"ts":"2026-11-16T21:08:09.381Z","run":"20261116-2040","op":"add","id":"enterprise-server","kind":"doNotTranslate","version":153,"doc":"docs/integrations/Diagrid/diagrid-platform.md"}
+{"ts":"2026-11-16T21:08:48.203Z","run":"20261116-2040","op":"add","id":"dapr-tool-installer","kind":"doNotTranslate","version":154,"doc":"docs/integrations/github_actions.md"}
+{"ts":"2026-11-16T21:08:50.637Z","run":"20261116-2040","op":"add","id":"in-memory-binary-store","target":"内存二进制存储","version":155,"doc":"docs/reference/components-reference/supported-binarystores/binarystore-in-memory.md"}
+{"ts":"2026-11-16T21:10:05.841Z","run":"20261116-2040","op":"add","id":"total-hits","target":"总命中数","version":156,"doc":"docs/reference/components-reference/supported-search/in-memory.md"}
+{"ts":"2026-11-16T21:10:05.841Z","run":"20261116-2040","op":"add","id":"queued-acknowledgement","target":"排队确认","version":156,"doc":"docs/reference/components-reference/supported-search/in-memory.md"}
+{"ts":"2026-11-16T21:10:06.097Z","run":"20261116-2040","op":"bump","id":"queued-acknowledgement","occurrences":2,"version":157,"doc":"docs/reference/components-reference/supported-vector/in-memory.md"}
+{"ts":"2026-11-16T21:10:06.097Z","run":"20261116-2040","op":"add","id":"distance-metric","target":"距离度量","version":157,"doc":"docs/reference/components-reference/supported-vector/in-memory.md"}

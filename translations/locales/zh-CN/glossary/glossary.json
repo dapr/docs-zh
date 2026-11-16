@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 124,
-  "updatedAt": "2026-11-16T20:27:13.403Z",
+  "version": 157,
+  "updatedAt": "2026-11-16T21:10:06.097Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -686,6 +686,102 @@
       "note": "Dapr AI .NET SDK（包名 Dapr.AI）的产品名称，保留原文。",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "Dapr Server",
+      "note": "JavaScript SDK 中的服务端组件名称，译文保留英文原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Testcontainers",
+      "note": "第三方测试库名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "A2A",
+      "note": "agent-to-agent 框架名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "keepalive",
+      "note": "gRPC 保活机制术语，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "AWS Application Load Balancer",
+      "note": "云产品名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Native AOT",
+      "note": "保留英文，指 .NET 原生 AOT 编译",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "ConnectRPC",
+      "note": "gRPC ConnectRPC 传输名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Data Contract Serializer",
+      "note": "强类型 Actor 客户端使用的 .NET 序列化引擎名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure API Management",
+      "note": "Azure 产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Kratix",
+      "note": "Kratix 平台名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Promise",
+      "note": "Kratix 中的 Promise 概念名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Diagrid Cloud",
+      "note": "Diagrid 产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dedicated Cloud",
+      "note": "Diagrid 产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "BYOC",
+      "note": "Diagrid 部署模式名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Enterprise Server",
+      "note": "Diagrid 产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr tool installer",
+      "note": "GitHub Marketplace 中的 Dapr 安装程序名称，保留原文。",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
@@ -850,6 +946,26 @@
       "conflicts": []
     },
     {
+      "id": "ai-client",
+      "source": "AI client",
+      "target": "AI 客户端",
+      "alt": [],
+      "note": "Dapr AI 客户端包的功能名（AI client），用于标题与导航名称。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-ai/dotnet-ai-conversation-usage.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-ai/dotnet-ai-conversation-usage.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "airgap",
       "source": "airgap",
       "target": "隔离",
@@ -870,6 +986,26 @@
       "conflicts": []
     },
     {
+      "id": "aks-dapr-extension",
+      "source": "AKS Dapr extension",
+      "target": "AKS Dapr 扩展",
+      "alt": [],
+      "note": "Azure Kubernetes Service 上的 Dapr 扩展产品名称，正文与标题统一用此译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/integrations/Azure/azure-kubernetes-service-extension.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/integrations/Azure/azure-kubernetes-service-extension.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "allowlist",
       "source": "allowlist",
       "target": "允许列表",
@@ -886,6 +1022,106 @@
       "lastSeen": {
         "doc": "docs/operations/configuration/api-allowlist.md",
         "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "alpha",
+      "source": "alpha",
+      "target": "Alpha 阶段",
+      "alt": [],
+      "note": "Dapr API 生命周期阶段名称，用于链接文字 [alpha]（组件认证生命周期页面）",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/binarystore/binarystore-overview.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/binarystore/binarystore-overview.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "analyzer",
+      "source": "analyzer",
+      "target": "分析器",
+      "alt": [],
+      "note": "Dapr.Jobs.Analyzers 包中的 Roslyn analyzer 译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-jobs/dotnet-jobs-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-jobs/dotnet-jobs-howto.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "ancestor-chain",
+      "source": "ancestor chain",
+      "target": "祖先链",
+      "alt": [],
+      "note": "调用方从其父工作流继承而来的、按执行顺序排列的工作流链。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-history-propagation.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-history-propagation.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "app-api-token-authentication",
+      "source": "App API Token Authentication",
+      "target": "App API 令牌认证",
+      "alt": [],
+      "note": "Dapr App API 令牌认证功能名称，正文与链接文字中使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_java/java-client/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_java/java-client/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "app-initiated-stream",
+      "source": "app-initiated stream",
+      "target": "应用发起的流",
+      "alt": [],
+      "note": "Actor 回调的应用发起 gRPC 流（SubscribeActorEventsAlpha1），标题与正文统一使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-app-initiated-streams.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/actors/actors-app-initiated-streams.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -1090,6 +1326,26 @@
       "conflicts": []
     },
     {
+      "id": "canonical-name",
+      "source": "canonical name",
+      "target": "规范名称",
+      "alt": [],
+      "note": "工作流版本控制中由 [WorkflowVersion] 指定或从类型推导出的 canonical name 的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-versioning.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-versioning.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "cardinality",
       "source": "cardinality",
       "target": "基数",
@@ -1106,6 +1362,26 @@
       "lastSeen": {
         "doc": "docs/operations/observability/metrics/metrics-overview.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "chain-of-custody",
+      "source": "chain-of-custody",
+      "target": "保管链",
+      "alt": [],
+      "note": "工作流历史传播的主要用例之一：保证上游步骤可追溯、可核实。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-history-propagation.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-history-propagation.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -1150,6 +1426,26 @@
       "conflicts": []
     },
     {
+      "id": "collection",
+      "source": "collection",
+      "target": "集合",
+      "alt": [],
+      "note": "Dapr 向量 API 中的集合（collection）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "competing-consumer-pattern",
       "source": "competing consumer pattern",
       "target": "竞争消费者模式",
@@ -1166,6 +1462,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/distributed-lock/distributed-lock-api-overview.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "completion-folding",
+      "source": "completion folding",
+      "target": "完成折叠",
+      "alt": [],
+      "note": "活动完成先暂存在内存中，并随下一次轮次的单次状态提交一并持久化的优化（快速路径第 3 段）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -1390,6 +1706,26 @@
       "conflicts": []
     },
     {
+      "id": "continuation-token",
+      "source": "continuation token",
+      "target": "延续令牌",
+      "alt": [],
+      "note": "分页列表接口返回的续页令牌。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_go/go-client/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_go/go-client/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "continue-as-new",
       "source": "continue as new",
       "target": "继续作为新",
@@ -1490,6 +1826,26 @@
       "conflicts": []
     },
     {
+      "id": "conversation-component",
+      "source": "conversation component",
+      "target": "对话组件",
+      "alt": [],
+      "note": "Dapr 对话 API 中由 ConversationOptions 指定的后端组件（conversation component）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-ai/dotnet-ai-conversation-usage.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-ai/dotnet-ai-conversation-usage.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "cryptographic-engine",
       "source": "cryptographic engine",
       "target": "加密引擎",
@@ -1546,6 +1902,26 @@
       "lastSeen": {
         "doc": "docs/getting-started/quickstarts/cryptography-quickstart.md",
         "run": "20261116-1020"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "dapr-api-token",
+      "source": "Dapr API Token",
+      "target": "Dapr API 令牌",
+      "alt": [],
+      "note": "Dapr 的 API 令牌认证功能名称，出现在环境变量一节的标题中。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 2,
+      "firstSeen": {
+        "doc": "sdks_js/js-client/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_python/python-client.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -1750,6 +2126,46 @@
       "conflicts": []
     },
     {
+      "id": "dispatch",
+      "source": "dispatch",
+      "target": "派发",
+      "alt": [],
+      "note": "Dapr 工作流引擎把工作项（WorkflowRequest / ActivityRequest）经 GetWorkItems 流发送给 SDK 的过程。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-payload-size.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-payload-size.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "distance-metric",
+      "source": "distance metric",
+      "target": "距离度量",
+      "alt": [],
+      "note": "向量集合的相似度计算方式（余弦、点积、欧氏距离）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-vector/in-memory.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-vector/in-memory.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "distributed-lock",
       "source": "distributed lock",
       "target": "分布式锁",
@@ -1830,6 +2246,26 @@
       "conflicts": []
     },
     {
+      "id": "embeddings",
+      "source": "embeddings",
+      "target": "嵌入向量",
+      "alt": [],
+      "note": "Dapr.Vector 包描述中的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "error-model",
       "source": "error model",
       "target": "错误模型",
@@ -1870,6 +2306,26 @@
       "conflicts": []
     },
     {
+      "id": "execution-claim-record",
+      "source": "execution claim record",
+      "target": "执行认领记录",
+      "alt": [],
+      "note": "快速路径在放置变化时写入的 execution-claim 记录，用于判断上一个所有者的活动执行是否仍然存活。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "failure-policy",
       "source": "failure policy",
       "target": "失败策略",
@@ -1886,6 +2342,46 @@
       "lastSeen": {
         "doc": "docs/reference/api/jobs_api.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "fan-in",
+      "source": "fan-in",
+      "target": "扇入",
+      "alt": [],
+      "note": "多个活动完成汇聚到同一工作流的模式，快速路径会将最多 128 个完成折叠为一次提交。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "fan-out",
+      "source": "fan-out",
+      "target": "扇出",
+      "alt": [],
+      "note": "工作流同时调度多个活动的模式。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -1926,6 +2422,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-multi-app.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "fire-and-forget",
+      "source": "fire-and-forget",
+      "target": "即发即忘",
+      "alt": [],
+      "note": "分离工作流（detached workflow）的即发即忘语义；正文首次出现时括注英文，之后统一用「即发即忘」。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-detached.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-detached.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -1986,6 +2502,66 @@
       "lastSeen": {
         "doc": "docs/developing-ai/dapr-agents/dapr-agents-patterns.md",
         "run": "20261116-2011"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "heartbeat",
+      "source": "heartbeat",
+      "target": "心跳",
+      "alt": [],
+      "note": "上一个所有者在执行期间定期刷新执行认领记录的值，新所有者据此判断其是否存活。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "history-cache",
+      "source": "history cache",
+      "target": "历史缓存",
+      "alt": [],
+      "note": "工作流 worker 内存中保存的实例历史缓存（withHistoryCache* 系列配置）",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_java/java-workflow/java-workflow-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_java/java-workflow/java-workflow-howto.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "history-event",
+      "source": "history event",
+      "target": "历史事件",
+      "alt": [],
+      "note": "工作流执行历史（history）中的事件。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_go/go-client/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_go/go-client/_index.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -2110,6 +2686,26 @@
       "conflicts": []
     },
     {
+      "id": "in-memory-binary-store",
+      "source": "In-memory Binary Store",
+      "target": "内存二进制存储",
+      "alt": [],
+      "note": "内存型二进制存储组件的名称，正文中作为组件说明的主语出现。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-binarystores/binarystore-in-memory.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-binarystores/binarystore-in-memory.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "inbox",
       "source": "inbox",
       "target": "收件箱",
@@ -2186,6 +2782,26 @@
       "lastSeen": {
         "doc": "docs/reference/api/workflow_api.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "janitor-backstop",
+      "source": "janitor backstop",
+      "target": "janitor 兜底",
+      "alt": [],
+      "note": "每个活跃工作流实例一个的重复 janitor 提醒，用于恢复丢失的唤醒与活动派发。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -2390,6 +3006,46 @@
       "conflicts": []
     },
     {
+      "id": "local-activity-drive",
+      "source": "local activity drive",
+      "target": "本地活动驱动",
+      "alt": [],
+      "note": "活动在派发到达的主机上直接运行，无需 run-activity 提醒（快速路径第 2 段）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "local-wake",
+      "source": "local wake",
+      "target": "本地唤醒",
+      "alt": [],
+      "note": "由提交事件的主机直接驱动工作流轮次，而不创建按事件的提醒（快速路径第 1 段）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "lock",
       "source": "lock",
       "target": "锁",
@@ -2530,6 +3186,26 @@
       "conflicts": []
     },
     {
+      "id": "metadata",
+      "source": "metadata",
+      "target": "元数据",
+      "alt": [],
+      "note": "记录的可过滤结构化元数据（metadata）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "middleware",
       "source": "middleware",
       "target": "中间件",
@@ -2606,6 +3282,26 @@
       "lastSeen": {
         "doc": "docs/reference/api/placement_api.md",
         "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "name-based-versioning",
+      "source": "name-based versioning",
+      "target": "基于名称的版本控制",
+      "alt": [],
+      "note": "Dapr 工作流基于名称的版本控制功能。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-management-methods.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-management-methods.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -2750,6 +3446,46 @@
       "conflicts": []
     },
     {
+      "id": "orchestrator",
+      "source": "orchestrator",
+      "target": "编排器",
+      "alt": [],
+      "note": "Dapr 工作流引擎中负责调度与派发工作项、并在派发前做大小预检查的组件。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-payload-size.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-payload-size.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "outbound-channel",
+      "source": "outbound channel",
+      "target": "出站通道",
+      "alt": [],
+      "note": "Dapr 运行时回连客户端应用程序的通道，用于机密与配置获取场景",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-client/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-client/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "outbox-pattern",
       "source": "outbox pattern",
       "target": "发件箱模式",
@@ -2826,6 +3562,26 @@
       "lastSeen": {
         "doc": "docs/operations/observability/metrics/metrics-overview.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "payload",
+      "source": "payload",
+      "target": "负载",
+      "alt": [],
+      "note": "记录的不透明负载字段（payload）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -2950,6 +3706,26 @@
       "conflicts": []
     },
     {
+      "id": "portable-request",
+      "source": "portable request",
+      "target": "可移植请求",
+      "alt": [],
+      "note": "搜索 API 中与具体提供方无关的标准请求形式。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/search/howto-search.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/search/howto-search.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "presigned-sas-url",
       "source": "presigned SAS URL",
       "target": "预签名 SAS URL",
@@ -3070,6 +3846,46 @@
       "conflicts": []
     },
     {
+      "id": "propagation-scope",
+      "source": "propagation scope",
+      "target": "传播范围",
+      "alt": [],
+      "note": "父工作流选择的传播范围，取值为 LINEAGE 或 OWN_HISTORY。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-history-propagation.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-history-propagation.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "provider-native-query",
+      "source": "provider-native query",
+      "target": "提供方原生查询",
+      "alt": [],
+      "note": "搜索 API 中由提供方（如 Meilisearch）原生语法构成的查询，与可移植的 text 查询相对。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/search/howto-search.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/search/howto-search.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "pub-sub",
       "source": "pub/sub",
       "target": "发布订阅",
@@ -3126,6 +3942,26 @@
       "lastSeen": {
         "doc": "docs/operations/support/alpha-beta-apis.md",
         "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "queued-acknowledgement",
+      "source": "queued acknowledgement",
+      "target": "排队确认",
+      "alt": [],
+      "note": "写入返回 INDEX_ACK_QUEUED 时的确认方式。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 2,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-search/in-memory.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-vector/in-memory.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -3270,6 +4106,26 @@
       "conflicts": []
     },
     {
+      "id": "record",
+      "source": "record",
+      "target": "记录",
+      "alt": [],
+      "note": "Dapr 向量 API 中的记录（record）。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "redis-lock-component",
       "source": "Redis lock component",
       "target": "Redis 锁组件",
@@ -3338,14 +4194,34 @@
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
-      "occurrences": 1,
+      "occurrences": 2,
       "firstSeen": {
         "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
         "run": "20261116-1828"
       },
       "lastSeen": {
-        "doc": "docs/developing-applications/building-blocks/actors/actors-overview.md",
-        "run": "20261116-1828"
+        "doc": "docs/developing-applications/building-blocks/actors/howto-actors-app-initiated-streams.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "rendezvous-hashing",
+      "source": "rendezvous hashing",
+      "target": "会合哈希",
+      "alt": [],
+      "note": "sidecar 用于把实例轮次路由回持有其历史的 worker 流的哈希算法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -3526,6 +4402,26 @@
       "lastSeen": {
         "doc": "docs/operations/support/alpha-beta-apis.md",
         "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "search-component",
+      "source": "search component",
+      "target": "搜索组件",
+      "alt": [],
+      "note": "Dapr 搜索构建块中的组件，如 Meilisearch 组件。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/search/howto-search.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/search/howto-search.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -4042,6 +4938,26 @@
       "conflicts": []
     },
     {
+      "id": "streaming-pull",
+      "source": "streaming pull",
+      "target": "流式拉取",
+      "alt": [],
+      "note": "Dapr.Messaging 包描述中的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/_index.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "streaming-subscription",
       "source": "streaming subscription",
       "target": "流式订阅",
@@ -4078,6 +4994,26 @@
       "lastSeen": {
         "doc": "docs/reference/api/conversation_api.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "task-execution-key",
+      "source": "task execution key",
+      "target": "任务执行键",
+      "alt": [],
+      "note": "durabletask-java 生成的任务唯一标识符，用于幂等性与状态管理",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_java/java-workflow/java-workflow-howto.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_java/java-workflow/java-workflow-howto.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -4188,6 +5124,26 @@
       ]
     },
     {
+      "id": "total-hits",
+      "source": "total hits",
+      "target": "总命中数",
+      "alt": [],
+      "note": "搜索 API 响应中的命中总数字段（totalHits）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-search/in-memory.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-search/in-memory.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "trigger-invocation",
       "source": "trigger invocation",
       "target": "触发调用",
@@ -4244,6 +5200,26 @@
       "lastSeen": {
         "doc": "docs/operations/configuration/invoke-allowlist.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "turn",
+      "source": "turn",
+      "target": "轮次",
+      "alt": [],
+      "note": "工作流从被唤醒、重放历史到提交结果的一次执行单元，与 Dapr Workflow 的 turn 概念对应。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-fast-path.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -4348,6 +5324,46 @@
       "conflicts": []
     },
     {
+      "id": "verifiable-execution",
+      "source": "verifiable execution",
+      "target": "可验证执行",
+      "alt": [],
+      "note": "Diagrid 平台的功能名称。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/integrations/Diagrid/diagrid-platform.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/integrations/Diagrid/diagrid-platform.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "versioning-strategy",
+      "source": "versioning strategy",
+      "target": "版本策略",
+      "alt": [],
+      "note": "名称版本控制中的版本策略（NumericVersionStrategy、DateVersionStrategy 等）的译法。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-versioning.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-versioning.md",
+        "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
       "id": "virtual-actor",
       "source": "virtual actor",
       "target": "虚拟 Actor",
@@ -4364,6 +5380,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/actors/actor-reentrancy.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "watermark",
+      "source": "watermark",
+      "target": "水位线",
+      "alt": [],
+      "note": "sidecar 按工作项流记录的已发送已提交事件计数。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -4424,6 +5460,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-multi-app.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "workflow-instance",
+      "source": "workflow instance",
+      "target": "工作流实例",
+      "alt": [],
+      "note": "工作流的运行实例（instance），与 instance-id 条目配套。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_go/go-client/_index.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "sdks_go/go-client/_index.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     },
@@ -4524,6 +5580,26 @@
       "lastSeen": {
         "doc": "docs/operations/hosting/kubernetes/kubernetes-upgrade.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "zero-trust-security",
+      "source": "zero-trust security",
+      "target": "零信任安全",
+      "alt": [],
+      "note": "Diagrid 平台的安全功能名称。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/integrations/Diagrid/diagrid-platform.md",
+        "run": "20261116-2040"
+      },
+      "lastSeen": {
+        "doc": "docs/integrations/Diagrid/diagrid-platform.md",
+        "run": "20261116-2040"
       },
       "conflicts": []
     }

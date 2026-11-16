@@ -10,17 +10,17 @@ description: 使用 DaprJobsClient 的基本技巧和建议
 
 `DaprJobsClient` 是 Dapr 客户端的一个专用版本，专门用于与 Dapr Jobs API 交互。它可以与 `DaprClient` 及其他 Dapr 客户端一起注册，不会有任何问题。
 
-它维护用于与 Dapr 边车通信的 TCP 套接字形式的网络资源访问，并实现 `IDisposable` 以支持资源的即时清理。
+它通过 TCP 套接字维护与 Dapr 边车通信所需的网络资源，并实现 `IDisposable`，以支持资源的及时清理。
 
-为了获得最佳性能，请创建一个单一的长生命周期 `DaprJobsClient` 实例，并在整个应用程序中提供对该共享实例的访问。`DaprJobsClient` 实例是线程安全的，旨在被共享。
+为获得最佳性能，请创建一个长生命周期的 `DaprJobsClient` 实例，并在整个应用程序中共享访问该实例。`DaprJobsClient` 实例是线程安全的，专为共享而设计。
 
-这可以通过利用依赖注入功能来辅助实现。注册方法支持注册为单例、作用域实例或瞬态（意味着每次注入时都会重新创建），但还支持注册以利用来自 `IConfiguration` 或其他注入服务的值，这在每个类中从头开始创建客户端时是不切实际的。
+依赖注入功能可以辅助实现这一点。注册方法支持以单例、作用域实例或瞬态（即每次注入时都会重新创建）的方式注册，还支持使用来自 `IConfiguration` 或其他已注入服务的值进行注册。而如果在每个类中从头创建客户端，这种做法并不现实。
 
-避免为每次操作创建一个 `DaprJobsClient` 并在操作完成时将其释放。
+请避免为每次操作创建一个 `DaprJobsClient`，并在操作完成后将其释放。
 
 ## 通过 DaprJobsClientBuilder 配置 DaprJobsClient
 
-可以通过在调用 `.Build()` 创建客户端本身之前调用 `DaprJobsClientBuilder` 类上的方法来配置 `DaprJobsClient`。每个 `DaprJobsClient` 的设置是独立的，在调用 `.Build()` 后无法更改。
+可以在调用 `.Build()` 创建客户端之前，通过调用 `DaprJobsClientBuilder` 类上的方法来配置 `DaprJobsClient`。每个 `DaprJobsClient` 的设置彼此独立，并且在调用 `.Build()` 之后无法更改。
 
 ```cs
 var daprJobsClient = new DaprJobsClientBuilder()
@@ -34,11 +34,11 @@ var daprJobsClient = new DaprJobsClientBuilder()
 - Dapr 边车的 gRPC 端点
 - 用于配置 JSON 序列化的 `JsonSerializerOptions` 对象
 - 用于配置 gRPC 的 `GrpcChannelOptions` 对象
-- 用于对边车请求进行身份验证的 API 令牌
-- 用于创建 SDK 使用的 `HttpClient` 实例的工厂方法
-- SDK 在向边车发出请求时 `HttpClient` 实例使用的超时时间
+- 用于对发送到边车的请求进行身份验证的 API 令牌
+- 用于创建 SDK 所用 `HttpClient` 实例的工厂方法
+- 向边车发出请求时，`HttpClient` 实例所使用的超时时间
 
-SDK 将读取以下环境变量来配置默认值：
+SDK 会读取以下环境变量来配置默认值：
 
 - `DAPR_HTTP_ENDPOINT`：用于查找 Dapr 边车的 HTTP 端点，例如：`https://dapr-api.mycompany.com`
 - `DAPR_GRPC_ENDPOINT`：用于查找 Dapr 边车的 gRPC 端点，例如：`https://dapr-grpc-api.mycompany.com`
@@ -48,36 +48,38 @@ SDK 将读取以下环境变量来配置默认值：
 
 ### 配置 gRPC 通道选项
 
-Dapr 使用 `CancellationToken` 进行取消依赖于 gRPC 通道选项的配置。如果您需要自己配置这些选项，请确保启用 [ThrowOperationCanceledOnCancellation 设置](https://grpc.github.io/grpc/csharp-dotnet/api/Grpc.Net.Client.GrpcChannelOptions.html#Grpc_Net_Client_GrpcChannelOptions_ThrowOperationCanceledOnCancellation)。
+Dapr 使用 `CancellationToken` 进行取消操作，这依赖于 gRPC 通道选项的配置。如果你需要自行配置这些选项，请确保启用 [ThrowOperationCanceledOnCancellation 设置](https://grpc.github.io/grpc/csharp-dotnet/api/Grpc.Net.Client.GrpcChannelOptions.html#Grpc_Net_Client_GrpcChannelOptions_ThrowOperationCanceledOnCancellation)。
 
 ```cs
 var daprJobsClient = new DaprJobsClientBuilder()
-    .UseGrpcChannelOptions(new GrpcChannelOptions { ... ThrowOperationCanceledOnCancellation = true })
+    .UseGrpcChannelOptions(new GrpcChannelOptions { ThrowOperationCanceledOnCancellation = true })
     .Build();
 ```
 
-## 在 DaprJobsClient 中使用取消操作
+## 在 `DaprJobsClient` 中使用取消
 
-`DaprJobsClient` 上的 API 执行异步操作并接受一个可选的 `CancellationToken` 参数。这遵循 .NET 可取消操作的标准实践。请注意，当取消发生时，无法保证远程端点停止处理请求，只能保证客户端已停止等待完成。
+`DaprJobsClient` 上的 API 执行异步操作，并接受一个可选的 `CancellationToken` 参数。这遵循 .NET 中可取消操作的标准做法。请注意，取消发生时，无法保证远程端点会停止处理请求，只能保证客户端已停止等待完成。
 
-当操作被取消时，它将抛出 `OperationCancelledException`。
+请为有时限要求的调用传递取消令牌。在 SDK `1.19.0` 中，调度、删除和列出操作会捕获调用方发起的取消：写入类方法可能在未确认变更的情况下就已返回，列出操作则可能返回空列表。`GetJobAsync` 在取消后可能抛出 `DaprException`。因此，不要依赖每个作业操作都会抛出 `OperationCanceledException`，也不要把被取消的调用理解为作业已创建或已删除的确认。当结果很重要时，请检查令牌，并与运行时核对结果。
 
-## 通过依赖注入配置 DaprJobsClient
+## 通过依赖注入配置 `DaprJobsClient`
 
-使用内置的扩展方法在依赖注入容器中注册 `DaprJobsClient` 可以带来以下好处：只需一次注册长生命周期服务、集中化复杂配置，并通过在可能的情况下重新使用类似的长生命周期资源（例如 `HttpClient` 实例）来提高性能。
+使用内置的扩展方法在依赖注入容器中注册 `DaprJobsClient`，可以只注册一次长生命周期服务、集中管理复杂的配置，并通过尽可能复用同样长生命周期的资源（例如 `HttpClient` 实例）来提高性能。
 
-提供了三种重载，以便开发人员为其场景配置客户端时具有最大的灵活性。如果尚未注册 `IHttpClientFactory`，每种方法都会代表您注册它，并配置 `DaprJobsClientBuilder` 在创建 `HttpClient` 实例时使用它，以便尽可能重复使用相同的实例，并避免套接字耗尽和其他问题。
+这里提供三种重载，以便开发人员根据自己的场景灵活配置客户端。每种重载在尚未注册 `IHttpClientFactory` 时都会代为注册，并使 `DaprJobsClientBuilder` 在创建 `HttpClient` 实例时使用它，从而尽量复用同一实例，避免套接字耗尽等问题。
 
-在第一种方法中，开发人员不进行任何配置，`DaprJobsClient` 使用默认设置进行配置。
+第一种方式无需开发人员进行任何配置，`DaprJobsClient` 使用默认设置。
 
 ```cs
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDaprJobsClient(); // 注册 `DaprJobsClient` 以便按需注入
+builder.Services.AddDaprJobsClient(); // 注册 `DaprJobsClient`，以便按需注入
 var app = builder.Build();
 ```
 
-有时开发人员需要使用上面详述的各种配置选项来配置创建的客户端。这是通过传入 `DaprJobsClientBuilder` 的重载来完成的，该重载公开了用于配置必要选项的方法。
+> `AddDaprJobsClient()` 还会注册 gRPC `AppCallbackAlpha` 回调服务，并为 Kestrel 配置 HTTP/1 + HTTP/2，使边车无需任何额外设置即可通过 HTTP 或 gRPC 投递作业触发事件。
+
+有时开发人员需要使用上文详述的各种配置选项来配置所创建的客户端。这可以通过一个重载来完成，该重载传入 `DaprJobsClientBuilder`，并公开用于配置所需选项的方法。
 
 ```cs
 var builder = WebApplication.CreateBuilder(args);
@@ -92,16 +94,16 @@ builder.Services.AddDaprJobsClient((_, daprJobsClientBuilder) => {
 var app = builder.Build();
 ```
 
-最后，开发人员可能需要从另一个服务检索信息以填充这些配置值。该值可能来自 `DaprClient` 实例、特定于供应商的 SDK 或某些本地服务，但只要它也在 DI 中注册，就可以通过最后一个重载注入到此配置操作中：
+最后，开发人员可能需要从其他服务获取信息来填充这些配置值。该值可能来自 `DaprClient` 实例、某个厂商专用的 SDK，或某个本地服务。只要它已在 DI 中注册，就可以通过最后一个重载注入到此配置操作中：
 
 ```cs
 var builder = WebApplication.CreateBuilder(args);
 
-// 注册一个从某处检索机密的虚构服务
+// 注册一个从某处获取机密的虚构服务
 builder.Services.AddSingleton<SecretService>();
 
 builder.Services.AddDaprJobsClient((serviceProvider, daprJobsClientBuilder) => {
-    // 从服务提供程序检索 `SecretService` 的实例
+    // 从服务提供程序中获取 `SecretService` 的实例
     var secretService = serviceProvider.GetRequiredService<SecretService>();
     var daprApiToken = secretService.GetSecret("DaprApiToken").Value;
 
@@ -114,45 +116,47 @@ var app = builder.Build();
 
 ## 理解 DaprJobsClient 上的负载序列化
 
-虽然 `DaprClient` 上有许多方法可以使用 `System.Text.Json` 序列化程序自动序列化和反序列化数据，但此 SDK 采用不同的理念。相反，相关方法接受一个可选的 `ReadOnlyMemory<byte>` 负载，这意味着序列化是留给开发人员的练习，通常不由 SDK 处理。
+虽然 `DaprClient` 上有许多方法会使用 `System.Text.Json` 序列化器自动序列化和反序列化数据，但此 SDK 采用了不同的思路。相关方法接受一个可选的 `ReadOnlyMemory<byte>` 负载，这意味着序列化由开发人员自行负责，通常不由 SDK 处理。
 
-也就是说，对于每种调度方法，都有一些辅助扩展方法可用。如果您知道要使用可 JSON 序列化的类型，可以对每种调度类型使用 `Schedule*WithPayloadAsync` 方法，该方法接受一个 `object` 作为负载，并接受一个可选的 `JsonSerializerOptions` 在序列化值时使用。为了方便起见，这将把值转换为 UTF-8 编码的字节。这是调度 Cron 表达式时的示例：
+对于可 JSON 序列化的值，请使用 `Dapr.Jobs.Extensions` 中的 `ScheduleJobWithPayloadAsync`。它接受一个 `DaprJobSchedule`、一个 `object` 类型的负载，以及可选的 `JsonSerializerOptions`。为方便起见，它会自动将该值转换为 UTF-8 编码的字节。以下是调度 Cron 表达式时的示例：
 
 ```cs
 public sealed record Doodad (string Name, int Value);
 
 //...
 var doodad = new Doodad("Thing", 100);
-await daprJobsClient.ScheduleCronJobWithPayloadAsync("myJob", "5 * * * *", doodad);
+await daprJobsClient.ScheduleJobWithPayloadAsync(
+    "myJob", DaprJobSchedule.FromExpression("5 * * * *"), doodad);
 ```
 
-同样，如果您有一个纯字符串值，可以使用同一方法的重载来序列化字符串类型的负载，将跳过 JSON 序列化步骤，并且只会编码为 UTF-8 编码的字节数组。这是调度一次性作业时的示例：
+同理，如果你有一个纯字符串值，可以使用同一方法的另一个重载来序列化字符串类型的负载。此时会跳过 JSON 序列化步骤，只将其编码为 UTF-8 字节数组。以下是调度一次性作业时的示例：
 
 ```cs
-var now = DateTime.UtcNow;
+var now = DateTimeOffset.UtcNow;
 var oneWeekFromNow = now.AddDays(7);
-await daprJobsClient.ScheduleOneTimeJobWithPayloadAsync("myOtherJob", oneWeekFromNow, "This is a test!");
+await daprJobsClient.ScheduleJobWithPayloadAsync(
+    "myOtherJob", DaprJobSchedule.FromDateTime(oneWeekFromNow), "This is a test!");
 ```
 
-处理作业调用的委托期望至少存在两个参数：
-- 一个填充了 `jobName` 的 `string`，提供被调用作业的名称
-- 一个填充了作业注册期间最初提供的字节的 `ReadOnlyMemory<byte>`
+处理作业调用的委托至少需要存在两个参数：
+- 一个 `string`，其中填充了 `jobName`，用于提供被调用作业的名称
+- 一个 `ReadOnlyMemory<byte>`，其中填充了作业注册时最初提供的字节
 
-由于负载存储为 `ReadOnlyMemory<byte>`，开发人员可以自由地序列化和反序列化，但同样包含两个辅助扩展，可以将其反序列化为 JSON 兼容类型或字符串。两种方法都假定开发人员对最初调度的作业进行了编码（可能使用了辅助序列化方法），因为这些方法不会强制字节表示它们不是的内容。
+反序列化时，请使用与调度时相同的格式。对于 JSON，请使用 `JsonSerializer.Deserialize<T>(jobPayload.Span, options)` 并配合相匹配的序列化选项；对于 UTF-8 文本，请使用 `Encoding.UTF8.GetString`。客户端不会推断负载的类型或编码。
 
 要将字节反序列化为字符串，可以使用以下辅助方法：
 ```cs
-var payloadAsString = Encoding.UTF8.GetString(jobPayload.Span); // 如果成功，则返回包含值的字符串
+var payloadAsString = Encoding.UTF8.GetString(jobPayload.Span); // 如果成功，将返回包含该值的字符串
 ```
 
 ## 错误处理
 
-如果在 SDK 和运行在 Dapr 边车上的 Jobs API 服务之间遇到问题，`DaprJobsClient` 上的方法将抛出 `DaprJobsServiceException`。如果由于通过此 SDK 向 Jobs API 服务发出的格式错误的请求而导致失败，将抛出 `DaprMalformedJobException`。在非法参数值的情况下，将抛出相应的标准异常（例如 `ArgumentOutOfRangeException` 或 `ArgumentNullException`）以及违规参数的名称。对于其他任何情况，将抛出 `DaprException`。
+`DaprJobsClient` 会将运行时或 gRPC 失败包装为 `DaprException`。无效的参数值会抛出标准异常，例如 `ArgumentOutOfRangeException` 或 `ArgumentNullException`。
 
-最常见的失败情况与以下内容相关：
+最常见的失败情况与以下方面有关：
 
 - 与 Jobs API 交互时参数格式不正确
-- 瞬态故障，例如网络问题
-- 无效数据，例如无法将值反序列化回最初未序列化的类型
+- 瞬时故障，例如网络问题
+- 无效数据，例如无法将值反序列化回最初序列化时所用的类型
 
-在任何这些情况下，您都可以通过 `.InnerException` 属性检查更多异常详细信息。
+在上述任何一种情况下，都可以通过 `.InnerException` 属性查看更多异常详情。
