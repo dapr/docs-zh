@@ -1127,7 +1127,7 @@ func FailActivity(ctx workflow.ActivityContext) (any, error) {
 
 ## 运行工作流并使用 Diagrid Dashboard 检查工作流执行
 
-通过你的 IDE 或 Dapr CLI 启动工作流应用程序（如果你想启动多个应用程序，请使用 [Dapr 多应用运行]({{%  ref multi-app-overview.md %}})；如果只启动一个应用程序，请使用常规 [Dapr run 命令](#testing-the-workflow-via-the-dapr-cli)），然后调度一个新的工作流实例。
+通过你的 IDE 或 Dapr CLI 启动工作流应用程序（如果你想启动多个应用程序，请使用 [Dapr 多应用运行]({{%  ref multi-app-overview.md %}})；如果只启动一个应用程序，请使用常规 [Dapr run 命令](#通过-dapr-cli-测试工作流)），然后调度一个新的工作流实例。
 
 使用本地 [Diagrid Dashboard](https://diagrid.ws/diagrid-dashboard-docs) 可视化和检查你的工作流状态，并深入查看详细的工作流执行历史。仪表板作为容器运行，连接到 Dapr 工作流使用的状态存储（默认情况下是本地 Redis 实例）。
 

@@ -12,7 +12,7 @@ aliases:
 要设置 Azure Key Vault secret store，需创建一个类型为 `secretstores.azure.keyvault` 的组件。
 - 请参阅 [secret store 组件指南]({{% ref "setup-secret-store.md#apply-the-configuration" %}}) 了解如何创建和应用 secret store 配置。
 - 请参阅 [引用 secret 指南]({{% ref component-secrets.md %}}) 以使用 Dapr 组件检索和使用 secret。
-- 请参阅下方的 [配置组件部分](#configure-the-component)。
+- 请参阅下方的 [配置组件部分](#配置组件)。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

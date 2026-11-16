@@ -50,8 +50,8 @@ spec:
 
 此组件支持**输出 binding**，包含以下操作：
 
-- `create`：[创建文件](#create-file)
-- `upload`：[上传文件](#upload-file)
+- `create`：[创建文件](#创建文件)
+- `upload`：[上传文件](#上传文件)
 - `get`：[获取文件](#get-file)
 - `delete`：[删除文件](#delete-file)
 - `list`：[列出文件](#list-files)

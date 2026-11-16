@@ -58,12 +58,12 @@ spec:
 | `user` | Y | Output |  用于 SMTP 服务器身份验证的用户名 | `"user"` |
 | `password` | Y | Output | 用户的密码 | `"password"` |
 | `skipTLSVerify` | N | Output | 如果设置为 true，将不会验证 SMTP 服务器的 TLS 证书。默认值为 `"false"` | `"true"`, `"false"` |
-| `emailFrom` | N | Output | 如果设置，指定发件人的电子邮件地址。参见[此处](#example-request) | `"me@example.com"` |
-| `emailTo` | N | Output | 如果设置，指定收件人的电子邮件地址。参见[此处](#example-request) | `"me@example.com"` |
-| `emailCc` | N | Output | 如果设置，指定抄送的电子邮件地址。参见[此处](#example-request) | `"me@example.com"` |
-| `emailBcc` | N | Output | 如果设置，指定密送的电子邮件地址。参见[此处](#example-request) | `"me@example.com"` |
-| `subject` | N | Output | 如果设置，指定电子邮件的主题。参见[此处](#example-request) | `"邮件主题"` |
-| `priority` | N | Output | 如果设置，指定电子邮件的优先级（X-Priority），从 1（最低）到 5（最高）（默认值：3）。参见[此处](#example-request) | `"1"` |
+| `emailFrom` | N | Output | 如果设置，指定发件人的电子邮件地址。参见[此处](#示例请求) | `"me@example.com"` |
+| `emailTo` | N | Output | 如果设置，指定收件人的电子邮件地址。参见[此处](#示例请求) | `"me@example.com"` |
+| `emailCc` | N | Output | 如果设置，指定抄送的电子邮件地址。参见[此处](#示例请求) | `"me@example.com"` |
+| `emailBcc` | N | Output | 如果设置，指定密送的电子邮件地址。参见[此处](#示例请求) | `"me@example.com"` |
+| `subject` | N | Output | 如果设置，指定电子邮件的主题。参见[此处](#示例请求) | `"邮件主题"` |
+| `priority` | N | Output | 如果设置，指定电子邮件的优先级（X-Priority），从 1（最低）到 5（最高）（默认值：3）。参见[此处](#示例请求) | `"1"` |
 
 ## 绑接支持
 

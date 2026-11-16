@@ -88,9 +88,9 @@ spec:
 
 此组件支持以下操作的**输出 binding**：
 
-- `create` : [创建文件](#create-file)
+- `create` : [创建文件](#创建文件)
 - `get` : [获取文件](#get-file)
-- `bulkGet` : [批量获取对象](#bulk-get-objects)
+- `bulkGet` : [批量获取对象](#批量获取对象)
 - `delete` : [删除文件](#delete-file)
 - `list`: [列出文件](#list-files)
 - `copy`: [复制文件](#copy-files)

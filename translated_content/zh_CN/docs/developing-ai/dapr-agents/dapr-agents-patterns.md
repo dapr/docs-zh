@@ -439,11 +439,11 @@ asyncio.run(main())
 
 持久化代理支持 Dapr Workflow 的 `RetryPolicy`，使用其 `WorkflowRetryPolicy`：
 
-- `max_attempts`: 工作流操作的最大重试次数。默认值为 1（无重试）。设置 `DAPR_API_MAX_RETRIES` 环境变量可覆盖默认值。
-- `initial_backoff_seconds`: 初始退避持续时间（秒）。默认值为 5 秒。
-- `max_backoff_seconds`: 最大退避持续时间（秒）。默认值为 30 秒。
-- `backoff_multiplier`: 指数退避的退避乘数。默认值为 1.5。
-- `retry_timeout`: 所有重试的总超时时间（秒）。
+- `max_attempts`： 工作流操作的最大重试次数。默认值为 1（无重试）。设置 `DAPR_API_MAX_RETRIES` 环境变量可覆盖默认值。
+- `initial_backoff_seconds`： 初始退避持续时间（秒）。默认值为 5 秒。
+- `max_backoff_seconds`： 最大退避持续时间（秒）。默认值为 30 秒。
+- `backoff_multiplier`： 指数退避的退避乘数。默认值为 1.5。
+- `retry_timeout`： 所有重试的总超时时间（秒）。
 
 所有字段都是可选的。可以在实例化持久化代理时传递：
 

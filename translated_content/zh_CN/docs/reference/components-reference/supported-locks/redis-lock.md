@@ -124,7 +124,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
     ```
 
 2. 运行 `kubectl get pods` 以查看 Redis 容器现在在您的集群中运行。
-3. 在您的 [redis.yaml](#component-format) 文件中添加 `redis-master:6379` 作为 `redisHost`。例如：
+3. 在您的 [redis.yaml](#组件格式) 文件中添加 `redis-master:6379` 作为 `redisHost`。例如：
     ```yaml
         metadata:
         - name: redisHost
@@ -135,7 +135,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
     - **Linux/MacOS**：运行 `kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" | base64 --decode` 并复制输出的密码。
 
-    将此密码作为 `redisPassword` 值添加到您的 [redis.yaml](#component-format) 文件中。例如：
+    将此密码作为 `redisPassword` 值添加到您的 [redis.yaml](#组件格式) 文件中。例如：
     ```yaml
         metadata:
         - name: redisPassword
@@ -160,7 +160,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 1. 将您的密钥和主机名添加到 Dapr 可以应用于您的集群的 `redis.yaml` 文件中。 
    - 如果您正在运行示例，请将主机和密钥添加到提供的 `redis.yaml` 中。 
-   - 如果您是从头开始创建项目，请按照[组件格式部分](#component-format)中的说明创建 `redis.yaml` 文件。 
+   - 如果您是从头开始创建项目，请按照[组件格式部分](#组件格式)中的说明创建 `redis.yaml` 文件。 
    
 1. 将 `redisHost` 键设置为 `[上一步中的主机名]:6379`，将 `redisPassword` 键设置为之前保存的密钥。 
    

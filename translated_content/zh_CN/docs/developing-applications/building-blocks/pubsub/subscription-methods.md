@@ -471,7 +471,7 @@ func eventHandler(e *common.TopicEvent) common.SubscriptionResponseStatus {
 如果您的应用程序不使用编程式订阅，可以禁用对 `/dapr/subscribe` 的自动 HTTP 调用以减少日志噪音。在 `dapr run` 中使用 `--disable-init-endpoints subscribe` 标志，或在 Kubernetes 中使用 `dapr.io/disable-init-endpoints: "subscribe"` 注解。[了解有关禁用初始化端点的更多信息。]({{% ref "arguments-annotations-overview#disable-init-endpoints" %}})
 {{% /alert %}}
 
-在下面的示例中，您在应用程序代码中定义上面[声明式 YAML 订阅](#declarative-subscriptions)中找到的值。
+在下面的示例中，您在应用程序代码中定义上面[声明式 YAML 订阅](#声明式订阅)中找到的值。
 
 {{< tabpane text=true >}}
 

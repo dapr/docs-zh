@@ -67,7 +67,7 @@ spec:
 | `azureClientSecret` | Y | Input | 绑定应使用此客户端 ID 来创建或更新 Event Grid 事件订阅并对传入消息进行身份验证 | `"clientSecret"` |
 | `subscriberEndpoint` | Y | Input | Event Grid 将事件（格式化为 Cloud Events）发送到的 webhook 的 HTTPS 端点。如果你不在入站时重写 URL，它的格式应为：`"https://[YOUR HOSTNAME]/<path>"`<br/>如果在本地计算机上测试，可以使用 [ngrok](https://ngrok.com) 之类的工具来创建公共端点。 | `"https://[YOUR HOSTNAME]/<path>"` |
 | `handshakePort` | Y | Input | 输入绑定在 webhook 上接收事件时监听的容器端口 | `"9000"` |
-| `scope` | Y | Input | 需要创建或更新事件订阅的资源的标识符。有关更多详细信息，请参阅[作用域部分](#scope) | `"/subscriptions/{subscriptionId}/"` |
+| `scope` | Y | Input | 需要创建或更新事件订阅的资源的标识符。有关更多详细信息，请参阅[作用域部分](#作用域) | `"/subscriptions/{subscriptionId}/"` |
 | `eventSubscriptionName` | N | Input | 事件订阅的名称。事件订阅名称的长度必须介于 3 到 64 个字符之间，并且应仅使用字母数字字符 | `"name"` |
 | `direction` | N | Input/Output | 绑定的方向 | `"input"`、`"output"`、`"input, output"` |
 

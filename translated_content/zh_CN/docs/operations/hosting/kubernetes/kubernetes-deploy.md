@@ -77,7 +77,7 @@ Dapr CLI 和 Dapr Helm chart 都会自动部署到带有 `kubernetes.io/os=linux
 
 添加 `--dev` 标志会在当前上下文的 Kubernetes 集群上初始化 Dapr，并额外部署 Redis 和 Zipkin。
 
-步骤与[从 Dapr Helm chart 安装](#install-dapr-from-an-official-dapr-helm-chart)类似，只需在 `init` 命令中添加 `--dev` 标志：
+步骤与[从 Dapr Helm chart 安装](#从官方-dapr-helm-chart-安装-dapr)类似，只需在 `init` 命令中添加 `--dev` 标志：
 
  ```bash
  dapr init -k --dev
@@ -119,7 +119,7 @@ dapr-dev-redis-replicas-2         1/1     Running   0          158m
 
 #### 从私有 Dapr Helm chart 安装 Dapr
 
-从[私有 Helm chart 安装 Dapr](#install-dapr-from-an-official-dapr-helm-chart)在以下情况下很有帮助：
+从[私有 Helm chart 安装 Dapr](#从官方-dapr-helm-chart-安装-dapr)在以下情况下很有帮助：
 - 需要对 Dapr Helm chart 进行更细粒度的控制
 - 有自定义的 Dapr 部署
 - 从由您的组织管理和维护的可信注册表中拉取 Helm chart

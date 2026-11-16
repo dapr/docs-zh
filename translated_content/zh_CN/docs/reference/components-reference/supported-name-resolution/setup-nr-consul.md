@@ -41,12 +41,12 @@ spec:
 |--------------|:--------:|-----:|:---------|----------|
 | Client | N | [*api.Config](https://pkg.go.dev/github.com/hashicorp/consul/api@v1.3.0#Config) | 配置与 Consul 代理的客户端连接。如果为空，它将使用 sdk 默认值，在这种情况下只是地址 `127.0.0.1:8500` | `10.0.4.4:8500`
 | QueryOptions | N | [*api.QueryOptions](https://pkg.go.dev/github.com/hashicorp/consul/api@v1.3.0#QueryOptions) | 配置用于解析健康服务的查询，如果为空，它将默认为 `UseCache:true` | `UseCache: false`, `Datacenter: "myDC"`
-| Checks | N | [[]*api.AgentServiceCheck](https://pkg.go.dev/github.com/hashicorp/consul/api@v1.3.0#AgentServiceCheck) | 配置注册时的健康检查。如果为空，它将默认为对 Dapr 边车健康端点的单个健康检查 | 参见[示例配置](#sample-configurations)
+| Checks | N | [[]*api.AgentServiceCheck](https://pkg.go.dev/github.com/hashicorp/consul/api@v1.3.0#AgentServiceCheck) | 配置注册时的健康检查。如果为空，它将默认为对 Dapr 边车健康端点的单个健康检查 | 参见[示例配置](#示例配置)
 | Tags | N | `[]string` | 配置注册服务时要包含的任何标签 | `- "dapr"`
 | Meta | N | `map[string]string` | 配置注册服务时要包含的任何其他元数据 | `DAPR_METRICS_PORT: "${DAPR_METRICS_PORT}"`
 | DaprPortMetaKey | N | `string` | 用于在服务解析期间从 Consul 服务元数据获取 Dapr 边车端口的键，它也将在注册期间用于在元数据中设置 Dapr 边车端口。如果为空，它将默认为 `DAPR_PORT` | `"DAPR_TO_DAPR_PORT"`
 | SelfRegister | N | `bool` | 控制 Dapr 是否将服务注册到 Consul。名称解析接口不支持"关闭时"模式，因此如果使用 Dapr 将服务注册到 Consul，请考虑这一点，因为它不会注销服务。如果为空，它将默认为 `false` | `true`
-| AdvancedRegistration | N | [*api.AgentServiceRegistration](https://pkg.go.dev/github.com/hashicorp/consul/api@v1.3.0#AgentServiceRegistration) | 通过配置完全控制服务注册。如果配置了该组件，它将忽略任何 Checks、Tags、Meta 和 SelfRegister 的配置。 | 参见[示例配置](#sample-configurations)
+| AdvancedRegistration | N | [*api.AgentServiceRegistration](https://pkg.go.dev/github.com/hashicorp/consul/api@v1.3.0#AgentServiceRegistration) | 通过配置完全控制服务注册。如果配置了该组件，它将忽略任何 Checks、Tags、Meta 和 SelfRegister 的配置。 | 参见[示例配置](#示例配置)
 
 ## 示例配置
 

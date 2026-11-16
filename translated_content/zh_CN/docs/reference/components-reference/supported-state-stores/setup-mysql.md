@@ -55,12 +55,12 @@ spec:
 
 | 字段              | 必填 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
-| `connectionString`   | Y        | 连接到 MySQL 的连接字符串。不要将 schema 添加到连接字符串中 | [非 SSL 连接](#non-ssl-connection)：`"<user>:<password>@tcp(<server>:3306)/?allowNativePasswords=true"`，[强制 SSL 连接](#enforced-ssl-connection)：  `"<user>:<password>@tcp(<server>:3306)/?allowNativePasswords=true&tls=custom"`|
+| `connectionString`   | Y        | 连接到 MySQL 的连接字符串。不要将 schema 添加到连接字符串中 | [非 SSL 连接](#非-ssl-连接)：`"<user>:<password>@tcp(<server>:3306)/?allowNativePasswords=true"`，[强制 SSL 连接](#强制-ssl-连接)：  `"<user>:<password>@tcp(<server>:3306)/?allowNativePasswords=true&tls=custom"`|
 | `schemaName`         | N        | 要使用的 schema 名称。如果 schema 不存在将创建。默认为 `"dapr_state_store"`  | `"custom_schema"`，`"dapr_schema"` |
 | `tableName`          | N        | 要使用的表名称。如果表不存在将创建。默认为 `"state"` | `"table_name"`，`"dapr_state"` |
 | `timeoutInSeconds`   | N        | 所有数据库操作的超时时间。默认为 `20` | `30` |
-| `pemPath`            | N        | 用于[强制 SSL 连接](#enforced-ssl-connection)的 PEM 文件的完整路径，如果未提供 pemContents 则必需。不能在 K8s 环境中使用 | `"/path/to/file.pem"`，`"C:\path\to\file.pem"` |
-| `pemContents`        | N        | 用于[强制 SSL 连接](#enforced-ssl-connection)的 PEM 文件内容，如果未提供 pemPath 则必需。可在 K8s 环境中使用 | `"pem value"` |
+| `pemPath`            | N        | 用于[强制 SSL 连接](#强制-ssl-连接)的 PEM 文件的完整路径，如果未提供 pemContents 则必需。不能在 K8s 环境中使用 | `"/path/to/file.pem"`，`"C:\path\to\file.pem"` |
+| `pemContents`        | N        | 用于[强制 SSL 连接](#强制-ssl-连接)的 PEM 文件内容，如果未提供 pemPath 则必需。可在 K8s 环境中使用 | `"pem value"` |
 | `cleanupIntervalInSeconds` | N | 清理过期 TTL 行的间隔（秒）。默认：`3600`（即 1 小时）。将此值设置为 <=0 将禁用定期清理。 | `1800`，`-1`
 | `actorStateStore`    | N        | 将此状态存储用于 actor。默认为 `"false"` | `"true"`，`"false"`
 

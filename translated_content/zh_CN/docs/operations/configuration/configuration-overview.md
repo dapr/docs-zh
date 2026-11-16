@@ -64,18 +64,18 @@ Dapr 边车可以通过使用 `dapr.io/config` 注解来应用特定配置。例
 
 以下菜单包含您可以设置的所有配置设置：
 
-- [追踪](#tracing)
-- [指标](#metrics)
-- [日志记录](#logging)
-- [中间件](#middleware)
+- [追踪](#追踪)
+- [指标](#指标)
+- [日志记录](#日志记录)
+- [中间件](#中间件)
 - [名称解析](#name-resolution)
-- [工作流](#workflow)
-- [限定密钥存储访问范围](#scope-secret-store-access)
-- [构建块 API 的访问控制允许列表](#access-control-allow-lists-for-building-block-apis)
-- [服务调用 API 的访问控制允许列表](#access-control-allow-lists-for-service-invocation-api)
-- [禁止使用某些组件类型](#disallow-usage-of-certain-component-types)
-- [启用预览功能](#turning-on-preview-features)
-- [边车配置示例](#example-sidecar-configuration)
+- [工作流](#工作流)
+- [限定密钥存储访问范围](#限定密钥存储访问范围)
+- [构建块 API 的访问控制允许列表](#构建块-api-的访问控制允许列表)
+- [服务调用 API 的访问控制允许列表](#服务调用-api-的访问控制允许列表)
+- [禁止使用某些组件类型](#禁止使用某些组件类型)
+- [启用预览功能](#启用预览功能)
+- [边车配置示例](#边车配置示例)
 
 #### 追踪
 
@@ -389,7 +389,7 @@ spec:
 
 Dapr 控制平面配置包含以下部分：
 
-- [`mtls`](#mtls-mutual-tls) 用于 mTLS（双向 TLS）
+- [`mtls`](#mtls双向-tls) 用于 mTLS（双向 TLS）
 
 ### mTLS（双向 TLS）
 

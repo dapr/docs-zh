@@ -50,7 +50,7 @@ Dapr 文档处理分支的方式与大多数代码仓库不同。它不使用 `m
 1. 将图表截取为高分辨率 PNG 文件，保存到 [images 文件夹](https://github.com/dapr/docs/tree/v1.14/daprdocs/static/images)。
 1. 使用概念或构建块的命名约定来命名 PNG 文件，以便它们归为一组。
    - 例如：`service-invocation-overview.png`。
-   - 有关使用 shortcode 调用图像的更多信息，请参阅下面的 [图像指南](#images)。
+   - 有关使用 shortcode 调用图像的更多信息，请参阅下面的 [图像指南](#图像)。
 1. 使用 HTML `<image>` 标签将图表添加到文档的适当部分。
 1. 在你的 PR 中，评论图表幻灯片（不是截图），以便维护者可以审核并将其添加到图表库中。
 

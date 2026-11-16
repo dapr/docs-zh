@@ -151,7 +151,7 @@ with DaprClient() as d:
 HTTP api 调用的基本端点在 `DAPR_HTTP_ENDPOINT` 环境变量中指定。
 如果未设置此变量，端点值将从 `DAPR_RUNTIME_HOST` 和 `DAPR_HTTP_PORT` 变量派生，其默认值分别为 `127.0.0.1` 和 `3500`。
 
-gRPC 调用的基本端点是用于客户端初始化的端点（[上文解释](#initialising-the-client)）。
+gRPC 调用的基本端点是用于客户端初始化的端点（[上文解释](#初始化客户端)）。
 
 
 - 有关服务调用的完整指南，请访问[如何：调用服务]({{% ref howto-invoke-discover-services.md %}})。

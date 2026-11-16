@@ -9,7 +9,7 @@ description: "如何在你的 Kubernetes 集群上调试 Dapr 边车(daprd)"
 
 ## 概述
 
-有时需要了解 Dapr 边车(daprd)的运行状态，它作为边车运行在你的应用旁边，尤其是在诊断 Dapr 应用并怀疑 Dapr 本身存在问题时。此外，你可能正在为 Kubernetes 上的 Dapr 开发新功能，并希望调试你的代码。
+有时需要了解 Dapr 边车（daprd）的运行状态，它作为边车运行在你的应用旁边，尤其是在诊断 Dapr 应用并怀疑 Dapr 本身存在问题时。此外，你可能正在为 Kubernetes 上的 Dapr 开发新功能，并希望调试你的代码。
 
 本指南介绍如何在 Kubernetes Pod 中使用内置的 Dapr 调试功能来调试 Dapr 边车。要了解如何在 Kubernetes 中查看日志和排查 Dapr 问题，请参阅[配置和查看 Dapr 日志指南]({{% ref "logs-troubleshooting.md#logs-in-kubernetes-mode" %}})
 

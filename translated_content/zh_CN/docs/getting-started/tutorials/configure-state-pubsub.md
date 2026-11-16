@@ -31,7 +31,7 @@ Dapr 可以使用任何 Redis 实例，可以是：
 {{< tabpane text=true >}}
 
 {{% tab "Self-Hosted" %}}
-在自托管环境中，Dapr CLI 会在初始化过程中自动安装 Redis。你已准备就绪！请跳转到 [下一步](#next-steps)。
+在自托管环境中，Dapr CLI 会在初始化过程中自动安装 Redis。你已准备就绪！请跳转到 [下一步](#下一步)。
 {{% /tab %}}
 
 {{% tab "Kubernetes" %}}

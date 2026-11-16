@@ -38,7 +38,7 @@ spec:
 | `development` | Y | Output | 告诉绑定使用哪个 APNs 服务。设置为 `"true"` 以使用开发服务，或设置为 `"false"` 以使用生产服务。默认值：`"true"` | `"true"` |
 | `key-id` | Y | Output | 来自 Apple Developer Portal 的私钥标识符 | `"private-key-id`" |
 | `team-id` | Y | Output | 来自 Apple Developer Portal 的组织或作者标识符 | `"team-id"` |
-| `private-key` | Y | Output| 是一个 PKCS #8 格式的私钥。私钥应存储在 secret store 中，而不是直接暴露在配置中。有关更多详细信息，请参阅[此处](#private-key) | `"pem file"` |
+| `private-key` | Y | Output| 是一个 PKCS #8 格式的私钥。私钥应存储在 secret store 中，而不是直接暴露在配置中。有关更多详细信息，请参阅[此处](#私钥) | `"pem file"` |
 
 ### 私钥
 

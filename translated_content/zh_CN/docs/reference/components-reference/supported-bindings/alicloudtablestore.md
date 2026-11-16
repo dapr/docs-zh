@@ -52,7 +52,7 @@ spec:
 
 此组件支持**输出 binding**，具有以下操作：
 
-- `create`：[创建对象](#create-object)
+- `create`：[创建对象](#创建对象)
 
 ### 创建对象
 

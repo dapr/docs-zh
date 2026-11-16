@@ -194,7 +194,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 1. 将您的密钥和主机名添加到 Dapr 可以应用到集群的 `redis.yaml` 文件中。 
    - 如果您正在运行示例，请将主机和密钥添加到提供的 `redis.yaml` 中。 
-   - 如果您是从头开始创建项目，请按照[组件格式部分](#component-format)中的说明创建 `redis.yaml` 文件。 
+   - 如果您是从头开始创建项目，请按照[组件格式部分](#组件格式)中的说明创建 `redis.yaml` 文件。 
    
 1. 将 `redisHost` 键设置为 `[上一步的主机名]:6379`，将 `redisPassword` 键设置为之前保存的密钥。 
    
@@ -331,7 +331,7 @@ docker run -p 9445:9445 --name rejson --rm redislabs/rejson:2.0.6
 {{% /tab %}}
 
 {{% tab "Kubernetes" %}}
-按照 [Redis 在 Kubernetes 中部署](#setup-redis)的说明操作，但有一个额外的细节。
+按照 [Redis 在 Kubernetes 中部署](#设置-redis)的说明操作，但有一个额外的细节。
 
 安装 Redis Helm 软件包时，提供一个指定容器镜像并启用所需模块的配置文件：
 ```bash
@@ -362,7 +362,7 @@ Azure Redis 托管服务不支持 RedisJson 模块，不能与查询一起使用
 {{% /tab %}}
 
 {{% tab "AWS" %}}
-按照 [Redis 在 AWS 中部署](#setup-redis)的说明操作。
+按照 [Redis 在 AWS 中部署](#设置-redis)的说明操作。
 {{% alert title="注意" color="primary" %}}
 对于查询支持，您需要启用 RediSearch 和 RedisJson。
 {{% /alert %}}

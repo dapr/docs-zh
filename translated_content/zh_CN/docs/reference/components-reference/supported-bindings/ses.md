@@ -54,11 +54,11 @@ spec:
 | `accessKey`          | N        | Output | 用于访问此资源的 AWS Access Key                              | `"key"`             |
 | `secretKey`          | N        | Output | 用于访问此资源的 AWS Secret Access Key                       | `"secretAccessKey"` |
 | `sessionToken`       | N        | Output | 要使用的 AWS 会话令牌                                            | `"sessionToken"`    |
-| `emailFrom` | N | Output | 如果设置，指定发件人的电子邮件地址。另请参见[示例](#example-request) | `"me@example.com"` |
-| `emailTo` | N | Output | 如果设置，指定收件人的电子邮件地址。另请参见[示例](#example-request) | `"me@example.com"` |
-| `emailCc` | N | Output | 如果设置，指定要抄送的电子邮件地址。另请参见[示例](#example-request) | `"me@example.com"` |
-| `emailBcc` | N | Output | 如果设置，指定要密送的电子邮件地址。另请参见[示例](#example-request) | `"me@example.com"` |
-| `subject` | N | Output | 如果设置，指定电子邮件的主题。另请参见[示例](#example-request) | `"subject of mail"` |
+| `emailFrom` | N | Output | 如果设置，指定发件人的电子邮件地址。另请参见[示例](#示例请求) | `"me@example.com"` |
+| `emailTo` | N | Output | 如果设置，指定收件人的电子邮件地址。另请参见[示例](#示例请求) | `"me@example.com"` |
+| `emailCc` | N | Output | 如果设置，指定要抄送的电子邮件地址。另请参见[示例](#示例请求) | `"me@example.com"` |
+| `emailBcc` | N | Output | 如果设置，指定要密送的电子邮件地址。另请参见[示例](#示例请求) | `"me@example.com"` |
+| `subject` | N | Output | 如果设置，指定电子邮件的主题。另请参见[示例](#示例请求) | `"subject of mail"` |
 
 {{% alert title="Important" color="warning" %}}
 当在 EKS（AWS Kubernetes）上与应用程序一起运行 Dapr 边车（daprd）时，如果您使用的节点/Pod 已附加到定义了 AWS 资源访问权限的 IAM 策略，则**绝不能**在正在使用的组件规范定义中提供 AWS access-key、secret-key 和令牌。  

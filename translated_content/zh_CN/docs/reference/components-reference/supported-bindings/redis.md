@@ -222,7 +222,7 @@ Dapr CLI 将自动为您创建并设置 Redis Streams 实例。
 
 1. 将您的密钥和主机名添加到 Dapr 可以应用到集群的 `redis.yaml` 文件中。 
    - 如果您正在运行示例，将主机和密钥添加到提供的 `redis.yaml` 中。 
-   - 如果您从头开始创建项目，请按照[组件格式部分](#component-format)中的说明创建 `redis.yaml` 文件。 
+   - 如果您从头开始创建项目，请按照[组件格式部分](#组件格式)中的说明创建 `redis.yaml` 文件。 
    
 1. 将 `redisHost` 键设置为 `[上一步的主机名]:6379`，将 `redisPassword` 键设置为您之前保存的密钥。 
    

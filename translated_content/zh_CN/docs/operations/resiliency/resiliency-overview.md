@@ -31,7 +31,7 @@ kubectl apply -f <resiliency-spec-name>.yaml
 
 此外，您还可以将弹性策略[限定为特定应用]({{% ref "component-scopes.md#application-access-to-components-with-scopes" %}})。
 
-> 参见[已知限制](#limitations)。
+> 参见[已知限制](#限制)。
 
 ## 弹性策略结构
 

@@ -61,10 +61,10 @@ Azure Blob Storage 绑定组件支持使用所有 Microsoft Entra ID 机制进�
 
 此组件支持**输出绑定**，包含以下操作：
 
-- `create`：[创建 blob](#create-blob)
-- `get`：[获取 blob](#get-blob)
-- `delete`：[删除 blob](#delete-blob)
-- `list`：[列出 blob](#list-blobs)
+- `create`：[创建 blob](#创建-blob)
+- `get`：[获取 blob](#获取-blob)
+- `delete`：[删除 blob](#删除-blob)
+- `list`：[列出 blob](#列出-blob)
 
 Blob storage 组件的**输入绑定**通过 [Azure Event Grid]({{% ref eventgrid.md %}}) 触发并推送事件。
 

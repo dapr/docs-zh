@@ -238,7 +238,7 @@ spec:
 
 #### 双向 TLS
 
-将 `authType` 设置为 `mtls` 使用 x509 客户端证书（`clientCert` 字段）和密钥（`clientKey` 字段）进行身份验证。请注意，mTLS 作为一种身份验证机制与使用 TLS 通过加密保护传输层是不同的。mTLS 需要 TLS 传输（意味着 `disableTls` 必须为 `false`），但保护传输层不需要使用 mTLS。有关配置底层 TLS 传输的信息，请参阅[使用 TLS 通信](#communication-using-tls)。
+将 `authType` 设置为 `mtls` 使用 x509 客户端证书（`clientCert` 字段）和密钥（`clientKey` 字段）进行身份验证。请注意，mTLS 作为一种身份验证机制与使用 TLS 通过加密保护传输层是不同的。mTLS 需要 TLS 传输（意味着 `disableTls` 必须为 `false`），但保护传输层不需要使用 mTLS。有关配置底层 TLS 传输的信息，请参阅[使用 TLS 通信](#使用-tls-通信)。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

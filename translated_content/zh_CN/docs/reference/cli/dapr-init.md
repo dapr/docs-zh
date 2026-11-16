@@ -107,7 +107,7 @@ dapr init -s --from-dir <installer-bundle-directory-path>
 
 您还可以指定私有仓库来拉取容器镜像。这些镜像需要发布到私有仓库，如下所示，以使 Dapr CLI 能够通过 `dapr init` 命令成功拉取它们：
 
-1. Dapr 运行时容器镜像(dapr)（用于运行 Placement）- dapr/dapr:<version>
+1. Dapr 运行时容器镜像（dapr）（用于运行 Placement）- dapr/dapr:<version>
 2. Redis 容器镜像- dapr/3rdparty/rejson
 3. Zipkin 容器镜像- dapr/3rdparty/zipkin
 

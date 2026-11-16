@@ -60,7 +60,7 @@ POST http://localhost:<daprPort>/v1.0/state/<storename>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | 用户配置的 `statestore.yaml` 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#component-file)。
+`storename` | 用户配置的 `statestore.yaml` 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#组件文件)。
 
 可选的请求元数据通过 URL 查询参数传递。例如，
 ```
@@ -81,7 +81,7 @@ POST http://localhost:3500/v1.0/state/myStore?metadata.contentType=application/j
 `value` | 状态值，可以是任何字节数组
 `etag` | （可选）状态 ETag
 `metadata` | （可选）要传递给状态存储的附加键值对
-`options` | （可选）状态操作选项；请参阅[状态操作选项](#optional-behaviors)
+`options` | （可选）状态操作选项；请参阅[状态操作选项](#可选行为)
 
 > **ETag 格式：** Dapr 运行时将 ETag 视为不透明字符串。确切的 ETag 格式由相应的数据存储定义。
 
@@ -144,9 +144,9 @@ GET http://localhost:<daprPort>/v1.0/state/<storename>/<key>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | 用户配置的 statestore.yaml 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#component-file)。
+`storename` | 用户配置的 statestore.yaml 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#组件文件)。
 `key` | 所需状态的键
-`consistency` | （可选）读取一致性模式；请参阅[状态操作选项](#optional-behaviors)
+`consistency` | （可选）读取一致性模式；请参阅[状态操作选项](#可选行为)
 `metadata` | （可选）作为查询参数传递给状态存储的元数据
 
 可选的请求元数据通过 URL 查询参数传递。例如，
@@ -212,7 +212,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/state/<storename>/bulk
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | 用户配置的 statestore.yaml 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#component-file)。
+`storename` | 用户配置的 statestore.yaml 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#组件文件)。
 `metadata` | （可选）作为查询参数传递给状态存储的元数据
 
 可选的请求元数据通过 URL 查询参数传递。例如，
@@ -285,10 +285,10 @@ DELETE http://localhost:<daprPort>/v1.0/state/<storename>/<key>
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | 用户配置的 statestore.yaml 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#component-file)。
+`storename` | 用户配置的 statestore.yaml 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#组件文件)。
 `key` | 所需状态的键
-`concurrency` | （可选）*first-write* 或 *last-write*；请参阅[状态操作选项](#optional-behaviors)
-`consistency` | （可选）*strong* 或 *eventual*；请参阅[状态操作选项](#optional-behaviors)
+`concurrency` | （可选）*first-write* 或 *last-write*；请参阅[状态操作选项](#可选行为)
+`consistency` | （可选）*strong* 或 *eventual*；请参阅[状态操作选项](#可选行为)
 
 可选的请求元数据通过 URL 查询参数传递。例如，
 ```
@@ -342,7 +342,7 @@ POST/PUT http://localhost:<daprPort>/v1.0-alpha1/state/<storename>/query
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | 用户配置的 statestore.yaml 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#component-file)。
+`storename` | 用户配置的 statestore.yaml 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#组件文件)。
 `metadata` | （可选）作为查询参数传递给状态存储的元数据
 
 可选的请求元数据通过 URL 查询参数传递。例如，
@@ -481,7 +481,7 @@ POST/PUT http://localhost:<daprPort>/v1.0/state/<storename>/transaction
 参数 | 描述
 --------- | -----------
 `daprPort` | Dapr 端口
-`storename` | 用户配置的 statestore.yaml 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#component-file)。
+`storename` | 用户配置的 statestore.yaml 组件文件中的 `metadata.name` 字段。请参阅上文提到的 [Dapr 状态存储配置结构](#组件文件)。
 
 可选的请求元数据通过 URL 查询参数传递。例如，
 ```
@@ -512,7 +512,7 @@ POST http://localhost:3500/v1.0/state/myStore/transaction?metadata.contentType=a
 `value` | 状态值，可以是任何字节数组
 `etag` | （可选）状态 ETag
 `metadata` | （可选）要传递给状态存储的附加键值对，适用于此操作
-`options` | （可选）状态操作选项；请参阅[状态操作选项](#optional-behaviors)
+`options` | （可选）状态操作选项；请参阅[状态操作选项](#可选行为)
 
 #### 示例
 以下示例显示了对 `key1` 的 `upsert` 操作和对 `key2` 的 `delete` 操作。这应用于状态存储中名为 "planet" 的分区。两个操作要么成功要么失败。

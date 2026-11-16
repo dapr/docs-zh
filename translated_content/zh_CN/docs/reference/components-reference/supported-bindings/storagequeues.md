@@ -57,7 +57,7 @@ spec:
 | `accountKey` | Y* | Input/Output | Azure 存储账户的访问密钥。仅在不使用 Microsoft Entra ID 身份验证时需要。 | `"access-key"` |
 | `queueName` | Y | Input/Output | Azure 存储队列的名称 | `"myqueue"` |
 | `pollingInterval` | N | Output | 设置轮询 Azure Storage Queues 以获取新消息的间隔，以 Go duration 值表示。默认：`"10s"` | `"30s"` |
-| `ttlInSeconds` | N | Output | 用于设置默认消息生存时间的参数。如果省略此参数，消息将在 10 分钟后过期。另请参阅[此处](#specifying-a-ttl-per-message) | `"60"` |
+| `ttlInSeconds` | N | Output | 用于设置默认消息生存时间的参数。如果省略此参数，消息将在 10 分钟后过期。另请参阅[此处](#为每条消息指定-ttl) | `"60"` |
 | `decodeBase64` | N | Input | 配置是否将从存储队列接收的 base64 内容解码为字符串。默认为 `false` | `true`, `false` |
 | `encodeBase64` | N | Output | 如果启用，在上传到 Azure 存储队列之前将数据负载进行 base64 编码。默认 `false`。 | `true`, `false` |
 | `endpoint` | N | Input/Output | 可选的自定义端点 URL。这在使用 [Azurite 模拟器](https://github.com/Azure/azurite)或为 Azure 存储使用自定义域时很有用（尽管后者不受官方支持）。端点必须是完整的基础 URL，包括协议（`http://` 或 `https://`）、IP 或 FQDN 以及可选端口。 | `"http://127.0.0.1:10001"` 或 `"https://accountName.queue.example.com"` |

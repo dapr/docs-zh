@@ -26,7 +26,7 @@ Microsoft Entra ID 是 Azure 的标识和访问管理 (IAM) 解决方案，用�
 
 ## 托管标识和工作负载标识联合
 
-使用托管标识 (MI)，您的应用程序可以使用 Microsoft Entra ID 进行身份验证并获取访问令牌以向 Azure 服务发出请求。当您的应用程序在支持的 Azure 服务（例如 Azure VM、Azure Container Apps、Azure Web Apps 等）上运行时，可以在基础设施级别为您的应用程序分配标识。您还可以设置 Microsoft Entra ID 以使用[联合标识凭据](https://learn.microsoft.com/graph/api/resources/federatedidentitycredentials-overview?view=graph-rest-1.0)直接将联合信任委托给您的 Dapr 应用程序标识。这允许您配置对 Microsoft 资源的访问权限，即使不在 Microsoft 基础设施上运行也是如此。要了解如何配置 Dapr 以使用联合标识，请参阅[使用联合标识凭据进行身份验证](#authenticating-with-a-federated-identity-credential)部分。
+使用托管标识 (MI)，您的应用程序可以使用 Microsoft Entra ID 进行身份验证并获取访问令牌以向 Azure 服务发出请求。当您的应用程序在支持的 Azure 服务（例如 Azure VM、Azure Container Apps、Azure Web Apps 等）上运行时，可以在基础设施级别为您的应用程序分配标识。您还可以设置 Microsoft Entra ID 以使用[联合标识凭据](https://learn.microsoft.com/graph/api/resources/federatedidentitycredentials-overview?view=graph-rest-1.0)直接将联合信任委托给您的 Dapr 应用程序标识。这允许您配置对 Microsoft 资源的访问权限，即使不在 Microsoft 基础设施上运行也是如此。要了解如何配置 Dapr 以使用联合标识，请参阅[使用联合标识凭据进行身份验证](#使用联合标识凭据进行身份验证)部分。
 这是通过[系统分配或用户分配的托管标识]({{< ref howto-mi.md >}})或[工作负载标识联合]({{< ref howto-wif.md >}})完成的。
 
 使用托管标识后，您的代码不必处理凭据，这可以：
@@ -38,9 +38,9 @@ Microsoft Entra ID 是 Azure 的标识和访问管理 (IAM) 解决方案，用�
 
 虽然某些 Dapr Azure 组件提供替代身份验证方法，例如基于"共享密钥"或"访问令牌"的系统，但只要有可能，您应该始终尝试使用 Microsoft Entra ID 对 Dapr 组件进行身份验证。这提供了许多好处，包括：
 
-- [基于角色的访问控制](#role-based-access-control)
-- [审核](#auditing)
-- [(可选) 使用证书进行身份验证](#optional-authentication-using-certificates)
+- [基于角色的访问控制](#基于角色的访问控制)
+- [审核](#审核)
+- [(可选) 使用证书进行身份验证](#可选-使用证书进行身份验证)
 
 建议在 Azure Kubernetes Service 上运行的应用程序利用[工作负载标识联合](https://learn.microsoft.com/entra/workload-id/workload-identity-federation)自动为各个 Pod 提供标识。
 
@@ -61,24 +61,24 @@ Microsoft Entra ID 是 Azure 的标识和访问管理 (IAM) 解决方案，用�
 默认情况下，Dapr 组件配置为与"公有云"中的 Azure 资源进行交互。如果您的应用程序部署到另一个云，例如 Azure China 或 Azure Government（"主权云"），可以通过将 `azureEnvironment` 元数据属性设置为支持的值之一，为支持的组件启用该功能：
 
 - Azure 公有云（默认）: `"AzurePublicCloud"`
-- Azure 中国: `"AzureChinaCloud"`
-- Azure 政府: `"AzureUSGovernmentCloud"`
+- Azure 中国： `"AzureChinaCloud"`
+- Azure 政府： `"AzureUSGovernmentCloud"`
 
 > 对主权云的支持是实验性的。
 
 ## 凭据元数据字段
 
-要使用 Microsoft Entra ID 进行身份验证，您需要将以下凭据作为值添加到您的 [Dapr 组件](#example-usage-in-a-dapr-component)的元数据中。
+要使用 Microsoft Entra ID 进行身份验证，您需要将以下凭据作为值添加到您的 [Dapr 组件](#在-dapr-组件中的使用示例)的元数据中。
 
 ### 元数据选项
 
 根据您如何将凭据传递给 Dapr 服务，您有多个元数据选项。
 
-- [使用客户端凭据](#authenticating-using-client-credentials)
-- [使用证书](#authenticating-using-a-certificate)
-- [使用托管标识 (MI)](#authenticating-with-managed-identities-mi)
-- [在 AKS 上使用工作负载标识](#authenticating-with-workload-identity-on-aks)
-- [使用 Azure CLI 凭据（仅限开发）](#authenticating-using-azure-cli-credentials-development-only)
+- [使用客户端凭据](#使用客户端凭据进行身份验证)
+- [使用证书](#使用证书进行身份验证)
+- [使用托管标识 (MI)](#使用托管标识-mi-进行身份验证)
+- [在 AKS 上使用工作负载标识](#在-aks-上使用工作负载标识进行身份验证)
+- [使用 Azure CLI 凭据（仅限开发）](#使用-azure-cli-凭据进行身份验证仅限开发)
 
 #### 使用客户端凭据进行身份验证
 
@@ -383,9 +383,9 @@ spec:
 
 ## 参考
 
-- [Microsoft Entra ID 应用凭据: Azure CLI 参考](https://docs.microsoft.com/cli/azure/ad/app/credential)
+- [Microsoft Entra ID 应用凭据： Azure CLI 参考](https://docs.microsoft.com/cli/azure/ad/app/credential)
 - [Azure 托管服务标识 (MSI) 概述](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
 - [机密构建块]({{% ref secrets %}})
-- [操作方法: 检索机密]({{% ref "howto-secrets.md" %}})
-- [操作方法: 在 Dapr 组件中引用机密]({{% ref component-secrets.md %}})
+- [操作方法： 检索机密]({{% ref "howto-secrets.md" %}})
+- [操作方法： 在 Dapr 组件中引用机密]({{% ref component-secrets.md %}})
 - [机密 API 参考]({{% ref secrets_api.md %}})
