@@ -3,192 +3,162 @@ type: docs
 title: "DaprWorkflowClient 生命周期管理与注册"
 linkTitle: "DaprWorkflowClient 注册"
 weight: 1000
-description: 了解如何配置 `DaprWorkflowClient` 生命周期管理与依赖注入
+description: 配置工作流托管、自动发现、客户端生命周期、传输限制与历史缓存
 ---
 
-## 生命周期管理
+## 安装与注册
 
-`DaprWorkflowClient` 掌控着用于与 Dapr 边车通信的 TCP 套接字形式持有的网络资源，以及其他用于工作流管理和操作的类型。`DaprWorkflowClient` 实现了 `IAsyncDisposable` 以支持资源的主动清理。
+请使用 `Dapr.Workflow` 1.19.0 或更高的兼容版本：
 
-## 依赖注入
+```sh
+dotnet add package Dapr.Workflow
+```
 
-`AddDaprWorkflow()` 方法会将 Dapr 工作流服务注册到 ASP.NET Core 的依赖注入容器中。这个方法需要一个选项委托，用于定义你希望在应用中注册和使用的每个工作流和活动。
-
-{{% alert title="注意" color="primary" %}} 
-
-此方法将尝试注册 `DaprClient` 实例，但仅在该实例尚未被其他生命周期注册时才会成功。例如，若之前已通过 `AddDaprClient()` 注册为单例生命周期，则无论为工作流客户端选择何种生命周期，都将始终使用该单例。`DaprClient` 实例将用于与 Dapr 边车通信；如果尚未注册，则 `AddDaprWorkflow()` 注册时提供的生命周期将同时用于注册 `DaprWorkflowClient` 及其自身依赖项。
-
-{{% /alert %}}
-
-### 修改 gRPC 消息大小限制
-
-在注册时，你还可以为工作流客户端配置 gRPC 消息大小限制。当工作流负载超出默认 gRPC 限制时，这会很有用。
+`AddDaprWorkflow` 会将工作流 Worker 注册为托管服务、其依赖项以及一个 `DaprWorkflowClient`。它适用于 ASP.NET Core 和 .NET Generic Host。需要启动主机才能处理工作项；仅构建服务提供程序并不会启动 Worker。
 
 ```csharp
-services
-    .AddDaprWorkflowClient()
-    .WithGrpcMessageSizeLimits( 
-        maxReceiveMessageSize: 16 * 1024 * 1024, 
+using Dapr.Workflow;
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDaprWorkflow();
+
+var app = builder.Build();
+await app.RunAsync();
+```
+
+请配置与工作流兼容的状态存储，以及 [编写工作流]({{% ref howto-author-workflow.md %}}) 中所述的 Dapr 运行时服务。若要使用 SDK 1.19 的全部功能，请使用 Dapr 运行时 1.19。
+
+### 自动发现与显式注册
+
+内置的源生成器会在正在编译的项目中发现可访问的具体类，这些类派生自 `Workflow<TInput, TOutput>` 和 `WorkflowActivity<TInput, TOutput>`。无需提供选项委托。抽象类和开放泛型类型不会被注册。
+
+对于自定义名称、委托实现，或源生成器未发现的类型，可以使用显式注册。显式注册优先于生成的注册：
+
+```csharp
+builder.Services.AddDaprWorkflow(options =>
+{
+    options.RegisterWorkflow<OrderProcessingWorkflow>();
+    options.RegisterActivity<SquareNumberActivity>();
+    options.RegisterActivity<int, int>("Double", (_, input) => Task.FromResult(input * 2));
+});
+```
+
+若要扫描被引用程序集中可访问的工作流和活动类型，请在宿主项目的 `.csproj` 中同时添加 **属性值** 与 **编译器可见属性**。为减少构建开销，引用扫描默认处于禁用状态：
+
+```xml
+<PropertyGroup>
+  <DaprWorkflowVersioningScanReferences>true</DaprWorkflowVersioningScanReferences>
+</PropertyGroup>
+<ItemGroup>
+  <CompilerVisibleProperty Include="DaprWorkflowVersioningScanReferences" />
+</ItemGroup>
+```
+
+自动发现不要求启用[基于名称的工作流版本控制]({{% ref dotnet-workflow-versioning.md %}})。请避免简单类型名称冲突，或为其注册互不相同的显式名称。
+
+## 客户端生命周期与依赖注入
+
+客户端默认为单例。请复用它，而不是为每次操作都创建一个客户端，并让容器负责注入实例的释放。`DaprWorkflowClient` 同时实现了 `IDisposable` 和 `IAsyncDisposable`；通过依赖注入注册的 gRPC 传输由客户端工厂管理。
+
+带选项委托的重载接受 `lifetime` 参数，用于更改**客户端**的生命周期：
+
+```csharp
+builder.Services.AddDaprWorkflow(
+    options => { },
+    lifetime: ServiceLifetime.Scoped);
+```
+
+若希望每次解析时都获得新客户端，请使用 `ServiceLifetime.Transient`。这不会改变单例的运行时选项/工厂，也不会把托管 Worker 变为作用域服务。
+
+将具体类型 `DaprWorkflowClient` 注入到 ASP.NET Core 终结点中：
+
+```csharp
+app.MapPost("/start", async (DaprWorkflowClient client, Order order) =>
+{
+    var instanceId = await client.ScheduleNewWorkflowAsync(
+        nameof(OrderProcessingWorkflow), input: order);
+    return Results.Accepted(value: new { instanceId });
+});
+```
+
+在 Generic Host 应用中，从宿主的服务中解析它。对于异步作用域，请使用异步释放：
+
+```csharp
+await using var scope = host.Services.CreateAsyncScope();
+var client = scope.ServiceProvider.GetRequiredService<DaprWorkflowClient>();
+```
+
+`Dapr.Workflow.Registration` 中的公共 `DaprWorkflowClientBuilder` 也可以在不托管 Worker 的情况下构造管理客户端。对于自行构造的客户端，请自行释放。在本版本中，`AddDaprWorkflowClient` **不是公共注册扩展方法**；若要托管工作流，请使用 `AddDaprWorkflow`。
+
+## 传输配置
+
+托管 Worker 与依赖注入客户端会通过 Dapr 配置解析其边车的 gRPC 地址，包括 `DAPR_GRPC_ENDPOINT` / `DAPR_GRPC_PORT`。当边车需要身份验证时，请配置 `DAPR_API_TOKEN`。工作流操作使用 gRPC；更改 HTTP 超时并不等同于工作流执行的截止时间。
+
+### 更改 gRPC 消息大小限制
+
+使用 `AddDaprWorkflow` 返回的构建器：
+
+```csharp
+builder.Services.AddDaprWorkflow()
+    .WithGrpcMessageSizeLimits(
+        maxReceiveMessageSize: 16 * 1024 * 1024,
         maxSendMessageSize: 16 * 1024 * 1024);
 ```
 
-### 单例注册
+依赖注入传输默认不设置 SDK 的发送/接收大小限制。显式设置的限制必须是正的字节数。边车、调度器和状态存储的限制仍会分别生效。对于大负载，请优先考虑[数据引用]({{% ref dotnet-workflow-data-references.md %}})，而不是提高限制。`WorkflowRuntimeOptions.UseGrpcChannelOptions` 也支持设置发送/接收限制；注册过程并不会复制该 `GrpcChannelOptions` 对象的每个属性。
 
-默认情况下，`AddDaprWorkflow` 方法以单例生命周期注册 `DaprWorkflowClient` 及其相关服务。这意味着这些服务只会被实例化一次。
+## Worker 历史缓存
 
-以下示例展示了如何在典型的 `Program.cs` 文件中注册 `DaprWorkflowClient`：
-
-```csharp
-builder.Services.AddDaprWorkflow(options => {
-    options.RegisterWorkflow<YourWorkflow>();
-    options.RegisterActivity<YourActivity>();
-});
-
-var app = builder.Build();
-await app.RunAsync();
-```
-
-### 作用域注册
-
-虽然默认行为在你的场景中通常是可以接受的，但你可能希望覆盖指定的生命周期。这可以通过在 `AddDaprWorkflow` 中传递 `ServiceLifetime` 参数来实现。例如，你可能希望在 ASP.NET Core 处理管道中注入另一个需要 `DaprClient` 所用上下文的作用域服务，如果该服务被注册为单例，这些上下文将无法获取。
-
-以下示例展示了如何操作：
+Worker 默认启用有状态历史记录：边车可以只发送新事件，而不是每一轮都发送完整历史。缓存未命中时，会通过历史 RPC 恢复；该缓存并非持久化的应用状态。
 
 ```csharp
-builder.Services.AddDaprWorkflow(options => {
-    options.RegisterWorkflow<YourWorkflow>();
-    options.RegisterActivity<YourActivity>();
-}, ServiceLifecycle.Scoped);
-
-var app = builder.Build();
-await app.RunAsync();
-```
-
-### 瞬态注册
-
-最后，Dapr 服务也可以注册为瞬态生命周期，这意味着每次注入时都会重新初始化。以下示例展示了如何操作：
-
-```csharp
-builder.Services.AddDaprWorkflow(options => {
-    options.RegisterWorkflow<YourWorkflow>();
-    options.RegisterActivity<YourActivity>();
-}, ServiceLifecycle.Transient);
-
-var app = builder.Build();
-await app.RunAsync();
-```
-
-### 创建 `DaprWorkflowClient` 实例
-
-{{< tabpane text=true >}}
-
-{{% tab "ASP.Net Core 应用" %}}
-
-在 ASP.Net Core 应用中，你可以通过方法注入或构造函数注入将 `DaprWorkflowClient` 注入到方法或控制器中。本示例展示了在最小 API 场景下的方法注入：
-
-```csharp
-app.MapPost("/start", async (
-    [FromServices] DaprWorkflowClient daprWorkflowClient,
-    Order order
-    ) => {
-        var instanceId = await daprWorkflowClient.ScheduleNewWorkflowAsync(
-            nameof(OrderProcessingWorkflow),
-            input: order);
-
-        return Results.Accepted(instanceId);
-});
-```
-
-{{% /tab %}}
-
-{{% tab "控制台应用" %}}
-
-要在控制台应用中创建 `DaprWorkflowClient` 实例，请从 `ServiceProvider` 中获取它：
-
-```csharp
-using var scope = host.Services.CreateAsyncScope();
-var daprWorkflowClient = scope.ServiceProvider.GetRequiredService<DaprWorkflowClient>();
-```
-
-{{% /tab %}}
-
-{{< /tabpane >}}
-
-现在，你可以使用此客户端执行工作流管理操作，例如启动、暂停、恢复和终止工作流实例。有关这些操作的更多信息，请参阅[使用 `DaprWorkflowClient` 进行工作流管理操作]({{% ref dotnet-workflow-management-methods.md %}})。
-
-## 将服务注入到工作流活动中
-
-工作流活动支持开发者对现代 C# 应用程序所期望的相同依赖注入方式。假设在启动时进行了正确的注册，任何此类类型都可以注入到工作流活动的构造函数中，并在工作流执行期间供其使用。这使得通过注入 `ILogger` 轻松添加日志记录，或通过注入 `DaprClient` 或 `DaprJobsClient` 访问其他 Dapr 构建块变得简单。
-
-```csharp
-internal sealed class SquareNumberActivity : WorkflowActivity<int, int>
+builder.Services.AddDaprWorkflow(options =>
 {
-    private readonly ILogger _logger;
-    
-    public MyActivity(ILogger logger)
+    options.HistoryCacheTtl = TimeSpan.FromMinutes(30);
+    options.HistoryCacheMaxInstances = 10_000;
+    options.HistoryCacheMaxBytes = 256L * 1024 * 1024;
+});
+```
+
+| 选项 | 默认值与行为 |
+| --- | --- |
+| `DisableStatefulHistory` | 默认为 `false`；设为 `true` 时将始终接收完整历史，并忽略缓存设置。 |
+| `HistoryCacheTtl` | 默认为 `null`，使用一小时的滑动 TTL。显式设置的值必须为正数。 |
+| `HistoryCacheMaxInstances` | 默认为 `0`，使用内置上限：每个工作项流 100,000 个实例。 |
+| `HistoryCacheMaxBytes` | 默认为 `0`，表示不设字节预算；实例数量与 TTL 仍然生效。 |
+
+容量值不能为负数。当超过容量上限时，条目按最近最少使用的顺序被逐出。该缓存不会消除工作流重放，也不会自动缓存已解析的二进制负载。
+
+`WorkflowRuntimeOptions` 上的 `MaxConcurrentWorkflows` 和 `MaxConcurrentActivities` 已过时，且不再生效。请改为在 Dapr 运行时中配置分发并发。若需了解单个工作流内部的并发处理，请参阅[有界并行处理]({{% ref dotnet-workflow-authoring.md %}}#fan-out-and-bounded-parallel-processing)。
+
+## 将服务注入活动
+
+活动通过依赖注入激活，每次调用活动时都会在一个作用域中进行。请按常规方式注册其依赖项：
+
+```csharp
+using Dapr.Workflow;
+using Microsoft.Extensions.Logging;
+
+public sealed class SquareNumberActivity(ILogger<SquareNumberActivity> logger) : WorkflowActivity<int, int>
+{
+    public override Task<int> RunAsync(WorkflowActivityContext context, int input)
     {
-        this._logger = logger;
-    }
-    
-    public override Task<int> RunAsync(WorkflowActivityContext context, int input) 
-    {
-        this._logger.LogInformation("Squaring the value {number}", input);
-        var result = input * input;
-        this._logger.LogInformation("Got a result of {squareResult}", result);
-        
-        return Task.FromResult(result);
+        logger.LogInformation("Squaring {Number}; task key {TaskKey}", input, context.TaskExecutionKey);
+        return Task.FromResult(input * input);
     }
 }
 ```
 
 ### 活动任务执行标识符
 
-从 Dapr .NET SDK v1.17.0 开始，`WorkflowActivityContext` 暴露了一个任务执行标识符，该标识符具有以下特性：
+`WorkflowActivityContext` 公开了 `Identifier`、`InstanceId`、**`TaskExecutionKey`**（而非 `TaskExecutionId`），以及 `ScheduledEventId`，后者是该活动尝试对应的 `TaskScheduled` 历史事件的 ID。当运行时提供任务执行 ID 时，Worker 会使用它；否则回退为数字形式的任务 ID。SDK 的活动重试会保留任务执行 ID。在设计幂等键时，请将该键与工作流实例/应用标识组合使用，并使去重记录与副作用以原子方式持久化。仅凭该标识符并不能保证活动恰好执行一次。`ScheduledEventId` 可以与实例 ID 一起记录，之后传给 `RerunWorkflowFromEventAsync`，从该活动处重新运行工作流（参见[从历史事件重新运行]({{% ref "dotnet-workflow-management-methods.md#rerun-from-a-history-event" %}})）。
 
-- **对每个活动任务唯一**
-- **在重试期间保持稳定**
+### 重放安全日志
 
-这使得它可用于幂等键、任务级状态跟踪和日志关联。
-
-```csharp
-internal sealed class IdempotentActivity : WorkflowActivity<int, int>
-{
-    public override Task<int> RunAsync(WorkflowActivityContext context, int input)
-    {
-        var executionId = context.TaskExecutionId;
-        // 将 executionId 用作幂等键或任务状态键。
-
-        return Task.FromResult(input * input);
-    }
-}
-```
-
-### 在工作流中使用 ILogger
-
-由于工作流必须是确定性的，因此无法向其注入任意服务。例如，如果能够将标准 `ILogger` 注入到工作流中，并且由于错误需要重放工作流，那么从事件源日志进行的后续重放将导致日志记录额外的操作，这些操作实际上并没有发生第二次或第三次，因为它们的结果是从日志中获取的。这可能会引入大量的混淆。相反，提供了一个重放安全的记录器供在工作流内使用。它只会在工作流首次运行时记录事件，而在重放工作流时不会记录任何内容。
-
-此记录器可以从工作流实例上可用的 `WorkflowContext` 中存在的方法获取，并且可以像使用 `ILogger` 实例一样精确使用。
-
-在 [.NET SDK 仓库](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Workflows/OrderProcessingWorkflow.cs)中可以看到演示此功能的完整示例，但下面提供了该示例的简要摘录。
-
-```csharp
-public class OrderProcessingWorkflow : Workflow<OrderPayload, OrderResult>
-{
-    public override async Task<OrderResult> RunAsync(WorkflowContext context, OrderPayload order)
-    {
-        string orderId = context.InstanceId;
-        var logger = context.CreateReplaySafeLogger<OrderProcessingWorkflow>(); // 使用此方法访问记录器实例
-
-        logger.LogInformation("Received order {orderId} for {quantity} {name} at ${totalCost}", orderId, order.Quantity, order.Name, order.TotalCost);
-        
-        //...
-    }
-}
-```
+在工作流内部请使用 `context.CreateReplaySafeLogger<T>()`。它会在重放期间抑制日志写入。尽管当前的工厂可以通过依赖注入激活工作流构造函数，内置的 `DAPR1305` 分析器仍会对工作流构造函数注入给出警告。请把需要注入的 I/O 依赖放在活动中；它们并不能使非确定性操作在工作流重放期间变得安全。
 
 ## 后续步骤
 
-- [了解更多关于 Dapr 工作流管理操作]({{% ref dotnet-workflow-management-methods.md %}})
-- [.NET 中的多应用工作流]({{% ref dotnet-workflow-multi-app.md %}})
+- [在 .NET 中编写工作流和活动]({{% ref dotnet-workflow-authoring.md %}})
+- [工作流管理操作]({{% ref dotnet-workflow-management-methods.md %}})
 - [配置工作流序列化]({{% ref dotnet-workflow-serialization.md %}})
-- [了解如何编写工作流和活动]({{% ref howto-author-workflow.md %}})

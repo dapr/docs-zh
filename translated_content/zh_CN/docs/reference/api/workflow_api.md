@@ -2,28 +2,33 @@
 type: docs
 title: "Workflow API 参考"
 linkTitle: "Workflow API"
+description: "关于工作流 API 的详细文档"
 weight: 1600
 ---
 
 Dapr 为用户提供了通过其内置工作流引擎与工作流交互的能力，该引擎使用 Dapr Actors 实现。
 
-要了解如何与工作流引擎交互，请参阅[如何编写]({{% ref howto-author-workflow.md %}}和[管理工作流]({{% ref howto-manage-workflow.md %}}。
+要了解如何与工作流引擎交互，请参阅[如何编写]{{% ref howto-author-workflow.md %}}和[管理工作流]({{% ref howto-manage-workflow.md %}})。
 
 
 # HTTP API 参考（已弃用）
 
-以下是 Dapr Workflow API 的参考文档。
+以下是 Dapr Workflow API 的参考。
 该 API 已弃用，最终将被移除。
 
 ## 启动工作流请求
 
-使用给定名称启动工作流实例，可选择指定实例 ID。
+使用给定名称启动工作流实例。两个查询参数均为可选，且彼此独立；参见下表。
 
 ```
-POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<workflowName>/start[?instanceID=<instanceID>]
+POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<workflowName>/start?instanceID=<instanceID>&appID=<appID>
 ```
 
 请注意，工作流实例 ID 只能包含字母数字字符、下划线和短横线。
+
+{{% alert title="重要" color="warning" %}}
+强烈建议为每次执行分配一个新的实例 ID，而不是复用旧的实例 ID。参见[实例 ID 复用的影响]({{% ref "workflow-features-concepts.md#implications-of-instance-id-reuse" %}})。只有当具有该 ID 的现有工作流，以及它创建的每个子工作流（逐级递归检查），都已进入终止状态（`COMPLETED`、`FAILED` 或 `TERMINATED`）后，该实例 ID 才能被复用。否则请求会失败，返回 HTTP `500` 与错误代码 `ERR_START_WORKFLOW`，且错误消息会指出尚未终止的工作流。SDK 工作流客户端则会收到 gRPC `AlreadyExists` 状态码，从而无需解析消息即可识别冲突。若要无条件释放某个实例 ID，请先使用[清除 API]({{% ref "workflow_api.md#清除工作流请求" %}})清除该工作流。更多详情参见[工作流标识]({{% ref "workflow-features-concepts.md#workflow-identity" %}})。
+{{% /alert %}}
 
 ### URL 参数
 
@@ -32,6 +37,7 @@ POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<workflo
 `workflowComponentName` | 对于 Dapr Workflows 使用 `dapr`
 `workflowName` | 标识工作流类型
 `instanceID` | （可选）为特定工作流的每次运行创建的唯一值
+`appID` | （可选）应承载该工作流实例的应用的 App ID。默认为本地应用。目标应用必须位于同一命名空间中，其[工作流访问策略]({{% ref workflow-access-policy %}})决定是否允许该调用。
 
 ### 请求内容
 
@@ -43,7 +49,7 @@ POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<workflo
 ---- | -----------
 `202`  | 已接受
 `400`  | 请求格式错误
-`500`  | 请求格式正确，dapr 代码中存在错误
+`500`  | 请求格式正确，dapr 代码中存在错误。这包括当具有给定实例 ID 的工作流已存在且尚不可复用（它或其某个子工作流未处于终止状态）时的错误代码 `ERR_START_WORKFLOW`
 
 ### 响应内容
 
@@ -64,7 +70,7 @@ POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<instanc
 ```
 
 {{% alert title="注意" color="primary" %}}
- 终止工作流将终止由该工作流实例创建的所有子工作流。
+ 终止工作流会终止由该工作流实例创建的所有子工作流。
 
 终止工作流对由被终止实例启动的任何进行中的活动执行没有影响。
 
@@ -76,6 +82,7 @@ POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<instanc
 --------- | -----------
 `workflowComponentName` | 对于 Dapr Workflows 使用 `dapr`
 `instanceId` | 为特定工作流的每次运行创建的唯一值
+`appID` | （可选）承载该工作流实例的应用的 App ID。默认为本地应用。目标应用必须位于同一命名空间中，其[工作流访问策略]({{% ref workflow-access-policy %}})决定是否允许该调用。
 
 ### HTTP 响应代码
 
@@ -108,6 +115,7 @@ POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<instanc
 --------- | -----------
 `workflowComponentName` | 对于 Dapr Workflows 使用 `dapr`
 `instanceId` | 为特定工作流的每次运行创建的唯一值
+`appID` | （可选）承载该工作流实例的应用的 App ID。默认为本地应用。目标应用必须位于同一命名空间中，其[工作流访问策略]({{% ref workflow-access-policy %}})决定是否允许该调用。
 `eventName` | 要触发的事件名称
 
 ### HTTP 响应代码
@@ -136,6 +144,7 @@ POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<instanc
 --------- | -----------
 `workflowComponentName` | 对于 Dapr Workflows 使用 `dapr`
 `instanceId` | 为特定工作流的每次运行创建的唯一值
+`appID` | （可选）承载该工作流实例的应用的 App ID。默认为本地应用。目标应用必须位于同一命名空间中，其[工作流访问策略]({{% ref workflow-access-policy %}})决定是否允许该调用。
 
 ### HTTP 响应代码
 
@@ -163,6 +172,7 @@ POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<instanc
 --------- | -----------
 `workflowComponentName` | 对于 Dapr Workflows 使用 `dapr`
 `instanceId` | 为特定工作流的每次运行创建的唯一值
+`appID` | （可选）承载该工作流实例的应用的 App ID。默认为本地应用。目标应用必须位于同一命名空间中，其[工作流访问策略]({{% ref workflow-access-policy %}})决定是否允许该调用。
 
 ### HTTP 响应代码
 
@@ -194,6 +204,7 @@ POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<instanc
 --------- | -----------
 `workflowComponentName` | 对于 Dapr Workflows 使用 `dapr`
 `instanceId` | 为特定工作流的每次运行创建的唯一值
+`appID` | （可选）承载该工作流实例的应用的 App ID。默认为本地应用。目标应用必须位于同一命名空间中，其[工作流访问策略]({{% ref workflow-access-policy %}})决定是否允许该调用。
 
 ### HTTP 响应代码
 
@@ -221,6 +232,7 @@ GET http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<instance
 --------- | -----------
 `workflowComponentName` | 对于 Dapr Workflows 使用 `dapr`
 `instanceId` | 为特定工作流的每次运行创建的唯一值
+`appID` | （可选）承载该工作流实例的应用的 App ID。默认为本地应用。目标应用必须位于同一命名空间中，其[工作流访问策略]({{% ref workflow-access-policy %}})决定是否允许该调用。
 
 ### HTTP 响应代码
 
@@ -236,17 +248,25 @@ API 调用将提供类似以下的 JSON 响应：
 
 ```json
 {
-  "createdAt": "2023-01-12T21:31:13Z",
-  "instanceID": "12345678",
+  "createdAt": "2023-01-12T21:31:13Z",
+  "instanceID": "12345678",
   "lastUpdatedAt": "2023-01-12T21:31:13Z",
-  "properties": {
+  "properties": {
     "property1": "value1",
-    "property2": "value2"
+    "property2": "value2",
   },
-  "runtimeStatus": "RUNNING"
-}
+  "runtimeStatus": "RUNNING",
+ }
 ```
 
 参数 | 描述
 --------- | -----------
 `runtimeStatus` | 工作流实例的状态。值包括：`"RUNNING"`、`"COMPLETED"`、`"CONTINUED_AS_NEW"`、`"FAILED"`、`"CANCELED"`、`"TERMINATED"`、`"PENDING"`、`"SUSPENDED"`
+
+当 `runtimeStatus` 为 `"FAILED"` 时，`properties` 映射不包含 `dapr.workflow.output`。失败的工作流没有成功的输出。取而代之，`properties` 映射通过以下键携带失败信息：
+
+参数 | 描述
+--------- | -----------
+`dapr.workflow.failure.error_type` | `runtimeStatus` 为 `"FAILED"` 的工作流的错误类型。
+`dapr.workflow.failure.error_message` | `runtimeStatus` 为 `"FAILED"` 的工作流的错误消息。
+`dapr.workflow.failure.stack_trace` | `runtimeStatus` 为 `"FAILED"` 的工作流的堆栈跟踪（如果可用）。

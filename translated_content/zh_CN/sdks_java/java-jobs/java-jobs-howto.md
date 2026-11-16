@@ -6,17 +6,17 @@ weight: 20000
 description: 如何使用 Dapr Java SDK 快速上手 Jobs
 ---
 
-在本演示中，我们将调度一个 Dapr Job。调度的 Job 将触发同一应用中注册的端点。使用[提供的 Jobs 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/jobs)，你将：
+在本演示中，我们将调度一个 Dapr 作业。被调度的作业将触发同一应用中注册的端点。使用[提供的作业示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/jobs)，你将：
 
-- 调度一个 Job [Job 调度示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/jobs/DemoJobsClient.java)
-- 注册一个端点，供 dapr sidecar 在触发时调用 [端点注册](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/jobs/DemoJobsSpringApplication.java)
+- 调度一个作业 [作业调度示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/jobs/DemoJobsClient.java)
+- 注册一个端点，供 dapr 边车在触发时调用 [端点注册](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/jobs/DemoJobsSpringApplication.java)
 
 本示例使用[自托管模式](https://github.com/dapr/cli#install-dapr-on-your-local-machine-self-hosted)下 `dapr init` 的默认配置。
 
 ## 前置条件
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- Java JDK 11（或更高版本）：
+- Java JDK 17（或更高版本）：
   - [Oracle JDK](https://www.oracle.com/java/technologies/downloads)，或
   - OpenJDK
 - [Apache Maven](https://maven.apache.org/install.html)，版本 3.x。
@@ -31,7 +31,7 @@ git clone https://github.com/dapr/java-sdk.git
 cd java-sdk
 ```
 
-运行以下命令以安装使用 Dapr Java SDK 运行 jobs 示例所需的要求。
+运行以下命令，安装使用 Dapr Java SDK 运行作业示例所需的依赖。
 
 ```bash
 mvn clean install -DskipTests
@@ -43,18 +43,17 @@ mvn clean install -DskipTests
 cd examples
 ```
 
-运行 Dapr sidecar。
+运行 Dapr 边车。
 
 ```sh
 dapr run --app-id jobsapp --dapr-grpc-port 51439 --dapr-http-port 3500 --app-port 8080
 ```
 
-> 现在，Dapr 正在 `http://localhost:3500` 监听 HTTP 请求，在 `http://localhost:51439` 监听内部 Jobs gRPC 请求。
+> 现在，Dapr 正在 `http://localhost:3500` 监听 HTTP 请求，并在 `http://localhost:51439` 监听内部 Jobs gRPC 请求。
 
-## 调度和获取 Job
+## 调度和获取作业
 
-在 `DemoJobsClient` 中有调度 Job 的步骤。使用 `DaprPreviewClient` 调用 `scheduleJob`
-将向 Dapr Runtime 调度一个 Job。
+在 `DemoJobsClient` 中有调度作业的步骤。使用 `DaprPreviewClient` 调用 `scheduleJob`，将向 Dapr Runtime 调度一个作业。
 
 ```java
 public class DemoJobsClient {
@@ -77,7 +76,7 @@ public class DemoJobsClient {
 }
 ```
 
-调用 `getJob` 以检索先前创建并调度的 Job 详细信息。
+调用 `getJob` 以检索先前创建并调度的作业详细信息。
 ```
 client.getJob(new GetJobRequest("dapr-job-1")).block()
 ```
@@ -95,10 +94,10 @@ java -jar target/dapr-java-sdk-examples-exec.jar io.dapr.examples.jobs.DemoJobsC
 **** Retrieving a Job with name dapr-jobs-1 *****
 ```
 
-## 设置一个在 Job 触发时被调用的端点
+## 设置一个在作业触发时被调用的端点
 
-`DemoJobsSpringApplication` 类启动一个 Spring Boot 应用，该应用注册 `JobsController` 中指定的端点
-该端点充当对调度的 Job 请求的回调。
+`DemoJobsSpringApplication` 类启动一个 Spring Boot 应用，该应用注册 `JobsController` 中指定的端点。
+该端点充当已调度作业请求的回调。
 
 ```java
 @RestController
@@ -124,8 +123,8 @@ public class JobsController {
 
 参数：
 
-* `jobName`：被触发的 Job 的名称。
-* `payload`：与 Job 关联的可选负载数据（作为字节数组）。
+* `jobName`：被触发的作业的名称。
+* `payload`：与作业关联的可选负载数据（作为字节数组）。
 
 使用以下命令运行 Spring Boot 应用。
 
@@ -139,7 +138,7 @@ Job Name: dapr-job-1
 Job Payload: Hello World!
 ```
 
-## 删除一个调度的 Job
+## 删除一个已调度的作业
 
 ```java
 public class DemoJobsClient {

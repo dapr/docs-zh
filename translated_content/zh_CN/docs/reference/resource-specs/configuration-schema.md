@@ -48,6 +48,11 @@ spec:
     latencyDistributionBuckets:
       - <BUCKET-VALUE-MS-0>
       - <BUCKET-VALUE-MS-1>
+    workflow:
+      latencyDistributionBuckets:
+        - <BUCKET-VALUE-0>
+        - <BUCKET-VALUE-1>
+      latencyDistributionUnits: <DURATION>
     http:
       increasedCardinality: <TRUE-OR-FALSE>
       pathMatching: 
@@ -75,6 +80,9 @@ spec:
   components:
     deny:
       - <COMPONENT-TO-DENY>
+  features:
+    - name: <FEATURE-NAME>
+      enabled: <TRUE-OR-FALSE>
   accessControl:
     defaultAction: <ALLOW-OR-DENY>
     trustDomain: <REPLACE-WITH-TRUST-DOMAIN>
@@ -98,11 +106,11 @@ spec:
 | httpPipeline       | N        | 配置 API 中间件管道 | [中间件管道配置概述]({{% ref "configuration-overview.md#middleware" %}})<br>[了解更多关于 `httpPipeline` 配置的信息。]({{% ref "middleware.md#configure-api-middleware-pipelines" %}}) |
 | appHttpPipeline    | N        | 配置应用中间件管道 | [中间件管道配置概述]({{% ref "configuration-overview.md#middleware" %}})<br>[了解更多关于 `appHttpPipeline` 配置的信息。]({{% ref "middleware.md#configure-app-middleware-pipelines" %}}) |
 | components         | N        | 用于指定不能被初始化的组件类型的拒绝列表。 | [了解更多关于 `components` 配置的信息。]({{% ref "configuration-overview.md#disallow-usage-of-certain-component-types" %}}) |
-| features           | N        | 定义启用/禁用的预览功能。 | [了解更多关于 `features` 配置的信息。]({{% ref preview-features.md %}}) |
+| features           | N        | 启用或禁用 Dapr 功能，包括预览功能以及默认启用的功能（例如 `HotReload`）。 | [了解更多关于 `features` 配置的信息。]({{% ref preview-features.md %}}) |
 | logging            | N        | 配置 Dapr 运行时中的日志记录方式。 | [了解更多关于 `logging` 配置的信息。]({{% ref "configuration-overview.md#logging" %}})  |
 | metrics            | N        | 为应用启用或禁用指标。 | [了解更多关于 `metrics` 配置的信息。]({{% ref "configuration-overview.md#metrics" %}}) |
 | nameResolution     | N        | 服务调用构建块的名称解析配置规范。 | [了解各组件的 `nameResolution` 配置信息。]({{% ref supported-name-resolution.md %}}) |
-| secrets            | N        | 限制 Dapr 应用可以访问的密钥。  | [了解更多关于 `secrets` 配置的信息。]({{% ref secret-scope.md %}}) |
+| secrets            | N        | 限制 Dapr 应用可以访问的机密。  | [了解更多关于 `secrets` 配置的信息。]({{% ref secret-scope.md %}}) |
 | tracing            | N        | 为应用启用追踪。 | [了解更多关于 `tracing` 配置的信息。]({{% ref "configuration-overview.md#tracing" %}}) |
 
 

@@ -23,9 +23,23 @@ description: "如何在 Grafana 仪表板中查看 Dapr 指标。"
 {{% /tab %}}
 
 {{% tab "Actor" %}}
-`grafana-actor-dashboard.json` 模板显示 Dapr Sidecar 状态、Actor 调用吞吐量/延迟、timer/reminder 触发器以及轮转并发：
+`grafana-actor-dashboard.json` 模板显示 Dapr 边车状态、Actor 调用吞吐量/延迟、定时器/提醒触发器以及基于轮次的并发：
 
 <img src="/images/grafana-actor-dashboard.png" alt="Actor 仪表板截图" width=1200>
+{{% /tab %}}
+
+{{% tab "工作流" %}}
+`grafana-workflow-dashboard.json` 模板显示工作流和活动的执行速率、延迟与失败情况、客户端操作，以及与已配置最大值相比的负载大小：
+
+<img src="/images/grafana-workflow-dashboard.png" alt="工作流仪表板截图" width=1200>
+{{% /tab %}}
+
+{{% tab "调度器" %}}
+`grafana-scheduler-dashboard.json` 模板显示调度器的健康状态、作业生命周期与触发延迟、已连接的边车、触发并发以及嵌入式 etcd：
+
+<img src="/images/grafana-scheduler-dashboard.png" alt="调度器仪表板截图" width=1200>
+
+部分 etcd 面板需要以 `--etcd-metrics=extensive` 启动调度器。默认的 `basic` 级别不会暴露底层直方图。
 {{% /tab %}}
 
 {{< /tabpane >}}
@@ -153,7 +167,7 @@ description: "如何在 Grafana 仪表板中查看 Dapr 指标。"
 
 1. 在 Grafana 主屏幕的左上角，点击 "+" 选项，然后选择 "Import"。
 
-   现在你可以从 [发布资源](https://github.com/dapr/dapr/releases)中导入适用于你的 Dapr 版本的 [Grafana 仪表板模板](https://github.com/dapr/dapr/tree/master/grafana)：
+   现在你可以为你的 Dapr 版本导入 [Grafana 仪表板模板](https://github.com/dapr/dapr/tree/master/grafana)，这些模板可从 [发布资源](https://github.com/dapr/dapr/releases)中获取：
 
    <img src="/images/grafana-uploadjson.png" alt="Grafana 仪表板上传选项截图" width=700>
 

@@ -15,7 +15,8 @@ Dapr 通过版本控制方案，为运行时、API 和组件的未来变更而�
 - Dapr 努力保持向后兼容。如果需要重大变更，将[提前公告]({{% ref "support-release-policy#feature-and-deprecations" %}})。
 - 弃用功能会跨越多个发布版本进行，新旧功能会并排工作。
 
-版本控制适用于以下 Dapr 仓库：dapr、CLI、稳定语言 SDK、dashboard、components-contrib、quickstarts、helm-charts 和 documentation。
+
+版本控制适用于以下 Dapr 仓库：dapr、CLI、稳定语言 SDK、components-contrib、quickstarts、helm-charts 和 documentation。
 
 Dapr 具有以下版本控制方案：
 - Dapr `HTTP API` 使用 `MAJOR.MINOR` 进行版本控制
@@ -33,8 +34,8 @@ Dapr HTTP API 根据这些 [REST API 指南](https://github.com/microsoft/api-gu
 基于这些指南：
 - 当预期旧版本将被弃用时，API 的 `MAJOR` 版本会递增。任何此类弃用都将被沟通，并提供升级路径。
 - 对于任何其他更改，`MINOR` 版本*可能*会递增。例如，对发送到 API 的消息的 JSON 模式进行更改。
-- API 重大变更的定义可以查看[这里](https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#123-definition-of-a-breaking-change)。
-- 实验性 API 包含"alpha"后缀以表示其 alpha 状态。例如 v1.0alpha、v2.0alpha 等。
+API 重大变更的定义可以查看[这里](https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#123-definition-of-a-breaking-change)。
+- 实验性 API 包含“alpha”后缀以表示其 alpha 状态。例如 v1.0alpha、v2.0alpha 等。
 
 ## Dapr 运行时
 Dapr 发布版本使用 `MAJOR.MINOR.PATCH` 版本控制。例如 1.0.0。阅读[支持的发布版本]({{% ref support-release-policy.md %}})以了解有关发布版本控制的更多信息。
@@ -42,10 +43,10 @@ Dapr 发布版本使用 `MAJOR.MINOR.PATCH` 版本控制。例如 1.0.0。阅读
 ## Helm Charts
 [helm-charts 仓库](https://github.com/dapr/helm-charts)中的 Helm charts 使用 Dapr 运行时版本控制。Helm charts 用于 [Kubernetes 部署]({{% ref "kubernetes-deploy#install-with-helm-advanced" %}})
 
-## 语言 SDK、CLI 和 dashboard
-Dapr 语言 SDK、CLI 和 dashboard 与 Dapr 运行时独立版本控制，可以按不同的时间表发布。查看此[表格]({{% ref "support-release-policy#supported-versions" %}})以显示 SDK、CLI、dashboard 和运行时版本之间的兼容性。运行时的每个新版本都会列出相应的受支持 SDK、CLI 和 Dashboard。
+## 语言 SDK 和 CLI
+Dapr 语言 SDK 和 CLI 与 Dapr 运行时独立版本控制，可以按不同的时间表发布。查看此[表格]({{% ref "support-release-policy#supported-versions" %}})以显示 SDK、CLI 和运行时版本之间的兼容性。运行时的每个新版本都会列出相应的受支持 SDK 和 CLI。
 
-SDK、CLI 和 Dashboard 的版本控制遵循 `MAJOR.MINOR.PATCH` 格式。当 SDK 中存在不向后兼容的更改时（例如，更改客户端方法上的参数），主版本会递增。次版本会为新功能和错误修复进行更新，而在错误或安全热修复的情况下会递增补丁版本。
+SDK 和 CLI 的版本控制遵循 `MAJOR.MINOR.PATCH` 格式。当 SDK 中存在不向后兼容的更改时（例如，更改客户端方法上的参数），主版本会递增。次版本会为新功能和错误修复进行更新，而在错误或安全热修复的情况下会递增补丁版本。
 
 SDK 中的示例和示例代码与该仓库一起进行版本控制。
 
@@ -58,7 +59,7 @@ SDK 中的示例和示例代码与该仓库一起进行版本控制。
 * [状态存储组件]({{% ref supported-state-stores.md %}})列表
 * [发布订阅组件]({{% ref supported-pubsub.md %}})列表
 * [绑定组件]({{% ref supported-bindings.md %}})列表
-* [密钥存储组件]({{% ref supported-secret-stores.md %}})列表
+* [机密存储组件]({{% ref supported-secret-stores.md %}})列表
 * [配置存储组件]({{% ref supported-configuration-stores.md %}})列表
 * [锁组件]({{% ref supported-locks.md %}})列表
 * [加密组件]({{% ref supported-cryptography.md %}})列表

@@ -2,259 +2,62 @@
 type: docs
 no_list: true
 ---
-# <img src="/images/home-title.png" alt="Dapr 文档" width=400>
+# Dapr 文档
 
-## Dapr，分布式应用运行时
+## 面向工作流与 AI 代理的持久执行引擎
 
-Dapr 为通信、状态、工作流和智能体 AI 提供 API。这些 API 将应用程序代码与底层基础设施解耦，确保灵活性和可移植性。Dapr 利用行业最佳实践来确保安全性、弹性和可观测性，让您专注于代码。
+Dapr 提供持久、可验证的执行能力，使你的工作流和 AI 代理在发生故障后依然能够存活并持续运行至完成。其持久执行工作流引擎保证每个步骤即使遇到崩溃、重启和网络中断，也会运行至完成，并从中断处精确恢复状态。每个工作流的执行历史都经过[加密签名且可验证]({{% ref workflow-history-signing.md %}})，使运行过的内容具备防篡改性且可审计。同一引擎也驱动持久 AI 代理，使其能够推理、调用工具，并从任何故障点恢复而不丢失进度。作为 CNCF 分布式应用运行时，Dapr 基于与基础设施无关的 API，为你提供跨云和跨环境的可移植性，并具备生产系统所需的安全性、弹性与可观测性。
 
 {{< button text="开始使用" page="getting-started.md" >}}
 
 ### 使用场景
 
-<div class="card-deck">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-      <img src="/images/homepage/workflow.svg" alt="Dapr workflow" width=40>
-      <b>工作流编排</b></h5>
-      <p class="card-text">使用 Dapr 工作流可靠地编排您的微服务。</p>
-      <a href="{{% ref workflow-overview %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-      <img src="/images/homepage/dapr-agents.svg" alt="Dapr Agents" width=40>
-      <b>智能体 AI</b></h5>
-      <p class="card-text">使用 Dapr Agents 创建持久的智能体 AI 应用程序。</p>
-      <a href="{{% ref "../developing-ai/dapr-agents" %}}" class="stretched-link"></a>
-    </div>
-  </div>
-</div>
-<div class="card-deck">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-      <img src="/images/homepage/service-invocation.svg" alt="Dapr service invocation API" width=40>
-      <b>微服务</b></h5>
-      <p class="card-text">使用 Dapr 服务调用 API 构建具有弹性的微服务。</p>
-      <a href="{{% ref service-invocation-overview %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-      <img src="/images/homepage/pub-sub.svg" alt="Dapr pub/sub API" width=40>
-      <b>事件驱动架构</b></h5>
-      <p class="card-text">使用 Dapr 发布订阅 API 创建事件驱动应用程序。</p>
-      <a href="{{% ref pubsub-overview %}}" class="stretched-link"></a>
-    </div>
-  </div>
+<div class="d-card-grid">
+  <a class="d-card c-blue" href="{{% ref workflow-overview %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/workflow.svg" alt="" width="40" height="40"><span class="d-card-title">持久工作流</span></span><span class="d-card-desc">编排持久、可验证的工作流，确保它们始终运行至完成。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-sky" href="{{% ref "../developing-ai" %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/dapr-agents.svg" alt="" width="40" height="40"><span class="d-card-title">持久 AI 代理</span></span><span class="d-card-desc">构建能够从任何故障中恢复的持久 AI 代理。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-blue" href="{{% ref service-invocation-overview %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/service-invocation.svg" alt="" width="40" height="40"><span class="d-card-title">微服务</span></span><span class="d-card-desc">使用 Dapr 服务调用 API 构建具有弹性的微服务。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-sky" href="{{% ref pubsub-overview %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/pub-sub.svg" alt="" width="40" height="40"><span class="d-card-title">事件驱动架构</span></span><span class="d-card-desc">使用 Dapr 发布订阅 API 创建事件驱动应用程序。</span><span class="d-card-more">了解更多 →</span></a>
 </div>
 
 ### 语言
 
-<div class="card-deck">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-        <img src="/images/homepage/dotnet.png" alt=".NET logo" width=30>
-        <b>.NET</b>
-      </h5>
-      <p class="card-text">
-        了解 .NET SDK 的更多信息。
-      </p>
-      <a href="{{% ref dotnet %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-        <img src="/images/homepage/python.png" alt="Python logo" width=30>
-        <b>Python</b>
-      </h5>
-      <p class="card-text">
-        了解 Python SDK 的更多信息。
-      </p>
-      <a href="{{% ref python %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-        <img src="/images/homepage/javascript.png" alt="JS logo" width=30>
-        <b>JavaScript</b>
-      </h5>
-      <p class="card-text">
-        了解 JavaScript SDK 的更多信息。
-      </p>
-      <a href="{{% ref js %}}" class="stretched-link"></a>
-    </div>
-  </div>
-</div>
-
-<div class="card-deck">
-<div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-        <img src="/images/homepage/javalang.png" alt="Java logo" width=30>
-        <b>Java</b>
-      </h5>
-      <p class="card-text">
-        了解 Java SDK 的更多信息。
-      </p>
-      <a href="{{% ref java %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-        <img src="/images/homepage/golang.svg" alt="Go logo" width=30>
-        <b>Go</b>
-      </h5>
-      <p class="card-text">
-        了解 Go SDK 的更多信息。
-      </p>
-      <a href="{{% ref go %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-        <img src="/images/homepage/php.png" alt="PHP logo" width=30>
-        <b>PHP</b>
-      </h5>
-      <p class="card-text">
-        了解 PHP SDK 的更多信息。
-      </p>
-      <a href="{{% ref php %}}" class="stretched-link"></a>
-    </div>
-  </div>
+<div class="d-card-grid cols-3">
+  <a class="d-card c-blue" href="{{% ref dotnet %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/dotnet.png" alt="" width="40" height="40"><span class="d-card-title">.NET</span></span><span class="d-card-desc">了解 .NET SDK 的更多信息。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-sky" href="{{% ref python %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/python.png" alt="" width="40" height="40"><span class="d-card-title">Python</span></span><span class="d-card-desc">了解 Python SDK 的更多信息。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-blue" href="{{% ref js %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/javascript.png" alt="" width="40" height="40"><span class="d-card-title">JavaScript</span></span><span class="d-card-desc">了解 JavaScript SDK 的更多信息。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-sky" href="{{% ref java %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/javalang.png" alt="" width="40" height="40"><span class="d-card-title">Java</span></span><span class="d-card-desc">了解 Java SDK 的更多信息。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-blue" href="{{% ref go %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/golang.svg" alt="" width="40" height="40"><span class="d-card-title">Go</span></span><span class="d-card-desc">了解 Go SDK 的更多信息。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-sky" href="{{% ref php %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/php.png" alt="" width="40" height="40"><span class="d-card-title">PHP</span></span><span class="d-card-desc">了解 PHP SDK 的更多信息。</span><span class="d-card-more">了解更多 →</span></a>
 </div>
 
 ### 开始使用 Dapr 进行开发
 
-<div class="card-deck">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title"><b>快速入门</b></h5>
-      <p class="card-text">如何在几分钟内在您的环境中启动并运行 Dapr。</p>
-      <a href="{{% ref getting-started %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title"><b>快速入门示例</b></h5>
-      <p class="card-text">一系列包含代码示例的教程，帮助您快速上手 Dapr。</p>
-      <a href="{{% ref quickstarts %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title"><b>概念</b></h5>
-      <p class="card-text">了解 Dapr，包括其主要特性和能力。</p>
-      <a href="{{% ref concepts %}}" class="stretched-link"></a>
-    </div>
-  </div>
+<div class="d-card-grid cols-3">
+  <a class="d-card c-blue" href="{{% ref getting-started %}}"><span class="d-card-title">快速入门</span><span class="d-card-desc">如何在几分钟内在你的环境中启动并运行 Dapr。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-sky" href="{{% ref quickstarts %}}"><span class="d-card-title">Quickstarts</span><span class="d-card-desc">一系列包含代码示例的教程，帮助你快速上手 Dapr。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-blue" href="{{% ref concepts %}}"><span class="d-card-title">概念</span><span class="d-card-desc">了解 Dapr，包括其主要特性和能力。</span><span class="d-card-more">了解更多 →</span></a>
 </div>
-
 
 ### 了解更多关于 Dapr
 
-<div class="card-deck">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title"><b>开发应用程序</b></h5>
-      <p class="card-text">关于如何使用 Dapr 构建应用程序的工具、提示和信息。</p>
-      <a href="{{% ref developing-applications %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title"><b>构建块</b></h5>
-      <p class="card-text">解决分布式应用程序常见开发挑战的能力。</p>
-      <a href="{{% ref building-blocks-concept %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title"><b>运维</b></h5>
-      <p class="card-text">托管选项、最佳实践，以及在 Dapr 上运行应用程序的其他指南。</p>
-      <a href="{{% ref operations %}}" class="stretched-link"></a>
-    </div>
-  </div>
+<div class="d-card-grid cols-3">
+  <a class="d-card c-blue" href="{{% ref developing-applications %}}"><span class="d-card-title">开发应用程序</span><span class="d-card-desc">关于如何使用 Dapr 构建应用程序的工具、提示和信息。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-sky" href="{{% ref building-blocks-concept %}}"><span class="d-card-title">构建块</span><span class="d-card-desc">解决分布式应用程序常见开发挑战的能力。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-blue" href="{{% ref operations %}}"><span class="d-card-title">运维</span><span class="d-card-desc">托管选项、最佳实践，以及在 Dapr 上运行应用程序的其他指南。</span><span class="d-card-more">了解更多 →</span></a>
 </div>
-
 
 ### 附加信息
 
-<div class="card-deck">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title"><b>参考</b></h5>
-      <p class="card-text">关于 Dapr API、CLI、绑定等的详细文档。</p>
-      <a href="{{% ref reference %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title"><b>贡献</b></h5>
-      <p class="card-text">如何为 Dapr 项目和各种代码仓库做出贡献。</p>
-      <a href="{{% ref contributing %}}" class="stretched-link"></a>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title"><b>路线图</b></h5>
-      <p class="card-text">了解 Dapr 的路线图和变更流程。</p>
-      <a href="{{% ref roadmap.md %}}" class="stretched-link"></a>
-    </div>
-  </div>
+<div class="d-card-grid cols-3">
+  <a class="d-card c-blue" href="{{% ref reference %}}"><span class="d-card-title">参考</span><span class="d-card-desc">关于 Dapr API、CLI、绑定等的详细文档。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-sky" href="{{% ref contributing %}}"><span class="d-card-title">贡献</span><span class="d-card-desc">如何为 Dapr 项目和各个代码仓库做出贡献。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-blue" href="{{% ref roadmap.md %}}"><span class="d-card-title">路线图</span><span class="d-card-desc">了解 Dapr 的路线图和变更流程。</span><span class="d-card-more">了解更多 →</span></a>
 </div>
-
 
 ### 工具和资源
 
-<div class="card-deck">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-        <img src="/images/homepage/vscode.svg" alt="Visual studio code icon" width=40>
-        <b>IDE 集成</b>
-      </h5>
-      <p class="card-text">
-        了解如何在您首选的集成开发环境中启动并运行 Dapr。
-      </p>
-      <a href="{{% ref ides %}}" class="stretched-link"></a>
-    </div>
-  </div>
-</div>
-<div class="card-deck">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-        <img src="/images/homepage/code.svg" alt="Code icon" width=40>
-        <b>语言 SDK</b>
-      </h5>
-      <p class="card-text">
-        使用 Dapr SDK 以您首选的语言创建 Dapr 应用程序。
-      </p>
-      <a href="{{% ref sdks %}}" class="stretched-link"></a>
-    </div>
-  </div>
-</div>
-<div class="card-deck">
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">
-        <img src="/images/homepage/dark-blue-dapr.svg" alt="Code icon" width=40>
-        <b>Dapr University</b>
-      </h5>
-      <p class="card-text">
-        通过一系列免费实践课程，在基于云的沙箱环境中学习 Dapr。
-      </p>
-      <a href="https://www.diagrid.io/dapr-university" class="stretched-link"></a>
-    </div>
-  </div>
+<div class="d-card-grid cols-3">
+  <a class="d-card c-blue" href="{{% ref dapr-dev-dashboard.md %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/dashboard.svg" alt="" width="40" height="40"><span class="d-card-title">Dapr Dev Dashboard</span></span><span class="d-card-desc">在本地开发期间，检查和调试在你的机器上运行的应用、工作流、Actor 和组件。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-sky" href="{{% ref sdks %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/code.svg" alt="" width="40" height="40"><span class="d-card-title">语言 SDK</span></span><span class="d-card-desc">使用 Dapr SDK，以你偏好的语言创建 Dapr 应用程序。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-blue" href="https://www.diagrid.io/dapr-university"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/dark-blue-dapr.svg" alt="" width="40" height="40"><span class="d-card-title">Dapr University</span></span><span class="d-card-desc">通过一系列免费的实践课程，在基于云的沙箱环境中学习 Dapr。</span><span class="d-card-more">了解更多 →</span></a>
 </div>

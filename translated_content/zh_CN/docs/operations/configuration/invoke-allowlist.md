@@ -6,15 +6,19 @@ weight: 4000
 description: "限制调用应用程序可以执行的操作"
 ---
 
-使用访问控制，您可以配置策略，通过服务调用限制_调用_应用程序可以对_被调用_应用程序执行的操作。您可以在 Configuration 架构中定义访问控制策略规范来限制访问：
-- 从特定操作到被调用应用程序，以及
-- 从调用应用程序到 HTTP 动词。
+使用访问控制，您可以配置策略，通过服务调用限制_调用_应用程序可以对_被调用_应用程序执行的操作。您可以在 Configuration 架构中定义访问控制策略规范，以限制以下访问：
+- 从特定操作访问被调用应用程序，以及
+- 调用应用程序使用的 HTTP 动词。
 
 访问控制策略在 Configuration 中指定，并应用于_被调用_应用程序的 Dapr 边车。对被调用应用程序的访问基于匹配的策略操作。
 
+{{% alert title="工作流访问控制" color="primary" %}}
+如需限制哪些应用程序可以跨应用调度工作流和活动，请改用 [`WorkflowAccessPolicy`]({{% ref workflow-access-policy.md %}})。服务调用访问控制不涵盖跨应用的工作流调度。
+{{% /alert %}}
+
 您可以为所有调用应用程序提供默认的全局操作。如果未指定访问控制策略，则默认行为是允许所有调用应用程序访问被调用应用程序。
 
-[查看访问策略示例。](#example-scenarios)
+[查看访问策略示例。](#示例场景)
 
 ## 术语
 
@@ -56,8 +60,8 @@ SPIFFE ID 的格式为：`**spiffe://\<trustdomain>/ns/\<namespace\>/\<appid\>**
 
 | 属性 | 类型   | 描述                                                  |
 | -------- | ------ | ------------------------------------------------------------ |
-| `name`     | string | 被调用应用程序上允许的操作的路径名称。可以在路径中使用通配符 "*" 进行匹配。可以使用通配符 "**" 在多个路径下进行匹配。 |
-| `httpVerb` | list   | 列出调用应用程序可以使用的特定 http 动词。可以使用通配符 "*" 匹配任何 http 动词。对于 grpc 调用未使用。 |
+| `name`     | string | 被调用应用程序上允许的操作的路径名称。可以在路径中使用通配符 "\*" 进行匹配。可以使用通配符 "\**" 在多个路径下进行匹配。 |
+| `httpVerb` | list   | 列出调用应用程序可以使用的特定 http 动词。可以使用通配符 "\*" 匹配任何 http 动词。对于 grpc 调用未使用。 |
 | `action`   | string | 访问修饰符。接受的值为 "allow"（默认）或 "deny" |
 
 ## 策略规则
@@ -79,7 +83,7 @@ SPIFFE ID 的格式为：`**spiffe://\<trustdomain>/ns/\<namespace\>/\<appid\>**
 
 以下是一些使用服务调用访问控制列表的示例场景。请参阅[配置指南]({{% ref "configuration-concept.md" %}})以了解应用程序边车的可用配置设置。
 
-### 场景 1： 
+### 场景 1：
 
 拒绝所有应用程序的访问，除了 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`
 
@@ -101,7 +105,7 @@ spec:
       namespace: "default"
 ```
 
-### 场景 2： 
+### 场景 2：
 
 拒绝所有应用程序的访问，除了 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`、`operation` = `op1`
 
@@ -127,7 +131,7 @@ spec:
         action: allow
 ```
 
-### 场景 3： 
+### 场景 3：
 
 拒绝所有应用程序的访问，除非匹配 HTTP 的特定动词和 GRPC 的特定操作
 
@@ -165,7 +169,7 @@ spec:
         action: allow
 ```
 
-### 场景 4： 
+### 场景 4：
 
 允许所有方法的访问，除了 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`、`operation` = `/op1/*`、所有 `httpVerb`
 
@@ -189,7 +193,7 @@ spec:
         action: deny
 ```
 
-### 场景 5： 
+### 场景 5：
 
 允许 `trustDomain` = `public`、`namespace` = `ns1`、`appId` = `app1` 的所有方法的访问，并拒绝 `trustDomain` = `public`、`namespace` = `ns2`、`appId` = `app1` 的所有方法的访问
 
@@ -215,7 +219,7 @@ spec:
       namespace: "ns2"
 ```
 
-### 场景 6： 
+### 场景 6：
 
 允许所有方法的访问，除了 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`、`operation` = `/op1/**/a`、所有 `httpVerb`
 
@@ -325,7 +329,7 @@ spec:
       ```
 
     {{% /tab %}}
-    
+
     {{< /tabpane >}}
 
 1. 运行 daprd 以启动 Node.js 应用的 Dapr 边车，启用 mTLS，并引用本地 Sentry 服务：
@@ -344,9 +348,9 @@ spec:
 
 1. 在另一个命令提示符中，设置这些环境变量：
 
-    {{< tabpane text=true >}}
+   {{< tabpane text=true >}}
 
-    {{% tab "Linux/MacOS" %}}
+   {{% tab "Linux/MacOS" %}}
 
     ```bash
     export DAPR_TRUST_ANCHORS=`cat $HOME/.dapr/certs/ca.crt`
@@ -364,7 +368,7 @@ spec:
    $env:DAPR_CERT_KEY=$(Get-Content -raw $env:USERPROFILE\.dapr\certs\issuer.key)
    $env:NAMESPACE="default"
    ```
-  
+
    {{% /tab %}}
 
    {{< /tabpane >}}
@@ -380,7 +384,7 @@ spec:
    python app.py
    ```
 
-您应该看到在 Python 应用命令提示符中调用 Node.js 应用失败，这是由于 `nodeappconfig` 文件中的 **deny** 操作操作。将此操作更改为 **allow** 并重新运行应用程序以查看此调用成功。
+您应该会看到在 Python 应用命令提示符中调用 Node.js 应用失败，这是由于 `nodeappconfig` 文件中的 **deny** 操作。将此操作更改为 **allow** 并重新运行应用程序，即可看到此调用成功。
 
 ### Kubernetes 模式
 
@@ -393,11 +397,11 @@ spec:
 
 您可以创建并应用上述 [`nodeappconfig.yaml`](#nodeappconfigyaml) 和 [`pythonappconfig.yaml`](#pythonappconfigyaml) 配置文件，如[配置]({{% ref "configuration-concept.md" %}})中所述。
 
-例如，下面的 Kubernetes Deployment 展示了如何将 Python 应用部署到 Kubernetes 集群的 default 命名空间中，并使用此 `pythonappconfig` 配置文件。
+例如，下面的 Kubernetes Deployment 展示了如何将 Python 应用部署到 Kubernetes 的 default 命名空间中，并使用此 `pythonappconfig` 配置文件。
 
-对 Node.js 部署执行相同的操作，并查看 Python 应用的日志，以查看由于 `nodeappconfig` 文件中设置的 **deny** 操作操作而导致的调用失败。
+对 Node.js 部署执行相同的操作，并查看 Python 应用的日志，以查看由于 `nodeappconfig` 文件中设置的 **deny** 操作而导致的调用失败。
 
-将此操作更改为 **allow** 并重新部署应用程序以查看此调用成功。
+将此操作更改为 **allow** 并重新部署应用程序，即可看到此调用成功。
 
 ##### Deployment YAML 示例
 

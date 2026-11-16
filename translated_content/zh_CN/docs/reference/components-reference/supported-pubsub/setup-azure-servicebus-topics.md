@@ -12,7 +12,7 @@ aliases:
 
 要设置 Azure Service Bus 主题发布订阅，请创建类型为 `pubsub.azure.servicebus.topics` 的组件。请参阅[发布订阅代理组件文件]({{% ref setup-pubsub.md %}})以了解 ConsumerID 是如何自动生成的。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用发布订阅配置。
 
-> 此组件使用 Azure Service Bus 上的主题；有关[主题和队列](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions)之间差异，请参阅官方文档。  
+> 此组件使用 Azure Service Bus 上的主题；有关[主题和队列](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions)之间的差异，请参阅官方文档。  
 > 若要使用队列，请参阅 [Azure Service Bus 队列发布订阅组件]({{% ref "setup-azure-servicebus-queues" %}})。
 
 ### 连接字符串身份验证
@@ -66,7 +66,7 @@ spec:
 > __注意：__ 上述设置在使用此组件的所有主题之间共享。
 
 {{% alert title="警告" color="warning" %}}
-上述示例使用纯文本字符串作为密钥。建议按照[此处]({{% ref component-secrets.md %}})的描述使用密钥存储来管理密钥。
+上述示例以纯文本字符串的形式填写机密。建议按照[此处]({{% ref component-secrets.md %}})的描述，使用机密存储来管理这些机密。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -75,26 +75,26 @@ spec:
 |--------------------|:--------:|---------|---------|
 | `connectionString`   | Y  | Service Bus 的共享访问策略连接字符串。除非使用 Microsoft Entra ID 身份验证，否则必需。 | 参见上面的示例
 | `namespaceName`| N | 用于设置 Service Bus 命名空间地址的参数，为完全限定域名。如果使用 Microsoft Entra ID 身份验证，则为必需。 | `"namespace.servicebus.windows.net"` |
-| `consumerID`         | N        | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息只由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时将其设置为 Dapr 应用程序 ID（`appID`）值。(`appID`) 值。 | 可以设置为字符串值（例如上面示例中的 `"channel1"`）或字符串格式值（例如 `"{podName}"` 等）。[请参阅您可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
+| `consumerID`         | N        | 消费者 ID（消费者标签）将一个或多个消费者组织成一组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，一条消息只会被组中的其中一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时会将其设置为 Dapr 应用程序 ID（`appID`）的值。(`appID`) 值。 | 可以设置为字符串值（例如上面示例中的 `"channel1"`）或字符串格式值（例如 `"{podName}"` 等）。[请参阅你可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | `timeoutInSec`       | N  | 发送消息和管理操作的超时时间。默认值：`60` |`30`
-| `handlerTimeoutInSec`| N  |  调用应用程序处理程序的超时时间。默认值：`60` | `30`
+| `handlerTimeoutInSec`| N  | 调用应用程序处理程序的超时时间。默认值：`60`。自 1.18.5 起，该超时还会限制入站弹性策略的重试：超时后 Dapr 将停止重试；如果订阅配置了[死信主题]({{% ref pubsub-deadletter.md %}})，则会将消息发送到该死信主题。 | `30`
 | `lockRenewalInSec`      | N  | 定义缓冲消息锁的续订频率。默认值：`20`。 | `20`
-| `maxActiveMessages`     | N  | 定义一次处理或缓冲的最大消息数。此值应至少等于最大并发处理程序数。默认值：`1000` | `2000`
+| `maxActiveMessages`     | N  | 定义一次处理或缓冲的最大消息数。此值应至少与最大并发处理程序数相同。默认值：`1000` | `2000`
 | `maxConcurrentHandlers` | N  | 定义并发消息处理程序的最大数量。默认值：`0`（无限制） | `10`
 | `disableEntityManagement` | N  | 当设置为 true 时，队列和订阅不会自动创建。默认值：`"false"` | `"true"`, `"false"`
-| `defaultMessageTimeToLiveInSec` | N  | 默认消息生存时间（秒）。仅在订阅创建期间使用。 | `10`
-| `autoDeleteOnIdleInSec` | N  | 自动删除空闲订阅前等待的时间（秒）。仅在订阅创建期间使用。必须为 300 秒或更长。默认值：`0`（禁用） | `3600`
-| `maxDeliveryCount`      | N  | 定义服务器尝试传递消息的次数。仅在订阅创建期间使用。默认值由服务器设置。 | `10`
-| `lockDurationInSec`     | N  | 定义消息在过期前被锁定的秒数。仅在订阅创建期间使用。默认值由服务器设置。 | `30`
-| `minConnectionRecoveryInSec` | N | 在连接失败后尝试重新连接到 Azure Service Bus 之前等待的最小间隔（秒）。默认值：`2` | `5`
-| `maxConnectionRecoveryInSec` | N | 在连接失败后尝试重新连接到 Azure Service Bus 之前等待的最大间隔（秒）。在每次尝试之后，组件在最小值和最大值之间等待一个随机秒数，每次都会增加。默认值：`300`（5 分钟） | `600`
-| `maxRetriableErrorsPerSec` | N | 每秒处理的可重试错误的最大数量。如果消息因可重试错误而处理失败，组件会在开始处理另一条消息之前添加延迟，以避免立即重新处理失败的消息。默认值：`10` | `10`
-| `publishMaxRetries` | N  | 当 Azure Service Bus 响应"太忙"以限制消息时的最大重试次数。默认值：`5` | `5`
-| `publishInitialRetryIntervalInMs` | N  | 当 Azure Service Bus 限制消息时，初始指数退避的时间（毫秒）。默认值：`500` | `500`
+| `defaultMessageTimeToLiveInSec` | N  | 默认消息生存时间（秒）。仅在创建订阅时使用。 | `10`
+| `autoDeleteOnIdleInSec` | N  | 空闲订阅自动删除前等待的时间（秒）。仅在创建订阅时使用。必须为 300 秒或更长。默认值：`0`（禁用） | `3600`
+| `maxDeliveryCount`      | N  | 定义服务器尝试投递消息的次数。仅在创建订阅时使用。默认值由服务器设置。 | `10`
+| `lockDurationInSec`     | N  | 定义消息在过期前被锁定的时长（秒）。仅在创建订阅时使用。默认值由服务器设置。 | `30`
+| `minConnectionRecoveryInSec` | N | 连接失败后，尝试重新连接 Azure Service Bus 前等待的最小间隔（秒）。默认值：`2` | `5`
+| `maxConnectionRecoveryInSec` | N | 连接失败后，尝试重新连接 Azure Service Bus 前等待的最大间隔（秒）。每次尝试之后，组件会在最小值与最大值之间等待一个随机秒数，且每次等待的时间都会递增。默认值：`300`（5 分钟） | `600`
+| `maxRetriableErrorsPerSec` | N | 每秒处理的可重试错误的最大数量。如果消息因可重试错误处理失败，组件会在开始处理下一条消息前添加延迟，以避免立即重新处理失败的消息。默认值：`10` | `10`
+| `publishMaxRetries` | N  | Azure Service Bus 以“太忙”响应以限流消息时的最大重试次数。默认值：`5` | `5`
+| `publishInitialRetryIntervalInMs` | N  | Azure Service Bus 限流消息时，初始指数退避的时间（毫秒）。默认值：`500` | `500`
 
 ### Microsoft Entra ID 身份验证
 
-Azure Service Bus 主题发布订阅组件支持使用所有 Microsoft Entra ID 机制进行身份验证，包括托管标识。有关详细信息以及根据选择的 Microsoft Entra ID 身份验证机制需要提供的相关组件元数据字段，请参阅[Azure 身份验证文档]({{% ref authenticating-azure.md %}})。
+Azure Service Bus 主题发布订阅组件支持使用所有 Microsoft Entra ID 机制进行身份验证，包括托管标识。有关详细信息，以及根据所选 Microsoft Entra ID 身份验证机制需要提供的相关组件元数据字段，请参阅[Azure 身份验证文档]({{% ref authenticating-azure.md %}})。
 
 #### 配置示例
 
@@ -125,7 +125,7 @@ Azure Service Bus 消息使用额外的上下文元数据扩展了 Dapr 消息�
 
 ### 发送带有元数据的消息
 
-要在发送消息时设置 Azure Service Bus 元数据，请按照[此处](https://docs.dapr.io/reference/api/pubsub_api/#metadata)的文档在 HTTP 请求上设置查询参数或在 gRPC 元数据中设置。
+要在发送消息时设置 Azure Service Bus 元数据，请按照[此处](https://docs.dapr.io/reference/api/pubsub_api/#metadata)的文档，在 HTTP 请求上设置查询参数，或在 gRPC 元数据中设置。
 
 - `metadata.MessageId`
 - `metadata.CorrelationId`
@@ -146,7 +146,7 @@ Azure Service Bus 消息使用额外的上下文元数据扩展了 Dapr 消息�
 
 ### 接收带有元数据的消息
 
-当 Dapr 调用您的应用程序时，它会使用 HTTP 头或 gRPC 元数据将 Azure Service Bus 消息元数据附加到请求中。除了[上面列出的可设置元数据](#sending-a-message-with-metadata)之外，您还可以访问以下只读消息元数据。
+当 Dapr 调用你的应用程序时，它会使用 HTTP 头或 gRPC 元数据将 Azure Service Bus 消息元数据附加到请求中。除了[上面列出的可设置元数据](#发送带有元数据的消息)之外，你还可以访问以下只读消息元数据。
 
 - `metadata.DeliveryCount`
 - `metadata.LockedUntilUtc`
@@ -156,13 +156,13 @@ Azure Service Bus 消息使用额外的上下文元数据扩展了 Dapr 消息�
 
 要了解有关这些元数据属性用途的更多详细信息，请参阅[官方 Azure Service Bus 文档](https://docs.microsoft.com/rest/api/servicebus/message-headers-and-properties#message-headers)。
 
-此外，原始 Azure Service Bus 消息的所有 `ApplicationProperties` 条目都将作为 `metadata.<application property's name>` 附加。
+此外，原始 Azure Service Bus 消息中的所有 `ApplicationProperties` 条目都会以 `metadata.<application property's name>` 的形式附加。
 
-> 注意：所有时间都由服务器填充，不会针对时钟偏差进行调整。
+> 注意：所有时间均由服务器填充，且未针对时钟偏差进行调整。
 
 ## 订阅启用会话的主题
 
-要订阅已[启用会话](https://learn.microsoft.com/azure/service-bus-messaging/message-sessions)的主题，您可以在订阅元数据中提供以下属性。
+要订阅已[启用会话](https://learn.microsoft.com/azure/service-bus-messaging/message-sessions)的主题，你可以在订阅元数据中提供以下属性。
 
 - `requireSessions（默认：false）`
 - `sessionIdleTimeoutInSec（默认：60）`

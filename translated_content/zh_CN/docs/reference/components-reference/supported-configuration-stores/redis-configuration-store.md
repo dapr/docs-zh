@@ -28,10 +28,12 @@ spec:
     value: "true"
   - name: enableTLS
     value: <bool>
+  - name: insecureSkipTLSVerify
+    value: <bool>
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例将密钥作为纯字符串使用。建议使用密钥存储来管理密钥，具体操作请参阅[此处]({{% ref component-secrets.md %}})。
+上述示例将机密作为纯字符串使用。建议使用机密存储来管理机密，具体操作请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 
@@ -42,9 +44,11 @@ spec:
 | redisHost | Y | Output |  Redis 主机的连接字符串。如果 `"redisType"` 为 `"cluster"`，则可以是多个用逗号分隔的主机，也可以是单个主机。当使用 Redis Sentinel（`"failover"` 为 `"true"`）时，也可以提供多个 sentinel 地址，用逗号分隔。 | `localhost:6379`, `redis-master.default.svc.cluster.local:6379`, `sentinel1:26379,sentinel2:26379,sentinel3:26379` |
 | redisPassword | N | Output | Redis 密码 | `"password"` |
 | redisUsername | N | Output | Redis 主机的用户名。默认为空。请确保你的 Redis 服务器版本为 6 或更高版本，并且已正确创建 acl 规则。 | `"username"` |
+| useOIDC | N | Output | 通过 OpenID Connect 使用 `private_key_jwt` 客户端认证方法（RFC 7523）进行身份验证。从身份提供方获取的 OAuth2 访问令牌将用作 Redis `AUTH` 命令的密码，并会在过期前自动刷新。不得与 `redisPassword` 或 `useEntraID` 同时使用。该组件支持 [Redis 状态存储文档]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}}) 中记录的全部 `oidc*` 元数据字段。 | `"true"`, `"false"` |
 | enableTLS | N | Output |  如果 Redis 实例支持带有公共证书的 TLS，可以配置为启用或禁用 TLS。默认为 `"false"` | `"true"`, `"false"` |
-| clientCert        | N | Output        | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，且 `enableTLS` 必须设置为 true。建议使用密钥存储，具体操作请参阅[此处]({{% ref component-secrets.md %}})  | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
-| clientKey        | N | Output        | 客户端私钥的内容，与 `clientCert` 配合用于身份验证。建议使用密钥存储，具体操作请参阅[此处]({{% ref component-secrets.md %}})  | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
+| insecureSkipTLSVerify | N | Output | 当 `enableTLS` 为 `"true"` 时，跳过 TLS 证书验证。仅用于测试。默认为 `"false"` | `"true"`, `"false"` |
+| clientCert        | N | Output        | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，且 `enableTLS` 必须设置为 true。建议使用机密存储，具体操作请参阅[此处]({{% ref component-secrets.md %}})  | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
+| clientKey        | N | Output        | 客户端私钥的内容，与 `clientCert` 配合用于身份验证。建议使用机密存储，具体操作请参阅[此处]({{% ref component-secrets.md %}})  | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
 | failover           | N | Output         | 启用故障转移配置的属性。需要设置 sentinelMasterName。启用后，redisHost 应包含 sentinel 地址。默认为 `"false"` | `"true"`, `"false"`
 | sentinelMasterName | N | Output         | Sentinel 主节点名称。请参阅 [Redis Sentinel 文档](https://redis.io/docs/reference/sentinel-clients/) | `""`,  `"mymaster"`
 | sentinelUsername   | N | Output         | Redis Sentinel 的用户名。仅当 "failover" 为 true 且 Redis Sentinel 启用了身份验证时适用 | `"username"`
@@ -77,14 +81,14 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 {{% tab "Kubernetes" %}}
 你可以使用 [Helm](https://helm.sh/) 在我们的 Kubernetes 集群中快速创建 Redis 实例。此方法需要[安装 Helm](https://github.com/helm/helm#install)。
 
-1. 将 Redis 安装到你的集群中。请注意，我们要显式设置一个镜像标签以获取大于 5 的版本，这是 Dapr 的发布订阅功能所要求的。如果你只打算将 Redis 用作状态存储（而不用于发布订阅），则不必设置镜像版本。
+1. 将 Redis 安装到你的集群中。请注意，我们显式设置了镜像标签，以获取大于 5 的版本，这是 Dapr 的发布订阅功能所需要的。如果你只打算将 Redis 用作状态存储（而不用于发布订阅），则不必设置镜像版本。
     ```bash
     helm repo add bitnami https://charts.bitnami.com/bitnami
     helm install redis bitnami/redis --set image.tag=6.2
     ```
 
 2. 运行 `kubectl get pods` 查看集群中现在运行的 Redis 容器。
-3. 将 `redis-master:6379` 作为 `redisHost` 添加到你的 [redis.yaml](#component-format) 文件中。例如：
+3. 将 `redis-master:6379` 作为 `redisHost` 添加到你的 [redis.yaml](#组件格式) 文件中。例如：
     ```yaml
         metadata:
         - name: redisHost
@@ -95,7 +99,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
     - **Linux/MacOS**：运行 `kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" | base64 --decode` 并复制输出的密码。
 
-    将此密码作为 `redisPassword` 值添加到你的 [redis.yaml](#component-format) 文件中。例如：
+    将此密码作为 `redisPassword` 值添加到你的 [redis.yaml](#组件格式) 文件中。例如：
     ```yaml
         metadata:
         - name: redisPassword
@@ -111,7 +115,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 1. [使用官方 Microsoft 文档创建 Azure Cache for Redis 实例。](https://docs.microsoft.com/azure/azure-cache-for-redis/quickstart-create-redis)
 
-1. 实例创建完成后，从 Azure 门户获取主机名（FQDN）和访问密钥。
+1. 实例创建完成后，从 Azure 门户获取主机名（完全限定域名）和访问密钥。
    - 对于主机名：
      - 导航到资源的**概览**页面。
      - 复制**主机名**值。
@@ -121,11 +125,11 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 1. 将你的密钥和主机名添加到 Dapr 可应用于集群的 `redis.yaml` 文件中。
    - 如果你在运行示例，请将主机和密钥添加到提供的 `redis.yaml` 中。
-   - 如果你从零开始创建项目，请按照[组件格式部分](#component-format)中的说明创建 `redis.yaml` 文件。
+   - 如果你从零开始创建项目，请按照[组件格式部分](#组件格式)中的说明创建 `redis.yaml` 文件。
    
 1. 将 `redisHost` 键设置为 `[上一步的主机名]:6379`，将 `redisPassword` 键设置为你之前保存的密钥。
    
-   **注意：** 在生产级应用程序中，请遵循[密钥管理]({{% ref component-secrets.md %}})说明来安全地管理你的密钥。
+   **注意：** 在生产级应用程序中，请遵循[机密管理]({{% ref component-secrets.md %}})说明来安全地管理你的机密。
 
 1. 启用 EntraID 支持：
    - 在 Azure Redis 服务器上启用 Entra ID 身份验证。这可能需要几分钟时间。
@@ -133,7 +137,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 1. 将 `enableTLS` 设置为 `"true"` 以支持 TLS。
 
-> **注意：** `useEntraID` 假定你的 UserPrincipal（通过 AzureCLICredential）或 SystemAssigned 托管标识具有 RedisDataOwner 角色权限。如果使用用户分配的标识，[你需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
+> **注意：**`useEntraID` 假定你的 UserPrincipal（通过 AzureCLICredential）或 SystemAssigned 托管标识具有 RedisDataOwner 角色权限。如果使用用户分配的标识，[你需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
 
 {{% /tab %}}
 

@@ -1,157 +1,55 @@
 ---
 type: docs
-title: "如何：在 JavaScript SDK 中编写和管理 Dapr 工作流"
-linkTitle: "如何：编写和管理工作流"
+title: "Dapr 工作流 JavaScript SDK"
+linkTitle: "工作流"
 weight: 20000
-description: 如何使用 Dapr JavaScript SDK 快速上手工作流
+description: 使用 Dapr JavaScript SDK 编写、运行和管理持久化工作流
 ---
 
-让我们创建一个 Dapr 工作流并通过控制台调用它。借助[提供的工作流示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow)，你将：
+使用 Dapr JavaScript SDK 协调活动、持久定时器、外部事件以及其他工作流。`WorkflowRuntime` 负责注册并执行你的应用代码；`DaprWorkflowClient` 负责调度工作流实例并管理其生命周期。两者都通过 Dapr 边车的 gRPC 端点工作，与你为 `DaprClient` 选择的协议无关。
 
-- 使用 [JavaScript 工作流 worker](https://github.com/dapr/js-sdk/tree/main/src/workflow/runtime/WorkflowRuntime.ts) 执行工作流实例
-- 利用 JavaScript 工作流客户端与 API 调用来[启动和终止工作流实例](https://github.com/dapr/js-sdk/tree/main/src/workflow/client/DaprWorkflowClient.ts)
-
-本示例使用了在[自托管模式](https://github.com/dapr/cli#install-dapr-on-your-local-machine-self-hosted)下通过 `dapr init` 获得的默认配置。
-
-## 前提条件
-
-- [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [Node.js 和 npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)。
-- [Docker Desktop](https://www.docker.com/products/docker-desktop)
-- 验证你正在使用最新的 proto 绑定
-
-## 设置环境
-
-克隆 JavaScript SDK 仓库并进入该目录。
-
-```bash
-git clone https://github.com/dapr/js-sdk
-cd js-sdk
-```
-
-从 JavaScript SDK 根目录进入 Dapr Workflow 示例。
-
-```bash
-cd examples/workflow/authoring
-```
-
-运行以下命令以安装使用 Dapr JavaScript SDK 运行此工作流示例所需的所有依赖。
-
-```bash
-npm install
-```
-
-## 运行 `activity-sequence.ts`
-
-`activity-sequence` 文件向 Dapr Workflow 运行时注册了一个工作流和一个 activity。该工作流是按顺序执行的多个 activity 组成的序列。我们使用 DaprWorkflowClient 调度新的工作流实例并等待其完成。
-
-```typescript
-const daprHost = "localhost";
-const daprPort = "50001";
-const workflowClient = new DaprWorkflowClient({
-  daprHost,
-  daprPort,
-});
-const workflowRuntime = new WorkflowRuntime({
-  daprHost,
-  daprPort,
-});
-
-const hello = async (_: WorkflowActivityContext, name: string) => {
-  return `Hello ${name}!`;
-};
-
-const sequence: TWorkflow = async function* (ctx: WorkflowContext): any {
-  const cities: string[] = [];
-
-  const result1 = yield ctx.callActivity(hello, "Tokyo");
-  cities.push(result1);
-  const result2 = yield ctx.callActivity(hello, "Seattle");
-  cities.push(result2);
-  const result3 = yield ctx.callActivity(hello, "London");
-  cities.push(result3);
-
-  return cities;
-};
-
-workflowRuntime.registerWorkflow(sequence).registerActivity(hello);
-
-// 将 worker 启动包装在 try-catch 块中以处理启动期间的任何错误
-try {
-  await workflowRuntime.start();
-  console.log("Workflow runtime started successfully");
-} catch (error) {
-  console.error("Error starting workflow runtime:", error);
-}
-
-// 调度新的编排
-try {
-  const id = await workflowClient.scheduleNewWorkflow(sequence);
-  console.log(`Orchestration scheduled with ID: ${id}`);
-
-  // 等待编排完成
-  const state = await workflowClient.waitForWorkflowCompletion(id, undefined, 30);
-
-  console.log(`Orchestration completed! Result: ${state?.serializedOutput}`);
-} catch (error) {
-  console.error("Error scheduling or waiting for orchestration:", error);
-}
-```
-
-在以上代码中：
-
-- `workflowRuntime.registerWorkflow(sequence)` 将 `sequence` 注册为 Dapr Workflow 运行时中的一个工作流。
-- `await workflowRuntime.start();` 在 Dapr Workflow 运行时中构建并启动引擎。
-- `await workflowClient.scheduleNewWorkflow(sequence)` 向 Dapr Workflow 运行时调度一个新的工作流实例。
-- `await workflowClient.waitForWorkflowCompletion(id, undefined, 30)` 等待工作流实例完成。
-
-在终端中执行以下命令以启动 `activity-sequence.ts`：
+这些指南面向 **`@dapr/dapr` 3.19.0 或更高版本**。示例使用 Dapr 运行时 **1.19 或更高版本**，以便可以使用全部已文档化的能力，包括分离工作流、管理操作，以及 alpha 阶段的二进制存储构建块。请使用 Node.js 18 或更高版本。
 
 ```sh
-npm run start:dapr:activity-sequence
+npm install @dapr/dapr@3.19.0
 ```
 
-**预期输出**
+## 选择指南
 
-```
-You're up and running! Both Dapr and your app logs will appear here.
+| 指南 | 你将学到 |
+| --- | --- |
+| [编写和运行工作流]({{% ref js-workflow-authoring.md %}}) | 注册 worker、串联与并行化活动、使用定时器和事件、重试失败，以及继续作为新。 |
+| [管理工作流实例]({{% ref js-workflow-management.md %}}) | 调度、查看、等待、挂起、恢复、终止、清除、列出实例、获取历史记录，以及从某个事件重新运行。 |
+| [多应用工作流与历史]({{% ref js-workflow-multi-app.md %}}) | 调用远程活动和子工作流、调度分离工作流，并查看传播的祖先历史。 |
+| [工作流版本控制]({{% ref js-workflow-versioning.md %}}) | 使用可安全重放的补丁决策来演进正在运行的工作流。 |
+| [工作流序列化]({{% ref js-workflow-serialization.md %}}) | 在客户端与 worker 之间共享序列化器，并保持与已持久化历史的兼容性。 |
+| [工作流数据引用（alpha）]({{% ref js-workflow-data-references.md %}}) | 将大型负载卸载到二进制存储、转发显式引用，并仅在需要处流式传输数据。 |
 
-...
+## 运行时配置
 
-== APP == Orchestration scheduled with ID: dc040bea-6436-4051-9166-c9294f9d2201
-== APP == Waiting 30 seconds for instance dc040bea-6436-4051-9166-c9294f9d2201 to complete...
-== APP == Received "Orchestrator Request" work item with instance id 'dc040bea-6436-4051-9166-c9294f9d2201'
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Rebuilding local state with 0 history event...
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Processing 2 new history event(s): [ORCHESTRATORSTARTED=1, EXECUTIONSTARTED=1]
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Waiting for 1 task(s) and 0 event(s) to complete...
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Returning 1 action(s)
-== APP == Received "Activity Request" work item
-== APP == Activity hello completed with output "Hello Tokyo!" (14 chars)
-== APP == Received "Orchestrator Request" work item with instance id 'dc040bea-6436-4051-9166-c9294f9d2201'
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Rebuilding local state with 3 history event...
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Processing 2 new history event(s): [ORCHESTRATORSTARTED=1, TASKCOMPLETED=1]
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Waiting for 1 task(s) and 0 event(s) to complete...
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Returning 1 action(s)
-== APP == Received "Activity Request" work item
-== APP == Activity hello completed with output "Hello Seattle!" (16 chars)
-== APP == Received "Orchestrator Request" work item with instance id 'dc040bea-6436-4051-9166-c9294f9d2201'
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Rebuilding local state with 6 history event...
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Processing 2 new history event(s): [ORCHESTRATORSTARTED=1, TASKCOMPLETED=1]
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Waiting for 1 task(s) and 0 event(s) to complete...
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Returning 1 action(s)
-== APP == Received "Activity Request" work item
-== APP == Activity hello completed with output "Hello London!" (15 chars)
-== APP == Received "Orchestrator Request" work item with instance id 'dc040bea-6436-4051-9166-c9294f9d2201'
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Rebuilding local state with 9 history event...
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Processing 2 new history event(s): [ORCHESTRATORSTARTED=1, TASKCOMPLETED=1]
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Orchestration completed with status COMPLETED
-== APP == dc040bea-6436-4051-9166-c9294f9d2201: Returning 1 action(s)
-INFO[0006] dc040bea-6436-4051-9166-c9294f9d2201: 'sequence' completed with a COMPLETED status.  app_id=activity-sequence-workflow instance=kaibocai-devbox scope=wfengine.backend type=log ver=1.12.3
-== APP == Instance dc040bea-6436-4051-9166-c9294f9d2201 completed
-== APP == Orchestration completed! Result: ["Hello Tokyo!","Hello Seattle!","Hello London!"]
-```
+`WorkflowRuntime` 和 `DaprWorkflowClient` 接受一个选项对象：
+
+| 选项 | 行为 |
+| --- | --- |
+| `daprHost`、`daprPort` | 边车的主机和 **gRPC** 端口。默认值来自 SDK 设置，通常为 `127.0.0.1:50001`。若未显式设置主机或端口选项，则遵循 `DAPR_GRPC_ENDPOINT`。 |
+| `daprApiToken` | Dapr API 令牌；否则使用 `DAPR_API_TOKEN`。 |
+| `logger` | SDK 日志选项。在工作流代码中使用 `ctx.logger` 可抑制重放期间的消息。 |
+| `serializer` | 负载序列化器。默认为 JSON；若省略且配置了 `payloads`，则使用解析器的序列化器。 |
+| `payloads` | 可选的 `BinaryStoreWorkflowPayloadResolver`。在每个读取或写入引用的客户端和 worker 上都要注册。 |
+| `grpcOptions` | 支持 `grpc.max_receive_message_length` 和 `grpc.max_send_message_length`，两者默认均为 128 MiB，并支持与 Connect 兼容的 `interceptors`。其他旧版 grpc-js 通道设置（如 keepalive、凭据或压缩）不会生效。 |
+| `maxConcurrentActivities` | 仅 worker 可用的正整数，用于限制同时执行的活动数量。超出的活动会在本地排队；工作流工作项不受此限制。省略时，并发度由 Dapr 运行时的 `workflow.maxConcurrentActivityInvocations` 决定。 |
+
+在调度工作之前，请先等待 `runtime.start()` 完成。该调用会在 worker 连接并就绪后返回；若首次连接失败，则会以错误拒绝。`runtime.isReady` 反映当前的连接就绪状态；连接断开后，worker 会自动重连。应用关闭时，请调用 `runtime.stop()` 和 `client.stop()`。
+
+SDK 在调度工作流时会传播 W3C 追踪上下文。当活动具有父级追踪上下文时，它会在 `Dapr.Workflow` tracer 下创建 `WorkflowActivity <name>` span。请在应用中配置 OpenTelemetry provider 和 exporter，以收集这些 span。
+
+## 升级注意事项
+
+本 SDK 使用自有的工作流引擎，而不是共享的 DurableTask 客户端库。升级时请重新测试现有工作流，包括重放、状态比较、序列化器和传输选项。请使用 `WorkflowRuntimeStatus` 的成员比较状态，而不要硬编码字符串或数值。该引擎**不**支持[有状态工作流客户端]({{% ref workflow-stateful-client.md %}})；[传播的祖先历史]({{% ref js-workflow-multi-app.md %}}#inspect-propagated-history)与 `getWorkflowHistory` 是相互独立的能力。
 
 ## 后续步骤
 
-- [详细了解 Dapr 工作流]({{% ref workflow-overview.md %}})
+- [工作流概述]({{% ref workflow-overview.md %}})
 - [工作流 API 参考]({{% ref workflow_api.md %}})
+- [JavaScript SDK 工作流示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow/authoring)
+- [JavaScript SDK 工作流实现](https://github.com/dapr/js-sdk/tree/main/src/workflow)

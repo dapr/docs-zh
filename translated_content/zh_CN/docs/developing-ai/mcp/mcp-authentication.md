@@ -1,8 +1,8 @@
 ---
 type: docs
 title: "对 MCP 服务器进行身份验证"
-linkTitle: "快速入门"
-weight: 20
+linkTitle: "对 MCP 服务器进行身份验证"
+weight: 10
 description: "如何启用 MCP 客户端和服务器端身份验证"
 ---
 
@@ -86,7 +86,7 @@ spec:
 接下来，创建配置资源，告诉 Dapr 使用 OAuth2 中间件：
 
 ```yaml
-apiVersion: dapr.io/v1alpha1
+piVersion: dapr.io/v1alpha1
 kind: Configuration
 metadata:
   name: auth
@@ -100,7 +100,7 @@ spec:
 ```
 
 {{% alert title="注意" color="primary" %}} 
-访问[此链接]({{% ref "component-secrets.md" %}})以了解如何向 Dapr 组件提供密钥
+访问[此链接]({{% ref "component-secrets.md" %}})，了解如何向 Dapr 组件提供机密
 {{% /alert %}}
 
 ### 使用 MCP 客户端调用 MCP 服务器
@@ -113,10 +113,10 @@ from mcp import ClientSession
 from mcp.transport.http import HttpClientTransport
 
 async def main():
-    # Dapr 进程的默认地址。在生产环境中使用环境变量
+    # Dapr 进程的默认地址。在生产环境中请使用环境变量
     server_url = "http://localhost:3500/"
 
-    # 创建带有标头的 HTTP/SSE 传输，以针对上面定义的 HTTPEndpoint
+    # 创建带有标头的 HTTP/SSE 传输，以指向上面定义的 HTTPEndpoint
     transport = HttpClientTransport(
         url=server_url,
         headers={
@@ -127,12 +127,12 @@ async def main():
         },
     )
 
-    # 创建绑定到传输的 MCP 会话
+    # 创建绑定到该传输的 MCP 会话
     async with ClientSession(transport) as session:
         await session.initialize()
 
         tools = await session.call("tools/list")
-        print("Server Tools:", tools)
+        print("Server Tools:", tools))
 
         await session.shutdown()
 
@@ -148,7 +148,7 @@ if __name__ == "__main__":
 dapr run --app-id mcpclient --resources-path ./components --dapr-http-port 3500 --config ./config.yaml -- python mcpclient.py
 ```
 
-MCP 客户端使 Dapr 在连接到 MCP 服务器之前启动 OAuth2 流水线。
+MCP 客户端使 Dapr 在连接到 MCP 服务器之前启动 OAuth2 流水线。  
 
 ## 如何启用服务器端身份验证
 
@@ -177,10 +177,10 @@ spec:
     value: "<comma-separated scopes>"
 ```
 
-接下来，创建配置组件，修改 `appHttpPipeline` 字段。这告诉 Dapr 对传入的调用应用中间件。
+接下来，创建配置组件，并修改 `appHttpPipeline` 字段。这告诉 Dapr 对传入的调用应用该中间件。
 
 ```yaml
-apiVersion: dapr.io/v1alpha1
+piVersion: dapr.io/v1alpha1
 kind: Configuration
 metadata:
   name: auth
@@ -198,7 +198,49 @@ spec:
 将上面的 YAML 文件放入 `components` 目录并运行 Dapr：
 
 ```bash
-dapr run --app-id mcpserver --resources-path ./components --dapr-http-port 3500 --config ./config.yaml -- python mcpserver.py
+dapr run --app-id mcpclient --resources-path ./components --dapr-http-port 3500 --config ./config.yaml -- python mcpserver.py
 ```
 
 当 MCP 服务器的请求到达时，Dapr 将启动 OAuth2 流水线。
+
+### 替代方案：使用 bearer 中间件进行入站 JWT 验证
+
+要求 MCP 服务器的每个入站请求都携带有效的 OAuth 2.0 令牌，且无需在服务器端驱动 OAuth2 流程，请将 [`middleware.http.bearer`]({{% ref middleware-bearer.md %}}) 挂载到 MCP 服务器的 `appHttpPipeline` 上。该中间件会根据 JWKS 端点验证令牌的签名、颁发者（issuer）和受众（audience），并在请求到达服务器代码之前拒绝缺失或无效令牌的请求（`401 Unauthorized`）。
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: bearer-validator
+spec:
+  type: middleware.http.bearer
+  version: v1
+  metadata:
+  - name: jwksURL
+    value: "https://auth.example.com/.well-known/jwks.json"
+  - name: audience
+    value: "mcp-server"
+  - name: issuer
+    value: "https://auth.example.com"
+```
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Configuration
+metadata:
+  name: bearer-server
+spec:
+  appHttpPipeline:
+    handlers:
+    - name: bearer-validator
+      type: middleware.http.bearer
+```
+
+将 bearer 验证与[基于 App-ID 的访问控制]({{% ref mcp-access-control.md %}})结合使用，以实现纵深防御：`accessControl` 决定*哪些调用方*可以访问服务器；bearer 验证则要求它们出示有效且已签名的令牌。
+
+## 另请参阅
+
+- [MCP 访问控制]({{% ref mcp-access-control.md %}}) —— 在服务调用边界处基于 App-ID 的授权。
+- [MCP 安全态势]({{% ref mcp-security.md %}}) —— 威胁模型与纵深防御的整体说明。
+- [Bearer 中间件参考]({{% ref middleware-bearer.md %}})。
+- [OAuth2 中间件参考]({{% ref middleware-oauth2.md %}})。

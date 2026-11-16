@@ -40,7 +40,7 @@ Kubernetes 使用一个称为**节点亲和性（node affinity）**的概念来�
 
 ## 安装 Dapr 控制平面
 
-如果你使用 Dapr CLI 或 Helm chart 安装，只需按照常规部署流程操作：[在 Kubernetes 集群上安装 Dapr]({{% ref "install-dapr-selfhost.md#installing-Dapr-on-a-kubernetes-cluster" %}})
+如果你使用 Dapr CLI 或 Helm chart 安装，只需按照常规部署流程操作：[在 Kubernetes 集群上安装 Dapr]({{% ref kubernetes-deploy %}})
 
 亲和性将自动设置为 `kubernetes.io/os=linux`。这对大多数用户来说已足够，因为 Kubernetes 至少需要一个 Linux 节点池。
 
@@ -100,7 +100,7 @@ helm install dapr dapr/dapr --set global.daprControlPlaneOs=windows
                      values:
                      - windows
    ```
-   
+
 1. 将 YAML 文件部署到你的 Kubernetes 集群。
 
    ```bash

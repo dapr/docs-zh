@@ -26,12 +26,16 @@ spec:
   metadata:
   - name: redisHost
     value: <HOST>
-  - name: redisPassword # 可选
+  - name: redisPassword # 可选。
     value: <PASSWORD>
   - name: useEntraID
-    value: <bool> # 可选，允许值：true, false
+    value: <bool> # 可选，允许值：true, false。
+  - name: useOIDC
+    value: <bool> # 可选，允许值：true, false。
   - name: enableTLS
-    value: <bool> # 可选，允许值：true, false
+    value: <bool> # 可选，允许值：true, false。
+  - name: insecureSkipTLSVerify
+    value: <bool> # 可选，允许值：true, false。
   - name: clientCert
     value: # 可选
   - name: clientKey
@@ -41,7 +45,7 @@ spec:
   - name: maxRetryBackoff
     value: # 可选
   - name: failover
-    value: <bool> # 可选，允许值：true, false
+    value: <bool> # 可选，允许值：true, false。
   - name: sentinelMasterName
     value: <string> # 可选
   - name: sentinelUsername
@@ -84,17 +88,17 @@ spec:
     value: <int> # 可选
   - name: queryIndexes
     value: <string> # 可选
-  # 如果希望将 Redis 用作 actor 的状态存储，请取消注释此行（可选）
+  # 如果希望将 Redis 用作 Actor 的状态存储，请取消注释此行（可选）
   #- name: actorStateStore
   #  value: "true"
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例将密钥作为纯字符串使用。建议按照[此处]({{% ref component-secrets.md %}})的描述使用密钥存储来管理密钥。
+上述示例将机密以纯字符串形式使用。建议按照[此处]({{% ref component-secrets.md %}})的描述，使用机密存储来管理机密。
 {{% /alert %}}
 
 
-如果您希望将 Redis 用作 actor 存储，请在 yaml 中追加以下内容。
+如果您希望将 Redis 用作 Actor 存储，请在 yaml 中追加以下内容。
 
 ```yaml
   - name: actorStateStore
@@ -103,44 +107,119 @@ spec:
 
 ## 规范元数据字段
 
-| 字段              | 必填 | 说明 | 示例 |
+| 字段 | 必填 | 说明 | 示例 |
 |--------------------|:--------:|---------|---------|
-| redisHost          | Y        | Redis 主机的连接字符串。如果 `"redisType"` 为 `"cluster"`，可以是多个以逗号分隔的主机或单个主机。使用 Redis Sentinel（`"failover"` 为 `"true"`）时，也可以提供多个以逗号分隔的 sentinel 地址。 | `localhost:6379`、`redis-master.default.svc.cluster.local:6379`、`sentinel1:26379,sentinel2:26379,sentinel3:26379`
-| redisPassword      | N        | Redis 主机的密码。无默认值。可以使用 `secretKeyRef` 来使用密钥引用  | `""`、`"KeFg23!"`
+| redisHost          | Y        | Redis 主机的连接字符串。如果 `"redisType"` 为 `"cluster"`，可以是多个以逗号分隔的主机，也可以是单个主机。使用 Redis Sentinel（`"failover"` 为 `"true"`）时，也可以提供多个以逗号分隔的 sentinel 地址。 | `localhost:6379`、`redis-master.default.svc.cluster.local:6379`、`sentinel1:26379,sentinel2:26379,sentinel3:26379`
+| redisPassword      | N        | Redis 主机的密码。无默认值。可以设为 `secretKeyRef`，以使用机密引用  | `""`、`"KeFg23!"`
 | redisUsername      | N        | Redis 主机的用户名。默认为空。请确保您的 Redis 服务器版本为 6 或以上，并已正确创建 ACL 规则。 | `""`、`"default"`
-| useEntraID | N | 为 Azure Cache for Redis 实现 EntraID 支持。启用此功能之前：<ul><li>必须以 `"server:port"` 的格式指定 `redisHost` 名称</li><li>必须启用 TLS</li></ul> 在[创建 Redis 实例 > Azure Cache for Redis]({{% ref "#setup-redis" %}})下了解有关此设置的更多信息 | `"true"`、`"false"`
+| useEntraID | N | 为 Azure Cache for Redis 实现 EntraID 支持。启用此功能之前：<ul><li>必须以 `"server:port"` 的形式指定 `redisHost` 名称</li><li>必须启用 TLS</li></ul> 在[创建 Redis 实例 > Azure Cache for Redis]({{% ref "#设置-redis" %}})下了解有关此设置的更多信息 | `"true"`、`"false"` |
+| useOIDC | N | 使用 OpenID Connect 的 `private_key_jwt` 客户端身份验证方法（RFC 7523）进行身份验证。系统从身份提供方获取 OAuth2 访问令牌，并将其用作 Redis `AUTH` 命令的密码，令牌在过期前会自动刷新。不得与 `redisPassword` 或 `useEntraID` 同时使用。详情请参阅 [OIDC private_key_jwt 身份验证](#oidc-private_key_jwt-身份验证) | `"true"`、`"false"` |
+| oidcTokenEndpoint | N | OAuth2 身份提供方的访问令牌端点 URL。当 `useOIDC` 为 `"true"` 时必填 | `"https://identity.example.com/v1/token"` |
+| oidcClientID | N | 在身份提供方中预先配置的 OAuth2 客户端 ID。当 `useOIDC` 为 `"true"` 时必填 | `"my-client-id"` |
+| oidcClientAssertionCert | N | 与客户端断言签名密钥配对的 PEM 编码 X.509 证书。当 `useOIDC` 为 `"true"` 时必填。建议按照[此处]({{% ref component-secrets.md %}})的描述使用机密存储 | `"-----BEGIN CERTIFICATE-----\nMIIC..."` |
+| oidcClientAssertionKey | N | 用于签署客户端断言的 PEM 编码 RSA 私钥。当 `useOIDC` 为 `"true"` 时必填。建议按照[此处]({{% ref component-secrets.md %}})的描述使用机密存储 | `"-----BEGIN PRIVATE KEY-----\nMIIE..."` |
+| oidcResource | N | 可选的 OAuth2 资源参数。当身份提供方要求时，将其包含在令牌请求中 | `"URI:RS-12345-API"` |
+| oidcAudience | N | 覆盖 JWT 客户端断言的受众（`aud`）。默认为令牌端点 URL | `"https://identity.example.com/realms/local"` |
+| oidcScopes | N | 以逗号分隔的 OAuth2/OIDC 范围列表，用于请求访问令牌。虽然并非必需，但建议设置此字段。默认为 `"openid"` | `"openid,redis-prod"` |
+| oidcKid | N | 客户端断言所用的 JWT 密钥 ID（`kid`）标头，当身份提供方要求时使用。例如客户端证书的指纹 | `"1234567890"` |
+| oidcCACert | N | 用于验证与令牌端点之间 TLS 连接的 PEM 编码 CA 证书。它与 Redis 连接本身的 TLS 配置不同 | `"-----BEGIN CERTIFICATE-----\nMIIC..."` |
 | enableTLS          | N         | 如果 Redis 实例支持使用公共证书的 TLS，可以配置为启用或禁用。默认为 `"false"` | `"true"`、`"false"`
-| clientCert         | N         | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，且 `enableTLS` 必须设置为 true。建议按照[此处]({{% ref component-secrets.md %}})的描述使用密钥存储   | `"----BEGIN CERTIFICATE-----\nMIIC..."`
-| clientKey          | N         | 客户端私钥的内容，与 `clientCert` 结合使用进行身份验证。建议按照[此处]({{% ref component-secrets.md %}})的描述使用密钥存储 | `"----BEGIN PRIVATE KEY-----\nMIIE..."`
+| insecureSkipTLSVerify | N      | 当 `enableTLS` 为 `"true"` 时跳过 TLS 证书验证。仅用于测试。默认为 `"false"` | `"true"`、`"false"`
+| clientCert         | N         | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，且 `enableTLS` 必须设置为 true。建议按照[此处]({{% ref component-secrets.md %}})的描述使用机密存储   | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
+| clientKey          | N         | 客户端私钥的内容，与 `clientCert` 结合使用进行身份验证。建议按照[此处]({{% ref component-secrets.md %}})的描述使用机密存储 | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
 | maxRetries         | N         | 放弃前的最大重试次数。默认为 `3` | `5`、`10`
 | maxRetryBackoff    | N         | 每次重试之间的最大退避时间。默认为 `2` 秒；`"-1"` 禁用退避。 | `3000000000`
 | failover           | N         | 启用故障转移配置的属性。需要设置 sentinelMasterName。启用时，redisHost 应包含 sentinel 地址。默认为 `"false"` | `"true"`、`"false"`
 | sentinelMasterName | N         | Sentinel 主节点名称。请参阅 [Redis Sentinel 文档](https://redis.io/docs/latest/operate/oss_and_stack/management/sentinel/) | `""`、`"mymaster"`
 | sentinelUsername   | N         | Redis Sentinel 的用户名。仅当 "failover" 为 true 且 Redis Sentinel 已启用身份验证时适用 | `"username"`
 | sentinelPassword   | N         | Redis Sentinel 的密码。仅当 "failover" 为 true 且 Redis Sentinel 已启用身份验证时适用 | `"password"`
-| redeliverInterval  | N        | 检查待重新投递消息的间隔时间。默认为 `"60s"`。`"0"` 禁用重新投递。 | `"30s"`
-| processingTimeout  | N        | 消息在尝试重新投递之前必须保持待处理状态的时间量。默认为 `"15s"`。`"0"` 禁用重新投递。 | `"30s"`
-| redisType          | N        | Redis 的类型。有两个有效值，一个是 `"node"` 用于单节点模式，另一个是 `"cluster"` 用于 Redis 集群模式。默认为 `"node"`。 | `"cluster"`
+| redeliverInterval  | N        | 检查待重新投递消息的时间间隔。默认为 `"60s"`。`"0"` 禁用重新投递。 | `"30s"`
+| processingTimeout  | N        | 消息在尝试重新投递之前必须保持待处理状态的时长。默认为 `"15s"`。`"0"` 禁用重新投递。 | `"30s"`
+| redisType          | N        | Redis 的类型。有两个有效值：`"node"` 表示单节点模式，`"cluster"` 表示 Redis 集群模式。默认为 `"node"`。 | `"cluster"`
 | redisDB            | N        | 连接到 Redis 后选择的数据库。如果 `"redisType"` 为 `"cluster"`，则忽略此选项。默认为 `"0"`。 | `"0"`
 | redisMaxRetries    | N        | `maxRetries` 的别名。如果两个值都已设置，则忽略 `maxRetries`。 | `"5"`
-| redisMinRetryInterval        | N        | 每次重试之间 Redis 命令的最小退避时间。默认为 `"8ms"`；`"-1"` 禁用退避。 | `"8ms"`
+| redisMinRetryInterval        | N        | Redis 命令在每次重试之间的最小退避时间。默认为 `"8ms"`；`"-1"` 禁用退避。 | `"8ms"`
 | redisMaxRetryInterval        | N        | `maxRetryBackoff` 的别名。如果两个值都已设置，则忽略 `maxRetryBackoff`。  | `"5s"`
 | dialTimeout        | N        | 建立新连接的拨号超时时间。默认为 `"5s"`。  | `"5s"`
-| readTimeout        | N        | 套接字读取的超时时间。如果达到此时间，Redis 命令将以超时失败而不是阻塞。默认为 `"3s"`，`"-1"` 表示无超时。 | `"3s"`
-| writeTimeout       | N        | 套接字写入的超时时间。如果达到此时间，Redis 命令将以超时失败而不是阻塞。默认为 readTimeout。 | `"3s"`
-| poolSize           | N        | 套接字连接的最大数量。默认为每个 CPU 10 个连接，由 runtime.NumCPU 报告。 | `"20"`
-| poolTimeout        | N        | 如果所有连接都忙，客户端等待连接的时间，然后返回错误。默认为 readTimeout + 1 秒。 | `"5s"`
+| readTimeout        | N        | 套接字读取的超时时间。达到此时间后，Redis 命令将以超时失败，而不是阻塞。默认为 `"3s"`，`"-1"` 表示无超时。 | `"3s"`
+| writeTimeout       | N        | 套接字写入的超时时间。达到此时间后，Redis 命令将以超时失败，而不是阻塞。默认为 readTimeout。 | `"3s"`
+| poolSize           | N        | 套接字连接的最大数量。默认为运行时 runtime.NumCPU 报告的每个 CPU 10 个连接。 | `"20"`
+| poolTimeout        | N        | 如果所有连接都忙，客户端等待连接的时间，超时后返回错误。默认为 readTimeout 加 1 秒。 | `"5s"`
 | maxConnAge         | N        | 客户端退役（关闭）连接的连接时长。默认为不关闭旧连接。 | `"30m"`
-| minIdleConns       | N        | 保持打开的最小空闲连接数，以避免与创建新连接相关的性能下降。默认为 `"0"`。 | `"2"`
-| idleCheckFrequency        | N        | 空闲连接清理器执行的空闲检查频率。默认为 `"1m"`。`"-1"` 禁用空闲连接清理器。 | `"-1"`
-| idleTimeout        | N        | 客户端关闭空闲连接之后的时间量。应小于服务器的超时时间。默认为 `"5m"`。`"-1"` 禁用空闲超时检查。 | `"10m"`
-| ttlInSeconds       | N         | 允许指定以秒为单位的默认生存时间（TTL），该时间将应用于每个状态存储请求，除非通过[请求元数据]({{% ref "state-store-ttl.md" %}})显式定义 TTL。 | `600`
-| queryIndexes       | N         | 用于查询 JSON 对象的索引模式 | 参见[查询 JSON 对象](#querying-json-objects)
-| actorStateStore    | N        | 将此状态存储用于 actor。默认为 `"false"` | `"true"`、`"false"`
+| minIdleConns       | N        | 为避免创建新连接带来的性能下降，保持打开的最小空闲连接数。默认为 `"0"`。 | `"2"`
+| idleCheckFrequency        | N        | 空闲连接回收器执行空闲检查的频率。默认为 `"1m"`。`"-1"` 禁用空闲连接回收器。 | `"-1"`
+| idleTimeout        | N        | 客户端关闭空闲连接之前的时长。应小于服务器的超时时间。默认为 `"5m"`。`"-1"` 禁用空闲超时检查。 | `"10m"`
+| ttlInSeconds       | N         | 允许以秒为单位指定默认的生存时间（TTL），该时间将应用于每个状态存储请求，除非通过[请求元数据]({{% ref "state-store-ttl.md" %}})显式定义 TTL。 | `600`
+| queryIndexes       | N         | 用于查询 JSON 对象的索引架构 | 参见[查询 JSON 对象](#查询-json-对象可选)
+| actorStateStore    | N        | 将此状态存储用于 Actor。默认为 `"false"` | `"true"`、`"false"`
+
+## 支持的服务器与版本
+
+Dapr 的 Redis 状态存储组件已针对以下 Redis 和 Valkey 版本进行测试：
+
+| 服务器 | 版本 | 说明 |
+|--------|----------|-------|
+| Redis | 6.x, 7.x | 查询 API 需要 RediSearch **和** RedisJSON 模块 |
+| [Valkey](https://valkey.io) | 8.x, 9.x | 默认不提供查询 API；需要安装 RediSearch 和 RedisJSON 模块 |
+
+{{% alert title="Valkey 与查询 API" color="warning" %}}
+标准的 Valkey 镜像（`valkey/valkey:8.x`、`valkey/valkey:9.x`）未捆绑 RediSearch 或 RedisJSON 模块。[查询 API]({{% ref "state_api.md#query-state" %}})和 `queryIndexes` 元数据字段需要同时具备 RediSearch 和 RedisJSON，无法在普通的 Valkey 实例上使用。其他所有状态存储操作（CRUD、TTL、事务、Actor 状态）均可正常工作。
+{{% /alert %}}
+
+## OIDC private_key_jwt 身份验证
+
+作为静态密码的替代方案，Redis 组件可以使用 OpenID Connect 的 `private_key_jwt` 客户端身份验证方法（[RFC 7523](https://datatracker.ietf.org/doc/html/rfc7523)）进行身份验证：
+
+1. Dapr 使用您的私钥（RS256）签名的 JWT 客户端断言，向身份提供方的令牌端点进行身份验证。
+1. 返回的 OAuth2 访问令牌被用作 Redis `AUTH` 命令的密码。除非设置了 `redisUsername`，否则用户名默认为 `default`。
+1. Dapr 会在令牌过期前 5 分钟在后台刷新令牌，并对现有连接重新进行身份验证。
+
+这适用于 Redis、Valkey，或任何接受承载令牌（bearer token）作为 `AUTH` 密码的 RESP 兼容服务器，例如前置了令牌校验代理的部署。
+
+`useOIDC` 不得与 `redisPassword` 或 `useEntraID` 同时使用。
+
+```yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: statestore
+spec:
+  type: state.redis
+  version: v1
+  metadata:
+  - name: redisHost
+    value: my-valkey.example.com:6379
+  - name: enableTLS
+    value: "true"
+  - name: useOIDC
+    value: "true"
+  - name: oidcTokenEndpoint
+    value: "https://identity.example.com/adfs/oauth2/token"
+  - name: oidcClientID
+    value: "my-client-id"
+  - name: oidcClientAssertionCert
+    secretKeyRef:
+      name: oidc-client-cert
+      key: oidc-client-cert
+  - name: oidcClientAssertionKey
+    secretKeyRef:
+      name: oidc-client-key
+      key: oidc-client-key
+  - name: oidcResource # 可选
+    value: "URI:RS-12345-API"
+  - name: oidcScopes # 可选
+    value: "openid,redis-prod"
+  - name: oidcKid # 可选
+    value: "B2F4C1A..."
+auth:
+  secretStore: <SECRET_STORE_NAME>
+```
+
+同样的元数据字段也受 Redis [发布订阅]({{% ref setup-redis-pubsub.md %}})、[锁]({{% ref redis-lock.md %}})、[绑定]({{% ref "reference/components-reference/supported-bindings/redis.md" %}})和[配置存储]({{% ref redis-configuration-store.md %}})组件支持。
 
 ## 设置 Redis
 
-Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上运行的或托管的云服务。
+Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上运行的，或托管的云服务。
 
 {{< tabpane text=true >}}
 
@@ -151,25 +230,25 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 {{% tab "Kubernetes" %}}
 您可以使用 [Helm](https://helm.sh/) 在 Kubernetes 集群中快速创建 Redis 实例。此方法需要[安装 Helm](https://github.com/helm/helm#install)。
 
-1. 将 Redis 安装到您的集群中。请注意，我们显式设置了镜像标签以获取大于 5 的版本，这是 Dapr 的发布订阅功能所需的。如果您仅打算将 Redis 用作状态存储（而不是用于发布订阅），则不必设置镜像版本。
+1. 将 Redis 安装到您的集群中。请注意，我们显式设置了镜像标签以获取大于 5 的版本，这是 Dapr 发布订阅功能所需的。如果您只打算将 Redis 用作状态存储（而不用于发布订阅），则无需设置镜像版本。
     ```bash
     helm repo add bitnami https://charts.bitnami.com/bitnami
     helm install redis bitnami/redis
     ```
 
-2. 运行 `kubectl get pods` 以查看 Redis 容器现在正在集群中运行。
-3. 将 `redis-master:6379` 作为 `redisHost` 添加到您的 [redis.yaml](#configuration) 文件中。例如：
+2. 运行 `kubectl get pods`，查看集群中正在运行的 Redis 容器。
+3. 将 `redis-master:6379` 添加为 [redis.yaml](#configuration) 文件中的 `redisHost`。例如：
     ```yaml
         metadata:
         - name: redisHost
           value: redis-master:6379
     ```
-4. 接下来，获取 Redis 密码，根据我们使用的操作系统，这略有不同：
-    - **Windows**：运行 `kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" > encoded.b64`，这将创建一个包含编码密码的文件。接下来，运行 `certutil -decode encoded.b64 password.txt`，这将把您的 redis 密码放入名为 `password.txt` 的文本文件中。复制密码并删除这两个文件。
+4. 接下来，获取 Redis 密码，具体方法因所用操作系统而略有不同：
+    - **Windows**：运行 `kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" > encoded.b64`，这将创建一个包含编码密码的文件。接下来，运行 `certutil -decode encoded.b64 password.txt`，这将把 Redis 密码写入名为 `password.txt` 的文本文件中。复制密码，然后删除这两个文件。
 
-    - **Linux/MacOS**：运行 `kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" | base64 --decode` 并复制输出的密码。
+    - **Linux/MacOS**：运行 `kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" | base64 --decode`，并复制输出的密码。
 
-    将此密码作为 `redisPassword` 值添加到您的 [redis.yaml](#configuration) 文件中。例如：
+    将此密码作为 [redis.yaml](#configuration) 文件中的 `redisPassword` 值添加。例如：
     ```yaml
         metadata:
         - name: redisPassword
@@ -182,31 +261,31 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 {{% /tab %}}
 
 {{% tab "Azure" %}}
-1. [使用 Microsoft 官方文档创建 Azure Cache for Redis 实例。](https://docs.microsoft.com/azure/azure-cache-for-redis/quickstart-create-redis)
+1. [按照 Microsoft 官方文档创建 Azure Cache for Redis 实例。](https://docs.microsoft.com/azure/azure-cache-for-redis/quickstart-create-redis)
 
-1. 创建实例后，从 Azure 门户获取主机名（FQDN）和访问密钥。 
-   - 对于主机名： 
+1. 实例创建后，从 Azure 门户获取主机名（完全限定域名，FQDN）和访问密钥。
+   - 对于主机名：
      - 导航到资源的**概览**页面。
      - 复制**主机名**值。
-   - 对于访问密钥： 
-     - 导航到**设置** > **访问密钥**。 
+   - 对于访问密钥：
+     - 导航到**设置** > **访问密钥**。
      - 复制并保存您的密钥。
 
-1. 将您的密钥和主机名添加到 Dapr 可以应用到集群的 `redis.yaml` 文件中。 
-   - 如果您正在运行示例，请将主机和密钥添加到提供的 `redis.yaml` 中。 
-   - 如果您是从头开始创建项目，请按照[组件格式部分](#component-format)中的说明创建 `redis.yaml` 文件。 
-   
-1. 将 `redisHost` 键设置为 `[上一步的主机名]:6379`，将 `redisPassword` 键设置为之前保存的密钥。 
-   
-   **注意：** 在生产级应用程序中，请遵循[密钥管理]({{% ref component-secrets.md %}})说明来安全地管理您的密钥。
+1. 将您的密钥和主机名添加到 Dapr 可以应用到集群的 `redis.yaml` 文件中。
+   - 如果您正在运行示例，请将主机和密钥添加到所提供的 `redis.yaml` 中。
+   - 如果您是从头开始创建项目，请按照[组件格式](#组件格式)一节的说明创建 `redis.yaml` 文件。
+
+1. 将 `redisHost` 键设置为 `[HOST NAME FROM PREVIOUS STEP]:6379`，将 `redisPassword` 键设置为您之前保存的密钥。
+
+   **注意：** 在生产级应用程序中，请遵循[机密管理]({{% ref component-secrets.md %}})说明，安全地管理您的机密。
 
 1. 启用 EntraID 支持：
    - 在 Azure Redis 服务器上启用 Entra ID 身份验证。这可能需要几分钟。
-   - 将 `useEntraID` 设置为 `"true"` 以为 Azure Cache for Redis 实现 EntraID 支持。
+   - 将 `useEntraID` 设置为 `"true"`，以便为 Azure Cache for Redis 实现 EntraID 支持。
 
-1. 将 `enableTLS` 设置为 `"true"` 以支持 TLS。
+1. 将 `enableTLS` 设置为 `"true"`，以支持 TLS。
 
-> **注意：**`useEntraID` 假定您的 UserPrincipal（通过 AzureCLICredential）或系统分配的托管身份具有 RedisDataOwner 角色权限。如果使用用户分配的托管身份，[您需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
+> **注意：** `useEntraID` 假定您的 UserPrincipal（通过 AzureCLICredential）或系统分配的托管标识已具有 RedisDataOwner 角色权限。如果使用用户分配的托管标识，[您需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
 
 {{% /tab %}}
 
@@ -218,19 +297,19 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 ## 查询 JSON 对象（可选）
 
-除了支持以键值对的形式存储和查询状态数据外，Redis 状态存储还可选支持 JSON 对象查询，以满足更复杂的查询或过滤需求。要启用此功能，需要执行以下步骤：
+除了支持以键值对形式存储和查询状态数据外，Redis 状态存储还可选支持查询 JSON 对象，以满足更复杂的查询或过滤需求。要启用此功能，需要执行以下步骤：
 
-1. Redis 存储必须支持 Redis 模块，特别是 Redisearch 和 RedisJson。如果您正在部署和运行 Redis，则在部署 Redis 服务时加载 [redisearch](https://oss.redis.com/redisearch/) 和 [redisjson](https://oss.redis.com/redisjson/) 模块。
-
+1. Redis 存储必须支持 Redis 模块，特别是 RediSearch 和 RedisJSON。如果您正在部署和运行 Redis，请在部署 Redis 服务时加载 [redisearch](https://oss.redis.com/redisearch/) 和 [redisjson](https://oss.redis.com/redisjson/) 模块。
+``
 2. 在组件配置的元数据中指定 `queryIndexes` 条目。`queryIndexes` 的值是以下格式的 JSON 数组：
 ```json
 [
   {
-    "name": "<索引名称>",
+    "name": "<indexing name>",
     "indexes": [
       {
-        "key": "<文档内选定元素的 JSONPath 类似语法>",
-        "type": "<值类型（支持的类型：TEXT、NUMERIC）>",
+        "key": "<JSONPath-like syntax for selected element inside documents>",
+        "type": "<value type (supported types: TEXT, NUMERIC)>",
       },
       ...
     ]
@@ -238,16 +317,15 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
   ...
 ]
 ```
-
-3. 调用状态管理 API 时，将以下元数据添加到 API 调用中：
+3. 调用状态管理 API 时，请将以下元数据添加到 API 调用中：
 - [保存状态]({{% ref "state_api.md#save-state" %}})、[获取状态]({{% ref "state_api.md#get-state" %}})、[删除状态]({{% ref "state_api.md#delete-state" %}})：
   - 向 HTTP API 请求添加 `metadata.contentType=application/json` URL 查询参数
   - 向 gRPC API 请求的元数据中添加 `"contentType": "application/json"` 键值对
-- [查询状态]({{% ref "state_api.md#query-state" %}})：
-  - 向 HTTP API 请求添加 `metadata.contentType=application/json&metadata.queryIndexName=<索引名称>` URL 查询参数
-  - 向 gRPC API 请求的元数据中添加 `"contentType" : "application/json"` 和 `"queryIndexName" : "<索引名称>"` 键值对
+- [状态查询]({{% ref "state_api.md#query-state" %}})：
+  - 向 HTTP API 请求添加 `metadata.contentType=application/json&metadata.queryIndexName=<indexing name>` URL 查询参数
+  - 向 gRPC API 请求的元数据中添加 `"contentType" : "application/json"` 和 `"queryIndexName" : "<indexing name>"` 键值对
 
-考虑一个示例，您存储如下文档：
+考虑这样一个示例，您存储如下文档：
 ```json
 {
   "key": "1",
@@ -262,7 +340,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 }
 ```
 
-包含相应索引模式的组件配置文件如下所示：
+包含相应索引架构的组件配置文件如下所示：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -307,23 +385,23 @@ spec:
 
 因此，您现在可以存储、检索和查询这些文档。
 
-考虑["操作方法：查询状态"]({{% ref "howto-state-query-api.md#example-data-and-query" %}})指南中的示例。让我们使用 Redis 来运行它。
+请参考[“操作方法：状态查询”]({{% ref "howto-state-query-api.md#example-data-and-query" %}})指南中的示例。让我们使用 Redis 来运行它。
 
 
 {{< tabpane text=true >}}
 
 {{% tab "自托管" %}}
-如果您使用的是 Dapr 的自托管部署，当您运行 `dapr init` 时，会自动创建一个没有 JSON 模块的 Redis 实例作为 Docker 容器。
+如果您使用的是 Dapr 的自托管部署，当您运行 `dapr init` 时，会自动创建一个不带 JSON 模块的 Redis 实例作为 Docker 容器。
 
 或者，您可以通过运行以下命令创建 Redis 实例：
  ```bash
  docker run -p 6379:6379 --name redis --rm redis
  ```
- 在 dapr init 时创建的或通过上述命令创建的 Redis 容器不能单独与状态存储查询 API 一起使用。您可以在与已安装的 Redis 使用的端口不同的端口上运行 redislabs/rejson docker 镜像，以使用查询 API。
+ 通过 dapr init 创建的或通过上述命令创建的 Redis 容器，不能单独用于状态存储查询 API。您可以在与已安装 Redis 所用端口不同的端口上运行 redislabs/rejson Docker 镜像，以配合查询 API 使用。
 
 > 注意：`redislabs/rejson` 仅支持 amd64 架构。
 
-使用以下命令创建与查询 API 兼容的 redis 实例。
+使用以下命令创建与查询 API 兼容的 Redis 实例。
 
 ```bash
 docker run -p 9445:9445 --name rejson --rm redislabs/rejson:2.0.6
@@ -331,14 +409,14 @@ docker run -p 9445:9445 --name rejson --rm redislabs/rejson:2.0.6
 {{% /tab %}}
 
 {{% tab "Kubernetes" %}}
-按照 [Redis 在 Kubernetes 中部署](#setup-redis)的说明操作，但有一个额外的细节。
+按照 [Kubernetes 中的 Redis 部署](#设置-redis)的说明操作，但有一处额外细节。
 
-安装 Redis Helm 软件包时，提供一个指定容器镜像并启用所需模块的配置文件：
+安装 Redis Helm 软件包时，请提供一个配置文件，指定容器镜像并启用所需模块：
 ```bash
 helm install redis bitnami/redis --set image.tag=6.2 -f values.yaml
 ```
 
-其中 `values.yaml` 如下所示：
+其中 `values.yaml` 内容如下：
 ```yaml
 image:
   repository: redislabs/rejson
@@ -356,21 +434,21 @@ master:
 
 {{% tab "Azure" %}}
 {{% alert title="注意" color="warning" %}}
-Azure Redis 托管服务不支持 RedisJson 模块，不能与查询一起使用。
+Azure Redis 托管服务不支持 RedisJSON 模块，因此无法用于查询。
 {{% /alert %}}
 
 {{% /tab %}}
 
 {{% tab "AWS" %}}
-按照 [Redis 在 AWS 中部署](#setup-redis)的说明操作。
+按照 [AWS 中的 Redis 部署](#设置-redis)的说明操作。
 {{% alert title="注意" color="primary" %}}
-对于查询支持，您需要启用 RediSearch 和 RedisJson。
+要支持查询，您需要启用 RediSearch 和 RedisJSON。
 {{% /alert %}}
 {{% /tab %}}
 
 {{% tab "GCP" %}}
 {{% alert title="注意" color="warning" %}}
-Memory Store 不支持模块，不能与查询一起使用。
+Memory Store 不支持模块，因此无法用于查询。
 {{% /alert %}}
 {{% /tab %}}
 
@@ -386,18 +464,18 @@ Memory Store 不支持模块，不能与查询一起使用。
 
 {{< /tabpane >}}
 
-接下来是启动 Dapr 应用程序。请参阅此[组件配置文件](../../../../developing-applications/building-blocks/state-management/query-api-examples/components/redis/redis.yml)，其中包含查询索引模式。确保修改 `redisHost` 以反映 `redislabs/rejson` 使用的本地转发端口。
+接下来是启动 Dapr 应用程序。请参阅此[组件配置文件](../../../../developing-applications/building-blocks/state-management/query-api-examples/components/redis/redis.yml)，其中包含查询索引架构。请务必修改 `redisHost`，使其与 `redislabs/rejson` 所使用的本地转发端口一致。
 ```bash
 dapr run --app-id demo --dapr-http-port 3500 --resources-path query-api-examples/components/redis
 ```
 
-现在使用员工数据集填充状态存储，以便您稍后查询它。
+现在，使用员工数据集填充状态存储，以便之后进行查询。
 ```bash
 curl -X POST -H "Content-Type: application/json" -d @query-api-examples/dataset.json \
   http://localhost:3500/v1.0/state/querystatestore?metadata.contentType=application/json
 ```
 
-为了确保数据已正确存储，您可以检索特定对象
+为确保数据已正确存储，您可以检索特定对象
 ```bash
 curl http://localhost:3500/v1.0/state/querystatestore/1?metadata.contentType=application/json
 ```
@@ -497,7 +575,7 @@ curl -s -X POST -H "Content-Type: application/json" -d @query-api-examples/query
 
 ## Redis Sentinel 配置
 
-使用 Redis Sentinel 实现高可用性时，将 `redisType` 设置为 `"node"`，使用 `failover: "true"` 启用故障转移模式，并提供 sentinel 主节点名称。可以在 `redisHost` 字段中指定多个以逗号分隔的 sentinel 地址以实现冗余。
+使用 Redis Sentinel 实现高可用性时，将 `redisType` 设置为 `"node"`，通过 `failover: "true"` 启用故障转移模式，并提供 sentinel 主节点名称。可以在 `redisHost` 字段中以逗号分隔的列表形式指定多个 sentinel 地址，以实现冗余。
 
     ```yaml
     apiVersion: dapr.io/v1alpha1
@@ -520,5 +598,5 @@ curl -s -X POST -H "Content-Type: application/json" -d @query-api-examples/query
 
 ## 相关链接
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
-- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})以获取有关配置状态存储组件的说明
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})，了解如何配置状态存储组件
 - [状态管理构建块]({{% ref state-management %}})

@@ -6,7 +6,7 @@ weight: 20000
 description: 如何使用 Dapr Java SDK 快速上手 Conversation AI
 ---
 
-在本次演示中，我们将介绍如何使用 Conversation API 与大语言模型（LLM）进行对话。该 API 会返回给定提示词的 LLM 响应。通过[提供的 conversation ai 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/conversation)，你将：
+在本次演示中，我们将介绍如何使用对话 API 与大型语言模型 (LLM) 进行对话。该 API 会返回给定提示词的 LLM 响应。通过[提供的 conversation ai 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/conversation)，你将：
 
 - 使用 [Conversation AI 示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/conversation/DemoConversationAI.java) 提供提示词
 - 过滤个人身份信息（PII）。
@@ -16,7 +16,7 @@ description: 如何使用 Dapr Java SDK 快速上手 Conversation AI
 ## 前置条件
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- Java JDK 11（或更高版本）：
+- Java JDK 17（或更高版本）：
   - [Oracle JDK](https://www.oracle.com/java/technologies/downloads)，或
   - OpenJDK
 - [Apache Maven](https://maven.apache.org/install.html)，版本 3.x。
@@ -31,13 +31,13 @@ git clone https://github.com/dapr/java-sdk.git
 cd java-sdk
 ```
 
-运行以下命令以安装使用 Dapr Java SDK 运行 Conversation AI 示例所需的依赖。
+运行以下命令，安装使用 Dapr Java SDK 运行 Conversation AI 示例所需的依赖。
 
 ```bash
 mvn clean install -DskipTests
 ```
 
-从 Java SDK 根目录进入示例目录。
+从 Java SDK 根目录进入 examples 目录。
 
 ```bash
 cd examples
@@ -53,7 +53,7 @@ dapr run --app-id conversationapp --dapr-grpc-port 51439 --dapr-http-port 3500 -
 
 ## 向 Conversation AI API 发送包含个人身份信息（PII）的提示词
 
-在 `DemoConversationAI` 中，包含使用 `DaprPreviewClient` 下的 `converse` 方法发送提示词的步骤。
+在 `DemoConversationAI` 中有使用 `DaprPreviewClient` 下的 `converse` 方法发送提示词的步骤。
 
 ```java
 public class DemoConversationAI {
@@ -69,7 +69,7 @@ public class DemoConversationAI {
       ConversationInput daprConversationInput = new ConversationInput("Hello How are you? "
               + "This is the my number 672-123-4567");
 
-      // 组件名称是在 conversation.yaml 文件的 metadata 块中提供的名称。
+      // 组件名称是 conversation.yaml 文件 metadata 块中提供的名称。
       Mono<ConversationResponse> responseMono = client.converse(new ConversationRequest("echo",
               List.of(daprConversationInput))
               .setContextId("contextId")
@@ -94,7 +94,7 @@ java -jar target/dapr-java-sdk-examples-exec.jar io.dapr.examples.conversation.D
 == APP == Conversation output: Hello How are you? This is the my number <ISBN>
 ```
 
-如输出所示，发送到 API 的号码已被混淆并以 `<ISBN>` 的形式返回。
+如输出所示，发送到 API 的号码已被混淆，并以 <ISBN> 的形式返回。
 上面的示例使用了一个["echo"](https://docs.dapr.io/developing-applications/building-blocks/conversation/howto-conversation-layer/#set-up-the-conversation-component)
 组件进行测试，该组件只是简单地返回输入消息。
 当与 OpenAI 或 Claude 等 LLM 集成时，你将收到有意义的响应，而不是回显的输入。

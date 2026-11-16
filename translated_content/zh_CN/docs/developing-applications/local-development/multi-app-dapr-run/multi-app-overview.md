@@ -13,22 +13,22 @@ description: 使用一条 CLI 命令运行多个应用程序
 假设您想在本地运行多个应用程序以进行联合测试，类似于生产环境的场景。Multi-App Run 允许您同时启动和停止一组应用程序，可以选择：
 - 使用进程在本地/自托管环境中运行，或
 - 通过构建容器镜像并部署到 Kubernetes 集群
-   - 您可以使用本地 Kubernetes 集群或部署到云
+   - 您可以使用本地 Kubernetes 集群（KiND），或部署到云端（AKS、EKS 和 GKE）的集群
 
 Multi-App Run 模板文件描述了如何启动多个应用程序，就像您执行了多个单独的 CLI `run` 命令一样。默认情况下，此模板文件名为 `dapr.yaml`。
 
 {{< tabpane text=true >}}
 
-{{% tab "Self-hosted" %}}
+{{% tab "自托管" %}}
 <!--selfhosted-->
 
 ## Multi-App Run 模板文件
 
-当您执行 `dapr run -f .` 时，它会启动当前目录中存在的多应用模板文件（名为 `dapr.yaml`）以运行所有应用程序。
+当您执行 `dapr run -f .` 时，它会启动当前目录中存在的多应用模板文件（名为 `dapr.yaml`），以运行所有应用程序。
 
 您可以使用首选名称来命名模板文件，而不是使用默认名称。例如 `dapr run -f ./<your-preferred-file-name>.yaml`。
 
-以下示例包括一些您可以为应用程序自定义的模板属性。在该示例中，您可以同时启动 2 个应用程序，其应用 ID 为 `processor` 和 `emit-metrics`。
+以下示例包括一些您可以为应用程序自定义的模板属性。在该示例中，您可以同时启动 2 个应用程序，其 App ID 分别为 `processor` 和 `emit-metrics`。
 
 ```yaml
 version: 1
@@ -46,7 +46,7 @@ apps:
     command: ["go","run", "app.go"]
 ```
 
-有关更深入的示例和模板属性的解释，请参阅 [多应用模板]({{% ref multi-app-template.md %}})。
+有关更深入的示例和模板属性的说明，请参阅 [多应用模板]({{% ref multi-app-template.md %}})。
 
 ## 资源和配置文件的位置
 
@@ -54,7 +54,7 @@ apps:
 
 ### 指向一个文件位置（使用约定）
 
-您可以在 `~/.dapr` 根目录下设置所有应用程序资源和配置。当所有应用程序共享相同的资源路径时（例如在本地机器上测试时），这很有帮助。
+您可以在 `~/.dapr` 根目录下设置所有应用程序的资源和配置。当所有应用程序共享相同的资源路径时（例如在本地机器上测试时），这很有帮助。
 
 ### 为每个应用程序指定单独的文件位置（使用约定）
 
@@ -64,24 +64,28 @@ apps:
 
 ### 指向单独的位置（自定义）
 
-您还可以将每个应用目录的 `.dapr` 目录命名为 `.dapr` 以外的名称，例如 `webapp` 或 `backend`。如果您想明确资源或应用程序目录路径，这很有帮助。
+您也可以将每个应用目录中的 `.dapr` 目录命名为 `.dapr` 以外的名称，例如 `webapp` 或 `backend`。如果您希望明确指定资源或应用程序目录的路径，这很有帮助。
 
 ## 日志
 
 运行模板为每个应用程序及其关联的 daprd 进程提供两个日志目标字段：
 
-1. `appLogDestination`：此字段配置应用程序的日志目标。可能的值为 `console`、`file` 和 `fileAndConsole`。默认值为 `fileAndConsole`，其中应用程序日志默认写入控制台和文件。
+1. `appLogDestination`：此字段配置应用程序的日志目标。可能的值为 `console`、`file` 和 `fileAndConsole`。默认值为 `fileAndConsole`，即应用程序日志默认同时写入控制台和文件。
 
-1. `daprdLogDestination`：此字段配置 `daprd` 进程的日志目标。可能的值为 `console`、`file` 和 `fileAndConsole`。默认值为 `file`，其中 `daprd` 日志默认写入文件。
+1. `daprdLogDestination`：此字段配置 `daprd` 进程的日志目标。可能的值为 `console`、`file` 和 `fileAndConsole`。默认值为 `file`，即 `daprd` 日志默认写入文件。
 
 ### 日志文件格式
 
-应用程序和 `daprd` 的日志捕获在单独的文件中。这些日志文件在应用程序目录（模板中的 `appDirPath`）下的 `.dapr/logs` 目录下自动创建。这些日志文件名遵循以下模式：
+应用程序和 `daprd` 的日志分别捕获在不同的文件中。这些日志文件会自动创建在每个应用程序目录（模板中的 `appDirPath`）下的 `.dapr/logs` 目录中。日志文件名遵循以下格式：
 
 - `<appID>_app_<timestamp>.log`（`app` 日志的文件名格式）
 - `<appID>_daprd_<timestamp>.log`（`daprd` 日志的文件名格式）
 
-即使您决定将资源文件夹重命名为 `.dapr` 以外的名称，日志文件也只会写入 `.dapr/logs` 文件夹（在应用程序目录中创建）。
+即使您决定将资源文件夹重命名为 `.dapr` 以外的名称，日志文件也只会写入应用程序目录中创建的 `.dapr/logs` 文件夹。
+
+## 使用 Dapr Dev Dashboard 检查您的应用程序
+
+当您使用 Multi-App Run 启动多个应用程序时，[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 会自动发现它们，并提供一个统一的入口，用于查看所有应用和边车、它们的健康状况与端口、已加载的组件，以及每个应用的应用程序日志和 `daprd` 日志。这样您就无需在每个 `.dapr/logs` 文件夹中逐一查找日志文件。
 
 ## 观看演示
 
@@ -96,17 +100,17 @@ apps:
 
 ## Multi-App Run 模板文件
 
-当您执行 `dapr run -k -f .` 或 `dapr run -k -f dapr.yaml` 时，`dapr.yaml` Multi-App Run 模板文件中定义的应用程序将在 Kubernetes 默认命名空间中启动。
+当您执行 `dapr run -k -f .` 或 `dapr run -k -f dapr.yaml` 时，在 `dapr.yaml` Multi-App Run 模板文件中定义的应用程序将在 Kubernetes 默认命名空间中启动。
 
 > **注意：** 目前，Multi-App Run 模板只能在默认 Kubernetes 命名空间中启动应用程序。
 
-Kubernetes 的必要默认服务和部署定义会在 `.dapr/deploy` 文件夹中为 `dapr.yaml` 模板中的每个应用程序生成。
+Kubernetes 所需的默认服务和部署定义会在 `dapr.yaml` 模板中每个应用程序的 `.dapr/deploy` 文件夹中生成。
 
 如果在 `dapr.yaml` 模板中为某个应用程序将 `createService` 字段设置为 `true`，则会在该应用程序的 `.dapr/deploy` 文件夹中生成 `service.yaml` 文件。
 
-否则，只为设置了 `containerImage` 字段的每个应用程序生成 `deployment.yaml` 文件。
+否则，只会为设置了 `containerImage` 字段的应用程序生成 `deployment.yaml` 文件。
 
-`service.yaml` 和 `deployment.yaml` 文件用于在 Kubernetes 中的 `default` 命名空间中部署应用程序。此功能专门针对在 Kubernetes 中的开发/测试环境中运行多个应用程序。
+`service.yaml` 和 `deployment.yaml` 文件用于在 Kubernetes 的 `default` 命名空间中部署应用程序。此功能专门面向在 Kubernetes 中以开发/测试环境运行多个应用程序的场景。
 
 您可以使用任何首选名称来命名模板文件，而不是使用默认名称。例如：
 
@@ -114,7 +118,7 @@ Kubernetes 的必要默认服务和部署定义会在 `.dapr/deploy` 文件夹�
 dapr run -k -f ./<your-preferred-file-name>.yaml
 ```
 
-以下示例包括一些您可以为应用程序自定义的模板属性。在该示例中，您可以同时启动 2 个应用程序，其应用 ID 为 `nodeapp` 和 `pythonapp`。
+以下示例包括一些您可以为应用程序自定义的模板属性。在该示例中，您可以同时启动 2 个应用程序，其 App ID 分别为 `nodeapp` 和 `pythonapp`。
 
 ```yaml
 version: 1
@@ -136,26 +140,26 @@ apps:
 > **注意：**
 > - 如果未指定 `containerImage` 字段，`dapr run -k -f` 会产生错误。
 > - containerImagePullPolicy 表示始终为此应用程序下载新的容器镜像。
-> - `createService` 字段在 Kubernetes 中定义一个基本服务（ClusterIP 或 LoadBalancer），该服务针对模板中指定的 `--app-port`。如果未指定 `createService`，则应用程序无法从集群外部访问。
+> - `createService` 字段在 Kubernetes 中定义一个基本服务（ClusterIP 或 LoadBalancer），该服务指向模板中指定的 `--app-port`。如果未指定 `createService`，则应用程序无法从集群外部访问。
 
-有关更深入的示例和模板属性的解释，请参阅 [多应用模板]({{% ref multi-app-template.md %}})。
+有关更深入的示例和模板属性的说明，请参阅 [多应用模板]({{% ref multi-app-template.md %}})。
 
 ## 日志
 
 运行模板为每个应用程序及其关联的 daprd 进程提供两个日志目标字段：
 
-1. `appLogDestination`：此字段配置应用程序的日志目标。可能的值为 `console`、`file` 和 `fileAndConsole`。默认值为 `fileAndConsole`，其中应用程序日志默认写入控制台和文件。
+1. `appLogDestination`：此字段配置应用程序的日志目标。可能的值为 `console`、`file` 和 `fileAndConsole`。默认值为 `fileAndConsole`，即应用程序日志默认同时写入控制台和文件。
 
-2. `daprdLogDestination`：此字段配置 `daprd` 进程的日志目标。可能的值为 `console`、`file` 和 `fileAndConsole`。默认值为 `file`，其中 `daprd` 日志默认写入文件。
+2. `daprdLogDestination`：此字段配置 `daprd` 进程的日志目标。可能的值为 `console`、`file` 和 `fileAndConsole`。默认值为 `file`，即 `daprd` 日志默认写入文件。
 
 ### 日志文件格式
 
-应用程序和 `daprd` 的日志捕获在单独的文件中。这些日志文件在应用程序目录（模板中的 `appDirPath`）下的 `.dapr/logs` 目录下自动创建。这些日志文件名遵循以下模式：
+应用程序和 `daprd` 的日志分别捕获在不同的文件中。这些日志文件会自动创建在每个应用程序目录（模板中的 `appDirPath`）下的 `.dapr/logs` 目录中。日志文件名遵循以下格式：
 
 - `<appID>_app_<timestamp>.log`（`app` 日志的文件名格式）
 - `<appID>_daprd_<timestamp>.log`（`daprd` 日志的文件名格式）
 
-即使您决定将资源文件夹重命名为 `.dapr` 以外的名称，日志文件也只会写入 `.dapr/logs` 文件夹（在应用程序目录中创建）。
+即使您决定将资源文件夹重命名为 `.dapr` 以外的名称，日志文件也只会写入应用程序目录中创建的 `.dapr/logs` 文件夹。
 
 ## 观看演示
 

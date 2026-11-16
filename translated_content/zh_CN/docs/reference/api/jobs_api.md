@@ -6,20 +6,16 @@ description: "Jobs API 的详细文档"
 weight: 900
 ---
 
-{{% alert title="注意" color="primary" %}}
-Jobs API 目前处于 alpha 阶段。
-{{% /alert %}}
-
-使用 jobs API，您可以在将来安排作业和任务。
+使用 jobs API，你可以在将来调度作业和任务。
 
 > HTTP API 仅用于开发和测试。对于生产场景，强烈建议使用 SDK，因为它们实现了 gRPC API，提供了比 HTTP API 更高的性能和功能。这是因为 HTTP 进行 JSON 序列化可能会很昂贵，而使用 gRPC，数据按原样传输和存储，性能更高。
 
 ## 调度作业
 
-使用名称调度作业。作业基于运行 Scheduler 服务的服务器时钟进行调度。时间戳不会转换为 UTC。您可以在 RFC3339 格式的时间戳中提供时区，以指定作业应遵循的时区。如果未提供时区，则使用服务器的本地时间。
+使用名称调度作业。作业基于运行 Scheduler 服务的服务器时钟进行调度。时间戳不会转换为 UTC。你可以在 RFC3339 格式的时间戳中提供时区，以指定作业应遵循的时区。如果未提供时区，则使用服务器的本地时间。
 
 ```
-POST http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
+POST http://localhost:<daprPort>/v1.0/jobs/<name>
 ```
 
 ### URL 参数
@@ -30,19 +26,23 @@ POST http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
 
 参数 | 描述
 --------- | -----------
-`name` | 您正在调度的作业的名称
-`data` | JSON 序列化值或对象。
+`name` | 你正在调度的作业的名称
+`data` | 可选的 JSON 序列化值或对象，在作业触发时发送给应用。
 `schedule` | 作业运行的可选调度。格式详情见下文。
-`dueTime` | 作业应激活的可选时间，或在未提供其他调度类型字段时的"一次性"时间。接受 RFC3339 格式的"时间点"字符串、Go duration 字符串（从创建时间计算）或非重复的 ISO8601 格式。
+`dueTime` | 作业应激活的可选时间，或在未提供其他调度类型字段时的“一次性”时间。接受 RFC3339 格式的“时间点”字符串、Go duration 字符串（从创建时间计算）或非重复的 ISO8601 格式。
 `repeats` | 作业应触发的可选次数。如果未设置，作业将无限期运行或直到过期。
-`ttl` | 作业的可选生存时间或过期时间。接受 RFC3339 格式的"时间点"字符串、Go duration 字符串（从作业创建时间计算）或非重复的 ISO8601 格式。
+`ttl` | 作业的可选生存时间或过期时间。接受 RFC3339 格式的“时间点”字符串、Go duration 字符串（从作业创建时间计算）或非重复的 ISO8601 格式。
 `overwrite` | 一个布尔值，指定作业是否可以覆盖同名的现有作业。默认值为 `false`
-`failure_policy` | 作业的可选失败策略。格式详情见下文。如果未设置，作业将重试最多 3 次，重试之间延迟 1 秒。
+`failure_policy` | 作业的可选失败策略。格式详情见下文。如果未设置，作业将最多重试 3 次，每次重试之间延迟 1 秒。
+
+{{% alert title="注意" color="primary" %}}
+从 Dapr 1.19 开始，作业名称可以包含竖线字符（`|`）和 `@`。如果作业名称包含在 HTTP 路径段中不安全的字符（例如 `/`、`\`、`#`、`?`、换行符或 NUL 字节），是 `.` 或 `..`，或超过最大长度，则仍会被拒绝。
+{{% /alert %}}
 
 #### schedule
-`schedule` 接受 systemd timer 风格的 cron 表达式以及人类可读的"@"前缀周期字符串，定义如下。
+`schedule` 接受 systemd 定时器风格的 cron 表达式以及人类可读的“@”前缀周期字符串，定义如下。
 
-Systemd timer 风格的 cron 接受 6 个字段：
+systemd 定时器风格的 cron 接受 6 个字段：
 秒 | 分钟 | 小时 | 日（月） | 月          | 日（周）
 ---     | ---     | ---   | ---          | ---          | ---
 0-59    | 0-59    | 0-23  | 1-31         | 1-12/jan-dec | 0-6/sun-sat
@@ -62,6 +62,26 @@ Systemd timer 风格的 cron 接受 6 个字段：
 @weekly                | 每周运行一次，周日午夜        | 0 0 0 * * 0
 @daily（或 @midnight）  | 每天运行一次，午夜                   | 0 0 0 * * *
 @hourly                | 每小时运行一次，小时开始        | 0 0 * * * *
+
+##### 时区
+
+默认情况下，`schedule` 按 Scheduler 服务所在时区的本地时间计算。若要将作业固定到特定时区，请在调度表达式前加上 `CRON_TZ=<timezone>`（或等效的 `TZ=<timezone>`），其中 `<timezone>` 是 [IANA 时区数据库](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)中的名称，例如 `Europe/Rome` 或 `Asia/Tokyo`。
+
+```json
+{
+  "schedule": "CRON_TZ=Europe/Rome 0 0 9 * * *"
+}
+```
+
+时区作用于挂钟时间，因此作业在夏令时切换前后都保持本地时间不变。上面的调度表达式全年都在罗马时间 09:00 运行：当罗马结束夏令时时，对应的 UTC 时刻会从 07:00Z 变为 08:00Z，而无需重新调度作业。
+
+前缀同样适用于映射到一天中固定时刻的 `@` 周期字符串，例如 `CRON_TZ=Europe/Rome @daily`。
+
+{{% alert title="注意" color="primary" %}}
+时区前缀不能与 `@every <duration>` 调度一起使用。这类调度按固定间隔触发，而不是按挂钟时间触发，因此时区没有可以应用的挂钟时间，作业在调度时会被拒绝。
+{{% /alert %}}
+
+无法识别的时区名称同样会导致作业在调度时被拒绝。
 
 #### failure_policy
 
@@ -120,7 +140,7 @@ Systemd timer 风格的 cron 接受 6 个字段：
 
 ```bash
 $ curl -X POST \
-  http://localhost:3500/v1.0-alpha1/jobs/jobforjabba \
+  http://localhost:3500/v1.0/jobs/jobforjabba \
   -H "Content-Type: application/json" \
   -d '{
         "data": "{\"value\":\"Running spice\"}",
@@ -134,14 +154,14 @@ $ curl -X POST \
 根据名称获取作业。
 
 ```
-GET http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
+GET http://localhost:<daprPort>/v1.0/jobs/<name>
 ```
 
 ### URL 参数
 
 参数 | 描述
 --------- | -----------
-`name` | 您正在检索的已调度作业的名称
+`name` | 你正在检索的已调度作业的名称
 
 ### HTTP 响应代码
 
@@ -149,14 +169,14 @@ GET http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
 ---- | -----------
 `200`  | 已接受
 `400`  | 请求格式错误
-`500`  | 请求格式正确，作业不存在或 dapr 代码或 Scheduler 控制平面服务中出现错误
+`500`  | 请求格式正确，但作业不存在，或 dapr 代码或 Scheduler 控制平面服务中出现错误
 
 ### 响应内容
 
 运行以下示例 curl 命令后，返回的响应是包含作业的 `name`、`dueTime` 和 `data` 的 JSON。
 
 ```bash
-$ curl -X GET http://localhost:3500/v1.0-alpha1/jobs/jobforjabba -H "Content-Type: application/json"
+$ curl -X GET http://localhost:3500/v1.0/jobs/jobforjabba -H "Content-Type: application/json"
 ```
 
 ```json
@@ -172,14 +192,14 @@ $ curl -X GET http://localhost:3500/v1.0-alpha1/jobs/jobforjabba -H "Content-Typ
 删除命名作业。
 
 ```
-DELETE http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
+DELETE http://localhost:<daprPort>/v1.0/jobs/<name>
 ```
 
 ### URL 参数
 
 参数 | 描述
 --------- | -----------
-`name` | 您正在删除的作业的名称
+`name` | 你正在删除的作业的名称
 
 ### HTTP 响应代码
 
@@ -194,7 +214,7 @@ DELETE http://localhost:<daprPort>/v1.0-alpha1/jobs/<name>
 在以下示例 curl 命令中，将删除名为 `test1` 且 app-id 为 `sub` 的作业
 
 ```bash
-$ curl -X DELETE http://localhost:3500/v1.0-alpha1/jobs/jobforjabba -H "Content-Type: application/json"
+$ curl -X DELETE http://localhost:3500/v1.0/jobs/jobforjabba -H "Content-Type: application/json"
 ```
 
 

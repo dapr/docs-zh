@@ -16,14 +16,14 @@ Dapr Workflow 使用 **事件溯源** 和 **重放** 来维护状态。Dapr 不�
 
 ### 重放循环
 
-1.  **工作项到达**：Dapr 引擎通过 `GetWorkItems` 流向 SDK 发送一个 `OrchestratorWorkItem`。该工作项包含工作流实例的完整历史记录以及任何新事件（例如，activity 完成或外部事件）。
+1.  **工作项到达**：Dapr 引擎通过 `GetWorkItems` 流向 SDK 发送一个 `OrchestratorWorkItem`。该工作项包含工作流实例的完整历史记录以及任何新事件（例如，活动完成或外部事件）。对于声明了 `WORKER_CAPABILITY_STATEFUL_HISTORY` 能力的 worker，一旦 worker 为该实例的缓存已经就绪，边车只会发送自 worker 上一轮以来新增的事件，其余部分由 worker 从自己的缓存中补齐。
 2.  **重建**：SDK 从头开始执行编排函数。
-3.  **确定性执行**：随着函数的执行，它会遇到"任务"（例如，调用 activity、休眠）。
+3.  **确定性执行**：随着函数的执行，它会遇到"任务"（例如，调用活动、休眠）。
     *   对于每个任务，SDK 会检查提供的 **History** 以查看该任务是否已完成。
     *   如果任务在历史记录中，SDK 会立即返回记录的结果，而无需实际重新执行任务逻辑。
     *   如果任务不在历史记录中，SDK 会记录该任务需要被调度并**暂停**编排函数的执行（通常通过抛出特殊异常或返回待处理的 promise）。
 4.  **报告**：一旦编排函数被暂停或完成，SDK 会向 Dapr 发送 `CompleteOrchestratorTask` 请求。该请求包含引擎应执行的一系列 **Actions**（例如 `ScheduleTask`、`CreateTimer`）。
-5.  **状态提交**：Dapr 引擎接收这些操作，在状态存储中更新工作流历史记录，并调度任何请求的任务（例如，通过向 activity worker 发送工作）。
+5.  **状态提交**：Dapr 引擎接收这些操作，在状态存储中更新工作流历史记录，并调度任何请求的任务（例如，通过向活动 worker 发送工作）。
 
 ## 分步示例
 
@@ -37,7 +37,7 @@ Dapr Workflow 使用 **事件溯源** 和 **重放** 来维护状态。Dapr 不�
 *   **SDK**：暂停。发送包含 `[ScheduleTask(Activity A)]` 的 `CompleteOrchestratorTask`。
 *   **引擎**：在历史记录中记录 `TaskScheduled(Activity A)`。
 
-### 2. Activity A 完成
+### 2. 活动 A 完成
 *   **引擎**：在历史记录中记录 `TaskCompleted(Activity A, result="foo")`。
 *   **SDK**：接收包含 `[ExecutionStarted, TaskScheduled(A), TaskCompleted(A)]` 的 `OrchestratorWorkItem`。
 *   **SDK**：从头开始运行函数。
@@ -48,7 +48,7 @@ Dapr Workflow 使用 **事件溯源** 和 **重放** 来维护状态。Dapr 不�
 *   **引擎**：记录 `TaskScheduled(Activity B)`。
 
 ### 3. 工作流完成
-*   **Activity B** 完成。
+*   **活动 B** 完成。
 *   **SDK**：接收包含 A 和 B 都已完成的历史记录。
 *   **SDK**：运行函数。A 和 B 都从历史记录返回结果。
 *   **SDK**：函数完成并返回最终结果。
@@ -60,13 +60,13 @@ Dapr Workflow 使用 **事件溯源** 和 **重放** 来维护状态。Dapr 不�
 ### 1. 确定性
 编排函数必须是确定性的。它不能使用：
 *   随机数。
-*   当前日期/时间（必须使用持久化计时器或提供的 `CurrentUtcDateTime`）。
-*   直接 IO（必须在 activity 中完成）。
+*   当前日期/时间（必须使用持久化定时器或提供的 `CurrentUtcDateTime`）。
+*   直接 IO（必须在活动中完成）。
 *   在重放之间可能更改的全局状态。
 
 ### 2. 修补（运行中更新）
 
-当工作流已经在运行时，您可能需要更新其逻辑。然而，由于工作流是基于重放的，直接更改逻辑会破坏进行中实例的确定性。
+当工作流已经在运行时，你可能需要更新其逻辑。然而，由于工作流是基于重放的，直接更改逻辑会破坏进行中实例的确定性。
 
 Dapr 提供了 **Patching** 机制（例如 `ctx.IsPatched("patch-id")`）来安全地引入更改：
 
