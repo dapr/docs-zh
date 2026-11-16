@@ -64,6 +64,10 @@ commit:
 timezone: UTC
 
 rules:
+  checks:                                  # tolerances taken from the v1.17 baseline translation convention
+    fenceComments: translate               # fenced code stays identical except comment text, which is translated
+    inlinePlaceholders: translate          # prose placeholders in inline code (`[HOST NAME]`) may be translated one for one
+    localizedUrls: allow                   # external URLs may carry a leading /zh-cn/ locale segment
   doNotTranslateSeeds: []                  # product / brand names that must stay as they are
   links: Keep relative links unchanged.
   frontmatterTranslatable: [title, description, aliases, linkTitle]
