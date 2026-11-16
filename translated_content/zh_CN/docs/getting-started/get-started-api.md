@@ -7,13 +7,13 @@ description: "运行 Dapr 边车并试用状态管理 API"
 ---
 
 在本指南中，你将通过运行边车并直接调用状态管理 API 来模拟一个应用程序。
-在使用 Dapr CLI 运行 Dapr 后，你将：
+使用 Dapr CLI 运行 Dapr 后，你将：
 
 - 保存一个状态对象。
-- 读取/获取状态对象。
-- 删除状态对象。
+- 读取/获取该状态对象。
+- 删除该状态对象。
 
-[在我们的概念文档中了解有关状态构建块及其工作原理的更多信息]({{% ref state-management %}})。
+[在概念文档中详细了解状态构建块及其工作原理]({{% ref state-management %}})。
 
 ### 前置条件
 
@@ -22,20 +22,20 @@ description: "运行 Dapr 边车并试用状态管理 API"
 
 ### 步骤 1：运行 Dapr 边车
 
-[`dapr run`]({{% ref dapr-run.md %}}) 命令通常运行你的应用程序和 Dapr 边车。在这种情况下，
-它仅运行边车，因为你直接与状态管理 API 交互。
+[`dapr run`]({{% ref dapr-run.md %}}) 命令通常会运行你的应用程序和 Dapr 边车。在本例中，
+它只运行边车，因为你要直接与状态管理 API 交互。
 
-启动一个 Dapr 边车，它将为名为 `myapp` 的空应用程序监听端口 3500：
+启动一个 Dapr 边车，为名为 `myapp` 的空应用程序监听端口 3500：
 
 ```bash
 dapr run --app-id myapp --dapr-http-port 3500
 ```
 
-由于上述命令未定义自定义组件文件夹，Dapr 使用在 [`dapr init` 流程]({{% ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" %}}) 期间创建的默认组件定义。
+由于上述命令未定义自定义组件文件夹，Dapr 会使用 [`dapr init` 流程]({{% ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" %}})期间创建的默认组件定义。
 
 ### 步骤 2：保存状态
 
-使用一个对象更新状态。新状态将如下所示：
+使用一个对象更新状态。新状态如下所示：
 
 ```json
 [
@@ -46,7 +46,7 @@ dapr run --app-id myapp --dapr-http-port 3500
 ]
 ```
 
-请注意，状态中包含的每个对象都分配了一个值为 `name` 的 `key`。你将在下一步中使用该键。
+请注意，状态中包含的每个对象都有一个值为 `name` 的 `key`。你将在下一步中使用该键。
 
 使用以下命令保存一个新的状态对象：
 
@@ -71,7 +71,7 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '[{ "key": 
 
 ### 步骤 3：获取状态
 
-使用键 `name` 通过状态管理 API 检索你刚刚存储在状态中的对象。在同一终端窗口中，运行以下命令：
+使用键 `name` 通过状态管理 API 检索刚刚存储的状态对象。在同一终端窗口中运行以下命令：
 
 {{< tabpane text=true >}}
 
@@ -93,15 +93,15 @@ Invoke-RestMethod -Uri 'http://localhost:3500/v1.0/state/statestore/name'
 
 {{< /tabpane >}}
 
-### 步骤 4：查看状态如何存储在 Redis 中
+### 步骤 4：查看状态在 Redis 中的存储方式
 
-查看 Redis 容器并验证 Dapr 是否将其用作状态存储。使用以下命令通过 Redis CLI 进行操作：
+查看 Redis 容器，并验证 Dapr 是否将其用作状态存储。使用以下命令启动 Redis CLI：
 
 ```bash
 docker exec -it dapr_redis redis-cli
 ```
 
-列出 Redis 键以查看 Dapr 如何使用你提供给 `dapr run` 的 app-id 作为键的前缀来创建键值对：
+列出 Redis 键，查看 Dapr 如何使用你提供给 `dapr run` 的 app-id 作为键前缀来创建键值对：
 
 ```bash
 keys *
@@ -110,7 +110,7 @@ keys *
 **输出：**  
 `1) "myapp||name"`
 
-通过运行以下命令查看状态值：
+运行以下命令查看状态值：
 
 ```bash
 hgetall "myapp||name"
@@ -127,6 +127,10 @@ hgetall "myapp||name"
 ```bash
 exit
 ```
+
+{{% alert title="提示" color="primary" %}}
+你也可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 浏览状态存储，而不使用 Redis CLI。它会列出 `myapp||name` 键，显示其值，并允许你通过 UI 添加或删除状态记录。
+{{% /alert %}}
 
 ### 步骤 5：删除状态
 
