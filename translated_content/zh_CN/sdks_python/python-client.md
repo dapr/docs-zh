@@ -313,14 +313,14 @@ from dapr.ext.grpc import App, Rule, SubscriptionMessage
 
 app = App()
 
-# 某个主题的默认订阅
+# 某个 topic 的默认订阅
 @app.subscribe(pubsub_name='pubsub', topic='TOPIC_A')
 def mytopic(event: SubscriptionMessage) -> None:
     data = event.data()
     print(f'Received: id={data["id"]}, message="{data ["message"]}"' 
           f' content_type="{event.data_content_type()}"',flush=True)
 
-# 使用 pub/sub 路由的特定处理程序
+# 使用 pub/sub 路由的特定 handler
 @app.subscribe(pubsub_name='pubsub', topic='TOPIC_A',
                rule=Rule("event.type == \"important\"", 1))
 def mytopic_important(event: SubscriptionMessage) -> None:
@@ -329,14 +329,14 @@ def mytopic_important(event: SubscriptionMessage) -> None:
           f' content_type="{event.data_content_type()}"',flush=True)
 ```
 
-将事件参数标注为 `SubscriptionMessage`，这与 streaming subscription 投递的类型相同。`data()` 会按内容类型解析负载，例如 JSON 会返回 `dict`。未标注类型的处理程序，或标注为 `cloudevents.sdk.event.v1.Event` 的处理程序，将收到已弃用的、基于 CloudEvents 的事件，并且 `subscribe()` 会发出 `DeprecationWarning`。有关弃用时间线，请参阅 [Python gRPC 扩展]({{% ref "python-grpc.md#subscribe-to-a-topic" %}})。
+将事件参数标注为 `SubscriptionMessage`，这与 streaming subscription 投递的类型相同。`data()` 会按内容类型解析负载，例如 JSON 会返回 `dict`。未标注类型的 handler，或标注为 `cloudevents.sdk.event.v1.Event` 的 handler，将收到已弃用的、基于 CloudEvents 的事件，并且 `subscribe()` 会发出 `DeprecationWarning`。有关弃用时间线，请参阅 [Python gRPC 扩展]({{% ref "python-grpc.md#subscribe-to-a-topic" %}})。
 
 - 有关 pub/sub 的更多信息，请参阅[操作指南：发布与订阅]({{% ref howto-publish-subscribe.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/pubsub-simple)，获取 pub/sub 的示例代码和试用说明。
 
 #### 流式消息订阅
 
-你可以使用 `subscribe` 或 `subscribe_handler` 方法创建到 PubSub 主题的 streaming subscription。
+你可以使用 `subscribe` 或 `subscribe_handler` 方法创建到 PubSub topic 的 streaming subscription。
 
 `subscribe` 方法返回一个可迭代的 `Subscription` 对象，允许你通过 `for` 循环（例如 `for message in subscription`）或调用 `next_message` 方法从流中拉取消息。在等待消息时，这会阻塞主线程。完成后，应调用 close 方法来终止订阅并停止接收消息。
 

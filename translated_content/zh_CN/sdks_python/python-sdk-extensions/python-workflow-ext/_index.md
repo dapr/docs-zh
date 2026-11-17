@@ -95,7 +95,7 @@ if __name__ == '__main__':
   - 
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/workflow)，获取代码示例以及尝试 Dapr Workflow 的说明：
   - [简单 workflow 示例]({{% ref python-workflow.md %}})
-  - [任务链示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/task_chaining.py)
+  - [task chaining 示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/task_chaining.py)
   - [扇出/扇入 示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/fan_out_fan_in.py)
   - [child workflow 示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/child_workflow.py)
   - [人工审批示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/human_approval.py)

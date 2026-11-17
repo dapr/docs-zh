@@ -61,11 +61,11 @@ app.run(50051)
 
 完整示例可在[此处](https://github.com/dapr/python-sdk/tree/v1.0.0rc2/examples/invoke-simple)找到。
 
-### 订阅主题
+### 订阅 topic
 
-订阅主题时，你可以告诉 Dapr 投递的事件是已被接受、应当丢弃，还是应稍后重试。
+订阅 topic 时，你可以告诉 Dapr 投递的事件是已被接受、应当丢弃，还是应稍后重试。
 
-请为每个处理程序的事件参数标注 `SubscriptionMessage` 类型，它与 streaming subscription 投递的类型相同。该类型提供解析后的负载（`data()`）、投递的 metadata（`metadata()`），以及 CloudEvent 字段，例如 `id()`、`type()` 和 `extensions()`。
+请为每个 handler 的事件参数标注 `SubscriptionMessage` 类型，它与 streaming subscription 投递的类型相同。该类型提供解析后的负载（`data()`）、投递的 metadata（`metadata()`），以及 CloudEvent 字段，例如 `id()`、`type()` 和 `extensions()`。
 
 ```python
 from typing import Optional
@@ -74,7 +74,7 @@ from dapr.clients.grpc._response import TopicEventResponse
 
 app = App()
 
-# 主题的默认订阅
+# topic 的默认订阅
 @app.subscribe(pubsub_name='pubsub', topic='TOPIC_A')
 def mytopic(event: SubscriptionMessage) -> Optional[TopicEventResponse]:
     print(event.data(),flush=True)
@@ -85,13 +85,13 @@ def mytopic(event: SubscriptionMessage) -> Optional[TopicEventResponse]:
     # 让其丢弃该消息
     return TopicEventResponse("success")
 
-# 使用 Pub/Sub 路由的特定处理程序
+# 使用 Pub/Sub 路由的特定 handler
 @app.subscribe(pubsub_name='pubsub', topic='TOPIC_A',
                rule=Rule("event.type == \"important\"", 1))
 def mytopic_important(event: SubscriptionMessage) -> None:
     print(event.data(),flush=True)
 
-# 禁用主题验证的处理程序
+# 禁用 topic 验证的 handler
 @app.subscribe(pubsub_name='pubsub-mqtt', topic='topic/#', disable_topic_validation=True,)
 def mytopic_wildcard(event: SubscriptionMessage) -> None:
     print(event.data(),flush=True)
@@ -102,9 +102,9 @@ app.run(50051)
 完整示例可在[此处](https://github.com/dapr/python-sdk/blob/v1.0.0rc2/examples/pubsub-simple/subscriber.py)找到。
 
 {{% alert title="已弃用" color="warning" %}}
-未标注类型的处理程序，或标注为 `cloudevents.sdk.event.v1.Event` 的处理程序，会接收基于 CloudEvents 的事件，并且 `subscribe()` 在注册这些处理程序时会发出 `DeprecationWarning`。请在该类型被移除之前，为它们标注 `SubscriptionMessage`：
+未标注类型的 handler，或标注为 `cloudevents.sdk.event.v1.Event` 的 handler，会接收基于 CloudEvents 的事件，并且 `subscribe()` 在注册这些 handler 时会发出 `DeprecationWarning`。请在该类型被移除之前，为它们标注 `SubscriptionMessage`：
 
-- 在 1.20 中，未标注类型的处理程序将接收 `SubscriptionMessage`。只有标注为 CloudEvents 类型的处理程序仍会接收该类型的事件。
+- 在 1.20 中，未标注类型的 handler 将接收 `SubscriptionMessage`。只有标注为 CloudEvents 类型的 handler 仍会接收该类型的事件。
 - 在 1.21 中，`dapr[grpc]` 可选依赖不再安装 `cloudevents`。
 - 在 1.22 中，基于 CloudEvents 的类型将被移除。
 {{% /alert %}}

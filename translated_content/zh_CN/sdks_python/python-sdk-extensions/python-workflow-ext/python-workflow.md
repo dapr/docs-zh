@@ -111,7 +111,7 @@ dapr run --app-id wf-simple-example --dapr-grpc-port 50001 --resources-path comp
        yield ctx.call_activity(hello_act, input=10)
    ```
 
-3. **重试逻辑**：workflow 使用重试策略演示错误处理：
+3. **重试逻辑**：workflow 使用 retry policy 演示错误处理：
    ```python
    retry_policy = RetryPolicy(
        first_retry_interval=timedelta(seconds=1),
@@ -123,7 +123,7 @@ dapr run --app-id wf-simple-example --dapr-grpc-port 50001 --resources-path comp
    yield ctx.call_activity(hello_retryable_act, retry_policy=retry_policy)
    ```
 
-4. **child workflow**：child workflow 使用其自己的重试策略执行：
+4. **child workflow**：child workflow 使用其自己的 retry policy 执行：
    ```python
    yield ctx.call_child_workflow(child_retryable_wf, retry_policy=retry_policy)
    ```

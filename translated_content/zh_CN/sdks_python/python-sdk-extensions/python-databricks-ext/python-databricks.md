@@ -102,5 +102,5 @@ dapr stop --app-id fraud-remediation-demo
 ## 后续步骤
 
 - 将 `fraud_remediation_pipeline.py` 的模式复制到真实的 Databricks Lakeflow 流水线中，以便对接真实的流式数据。
-- 查看[完整配置参考](https://github.com/dapr/python-sdk/blob/main/dapr/ext/databricks/README.md)，了解复合业务键、自定义输入映射、有界并发和可观测性。
+- 查看[完整配置参考](https://github.com/dapr/python-sdk/blob/main/dapr/ext/databricks/README.md)，了解复合业务键、自定义输入映射、有界并发和 observability。
 - 进一步了解如何编写 workflow 端代码：[Dapr Workflow]({{% ref python-workflow-ext %}})。

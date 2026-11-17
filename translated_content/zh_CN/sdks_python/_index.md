@@ -63,7 +63,7 @@ pip install "dapr[fastapi,grpc]"
 | `dapr[grpc]` | [gRPC]({{% ref python-grpc %}}) | `dapr.ext.grpc` |
 | `dapr[workflow]` | [Workflow]({{% ref python-workflow-ext %}}) | `dapr.ext.workflow` |
 | `dapr[databricks]` | [Databricks]({{% ref python-databricks-ext %}}) | `dapr.ext.databricks` |
-| `dapr[langgraph]` | LangGraph 检查点持久化 | `dapr.ext.langgraph` |
+| `dapr[langgraph]` | LangGraph checkpoint 持久化 | `dapr.ext.langgraph` |
 | `dapr[strands]` | Strands 代理会话管理 | `dapr.ext.strands` |
 
 如需安装所有扩展，请使用 `pip install "dapr[all]"`。
@@ -177,7 +177,7 @@ git clone https://github.com/dapr/python-sdk.git
 | [分布式计算器教程](https://github.com/dapr/quickstarts/tree/master/tutorials/distributed-calculator/python) | 使用 Dapr Python SDK 处理方法调用和状态持久化功能。 |
 | [Hello World 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world) | 了解如何使用 Python SDK 在本地机器上启动并运行 Dapr。 |
 | [Hello Kubernetes 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes) | 在 Kubernetes 集群中快速上手 Dapr Python SDK。 |
-| [可观测性教程](https://github.com/dapr/quickstarts/tree/master/tutorials/observability) | 使用 Python SDK 探索 Dapr 的指标收集、链路追踪、日志记录和健康检查功能。 |
+| [observability 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/observability) | 使用 Python SDK 探索 Dapr 的指标收集、链路追踪、日志记录和健康检查功能。 |
 | [pub/sub 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub) | 了解 Dapr Python SDK 如何与其他 Dapr SDK 协同工作以启用 pub/sub 应用。 |
 
 
