@@ -13,7 +13,7 @@ Dapr 支持在以下 Kubernetes 集群上运行微服务：
 
 这在将传统应用程序逐步迁移到 Dapr Kubernetes 集群时特别有用。
 
-Kubernetes 使用一个称为**节点亲和性（node affinity）**的概念来表示你希望应用程序在 Linux 节点还是 Windows 节点上启动。当部署到同时具有 Windows 和 Linux 节点的集群时，必须为应用程序提供亲和性规则，否则 Kubernetes 调度器可能会在错误类型的节点上启动应用程序。
+Kubernetes 使用一个称为**node affinity**的概念来表示你希望应用程序在 Linux 节点还是 Windows 节点上启动。当部署到同时具有 Windows 和 Linux 节点的集群时，必须为应用程序提供亲和性规则，否则 Kubernetes Scheduler 可能会在错误类型的节点上启动应用程序。
 
 ## 前置条件
 
@@ -38,16 +38,16 @@ Kubernetes 使用一个称为**节点亲和性（node affinity）**的概念来�
    akswin000001                        Ready    agent   6d      v1.17.9   10.240.0.97    <none>        Windows Server 2019    Datacenter   10.0.17763.1339     docker://19.3.5
    ```
 
-## 安装 Dapr 控制平面
+## 安装 Dapr control plane
 
 如果你使用 Dapr CLI 或 Helm chart 安装，只需按照常规部署流程操作：[在 Kubernetes 集群上安装 Dapr]({{% ref kubernetes-deploy %}})
 
 亲和性将自动设置为 `kubernetes.io/os=linux`。这对大多数用户来说已足够，因为 Kubernetes 至少需要一个 Linux 节点池。
 
 {{% alert title="注意" color="primary" %}}
-Dapr 控制平面容器同时为 Windows 和 Linux 构建和测试。但是，建议使用 Linux 控制平面容器，因为它们通常更小且拥有更大的用户群。
+Dapr control plane 容器同时为 Windows 和 Linux 构建和测试。但是，建议使用 Linux control plane 容器，因为它们通常更小且拥有更大的用户群。
 
-如果你了解上述情况，但仍想将 Dapr 控制平面部署到 Windows，可以通过设置以下参数来实现：
+如果你了解上述情况，但仍想将 Dapr control plane 部署到 Windows，可以通过设置以下参数来实现：
 
 ```sh
 helm install dapr dapr/dapr --set global.daprControlPlaneOs=windows
@@ -60,7 +60,7 @@ helm install dapr dapr/dapr --set global.daprControlPlaneOs=windows
 
 1. [遵循 Microsoft 文档创建一个安装了你的应用的 Docker Windows 容器](https://learn.microsoft.com/virtualization/windowscontainers/quick-start/set-up-environment?tabpane=dockerce)。
 
-1. 创建包含应用的 Docker 容器后，创建一个部署 YAML 文件，将节点亲和性设置为 `kubernetes.io/os: windows`。在下面的示例 `deploy_windows.yaml` 部署文件中：
+1. 创建包含应用的 Docker 容器后，创建一个部署 YAML 文件，将 node affinity 设置为 `kubernetes.io/os: windows`。在下面的示例 `deploy_windows.yaml` 部署文件中：
 
    ```yaml
    apiVersion: apps/v1
@@ -111,7 +111,7 @@ helm install dapr dapr/dapr --set global.daprControlPlaneOs=windows
 
 如果你已经有一个在 Linux 上运行的 Dapr 应用，仍然需要添加亲和性规则。
 
-1. 创建一个部署 YAML 文件，将节点亲和性设置为 `kubernetes.io/os: linux`。在下面的示例 `deploy_linux.yaml` 部署文件中：
+1. 创建一个部署 YAML 文件，将 node affinity 设置为 `kubernetes.io/os: linux`。在下面的示例 `deploy_linux.yaml` 部署文件中：
 
    ```yaml
    apiVersion: apps/v1
@@ -172,7 +172,7 @@ helm uninstall dapr
 
 ## 相关链接
 
-- 查阅 [官方 Kubernetes 文档](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)了解通过节点亲和性进行更高级配置的示例
+- 查阅 [官方 Kubernetes 文档](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)了解通过 node affinity 进行更高级配置的示例
 - [入门：为容器准备 Windows](https://docs.microsoft.com/virtualization/windowscontainers/quick-start/set-up-environment)
 - [在 Azure AKS 上设置启用了 Windows 的 Kubernetes 集群](https://docs.microsoft.com/azure/aks/windows-container-cli)
 - [在 AWS EKS 上设置启用了 Windows 的 Kubernetes 集群](https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html)

@@ -7,7 +7,7 @@ weight: 300
 ---
 
 Dapr 为应用程序提供双向 binding 能力，并为与不同的云服务或本地服务及系统交互提供一致的方法。
-开发者可以使用 Dapr API 调用 output binding，也可以让 Dapr 运行时通过 input binding 触发应用程序。
+开发者可以使用 Dapr API 调用 output binding，也可以让 Dapr runtime 通过 input binding 触发应用程序。
 
 binding 的示例包括 `Kafka`、`Rabbit MQ`、`Azure Event Hubs`、`AWS SQS`、`GCP Storage` 等。
 
@@ -33,17 +33,17 @@ spec:
 
 如果以自托管方式在本地运行，请将此文件放置在你的 `components` 文件夹中，与你的 state store 和消息队列 yml 配置放在一起。
 
-如果在 Kubernetes 上运行，请将组件应用到集群。
+如果在 Kubernetes 上运行，请将 component 应用到集群。
 
-> **注意：** 在生产环境中，切勿在 Dapr 组件文件中放置密码或 secrets 信息。有关使用 secret store 安全存储和检索 secrets 信息的说明，请参阅[设置 secret store]({{% ref setup-secret-store %}})
+> **注意：** 在生产环境中，切勿在 Dapr component 文件中放置密码或 secrets 信息。有关使用 secret store 安全存储和检索 secrets 信息的说明，请参阅[设置 secret store]({{% ref setup-secret-store %}})
 
 ### binding 方向（可选）
 
-在某些场景中，为 Dapr 提供额外信息以指示 binding 组件支持的方向会很有用。
+在某些场景中，为 Dapr 提供额外信息以指示 binding component 支持的方向会很有用。
 
-提供 binding `direction` 可以帮助 Dapr 边车避免 `"wait for the app to become ready"` 状态，即无限期等待应用程序变为可用。这将 Dapr 边车与应用程序之间的生命周期依赖关系解耦。
+提供 binding `direction` 可以帮助 Dapr sidecar 避免 `"wait for the app to become ready"` 状态，即无限期等待应用程序变为可用。这将 Dapr sidecar 与应用程序之间的生命周期依赖关系解耦。
 
-你可以在组件的元数据中指定 `direction` 字段。该字段的有效值为：
+你可以在 component 的 metadata 中指定 `direction` 字段。该字段的有效值为：
 - `"input"`
 - `"output"`
 - `"input, output"`
@@ -52,11 +52,11 @@ spec:
 强烈建议所有 binding 都包含 `direction` 属性。
 {{% /alert %}}
 
-以下是几个 `"direction"` 元数据字段可能有帮助的场景：
+以下是几个 `"direction"` metadata 字段可能有帮助的场景：
 
-- 当应用程序（与边车分离）作为无服务器工作负载运行并缩放为零时，Dapr 边车执行的 `"wait for the app to become ready"` 检查变得毫无意义。
+- 当应用程序（与 sidecar 分离）作为无服务器工作负载运行并缩放为零时，Dapr sidecar 执行的 `"wait for the app to become ready"` 检查变得毫无意义。
 
-- 如果分离的 Dapr 边车缩放为零，且应用程序在启动 HTTP 服务器之前就访问了边车，那么 `"wait for the app to become ready"` 会使应用程序与边车相互等待，陷入死锁。
+- 如果分离的 Dapr sidecar 缩放为零，且应用程序在启动 HTTP 服务器之前就访问了 sidecar，那么 `"wait for the app to become ready"` 会使应用程序与 sidecar 相互等待，陷入死锁。
 
 ### 示例
 
@@ -87,13 +87,13 @@ spec:
 
 启动时，Dapr 会向 `metadata.name` 端点发送 `OPTIONS` 请求。如果此应用程序希望订阅该 binding，它应返回不同于 `NOT FOUND (404)` 的状态码。
 
-`metadata` 部分是一个开放的键/值元数据对，允许 binding 定义连接属性以及组件实现特有的自定义属性。
+`metadata` 部分是一个开放的键/值 metadata 对，允许 binding 定义连接属性以及 component 实现特有的自定义属性。
 
 ### 示例
 
-例如，下面是一个 Python 应用程序如何使用符合 Dapr API 规范的平台订阅来自 `Kafka` 的事件。请注意，组件中的 metadata.name 值 `kafkaevent` 如何与 Python 代码中的 POST 路由名称相匹配。
+例如，下面是一个 Python 应用程序如何使用符合 Dapr API 规范的平台订阅来自 `Kafka` 的事件。请注意，component 中的 metadata.name 值 `kafkaevent` 如何与 Python 代码中的 POST 路由名称相匹配。
 
-#### Kafka 组件
+#### Kafka component
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -129,7 +129,7 @@ def incoming():
 
 ### binding 端点
 
-binding 从组件 yaml 文件中发现。Dapr 在启动时调用此端点，以确保应用程序能够处理该调用。如果应用程序没有此端点，Dapr 会忽略它。
+binding 从 component yaml 文件中发现。Dapr 在启动时调用此端点，以确保应用程序能够处理该调用。如果应用程序没有此端点，Dapr 会忽略它。
 
 #### HTTP 请求
 
@@ -237,7 +237,7 @@ binding 端点接收以下 JSON 负载：
 > 注意，所有 URL 参数都区分大小写。
 
 `data` 字段接受任何可 JSON 序列化的值，并作为要发送到 output binding 的负载。
-`metadata` 字段是键/值对数组，允许你为每次调用设置特定于 binding 的元数据。
+`metadata` 字段是键/值对数组，允许你为每次调用设置特定于 binding 的 metadata。
 `operation` 字段告诉 Dapr binding 应执行哪种操作。
 
 ### URL 参数
@@ -265,13 +265,13 @@ curl -X POST http://localhost:3500/v1.0/bindings/myKafka \
       }'
 ```
 
-### gRPC 请求元数据
+### gRPC 请求 metadata
 
-通过 gRPC 调用 output binding 时，Dapr 除了转发你显式设置的任何元数据，还会将传入的 gRPC 请求元数据转发到 binding 的元数据映射中。从 Dapr 1.19 开始，二进制 gRPC 元数据（即以 `-bin` 结尾、其值不是有效 UTF-8 的键）不再被转发，因为它无法表示为字符串组件元数据。
+通过 gRPC 调用 output binding 时，Dapr 除了转发你显式设置的任何 metadata，还会将传入的 gRPC 请求 metadata 转发到 binding 的 metadata 映射中。从 Dapr 1.19 开始，二进制 gRPC metadata（即以 `-bin` 结尾、其值不是有效 UTF-8 的键）不再被转发，因为它无法表示为字符串 component metadata。
 
-### 常见元数据值
+### 常见 metadata 值
 
-有一些常见的元数据属性在多个 binding 组件中受支持。下面的列表说明了它们：
+有一些常见的 metadata 属性在多个 binding component 中受支持。下面的列表说明了它们：
 
 |属性|描述|binding 定义|可用于
 |-|-|-|-|

@@ -21,7 +21,7 @@ description: "如何启用 MCP 客户端和服务器端身份验证"
 * 代表用户执行特权操作
 * 暴露需要权限控制的工具
 
-Dapr 通过使用 [中间件]({{% ref "middleware" %}}) 组件，支持 MCP 客户端与服务器之间的 OAuth2 身份验证。
+Dapr 通过使用 [middleware]({{% ref "middleware" %}}) component，支持 MCP 客户端与服务器之间的 OAuth2 身份验证。
 
 ## 身份验证类型
 
@@ -43,7 +43,7 @@ Dapr 为 MCP 服务器的生产级部署支持两种关键身份验证机制—�
 
 ### 将 MCP 服务器定义为 HTTPEndpoint
 
-Dapr 允许开发者和运维人员将远程 HTTP 服务建模为可使用 Dapr [服务调用 API]({{% ref "service-invocation-overview" %}}) 管理和调用的资源。
+Dapr 允许开发者和运维人员将远程 HTTP 服务建模为可使用 Dapr [service invocation API]({{% ref "service-invocation-overview" %}}) 管理和调用的资源。
 创建此 `HTTPEndpoint` 资源来表示 MCP 服务器：
 
 ```yaml
@@ -58,9 +58,9 @@ spec:
     value: "text/event-stream"
 ```
 
-### 定义 OAuth2 中间件和配置组件
+### 定义 OAuth2 middleware 和配置 component
 
-以下中间件组件定义了与 OAuth2 提供程序的连接：
+以下 middleware component 定义了与 OAuth2 提供程序的连接：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -83,7 +83,7 @@ spec:
     value: "<comma-separated scopes>"
 ```
 
-接下来，创建配置资源，告诉 Dapr 使用 OAuth2 中间件：
+接下来，创建配置资源，告诉 Dapr 使用 OAuth2 middleware：
 
 ```yaml
 piVersion: dapr.io/v1alpha1
@@ -95,12 +95,12 @@ spec:
     samplingRate: "1"
   httpPipeline:
     handlers:
-    - name: oauth2 # 在此引用 oauth 组件
+    - name: oauth2 # 在此引用 oauth component
       type: middleware.http.oauth2    
 ```
 
 {{% alert title="注意" color="primary" %}} 
-访问[此链接]({{% ref "component-secrets.md" %}})，了解如何向 Dapr 组件提供 secrets。
+访问[此链接]({{% ref "component-secrets.md" %}})，了解如何向 Dapr component 提供 secrets。
 {{% /alert %}}
 
 ### 使用 MCP 客户端调用 MCP 服务器
@@ -152,9 +152,9 @@ MCP 客户端会使 Dapr 在连接到 MCP 服务器之前启动 OAuth2 流水线
 
 ## 如何启用服务器端身份验证
 
-### 定义 OAuth2 中间件和配置组件
+### 定义 OAuth2 middleware 和配置 component
 
-定义一个与客户端示例相同的中间件组件。
+定义一个与客户端示例相同的 middleware component。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -177,7 +177,7 @@ spec:
     value: "<comma-separated scopes>"
 ```
 
-接下来，创建配置组件，并修改 `appHttpPipeline` 字段。这告诉 Dapr 对传入的调用应用该中间件。
+接下来，创建配置 component，并修改 `appHttpPipeline` 字段。这告诉 Dapr 对传入的调用应用该 middleware。
 
 ```yaml
 piVersion: dapr.io/v1alpha1
@@ -189,7 +189,7 @@ spec:
     samplingRate: "1"
   appHttpPipeline:
     handlers:
-    - name: oauth2 # 在此引用 oauth 组件
+    - name: oauth2 # 在此引用 oauth component
       type: middleware.http.oauth2    
 ```
 
@@ -203,9 +203,9 @@ dapr run --app-id mcpclient --resources-path ./components --dapr-http-port 3500 
 
 当 MCP 服务器的请求到达时，Dapr 将启动 OAuth2 流水线。
 
-### 替代方案：使用 bearer 中间件进行入站 JWT 验证
+### 替代方案：使用 bearer middleware 进行入站 JWT 验证
 
-要求 MCP 服务器的每个入站请求都携带有效的 OAuth 2.0 令牌，且无需在服务器端驱动 OAuth2 流程，请将 [`middleware.http.bearer`]({{% ref middleware-bearer.md %}}) 挂载到 MCP 服务器的 `appHttpPipeline` 上。该中间件会根据 JWKS 端点验证令牌的签名、颁发者（issuer）和受众（audience），并在请求到达服务器代码之前拒绝缺失或无效令牌的请求（`401 Unauthorized`）。
+要求 MCP 服务器的每个入站请求都携带有效的 OAuth 2.0 令牌，且无需在服务器端驱动 OAuth2 流程，请将 [`middleware.http.bearer`]({{% ref middleware-bearer.md %}}) 挂载到 MCP 服务器的 `appHttpPipeline` 上。该 middleware 会根据 JWKS 端点验证令牌的签名、颁发者（issuer）和受众（audience），并在请求到达服务器代码之前拒绝缺失或无效令牌的请求（`401 Unauthorized`）。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -240,7 +240,7 @@ spec:
 
 ## 另请参阅
 
-- [MCP 访问控制]({{% ref mcp-access-control.md %}}) —— 在服务调用边界处基于 App-ID 的授权。
+- [MCP 访问控制]({{% ref mcp-access-control.md %}}) —— 在 service invocation 边界处基于 App-ID 的授权。
 - [MCP 安全态势]({{% ref mcp-security.md %}}) —— 威胁模型与纵深防御的整体说明。
-- [Bearer 中间件参考]({{% ref middleware-bearer.md %}})。
-- [OAuth2 中间件参考]({{% ref middleware-oauth2.md %}})。
+- [Bearer middleware 参考]({{% ref middleware-bearer.md %}})。
+- [OAuth2 middleware 参考]({{% ref middleware-oauth2.md %}})。

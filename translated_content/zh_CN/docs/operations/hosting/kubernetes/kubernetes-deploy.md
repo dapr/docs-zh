@@ -36,7 +36,7 @@ Dapr CLI 和 Dapr Helm chart 都会自动部署到带有 `kubernetes.io/os=linux
 
 ### 安装选项
 
-你可以从官方 Helm chart 或私有 chart 安装 Dapr，也可以使用自定义命名空间等。
+你可以从官方 Helm chart 或私有 chart 安装 Dapr，也可以使用自定义 namespace 等。
 
 #### 从官方 Dapr Helm chart 安装 Dapr
 
@@ -119,15 +119,15 @@ export DAPR_HELM_REPO_PASSWORD="passwd_xxx"
 ```
 #### 以高可用模式安装
 
-你可以在 `dapr-system` 命名空间中为每个控制平面 pod 运行三个副本，以适用于[生产场景]({{% ref kubernetes-production.md %}})。
+你可以在 `dapr-system` namespace 中为每个 control plane pod 运行三个副本，以适用于[生产场景]({{% ref kubernetes-production.md %}})。
 
 ```bash
 dapr init -k --enable-ha=true
 ```
 
-#### 在自定义命名空间中安装
+#### 在自定义 namespace 中安装
 
-Dapr 初始化时的默认命名空间为 `dapr-system`。你可以使用 `-n` 标志覆盖它。
+Dapr 初始化时的默认 namespace 为 `dapr-system`。你可以使用 `-n` 标志覆盖它。
 
 ```bash
 dapr init -k -n mynamespace
@@ -196,7 +196,7 @@ dapr uninstall -k
     helm search repo dapr --devel --versions
     ```
 
-1. 在 `dapr-system` 命名空间中的集群上安装 Dapr chart。
+1. 在 `dapr-system` namespace 中的集群上安装 Dapr chart。
 
     ```bash
     helm upgrade --install dapr dapr/dapr \
@@ -234,7 +234,7 @@ dapr uninstall -k
 
 ### 验证安装
 
-安装完成后，验证 `dapr-operator`、`dapr-placement`、`dapr-sidecar-injector` 和 `dapr-sentry` pod 是否在 `dapr-system` 命名空间中运行：
+安装完成后，验证 `dapr-operator`、`dapr-placement`、`dapr-sidecar-injector` 和 `dapr-sentry` pod 是否在 `dapr-system` namespace 中运行：
 
 ```bash
 kubectl get pods --namespace dapr-system
@@ -248,7 +248,7 @@ dapr-sidecar-injector-8555576b6f-29cqm   1/1       Running   0          40s
 dapr-sentry-9435776c7f-8f7yd             1/1       Running   0          40s
 ```
 
-> **注意：** 当 Actor 放置由 Scheduler 服务提供（`global.scheduler.placement.enabled=true`）时，不会存在 `dapr-placement` pod。
+> **注意：** 当 Actor placement 由 Scheduler service 提供（`global.scheduler.placement.enabled=true`）时，不会存在 `dapr-placement` pod。
 
 ### 卸载 Kubernetes 上的 Dapr
 

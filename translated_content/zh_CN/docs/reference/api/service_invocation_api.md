@@ -1,8 +1,8 @@
 ---
 type: docs
-title: "服务调用 API 参考"
-linkTitle: "服务调用 API"
-description: "服务调用 API 的详细文档"
+title: "service invocation API 参考"
+linkTitle: "service invocation API"
+description: "service invocation API 的详细文档"
 weight: 1400
 ---
 
@@ -134,7 +134,7 @@ app.listen(port, () => console.log(`Listening on port ${port}!`));
 
 在此 URL 中，`testing` 是 `mathService` 运行所在的命名空间。
 
-### 服务调用请求中的标头
+### service invocation 请求中的标头
 
 当 Dapr 调用服务时，它会自动为请求添加以下标头：
 
@@ -144,15 +144,15 @@ app.listen(port, () => console.log(`Listening on port ${port}!`));
 | `dapr-caller-namespace` | 调用应用程序的命名空间 | `production` |
 | `dapr-callee-app-id` | 被调用应用程序的 ID | `mathService` |
 
-这些标头在 HTTP 和 gRPC 服务调用请求中都可用，包括通过 gRPC 代理发起的调用。
+这些标头在 HTTP 和 gRPC service invocation 请求中都可用，包括通过 gRPC 代理发起的调用。
 
-从 Dapr 1.19 和 1.18.6 版本开始，启用 mTLS 后，被调用的应用只会从其自己的边车接收 `dapr-caller-app-id` 和 `dapr-caller-namespace`。边车会根据调用方的 mTLS 身份设置这两个标头，并移除调用应用自行设置的任何值，因此被调用的应用可以放心地依赖它们来识别调用方。
+从 Dapr 1.19 和 1.18.6 版本开始，启用 mTLS 后，被调用的应用只会从其自己的 sidecar 接收 `dapr-caller-app-id` 和 `dapr-caller-namespace`。sidecar 会根据调用方的 mTLS 身份设置这两个标头，并移除调用应用自行设置的任何值，因此被调用的应用可以放心地依赖它们来识别调用方。
 
-从 Dapr 1.19 和 1.18.6 版本开始，方法名中如果包含 `%2F`、`%5C` 或 `%2E`（不区分大小写），或包含字面量 `\`，则会在访问控制检查之前被拒绝。这是因为应用程序可能会将其解码为 [访问控制策略]({{% ref invoke-allowlist %}}) 不允许的路径。该规则适用于 HTTP 和 gRPC API、边车之间的调用、经代理的 gRPC 调用以及 Actor 方法调用。
+从 Dapr 1.19 和 1.18.6 版本开始，方法名中如果包含 `%2F`、`%5C` 或 `%2E`（不区分大小写），或包含字面量 `\`，则会在访问控制检查之前被拒绝。这是因为应用程序可能会将其解码为 [访问控制策略]({{% ref invoke-allowlist %}}) 不允许的路径。该规则适用于 HTTP 和 gRPC API、sidecar 之间的调用、经代理的 gRPC 调用以及 Actor 方法调用。
 
 #### 非 Dapr 端点示例
 
-如果 `mathService` 服务是非 Dapr 应用程序，则可以使用服务调用，通过 `HTTPEndpoint` 进行调用，也可以通过完全限定域名（FQDN）URL 进行调用。
+如果 `mathService` 服务是非 Dapr 应用程序，则可以使用 service invocation，通过 `HTTPEndpoint` 进行调用，也可以通过完全限定域名（FQDN）URL 进行调用。
 
 ```shell
 curl http://localhost:3500/v1.0/invoke/mathHTTPEndpoint/method/add \

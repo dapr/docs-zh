@@ -11,7 +11,7 @@ description: >
 
 ## 前置条件
 
-- 安装以下组件：
+- 安装以下 component：
    - [kubectl](https://kubernetes.io/docs/tasks/tools/)
    - [AWS CLI](https://aws.amazon.com/cli/)
    - [eksctl](https://eksctl.io/)
@@ -75,9 +75,9 @@ description: >
    kubectl config current-context
    ```
 
-## 添加 Dapr 的边车访问和默认存储类要求
+## 添加 Dapr 的 sidecar 访问和默认 storage class 要求
 
-1. 更新安全组规则，为端口 4000 创建入站规则，以允许 EKS 集群与 Dapr 边车通信。
+1. 更新安全组规则，为端口 4000 创建入站规则，以允许 EKS 集群与 Dapr sidecar 通信。
 
    ```bash
    aws ec2 authorize-security-group-ingress --region [your_aws_region] \
@@ -87,7 +87,7 @@ description: >
    --source-group [your_security_group]
    ```
 
-2. 如果你还没有默认存储类，请添加一个：
+2. 如果你还没有默认 storage class，请添加一个：
 
   ```bash
   kubectl patch storageclass gp2 -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
@@ -115,7 +115,7 @@ dapr init -k
 ## 服务账户的 IAM 角色（IRSA）
 
 你可以为 `dapr_rbac` Helm 子图表创建的 ServiceAccounts 附加自定义注解，这对于在 AWS EKS 上启用服务账户的 IAM 角色（IRSA）非常有用。
-这可以通过 EKS 的 IRSA 机制为 Dapr 组件启用细粒度、安全的访问控制。
+这可以通过 EKS 的 IRSA 机制为 Dapr component 启用细粒度、安全的访问控制。
 更新你的 Dapr Helm 值文件，为 ServiceAccounts 加入以下必要的注解。
 
 有关 AWS 身份验证的更多信息，请参阅[此处]({{% ref authenticating-aws.md %}})。
@@ -149,6 +149,6 @@ aws eks --region [your_aws_region] update-kubeconfig --name [your_eks_cluster_na
 
 - [进一步了解 EKS 集群](https://docs.aws.amazon.com/eks/latest/userguide/clusters.html)
 - [进一步了解 eksctl](https://eksctl.io/getting-started/)
-- [尝试 Dapr 快速入门]({{% ref quickstarts.md %}})
+- [尝试 Dapr Quickstart]({{% ref quickstarts.md %}})
 - 了解如何[在你的集群上部署 Dapr]({{% ref kubernetes-deploy.md %}})
 - [Kubernetes 生产环境指南]({{% ref kubernetes-production.md %}})

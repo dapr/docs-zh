@@ -6,7 +6,7 @@ weight: 30
 description: "使用 MCPServer 资源发现 MCP 服务器上的工具并调用它们"
 ---
 
-本指南将带你完成以下步骤：声明一个 MCPServer 资源、列出其工具，并通过 Dapr Workflow API 调用某个工具。Dapr 负责处理 MCP 协议、传输、身份验证和持久重试，你的应用只需按名称启动工作流即可。
+本指南将带你完成以下步骤：声明一个 MCPServer 资源、列出其工具，并通过 Dapr Workflow API 调用某个工具。Dapr 负责处理 MCP 协议、传输、身份验证和持久重试，你的应用只需按名称启动 workflow 即可。
 
 ## 步骤 1：定义 MCPServer 资源
 
@@ -27,7 +27,7 @@ spec:
 
 ## 步骤 2：列出可用工具
 
-使用 Dapr Workflow API 启动一个 `ListTools` 工作流：
+使用 Dapr Workflow API 启动一个 `ListTools` workflow：
 
 ```bash
 curl -X POST "http://localhost:3500/v1.0-beta1/workflows/dapr/dapr.internal.mcp.my-mcp-server.ListTools/start" \
@@ -66,7 +66,7 @@ curl "http://localhost:3500/v1.0-beta1/workflows/dapr/abc123"
 
 ## 步骤 3：调用工具
 
-每个 MCP 工具都有自己的工作流，名称为 `dapr.internal.mcp.<server>.CallTool.<tool>`。工具名称已包含在工作流名称中，因此输入只需携带参数：
+每个 MCP 工具都有自己的 workflow，名称为 `dapr.internal.mcp.<server>.CallTool.<tool>`。工具名称已包含在 workflow 名称中，因此输入只需携带参数：
 
 ```bash
 curl -X POST "http://localhost:3500/v1.0-beta1/workflows/dapr/dapr.internal.mcp.my-mcp-server.CallTool.get_weather/start" \
@@ -87,7 +87,7 @@ curl -X POST "http://localhost:3500/v1.0-beta1/workflows/dapr/dapr.internal.mcp.
 }
 ```
 
-如果工具调用在 MCP 层面失败（例如未知工具、身份验证错误），`isError` 为 `true`，错误信息位于 `content` 中。工作流本身会成功完成，`isError` 不代表工作流失败。
+如果工具调用在 MCP 层面失败（例如未知工具、身份验证错误），`isError` 为 `true`，错误信息位于 `content` 中。workflow 本身会成功完成，`isError` 不代表 workflow 失败。
 
 如果调用缺少必需参数，你会立即得到相同结构的 `isError: true` 响应。Dapr 会在联系 MCP 服务器之前，依据缓存的工具 JSON Schema 进行校验，因此代理或大型语言模型 (LLM) 无需额外的网络往返即可看到可操作的错误信息。
 
@@ -117,9 +117,9 @@ spec:
 
 Dapr 从颁发者处获取令牌，并将其作为 Bearer 令牌注入每个 MCP 请求。为提高效率，HTTP 客户端会按 MCPServer 进行缓存。
 
-## 步骤 5（可选）：添加中间件
+## 步骤 5（可选）：添加 middleware
 
-中间件钩子让你可以在每次工具调用时，以 Dapr 工作流的形式运行鉴权、脱敏和审计，而无需修改代理代码。钩子在 MCPServer 规范中进行配置，并以普通工作流的形式注册到你的应用中（或通过 `appID` 注册到专用的策略应用中）。
+middleware 钩子让你可以在每次工具调用时，以 Dapr workflow 的形式运行鉴权、脱敏和审计，而无需修改代理代码。钩子在 MCPServer 规范中进行配置，并以普通 workflow 的形式注册到你的应用中（或通过 `appID` 注册到专用的策略应用中）。
 
 ### 步骤 5.1：添加 RBAC 钩子（违反策略时拒绝）
 
@@ -131,7 +131,7 @@ spec:
           workflowName: rbac-check
 ```
 
-在应用中注册一个名为 `rbac-check` 的工作流。它会接收一个 `MCPBeforeCallToolHookInput`：
+在应用中注册一个名为 `rbac-check` 的 workflow。它会接收一个 `MCPBeforeCallToolHookInput`：
 
 ```text
 { name, toolName, arguments }
@@ -154,7 +154,7 @@ workflow rbac-check(input):
   return ok   # 返回 nil 错误，使工具调用继续进行
 ```
 
-该钩子以持久工作流的形式运行。如果 daprd 在策略检查过程中重启，调度器会重新投递，决策随之完成。
+该钩子以持久 workflow 的形式运行。如果 daprd 在策略检查过程中重启，Scheduler 会重新投递，决策随之完成。
 
 > **按调用方划分的 RBAC（“哪些应用可以调用哪些工具”）应放在 [`WorkflowAccessPolicy`]({{% ref workflow_api %}}) 层，而不是钩子中。** 钩子输入不携带调用方的 appID，策略才携带。应将策略用作外围边界，将钩子用于参数级决策。
 
@@ -197,7 +197,7 @@ spec:
           appID: policy-service   # 在名为 "policy-service" 的 Dapr 应用上运行
 ```
 
-同一工作流会通过服务调用在指定的应用上运行。一个共享策略应用（RBAC、审计、PII 脱敏）即可统一管理多个代理应用，而无需每个应用都嵌入策略。只需更新一次中心工作流，所有引用它的 MCPServer 都会自动获取变更，无需重新部署其调用方。
+同一 workflow 会通过 service invocation 在指定的应用上运行。一个共享策略应用（RBAC、审计、PII 脱敏）即可统一管理多个代理应用，而无需每个应用都嵌入策略。只需更新一次中心 workflow，所有引用它的 MCPServer 都会自动获取变更，无需重新部署其调用方。
 
 > 有关标准钩子模式（RBAC、限流、审计、响应过滤、工具列表过滤），请参阅[概述示例]({{% ref "mcp-server-resource.md#examples-common-patterns" %}})。
 

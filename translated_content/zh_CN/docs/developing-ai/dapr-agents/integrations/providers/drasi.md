@@ -7,7 +7,7 @@ description: "Drasi 集成"
 ---
 
 {{% alert title="注意" color="primary" %}}
-此集成目前处于 Alpha 阶段；重大变更可能随时发生。
+此集成目前处于 alpha；重大变更可能随时发生。
 {{% /alert %}}
 
 Dapr Agents 中的 Drasi 扩展使 `DurableAgent` 的运行可以由 Drasi 事件触发。
@@ -79,7 +79,7 @@ AgentRunner().serve(agent)
 --------- | ---- | -------- | ------- | -------
 `agent` | `DurableAgent` | 是 | 目标代理。 | 无
 `query_id` | `str` | 是 | 要订阅的 Drasi 查询 ID。 | `"low-stock-products"`
-`pubsub` | `str` | 否 | 要使用的 Dapr pub/sub 组件名称。默认为代理的 pub/sub 组件。 | `"pubsub"`
+`pubsub` | `str` | 否 | 要使用的 Dapr pub/sub component 名称。默认为代理的 pub/sub component。 | `"pubsub"`
 `topic` | `str` | 否 | 要订阅的主题。默认为 `"drasi-events-" + query_id`。 | 无
 `dead_letter_topic` | `str` | 否 | 用于发布处理失败消息的死信主题。 | `"low-stock-events-dlq"`
 `task_mapper` | `Callable[[DrasiChangeEvent, MessageContext], TriggerAction]` | 否 | 用于将 Drasi 变更事件映射为代理任务消息的可调用对象。默认指示代理原样返回序列化后的 Drasi 事件。 | 无

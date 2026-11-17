@@ -85,7 +85,7 @@ apps:
 
 ## 使用 Dapr Dev Dashboard 检查您的应用程序
 
-当您使用 Multi-App Run 启动多个应用程序时，[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 会自动发现它们，并提供一个统一的入口，用于查看所有应用和边车、它们的健康状况与端口、已加载的组件，以及每个应用的应用程序日志和 `daprd` 日志。这样您就无需在每个 `.dapr/logs` 文件夹中逐一查找日志文件。
+当您使用 Multi-App Run 启动多个应用程序时，[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 会自动发现它们，并提供一个统一的入口，用于查看所有应用和 sidecar、它们的健康状况与端口、已加载的 component，以及每个应用的应用程序日志和 `daprd` 日志。这样您就无需在每个 `.dapr/logs` 文件夹中逐一查找日志文件。
 
 ## 观看演示
 
@@ -100,9 +100,9 @@ apps:
 
 ## Multi-App Run 模板文件
 
-当您执行 `dapr run -k -f .` 或 `dapr run -k -f dapr.yaml` 时，在 `dapr.yaml` Multi-App Run 模板文件中定义的应用程序将在 Kubernetes 默认命名空间中启动。
+当您执行 `dapr run -k -f .` 或 `dapr run -k -f dapr.yaml` 时，在 `dapr.yaml` Multi-App Run 模板文件中定义的应用程序将在 Kubernetes 默认 namespace 中启动。
 
-> **注意：** 目前，Multi-App Run 模板只能在默认 Kubernetes 命名空间中启动应用程序。
+> **注意：** 目前，Multi-App Run 模板只能在默认 Kubernetes namespace 中启动应用程序。
 
 Kubernetes 所需的默认服务和部署定义会在 `dapr.yaml` 模板中每个应用程序的 `.dapr/deploy` 文件夹中生成。
 
@@ -110,7 +110,7 @@ Kubernetes 所需的默认服务和部署定义会在 `dapr.yaml` 模板中每�
 
 否则，只会为设置了 `containerImage` 字段的应用程序生成 `deployment.yaml` 文件。
 
-`service.yaml` 和 `deployment.yaml` 文件用于在 Kubernetes 的 `default` 命名空间中部署应用程序。此功能专门面向在 Kubernetes 中以开发/测试环境运行多个应用程序的场景。
+`service.yaml` 和 `deployment.yaml` 文件用于在 Kubernetes 的 `default` namespace 中部署应用程序。此功能专门面向在 Kubernetes 中以开发/测试环境运行多个应用程序的场景。
 
 您可以使用任何首选名称来命名模板文件，而不是使用默认名称。例如：
 
@@ -174,5 +174,5 @@ apps:
 ## 后续步骤
 
 - [了解 Multi-App Run 模板文件结构及其属性]({{% ref multi-app-template.md %}})
-- [使用服务调用快速入门尝试自托管 Multi-App Run 模板]({{% ref serviceinvocation-quickstart.md %}})
+- [使用 service invocation Quickstart 尝试自托管 Multi-App Run 模板]({{% ref serviceinvocation-quickstart.md %}})
 - [使用 `hello-kubernetes` 教程尝试 Kubernetes Multi-App Run 模板](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)

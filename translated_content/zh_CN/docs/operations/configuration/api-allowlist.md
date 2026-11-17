@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "操作指南：在 Dapr 边车上选择性地启用 Dapr API"
+title: "操作指南：在 Dapr sidecar 上选择性地启用 Dapr API"
 linkTitle: "Dapr API 允许列表"
 weight: 4500
-description: "选择哪些 Dapr 边车 API 可用于应用"
+description: "选择哪些 Dapr sidecar API 可用于应用"
 ---
 
-在零信任网络等场景中，或通过前端将 Dapr 边车暴露给外部流量时，建议只启用应用实际使用的 Dapr 边车 API。这样做可以减少攻击面，并有助于将 Dapr API 限制在应用程序的实际需求范围内。
+在零信任网络等场景中，或通过前端将 Dapr sidecar 暴露给外部流量时，建议只启用应用实际使用的 Dapr sidecar API。这样做可以减少攻击面，并有助于将 Dapr API 限制在应用程序的实际需求范围内。
 
 Dapr 允许你通过使用 [Dapr Configuration]({{% ref "configuration-schema.md" %}}) 设置 API 允许列表或拒绝列表，来控制应用程序可以访问哪些 API。
 
@@ -116,18 +116,18 @@ spec:
 
 | API 组 | HTTP API | [gRPC API](https://github.com/dapr/dapr/tree/master/pkg/api/grpc) |
 | ----- | ----- | ----- |
-| [服务调用]({{% ref service_invocation_api.md %}}) | `invoke` (`v1.0`) | `invoke` (`v1`) |
+| [service invocation]({{% ref service_invocation_api.md %}}) | `invoke` (`v1.0`) | `invoke` (`v1`) |
 | [状态]({{% ref state_api.md%}})| `state` (`v1.0` 和 `v1.0-alpha1`) | `state` (`v1` 和 `v1alpha1`) |
 | [pub/sub]({{% ref pubsub.md %}}) | `publish` (`v1.0` 和 `v1.0-alpha1`) | `publish` (`v1` 和 `v1alpha1`) |
 | [output binding]({{% ref bindings_api.md %}})  | `bindings` (`v1.0`) |`bindings` (`v1`) |
 | 订阅 | n/a | `subscribe` (`v1alpha1`) |
 | [secrets]({{% ref secrets_api.md %}})| `secrets` (`v1.0`) | `secrets` (`v1`) |
 | [Actor]({{% ref actors_api.md %}}) | `actors`  (`v1.0`) |`actors` (`v1`) |
-| [元数据]({{% ref metadata_api.md %}}) | `metadata` (`v1.0`) |`metadata` (`v1`) |
+| [metadata]({{% ref metadata_api.md %}}) | `metadata` (`v1.0`) |`metadata` (`v1`) |
 | [配置]({{% ref configuration_api.md %}}) | `configuration` (`v1.0` 和 `v1.0-alpha1`) | `configuration` (`v1` 和 `v1alpha1`) |
 | [分布式锁]({{% ref distributed_lock_api.md %}}) | `lock` (`v1.0-alpha1`)<br/>`unlock` (`v1.0-alpha1`) | `lock` (`v1alpha1`)<br/>`unlock` (`v1alpha1`) |
 | [加密]({{% ref cryptography_api.md %}}) | `crypto` (`v1.0-alpha1`) | `crypto` (`v1alpha1`) |
-| [工作流]({{% ref workflow_api.md %}}) | `workflows` (`v1.0`) |`workflows` (`v1`) |
+| [workflow]({{% ref workflow_api.md %}}) | `workflows` (`v1.0`) |`workflows` (`v1`) |
 | [对话]({{% ref conversation_api.md %}}) | `conversation` (`v1.0-alpha1`) | `conversation` (`v1alpha1`) |
 | [搜索]({{% ref search_api.md %}}) | `search` (`v1.0-alpha1`) | `search` (`v1alpha1`) |
 | [向量]({{% ref vector_api.md %}}) | `vector` (`v1.0-alpha1`) | `vector` (`v1alpha1`) |

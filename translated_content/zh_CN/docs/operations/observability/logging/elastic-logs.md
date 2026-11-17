@@ -32,7 +32,7 @@ kubectl create secret generic elastic-secret -n dapr-monitoring \
 
 Dapr 默认以纯文本输出日志。请开启 JSON 输出，以便字段在收集过程中得以保留。
 
-对于控制平面，通过 [Helm]({{% ref "kubernetes-deploy.md" %}}) 安装 Dapr 时设置 `global.logAsJson`：
+对于 control plane，通过 [Helm]({{% ref "kubernetes-deploy.md" %}}) 安装 Dapr 时设置 `global.logAsJson`：
 
 ```bash
 helm upgrade --install dapr dapr/dapr \

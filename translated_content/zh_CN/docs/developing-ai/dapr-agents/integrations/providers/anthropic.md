@@ -95,7 +95,7 @@ response = llm.generate(
 )
 ```
 
-### 与持久化代理配合使用
+### 与 Durable Agent 配合使用
 
 把客户端作为代理的 `llm` 传入：
 

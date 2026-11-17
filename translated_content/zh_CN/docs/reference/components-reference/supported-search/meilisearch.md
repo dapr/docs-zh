@@ -2,12 +2,12 @@
 type: docs
 title: "Meilisearch"
 linkTitle: "Meilisearch"
-description: Meilisearch 搜索组件的详细信息
+description: Meilisearch search component 的详细信息
 ---
 
-## 组件格式
+## component 格式
 
-要设置 Meilisearch search store，请创建一个类型为 `search.meilisearch` 的组件。关于如何创建并应用 search store 配置，请参阅[本指南]({{% ref "howto-search.md#set-up-the-search-component" %}})。
+要设置 Meilisearch search store，请创建一个类型为 `search.meilisearch` 的 component。关于如何创建并应用 search store 配置，请参阅[本指南]({{% ref "howto-search.md#set-up-the-search-component" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -30,7 +30,7 @@ spec:
 上面的示例将 secrets 用作明文字符串。建议将 secrets 保存在 secret store 中，具体做法见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段 | 必填 | 详情 | 示例 |
 |------|:----:|------|------|
@@ -55,13 +55,13 @@ spec:
 
 在[创建索引]({{% ref "search_api.md#create-index" %}})请求的 `metadata` 中，以逗号分隔的值传入以下 Meilisearch [索引设置](https://www.meilisearch.com/docs/reference/api/settings)：
 
-| 元数据 | 详情 | 示例 |
+| metadata | 详情 | 示例 |
 |--------|------|------|
 | `filterableAttributes` | 过滤可以使用的内容字段。Meilisearch 会拒绝对未在此声明的字段进行过滤。 | `"category,price"` |
-| `sortableAttributes` | 排序可以使用的内容字段。组件使用文档 ID 作为稳定分页的决胜字段，因此始终会自动添加 `id`。 | `"price,publishedAt"` |
+| `sortableAttributes` | 排序可以使用的内容字段。component 使用文档 ID 作为稳定分页的决胜字段，因此始终会自动添加 `id`。 | `"price,publishedAt"` |
 | `searchableAttributes` | 全文查询所搜索的内容字段，按重要性排序。省略时，所有字段均可搜索。 | `"title,body"` |
 
-组件还会把 `sort` 排序规则移到最前，使带有 `sort` 的查询按请求的顺序返回命中结果，相关性则用于打破并列。
+component 还会把 `sort` 排序规则移到最前，使带有 `sort` 的查询按请求的顺序返回命中结果，相关性则用于打破并列。
 
 设置仅在创建索引时生效。对已存在的索引再次创建会返回 `ALREADY_EXISTS`，且不会更改其设置。
 
@@ -70,20 +70,20 @@ spec:
 ## 文档映射
 
 - 文档 `id` 即 Meilisearch 主键，必须为 1 到 511 字节的 ASCII 字母、数字、连字符和下划线。
-- 文档 `content` 的键会作为顶层 Meilisearch 属性存储。`id`、`daprMetadata`、`daprPayload` 以及以 `_` 开头的键由组件保留，不能在 `content` 中使用。
+- 文档 `content` 的键会作为顶层 Meilisearch 属性存储。`id`、`daprMetadata`、`daprPayload` 以及以 `_` 开头的键由 component 保留，不能在 `content` 中使用。
 - 文档的 `metadata` 存储在保留属性 `daprMetadata` 下，并原样返回。全文查询永远不会搜索它。
 - `id` 无效或 `content` 使用了保留键的文档，会在 `failedItems` 中以 `INVALID_ARGUMENT` 报告，且不会发送到 Meilisearch。批次中的其余文档仍会被索引。
-- 向不存在的索引写入文档时，请求会以 `NOT_FOUND` 失败，而不是让 Meilisearch 在没有组件设置的情况下自动创建索引。
+- 向不存在的索引写入文档时，请求会以 `NOT_FOUND` 失败，而不是让 Meilisearch 在没有 component 设置的情况下自动创建索引。
 
 ## 分数与总命中数
 
 - 命中分数是 Meilisearch 的[排序分数](https://www.meilisearch.com/docs/learn/relevancy/ranking_score)，取值在 `0` 到 `1` 之间，分数越高，相关性越强。
 - `totalHits` 是 Meilisearch 估算的命中总数，以 `TOTAL_HITS_RELATION_ESTIMATE` 报告。当总数达到索引的分页设置 `maxTotalHits` 时，会以 `TOTAL_HITS_RELATION_LOWER_BOUND` 报告，并且无法翻页到超出该上限的结果。
-- 未设置 `topK` 时，组件每页最多返回 20 条命中结果。
+- 未设置 `topK` 时，component 每页最多返回 20 条命中结果。
 
 ## 原生查询
 
-[搜索]({{% ref "search_api.md#search" %}})请求中的 `query.native` 字段接受 [Meilisearch 搜索 API](https://www.meilisearch.com/docs/reference/api/search) 的参数，例如 `q`、`filter`、`matchingStrategy` 或 `attributesToCrop`。分页和排序使用可移植的查询字段，因此原生查询不得设置 `offset`、`limit`、`page`、`hitsPerPage` 或 `sort`。原生 `filter` 会与可移植的 `filter` 以逻辑与（AND）组合，因此它只能缩小结果范围。
+[搜索]({{% ref "search_api.md#search" %}})请求中的 `query.native` 字段接受 [Meilisearch Search API](https://www.meilisearch.com/docs/reference/api/search) 的参数，例如 `q`、`filter`、`matchingStrategy` 或 `attributesToCrop`。分页和排序使用可移植的查询字段，因此原生查询不得设置 `offset`、`limit`、`page`、`hitsPerPage` 或 `sort`。原生 `filter` 会与可移植的 `filter` 以逻辑与（AND）组合，因此它只能缩小结果范围。
 
 ```json
 {
@@ -96,11 +96,11 @@ spec:
 
 ## 等待写入完成
 
-Meilisearch 会以[任务](https://www.meilisearch.com/docs/learn/async/asynchronous_operations)的形式异步处理写入。使用 `INDEXING_MODE_WAIT_FOR_COMPLETION` 时，组件会以指数退避的方式轮询 Meilisearch 任务 API，等待任务完成。
+Meilisearch 会以[任务](https://www.meilisearch.com/docs/learn/async/asynchronous_operations)的形式异步处理写入。使用 `INDEXING_MODE_WAIT_FOR_COMPLETION` 时，component 会以指数退避的方式轮询 Meilisearch 任务 API，等待任务完成。
 
-当启用实验性 Meilisearch [`tasksStreamingRoute`](https://www.meilisearch.com/docs/learn/resources/experimental_features_overview) 功能，且 API 密钥具有 `tasks.get` 权限时，组件会改为为所有等待中的写入共享同一个任务变更流。如果该路由报告不可用，组件会回退为轮询。这一选择对你的应用是透明的。
+当启用实验性 Meilisearch [`tasksStreamingRoute`](https://www.meilisearch.com/docs/learn/resources/experimental_features_overview) 功能，且 API 密钥具有 `tasks.get` 权限时，component 会改为让所有等待中的写入共享同一个任务变更流。如果该路由报告不可用，component 会回退为轮询。这一选择对你的应用是透明的。
 
-Meilisearch 任务是原子性的：如果任务失败，其中的所有文档都不会被索引，等待完成的请求会以该任务的错误失败。因此，组件会在发送任务之前检查 Meilisearch 会拒绝的文档，并按[文档映射](#文档映射)中的说明，将其报告在 `failedItems` 中。
+Meilisearch 任务是原子性的：如果任务失败，其中的所有文档都不会被索引，等待完成的请求会以该任务的错误失败。因此，component 会在发送任务之前检查 Meilisearch 会拒绝的文档，并按[文档映射](#文档映射)中的说明，将其报告在 `failedItems` 中。
 
 ## 设置 Meilisearch
 
@@ -128,8 +128,8 @@ docker run -d --name meilisearch -p 7700:7700 \
 
 ## 相关链接
 
-- [Dapr 组件基本结构]({{% ref component-schema %}})
-- [搜索 API 概述]({{% ref search-overview %}})
-- [搜索 API 参考]({{% ref search_api %}})
-- [Meilisearch 向量组件]({{% ref "/reference/components-reference/supported-vector/meilisearch.md" %}})
+- [Dapr component 基本结构]({{% ref component-schema %}})
+- [Search API 概述]({{% ref search-overview %}})
+- [Search API 参考]({{% ref search_api %}})
+- [Meilisearch 向量 component]({{% ref "/reference/components-reference/supported-vector/meilisearch.md" %}})
 - [Meilisearch 文档](https://www.meilisearch.com/docs/)

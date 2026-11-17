@@ -8,7 +8,7 @@ aliases:
   - /zh-hans/developing-applications/dapr-agents/dapr-agents-extensions
 ---
 
-Dapr Agents 的 **激活钩子（activation hook）** 是用于*扩展* `DurableAgent` 的受支持接入点。你可以借助它为代理接入自己的触发源，例如变更数据捕获（CDC）数据流、消息队列、Cron 定时器或 Webhook，而无需修改代理本身或其工作流。你通过 `agent.add_activation(...)` 注册一个回调；代理被托管时，运行器会**恰好调用一次**该回调，并在关闭时将其拆除。
+Dapr Agents 的 **激活钩子（activation hook）** 是用于*扩展* `DurableAgent` 的受支持接入点。你可以借助它为代理接入自己的触发源，例如变更数据捕获（CDC）数据流、消息队列、Cron timer 或 Webhook，而无需修改代理本身或其 workflow。你通过 `agent.add_activation(...)` 注册一个回调；代理被托管时，运行器会**恰好调用一次**该回调，并在关闭时将其拆除。
 
 开箱即用时，`DurableAgent` 由 pub/sub 主题上的 `TriggerAction` 消息触发。激活钩子允许扩展接入*任意*事件源，并将其事件转换为代理运行，整个过程可以放在独立的包中完成，无需改动代理代码。
 
@@ -17,11 +17,11 @@ Dapr Agents 的 **激活钩子（activation hook）** 是用于*扩展* `Durable
 1. 扩展注册一个回调：`agent.add_activation(cb)`。
 2. 当代理通过**任意** `AgentRunner` 入口点被托管时（包括 `serve()`、`subscribe()`、`register_routes()`、`workflow()`、`run()` 或 `run_stream()`），运行器会恰好一次地调用每个已注册的回调，并传入一个 `ActivationContext`。
 3. 回调打开其事件源（订阅、路由或轮询器），并**返回一个可选的关闭器**：一个无参可调用对象，运行器会在 `shutdown()` 时调用它。
-4. 对于每个外部事件，扩展通过 `ctx.runner.run(ctx.agent, payload={"task": ...}, wait=False)` 安排一次代理运行。
+4. 对于每个 external event，扩展通过 `ctx.runner.run(ctx.agent, payload={"task": ...}, wait=False)` 安排一次代理运行。
 
 回调按每个 `(runner, agent)` 组合触发一次。通过多个入口点托管同一代理时（例如 `serve()` 内部会调用 `subscribe()`），回调仍只触发一次。
 
-对于直接调用的 `run_stream()`，激活发生在开始迭代流时，早于消费者启动和工作流调度。关闭响应流只会关闭其消费者；激活资源会一直保留，直到调用 `runner.shutdown()` 或 `runner.shutdown(agent)`。如果在 `serve()` 之后调用 `run_stream()`，激活不会再次执行，并保留最初的 FastAPI 应用上下文。
+对于直接调用的 `run_stream()`，激活发生在开始迭代流时，早于消费者启动和 workflow 调度。关闭响应流只会关闭其消费者；激活资源会一直保留，直到调用 `runner.shutdown()` 或 `runner.shutdown(agent)`。如果在 `serve()` 之后调用 `run_stream()`，激活不会再次执行，并保留最初的 FastAPI 应用上下文。
 
 ## `ActivationContext`
 
@@ -31,11 +31,11 @@ Dapr Agents 的 **激活钩子（activation hook）** 是用于*扩展* `Durable
 |------|------|-------------|------|
 | `agent` | `DurableAgent` | 是 | 正在被托管的代理。 |
 | `runner` | `AgentRunner` | 是 | 使用 `runner.run(agent, payload=..., wait=False)` 安排运行。 |
-| `dapr_client` | `DaprClient` | 是 | 一个可用的客户端。即使在 `workflow()`/`run()`/`run_stream()` 下也保证提供，而这些入口本来不会创建客户端。可用它来打开流式订阅。 |
-| `wf_client` | `DaprWorkflowClient` | 是 | 运行器的工作流客户端。 |
+| `dapr_client` | `DaprClient` | 是 | 一个可用的客户端。即使在 `workflow()`/`run()`/`run_stream()` 下也保证提供，而这些入口本来不会创建客户端。可用它来打开 streaming subscription。 |
+| `wf_client` | `DaprWorkflowClient` | 是 | 运行器的 Workflow Client。 |
 | `app` | `FastAPI` \| `None` | **否** | 代理首次通过 `serve()` 或 `register_routes(fastapi_app=...)` 托管时存在。在 `subscribe()`、`workflow()`、`run()` 以及直接调用的 `run_stream()` 下为 `None`。 |
 
-由于 `app` 可能为 `None`，健壮的扩展应当**根据传输方式分支处理**：当 `ctx.app` 可用时挂载 HTTP 路由，否则通过 `ctx.dapr_client` 打开流式订阅。
+由于 `app` 可能为 `None`，健壮的扩展应当**根据传输方式分支处理**：当 `ctx.app` 可用时挂载 HTTP 路由，否则通过 `ctx.dapr_client` 打开 streaming subscription。
 
 ## 编写扩展
 
@@ -109,7 +109,7 @@ runner.shutdown()              # 或 shutdown(agent)
 
 ## 打包扩展
 
-扩展以独立发行包的形式发布，位于 `dapr_agents.ext` 命名空间下，与 Dapr Python SDK 的 `ext/` 目录布局保持一致（例如 `dapr-ext-fastapi`）：
+扩展以独立发行包的形式发布，位于 `dapr_agents.ext` namespace 下，与 Dapr Python SDK 的 `ext/` 目录布局保持一致（例如 `dapr-ext-fastapi`）：
 
 ```text
 ext/
@@ -121,7 +121,7 @@ ext/
           __init__.py                    # 导出你的 `*_trigger` 工厂函数
 ```
 
-`dapr_agents.ext` 是一个 [PEP 420 命名空间包](https://peps.python.org/pep-0420/)：**不要**在任何发行包中添加 `dapr_agents/ext/__init__.py`，这样多个扩展包才能共存于同一命名空间下。使用方随后安装你的包，并通过 `from dapr_agents.ext.<name> import <name>_trigger` 导入。
+`dapr_agents.ext` 是一个 [PEP 420 namespace 包](https://peps.python.org/pep-0420/)：**不要**在任何发行包中添加 `dapr_agents/ext/__init__.py`，这样多个扩展包才能共存于同一 namespace 下。使用方随后安装你的包，并通过 `from dapr_agents.ext.<name> import <name>_trigger` 导入。
 
 ## 另请参阅
 

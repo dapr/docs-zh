@@ -1,13 +1,13 @@
 ---
 type: docs
-title: "对话 API 参考"
-linkTitle: "对话 API"
-description: "对话 API 的详细文档"
+title: "conversation API 参考"
+linkTitle: "conversation API"
+description: "conversation API 的详细文档"
 weight: 500
 ---
 
 {{% alert title="Alpha" color="primary" %}}
-对话 API 目前处于 [alpha]({{% ref "certification-lifecycle.md#certification-levels" %}}) 阶段。
+conversation API 目前处于 [alpha]({{% ref "certification-lifecycle.md#certification-levels" %}}) 阶段。
 {{% /alert %}}
 
 Dapr 提供了一个与大型语言模型 (LLM) 交互的 API，并通过提示缓存、PII 数据混淆和工具调用等功能实现关键的性能和安全特性。
@@ -26,7 +26,7 @@ POST http://localhost:<daprPort>/v1.0-alpha2/conversation/<llm-name>/converse
 
 | 参数 | 描述 |
 | --------- | ----------- |
-| `llm-name` | LLM 组件的名称。[查看所有可用的对话组件列表。]({{% ref supported-conversation %}})
+| `llm-name` | LLM component 的名称。[查看所有可用的对话组件列表。]({{% ref supported-conversation %}})
 
 ### 请求体
 
@@ -34,13 +34,13 @@ POST http://localhost:<daprPort>/v1.0-alpha2/conversation/<llm-name>/converse
 | --------- | ----------- |
 | `contextId` | 现有聊天的 ID（类似 ChatGPT）。可选 |
 | `inputs` | 对话的输入。支持同时传入多个输入。必填 |
-| `metadata` | 最多 16 个键值对，附加到对话上，用于结构化标记（例如 `user_id`、`session_id`）。它不是用于覆盖组件配置的机制。可选 |
+| `metadata` | 最多 16 个键值对，附加到对话上，用于结构化标记（例如 `user_id`、`session_id`）。它不是用于覆盖 component 配置的机制。可选 |
 | `scrubPii` | 布尔值，用于启用对从 LLM 返回的敏感信息进行混淆。可选 |
 | `temperature` | 浮点值，用于控制模型的温度。用于优化一致性（0）或创造性（1）。可选 |
-| `maxTokens` | 模型生成补全时可使用的最大 token 数，必须大于 0。它会映射为各提供商的原生参数（例如 OpenAI 的 `max_completion_tokens` 或 Anthropic 的 `max_tokens`），并覆盖组件级 `maxTokens` 元数据的默认值。达到上限时，选项的 `finishReason` 为 `length`。自 Dapr 1.19 起可用。可选 |
+| `maxTokens` | 模型生成补全时可使用的最大 token 数，必须大于 0。它会映射为各提供商的原生参数（例如 OpenAI 的 `max_completion_tokens` 或 Anthropic 的 `max_tokens`），并覆盖 component 级 `maxTokens` 元数据的默认值。达到上限时，选项的 `finishReason` 为 `length`。自 Dapr 1.19 起可用。可选 |
 | `tools` | 工具注册了 LLM 在对话期间可以使用的工具。可选 |
 | `toolChoice` | 控制模型调用哪个工具（如果有）。值：`auto`、`required` 或特定工具名称。如果存在工具，默认为 `auto`。可选 |
-| `responseFormat` | 使用 JSON Schema 对象描述的结构化输出。当你需要类型化的结构化输出时使用。由 Deepseek、Google AI、Hugging Face、OpenAI 和 Anthropic 组件支持。可选 |
+| `responseFormat` | 使用 JSON Schema 对象描述的结构化输出。当你需要类型化的结构化输出时使用。由 Deepseek、Google AI、Hugging Face、OpenAI 和 Anthropic component 支持。可选 |
 | `promptCacheRetention` | 提示缓存的保留时长。设置后，启用扩展的提示缓存，使缓存的前缀保持更长时间。在 OpenAI 上，支持最长 24 小时。参见 [OpenAI 提示缓存](https://platform.openai.com/docs/guides/prompt-caching#prompt-cache-retention)。可选 |
 
 #### 输入体
@@ -87,7 +87,7 @@ API 支持不同的消息类型：
 #### 元数据
 `metadata` 字段是一组最多 16 个键值对，可附加到对话上。它与 [OpenAI 的 `metadata` 字段](https://platform.openai.com/docs/api-reference/chat/create#chat-create-metadata)保持一致，用于以结构化的方式存储关于对话的附加信息，例如用户 ID、会话 ID 或其他应用自定义的标签。
 
-此字段**不是**用于覆盖组件配置或传递 API 密钥等身份验证信息的机制；提供商凭据和连接设置应放在组件的 YAML 配置文件中。如果你是从通过 `metadata` 传递 `api_key` 的旧示例迁移过来，请将这些值改为放入组件配置（或引用的机密）中。
+此字段**不是**用于覆盖 component 配置或传递 API 密钥等身份验证信息的机制；提供商凭据和连接设置应放在 component 的 YAML 配置文件中。如果你是从通过 `metadata` 传递 `api_key` 的旧示例迁移过来，请将这些值改为放入 component 配置（或引用的机密）中。
 
 **约束：**
 
@@ -209,14 +209,14 @@ curl -X POST http://localhost:3500/v1.0-alpha2/conversation/openai/converse \
 ---- | -----------
 `202`  | 已接受
 `400`  | 请求格式错误
-`500`  | 请求格式正确，但 Dapr 代码或底层组件出错
+`500`  | 请求格式正确，但 Dapr 代码或底层 component 出错
 
-### 弹性策略和超时
+### resiliency 和超时
 
-对话组件调用使用 Dapr 的[弹性策略]({{% ref "resiliency-overview.md" %}})。你可以在 `targets/components/<component-name>/outbound` 下按组件名称定位对话组件，并附加超时、重试和断路器策略。
+对话组件调用使用 Dapr 的[resiliency]({{% ref "resiliency-overview.md" %}})。你可以在 `targets/components/<component-name>/outbound` 下按 component 名称定位对话组件，并附加超时、重试和断路器策略。
 
-- **超时**：超时作用于请求上下文。该上下文会传递给对话组件（进而传递给边车中的 LLM 提供商）。如果 LLM 在配置的时长内没有响应，上下文会被取消，请求以错误结束。请设置一个能覆盖典型 LLM 响应时间的超时。
-- **重试和断路器**：这些策略作用于整个 Converse 调用。失败时（例如超时或网络错误之后），重试会重新执行整个对话调用。断路器打开时会跳过对组件的调用，并立即返回错误。这些设置不会作为配置传递给 LLM。
+- **超时**：超时作用于请求上下文。该上下文会传递给对话组件（进而传递给 sidecar 中的 LLM 提供商）。如果 LLM 在配置的时长内没有响应，上下文会被取消，请求以错误结束。请设置一个能覆盖典型 LLM 响应时间的超时。
+- **重试和断路器**：这些策略作用于整个 Converse 调用。失败时（例如超时或网络错误之后），重试会重新执行整个对话调用。断路器打开时会跳过对 component 的调用，并立即返回错误。这些设置不会作为配置传递给 LLM。
 
 ### 响应内容
 
@@ -328,5 +328,5 @@ POST http://localhost:<daprPort>/v1.0-alpha2/conversation/<llm-name>/converse
 
 ## 后续步骤
 
-- [对话 API 概述]({{% ref conversation-overview.md %}})
+- [conversation API 概述]({{% ref conversation-overview.md %}})
 - [支持的对话组件]({{% ref supported-conversation %}})

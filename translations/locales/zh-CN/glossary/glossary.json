@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 292,
-  "updatedAt": "2026-11-17T02:18:47.379Z",
+  "version": 304,
+  "updatedAt": "2026-11-17T02:54:27.038Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -2096,6 +2096,126 @@
       "note": "字体名称,保留英文",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "AWS CLI",
+      "note": "AWS 命令行工具名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "eksctl",
+      "note": "EKS 集群创建工具名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Workflow API",
+      "note": "Dapr Workflow API 名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Docker Hub",
+      "note": "容器镜像仓库产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Task Hub Protocol",
+      "note": "Dapr Workflow 协议名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "OTLP",
+      "note": "OpenTelemetry 协议（OpenTelemetry Protocol）缩写，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure KeyVault",
+      "note": "Azure 产品名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Container Apps",
+      "note": "Azure 产品名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure App Service",
+      "note": "Azure 产品名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Virtual Machines",
+      "note": "Azure 产品名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Container Instance",
+      "note": "Azure 产品名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Active Directory",
+      "note": "Microsoft Entra ID 的旧称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "kubelet",
+      "note": "Kubernetes 节点代理组件名称,保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Prometheus",
+      "note": "监控系统产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Grafana",
+      "note": "可视化平台产品名，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "systemd",
+      "note": "Linux 初始化系统名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dev Dashboard",
+      "note": "Dapr Dev Dashboard 的简称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "KiNd",
+      "note": "Kubernetes 本地集群工具名称（KiNd Cluster），保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Minikube",
+      "note": "Kubernetes 本地集群工具名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "GKE",
+      "note": "Google Kubernetes Engine 的缩写，产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
@@ -2675,6 +2795,26 @@
       },
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-detached.md",
+        "run": "20261117-0133"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "audience",
+      "source": "audience",
+      "target": "受众",
+      "alt": [],
+      "note": "JWT 声明 aud 的说明性译法，正文中以“受众（audience）”括注原文。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-authentication.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-authentication.md",
         "run": "20261117-0133"
       },
       "conflicts": []
@@ -5548,6 +5688,26 @@
       "conflicts": []
     },
     {
+      "id": "hit",
+      "source": "hit",
+      "target": "命中",
+      "alt": [],
+      "note": "Meilisearch 搜索结果中的单条命中（hit），与“命中分数”“命中结果”的用法一致。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261117-0133"
+      },
+      "conflicts": []
+    },
+    {
       "id": "hook",
       "source": "hook",
       "target": "钩子",
@@ -6054,6 +6214,26 @@
       "lastSeen": {
         "doc": "sdks_js/js-service-invocation/js-service-invocation-usage.md",
         "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "issuer",
+      "source": "issuer",
+      "target": "颁发者",
+      "alt": [],
+      "note": "JWT 声明 iss 的说明性译法，正文中以“颁发者（issuer）”括注原文。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-authentication.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-authentication.md",
+        "run": "20261117-0133"
       },
       "conflicts": []
     },

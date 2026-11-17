@@ -6,7 +6,7 @@ weight: 100
 description: "检查和调试在你的计算机上运行的 Dapr 应用"
 ---
 
-免费的开源（Apache-2.0）[Diagrid Dapr Dev Dashboard](https://github.com/diagridio/dev-dashboard) 是用于本地 Dapr 开发的配套工具。它可以检查你通过 `dapr run` / `dapr run -f`、Aspire、Docker Compose 或 Dapr Testcontainers 启动的应用，并展示有关这些应用的所有信息：边车、工作流、Actors、state store、订阅、组件、弹性策略、配置和日志。它还可以帮助你编写 Dapr 资源。**组件构建器**会引导你从完整的 Dapr 目录中选择组件类型、填写其元数据字段并选择身份验证配置文件。**弹性构建器**会组合弹性策略（超时、重试、断路器），并将其应用于目标（应用、Actors、组件）。两个构建器最终都会生成 YAML 预览，你可以将其复制或下载到项目中。
+免费的开源（Apache-2.0）[Diagrid Dapr Dev Dashboard](https://github.com/diagridio/dev-dashboard) 是用于本地 Dapr 开发的配套工具。它可以检查你通过 `dapr run` / `dapr run -f`、Aspire、Docker Compose 或 Dapr Testcontainers 启动的应用，并展示有关这些应用的所有信息：sidecar、workflow、Actors、state store、订阅、component、resiliency、配置和日志。它还可以帮助你编写 Dapr 资源。**component builder** 会引导你从完整的 Dapr 目录中选择 component 类型、填写其 metadata 字段并选择身份验证配置文件。**resiliency builder** 会组合 resiliency（超时、重试、断路器），并将其应用于目标（应用、Actors、component）。两个构建器最终都会生成 YAML 预览，你可以将其复制或下载到项目中。
 
 <img src="/images/dev-dashboard/applications.png" width=800 alt="Dapr Dev Dashboard 显示在本地计算机上运行的 Dapr 应用"/><br/>
 
@@ -96,63 +96,63 @@ diagrid-dev-dashboard update
 
 ### 检查应用
 
-**应用**页面会以实时表格显示所有正在运行的应用和边车，包括应用 ID、运行状况、运行时、端口和进程 ID。深入查看单个应用，可以查看其命令、资源和配置路径、运行时元数据、已启用的功能以及已加载的组件。
+**应用**页面会以实时表格显示所有正在运行的应用和 sidecar，包括应用 ID、运行状况、运行时、端口和进程 ID。深入查看单个应用，可以查看其命令、资源和配置路径、运行时 metadata、已启用的功能以及已加载的 component。
 
 <img src="/images/dev-dashboard/application-detail.png" width=800 alt="Dapr Dev Dashboard 显示单个 Dapr 应用的详细信息"/><br/>
 
-### 调试工作流
+### 调试 workflow
 
-**工作流**页面会列出所有应用中的工作流执行情况，并提供状态筛选和搜索功能。你可以终止和清除单个工作流，也可以批量删除工作流。
+**workflow** 页面会列出所有应用中的 workflow 执行情况，并提供状态筛选和搜索功能。你可以终止和清除单个 workflow，也可以批量删除 workflow。
 
-<img src="/images/dev-dashboard/workflow-overview.png" width=800 alt="Dapr Dev Dashboard 显示工作流执行概览"/><br/>
+<img src="/images/dev-dashboard/workflow-overview.png" width=800 alt="Dapr Dev Dashboard 显示 workflow 执行概览"/><br/>
 
-打开某个工作流实例，可以查看其实时事件历史记录、输入和输出以及自定义状态。
+打开某个 workflow instance，可以查看其实时事件历史记录、输入和输出以及 custom status。
 
-<img src="/images/dev-dashboard/workflow-detail.png" width=800 alt="Dapr Dev Dashboard 显示工作流实例的事件历史记录"/><br/>
+<img src="/images/dev-dashboard/workflow-detail.png" width=800 alt="Dapr Dev Dashboard 显示 workflow instance 的事件历史记录"/><br/>
 
-仪表板会直接从本地 Redis、PostgreSQL、SQLite 和 MongoDB state store 中读取工作流。对于其他 state store（例如内存存储），它会通过边车的工作流 API 读取工作流，该 API 要求 Dapr 版本为 1.17 或更高版本。
+仪表板会直接从本地 Redis、PostgreSQL、SQLite 和 MongoDB state store 中读取 workflow。对于其他 state store（例如内存存储），它会通过 sidecar 的 workflow API 读取 workflow，该 API 要求 Dapr 版本为 1.17 或更高版本。
 
 ### 复制 Dapr CLI 命令
 
-**CLI** 抽屉会列出与你当前查看内容相对应的 Dapr CLI 命令，例如查看工作流实例的历史记录、引发外部事件，或终止、清除并重新运行该实例。每个命令都链接到相应文档，并有一个**复制**按钮。该抽屉可在“应用”“工作流”“Actors”和“订阅”页面中使用，并且只列出自托管命令。
+**CLI** 抽屉会列出与你当前查看内容相对应的 Dapr CLI 命令，例如查看 workflow instance 的历史记录、引发 external event，或终止、清除并重新运行该实例。每个命令都链接到相应文档，并有一个**复制**按钮。该抽屉可在“应用”“workflow”“Actors”和“订阅”页面中使用，并且只列出自托管命令。
 
-<img src="/images/dev-dashboard/cli-drawer.png" width=800 alt="Dapr Dev Dashboard 显示包含工作流实例 Dapr CLI 命令的 CLI 抽屉"/><br/>
+<img src="/images/dev-dashboard/cli-drawer.png" width=800 alt="Dapr Dev Dashboard 显示包含 workflow instance Dapr CLI 命令的 CLI 抽屉"/><br/>
 
 ### 查看 Actors
 
-**Actors** 页面会汇总所有应用中的 Actor 类型，并显示每种类型的活动 Actor 数量、其宿主应用以及放置状态。
+**Actors** 页面会汇总所有应用中的 Actor 类型，并显示每种类型的活动 Actor 数量、其宿主应用以及 placement 状态。
 
 <img src="/images/dev-dashboard/actors.png" width=800 alt="Dapr Dev Dashboard 显示 Actor 类型及每种类型的数量"/><br/>
 
 ### 查看订阅并发布测试消息
 
-**订阅**页面会列出所有应用中的 pub/sub 订阅项，包括 pub/sub 组件、主题、路由和订阅类型（声明式、编程式或流式）。使用订阅项上的**发布**按钮，可通过应用的边车发送测试消息，这样你无需运行发布者应用就能测试订阅者。
+**订阅**页面会列出所有应用中的 pub/sub 订阅项，包括 pub/sub component、主题、路由和订阅类型（声明式、编程式或流式）。使用订阅项上的**发布**按钮，可通过应用的 sidecar 发送测试消息，这样你无需运行发布者应用就能测试订阅者。
 
 <img src="/images/dev-dashboard/publish-message.png" width=800 alt="Dapr Dev Dashboard 显示用于向订阅发布测试消息的对话框"/><br/>
 
 ### 浏览状态记录
 
-**状态**页面会列出已连接 state store 中的记录，包括键、应用、值、大小、版本（ETag）和 TTL。展开记录可查看其完整值；使用*解码 base64* 切换开关可解码值。使用**+ 新建记录**可添加记录，也可以逐条删除或多选删除。默认情况下会隐藏工作流历史记录和 Actor 状态；选择**显示内部键**即可显示这些内容。
+**状态**页面会列出已连接 state store 中的记录，包括键、应用、值、大小、版本（ETag）和 TTL。展开记录可查看其完整值；使用*解码 base64* 切换开关可解码值。使用**+ 新建记录**可添加记录，也可以逐条删除或多选删除。默认情况下会隐藏 workflow 历史记录和 Actor 状态；选择**显示内部键**即可显示这些内容。
 
 <img src="/images/dev-dashboard/state-records.png" width=800 alt="Dapr Dev Dashboard 显示 Redis state store 中的记录"/><br/>
 
-### 查看和构建组件
+### 查看和构建 component
 
-**组件**页面会显示组件文件，以及加载每个组件的应用。使用**+ 新建组件**按钮可打开组件构建器，为 Dapr 目录中的任意组件类型生成组件 YAML。**弹性**页面提供了用于构建弹性策略的类似构建器。
+**component** 页面会显示 component 文件，以及加载每个 component 的应用。使用**+ 新建 component** 按钮可打开 component builder，为 Dapr 目录中的任意 component 类型生成 component YAML。**弹性**页面提供了用于构建 resiliency 的类似构建器。
 
-<img src="/images/dev-dashboard/components.png" width=800 alt="Dapr Dev Dashboard 显示已加载的 Dapr 组件"/><br/>
+<img src="/images/dev-dashboard/components.png" width=800 alt="Dapr Dev Dashboard 显示已加载的 Dapr component"/><br/>
 
-### 检查控制平面
+### 检查 control plane
 
-**控制平面**页面会显示本地 Dapr 控制平面服务（例如调度器和放置服务）的状态、端口和内存使用情况，并允许你重启或停止这些服务。
+**control plane** 页面会显示本地 Dapr control plane 服务（例如 Scheduler 和 placement service）的状态、端口和内存使用情况，并允许你重启或停止这些服务。
 
-<img src="/images/dev-dashboard/control-plane.png" width=800 alt="Dapr Dev Dashboard 显示本地 Dapr 控制平面服务"/><br/>
+<img src="/images/dev-dashboard/control-plane.png" width=800 alt="Dapr Dev Dashboard 显示本地 Dapr control plane 服务"/><br/>
 
 ### 流式传输日志
 
 **日志**页面会按应用流式传输 `daprd` 和应用日志，并提供级别着色、关键词高亮和跟随切换功能。
 
-<img src="/images/dev-dashboard/logs.png" width=800 alt="Dapr Dev Dashboard 正在流式传输应用和边车日志"/><br/>
+<img src="/images/dev-dashboard/logs.png" width=800 alt="Dapr Dev Dashboard 正在流式传输应用和 sidecar 日志"/><br/>
 
 ## 相关链接
 

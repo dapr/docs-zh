@@ -2,14 +2,14 @@
 type: docs
 title: "Oracle Database"
 linkTitle: "Oracle Database"
-description: Oracle Database state store 组件的详细信息
+description: Oracle Database state store component 的详细信息
 aliases:
   - "/zh-hans/operations/components/setup-state-store/supported-state-stores/setup-oracledatabase/"
 ---
 
-## 组件格式
+## component 格式
 
-创建一个组件属性 yaml 文件，例如命名为 `oracle.yaml`（名称可以任意），粘贴以下内容，并将 `<CONNECTION STRING>` 的值替换为你的连接字符串。连接字符串是标准的 Oracle Database 连接字符串，格式为：`"oracle://user/password@host:port/servicename"`，例如 `"oracle://demo:demo@localhost:1521/xe"`。 
+创建一个 component 属性 yaml 文件，例如命名为 `oracle.yaml`（名称可以任意），粘贴以下内容，并将 `<CONNECTION STRING>` 的值替换为你的连接字符串。连接字符串是标准的 Oracle Database 连接字符串，格式为：`"oracle://user/password@host:port/servicename"`，例如 `"oracle://demo:demo@localhost:1521/xe"`。 
 
 如果你使用 Oracle Wallet 连接数据库，应为 `oracleWalletLocation` 属性指定一个值，例如：`"/home/app/state/Wallet_daprDB/"`。该值应指向本地文件系统中的一个目录，此目录需包含从 Oracle Wallet 归档文件中解压出的 `cwallet.sso` 文件。
 
@@ -38,7 +38,7 @@ spec:
 上述示例将 secrets 以纯字符串形式使用。建议按照[此处]({{% ref component-secrets.md %}})的说明，使用 secret store 来管理 secrets。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | Field              | Required | Details | Example |
 |--------------------|:--------:|---------|---------|
@@ -53,7 +53,7 @@ spec:
 | connMaxIdleTime  | N        | 连接在被关闭前的最长空闲时间，格式为 [Go duration](https://pkg.go.dev/time#ParseDuration)。默认无限制 | `"5m"`
 
 ## 运行时会发生什么？
-当 state store 组件初始化时，它会连接到 Oracle Database，并检查是否存在名称为 `tableName` 所指定的表。如果不存在，它会创建该表（包含 Key、Value、Binary_YN、ETag、Creation_Time、Update_Time、Expiration_time 列）。
+当 state store component 初始化时，它会连接到 Oracle Database，并检查是否存在名称为 `tableName` 所指定的表。如果不存在，它会创建该表（包含 Key、Value、Binary_YN、ETag、Creation_Time、Update_Time、Expiration_time 列）。
 
 每个状态条目都由数据库表中的一条记录表示。请求中提供的 `key` 属性用于确定字面存储在 KEY 列中的对象名称。`value` 作为对象的内容存储。二进制内容以 Base64 编码文本的形式存储。每个对象在创建或更新时都会被分配一个唯一的 ETag 值。
 
@@ -84,9 +84,9 @@ Dapr 使用固定的键方案和*组合键*在应用程序之间对状态进行�
 
 
 ## 生存时间与状态过期
-Oracle Database state store 组件支持 Dapr 的生存时间（Time To Live）逻辑，确保过期的状态无法被检索。详情请参阅[有关设置状态生存时间的操作指南]({{% ref "state-store-ttl.md" %}})。
+Oracle Database state store component 支持 Dapr 的生存时间（Time To Live）逻辑，确保过期的状态无法被检索。详情请参阅[有关设置状态生存时间的操作指南]({{% ref "state-store-ttl.md" %}})。
 
-Oracle Database 没有原生的生存时间设置支持。本组件通过名为 `EXPIRATION_TIME` 的列来保存记录被视为*已过期*的时间点。仅当 `Set` 请求中指定了 TTL 时，才会设置该列的值。其值为当前 UTC 时间戳加上 TTL 时长。通过 `Get` 调用检索状态时，本组件会检查是否设置了 `EXPIRATION_TIME`，若已设置，则判断该时间是否已经过去。若已过去，则不返回任何状态。
+Oracle Database 没有原生的生存时间设置支持。本 component 通过名为 `EXPIRATION_TIME` 的列来保存记录被视为*已过期*的时间点。仅当 `Set` 请求中指定了 TTL 时，才会设置该列的值。其值为当前 UTC 时间戳加上 TTL 时长。通过 `Get` 调用检索状态时，本 component 会检查是否设置了 `EXPIRATION_TIME`，若已设置，则判断该时间是否已经过去。若已过去，则不返回任何状态。
 
 以下操作：
 
@@ -110,7 +110,7 @@ curl -X POST http://localhost:3500/v1.0/state \
 
 其中 EXPIRATION_TIME 被设置为比 CREATION_TIME 晚 2 分钟（120 秒）的时间点
 
-请注意，过期的状态不会被本组件从 state store 中删除。应用程序运维人员可以选择定期运行一个作业，执行某种形式的垃圾回收，以显式删除所有 EXPIRATION_TIME 已过去的记录。用于收集过期垃圾记录的 SQL 语句如下：
+请注意，过期的状态不会被本 component 从 state store 中删除。应用程序运维人员可以选择定期运行一个 job，执行某种形式的垃圾回收，以显式删除所有 EXPIRATION_TIME 已过去的记录。用于收集过期垃圾记录的 SQL 语句如下：
    ```SQL
     delete dapr_state 
     where  expiration_time < SYS_EXTRACT_UTC(SYSTIMESTAMP);
@@ -130,7 +130,7 @@ Oracle Database state store 支持事务。多个 `Set` 和 `Delete` 命令可�
 
 ## 查询
 
-Oracle Database state store 目前不支持查询 API。
+Oracle Database state store 目前不支持 Query API。
 
 
 
@@ -165,7 +165,7 @@ Oracle Database state store 目前不支持查询 API。
     ```
 
 3. （可选）创建用于存储状态记录的表。
-Oracle Database state store 组件会检查用于存储状态的表是否已存在于其所连接的数据库用户模式中，如果不存在，它会创建该表。不过，除了让 Oracle Database state store 组件在运行时创建用于存储状态记录的表之外，你也可以提前创建该表。这样你（或数据库的 DBA）就能更好地控制表的物理配置。同时，你也无需向该用户模式授予*创建表*的权限。
+Oracle Database state store component 会检查用于存储状态的表是否已存在于其所连接的数据库用户模式中，如果不存在，它会创建该表。不过，除了让 Oracle Database state store component 在运行时创建用于存储状态记录的表之外，你也可以提前创建该表。这样你（或数据库的 DBA）就能更好地控制表的物理配置。同时，你也无需向该用户模式授予*创建表*的权限。
 
     运行以下 DDL 语句，在 *dapr* 数据库用户模式中创建用于存储状态的表：
 
@@ -199,7 +199,7 @@ Oracle Database state store 组件会检查用于存储状态的表是否已存�
     ```
 
 3. （可选）创建用于存储状态记录的表。
-Oracle Database state store 组件会检查用于存储状态的表是否已存在于其所连接的数据库用户模式中，如果不存在，它会创建该表。不过，除了让 Oracle Database state store 组件在运行时创建用于存储状态记录的表之外，你也可以提前创建该表。这样你（或数据库的 DBA）就能更好地控制表的物理配置。同时，你也无需向该用户模式授予*创建表*的权限。
+Oracle Database state store component 会检查用于存储状态的表是否已存在于其所连接的数据库用户模式中，如果不存在，它会创建该表。不过，除了让 Oracle Database state store component 在运行时创建用于存储状态记录的表之外，你也可以提前创建该表。这样你（或数据库的 DBA）就能更好地控制表的物理配置。同时，你也无需向该用户模式授予*创建表*的权限。
 
     运行以下 DDL 语句，在 *dapr* 数据库用户模式中创建用于存储状态的表：
 
@@ -221,6 +221,6 @@ Oracle Database state store 组件会检查用于存储状态的表是否已存�
 {{< /tabpane >}}
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})，了解如何配置 state store 组件
-- [状态管理构建块]({{% ref state-management %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})，了解如何配置 state store component
+- [State Management building block]({{% ref state-management %}})

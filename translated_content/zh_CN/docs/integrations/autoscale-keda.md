@@ -8,11 +8,11 @@ aliases:
   - /zh-hans/developing-applications/integrations/autoscale-keda/
 ---
 
-Dapr 借助其构建块 API 方式，以及众多[pub/sub 组件]({{% ref pubsub %}})，让编写消息处理应用变得十分容易。由于 Dapr 可以在多种环境中运行（例如虚拟机、裸机、云端或边缘 Kubernetes），Dapr 应用的自动扩缩由宿主层管理。
+Dapr 借助其 building block API 方式，以及众多[pub/sub component]({{% ref pubsub %}})，让编写消息处理应用变得十分容易。由于 Dapr 可以在多种环境中运行（例如虚拟机、裸机、云端或边缘 Kubernetes），Dapr 应用的自动扩缩由宿主层管理。
 
-对于 Kubernetes，Dapr 与 [KEDA](https://github.com/kedacore/keda) 集成，KEDA 是 Kubernetes 上的事件驱动自动扩缩器。Dapr 的许多 pub/sub 组件与 [KEDA](https://github.com/kedacore/keda) 提供的扩缩器功能重叠，因此很容易配置 Kubernetes 上的 Dapr 部署，使其根据背压借助 KEDA 实现自动扩缩。
+对于 Kubernetes，Dapr 与 [KEDA](https://github.com/kedacore/keda) 集成，KEDA 是 Kubernetes 上的事件驱动自动扩缩器。Dapr 的许多 pub/sub component 与 [KEDA](https://github.com/kedacore/keda) 提供的扩缩器功能重叠，因此很容易配置 Kubernetes 上的 Dapr 部署，使其根据背压借助 KEDA 实现自动扩缩。
 
-在本指南中，你将配置一个可扩缩的 Dapr 应用，以及 Kafka 主题上的背压。不过，你可以将此方法应用于 Dapr 提供的 _任何_ [pub/sub 组件]({{% ref pubsub %}})。
+在本指南中，你将配置一个可扩缩的 Dapr 应用，以及 Kafka 主题上的背压。不过，你可以将此方法应用于 Dapr 提供的 _任何_ [pub/sub component]({{% ref pubsub %}})。
 
 {{% alert title="注意" color="primary" %}}
  如果你使用的是 Azure Container Apps，请参阅 Azure 官方文档中关于[使用 KEDA 扩缩器扩缩 Dapr 应用](https://learn.microsoft.com/azure/container-apps/dapr-keda-scaling)的内容。
@@ -69,9 +69,9 @@ kubectl -n kafka exec -it kafka-client -- kafka-topics \
 
 > 主题的 `partitions` 数量与 KEDA 为你的部署所创建的最大副本数相关。
 
-## 部署 Dapr pub/sub 组件
+## 部署 Dapr pub/sub component
 
-为 Kubernetes 部署 Dapr Kafka pub/sub 组件。将以下 YAML 粘贴到名为 `kafka-pubsub.yaml` 的文件中：
+为 Kubernetes 部署 Dapr Kafka pub/sub component。将以下 YAML 粘贴到名为 `kafka-pubsub.yaml` 的文件中：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -90,13 +90,13 @@ spec:
       value: autoscaling-subscriber
 ```
 
-上面的 YAML 定义了你的应用所订阅的 pub/sub 组件，该组件即[你之前创建的主题（`demo-topic`）]({{% ref "#创建-kafka-主题" %}})。
+上面的 YAML 定义了你的应用所订阅的 pub/sub component，该 component 即[你之前创建的主题（`demo-topic`）]({{% ref "#创建-kafka-主题" %}})。
 
 如果你使用了 [Kafka Helm 安装说明]({{% ref "#安装并部署-kafka" %}})，可以保留 `brokers` 的值不变。否则，请将该值改为你的 Kafka brokers 的连接字符串。
 
 请注意为 `consumerID` 设置的 `autoscaling-subscriber` 值。该值稍后将用于确保 KEDA 与你的部署使用相同的 [Kafka 分区偏移量](https://cloudurable.com/blog/kafka-architecture-topics/index.html#:~:text=Kafka%20continually%20appended%20to%20partitions,fit%20on%20a%20single%20server.)。
 
-现在，将该组件部署到集群中：
+现在，将该 component 部署到集群中：
 
 ```bash
 kubectl apply -f kafka-pubsub.yaml
@@ -106,7 +106,7 @@ kubectl apply -f kafka-pubsub.yaml
 
 部署 KEDA 扩缩对象，它会：
 - 监控指定 Kafka 主题上的 lag
-- 配置 Kubernetes 水平 Pod 自动扩缩器（HPA），以对你的 Dapr 部署进行扩容和缩容
+- 配置 Kubernetes Horizontal Pod Autoscaler（HPA），以对你的 Dapr 部署进行扩容和缩容
 
 将以下内容粘贴到名为 `kafka_scaler.yaml` 的文件中，并在所需位置配置你的 Dapr 部署：
 
@@ -130,7 +130,7 @@ spec:
       lagThreshold: "5"
 ```
 
-让我们来看看上述文件中的几个元数据值：
+让我们来看看上述文件中的几个 metadata 值：
 
 | 值 | 说明 |
 | ------ | ------------------------------ |
@@ -159,7 +159,7 @@ kubectl apply -f kafka_scaler.yaml
 
 现在 `ScaledObject` KEDA 对象已配置完成，你的部署将根据 Kafka 主题的 lag 进行扩缩。[了解更多关于为 Kafka 主题配置 KEDA 的信息](https://keda.sh/docs/2.0/scalers/apache-kafka/)。
 
-按照 KEDA 扩缩器清单中的定义，现在你可以开始向 Kafka 主题 `demo-topic` 发布消息，并在 lag 阈值高于 `5` 个主题时观察 Pod 自动扩缩。使用 Dapr [发布]({{% ref dapr-publish %}}) CLI 命令向 Kafka Dapr 组件发布消息。
+按照 KEDA 扩缩器 manifest 中的定义，现在你可以开始向 Kafka 主题 `demo-topic` 发布消息，并在 lag 阈值高于 `5` 个主题时观察 Pod 自动扩缩。使用 Dapr [发布]({{% ref dapr-publish %}}) CLI 命令向 Kafka Dapr component 发布消息。
 
 ## 后续步骤
 

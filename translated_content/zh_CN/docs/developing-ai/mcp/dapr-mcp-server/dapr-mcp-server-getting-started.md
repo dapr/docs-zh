@@ -3,13 +3,13 @@ type: docs
 title: "Dapr MCP 服务器入门指南"
 linkTitle: "入门指南"
 weight: 10
-description: "安装 Dapr MCP 服务器，使用 Dapr 边车运行它，并通过 stdio 或 Streamable HTTP 连接 MCP 客户端"
+description: "安装 Dapr MCP 服务器，使用 Dapr sidecar 运行它，并通过 stdio 或 Streamable HTTP 连接 MCP 客户端"
 aliases:
   - /zh-hans/developing-ai/mcp/mcp-server-getting-started/
   - /zh-hans/developing-ai/mcp/mcp-server-integrations/
 ---
 
-本指南将安装 Dapr MCP 服务器，让它与一个带有两个内存中组件的 Dapr 边车一起运行，并将 MCP 客户端连接到该服务器。
+本指南将安装 Dapr MCP 服务器，让它与一个带有两个 in-memory component 的 Dapr sidecar 一起运行，并将 MCP 客户端连接到该服务器。
 
 ## 前提条件
 
@@ -103,7 +103,7 @@ go install github.com/dapr/dapr-mcp-server/cmd/dapr-mcp-server@latest
 docker pull ghcr.io/dapr/dapr-mcp-server:latest
 ```
 
-该镜像以非 root 用户运行，默认使用 `--http 0.0.0.0:8080` 在 8080 端口上监听，并包含 `HEALTHCHECK`。有关如何将其与边车搭配使用，请参阅[在 Kubernetes 上运行](#在-kubernetes-上运行)。
+该镜像以非 root 用户运行，默认使用 `--http 0.0.0.0:8080` 在 8080 端口上监听，并包含 `HEALTHCHECK`。有关如何将其与 sidecar 搭配使用，请参阅[在 Kubernetes 上运行](#在-kubernetes-上运行)。
 
 {{% /tab %}}
 
@@ -115,9 +115,9 @@ docker pull ghcr.io/dapr/dapr-mcp-server:latest
 dapr-mcp-server --version
 ```
 
-## 步骤 2：定义组件
+## 步骤 2：定义 component
 
-服务器只会为已加载组件的构建块注册工具。创建一个 `components` 文件夹，其中包含一个内存 state store 和一个 pub/sub broker：
+服务器只会为已加载 component 的 building block 注册工具。创建一个 `components` 文件夹，其中包含一个内存 state store 和一个 pub/sub broker：
 
 ```bash
 mkdir -p components
@@ -147,13 +147,13 @@ spec:
   version: v1
 ```
 
-有了这两个组件，服务器会注册三个核心工具，以及状态和 pub/sub 工具。添加其他类型的组件（`bindings.*`、`secretstores.*`、`lock.*`、`crypto.*`、`conversation.*`）即可暴露其工具。完整的对应关系请参阅[工具参考]({{% ref dapr-mcp-server-tool-reference.md %}})。
+有了这两个 component，服务器会注册三个核心工具，以及状态和 pub/sub 工具。添加其他类型的 component（`bindings.*`、`secretstores.*`、`lock.*`、`crypto.*`、`conversation.*`）即可暴露其工具。完整的对应关系请参阅[工具参考]({{% ref dapr-mcp-server-tool-reference.md %}})。
 
 ## 步骤 3：运行并连接
 
 ### 通过 stdio（Claude Desktop、Cursor）
 
-使用 stdio 时，MCP 客户端会自行启动服务器进程。请先单独运行边车，并指定一个固定的 gRPC 端口：
+使用 stdio 时，MCP 客户端会自行启动服务器进程。请先单独运行 sidecar，并指定一个固定的 gRPC 端口：
 
 ```bash
 dapr run --app-id dapr-mcp-server --dapr-grpc-port 50001 --resources-path ./components
@@ -211,19 +211,19 @@ claude mcp add dapr --env DAPR_GRPC_PORT=50001 -- /usr/local/bin/dapr-mcp-server
 
 {{< /tabpane >}}
 
-让助手列出你的 Dapr 组件。它会调用 `get_components`，并报告 `statestore` 和 `pubsub`。之后可以试试“将键 `greeting` 以值 `hello` 保存到 state store”，再试试“把它读回来”。
+让助手列出你的 Dapr component。它会调用 `get_components`，并报告 `statestore` 和 `pubsub`。之后可以试试“将键 `greeting` 以值 `hello` 保存到 state store”，再试试“把它读回来”。
 
 服务器将日志以 JSON 格式写入 stderr，因此日志绝不会与 stdout 上的 MCP 消息混在一起。大多数客户端会在其 MCP 日志视图中显示 stderr。
 
 ### 通过 Streamable HTTP
 
-传入 `--http` 并指定监听地址，即可通过 Streamable HTTP 提供 MCP 服务。这里 `dapr run` 会同时启动边车和服务器，并为服务器设置 `DAPR_GRPC_PORT`：
+传入 `--http` 并指定监听地址，即可通过 Streamable HTTP 提供 MCP 服务。这里 `dapr run` 会同时启动 sidecar 和服务器，并为服务器设置 `DAPR_GRPC_PORT`：
 
 ```bash
 dapr run --app-id dapr-mcp-server --resources-path ./components -- dapr-mcp-server --http localhost:8080
 ```
 
-MCP 端点为 `http://localhost:8080/`。检查服务器是否已启动，并能否访问其边车：
+MCP 端点为 `http://localhost:8080/`。检查服务器是否已启动，并能否访问其 sidecar：
 
 {{< tabpane text=true >}}
 
@@ -245,7 +245,7 @@ Invoke-RestMethod http://localhost:8080/readyz
 
 {{< /tabpane >}}
 
-返回 `200` 且包含 `"status":"healthy"` 表示已就绪。返回 `503` 表示无法访问边车；PowerShell 会将其报告为错误。
+返回 `200` 且包含 `"status":"healthy"` 表示已就绪。返回 `503` 表示无法访问 sidecar；PowerShell 会将其报告为错误。
 
 连接支持 Streamable HTTP 的客户端：
 
@@ -305,7 +305,7 @@ asyncio.run(main())
 
 ## 在 Kubernetes 上运行
 
-在 Kubernetes 上，运行注入了 Dapr 边车的容器镜像。注入器会在服务器容器中设置 `DAPR_GRPC_PORT`，因此无需额外配置即可找到边车。将探针指向服务器的健康检查端点：
+在 Kubernetes 上，运行注入了 Dapr sidecar 的容器镜像。注入器会在服务器容器中设置 `DAPR_GRPC_PORT`，因此无需额外配置即可找到 sidecar。将探针指向服务器的健康检查端点：
 
 ```yaml
 apiVersion: apps/v1
@@ -363,11 +363,11 @@ spec:
 
 将身份验证和遥测设置作为 `env` 条目添加到容器中；请参阅[配置参考]({{% ref dapr-mcp-server-configuration.md %}})。
 
-Streamable HTTP 会话保存在服务器的内存中。如果运行多个副本，请在负责转发流量的任何组件上配置会话亲和性，以确保每个客户端始终访问同一个副本。
+Streamable HTTP 会话保存在服务器的内存中。如果运行多个副本，请在负责转发流量的任何 component 上配置会话亲和性，以确保每个客户端始终访问同一个副本。
 
 ## 后续步骤
 
 - 试试 [Dapr MCP 服务器 quickstarts](https://github.com/dapr/quickstarts/tree/master/dapr-mcp-server)，它们分别在 LangGraph、Dapr Agents 和 OpenAI Agents SDK 中运行同一个代理，既可以通过 MCP 客户端运行，也可以通过 [`MCPServer` 资源]({{% ref mcp-server-resource.md %}})运行。
-- 浏览[工具参考]({{% ref dapr-mcp-server-tool-reference.md %}})，了解每个工具的作用，以及启用它的组件类型。
+- 浏览[工具参考]({{% ref dapr-mcp-server-tool-reference.md %}})，了解每个工具的作用，以及启用它的 component 类型。
 - 使用[身份验证]({{% ref dapr-mcp-server-authentication.md %}})保护 HTTP 传输。
 - 使用[可观测性]({{% ref dapr-mcp-server-observability.md %}})，将追踪、指标和日志发送到后端。

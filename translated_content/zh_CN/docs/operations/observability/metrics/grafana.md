@@ -11,35 +11,35 @@ description: "如何在 Grafana 仪表板中查看 Dapr 指标。"
 {{< tabpane text=true >}}
 
 {{% tab "系统服务" %}}
-`grafana-system-services-dashboard.json` 模板显示 Dapr 系统组件状态，包括 dapr-operator、dapr-sidecar-injector、dapr-sentry 和 dapr-placement：
+`grafana-system-services-dashboard.json` 模板显示 Dapr 系统 component 状态，包括 dapr-operator、dapr-sidecar-injector、dapr-sentry 和 dapr-placement：
 
 <img src="/images/grafana-system-service-dashboard.png" alt="系统服务仪表板截图" width=1200>
 {{% /tab %}}
 
-{{% tab "边车" %}}
-`grafana-sidecar-dashboard.json` 模板显示 Dapr 边车状态，包括边车健康状态/资源使用、HTTP 和 gRPC 的吞吐量/延迟、Actor、mTLS 等：
+{{% tab "sidecar" %}}
+`grafana-sidecar-dashboard.json` 模板显示 Dapr sidecar 状态，包括 sidecar 健康状态/资源使用、HTTP 和 gRPC 的吞吐量/延迟、Actor、mTLS 等：
 
-<img src="/images/grafana-sidecar-dashboard.png" alt="边车仪表板截图" width=1200>
+<img src="/images/grafana-sidecar-dashboard.png" alt="sidecar 仪表板截图" width=1200>
 {{% /tab %}}
 
 {{% tab "Actor" %}}
-`grafana-actor-dashboard.json` 模板显示 Dapr 边车状态、Actor 调用吞吐量/延迟、定时器/提醒触发器以及基于轮次的并发：
+`grafana-actor-dashboard.json` 模板显示 Dapr sidecar 状态、Actor 调用吞吐量/延迟、timer/reminder 触发器以及基于轮次的并发：
 
 <img src="/images/grafana-actor-dashboard.png" alt="Actor 仪表板截图" width=1200>
 {{% /tab %}}
 
-{{% tab "工作流" %}}
-`grafana-workflow-dashboard.json` 模板显示工作流和活动的执行速率、延迟与失败情况、客户端操作，以及与已配置最大值相比的负载大小：
+{{% tab "workflow" %}}
+`grafana-workflow-dashboard.json` 模板显示 workflow 和 activity 的执行速率、延迟与失败情况、客户端操作，以及与已配置最大值相比的负载大小：
 
-<img src="/images/grafana-workflow-dashboard.png" alt="工作流仪表板截图" width=1200>
+<img src="/images/grafana-workflow-dashboard.png" alt="workflow 仪表板截图" width=1200>
 {{% /tab %}}
 
-{{% tab "调度器" %}}
-`grafana-scheduler-dashboard.json` 模板显示调度器的健康状态、作业生命周期与触发延迟、已连接的边车、触发并发以及嵌入式 etcd：
+{{% tab "Scheduler" %}}
+`grafana-scheduler-dashboard.json` 模板显示 Scheduler 的健康状态、job 生命周期与触发延迟、已连接的 sidecar、触发并发以及嵌入式 etcd：
 
-<img src="/images/grafana-scheduler-dashboard.png" alt="调度器仪表板截图" width=1200>
+<img src="/images/grafana-scheduler-dashboard.png" alt="Scheduler 仪表板截图" width=1200>
 
-部分 etcd 面板需要以 `--etcd-metrics=extensive` 启动调度器。默认的 `basic` 级别不会暴露底层直方图。
+部分 etcd 面板需要以 `--etcd-metrics=extensive` 启动 Scheduler。默认的 `basic` 级别不会暴露底层直方图。
 {{% /tab %}}
 
 {{< /tabpane >}}

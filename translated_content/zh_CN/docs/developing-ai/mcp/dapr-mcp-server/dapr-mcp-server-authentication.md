@@ -109,7 +109,7 @@ export DAPR_SENTRY_AUDIENCE=mcp://dapr-mcp-server
 
 ## 无需身份验证的路径
 
-健康检查端点 `/livez`、`/readyz` 和 `/startupz` 始终无需身份验证即可访问，`/dapr/subscribe` 同样如此，它只会告知边车该服务器没有订阅。其他所有路径都属于 MCP，需要令牌。目前没有配置项可以豁免更多路径。
+健康检查端点 `/livez`、`/readyz` 和 `/startupz` 始终无需身份验证即可访问，`/dapr/subscribe` 同样如此，它只会告知 sidecar 该服务器没有订阅。其他所有路径都属于 MCP，需要令牌。目前没有配置项可以豁免更多路径。
 
 ## 相关链接
 

@@ -6,36 +6,36 @@ weight: 100
 description: "配置 Dapr 重试、超时和断路器"
 ---
 
-Dapr 提供了通过[弹性规范]({{% ref "resiliency-overview.md#完整示例策略" %}})定义和应用容错弹性策略的能力。弹性规范保存在与组件规范相同的位置，并在 Dapr 边车启动时应用。边车决定如何将弹性策略应用于你的 Dapr API 调用。
+Dapr 提供了通过[弹性规范]({{% ref "resiliency-overview.md#完整示例策略" %}})定义和应用容错 resiliency 的能力。弹性规范保存在与 component 规范相同的位置，并在 Dapr sidecar 启动时应用。sidecar 决定如何将 resiliency 应用于你的 Dapr API 调用。
 - **在自托管模式下：** 弹性规范必须命名为 `resiliency.yaml`。
 - **在 Kubernetes 中：** Dapr 会查找应用程序使用的命名弹性规范。
 
 ## 策略
 
-你可以通过以下部分配置 Dapr 弹性策略：
+你可以通过以下部分配置 Dapr resiliency：
 - 定义策略应用位置的元数据（如命名空间和作用域）
 - 指定弹性名称和行为的策略，例如：
   - [超时]({{% ref timeouts.md %}})
   - [重试]({{% ref retries-overview.md %}})
   - [断路器]({{% ref circuit-breakers.md %}})
 - 确定这些策略作用于哪些交互的目标，包括：
-  - 通过服务调用的[应用]({{% ref "targets.md#apps" %}})
-  - [组件]({{% ref "targets.md#components" %}})
+  - 通过 service invocation 的[应用]({{% ref "targets.md#apps" %}})
+  - [component]({{% ref "targets.md#components" %}})
   - [Actor]({{% ref "targets.md#actors" %}})
 
-定义完成后，你可以使用以下命令将此配置应用到本地 Dapr 组件目录或 Kubernetes 集群：
+定义完成后，你可以使用以下命令将此配置应用到本地 Dapr component 目录或 Kubernetes 集群：
 
 ```bash
 kubectl apply -f <resiliency-spec-name>.yaml
 ```
 
-此外，你还可以将弹性策略[限定为特定应用]({{% ref "component-scopes.md#application-access-to-components-with-scopes" %}})。
+此外，你还可以将 resiliency[限定为特定应用]({{% ref "component-scopes.md#application-access-to-components-with-scopes" %}})。
 
 > 参见[已知限制](#限制)。
 
-## 弹性策略结构
+## resiliency 结构
 
-以下是弹性策略的通用结构：
+以下是 resiliency 的通用结构：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -63,7 +63,7 @@ spec:
       # 此处填写 Actor 类型及其应用的策略
 
     components:
-      # 此处填写组件及其应用的策略
+      # 此处填写 component 及其应用的策略
 ```
 
 ## 完整示例策略
@@ -113,8 +113,8 @@ spec:
         duration: 5s
         maxRetries: 3
 
-    # 断路器会自动为每个组件和应用实例实例化。
-    # 断路器维护的计数器在 Dapr 边车运行期间一直存在。它们不会被持久化。
+    # 断路器会自动为每个 component 和应用实例实例化。
+    # 断路器维护的计数器在 Dapr sidecar 运行期间一直存在。它们不会被持久化。
     circuitBreakers:
       simpleCB:
         maxRequests: 1
@@ -127,7 +127,7 @@ spec:
         timeout: 45s
         trip: consecutiveFailures > 8
 
-  # targets 是命名策略应用到的对象。Dapr 支持 3 种目标类型——应用、组件和 Actor。
+  # targets 是命名策略应用到的对象。Dapr 支持 3 种目标类型——应用、component 和 Actor。
   targets:
     apps:
       appB:
@@ -149,46 +149,46 @@ spec:
 
     components:
       # 对于状态存储，策略应用于保存和检索状态。
-      statestore1: # 任何组件名称 -- 这里恰好是一个状态存储
+      statestore1: # 任何 component 名称 -- 这里恰好是一个状态存储
         outbound:
           timeout: general
           retry: retryForever
-          # 组件的断路器按每个组件配置/实例限定作用域。例如 myRediscomponent。
-          # 当此断路器触发时，在配置的 `timeout` 期限内将阻止与该组件的所有交互。
+          # component 的断路器按每个 component 配置/实例限定作用域。例如 myRediscomponent。
+          # 当此断路器触发时，在配置的 `timeout` 期限内将阻止与该 component 的所有交互。
           circuitBreaker: simpleCB
 
-      pubsub1: # 任何组件名称 -- 这里恰好是一个 pubsub broker
+      pubsub1: # 任何 component 名称 -- 这里恰好是一个 pubsub broker
         outbound:
           retry: pubsubRetry
           circuitBreaker: pubsubCB
 
-      pubsub2: # 任何组件名称 -- 这里恰好是另一个 pubsub broker
+      pubsub2: # 任何 component 名称 -- 这里恰好是另一个 pubsub broker
         outbound:
           retry: pubsubRetry
           circuitBreaker: pubsubCB
-        inbound: # inbound 仅适用于从边车到应用的传递
+        inbound: # inbound 仅适用于从 sidecar 到应用的传递
           timeout: general
           retry: important
           circuitBreaker: pubsubCB
 ```
 
-## 使用 Dapr Dev Dashboard 构建弹性策略
+## 使用 Dapr Dev Dashboard 构建 resiliency
 
-在本地开发时，[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 提供了一个弹性构建器。通过 UI 向导，你可以定义超时、重试和断路器策略，并将它们作为目标分配给应用、组件和 Actor，然后向导会为你生成弹性策略的 YAML。这是一种无需记住弹性规范结构即可快速上手的方式。
+在本地开发时，[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 提供了一个 resiliency builder。通过 UI 向导，你可以定义超时、重试和断路器策略，并将它们作为目标分配给应用、component 和 Actor，然后向导会为你生成 resiliency 的 YAML。这是一种无需记住弹性规范结构即可快速上手的方式。
 
 ## 热重载
 
-对弹性资源的更改会被自动检测，并触发 Dapr 边车的优雅重启，以应用更新后的弹性策略。若要选择退出，请在 [Dapr 应用配置]({{% ref "configuration-overview.md" %}}) 中禁用 `HotReload` 特性。
+对弹性资源的更改会被自动检测，并触发 Dapr sidecar 的优雅重启，以应用更新后的 resiliency。若要选择退出，请在 [Dapr 应用配置]({{% ref "configuration-overview.md" %}}) 中禁用 `HotReload` 特性。
 
 请参阅[更新资源]({{% ref "component-updates.md" %}})了解更多信息。
 
 ## 限制
 
-- **通过 gRPC 进行服务调用：** 目前，通过 gRPC 进行的服务调用不支持弹性策略。
+- **通过 gRPC 进行 service invocation：** 目前，通过 gRPC 进行的 service invocation 不支持 resiliency。
 
 ## 演示
 
-观看此视频，了解如何使用[弹性策略](https://www.youtube.com/watch?t=184&v=7D6HOU3Ms6g&feature=youtu.be)：
+观看此视频，了解如何使用[resiliency](https://www.youtube.com/watch?t=184&v=7D6HOU3Ms6g&feature=youtu.be)：
 
 {{< youtube id=7D6HOU3Ms6g start=184 >}}
 
@@ -197,7 +197,7 @@ spec:
 {{< youtube id=uC-4Q5KFq98 >}}
 
 ## 后续步骤
-了解有关弹性策略和目标的更多信息：
+了解有关 resiliency 和目标的更多信息：
  - 策略
    - [超时]({{% ref "timeouts.md" %}})
    - [重试]({{% ref "retries-overview.md" %}})
@@ -205,6 +205,6 @@ spec:
  - [目标]({{% ref "targets.md" %}})
 
 ## 相关链接
-尝试其中一个弹性快速入门：
-- [弹性策略：服务到服务]({{% ref resiliency-serviceinvo-quickstart.md %}})
-- [弹性策略：状态管理]({{% ref resiliency-state-quickstart.md %}})
+尝试其中一个 resiliency Quickstart：
+- [resiliency：服务到服务]({{% ref resiliency-serviceinvo-quickstart.md %}})
+- [resiliency：State Management]({{% ref resiliency-state-quickstart.md %}})

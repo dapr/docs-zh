@@ -2,14 +2,14 @@
 type: docs
 title: "Azure App Configuration"
 linkTitle: "Azure App Configuration"
-description: Azure App Configuration 配置存储组件的详细信息
+description: Azure App Configuration 配置存储 component 的详细信息
 aliases:
   - "/zh-hans/operations/components/setup-configuration-store/supported-configuration-stores/setup-azure-appconfig/"
 ---
 
-## 组件格式
+## component 格式
 
-要设置 Azure App Configuration 配置存储，需创建一个类型为 `configuration.azure.appconfig` 的组件。
+要设置 Azure App Configuration 配置存储，需创建一个类型为 `configuration.azure.appconfig` 的 component。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -48,7 +48,7 @@ spec:
 上述示例将 secrets 作为纯文本字符串使用。建议使用 secret store 来管理 secrets，详见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | Field                      | Required | Details                                                                                                                                                                                                                                                                                                                       | Example |
 |----------------------------|:--------:|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
@@ -67,7 +67,7 @@ spec:
 
 ## 使用 Microsoft Entra ID 进行身份验证
 
-Azure App Configuration 配置存储组件还支持通过 Microsoft Entra ID 进行身份验证。在启用此组件之前：
+Azure App Configuration 配置存储 component 还支持通过 Microsoft Entra ID 进行身份验证。在启用此 component 之前：
 - 阅读[向 Azure 进行身份验证]({{% ref authenticating-azure.md %}})文档。
 - 创建 Microsoft Entra ID 应用程序（也称为服务主体）。
 - 或者，为你的应用程序平台创建托管标识。
@@ -89,11 +89,11 @@ Azure App Configuration 配置存储组件还支持通过 Microsoft Entra ID 进
    在生产级应用程序中，请遵循[secrets 管理]({{% ref component-secrets.md %}})说明，以安全地管理你的 secrets。
    {{% /alert %}}
 
-## Azure App Configuration 请求元数据
+## Azure App Configuration 请求 metadata
 
 在 Azure App Configuration 中，你可以使用标签为同一键定义不同的值。例如，你可以为开发环境和生产环境定义一个具有不同值的单个键。连接到 App Configuration 时，你可以指定要加载的标签。
 
-Azure App Configuration 存储组件支持以下可选的 `label` 元数据属性：
+Azure App Configuration 存储 component 支持以下可选的 `label` metadata 属性：
 
 `label`：要检索的配置的标签。如果不存在，配置存储将返回指定键和空标签的配置。
 
@@ -103,15 +103,15 @@ Azure App Configuration 存储组件支持以下可选的 `label` 元数据属�
 GET curl http://localhost:<daprPort>/v1.0/configuration/<store-name>?key=<key name>&metadata.label=<label value>
 ```
 
-## Azure App Configuration 响应元数据
+## Azure App Configuration 响应 metadata
 
-从 Azure App Configuration 检索配置项时，Dapr 会在每个返回的配置项的元数据中包含以下 Azure 属性。这些属性位于负载的 `items.<key>.metadata` 下：
+从 Azure App Configuration 检索配置项时，Dapr 会在每个返回的配置项的 metadata 中包含以下 Azure 属性。这些属性位于负载的 `items.<key>.metadata` 下：
 
 - `label`：为该键值设置的标签。
 - `contentType`：为该键值设置的内容类型，例如 `application/json`。
 
-如果 Azure App Configuration 项上未设置某个属性，则响应中会省略该元数据条目。
+如果 Azure App Configuration 项上未设置某个属性，则响应中会省略该 metadata 条目。
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [配置构建块]({{% ref configuration-api-overview %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
+- [Configuration building block]({{% ref configuration-api-overview %}})

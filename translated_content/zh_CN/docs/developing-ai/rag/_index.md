@@ -8,18 +8,18 @@ description: "使用 Dapr Workflow 将文档持久化摄取到带版本的向量
 
 ### 什么是持久化 RAG 摄取？
 
-为文档语料建立检索增强生成（RAG）索引，需要下载、解析、切分并嵌入可能成千上万的文档，然后将结果写入向量索引。这一过程可能持续数小时，并会遇到长时间运行的作业可能面临的各种故障：嵌入服务提供方对你进行限流、网络调用超时、工作进程因内存不足（OOM）被强制终止，或 Pod 在运行中途被重新调度。
+为文档语料建立检索增强生成（RAG）索引，需要下载、解析、切分并嵌入可能成千上万的文档，然后将结果写入向量索引。这一过程可能持续数小时，并会遇到长时间运行的 job 可能面临的各种故障：嵌入服务提供方对你进行限流、网络调用超时、工作进程因内存不足（OOM）被强制终止，或 Pod 在运行中途被重新调度。
 
 Dapr Python SDK 的 `dapr.ext.rag` 扩展通过 `DurableRAGPipeline` 解决了这一问题：这是一个完全基于 [Dapr Workflow]({{% ref workflow-overview %}}) 构建的文档摄取流水线。这一基础提供了两项保证：
 
-- **崩溃后续跑，而不是重头开始。** 工作流会在每个活动处持久化检查点，因此工作进程崩溃后，会从上一个已完成的文档批次继续，而不是从头开始——已嵌入的内容不会被重复处理，也不会丢失。
+- **崩溃后续跑，而不是重头开始。** workflow 会在每个 activity 处持久化检查点，因此工作进程崩溃后，会从上一个已完成的文档批次继续，而不是从头开始——已嵌入的内容不会被重复处理，也不会丢失。
 - **查询永远不会看到构建了一半的索引。** 每次摄取运行都会构建一个独立的、非活动的索引*版本*。只有该版本经验证确认完整后，才会切换为活动状态——因此，正在进行中的写入对于读取当前索引的查询永远不可见。
 
 ## 工作原理
 
 {{< diagram rag-overview >}}
 
-所有会访问网络或文件系统的步骤——列出存储桶、下载文档、调用嵌入 API、写入向量——都在 Dapr Workflow 活动中运行，而不是在编排器本身中运行。正是这一点使整个运行具备重放安全性，并可在崩溃后恢复，与任何其他 Dapr Workflow 一样。
+所有会访问网络或文件系统的步骤——列出存储桶、下载文档、调用嵌入 API、写入向量——都在 Dapr Workflow activity 中运行，而不是在编排器本身中运行。正是这一点使整个运行具备重放安全性，并可在崩溃后恢复，与任何其他 Dapr Workflow 一样。
 
 ## 支持的提供方
 
@@ -36,10 +36,10 @@ Dapr Python SDK 的 `dapr.ext.rag` 扩展通过 `DurableRAGPipeline` 解决了�
 
 ## 开始使用
 
-- **[快速入门]({{% ref rag-quickstart.md %}})**——在几分钟内，使用 LocalStack 作为 S3、本地 Postgres 作为 pgvector，在本地运行一个完整的摄取与查询流程。
+- **[Quickstart]({{% ref rag-quickstart.md %}})**——在几分钟内，使用 LocalStack 作为 S3、本地 Postgres 作为 pgvector，在本地运行一个完整的摄取与查询流程。
 - **[Python SDK 文档](/developing-applications/sdks/python/)**——Python SDK 的其余部分，包括 [Dapr Workflow]({{% ref python-workflow-ext %}})，`dapr.ext.rag` 即构建于其之上。
 
-{{< button text="试用 RAG 快速入门" page="rag-quickstart.md" >}}
+{{< button text="试用 RAG Quickstart" page="rag-quickstart.md" >}}
 
 ## 安装
 
@@ -49,7 +49,7 @@ Dapr Python SDK 的 `dapr.ext.rag` 扩展通过 `DurableRAGPipeline` 解决了�
 pip install "dapr[rag,rag-s3,rag-pgvector]"
 ```
 
-根据所需的组合，可替换为 `rag-azure`（Azure Blob）、`rag-pinecone`（Pinecone）或 `rag-azure-search`（Azure AI Search）。完整的可运行示例请参阅[快速入门]({{% ref rag-quickstart.md %}})。
+根据所需的组合，可替换为 `rag-azure`（Azure Blob）、`rag-pinecone`（Pinecone）或 `rag-azure-search`（Azure AI Search）。完整的可运行示例请参阅[Quickstart]({{% ref rag-quickstart.md %}})。
 
 ## 启动、检查和查询流水线
 
@@ -67,7 +67,7 @@ pipeline = DurableRAGPipeline(
     vector_store=PgVectorStore(connection_string="postgresql://...", collection="company_knowledge"),
     state_store_name="rag-pipeline-state",
 )
-pipeline.run_worker()  # 仅在应执行该工作流的进程中运行
+pipeline.run_worker()  # 仅在应执行该 workflow 的进程中运行
 
 instance_id = pipeline.start(version="2026-09", activate_when_complete=True)
 status = pipeline.get_status("2026-09")

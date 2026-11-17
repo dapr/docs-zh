@@ -1,14 +1,14 @@
 ---
 type: docs
-title: "在 Kubernetes 上调试 Dapr 控制平面"
-linkTitle: "Dapr 控制平面"
+title: "在 Kubernetes 上调试 Dapr control plane"
+linkTitle: "Dapr control plane"
 weight: 1000
-description: "如何在 Kubernetes 集群上调试 Dapr 控制平面"
+description: "如何在 Kubernetes 集群上调试 Dapr control plane"
 ---
 
 ## 概述
 
-有时有必要了解 Dapr 控制平面（即 Kubernetes 服务）内部发生了什么，包括 `dapr-sidecar-injector`、`dapr-operator`、`dapr-placement` 和 `dapr-sentry`，尤其是当你诊断 Dapr 应用程序并怀疑 Dapr 本身是否存在问题时。此外，你可能正在为 Kubernetes 上的 Dapr 开发新功能并希望调试代码。
+有时有必要了解 Dapr control plane（即 Kubernetes 服务）内部发生了什么，包括 `dapr-sidecar-injector`、`dapr-operator`、`dapr-placement` 和 `dapr-sentry`，尤其是当你诊断 Dapr 应用程序并怀疑 Dapr 本身是否存在问题时。此外，你可能正在为 Kubernetes 上的 Dapr 开发新功能并希望调试代码。
 
 本指南将介绍如何使用 Dapr 调试二进制文件在 Kubernetes 集群上调试 Dapr 服务。
 
@@ -110,4 +110,4 @@ Forwarding from [::1]:40000 -> 40000
 
 - [Dapr on Kubernetes 概述]({{% ref kubernetes-overview %}})
 - [将 Dapr 部署到 Kubernetes 集群]({{% ref kubernetes-deploy %}})
-- [Dapr Kubernetes 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)
+- [Dapr Kubernetes Quickstart](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)

@@ -2,14 +2,14 @@
 type: docs
 title: "Redis"
 linkTitle: "Redis"
-description: Redis 配置存储组件的详细信息
+description: Redis 配置存储 component 的详细信息
 aliases:
   - "/zh-hans/operations/components/setup-configuration-store/supported-configuration-stores/setup-redis/"
 ---
 
-## 组件格式
+## component 格式
 
-要设置 Redis 配置存储，需创建一个类型为 `configuration.redis` 的组件。有关如何创建和应用配置存储配置，请参阅[此指南]({{% ref "howto-manage-configuration.md#configure-a-dapr-configuration-store" %}})。
+要设置 Redis 配置存储，需创建一个类型为 `configuration.redis` 的 component。有关如何创建和应用配置存储配置，请参阅[此指南]({{% ref "howto-manage-configuration.md#configure-a-dapr-configuration-store" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -37,14 +37,14 @@ spec:
 {{% /alert %}}
 
 
-## 规格元数据字段
+## 规格 metadata 字段
 
 | 字段              | 必填 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
 | redisHost | Y | Output |  Redis 主机的连接字符串。如果 `"redisType"` 为 `"cluster"`，则可以是多个用逗号分隔的主机，也可以是单个主机。当使用 Redis Sentinel（`"failover"` 为 `"true"`）时，也可以提供多个 sentinel 地址，用逗号分隔。 | `localhost:6379`, `redis-master.default.svc.cluster.local:6379`, `sentinel1:26379,sentinel2:26379,sentinel3:26379` |
 | redisPassword | N | Output | Redis 密码 | `"password"` |
 | redisUsername | N | Output | Redis 主机的用户名。默认为空。请确保你的 Redis 服务器版本为 6 或更高版本，并且已正确创建 acl 规则。 | `"username"` |
-| useOIDC | N | Output | 通过 OpenID Connect 使用 `private_key_jwt` 客户端认证方法（RFC 7523）进行身份验证。从身份提供方获取的 OAuth2 访问令牌将用作 Redis `AUTH` 命令的密码，并会在过期前自动刷新。不得与 `redisPassword` 或 `useEntraID` 同时使用。该组件支持 [Redis state store 文档]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}}) 中记录的全部 `oidc*` 元数据字段。 | `"true"`, `"false"` |
+| useOIDC | N | Output | 通过 OpenID Connect 使用 `private_key_jwt` 客户端认证方法（RFC 7523）进行身份验证。从身份提供方获取的 OAuth2 访问令牌将用作 Redis `AUTH` 命令的密码，并会在过期前自动刷新。不得与 `redisPassword` 或 `useEntraID` 同时使用。该 component 支持 [Redis state store 文档]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}}) 中记录的全部 `oidc*` metadata 字段。 | `"true"`, `"false"` |
 | enableTLS | N | Output |  如果 Redis 实例支持带有公共证书的 TLS，可以配置为启用或禁用 TLS。默认为 `"false"` | `"true"`, `"false"` |
 | insecureSkipTLSVerify | N | Output | 当 `enableTLS` 为 `"true"` 时，跳过 TLS 证书验证。仅用于测试。默认为 `"false"` | `"true"`, `"false"` |
 | clientCert        | N | Output        | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，且 `enableTLS` 必须设置为 true。建议使用 secret store，具体操作请参阅[此处]({{% ref component-secrets.md %}})  | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
@@ -88,7 +88,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
     ```
 
 2. 运行 `kubectl get pods` 查看集群中现在运行的 Redis 容器。
-3. 将 `redis-master:6379` 作为 `redisHost` 添加到你的 [redis.yaml](#组件格式) 文件中。例如：
+3. 将 `redis-master:6379` 作为 `redisHost` 添加到你的 [redis.yaml](#component-格式) 文件中。例如：
     ```yaml
         metadata:
         - name: redisHost
@@ -99,7 +99,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
     - **Linux/MacOS**：运行 `kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" | base64 --decode` 并复制输出的密码。
 
-    将此密码作为 `redisPassword` 值添加到你的 [redis.yaml](#组件格式) 文件中。例如：
+    将此密码作为 `redisPassword` 值添加到你的 [redis.yaml](#component-格式) 文件中。例如：
     ```yaml
         metadata:
         - name: redisPassword
@@ -125,7 +125,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 1. 将你的密钥和主机名添加到 Dapr 可应用于集群的 `redis.yaml` 文件中。
    - 如果你在运行示例，请将主机和密钥添加到提供的 `redis.yaml` 中。
-   - 如果你从零开始创建项目，请按照[组件格式部分](#组件格式)中的说明创建 `redis.yaml` 文件。
+   - 如果你从零开始创建项目，请按照[component 格式部分](#component-格式)中的说明创建 `redis.yaml` 文件。
    
 1. 将 `redisHost` 键设置为 `[上一步的主机名]:6379`，将 `redisPassword` 键设置为你之前保存的密钥。
    
@@ -171,6 +171,6 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
     ```
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
 - 阅读[如何：从存储管理配置]({{% ref "howto-manage-configuration" %}})，了解如何将 Redis 用作配置存储的说明。
-- [配置构建块]({{% ref configuration-api-overview %}})
+- [Configuration building block]({{% ref configuration-api-overview %}})

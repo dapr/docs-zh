@@ -29,9 +29,9 @@ dapr run --app-id dapr-mcp-server --resources-path ./components -- dapr-mcp-serv
 服务器会创建以下跨度：
 
 - **每个 HTTP 请求对应一个服务端跨度**，以请求方法和路由命名，例如 `POST /`。如果请求携带 W3C `traceparent` 标头，它会延续调用方的跟踪。
-- **每次工具调用对应一个跨度**，以工具名称命名，例如 `save_state`。它带有属性 `mcp.tool.name` 和 `mcp.tool.package`；如果工具以某个组件为目标，还会带有 `dapr.component.name`；此外还包含状态键或主题等细节。失败的调用会被标记为错误状态。
+- **每次工具调用对应一个跨度**，以工具名称命名，例如 `save_state`。它带有属性 `mcp.tool.name` 和 `mcp.tool.package`；如果工具以某个 component 为目标，还会带有 `dapr.component.name`；此外还包含状态键或主题等细节。失败的调用会被标记为错误状态。
 
-每次 gRPC 调用都会将工具跨度的跟踪上下文传递给 Dapr 边车，因此当 [Dapr 跟踪]({{% ref tracing-overview.md %}}) 导出到同一个后端时，来自边车以及它所调用的任何应用的跨度都会加入同一条跟踪。
+每次 gRPC 调用都会将工具跨度的跟踪上下文传递给 Dapr sidecar，因此当 [Dapr 跟踪]({{% ref tracing-overview.md %}}) 导出到同一个后端时，来自 sidecar 以及它所调用的任何应用的跨度都会加入同一条跟踪。
 
 ## 指标
 
@@ -47,7 +47,7 @@ dapr run --app-id dapr-mcp-server --resources-path ./components -- dapr-mcp-serv
 | `dapr-mcp-server.http.request_duration` | 直方图 | `ms` | MCP HTTP 请求耗时。服务器发送事件流会被计数但不计时，因为其持续时间等于客户端的会话时长。 |
 | `dapr-mcp-server.http.requests_in_flight` | 可增减计数器 | `{request}` | 当前正在处理的 MCP HTTP 请求。 |
 
-工具指标只携带有界属性：`tool.name` 和 `tool.package`；调用指标和耗时指标还带有 `outcome`（取值为 `success` 或 `error`），错误计数器还带有 `error.type`。由代理提供的值（例如组件名称、App ID 和 Actor 类型）不会写入指标，而是记录在工具的跨度上。HTTP 指标携带 `http.request.method`、`http.response.status_code` 和 `http.route`。HTTP 指标只覆盖 MCP 请求，不包括健康检查端点。
+工具指标只携带有界属性：`tool.name` 和 `tool.package`；调用指标和耗时指标还带有 `outcome`（取值为 `success` 或 `error`），错误计数器还带有 `error.type`。由代理提供的值（例如 component 名称、App ID 和 Actor 类型）不会写入指标，而是记录在工具的跨度上。HTTP 指标携带 `http.request.method`、`http.response.status_code` 和 `http.route`。HTTP 指标只覆盖 MCP 请求，不包括健康检查端点。
 
 ## 日志
 
@@ -64,8 +64,8 @@ dapr run --app-id dapr-mcp-server --resources-path ./components -- dapr-mcp-serv
 | 端点 | 返回 `200` 的条件 | 其他情况 |
 |---|---|---|
 | `/livez` | 进程正在运行。 | — |
-| `/startupz` | 启动已完成：服务器已连接到 Dapr 边车并注册了工具。 | `503` |
-| `/readyz` | 服务器已就绪，且 Dapr 边车在 5 秒内响应元数据请求。响应中列出了每项检查。 | `503` |
+| `/startupz` | 启动已完成：服务器已连接到 Dapr sidecar 并注册了工具。 | `503` |
+| `/readyz` | 服务器已就绪，且 Dapr sidecar 在 5 秒内响应 metadata 请求。响应中列出了每项检查。 | `503` |
 
 ```json
 {

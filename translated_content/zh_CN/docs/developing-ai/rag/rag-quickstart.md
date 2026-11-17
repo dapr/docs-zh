@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "快速入门：持久化 RAG 摄取"
-linkTitle: "快速入门"
+title: "Quickstart：持久化 RAG 摄取"
+linkTitle: "Quickstart"
 weight: 30
 description: "将文档摄取到带版本的向量索引中并进行查询，全部在你的本机上运行"
 ---
 
-本快速入门在本机上运行一个完整的 `DurableRAGPipeline` 摄取与查询流程：文档从对象存储中被发现，经过解析和分块，使用 OpenAI 生成嵌入，然后写入本地的 [pgvector](https://github.com/pgvector/pgvector) 索引。随后你将查询该索引，并获得能够回答你问题的文档。
+本 Quickstart 在本机上运行一个完整的 `DurableRAGPipeline` 摄取与查询流程：文档从对象存储中被发现，经过解析和分块，使用 OpenAI 生成嵌入，然后写入本地的 [pgvector](https://github.com/pgvector/pgvector) 索引。随后你将查询该索引，并获得能够回答你问题的文档。
 
 请选择与你实际部署方式相匹配的数据源。其余流程（嵌入、pgvector、worker/CLI 命令，以及“设置环境”之后的全部内容）无论选择哪种方式都完全相同：
 
@@ -14,7 +14,7 @@ description: "将文档摄取到带版本的向量索引中并进行查询，全
 - **Azure** — `AzureBlobSource` 搭配 [Azurite](https://github.com/Azure/Azurite)，这是 Azure 的本地存储模拟器。无需 Azure 账户，同样的代码和配置结构也适用于真实的 Azure Storage 账户。
 - **通用（任意 S3 兼容存储）** — `S3Source` 搭配 [S3Mock](https://github.com/adobe/S3Mock)，这是一个精简的 S3 兼容测试服务器。使用此选项卡可以确认 `S3Source` 并非 AWS 专用：它通过相同的 API 与任何 S3 兼容端点通信，因此把 `RAG_S3_ENDPOINT_URL` 指向你自己部署的自托管对象存储（MinIO、Ceph RGW 等）同样可行，只需把下面的占位凭据换成该存储自己的真实凭据即可。
 
-同一流程无需修改即可用于真实的 Pinecone、Azure AI Search 和真实的 Azure OpenAI。所有受支持的组合请参阅 [RAG 概述]({{% ref rag %}})。在本快速入门中，只有嵌入向量需要真实的外部账户；[OpenAI API 密钥](https://platform.openai.com/api-keys)是唯一无法在本地运行的凭据。
+同一流程无需修改即可用于真实的 Pinecone、Azure AI Search 和真实的 Azure OpenAI。所有受支持的组合请参阅 [RAG 概述]({{% ref rag %}})。在本 Quickstart 中，只有嵌入向量需要真实的外部账户；[OpenAI API 密钥](https://platform.openai.com/api-keys)是唯一无法在本地运行的凭据。
 
 ## 前提条件
 
@@ -167,7 +167,7 @@ s3.put_object(Bucket='company-docs', Key='policies/remote-work.txt',
 {{< /tabpane >}}
 
 {{% alert title="注意" color="info" %}}
-上文中的每个 `export` 仅对当前 shell 生效。在本快速入门中，每打开一个新终端来运行命令，都需要重新执行一次。
+上文中的每个 `export` 仅对当前 shell 生效。在本 Quickstart 中，每打开一个新终端来运行命令，都需要重新执行一次。
 {{% /alert %}}
 
 ## 在本地运行应用
@@ -178,7 +178,7 @@ s3.put_object(Bucket='company-docs', Key='policies/remote-work.txt',
 dapr run --app-id rag-worker --resources-path components/ -- python3 worker.py
 ```
 
-在**第二个终端**中，重新导出 `.env`，以及你所选选项卡中用到的额外凭据变量（AWS 或通用选项使用 `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`，因为这是一个新 shell，这些变量在此处尚未设置），然后开始摄取。请使用与 worker **相同**的 `--app-id`（`rag-worker`），不要使用新的 ID。Dapr Workflow 在内部以 Dapr Actors 为基础，CLI 需要连接到 worker 所注册的同一个 Actor 运行时：
+在**第二个终端**中，重新导出 `.env`，以及你所选选项卡中用到的额外凭据变量（AWS 或通用选项使用 `AWS_ACCESS_KEY_ID`/`AWS_SECRET_ACCESS_KEY`，因为这是一个新 shell，这些变量在此处尚未设置），然后开始摄取。请使用与 worker **相同**的 `--app-id`（`rag-worker`），不要使用新的 ID。Dapr Workflow 在内部以 Dapr Actors 为基础，CLI 需要连接到 worker 所注册的同一个 Actor runtime：
 
 ```bash
 export $(grep -v '^#' .env | xargs)
@@ -187,7 +187,7 @@ dapr run --app-id rag-worker --resources-path components/ -- python3 cli.py star
 dapr run --app-id rag-worker --resources-path components/ -- python3 cli.py status --version v1
 ```
 
-每隔几秒重新运行一次 `status` 命令，直到它显示 `"stage": "completed"` 和 `"activation_succeeded": true`。完整的响应是一份包含所有跟踪计数器的 JSON 转储（待处理、已完成和失败的文档数，已嵌入与已复用的分块数，重试次数，时间戳等）。对本快速入门而言，关键字段如下所示：
+每隔几秒重新运行一次 `status` 命令，直到它显示 `"stage": "completed"` 和 `"activation_succeeded": true`。完整的响应是一份包含所有跟踪计数器的 JSON 转储（待处理、已完成和失败的文档数，已嵌入与已复用的分块数，重试次数，时间戳等）。对本 Quickstart 而言，关键字段如下所示：
 
 ```json
 {
@@ -213,7 +213,7 @@ dapr run --app-id rag-worker --resources-path components/ -- python3 cli.py quer
 ## 发生了什么？
 
 1. **`worker.py`** 启动了一个 Dapr Workflow 工作进程，它承载 `rag_ingest` 编排器及其活动（`discover_and_manifest`、`process_document`、`validate_version`、`activate_version` 等）。摄取要持续推进，就必须保持这个进程运行。
-2. **`cli.py start --version v1`** 为版本 `v1` 调度了一个新的工作流实例。编排器列出了存储桶或容器，找到一个文档，下载并分块，用 OpenAI 为该分块生成嵌入，然后把它写入 pgvector 表中的 `v1` 命名空间。所有这些都在工作流活动内完成，因此任何时刻发生崩溃，都会从最后一个已完成的步骤恢复，而不是从头开始。
+2. **`cli.py start --version v1`** 为版本 `v1` 调度了一个新的 workflow instance。编排器列出了存储桶或容器，找到一个文档，下载并分块，用 OpenAI 为该分块生成嵌入，然后把它写入 pgvector 表中的 `v1` 命名空间。所有这些都在 workflow 活动内完成，因此任何时刻发生崩溃，都会从最后一个已完成的步骤恢复，而不是从头开始。
 3. 所有文档处理完成后，编排器会**验证**向量存储中的分块数量是否与预期一致，然后**激活** `v1`，即通过一个受 ETag 保护的指针切换，使查询开始读取该版本。在验证通过之前，`v1` 永远不会对查询可见。
 4. **`cli.py query`** 使用 `ActiveVersionResolver` 解析当前激活的版本（`v1`），对你的问题进行嵌入，并且只在该版本的向量中搜索。
 
@@ -228,7 +228,7 @@ docker stop rag-pgvector rag-localstack rag-azurite rag-s3mock
 {{% /alert %}}
 
 {{% alert title="稍后重新运行？" color="warning" %}}
-稍后再次运行时，请使用新的 `--version`（例如 `v2`），而不要再次使用 `v1`。对已使用过的版本执行 `cli.py start --version v1`，会重新连接到同一个确定性的工作流实例，而不是启动一个全新的实例。这符合真实使用场景：版本应当对每批内容保持唯一，而不应在多次尝试之间复用。
+稍后再次运行时，请使用新的 `--version`（例如 `v2`），而不要再次使用 `v1`。对已使用过的版本执行 `cli.py start --version v1`，会重新连接到同一个确定性的 workflow instance，而不是启动一个全新的实例。这符合真实使用场景：版本应当对每批内容保持唯一，而不应在多次尝试之间复用。
 {{% /alert %}}
 
 ## 后续步骤

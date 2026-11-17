@@ -6,10 +6,10 @@ description: "Dapr MCPServer 资源的基础规范"
 weight: 3500
 ---
 
-`MCPServer` 是一种 Dapr 资源，用于声明到 MCP（模型上下文协议）服务器的连接。Dapr 在启动时加载这些资源，发现服务器提供的工具，并为每个工具注册内置的持久化工作流编排：用于工具发现的 `dapr.internal.mcp.<server>.ListTools`，以及为每个已发现的工具注册的 `dapr.internal.mcp.<server>.CallTool.<tool>`，用于持久化的工具执行。调用方通过标准的 [Dapr Workflow API]({{% ref workflow_api %}}) 调用它们。
+`MCPServer` 是一种 Dapr 资源，用于声明到 MCP（模型上下文协议）服务器的连接。Dapr 在启动时加载这些资源，发现服务器提供的工具，并为每个工具注册内置的持久化 workflow 编排：用于工具发现的 `dapr.internal.mcp.<server>.ListTools`，以及为每个已发现的工具注册的 `dapr.internal.mcp.<server>.CallTool.<tool>`，用于持久化的工具执行。调用方通过标准的 [Dapr Workflow API]({{% ref workflow_api %}}) 调用它们。
 
 {{% alert title="注意" color="primary" %}}
-任何 MCPServer 资源都可以限制在特定的[命名空间]({{% ref isolation-concept.md %}})内，并通过作用域限制为任意特定的应用集合访问。
+任何 MCPServer 资源都可以限制在特定的[namespace]({{% ref isolation-concept.md %}})内，并通过作用域限制为任意特定的应用集合访问。
 {{% /alert %}}
 
 ## 格式
@@ -136,8 +136,8 @@ spec:
 |-------|:--------:|---------|---------|
 | ignoreErrors | 否 | 为 `true` 时，如果此 MCPServer 未通过校验或密钥解析，daprd 仍保持运行。为 `false`（默认值）时，此类失败会导致 daprd 正常退出。 | `true` |
 | endpoint | 是 | MCP 服务器的传输方式与目标。参见下方的[端点](#端点)。 | |
-| middleware | 否 | 围绕工具和列表操作调用的可选工作流钩子。参见下方的[中间件字段](#中间件字段)。 | |
-| catalog | 否 | 信息性的治理元数据。参见下方的[Catalog 字段](#catalog-字段)。 | |
+| middleware | 否 | 围绕工具和列表操作调用的可选 workflow 钩子。参见下方的[middleware 字段](#middleware-字段)。 | |
+| catalog | 否 | 信息性的治理 metadata。参见下方的[Catalog 字段](#catalog-字段)。 | |
 
 ### 端点
 
@@ -181,13 +181,13 @@ spec:
 | stdio.args | 否 | 命令行参数。 | `["-y", "@modelcontextprotocol/server-filesystem"]` |
 | stdio.env | 否 | 子进程的环境变量。支持 `value`、`secretKeyRef` 和 `envRef`。 | `name: "API_KEY"` `value: "secret"` |
 
-### 中间件字段
+### middleware 字段
 
-中间件钩子按数组顺序执行。不同类型的钩子，错误行为有所不同：
+middleware 钩子按数组顺序执行。不同类型的钩子，错误行为有所不同：
 
-- `beforeCallTool` 的错误会中止整个链；工作流以 `CallToolResult{isError: true}` 结束，以便调用方自行纠正。
+- `beforeCallTool` 的错误会中止整个链；workflow 以 `CallToolResult{isError: true}` 结束，以便调用方自行纠正。
 - `beforeListTools` 的错误会中止整个链，并返回该错误。
-- `afterCallTool` 的错误会**导致工作流失败**。这些钩子可以充当阻止响应的授权闸门。
+- `afterCallTool` 的错误会**导致 workflow 失败**。这些钩子可以充当阻止响应的授权闸门。
 - `afterListTools` 的错误只会记录日志，不影响结果。
 
 | 字段 | 必填 | 说明 | 示例 |
@@ -201,7 +201,7 @@ spec:
 
 | 字段 | 必填 | 说明 | 示例 |
 |-------|:--------:|---------|---------|
-| workflow.workflowName | 是 | 要调用的工作流名称。 | `"rbac-check"` |
+| workflow.workflowName | 是 | 要调用的 workflow 名称。 | `"rbac-check"` |
 | workflow.appID | 否 | 指向远程 Dapr 应用。未设置时在本地运行。 | `"auth-service"` |
 | mutate | 否 | 为 `true` 时，钩子的返回值替换流经流水线的数据（`beforeCallTool` 为参数；`afterCallTool` 和 `afterListTools` 为结果）。为 `false`（默认值）时，钩子仅用于观察。不支持用于 `beforeListTools`。 | `true` |
 

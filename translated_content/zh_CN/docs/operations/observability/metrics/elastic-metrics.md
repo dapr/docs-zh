@@ -30,7 +30,7 @@ kubectl create secret generic elastic-secret -n dapr-monitoring \
 
 ### 为应用添加注解
 
-`dapr-sidecars` 抓取作业只会保留同时带有以下两个注解的 Pod，因此请在每个 Pod 模板上设置这些注解：
+`dapr-sidecars` 抓取 job 只会保留同时带有以下两个注解的 Pod，因此请在每个 Pod 模板上设置这些注解：
 
 ```yaml
 annotations:
@@ -40,7 +40,7 @@ annotations:
 
 ### 部署 Elastic Distribution of OpenTelemetry Collector
 
-将 [操作指南：使用 Prometheus 观察指标]({{% ref "prometheus.md" %}}) 中 `values.yaml` 文件里的 `dapr-sidecars` 和 `dapr` 抓取作业复制到下面的 `scrape_configs` 块中，并把其中的 `$` 双写为 `$$`，使采集器的环境变量展开不会破坏 relabel 的捕获组。
+将 [操作指南：使用 Prometheus 观察指标]({{% ref "prometheus.md" %}}) 中 `values.yaml` 文件里的 `dapr-sidecars` 和 `dapr` 抓取 job 复制到下面的 `scrape_configs` 块中，并把其中的 `$` 双写为 `$$`，使采集器的环境变量展开不会破坏 relabel 的捕获组。
 
 保存为 `edot-metrics.yaml`：
 
@@ -84,7 +84,7 @@ data:
       prometheus/dapr:
         config:
           scrape_configs:
-            # 在此粘贴 `dapr-sidecars` 和 `dapr` 抓取作业，来源见
+            # 在此粘贴 `dapr-sidecars` 和 `dapr` 抓取 job，来源见
             # https://docs.dapr.io/operations/observability/metrics/prometheus/
             # 将每个 `${1}` 替换为 `$${1}`。
     processors:
@@ -158,7 +158,7 @@ kubectl apply -f edot-metrics.yaml
 
 ## 验证安装
 
-检查 Pod 日志中是否有以下内容，以确认抓取作业已启动：
+检查 Pod 日志中是否有以下内容，以确认抓取 job 已启动：
 
 ```bash
 kubectl logs -n dapr-monitoring -l app=edot-metrics | grep "Scrape job added"

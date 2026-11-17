@@ -6,14 +6,14 @@ weight: 10
 description: "使用 arXiv API 加载研究论文"
 ---
 
-Dapr Agents 中的 Arxiv Fetcher 模块提供了一个功能强大的接口，用于与 [arXiv API](https://info.arxiv.org/help/api/index.html) 交互。它旨在帮助用户以编程方式在 arXiv 上搜索、检索和下载科学论文。凭借高级查询能力、元数据提取以及对 PDF 文件下载的支持，Arxiv Fetcher 非常适合研究人员、开发者以及从事学术文献工作的团队。
+Dapr Agents 中的 Arxiv Fetcher 模块提供了一个功能强大的接口，用于与 [arXiv API](https://info.arxiv.org/help/api/index.html) 交互。它旨在帮助用户以编程方式在 arXiv 上搜索、检索和下载科学论文。凭借高级查询能力、metadata 提取以及对 PDF 文件下载的支持，Arxiv Fetcher 非常适合研究人员、开发者以及从事学术文献工作的团队。
 
 ### 为什么使用 Arxiv Fetcher？
 
 Arxiv Fetcher 简化了获取研究论文的过程，提供以下功能：
 
 * **自动化文献搜索**：按主题、关键词或作者查询 arXiv。
-* **元数据检索**：提取结构化元数据，例如标题、摘要、作者、类别和提交日期。
+* **metadata 检索**：提取结构化 metadata，例如标题、摘要、作者、类别和提交日期。
 * **精确过滤**：按日期范围限制搜索结果（例如获取某个领域的最新研究）。
 * **PDF 下载**：获取论文的完整 PDF，以便离线阅读。
 
@@ -63,13 +63,13 @@ fetcher = ArxivFetcher()
 使用简单的关键词搜索论文。结果以 Document 对象的形式返回，每个对象包含：
 
 * `text`：论文的摘要。
-* `metadata`：结构化元数据，例如标题、作者、类别和提交日期。
+* `metadata`：结构化 metadata，例如标题、作者、类别和提交日期。
 
 ```python
 # 搜索与 "machine learning" 相关的论文
 results = fetcher.search(query="machine learning", max_results=5)
 
-# 显示元数据和摘要
+# 显示 metadata 和摘要
 for doc in results:
     print(f"Title: {doc.metadata['title']}")
     print(f"Authors: {', '.join(doc.metadata['authors'])}")
@@ -119,7 +119,7 @@ recent_results = fetcher.search(
     max_results=5
 )
 
-# 显示元数据
+# 显示 metadata
 for doc in recent_results:
     print(f"Title: {doc.metadata['title']}")
     print(f"Authors: {', '.join(doc.metadata['authors'])}")
@@ -129,7 +129,7 @@ for doc in recent_results:
 
 #### 步骤 4：下载 PDF
 
-获取论文的完整 PDF，以便离线使用。元数据会与下载的文件一同保留。
+获取论文的完整 PDF，以便离线使用。metadata 会与下载的文件一同保留。
 
 ```python
 import os
@@ -153,7 +153,7 @@ for paper in download_results:
 
 #### 步骤 5：提取和处理 PDF 内容
 
-使用 `Dapr Agents` 中的 `PyPDFReader` 从下载的 PDF 中提取内容。每一页都会被视为一个带有元数据的独立 Document 对象。
+使用 `Dapr Agents` 中的 `PyPDFReader` 从下载的 PDF 中提取内容。每一页都会被视为一个带有 metadata 的独立 Document 对象。
 
 ```python
 from pathlib import Path
@@ -179,11 +179,11 @@ Arxiv Fetcher 可用于多种研究和开发场景：
 
 * **文献综述**：快速检索并整理某个主题或某位作者的相关论文。
 * **趋势分析**：通过筛选最新提交的论文，了解某个领域的最新研究动态。
-* **离线研究工作流**：下载并处理 PDF，以便进行本地分析和归档。
+* **离线研究 workflow**：下载并处理 PDF，以便进行本地分析和归档。
 
 ### 后续步骤
 
-Arxiv Fetcher 提供了可靠的论文检索与处理功能，其输出还可以集成到更高级的工作流中：
+Arxiv Fetcher 提供了可靠的论文检索与处理功能，其输出还可以集成到更高级的 workflow 中：
 
 * **构建可搜索的知识库**：将获取的论文与文本切分和嵌入向量等集成相结合，实现更高级的搜索能力。
 * **检索增强生成（RAG）**：将处理后的论文作为 RAG 流水线的输入，为问答系统提供支持。

@@ -21,10 +21,10 @@ Dapr MCP 服务器接受少量命令行标志，其余配置都从环境变量�
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|
-| `DAPR_GRPC_PORT` | `50001` | Dapr 边车的 gRPC API 在 `127.0.0.1` 上的端口。`dapr run` 与 Kubernetes 边车注入器会为你设置此值。 |
-| `DAPR_GRPC_ENDPOINT` | 未设置 | 边车 gRPC API 的完整地址。优先于 `DAPR_GRPC_PORT`。 |
-| `DAPR_API_TOKEN` | 未设置 | 边车要求 [API 令牌认证]({{% ref api-token.md %}}) 时发送给边车的令牌。 |
-| `DAPR_CLIENT_TIMEOUT_SECONDS` | `5` | 每次连接边车尝试的超时时间。服务器最多尝试五次，每次间隔两秒，然后退出。 |
+| `DAPR_GRPC_PORT` | `50001` | Dapr sidecar 的 gRPC API 在 `127.0.0.1` 上的端口。`dapr run` 与 Kubernetes sidecar injector 会为你设置此值。 |
+| `DAPR_GRPC_ENDPOINT` | 未设置 | sidecar gRPC API 的完整地址。优先于 `DAPR_GRPC_PORT`。 |
+| `DAPR_API_TOKEN` | 未设置 | sidecar 要求 [API 令牌认证]({{% ref api-token.md %}}) 时发送给 sidecar 的令牌。 |
+| `DAPR_CLIENT_TIMEOUT_SECONDS` | `5` | 每次连接 sidecar 尝试的超时时间。服务器最多尝试五次，每次间隔两秒，然后退出。 |
 | `DAPR_MCP_SERVER_LOG_LEVEL` | `info` | 日志级别：`debug`、`info`、`warn` 或 `error`。日志以 JSON 格式写入标准错误输出（stderr）。在 `debug` 级别下，请求头会被记录，其中的凭据请求头会被脱敏。 |
 
 服务器所使用的 [Dapr Go SDK](https://github.com/dapr/go-sdk) 会读取 `DAPR_*` 连接变量。
@@ -37,7 +37,7 @@ Dapr MCP 服务器接受少量命令行标志，其余配置都从环境变量�
 |---|---|---|
 | `DAPR_MCP_CORS_ORIGIN` | 未设置 | 允许从浏览器调用服务器的来源，例如 `https://app.example.com`。设置后，服务器会在每个响应中添加 CORS 头，并响应 `OPTIONS` 预检请求。未设置时，不发送 CORS 头，其他来源的浏览器请求会被拒绝。仅当其他来源的基于浏览器的 MCP 客户端需要访问时才设置它。 |
 
-服务器始终无需认证即可提供 `/livez`、`/readyz` 和 `/startupz`；参见[健康检查端点]({{% ref "dapr-mcp-server-observability.md#health-endpoints" %}})。除这些端点之外的所有路径都提供 MCP 请求，因此 `http://<host>:<port>/` 即为 MCP 端点。唯一的例外是 `/dapr/subscribe`，它为 Dapr 边车返回空的订阅列表，同样无需认证。
+服务器始终无需认证即可提供 `/livez`、`/readyz` 和 `/startupz`；参见[健康检查端点]({{% ref "dapr-mcp-server-observability.md#health-endpoints" %}})。除这些端点之外的所有路径都提供 MCP 请求，因此 `http://<host>:<port>/` 即为 MCP 端点。唯一的例外是 `/dapr/subscribe`，它为 Dapr sidecar 返回空的订阅列表，同样无需认证。
 
 ## 认证
 

@@ -159,7 +159,7 @@ spec:
 kubectl apply -f appconfig.yaml
 ```
 
-在每个应用部署的 Pod 规范中添加注解以引用该配置，然后重启它，以便边车获取更改：
+在每个应用部署的 Pod 规范中添加注解以引用该配置，然后重启它，以便 sidecar 获取更改：
 
 ```yaml
 annotations:

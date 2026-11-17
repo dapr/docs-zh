@@ -15,11 +15,11 @@ description: 为 Dapr .NET SDK 做贡献的指南
 - 为 [Dapr runtime](https://github.com/dapr/dapr/issues/new/choose) 或 [Dapr .NET SDK](https://github.com/dapr/dotnet-sdk/issues/new/choose) 提交错误报告
 - 提出新的 [runtime 能力](https://github.com/dapr/proposals/issues/new/choose) 或 [SDK 功能](https://github.com/dapr/dotnet-sdk/issues/new/choose)
 - 改进 [Dapr 主项目](https://github.com/dapr/docs) 或 [Dapr .NET SDK 专属](https://github.com/dapr/dotnet-sdk/tree/master/daprdocs) 的文档
-- 为实现各种构建块的组件新增或改进现有[组件](https://github.com/dapr/components-contrib/)
-- 增强 [.NET 可插拔组件 SDK 能力](https://github.com/dapr-sandbox/components-dotnet-sdk)
+- 为实现各种 building block 的 component 新增或改进现有 [component](https://github.com/dapr/components-contrib/)
+- 增强 [.NET pluggable component SDK 能力](https://github.com/dapr-sandbox/components-dotnet-sdk)
 - 改进 Dapr .NET SDK 代码库和/或修复 bug（详见下文）
 
-如果你是代码库的新手，请随时在 Discord 的 #dotnet-sdk 频道询问如何实现更改或提出一般性问题。你不需要获得许可即可处理任何问题，但请注意，如果某个问题已分配给某人，这表明可能有人已经开始处理该问题。特别是如果该问题已有一段时间没有活动，请随时联系，确认他们是否仍有兴趣继续，或者你是否可以接手，并打开一个拉取请求，提交你的实现。
+如果你是代码库的新手，请随时在 Discord 的 #dotnet-sdk 频道询问如何实现更改或提出一般性问题。你不需要获得许可即可处理任何问题，但请注意，如果某个问题已分配给某人，这表明可能有人已经开始处理该问题。特别是如果该问题已有一段时间没有 activity，请随时联系，确认他们是否仍有兴趣继续，或者你是否可以接手，并打开一个拉取请求，提交你的实现。
 
 如果你想将自己分配给某个问题，请在对话中回复 “/assign”，机器人会将你分配给它。
 
