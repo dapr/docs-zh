@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "属性"
+title: "Properties"
 linkTitle: "属性"
 weight: 3001
 description: 用于配置 Dapr Java SDK 的全局属性，支持环境变量和系统属性
@@ -39,9 +39,9 @@ Dapr 支持两种类型的 API 令牌来保护通信：
 | 环境变量 | 描述 | 默认值 |
 |---------------------|-------------|---------|
 | `DAPR_API_TOKEN` | 用于验证**从你的应用向 Dapr sidecar 发起**请求的 API 令牌。当使用 `DaprClient` 时，Java SDK 会自动在请求中包含此令牌。 | `null` |
-| `APP_API_TOKEN` | 用于验证**从 Dapr 向你的应用发起**请求的 API 令牌。当设置此变量时，Dapr 在调用你的应用程序时（例如发布订阅订阅者、 input binding 或 job 触发器），会在 `dapr-api-token` 请求头/元数据中包含此令牌。你的应用程序必须验证此令牌。 | `null` |
+| `APP_API_TOKEN` | 用于验证**从 Dapr 向你的应用发起**请求的 API 令牌。当设置此变量时，Dapr 在调用你的应用程序时（例如 pubsub 订阅者、input binding 或 job 触发器），会在 `dapr-api-token` 请求头/metadata 中包含此令牌。你的应用程序必须验证此令牌。 | `null` |
 
-有关实现示例，请参阅 [App API Token Authentication]({{% ref "java-client#app-api-token-authentication" %}})。更多详情请参阅 [Dapr API token authentication](https://docs.dapr.io/operations/security/api-token/)。
+有关实现示例，请参阅 [App API 令牌认证]({{% ref "java-client#app-api-token-authentication" %}})。更多详情请参阅 [Dapr API token authentication](https://docs.dapr.io/operations/security/api-token/)。
 
 ### gRPC 配置
 
@@ -66,7 +66,7 @@ Dapr 支持两种类型的 API 令牌来保护通信：
 | `DAPR_GRPC_KEEP_ALIVE_WITHOUT_CALLS` | 是否在没有调用时保持 gRPC 连接存活 | `true` |
 
 #### workflow Keepalive 设置
-workflow runtime 运行期间，SDK 会以固定间隔调用 sidecar 的 `Hello` RPC，以便不把 HTTP/2 PING 帧视为 activity 的负载均衡器（例如 AWS Application Load Balancer）不会关闭空闲的工作项流：
+workflow runtime 运行期间，SDK 会以固定间隔调用 sidecar 的 `Hello` RPC，以便不把 HTTP/2 PING 帧视为 activity 的负载均衡器（例如 AWS Application Load Balancers）不会关闭空闲的工作项流：
 
 | 环境变量 | 描述 | 默认值 |
 |---------------------|-------------|---------|
@@ -79,7 +79,7 @@ workflow runtime 运行期间，SDK 会以固定间隔调用 sidecar 的 `Hello`
 | 环境变量 | 描述 | 默认值 |
 |---------------------|-------------|---------|
 | `DAPR_GRPC_MAX_INBOUND_MESSAGE_SIZE_BYTES` | Dapr 的 gRPC 最大入站消息大小（字节）。此值设置应用程序可接收的 gRPC 消息的最大大小 | `4194304` |
-| `DAPR_GRPC_MAX_INBOUND_METADATA_SIZE_BYTES` | Dapr 的 gRPC 最大入站元数据大小（字节） | `8192` |
+| `DAPR_GRPC_MAX_INBOUND_METADATA_SIZE_BYTES` | Dapr 的 gRPC 最大入站 metadata 大小（字节） | `8192` |
 
 ### HTTP 客户端配置
 

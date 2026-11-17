@@ -34,7 +34,7 @@ public class MyWorkflow implements Workflow {
     @Override
     public WorkflowStub create() {
       return ctx -> {
-         <工作流逻辑>
+         <WORKFLOW LOGIC>
       };
     }
 

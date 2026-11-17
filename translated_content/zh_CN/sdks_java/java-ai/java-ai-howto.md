@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "操作指南：使用 Java SDK 编写和管理 Dapr Conversation AI"
+title: "How to: Author and manage Dapr Conversation AI in the Java SDK"
 linkTitle: "操作指南：编写和管理 Conversation AI"
 weight: 20000
 description: 如何使用 Dapr Java SDK 快速上手 Conversation AI
 ---
 
-在本次演示中，我们将介绍如何使用conversation API 与大型语言模型 (LLM) 进行对话。该 API 会返回给定提示词的 LLM 响应。通过[提供的 conversation ai 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/conversation)，你将：
+在本次演示中，我们将介绍如何使用 Conversation API 与大型语言模型 (LLM) 进行对话。该 API 会返回给定提示词的 LLM 响应。通过[提供的 conversation ai 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/conversation)，你将：
 
 - 使用 [Conversation AI 示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/conversation/DemoConversationAI.java) 提供提示词
 - 过滤个人身份信息（PII）。
