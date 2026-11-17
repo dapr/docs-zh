@@ -1,0 +1,412 @@
+---
+type: docs
+title: "Security"
+linkTitle: "Security"
+weight: 600
+description: How Dapr is designed with security in mind
+---
+
+Security is fundamental to Dapr. This article describes the security features and capabilities when using Dapr in a distributed application. These can be divided into:
+
+- Secure communication with service invocation and pub/sub APIs.
+- Security policies on components and applied through configuration.
+- Operational security practices.
+- State security, focusing on data at rest.
+
+An example application is used to illustrate many of the security features available in Dapr.
+
+# Secure communication
+
+Dapr provides end-to-end security with the service invocation API, with the ability to authenticate an application with Dapr and set endpoint access policies. This is shown in the diagram below.
+
+{{< diagram security-end-to-end >}}
+
+## Application Identity
+
+In Dapr, Application Identity is built around the concept of an App ID.
+The App ID is the single atomic unit of identity in Dapr:
+
+- Every Dapr-enabled application has an App ID. Multiple replicas of the application share the same App ID.
+- All routing, service discovery, security policies, and access control in Dapr are derived from this App ID.
+- Service-to-service communication in Dapr uses the App ID instead of relying on IP addresses or hostnames, enabling stable and portable addressing across environments.
+
+For example, when one service calls another using Dapr's service invocation API, it calls the target by its App ID rather than its network location.
+This abstraction ensures that security policies, mutual TLS (mTLS) certificates, and access controls consistently apply at the application identity level.
+
+## Namespaces and Scoping
+
+While App IDs uniquely identify applications, namespaces provide an additional layer of scoping and isolation, especially in multi-tenant or large environments.
+
+- Namespaces allow operators to deploy Dapr applications in logically separated groups.
+- Two applications can have the same App ID in different namespaces without conflicting because security, routing, and discovery are namespace-aware.
+
+## Service invocation scoping access policy
+
+Dapr applications can be scoped to namespaces for deployment and security. You can call between services deployed to different namespaces. Read the [Service invocation across namespaces]({{% ref "service-invocation-namespaces" %}}) article for more details.
+
+Dapr applications can restrict which operations can be called, including which applications are allowed (or denied) to call it. Read [How-To: Apply access control list configuration for service invocation]({{% ref invoke-allowlist %}}) for more details.
+
+## Pub/sub topic scoping access policy
+
+For pub/sub components, you can limit which topic types and applications are allowed to publish and subscribe to specific topics. Read [Scope Pub/Sub topic access]({{% ref "pubsub-scopes" %}}) for more details.
+
+## Encryption of data using mTLS
+
+One of Dapr's security mechanisms for encrypting data in transit is [mutual authentication TLS](https://en.wikipedia.org/wiki/Mutual_authentication) or mTLS. mTLS offers a few key features for network traffic inside your application:
+
+- **Two way authentication**, with the client proving its identity to the server, and vice-versa.
+- **An encrypted channel** for all in-flight communication, after two-way authentication is established.
+
+mTLS is useful in almost all scenarios, but especially for systems subject to regulations such as [HIPAA](https://en.wikipedia.org/wiki/Health_Insurance_Portability_and_Accountability_Act) and [PCI](https://en.wikipedia.org/wiki/Payment_Card_Industry_Data_Security_Standard).
+
+## Secure Dapr to Dapr communication
+
+Dapr enables mTLS with no extra code or complex configuration inside your production systems. Equally, Dapr sidecars prevent all IP addresses by default other than `localhost` from calling it, unless explicitly listed.
+
+Dapr includes an "on by default", automatic mTLS that provides in-transit encryption for traffic between Dapr sidecars. To achieve this, Dapr leverages a system service named `Sentry`, which acts as a Certificate Authority (CA)/Identity Provider and signs workload (app) certificate requests originating from the Dapr sidecar.
+
+By default, a workload certificate is valid for 24 hours and the clock skew is set to 15 minutes.
+
+Unless you've provided existing root certificates, the Sentry service automatically creates and persists self-signed root certificates valid for one year. Dapr manages workload certificate rotation; if you bring your own certificates, Dapr does so with zero downtime to the application.
+
+When root certificates are replaced (secret in Kubernetes mode and filesystem for self-hosted mode), Sentry picks them up and rebuilds the trust chain, without restart and with zero downtime to Sentry.
+
+When a new Dapr sidecar initializes, it checks if mTLS is enabled. If so, a private key and certificate signing request are generated and sent to Sentry via a gRPC interface. The communication between the Dapr sidecar and Sentry is authenticated using the trust chain certificate, which is injected into each Dapr instance by the Dapr Sidecar Injector system service.
+
+### Workload identity key algorithm
+
+Starting with Dapr **1.18**, Sentry generates workload identity keys using **Ed25519** instead of ECDSA P-256.
+
+| Scope | Algorithm (pre-1.18) | Algorithm (1.18+) |
+|---|---|---|
+| Root CA and issuer CA keys | ECDSA P-256 (`ECDSAWithSHA256`) | Ed25519 (`PureEd25519`) |
+| Workload (sidecar) X.509 certificates | ECDSA P-256 | Ed25519 |
+| Injector / Operator webhook serving certs | ECDSA P-256 | **RSA** (intentional — see below) |
+| JWT / OIDC signing | RSA-2048 | RSA-2048 (unchanged) |
+
+**Why Ed25519?** Ed25519 keys are smaller than P-256 (32-byte private key; 32-byte public key vs. 65 bytes uncompressed for P-256), signatures are 64 bytes (vs. ~72 bytes for P-256 DER), signing and verification are faster, and the curve design eliminates several known side-channel attack surfaces.
+
+**What stays RSA?** The Dapr injector and operator use RSA keys for their webhook serving certificates. Some managed Kubernetes distributions (including certain versions of GKE, EKS, and AKS) reject Ed25519 TLS certificates on admission webhook endpoints. RSA is retained there to ensure the sidecar injector and CRD conversion webhook remain reachable on all target environments. See [dapr/dapr#9873](https://github.com/dapr/dapr/pull/9873) for details.
+
+**JWT signing** remains RSA-2048 for compatibility with cloud provider OIDC implementations, which have broad RSA support but inconsistent Ed25519 support.
+
+**Mixed-version rolling upgrades** are fully supported. Sentry signs workload CSRs from any algorithm client — the signature algorithm on the issued cert is determined by Sentry's issuer key, not the CSR. A 1.17.x sidecar submitting an ECDSA CSR receives an Ed25519-signed workload cert from a 1.18 Sentry during a rolling upgrade.
+
+{{% alert title="FIPS / regulated environments" color="warning" %}}
+Ed25519 (Curve25519) may not satisfy FIPS 140 requirements; consult your compliance scope. FIPS 140-2 does not include Ed25519. FIPS 140-3 has provisional EdDSA support but approval status varies by module and jurisdiction. If your environment requires FIPS 140 compliance, supply your own root and issuer certificates generated with an approved algorithm (RSA or ECDSA P-256/P-384) using the [bring-your-own-certificates]({{% ref "mtls#bringing-your-own-certificates" %}}) path. When you bring your own CA, Sentry signs workload CSRs using the algorithm of the issuer key you provide, not Ed25519.
+{{% /alert %}}
+
+{{% alert title="Downgrade floor: 1.17.7" color="warning" %}}
+Sentry writes the Ed25519-keyed CA bundle to the `dapr-trust-bundle` Kubernetes secret. Sentry versions **before 1.17.7** cannot parse this bundle and crash on startup. Do not roll back from 1.18 or 1.19 to a version earlier than 1.17.7 without first rotating the CA. See [Downgrade]({{% ref "kubernetes-upgrade.md#downgrade" %}}) for the safe rollback path.
+{{% /alert %}}
+
+### Container image references in workload certificates
+
+Starting with Dapr **1.19**, when running on Kubernetes, Sentry stamps the container image references of the requesting pod into every workload certificate it issues, as a custom X.509 extension. Each certificate then carries a verifiable record of exactly which software (the application container images and the daprd sidecar image) was scheduled in the pod that holds the certificate.
+
+This gives security and platform operators supply-chain provenance at the identity layer:
+
+- Any system that receives a Dapr workload certificate (an mTLS peer, an audit log that stores certificate chains, an attestation record) can determine which container images the workload was running, without any cooperation from the workload itself.
+- Certificates, and records derived from them, can be cross-referenced against CVE advisories to flag workloads that ran a known-vulnerable image.
+- [Workflow history signing]({{% ref "workflow-history-signing.md#software-provenance-which-images-executed-the-workflow" %}}) persists signing certificates with each workflow's history, so signed workflows automatically carry a cryptographically bound record of which software executed every workflow, activity, and child workflow.
+
+#### Trust model
+
+The image data is sourced from the Kubernetes pod object which Sentry reads while validating the certificate signing request, from its pod cache (pods with the `dapr.io/sidecar-injected` label) or, for a pod not in the cache, from the Kubernetes API server. The workload never self-reports its images: the certificate request carries no image fields, and the pod is bound to the requestor by Sentry's existing checks (Kubernetes TokenReview of the pod's projected service account token, service account match, and app-id match against the pod's annotations). A workload cannot forge the image list in its own certificate; it records what Kubernetes actually scheduled.
+
+#### What is included
+
+| Containers | Included |
+|---|---|
+| Regular containers (`spec.containers`) | Always, including the `daprd` sidecar |
+| Native sidecar init containers (`spec.initContainers` with `restartPolicy: Always`) | Always, this captures daprd when [native sidecar mode]({{% ref "arguments-annotations-overview" %}}) is enabled |
+| One-shot init containers | Never |
+
+Each entry records the container's role (`daprd` for the Dapr sidecar container, `app` for everything else), its name, its image reference exactly as deployed (the tag reference from the pod spec), and best effort, the resolved image digest from the pod's container statuses. The digest can be empty when the container has not yet started at issuance time (daprd requests its certificate early in the pod lifecycle); since workload certificates are short-lived and rotated continuously, subsequent certificates are re-stamped with the digest populated.
+
+#### Wire format
+
+The extension is identified by OID `1.3.6.1.4.1.57683.100.1`, a Dapr sub-arc under the [Cloud Native Computing Foundation Private Enterprise Number](https://www.iana.org/assignments/enterprise-numbers/?q=57683) (57683). The extension is **non-critical**, so every existing X.509 and SPIFFE consumer which does not understand it ignores it.
+
+The extension value is a DER OCTET STRING whose contents are a JSON array of objects with the following fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `role` | string | `daprd` for the Dapr sidecar container, `app` for all other containers |
+| `containerName` | string | The container's name in the pod spec |
+| `image` | string | The image reference as deployed, for example `ghcr.io/dapr/daprd:1.19.0` |
+| `digest` | string, optional | The resolved image digest, for example `sha256:1f8d...`; omitted when unknown at issuance time |
+
+To decode: locate the extension by OID, unwrap the inner DER OCTET STRING, and parse the resulting bytes as JSON. In Go:
+
+```go
+oid := asn1.ObjectIdentifier{1, 3, 6, 1, 4, 1, 57683, 100, 1}
+for _, ext := range cert.Extensions {
+    if !ext.Id.Equal(oid) {
+        continue
+    }
+    var jsonBytes []byte
+    if _, err := asn1.Unmarshal(ext.Value, &jsonBytes); err != nil {
+        return err
+    }
+    var images []struct {
+        Role          string `json:"role"`
+        ContainerName string `json:"containerName"`
+        Image         string `json:"image"`
+        Digest        string `json:"digest,omitempty"`
+    }
+    if err := json.Unmarshal(jsonBytes, &images); err != nil {
+        return err
+    }
+}
+```
+
+#### Availability
+
+The extension is added on the Kubernetes token validator only. Certificates issued through the insecure validator (self-hosted mode) or the JWKS validator omit the extension, as there is no pod to query for image data.
+
+### Configuring mTLS
+
+mTLS can be turned on/off by editing the default configuration deployed with Dapr via the `spec.mtls.enabled` field.
+
+[You can do this for both Kubernetes and self-hosted modes]({{% ref mtls %}}).
+
+#### mTLS in self hosted mode
+
+The diagram below shows how the Sentry system service issues certificates for applications based on the root/issuer certificate provided by an operator or generated by the Sentry service as stored in a file.
+
+{{< diagram name="sentry-selfhosted" width="70" >}}
+
+#### mTLS in Kubernetes mode
+
+In a Kubernetes cluster, the secret that holds the root certificates is:
+
+- Scoped to the namespace in which the Dapr components are deployed.
+- Only accessible by the Dapr control plane system pods.
+
+Dapr also supports strong identities when deployed on Kubernetes, relying on a pod's Service Account token sent as part of the certificate signing request (CSR) to Sentry.
+
+The diagram below shows how the Sentry system service issues certificates for applications based on the root/issuer certificate provided by an operator or generated by the Sentry service and stored as a Kubernetes secret
+
+{{< diagram sentry-kubernetes >}}
+
+### Preventing IP addresses on Dapr
+
+To prevent Dapr sidecars from being called on any IP address (especially in production environments such as Kubernetes), Dapr restricts its listening IP addresses to `localhost`. Use the [dapr-listen-addresses]({{%ref arguments-annotations-overview%}}) setting if you need to enable access from external addresses.
+
+## Secure Dapr to application communication
+
+The Dapr sidecar runs close to the application through `localhost`, and is recommended to run under the same network boundary as the app. While many cloud-native systems today consider the pod level (on Kubernetes, for example) as a trusted security boundary, Dapr provides the app with API level authentication using tokens. This feature guarantees that, even on `localhost`:
+
+- Only an authenticated application may call into Dapr
+- An application can check that Dapr is calling it back
+
+For more details on configuring API token security, read:
+
+- [Using an API token to authentication requests from an application to Dapr]({{% ref api-token %}}).
+- [Using an API token to authentication requests from Dapr to the application]({{% ref app-api-token %}})
+
+## Secure Dapr to control plane communication
+
+In addition to automatic mTLS between Dapr sidecars, Dapr offers mandatory mTLS between:
+
+- The Dapr sidecar
+- The Dapr control plane system services, namely:
+  - The Sentry service (a Certificate Authority)
+  - The Placement service (actor placement)
+  - The Kubernetes Operator service
+
+When mTLS is enabled, Sentry writes the root and issuer certificates to a Kubernetes secret scoped to the namespace where the control plane is installed. In self-hosted mode, Sentry writes the certificates to a configurable file system path.
+
+In Kubernetes, when Dapr system services start, they automatically mount and use the secret containing the root and issuer certs to secure the gRPC server used by the Dapr sidecar. In self-hosted mode, each system service can be mounted to a filesystem path to get the credentials.
+
+When the Dapr sidecar initializes, it authenticates with the system pods using the mounted leaf certificates and issuer private key. These are mounted as environment variables on the sidecar container.
+
+### mTLS to system services in Kubernetes
+
+The diagram below shows secure communication between the Dapr sidecar and the Dapr Sentry (Certificate Authority), Placement (actor placement), and the Kubernetes Operator system services.
+
+{{< diagram mtls-system-services >}}
+
+# Operational Security
+
+Dapr is designed for operators to manage mTLS certificates and enforce OAuth policies.
+
+## mTLS Certificate deployment and rotation
+
+While operators and developers can bring their own certificates into Dapr, Dapr automatically creates and persists self-signed root and issuer certificates. Read [Setup & configure mTLS certificates]({{% ref mtls %}}) for more details.
+
+## Middleware endpoint authorization with OAuth
+
+With Dapr OAuth 2.0 middleware, you can enable OAuth authorization on Dapr endpoints for your APIs. Read [Configure endpoint authorization with OAuth]({{% ref oauth %}}) for details. Dapr has other middleware components that you can use for OpenID Connect and OPA Policies. For more details, [read about supported middleware]({{% ref supported-middleware %}}).
+
+## Network security
+
+You can adopt common network security technologies, such as network security groups (NSGs), demilitarized zones (DMZs), and firewalls, to provide layers of protection over your networked resources. For example, unless configured to talk to an external binding target, Dapr sidecars don’t open connections to the internet and most binding implementations only use outbound connections. You can design your firewall rules to allow outbound connections only through designated ports.
+
+## Run as non-root in Kubernetes
+When running in Kubernetes, Dapr services ensure each process is running as non-root. This is done by checking the UID & GID of the process is `65532`, and fatal erroring if it is not what is expected. If you must run a non-default UID & GID in Kubernetes, set the following env var to skip this check.
+```bash
+DAPR_UNSAFE_SKIP_CONTAINER_UID_GID_CHECK="true"
+```
+
+# Security policies
+
+Dapr has an extensive set of security policies you can apply to your applications. You can scope what they are able to do, either through a policy setting in the sidecar configuration, or with the component specification. 
+
+## API access policy
+
+In certain scenarios, such as with zero trust networks or when exposing the Dapr sidecar to external traffic through a frontend, it’s recommended to only enable the Dapr sidecar APIs currently used by the app. This reduces the attack surface and keeps the Dapr APIs scoped to the actual needs of the application. You can control which APIs are accessible to the application by setting an API allow list in configuration, as shown in the diagram below.
+
+{{< diagram name="api-scoping" width="80" >}}
+
+Read [How-To: Selectively enable Dapr APIs on the Dapr sidecar]({{% ref api-allowlist %}}) for more details.
+
+## Secret scoping access policy
+
+To limit the Dapr application's access to secrets, you can define secret scopes. Add a secret scope policy to the application configuration with restrictive permissions. Read [How To: Use secret scoping]({{% ref secret-scope %}}) for more details.
+
+## Component application scoping access policy and secret usage
+
+Dapr components can be namespaced. That means a Dapr sidecar instance can only access the components that have been deployed to the same namespace. Read [How-To: Scope components to one or more applications using namespaces]({{% ref component-scopes %}}) for more details.
+
+Dapr provides application-level scoping for components by allowing you to specify which applications can consume specific components and deny others. Read [restricting application access to components with scopes]({{% ref "component-scopes#application-access-to-components-with-scopes" %}}) for more details.
+
+Dapr components can use Dapr's built-in secret management capability to manage secrets. Read the [secret store overview]({{% ref secrets-overview %}}) and [How-To: Reference secrets in components]({{% ref component-secrets %}}) for more details.
+
+## Workflow access control
+
+Dapr supports fine-grained access control for cross-app workflow and activity scheduling through the `WorkflowAccessPolicy` resource. A workflow access policy restricts which calling applications can schedule specific workflows and activities on a target application.
+
+Workflow access policies are enforced on the callee side as a pure allow-list. For cross-app requests, the caller's identity is taken from the [SPIFFE](https://spiffe.io/) identity embedded in the mTLS certificate, so mTLS must be active for cross-app enforcement. Self-calls (where the caller and target are the same app) are always permitted. Policies support glob pattern matching for workflow and activity names.
+
+Read [How-To: Apply workflow access policies]({{% ref workflow-access-policy %}}) for configuration details and examples.
+
+## Bindings security
+
+Authentication with a binding target is configured by the binding’s configuration file. Generally, you should configure the minimum required access rights. For example, if you only read from a binding target, you should configure the binding to use an account with read-only access rights.
+
+# State security
+
+## State store encryption at rest
+
+By default Dapr doesn't transform the state data from applications. This means:
+
+- Dapr doesn't attempt to encrypt/decrypt state data
+- Your application can adopt encryption/decryption methods of your choice, where the state data remains opaque to Dapr. 
+
+Dapr components can use a configured authentication method to authenticate with the underlying state store. Many state store implementations use official client libraries that generally use secured communication channels with the servers.
+
+However, application state often needs to get encrypted at rest to provide stronger security in enterprise workloads or regulated environments. Dapr provides automatic client-side state encryption based on AES256. Read [How-To: Encrypt application state]({{% ref howto-encrypt-state %}}) for more details.
+
+## Dapr Runtime state
+
+The Dapr runtime does not store any data at rest, meaning that Dapr runtime has no dependency on any state stores for its operation and can be considered stateless.
+
+# Using security capabilities in an example application
+
+The diagram below shows a number of security capabilities placed in an example application hosted on Kubernetes. In the example, the Dapr control plane, the Redis state store, and each of the services have been deployed to their own namespaces. When deploying on Kubernetes, you can use regular Kubernetes RBAC to control access to management activities.
+
+In the application, requests are received by the ingress reverse-proxy which has a Dapr sidecar running next to it. From the reverse proxy, Dapr uses service invocation to call onto App A, which then publishes a message to App B. App B retrieves a secret in order to read and save state to a Redis state store.
+
+{{< diagram security-capabilities >}}
+
+Let's go over each of the security capabilities and describe how they are protecting this application.
+
+1. API Token authentication ensures the reverse-proxy knows it is communicating with the correct Dapr sidecar instance. This prevents forwarding messages to anything except this Dapr sidecar.
+2. Service invocation mTLS is used for authentication between the reverse proxy and App A. A service access policy configured on App A restricts it to only receive calls on a specific endpoint from the reverse proxy and no other services.
+3. App B uses a pub/sub topic security policy to indicate it can only receive messages published from App A.
+4. The Redis component definition uses a component scoping security policy to say only App B is allowed to call it.
+5. App B restricts the Dapr sidecar to only use the pub/sub, state management, and secrets APIs. All other API calls (for example, service invocation) would fail.
+6. A secrets security policy set in configuration restricts which secrets App B can access. In this case, App B can only read the secret needed to connect to the Redis state store component, and no others.
+7. App B is deployed to namespace "B", which further isolates it from other services. Even if the service invocation API was enabled on it, it could not be called accidentally by being in the same namespace as App A. App B must explicitly set the Redis Host namespace in its component YAML file to call onto the "Redis" namespace, otherwise this call also fails.
+8. The data in the Redis state store is encrypted at rest and can only be read using the correctly configured Dapr Redis state store component.
+
+# Threat model
+
+Threat modeling is a process by which:
+
+- Potential threats, like structural vulnerabilities or the absence of appropriate safeguards, can be identified and enumerated.
+- Mitigation can be prioritized. 
+
+The Dapr threat model is below.
+
+{{< diagram security-threat-model >}}
+
+## Security audit
+
+### September 2023
+
+In September 2023, Dapr completed a security audit done by Ada Logics.
+
+The audit was a holistic security audit with the following goals:
+
+- Formalize a threat model of Dapr
+- Perform manual code review
+- Evaluate Dapr's fuzzing suite against the formalized threat model
+- Carry out a SLSA review of Dapr.
+
+You can find the full report [here](/docs/Dapr-september-2023-security-audit-report.pdf).
+
+The audit found 7 issues none of which were of high or critical severity. One CVE was assigned from an issue in a 3rd-party dependency to Dapr Components Contrib
+
+### June 2023
+
+In June 2023, Dapr completed a fuzzing audit done by Ada Logics.
+
+The audit achieved the following:
+
+- OSS-Fuzz integration
+- 39 new fuzzers for Dapr
+- Fuzz test coverage for Dapr Runtime, Kit and Components-contrib
+- All fuzzers running continuously after the audit has completed
+
+You can find the full report [here](/docs/Dapr-june-2023-fuzzing-audit-report.pdf).
+
+3 issues were found during the audit.
+
+### February 2021
+
+In February 2021, Dapr went through a 2nd security audit targeting its 1.0 release by Cure53.
+
+The test focused on the following:
+
+- Dapr runtime codebase evaluation since last audit
+- Access control lists
+- Secrets management
+- Penetration testing
+- Validating fixes for previous high/medium issues
+
+You can find the full report [here](/docs/Dapr-february-2021-security-audit-report.pdf).
+
+One high issue was detected and fixed during the test.
+
+As of February 16, 2021, Dapr has 0 criticals, 0 highs, 0 mediums, 2 lows, 2 infos.
+
+### June 2020
+
+In June 2020, Dapr underwent a security audit from Cure53, a CNCF-approved cybersecurity firm.
+
+The test focused on the following:
+
+- Dapr runtime codebase evaluation
+- Dapr components codebase evaluation
+- Dapr CLI codebase evaluation
+- Privilege escalation
+- Traffic spoofing
+- Secrets management
+- RBAC
+- Validating base assumptions: mTLS, scopes, API authentication
+- Orchestration hardening (Kubernetes)
+- DoS attacks
+- Penetration testing
+
+The full report can be found [here](/docs/Dapr-july-2020-security-audit-report.pdf).
+
+## Reporting a security issue
+
+Visit [this page]({{% ref support-security-issues %}}) to report a security issue to the Dapr maintainers.
+
+## Related links
+
+[Operational Security]({{% ref "security" %}})
