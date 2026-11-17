@@ -67,7 +67,6 @@ workflow 简述如下：
 1. 在 `diagrams/scenes/<name>.mjs` 中编写场景，并在 `diagrams/scenes/index.mjs` 中注册它。
 1. 运行 `npm run export:diagrams`。它会把内联的绘图写入 `daprdocs/assets/diagrams/<name>.svg`，并把独立副本写入 `daprdocs/static/diagrams/<name>.svg`。然后运行 `npm run export:pngs`，它会把独立副本渲染为 `daprdocs/static/diagrams/<name>.png`，这是页面上“下载 PNG”按钮所对应的文件。三者都要提交。这两个步骤并不相同：SVG 导出只是普通的 Node 脚本，而 PNG 步骤需要驱动浏览器，因此必须先安装 Chromium（`npx playwright install
    chromium`）。它只会重新渲染发生变化的场景，因此未改动的图表，其 PNG 不会在 git 中产生无谓的变动。`--force` 会重新渲染全部内容。
-
 1. 使用 `diagram` shortcode 将它放到页面上：
 
    ```

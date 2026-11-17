@@ -28,7 +28,7 @@ workflow instance（Actor）的状态由以下几个 component 构成：
 
 - `instance_id`：workflow 的唯一 ID。
 - `name`：workflow 的名称。
-- `status`：当前运行时状态（如 Running、Completed、Stalled 等）。
+- `status`：当前运行时状态（如 Running、Completed、停滞状态 等）。
 - `version`：workflow 版本的名称以及任何活跃的补丁。
 - `created_at`：创建时间戳。
 - `last_updated_at`：最后 activity 时间戳。
@@ -52,7 +52,7 @@ workflow instance（Actor）的状态由以下几个 component 构成：
 
 编排器下一次运行时，会“排空”收件箱，将这些事件移入历史记录，然后重放逻辑。
 
-启用 `WorkflowsFastPath` 预览功能后，activity Actor 以无限重试语义投递的 activity 完成结果可以跳过收件箱：sidecar 会将其保存在内存中，并在下一轮提交（commit）时直接持久化到历史记录里，只有在该提交完成后才向 activity Actor 确认。external event、已触发的 timer 和 child workflow 完成始终经过收件箱。参见 [workflow 快速路径]({{% ref "workflow-fast-path.md" %}})。
+启用 `WorkflowsFastPath` 预览功能后，activity Actor 以无限重试语义投递的 activity 完成结果可以跳过收件箱：sidecar 会将其保存在内存中，并在下一轮次的提交（commit）时直接持久化到历史记录里，只有在该提交完成后才向 activity Actor 确认。external event、已触发的 timer 和 child workflow 完成始终经过收件箱。参见 [workflow 快速路径]({{% ref "workflow-fast-path.md" %}})。
 
 ### 4. 父级通知与创建输入
 
@@ -67,7 +67,7 @@ workflow instance（Actor）的状态由以下几个 component 构成：
 
 ## 重放与状态重建
 
-当 Worker（SDK）收到工作项时，Dapr 会提供 history event。SDK 通过按顺序重放这些事件，来重建编排的内部状态（例如本地变量、当前执行点）。
+当工作进程（SDK）收到工作项时，Dapr 会提供 history event。SDK 通过按顺序重放这些事件，来重建编排的内部状态（例如本地变量、当前执行点）。
 
 ### 确定性原则与历史记录
 

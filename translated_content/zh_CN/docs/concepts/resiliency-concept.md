@@ -1,23 +1,23 @@
 ---
 type: docs
-title: "弹性"
-linkTitle: "弹性"
+title: "Resiliency"
+linkTitle: "Resiliency"
 weight: 400
 description: "配置策略并监控应用和 sidecar 健康状况"
 ---
 
 分布式应用通常由许多微服务组成，其实例数量可达数十个，有时甚至数百个，并在底层基础设施上扩缩容。随着这些分布式解决方案的规模和复杂性不断增加，系统发生故障的可能性也不可避免地随之增加。服务实例可能因各种问题而发生故障或变得无响应，包括硬件故障、异常吞吐量，或扩容和应用重启等应用生命周期事件。设计并实现一种能够检测、缓解并应对故障的自愈解决方案至关重要。
 
-## 弹性策略
+## Resiliency 策略
 {{< diagram resiliency-policies >}}
 
-Dapr 提供定义并将容错弹性策略应用于应用的能力。你可以为以下弹性模式定义策略：
+Dapr 提供定义并将容错 resiliency 策略应用于应用的能力。你可以为以下弹性模式定义策略：
 
 - 超时
 - 重试/退避
-- 熔断器
+- 断路器
 
-使用[弹性规范]({{% ref resiliency-overview %}})调用组件时，这些策略可以应用于任何 Dapr API 调用。
+使用[resiliency 规范]({{% ref resiliency-overview %}})调用 component 时，这些策略可以应用于任何 Dapr API 调用。
 
 ## 应用健康检查
 {{< diagram name="app-health" width="85" >}}
@@ -40,7 +40,7 @@ Dapr 提供了一种通过 [HTTP `/healthz` 端点]({{% ref health_api %}})确�
 
 ## 后续步骤
 
-- [详细了解弹性]({{% ref resiliency-overview %}})
-- 试用以下弹性快速入门之一：
-  - [弹性：服务间调用]({{% ref resiliency-serviceinvo-quickstart %}})
-  - [弹性：状态管理]({{% ref resiliency-state-quickstart %}})
+- [详细了解 resiliency]({{% ref resiliency-overview %}})
+- 试用以下 resiliency Quickstarts 之一：
+  - [resiliency：服务间调用]({{% ref resiliency-serviceinvo-quickstart %}})
+  - [resiliency：State Management]({{% ref resiliency-state-quickstart %}})

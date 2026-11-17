@@ -10,9 +10,9 @@ description: "更改 Dapr 应用程序 sidecar 的行为，或全局更改 Dapr 
 - 单个 Dapr 应用程序的行为
 - Dapr control plane 系统服务的全局行为
 
-例如，在应用程序 sidecar 配置中设置采样率策略，以指示其他应用程序可以调用哪些方法。如果在 Dapr control plane 配置中设置策略，则可以更改部署到应用程序 sidecar 实例的所有证书的续订周期。
+例如，在应用程序 sidecar 配置上设置采样率策略，以指示其他应用程序可以调用哪些方法。如果在 Dapr control plane 配置上设置策略，则可以更改部署到应用程序 sidecar 实例的所有证书的续订周期。
 
-配置以 YAML 文件的形式定义和部署。在以下应用程序配置示例中，设置了一个跟踪端点，用于指定指标信息的发送位置，并捕获所有采样跟踪数据。
+配置以 YAML 文件的形式定义和部署。在以下应用程序配置示例中，设置了一个跟踪端点，用于指定指标信息的发送位置，并捕获所有采样的跟踪数据。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -46,14 +46,14 @@ spec:
     allowedClockSkew: "15m"
 ```
 
-默认情况下，Dapr control plane 系统服务会安装一个名为 `daprsystem` 的配置文件。该配置文件应用全局 control plane 设置，并在将 Dapr 部署到 Kubernetes 时进行配置。
+默认情况下，Dapr control plane 系统服务会安装一个名为 `daprsystem` 的配置文件。该配置文件应用全局 control plane 设置，并在将 Dapr 部署到 Kubernetes 时进行设置。
 
 [详细了解配置选项。]({{% ref "configuration-overview" %}})
 
-在本地运行 Dapr 时，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用使用的配置，这有助于验证跟踪、功能标志和访问控制策略等设置。
+在本地运行 Dapr 时，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用正在使用的配置，这有助于验证跟踪、功能标志和访问控制策略等设置。
 
 {{% alert title="重要" color="warning" %}}
-不要将 Dapr 应用程序和 control plane 配置与[Configuration building block API]({{% ref configuration-api-overview %}})混淆；后者使应用程序能够从配置存储组件检索键值数据。
+不要将 Dapr 应用程序和 control plane 配置与 [Configuration building block API]({{% ref configuration-api-overview %}}) 混淆。后者使应用程序能够从 configuration store component 检索键值数据。
 {{% /alert %}}
 
 ## 后续步骤
