@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Workflow API 参考"
+title: "Workflow API reference"
 linkTitle: "Workflow API"
 description: "关于 workflow API 的详细文档"
 weight: 1600
@@ -27,7 +27,7 @@ POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<workflo
 请注意，workflow instance ID 只能包含字母数字字符、下划线和短横线。
 
 {{% alert title="重要" color="warning" %}}
-强烈建议为每次执行分配一个新的实例 ID，而不是复用旧的实例 ID。参见[实例 ID 复用的影响]({{% ref "workflow-features-concepts.md#implications-of-instance-id-reuse" %}})。只有当具有该 ID 的现有 workflow，以及它创建的每个 child workflow（逐级递归检查），都已进入终止状态（`COMPLETED`、`FAILED` 或 `TERMINATED`）后，该实例 ID 才能被复用。否则请求会失败，返回 HTTP `500` 与错误代码 `ERR_START_WORKFLOW`，且错误消息会指出尚未终止的 workflow。SDK Workflow Client 则会收到 gRPC `AlreadyExists` 状态码，从而无需解析消息即可识别冲突。若要无条件释放某个实例 ID，请先使用[清除 API]({{% ref "workflow_api.md#清除-workflow-请求" %}})清除该 workflow。更多详情参见[workflow 标识]({{% ref "workflow-features-concepts.md#workflow-identity" %}})。
+强烈建议为每次执行分配一个新的实例 ID，而不是复用旧的实例 ID。参见[实例 ID 复用的影响]({{% ref "workflow-features-concepts.md#implications-of-instance-id-reuse" %}})。只有当具有该 ID 的现有 workflow，以及它创建的每个 child workflow（逐级递归检查），都已进入终止状态（`COMPLETED`、`FAILED` 或 `TERMINATED`）后，该实例 ID 才能被复用。否则请求会失败，返回 HTTP `500` 与错误代码 `ERR_START_WORKFLOW`，且错误消息会指出尚未终止的 workflow。SDK Workflow Client 则会收到 gRPC `AlreadyExists` 状态码，从而无需解析消息即可识别冲突。若要无条件释放某个实例 ID，请先使用[清除 API]({{% ref "workflow_api.md#purge-workflow-request" %}})清除该 workflow。更多详情参见[workflow 标识]({{% ref "workflow-features-concepts.md#workflow-identity" %}})。
 {{% /alert %}}
 
 ### URL 参数

@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "InfluxDB binding 规范"
+title: "InfluxDB binding spec"
 linkTitle: "InfluxDB"
 description: "InfluxDB binding component 的详细文档"
 aliases:
@@ -32,7 +32,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例将密钥作为纯字符串使用。建议按照[此处]({{% ref component-secrets.md %}})所述，使用 secret store 来管理密钥。
+上述示例将 secrets 以明文字符串的形式使用。建议按照[此处]({{% ref component-secrets.md %}})所述，使用 secret store 来管理 secrets。
 {{% /alert %}}
 
 ## 规范 metadata 字段
@@ -42,11 +42,11 @@ spec:
 | `url`  | Y | Output | InfluxDB 实例的 URL| `"http://localhost:8086"` |
 | `token` | Y | Output | InfluxDB 的授权令牌 | `"mytoken"` |
 | `org` | Y | Output | InfluxDB 组织 | `"myorg"` |
-| `bucket` | Y | Output | 要写入的 Bucket 名称 | `"mybucket"` |
+| `bucket` | Y | Output | 要写入的存储桶名称 | `"mybucket"` |
 
 ## binding 支持
 
-此 component 支持**output binding**，包含以下操作：
+此 component 支持 **output binding**，包含以下操作：
 
 - `create`
 - `query`
@@ -86,7 +86,7 @@ curl -X POST http://localhost:3500/v1.0/bindings/myInfluxBinding \
 ## 相关链接
 
 - [Dapr component 的基本架构]({{% ref component-schema %}})
-- [binding building block]({{% ref bindings %}})
+- [Bindings building block]({{% ref bindings %}})
 - [如何操作：使用 input binding 触发应用]({{% ref howto-triggers.md %}})
-- [如何操作：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
-- [binding API 参考]({{% ref bindings_api.md %}})
+- [如何操作：使用 bindings 与外部资源交互]({{% ref howto-bindings.md %}})
+- [Bindings API 参考]({{% ref bindings_api.md %}})

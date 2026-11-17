@@ -99,7 +99,7 @@ func handleRequest(req api.Request, resp api.Response) (next bool, reqCtx uint32
 }
 ```
 
-如果使用 TinyGo，请按以下方式编译，并将 spec 元数据字段中的 `url` 设置为输出文件的位置（例如 `file://router.wasm`）：
+如果使用 TinyGo，请按以下方式编译，并将 spec 元数据字段中的 "url" 设置为输出文件的位置（例如 `file://router.wasm`）：
 
 ```bash
 tinygo build -o router.wasm -scheduler=none --no-debug -target=wasi router.go`

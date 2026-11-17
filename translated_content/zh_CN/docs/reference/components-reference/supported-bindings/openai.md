@@ -273,7 +273,7 @@ http://localhost:<dapr-port>/v1.0/bindings/<binding-name>
 响应体包含以下 JSON：
 
 ```json
-[0.018574921,-0.00023652936,-0.0057790717,.... (ada 总共 1536 个浮点数)]
+[0.018574921,-0.00023652936,-0.0057790717,.... (1536 floats total for ada)]
 ```
 
 ## 了解有关 Azure OpenAI 输出 binding 的更多信息

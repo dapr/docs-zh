@@ -186,7 +186,7 @@ Oracle Database state store component 会检查用于存储状态的表是否已
 
 1. 在 Oracle Cloud Infrastructure 上创建一个免费（或付费）的 Autonomous Transaction Processing（ATP）或 ADW（Autonomous Data Warehouse）实例，具体步骤见 [OCI 文档中关于永久免费 Autonomous Database 的说明](https://docs.oracle.com/en/cloud/paas/autonomous-database/adbsa/autonomous-always-free.html#GUID-03F9F3E8-8A98-4792-AB9C-F0BACF02DC3E)。
 
-    你需要为用户 ADMIN 提供密码。你（至少在最初阶段）会使用此账户进行数据库管理活动。你可以在基于 Web 的 SQL Developer 工具、其桌面版本，或众多数据库开发工具中的任意一种里进行操作。
+    你需要为用户 ADMIN 提供密码。你（至少在最初阶段）会使用此账户进行数据库管理活动。你可以在基于 Web 的 SQL Developer 工具、其桌面版本，或众多数据库开发工具中的任意一种里进行操作。  
 
 2. 为状态数据创建模式。
 在 Oracle Database 中创建一个新的用户模式用于存储状态数据，例如使用 ADMIN 账户创建。授予该新用户（模式）在关联表空间中创建表和存储数据的权限。
@@ -223,4 +223,4 @@ Oracle Database state store component 会检查用于存储状态的表是否已
 ## 相关链接
 - [Dapr component 的基本架构]({{% ref component-schema %}})
 - 阅读[本指南]({{% ref "howto-get-save-state.md#step-2-save-and-retrieve-a-single-state" %}})，了解如何配置 state store component
-- [State Management building block]({{% ref state-management %}})
+- [State management building block]({{% ref state-management %}})

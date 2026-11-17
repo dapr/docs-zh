@@ -2,12 +2,12 @@
 type: docs
 title: "Kubernetes ConfigMap"
 linkTitle: "Kubernetes ConfigMap"
-description: "Kubernetes ConfigMap 配置存储 component 的详细信息"
+description: "Kubernetes ConfigMap configuration store component 的详细信息"
 ---
 
 ## component 格式
 
-要设置 Kubernetes ConfigMap 配置存储，请创建一个类型为 `configuration.kubernetes` 的 component。关于如何创建并应用配置存储的配置，请参阅[本指南]({{% ref "howto-manage-configuration.md#configure-a-dapr-configuration-store" %}})。
+要设置 Kubernetes ConfigMap configuration store，请创建一个类型为 `configuration.kubernetes` 的 component。关于如何创建并应用 configuration store 的配置，请参阅[本指南]({{% ref "howto-manage-configuration.md#configure-a-dapr-configuration-store" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -36,9 +36,9 @@ spec:
 | `kubeconfigPath` | N | 指向 kubeconfig 文件的路径。在 Kubernetes 集群内运行（通常情况）时无需此项。在集群外运行时，它会依次回退到 `KUBECONFIG` 环境变量，再到 `~/.kube/config`。 | `"/path/to/kubeconfig"` |
 | `resyncPeriod` | N | informer 多久从 API 服务器完整重新同步一次 ConfigMap 状态，作为一致性的安全兜底，与 watch 事件无关。设为 `"0"`（默认值）可关闭定期重新同步，仅依赖 watch 事件。 | `"10m"` |
 
-## 将 Kubernetes ConfigMap 设置为配置存储
+## 将 Kubernetes ConfigMap 设置为 Configuration Store
 
-Kubernetes ConfigMap 配置存储除 Kubernetes 集群本身外，不需要任何外部基础设施。
+Kubernetes ConfigMap configuration store 除 Kubernetes 集群本身外，不需要任何外部基础设施。
 
 ### 前提条件
 
@@ -139,19 +139,19 @@ ConfigMap 的 `data` 字段中的每个键都会成为一个配置项。ConfigMa
 
 当某个键从 ConfigMap 中被删除时，通知中该配置项的 metadata 会包含 `"deleted": "true"`，且值为空。
 
-### namespace
+### Namespace
 
 该 component 监视与 Dapr sidecar 位于同一 namespace 中的 ConfigMap。namespace 取自 `NAMESPACE` 环境变量，该变量由 Dapr sidecar injector 通过 Kubernetes downward API 自动设置。如果未设置该变量，component 默认使用 `"default"`。
 
 不支持跨 namespace 访问 ConfigMap。这是有意为之，以维护 Kubernetes namespace 的安全边界。
 
 {{% alert title="注意" color="primary" %}}
-在 Kubernetes 中，ConfigMap 默认不会静态加密。不要在 ConfigMap 中存储敏感值（密码、API 密钥、令牌）。请改用 [Kubernetes secrets]({{% ref "kubernetes-secret-store" %}})或专用的 secret store。
+在 Kubernetes 中，ConfigMap 默认不会静态加密。不要在 ConfigMap 中存储敏感值（密码、API 密钥、令牌）。请改用 [Kubernetes Secrets]({{% ref "kubernetes-secret-store" %}})或专用的 secret store。
 {{% /alert %}}
 
 ## 相关链接
 
 - [Dapr component 的基本架构]({{% ref component-schema %}})
 - [Configuration building block]({{% ref configuration-api-overview %}})
-- 阅读[操作指南：从存储管理配置]({{% ref "howto-manage-configuration" %}})，了解如何使用配置存储。
+- 阅读[操作指南：从 store 管理配置]({{% ref "howto-manage-configuration" %}})，了解如何使用 configuration store。
 - [Kubernetes ConfigMap 文档](https://kubernetes.io/docs/concepts/configuration/configmap/)

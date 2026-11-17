@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Dapr 命令行界面（CLI）参考"
+title: "Dapr command line interface (CLI) reference"
 linkTitle: "概览"
 description: "Dapr CLI 的详细信息"
 weight: 10

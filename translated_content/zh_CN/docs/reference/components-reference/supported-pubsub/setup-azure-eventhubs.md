@@ -2,14 +2,14 @@
 type: docs
 title: "Azure Event Hubs"
 linkTitle: "Azure Event Hubs"
-description: "Azure Event Hubs 发布订阅组件的详细文档"
+description: "Azure Event Hubs pubsub 组件的详细文档"
 aliases:
   - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-azure-eventhubs/"
 ---
 
-## 组件格式
+## Component format
 
-要设置 Azure Event Hubs 发布订阅，请创建类型为 `pubsub.azure.eventhubs` 的组件。请参阅[发布订阅代理组件文件]({{% ref setup-pubsub.md %}})以了解 ConsumerID 是如何自动生成的。阅读[操作指南：发布和订阅]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用发布订阅配置。
+要设置 Azure Event Hubs pub/sub，请创建一个类型为 `pubsub.azure.eventhubs` 的 component。请参阅 [pub/sub broker component 文件]({{% ref setup-pubsub.md %}})，了解 ConsumerID 是如何自动生成的。阅读[操作指南：发布和订阅]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})，了解如何创建和应用 pub/sub 配置。
 
 除了下面显示的配置元数据字段外，Azure Event Hubs 还支持 [Azure 身份验证]({{% ref "authenticating-azure.md" %}})机制。
 
@@ -23,7 +23,7 @@ spec:
   version: v1
   metadata:
     # connectionString 或 eventHubNamespace 是必需的
-    # 当*不*使用 Microsoft Entra ID 时使用 connectionString
+    # 不使用 Microsoft Entra ID 时使用 connectionString
     - name: connectionString
       value: "Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={EventHub}"
     # 使用 Microsoft Entra ID 时使用 eventHubNamespace
@@ -35,16 +35,18 @@ spec:
       value: "false"
     - name: enableInOrderMessageDelivery
       value: "false"
+    - name: maxConcurrentHandlers
+      value: "100"
     # 仅当 enableEntityManagement 设置为 true 时才需要以下四个属性
     - name: resourceGroupName
       value: "test-rg"
     - name: subscriptionID
-      value: "Azure 订阅 ID 的值"
+      value: "value of Azure subscription ID"
     - name: partitionCount
       value: "1"
     - name: messageRetentionInDays
       value: "3"
-    # 检查点存储属性
+    # checkpoint store 属性
     - name: storageAccountName
       value: "myeventhubstorage"
     - name: storageAccountKey
@@ -57,30 +59,31 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例将密钥作为纯字符串使用。建议按照[此处]({{% ref component-secrets.md %}})的说明使用密钥存储来管理密钥。
+上述示例以纯字符串形式使用 secrets。建议按照[此处]({{% ref component-secrets.md %}})的说明，为 secrets 使用 secret store。
 {{% /alert %}}
 
 ## 规范元数据字段
 
 | 字段              | 必填 | 详情                                                                                                                                                                                                                                                                                                                                 | 示例 |
 |--------------------|:--------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| `connectionString`    | Y*  | Event Hub 或 Event Hub 命名空间的连接字符串。<br>* 与 `eventHubNamespace` 字段互斥。<br>* 在不使用 [Microsoft Entra ID 身份验证]({{% ref "authenticating-azure.md" %}})时必需。                                                                                                         | `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={EventHub}"` 或 `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key}"`
-| `eventHubNamespace` | Y* | Event Hub 命名空间名称。<br>* 与 `connectionString` 字段互斥。<br>* 在使用 [Microsoft Entra ID 身份验证]({{% ref "authenticating-azure.md" %}})时必需。                                                                                                                                                | `"namespace"` 
-| `consumerID`       | N | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，一条消息只由组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时会将其设置为 Dapr 应用程序 ID（`appID`）的值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式的值（如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
-| `enableEntityManagement` | N | 布尔值，允许管理 EventHub 命名空间和存储账户。默认值：`false`                                                                                                                                                                                                                                       | `"true", "false"`
-| `enableInOrderMessageDelivery` | N | 输入/输出                                                                                                                                                                                                                                                                                                                            | 布尔值，允许按照消息发布的顺序传递消息。这假设在发布或发布时设置了 `partitionKey` 以确保跨分区的顺序。默认值：`false` | `"true"`, `"false"`
-| `storageAccountName`  | Y  | 用于检查点存储的存储账户名称。                                                                                                                                                                                                                                                                                   |`"myeventhubstorage"`
-| `storageAccountKey`   | Y*  | 检查点存储账户的存储账户密钥。<br>* 使用 Microsoft Entra ID 时，如果服务主体也有权访问存储账户，则可以省略此项。                                                                                                                                                    | `"112233445566778899"`
-| `storageConnectionString`   | Y*  | 检查点存储的连接字符串，指定 `storageAccountKey` 的替代方案                                                                                                                                                                                                                                               | `"DefaultEndpointsProtocol=https;AccountName=myeventhubstorage;AccountKey=<account-key>"`
-| `storageContainerName` | Y | 存储账户名称的存储容器名称。                                                                                                                                                                                                                                                                                    | `"myeventhubstoragecontainer"`
-| `resourceGroupName` | N | Event Hub 命名空间所属的资源组名称。在启用实体管理时必需                                                                                                                                                                                                                               | `"test-rg"`
-| `subscriptionID` | N | Azure 订阅 ID 值。在启用实体管理时必需                                                                                                                                                                                                                                                                 | `"azure subscription id"`
-| `partitionCount` | N | 新 Event Hub 命名空间的分区数量。仅在启用实体管理时使用。默认值：`"1"`                                                                                                                                                                                                                       | `"2"`
-| `messageRetentionInDays` | N | 在新创建的 Event Hub 命名空间中保留消息的天数。仅在启用实体管理时使用。默认值：`"1"`                                                                                                                                                                                             | `"90"`
+| `connectionString`    | Y*  | Event Hub 或 Event Hub namespace 的连接字符串。<br>* 与 `eventHubNamespace` 字段互斥。<br>* 在不使用 [Microsoft Entra ID 身份验证]({{% ref "authenticating-azure.md" %}})时必需。                                                                                                         | `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key};EntityPath={EventHub}"` 或 `"Endpoint=sb://{EventHubNamespace}.servicebus.windows.net/;SharedAccessKeyName={PolicyName};SharedAccessKey={Key}"`
+| `eventHubNamespace` | Y* | Event Hub namespace 名称。<br>* 与 `connectionString` 字段互斥。<br>* 在使用 [Microsoft Entra ID 身份验证]({{% ref "authenticating-azure.md" %}})时必需。                                                                                                                                                | `"namespace"` 
+| `consumerID`       | N | 消费者 ID（消费者标签）将一个或多个消费者组织为一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，一条消息只会被组中的某一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时会将其设置为 Dapr 应用程序 ID（`appID`）的值。 | 可以设置为字符串值（如上例中的 `"channel1"`），也可以设置为字符串格式的值（如 `"{podName}"` 等）。[查看你可以在 component metadata 中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
+| `enableEntityManagement` | N | 布尔值，允许管理 EventHub namespace 和存储账户。默认值：`false`                                                                                                                                                                                                                                       | `"true", "false"`
+| `enableInOrderMessageDelivery` | N | 布尔值，控制消息是否在每个分区内按顺序处理。这假定在发布时设置了 `partitionKey`，以保证相关消息的顺序。默认值：`false`。<br><br>当为 `true` 时，component 按分区顺序每次处理一个批次。当为 `false` 时，handlers 并发运行。两种模式都提供至少一次投递，并且只对连续成功处理的消息设置检查点。 | `"true"`, `"false"`
+| `maxConcurrentHandlers` | N | 仅当 `enableInOrderMessageDelivery` 为 `false` 时适用。每个分区中未完成的 handler 调用数量上限。一次调用在运行直至成功之前处于未完成状态；若分区上较早的调用尚未成功，则它在自身成功之后仍处于未完成状态。待该次调用及其之前的所有调用都成功后，槽位即被释放，与检查点是否已写入无关。达到上限时，component 会停止从该分区接收消息，直到有槽位释放。参见[消息投递行为](#消息投递行为)。必须大于 `0`。默认值：`100`。 | `"100"`
+| `storageAccountName`  | Y  | 用于 checkpoint store 的存储账户名称。                                                                                                                                                                                                                                                                                   |`"myeventhubstorage"`
+| `storageAccountKey`   | Y*  | checkpoint store 账户的存储账户密钥。<br>* 使用 Microsoft Entra ID 时，如果服务主体也有权访问存储账户，则可以省略此项。                                                                                                                                                    | `"112233445566778899"`
+| `storageConnectionString`   | Y*  | checkpoint store 的连接字符串，可替代指定 `storageAccountKey`                                                                                                                                                                                                                                               | `"DefaultEndpointsProtocol=https;AccountName=myeventhubstorage;AccountKey=<account-key>"`
+| `storageContainerName` | Y | 存储账户名称对应的存储容器名称。                                                                                                                                                                                                                                                                                    | `"myeventhubstoragecontainer"`
+| `resourceGroupName` | N | Event Hub namespace 所属资源组的名称。启用实体管理时必需                                                                                                                                                                                                                               | `"test-rg"`
+| `subscriptionID` | N | Azure 订阅 ID 值。启用实体管理时必需                                                                                                                                                                                                                                                                 | `"azure subscription id"`
+| `partitionCount` | N | 新 Event Hub namespace 的分区数量。仅在启用实体管理时使用。默认值：`"1"`                                                                                                                                                                                                                       | `"2"`
+| `messageRetentionInDays` | N | 在新创建的 Event Hub namespace 中保留消息的天数。仅在启用实体管理时使用。默认值：`"1"`                                                                                                                                                                                             | `"90"`
 
 ### Microsoft Entra ID 身份验证
 
-Azure Event Hubs 发布订阅组件支持使用所有 Microsoft Entra ID 机制进行身份验证。有关更多信息以及根据所选的 Microsoft Entra ID 身份验证机制需要提供的组件元数据字段，请参阅[Azure 身份验证文档]({{% ref authenticating-azure.md %}})。
+Azure Event Hubs pub/sub component 支持使用所有 Microsoft Entra ID 机制进行身份验证。有关更多信息，以及根据所选的 Microsoft Entra ID 身份验证机制需要提供的 metadata 字段，请参阅[Azure 身份验证文档]({{% ref authenticating-azure.md %}})。
 
 #### 配置示例
 
@@ -108,11 +111,11 @@ spec:
     - name: resourceGroupName
       value: "test-rg"
     - name: subscriptionID
-      value: "Azure 订阅 ID 的值"
+      value: "value of Azure subscription ID"
     - name: partitionCount
       value: "1"
     - name: messageRetentionInDays
-    # 检查点存储属性
+    # checkpoint store 属性
     # 在此情况下，我们也使用 Microsoft Entra ID 访问存储账户
     - name: storageAccountName
       value: "myeventhubstorage"
@@ -122,36 +125,46 @@ spec:
 
 ## 发送和接收多条消息
 
-Azure Event Hubs 支持使用批量发布订阅 API 在单个操作中发送和接收多条消息。
+Azure Eventhubs 支持使用 bulk pub/sub API，在单个操作中发送和接收多条消息。
 
 ### 配置批量发布
 
-要设置批量发布操作的元数据，请在 HTTP 请求或 gRPC 元数据上设置查询参数，[如 API 参考中所述]({{% ref pubsub_api %}})。
+要设置批量发布操作的 metadata，请在 HTTP 请求或 gRPC metadata 上设置查询参数，[如 API 参考中所述]({{% ref pubsub_api %}})。
 
-| 元数据 | 默认值 |
+| Metadata | 默认值 |
 |----------|---------|
 | `metadata.maxBulkPubBytes` | `1000000` |
 
 ### 配置批量订阅
 
-订阅主题时，您可以配置 `bulkSubscribe` 选项。有关更多详细信息，请参阅[批量订阅消息]({{% ref "pubsub-bulk#subscribing-messages-in-bulk" %}})并了解[批量订阅 API]({{% ref pubsub-bulk.md %}})。
+订阅主题时，你可以配置 `bulkSubscribe` 选项。更多详情请参阅[批量订阅消息]({{% ref "pubsub-bulk#subscribing-messages-in-bulk" %}})，并了解 [bulk subscribe API]({{% ref pubsub-bulk.md %}})。
 
 | 配置 | 默认值 |
 |---------------|---------|
 | `maxMessagesCount` | `100` |
 | `maxAwaitDurationMs` | `10000` |
 
+## 消息投递行为
+
+当 `enableInOrderMessageDelivery` 为 `true` 时，component 按分区顺序每次处理一条消息；对于批量订阅，则每次处理一个批次。当为 `false` 时，handlers 并发运行。两种模式都提供至少一次投递。component 会使用已配置的退避时间无限期重试失败的 handler 调用，直到处理成功或订阅被取消。
+
+在并发模式下，`maxConcurrentHandlers` 限制每个分区中未完成的 handler 调用数量。每次调用处理一条消息；对于批量订阅，则处理一个批次。调用在运行或重试期间占用其槽位；若分区上较早的调用尚未成功，则该调用在自身成功之后仍占用槽位。待该次调用及其之前的所有调用都成功后，component 释放该槽位。当所有槽位都在使用中时，component 会停止从该分区接收消息，直到有槽位释放。持续失败的消息会占用其槽位，之后的每次调用也都会占用槽位，因此一旦达到上限，该分区便会停止接收消息。
+
+检查点只会沿着连续成功处理的消息向前推进。例如，若消息 1、2 和 4 已成功，而消息 3 仍在运行或重试，则检查点无法越过消息 2。待消息 3 成功后，下一个符合条件的检查点即可推进至消息 4。关于 component 写入检查点的频率，请参阅[配置检查点频率](#配置检查点频率)。
+
 ## 配置检查点频率
 
-订阅主题时，您可以[在 HTTP 或 gRPC 订阅请求中设置元数据]({{% ref "pubsub_api.md#http-request-2" %}})来配置分区中的检查点频率。此元数据在分区事件序列中达到配置数量的事件后启用检查点。通过将频率设置为 `0` 来禁用检查点。
+订阅主题时，你可以通过[在 HTTP 或 gRPC 订阅请求中设置 metadata]({{% ref "pubsub_api.md#http-request-2" %}})来配置分区中的检查点频率。默认频率为 `1`。该频率统计的是连续成功处理的事件数，对于批量订阅则统计批次数。当频率大于 `1` 时，重启后可能会重新投递在最近一次已存储检查点之后成功处理的消息。
+
+将频率设置为 `0` 会停止写入新的检查点，但不会删除已存储的检查点。已存在的检查点仍是重启位置。如果不存在检查点，则有序投递和并发投递都会从最早保留的事件开始。
 
 [了解有关检查点的更多信息](https://learn.microsoft.com/azure/event-hubs/event-hubs-features#checkpointing)。
 
-| 元数据 | 默认值 |
+| Metadata | 默认值 |
 | -------- | ------- |
 | `metadata.checkPointFrequencyPerPartition` | `1` |
 
-以下示例显示了使用 `checkPointFrequencyPerPartition` 元数据的[声明式订阅]({{% ref "subscription-methods.md#declarative-subscriptions" %}})的示例订阅文件。同样，您也可以在[程序化订阅]({{% ref "subscription-methods.md#programmatic-subscriptions" %}})中传递元数据。
+以下示例展示了使用 `checkPointFrequencyPerPartition` metadata 的 [Declarative subscription]({{% ref "subscription-methods.md#declarative-subscriptions" %}}) 订阅文件示例。同样，你也可以在 [Programmatic subscriptions]({{% ref "subscription-methods.md#programmatic-subscriptions" %}}) 中传递 metadata。
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -171,36 +184,36 @@ scopes:
 ```
 
 {{% alert title="注意" color="primary" %}}
-使用 `BulkSubscribe` 订阅主题时，您将检查点配置为在指定数量的_批次_之后发生，而不是事件，其中_批次_是指在单个请求中接收到的事件集合。
+使用 `BulkSubscribe` 订阅主题时，你需要将检查点配置为在指定数量的 _批次_ 之后发生，而不是事件之后；其中 _批次_ 指在单个请求中接收到的事件集合。失败的批量批次会被整体重试，这会提供至少一次投递，并且其中成功的条目可能会被投递多次。
 {{% /alert %}}
 
 ## 创建 Azure Event Hub
 
 按照[文档](https://docs.microsoft.com/azure/event-hubs/event-hubs-create)中的说明设置 Azure Event Hubs。
 
-由于此组件使用 Azure Storage 作为检查点存储，您还需要一个 [Azure Storage 账户](https://docs.microsoft.com/azure/storage/common/storage-account-create?tabpane=azure-portal)。按照[文档](https://docs.microsoft.com/azure/storage/common/storage-account-keys-manage)中的说明管理存储账户访问密钥。
+由于此 component 使用 Azure Storage 作为 checkpoint store，你还需要一个 [Azure Storage 账户](https://docs.microsoft.com/azure/storage/common/storage-account-create?tabpane=azure-portal)。按照[文档](https://docs.microsoft.com/azure/storage/common/storage-account-keys-manage)中的说明管理存储账户访问密钥。
 
-请参阅[文档](https://docs.microsoft.com/azure/event-hubs/authorize-access-shared-access-signature)了解如何获取 Event Hubs 连接字符串（注意这不是 Event Hubs 命名空间的连接字符串）。
+请参阅[文档](https://docs.microsoft.com/azure/event-hubs/authorize-access-shared-access-signature)了解如何获取 Event Hubs 连接字符串（注意这不是 Event Hubs namespace 的连接字符串）。
 
 ### 为每个订阅者创建消费者组
 
-对于每个想要订阅事件的 Dapr 应用程序，请创建一个以 Dapr 应用程序 ID 命名的 Event Hubs 消费者组。例如，一个在 Kubernetes 上运行且 `dapr.io/app-id: "myapp"` 的 Dapr 应用程序将需要一个名为 `myapp` 的 Event Hubs 消费者组。
+对于每个想要订阅事件的 Dapr 应用程序，请创建一个以 Dapr App ID 命名的 Event Hubs 消费者组。例如，一个在 Kubernetes 上运行且 `dapr.io/app-id: "myapp"` 的 Dapr 应用程序将需要一个名为 `myapp` 的 Event Hubs 消费者组。
 
-注意：Dapr 将消费者组的名称传递给 Event Hub，因此不需要在元数据中提供。
+注意：Dapr 会将消费者组的名称传递给 Event Hub，因此无需在 metadata 中提供。
 
 ## 实体管理
 
-当在元数据中启用实体管理时，只要应用程序具有操作 Event Hub 命名空间的正确角色和权限，Dapr 就可以自动为您创建 Event Hub 和消费者组。
+当在 metadata 中启用实体管理时，只要应用程序具有操作 Event Hub namespace 的正确角色和权限，Dapr 就可以自动为你创建 Event Hub 和消费者组。
 
 Event Hub 名称是发布或订阅的传入请求中的 `topic` 字段，而消费者组名称是订阅给定 Event Hub 的 Dapr 应用程序的名称。例如，一个在 Kubernetes 上运行且名称为 `dapr.io/app-id: "myapp"` 的 Dapr 应用程序需要一个名为 `myapp` 的 Event Hubs 消费者组。
 
-实体管理仅在使用 [Microsoft Entra ID 身份验证]({{% ref "authenticating-azure.md" %}})时才可用，而不使用连接字符串。
+只有在使用 [Microsoft Entra ID 身份验证]({{% ref "authenticating-azure.md" %}})而非连接字符串时，才能使用实体管理。
 
-> Dapr 将消费者组的名称传递给 Event Hub，因此不需要在元数据中提供。
+> Dapr 会将消费者组的名称传递给 Event Hub，因此无需在 metadata 中提供该名称。
 
 ## 接收自定义属性
 
-默认情况下，Dapr 不会转发[自定义属性](https://learn.microsoft.com/azure/event-hubs/add-custom-data-event)。但是，通过将订阅元数据 `requireAllProperties` 设置为 `"true"`，您可以接收自定义属性作为 HTTP 头。
+默认情况下，Dapr 不会转发[自定义属性](https://learn.microsoft.com/azure/event-hubs/add-custom-data-event)。但是，通过将订阅 metadata `requireAllProperties` 设置为 `"true"`，你可以将自定义属性作为 HTTP 头接收。
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -216,7 +229,7 @@ spec:
     requireAllProperties: "true"
 ```
 
-可以使用 Dapr SDK 实现相同的效果：
+也可以使用 Dapr SDK 实现相同的效果：
 
 {{< tabpane text=true >}}
 
@@ -238,9 +251,9 @@ public ActionResult Checkout(Order order, [FromHeader] int priority)
 
 ## 订阅 Azure IoT Hub 事件
 
-Azure IoT Hub 提供了一个[与 Event Hubs 兼容的端点](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin#read-from-the-built-in-endpoint)，因此 Azure Event Hubs 发布订阅组件也可用于订阅 Azure IoT Hub 事件。
+Azure IoT Hub 提供了一个[与 Event Hubs 兼容的端点](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-read-builtin#read-from-the-built-in-endpoint)，因此 Azure Event Hubs pubsub component 也可用于订阅 Azure IoT Hub 事件。
 
-由 Azure IoT Hub 设备创建的设备到云事件将包含额外的 [IoT Hub 系统属性](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-construct#system-properties-of-d2c-iot-hub-messages)，Dapr 的 Azure Event Hubs 发布订阅组件将把以下内容作为响应元数据的一部分返回：
+由 Azure IoT Hub 设备创建的设备到云事件将包含额外的 [IoT Hub 系统属性](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messages-construct#system-properties-of-d2c-iot-hub-messages)，Dapr 的 Azure Event Hubs pubsub component 将在响应 metadata 中返回以下内容：
 
 | 系统属性名称 | 描述和路由查询关键字 |
 |----------------------|:------------------------------------|
@@ -248,10 +261,10 @@ Azure IoT Hub 提供了一个[与 Event Hubs 兼容的端点](https://docs.micro
 | `iothub-connection-auth-method` | 用于对发送消息的设备进行身份验证的 **connectionAuthMethod**。 |
 | `iothub-connection-device-id` | 发送消息的设备的 **deviceId**。请参阅 [IoT Hub 设备身份属性](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#device-identity-properties)。 |
 | `iothub-connection-module-id` | 发送消息的设备的 **moduleId**。请参阅 [IoT Hub 设备身份属性](https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-identity-registry#device-identity-properties)。 |
-| `iothub-enqueuedtime` | IoT Hub 接收到设备到云消息的 RFC3339 格式的 **enqueuedTime**。 |
+| `iothub-enqueuedtime` | IoT Hub 接收到该设备到云消息的 RFC3339 格式 **enqueuedTime**。 |
 | `message-id` | 用户可设置的 AMQP **messageId**。 |
 
-例如，传递的 HTTP 订阅消息的头将包含：
+例如，已投递的 HTTP 订阅消息的头将包含：
 
 ```js
 {
@@ -274,7 +287,7 @@ Azure IoT Hub 提供了一个[与 Event Hubs 兼容的端点](https://docs.micro
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- 阅读本[指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})以获取有关配置发布订阅组件的说明
-- [发布订阅构建块]({{% ref pubsub %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})，了解配置 pub/sub component 的说明
+- [pub/sub building block]({{% ref pubsub %}})
 - [Azure 身份验证]({{% ref "authenticating-azure.md" %}})

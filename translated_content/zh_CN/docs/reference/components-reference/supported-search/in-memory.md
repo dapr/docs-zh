@@ -1,15 +1,15 @@
 ---
 type: docs
 title: "In-memory"
-linkTitle: "In-memory"
+linkTitle: "内存"
 description: "内存 search component 的详细文档"
 ---
 
-内存搜索存储将每个索引都保存在 Dapr sidecar 的内存中。它适用于不需要外部搜索服务的本地开发和测试。该存储不具备持久性：sidecar 停止时，索引和文档都会丢失，并且不同 sidecar 实例之间不共享。
+内存 search store 将每个索引都保存在 Dapr sidecar 的内存中。它适用于不需要外部搜索服务的本地开发和测试。该存储不具备持久性：sidecar 停止时，索引和文档都会丢失，并且不同 sidecar 实例之间不共享。
 
 ## component 格式
 
-要设置内存搜索存储，请创建一个类型为 `search.in-memory` 的 component。请参阅[本指南]({{% ref "howto-search.md#set-up-the-search-component" %}})了解如何创建和应用搜索存储配置。
+要设置内存 search store，请创建一个类型为 `search.in-memory` 的 component。请参阅[本指南]({{% ref "howto-search.md#set-up-the-search-component" %}})了解如何创建和应用 search store 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -41,7 +41,7 @@ spec:
 | 分页 | Y | 延续令牌基于偏移量。 |
 | 原生查询 | N | 带有 `native` 的查询会返回 `UNIMPLEMENTED`。 |
 | 排队确认 | Y | 设置 `indexingDelay` 时，写入返回 `INDEX_ACK_QUEUED`，因此支持 `INDEXING_WAIT_TIMEOUT_ACTION_CONTINUE_ASYNC`。未设置延迟时，写入返回 `INDEX_ACK_COMPLETED`。 |
-| 等待完成 | Y | 设置 `indexingDelay` 后，请求会等待排队的写入完成，最长等待 `waitTimeout`。 |
+| 等待写入完成 | Y | 设置 `indexingDelay` 后，请求会等待排队的写入完成，最长等待 `waitTimeout`。 |
 
 ## 分数与总命中数
 
@@ -54,6 +54,6 @@ spec:
 ## 相关链接
 
 - [Dapr component 的基本架构]({{% ref component-schema %}})
-- [搜索 API 概述]({{% ref search-overview %}})
-- [搜索 API 参考]({{% ref search_api %}})
+- [Search API 概述]({{% ref search-overview %}})
+- [Search API 参考]({{% ref search_api %}})
 - [内存向量 component]({{% ref "/reference/components-reference/supported-vector/in-memory.md" %}})

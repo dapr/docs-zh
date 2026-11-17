@@ -202,7 +202,7 @@ curl -X GET 'http://localhost:3500/v1.0-alpha1/configuration/mystore/bf3aa454-31
 ```json
 {
   "ok": false,
-  "message": "<dapr 返回的错误消息>"
+  "message": "<dapr returned error message>"
 }
 ```
 

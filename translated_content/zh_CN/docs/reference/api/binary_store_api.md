@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Binary Store API 参考"
+title: "Binary Store API reference"
 linkTitle: "Binary Store API"
 description: "Dapr Binary Store API 的详细文档"
 weight: 1550

@@ -57,7 +57,7 @@ spec:
 每个规则定义中的 `resource` 字段需特别注意。在 Dapr 中，它遵循以下格式：
 
 ```
-POST/GET/PUT/DELETE:Dapr HTTP API 请求路径
+POST/GET/PUT/DELETE:Dapr HTTP API Request Path
 ```
 
 所有具体的 HTTP API 信息可以在 [Dapr API 参考]({{% ref "api" %}}) 中找到。在上述示例配置中，`resource` 字段设置为 **POST:/v1.0/invoke/nodeapp/method/neworder**。

@@ -49,7 +49,7 @@ spec:
 | metadata 过滤 | Y | 不支持 `$regex`。 |
 | 批量查询 | Y | 每个查询独立求值。 |
 | 排队确认 | Y | 当 Meilisearch 将任务排队时，写入会返回 `INDEX_ACK_QUEUED`，因此支持 `INDEXING_WAIT_TIMEOUT_ACTION_CONTINUE_ASYNC`。 |
-| 等待完成 | Y | 参见[等待写入完成](#等待写入完成)。 |
+| 等待写入完成 | Y | 参见[等待写入完成](#等待写入完成)。 |
 
 ## 集合设置
 

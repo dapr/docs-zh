@@ -1,10 +1,10 @@
 ---
 type: docs
-title: "应用 Open Policy Agent (OPA) 策略"
+title: "Apply Open Policy Agent (OPA) policies"
 linkTitle: "Open Policy Agent (OPA)"
 description: "使用中间件对传入请求应用 Open Policy Agent (OPA) 策略"
 aliases:
-- /developing-applications/middleware/supported-middleware/middleware-opa/
+- /zh-hans/developing-applications/middleware/supported-middleware/middleware-opa/
 ---
 
 Open Policy Agent (OPA) [HTTP 中间件]({{% ref middleware.md %}})将 [OPA 策略](https://www.openpolicyagent.org/)应用于传入的 Dapr HTTP 请求。这可用于对应用端点应用可重用的授权策略。
@@ -80,13 +80,13 @@ spec:
 | 字段  | 详情 | 示例 |
 |--------|---------|---------|
 | `rego` | Rego 策略语言 | 见上文 |
-| `defaultStatus`   | 拒绝响应时返回的状态码 | `"403"`
+| `defaultStatus`   | 拒绝响应时返回的状态码 | `"https://accounts.google.com"`, `"https://login.salesforce.com"`
 | `readBody`   | 如果设置为 `true`（默认值），则会完整读取每个请求的请求体到内存中，并可用于策略决策。如果你的策略不依赖于检查请求体，考虑将其禁用（设置为 `false`）以获得显著的性能提升。 | `"false"`
 | `includedHeaders` | 以逗号分隔的、不区分大小写的请求头集合，这些请求头将被包含在请求输入中。默认情况下，请求头不会传递给策略。若要在输入中接收传入请求头，请包含此配置 | `"x-my-custom-header, x-jwt-header"`
 
 ## Dapr 配置
 
-要应用中间件，必须在 [配置]({{% ref configuration-concept.md %}})中引用它。请参阅[中间件管道]({{% ref "middleware.md#customize-processing-pipeline"%}})。
+要应用中间件，必须在 [配置]({{% ref configuration-concept.md %}})中引用它。请参阅[中间件流水线]({{% ref "middleware.md#customize-processing-pipeline"%}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

@@ -102,7 +102,7 @@ spec:
 
 如果您使用的是 Dapr SDK（例如 [.NET SDK](https://github.com/dapr/dotnet-sdk)），SDK 会自动将您的数据序列化为 JSON。
 
-如果您想直接调用 Dapr 的 HTTP 端点，请查看下面 [分区键](#partition-keys) 部分中的示例（使用 curl）。
+如果您想直接调用 Dapr 的 HTTP 端点，请查看下面 [分区键](#分区键) 部分中的示例（使用 curl）。
 
 ## 分区键
 

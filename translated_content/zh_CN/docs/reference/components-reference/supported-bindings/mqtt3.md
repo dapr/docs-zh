@@ -134,7 +134,7 @@ spec:
 上述示例将密钥作为纯字符串使用。建议使用密钥存储来管理密钥，具体描述请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-> 在这种情况下，每次 Dapr 重启时消费者 ID 的值都是随机的，因此您还应该将 `cleanSession` 设置为 `"true"`。
+> 在这种情况下，每次 Dapr 重启时消费者 ID 的值都是随机的，因此您还应该将 `cleanSession` 设置为 `true`。
 
 ## Binding 支持
 

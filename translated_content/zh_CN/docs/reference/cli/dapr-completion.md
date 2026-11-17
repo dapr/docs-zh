@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "completion CLI 命令参考"
+title: "completion CLI command reference"
 linkTitle: "completion"
 description: "completion CLI 命令的详细信息"
 ---
@@ -18,15 +18,15 @@ dapr completion [command]
 
 ### Flags
 
-| 名称           | 环境变量 | 默认值 | 描述              |
-| -------------- | -------------------- | ------- | ------------------------ |
-| `--help`, `-h` |                      |         | 显示此帮助信息 |
+| 名称           | 环境变量 | 默认值 | 描述           |
+| -------------- | -------- | ------ | -------------- |
+| `--help`, `-h` |          |        | 显示此帮助信息 |
 
 ### Examples
 
 #### 在 macOS 上使用 Homebrew 安装 bash 自动补全
 
-如果运行 macOS 附带的 Bash 3.2：
+如果运行 macOS 自带的 Bash 3.2：
 
 ```bash
 brew install bash-completion
@@ -38,7 +38,7 @@ brew install bash-completion
 brew install bash-completion@2
 ```
 
-将自动补全添加到你的自动补全目录：
+将自动补全脚本添加到你的补全目录：
 
 ```bash
 dapr completion bash > $(brew --prefix)/etc/bash_completion.d/dapr
@@ -55,7 +55,7 @@ source ~/.bash_profile
 source <(dapr completion bash)
 ```
 
-将 bash 自动补全代码写入文件并从 .bash_profile 加载：
+将 bash 自动补全代码写入文件，并从 .bash_profile 加载：
 
 ```bash
 dapr completion bash > ~/.dapr/completion.bash.inc
@@ -93,7 +93,7 @@ source <(dapr completion zsh)
 dapr completion zsh > "${fpath[1]}/_dapr"
 ```
 
-#### 在 Windows 上安装 Powershell 自动补全
+#### 在 Windows 上使用 PowerShell 安装自动补全
 
 如果 $PROFILE 不存在则创建：
 
@@ -110,7 +110,7 @@ dapr completion powershell >> $PROFILE
 ### Available Commands
 
 ```txt
-bash        生成 bash 自动补全脚本
-powershell  生成 powershell 自动补全脚本
-zsh         生成 zsh 自动补全脚本
+bash        Generates bash completion scripts
+powershell  Generates powershell completion scripts
+zsh         Generates zsh completion scripts
 ```

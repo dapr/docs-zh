@@ -88,7 +88,7 @@ spec:
 
 ### 角色
 
-需要包含以下规则之一，以授予 `get`、`watch` 和 `list` `events` 的权限。API 组可根据需要设置为尽可能受限。
+需要包含以下规则之一，以授予 `get, watch` 和 `list` `events` 的权限。API 组可根据需要设置为尽可能受限。
 
 ```yaml
 apiVersion: rbac.authorization.k8s.io/v1

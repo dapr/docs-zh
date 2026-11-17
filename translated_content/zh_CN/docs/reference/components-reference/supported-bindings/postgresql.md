@@ -114,11 +114,11 @@ postgres://dapr:secret@dapr.example.com:5432/my_dapr?sslmode=verify-ca
 
 这两种方法也支持连接池配置变量：
 
-- `pool_min_conns`: 整数 0 或更大
-- `pool_max_conns`: 大于 0 的整数
-- `pool_max_conn_lifetime`: 持续时间字符串
-- `pool_max_conn_idle_time`: 持续时间字符串
-- `pool_health_check_period`: 持续时间字符串
+- `pool_min_conns`： 整数 0 或更大
+- `pool_max_conns`： 大于 0 的整数
+- `pool_max_conn_lifetime`： 持续时间字符串
+- `pool_max_conn_idle_time`： 持续时间字符串
+- `pool_health_check_period`： 持续时间字符串
 
 
 ## 绑定支持

@@ -131,7 +131,7 @@ spec:
 
 ## 消息元数据
 
-Azure Service Bus 消息使用其他上下文元数据扩展了 Dapr 消息格式。某些元数据字段由 Azure Service Bus 本身设置（只读），其他字段可以在通过 `Invoke` 绑定调用发布消息时由客户端设置。
+Azure Service Bus 消息使用其他上下文元数据扩展了 Dapr 消息格式。某些元数据字段由 Azure Service Bus 本身设置（只读），其他字段可以在通过 `Invoke` 绑定调用的 `create` 操作发布消息时由客户端设置。
 
 ### 发送带有元数据的消息
 
@@ -156,7 +156,7 @@ Azure Service Bus 消息使用其他上下文元数据扩展了 Dapr 消息格�
 ### 接收带有元数据的消息
 
 当 Dapr 调用您的应用程序时，它会使用 HTTP 标头或 gRPC 元数据将 Azure Service Bus 消息元数据附加到请求中。
-除了[上面列出的可设置元数据](#sending-a-message-with-metadata)之外，您还可以访问以下只读消息元数据。
+除了[上面列出的可设置元数据](#发送带有元数据的消息)之外，您还可以访问以下只读消息元数据。
 
 - `metadata.DeliveryCount`
 - `metadata.LockedUntilUtc`

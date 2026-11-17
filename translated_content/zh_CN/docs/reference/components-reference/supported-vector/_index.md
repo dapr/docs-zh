@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "向量 component 规格"
+title: "Vector component specs"
 linkTitle: "向量"
 weight: 11000
 description: "与 Dapr 对接的受支持向量 component"

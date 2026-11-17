@@ -31,7 +31,7 @@ spec:
 
 | 字段              | 必填 | 绑定支持 |  详情 | 示例 |
 |--------------------|:--------:|-------|--------|---------|
-| `schedule` | Y | Input|  要使用的有效 cron 调度。详见[此](#schedule-format) | `"@every 15m"`
+| `schedule` | Y | Input|  要使用的有效 cron 调度。详见[此](#调度格式) | `"@every 15m"`
 | `direction` | N | Input|  绑定的方向 | `"input"`
 
 ### 调度格式

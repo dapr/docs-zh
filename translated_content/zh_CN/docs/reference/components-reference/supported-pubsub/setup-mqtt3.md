@@ -121,7 +121,7 @@ spec:
 上述示例将密钥作为纯字符串使用。建议按照[此处]({{% ref component-secrets.md %}})所述使用密钥存储。
 {{% /alert %}}
 
-请注意，在这种情况下，消费者 ID 的值在每次 Dapr 重启时都是随机的，因此您还应该将 `cleanSession` 设置为 `"true"`。
+请注意，在这种情况下，消费者 ID 的值在每次 Dapr 重启时都是随机的，因此您还应该将 `cleanSession` 设置为 `true`。
 
 建议将 [StatefulSets]({{% ref "howto-subscribe-statefulset.md" %}}) 与共享订阅一起使用。
 

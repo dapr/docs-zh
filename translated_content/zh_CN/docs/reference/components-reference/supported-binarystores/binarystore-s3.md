@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "AWS S3 存储桶"
+title: "AWS S3"
 linkTitle: "AWS S3"
 description: "AWS S3 和兼容 S3 的 Binary Store component 的配置"
 aliases:

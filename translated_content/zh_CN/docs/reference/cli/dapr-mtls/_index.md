@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "mtls CLI 命令参考"
+title: "mtls CLI command reference"
 linkTitle: "mtls"
 description: "mtls CLI 命令的详细信息"
 ---
@@ -30,9 +30,9 @@ dapr mtls [command]
 ### 可用命令
 
 ```txt
-expiry              检查根证书颁发机构（CA）证书的过期时间
-export              将根证书颁发机构（CA）、颁发者证书和颁发者密钥导出到本地文件
-renew-certificate   轮换现有的根证书颁发机构（CA）、颁发者证书和颁发者密钥
+expiry              Checks the expiry of the root Certificate Authority (CA) certificate
+export              Export the root Certificate Authority (CA), issuer cert and issuer key to local files
+renew-certificate   Rotates the existing root Certificate Authority (CA), issuer cert and issuer key
 ```
 
 ### 命令参考
