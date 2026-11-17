@@ -6,7 +6,7 @@ weight: 53100
 description: 配置与使用 DaprBinaryStoreClient 的必备指南
 ---
 
-本页的操作针对 SDK `1.19.0` 版本。请将该版本或更高版本与 Dapr 运行时 1.19 或更高版本一起使用。
+本页的操作针对 SDK `1.19.0` 版本。请将该版本或更高版本与 Dapr runtime 1.19 或更高版本一起使用。
 
 ## 操作一览
 
@@ -17,8 +17,8 @@ description: 配置与使用 DaprBinaryStoreClient 的必备指南
 | 删除 | `DeleteBinaryFileAsync`。 |
 | 绑定存储的访问 | 在 `IDaprBinaryStoreClient` 的 partial 接口上使用 `[BinaryStore]`，以及生成的 `With...` DI 注册。 |
 
-本版 SDK 不提供列出文件、文件元数据、条件式/ETag 写入或范围读取方法。
-二进制存储文件不是状态条目；状态事务和状态查询 API 不适用于它们。
+本版 SDK 不提供列出文件、文件 metadata、条件式/ETag 写入或范围读取方法。
+Binary Store 文件不是状态条目；state transaction 和状态 Query API 不适用于它们。
 
 ## 客户端生命周期
 
@@ -37,9 +37,9 @@ builder.Services.AddDaprBinaryStoreClient(lifetime: ServiceLifetime.Singleton);
 
 | 设置项 | 说明 |
 |---------|-------------|
-| `DAPR_GRPC_ENDPOINT` | Dapr 边车的 gRPC 端点地址 |
-| `DAPR_HTTP_ENDPOINT` | Dapr 边车的 HTTP 端点地址 |
-| `DAPR_API_TOKEN` | 用于向 Dapr 边车进行身份验证的 API 令牌 |
+| `DAPR_GRPC_ENDPOINT` | Dapr sidecar 的 gRPC 端点地址 |
+| `DAPR_HTTP_ENDPOINT` | Dapr sidecar 的 HTTP 端点地址 |
+| `DAPR_API_TOKEN` | 用于向 Dapr sidecar 进行身份验证的 API 令牌 |
 | `DAPR_GRPC_PORT` | 未设置 `DAPR_GRPC_ENDPOINT` 时使用的 gRPC 端口 |
 | `DAPR_HTTP_PORT` | 未设置 `DAPR_HTTP_ENDPOINT` 时使用的 HTTP 端口 |
 
@@ -98,4 +98,4 @@ await foreach (var chunk in client.GetBinaryFileChunksAsync(
 
 ## 错误处理
 
-当 Dapr 运行时报告失败时，客户端会抛出 `DaprException`。例如，不存在的文件无法被获取或删除；如果同名文件已存在，未指定 `overwrite: true` 的上传会失败。请检查 `InnerException` 以获取运行时的详细信息。无效的客户端参数（例如空的存储名称或文件名，或非正数的上传分块大小）会导致标准的参数异常。
+当 Dapr runtime 报告失败时，客户端会抛出 `DaprException`。例如，不存在的文件无法被获取或删除；如果同名文件已存在，未指定 `overwrite: true` 的上传会失败。请检查 `InnerException` 以获取运行时的详细信息。无效的客户端参数（例如空的存储名称或文件名，或非正数的上传分块大小）会导致标准的参数异常。

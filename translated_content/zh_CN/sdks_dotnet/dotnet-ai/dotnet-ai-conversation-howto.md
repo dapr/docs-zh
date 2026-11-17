@@ -27,7 +27,7 @@ dotnet add package Dapr.AI
 
 本指南面向 SDK `1.19.0` 或更高版本。请配置对话组件及其模型提供方的凭据。导入 `Dapr.AI.Conversation` 和 `Dapr.AI.Conversation.Extensions`。该 API 为实验性功能（`DAPR_CONVERSATION`）。
 
-`DaprConversationClient` 以 TCP 套接字的形式维护网络资源的访问，用于与 Dapr 边车通信。
+`DaprConversationClient` 以 TCP 套接字的形式维护网络资源的访问，用于与 Dapr sidecar 通信。
 
 ### 依赖注入
 
@@ -76,7 +76,7 @@ var daprConversationClient = new DaprConversationClientBuilder()
 | ----------- | ----------- |
 | [SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples) | 克隆 SDK 存储库以试用一些示例并开始使用。 |
 
-## 构建块
+## building block
 
 .NET SDK 的这一部分允许你与对话 API 交互，以向大语言模型发送消息并接收其回复。
 

@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 309,
-  "updatedAt": "2026-11-17T03:17:09.296Z",
+  "version": 311,
+  "updatedAt": "2026-11-17T03:32:43.473Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -2238,6 +2238,36 @@
     {
       "term": "Front-matter",
       "note": "Hugo front matter 的译法，译文保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Spring Boot",
+      "note": "Spring Boot 框架名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Apache Maven",
+      "note": "Maven 构建工具名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Maven",
+      "note": "Maven 构建工具名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Gradle",
+      "note": "Gradle 构建工具名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Netty",
+      "note": "网络框架名称，保留原文。",
       "origin": "auto",
       "locked": false
     }

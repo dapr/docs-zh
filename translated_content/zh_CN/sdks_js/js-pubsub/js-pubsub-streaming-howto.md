@@ -1,14 +1,14 @@
 ---
 type: docs
-title: "使用 JavaScript 流式订阅接收事件"
-linkTitle: "流式订阅"
+title: "使用 JavaScript streaming subscription 接收事件"
+linkTitle: "streaming subscriptions"
 weight: 3300
-description: "无需应用服务器，使用 gRPC 流式订阅，并支持取消、确认与故障监督"
+description: "无需应用服务器，使用 gRPC streaming 订阅，并支持取消、确认与故障监督"
 ---
 
-在 `@dapr/dapr` 3.19.0 或更高版本中，使用 `DaprClient.pubsub.subscribeStream()` 打开一个从应用到边车的双向 gRPC 流。它不需要 `DaprServer`、应用回调端口或订阅发现。
+在 `@dapr/dapr` 3.19.0 或更高版本中，使用 `DaprClient.pubsub.subscribeStream()` 打开一个从应用到 sidecar 的双向 gRPC 流。它不需要 `DaprServer`、应用回调端口或订阅发现。
 
-请先完成[发布订阅前提条件]({{% ref js-pubsub %}})。流式订阅使用 `SubscribeTopicEventsAlpha1`，这是一个 Alpha 阶段的 gRPC API，你的 Dapr 运行时必须实现该 API。HTTP 客户端会拒绝此操作，并抛出 `HTTPNotSupportedError`。流式订阅不支持路由规则或批量订阅选项。
+请先完成[pub/sub 前提条件]({{% ref js-pubsub %}})。streaming subscription 使用 `SubscribeTopicEventsAlpha1`，这是一个 alpha 的 gRPC API，你的 Dapr runtime 必须实现该 API。HTTP 客户端会拒绝此操作，并抛出 `HTTPNotSupportedError`。streaming subscription 不支持路由规则或批量订阅选项。
 
 ## 运行流式工作进程
 
@@ -65,13 +65,13 @@ dapr run --app-id orders-worker --dapr-grpc-port 50001 --resources-path ./compon
 
 回调在同一流内按顺序运行，并使用客户端的序列化器。返回 `DaprPubSubStatusEnum.SUCCESS`、`RETRY`、`DROP` 之一，或不返回值；不返回值即表示成功。回调异常、反序列化错误和无效返回值会被记录日志，并以 `RETRY` 确认。
 
-重试与死信行为取决于运行时弹性策略和组件。由于消息可能会被重复投递，请确保处理程序是幂等的。
+重试与死信行为取决于运行时 resiliency 策略和 component。由于消息可能会被重复投递，请确保处理程序是幂等的。
 
 ## 流式选项与生命周期
 
 | 成员 | 行为 |
 | --- | --- |
-| `options.metadata` | 以字符串映射形式发送的订阅元数据。 |
+| `options.metadata` | 以字符串映射形式发送的订阅 metadata。 |
 | `options.deadLetterTopic` | 运行时死信转发的主题；需单独消费该主题。 |
 | `options.signal` | 取消设置过程或正在进行的流。 |
 | `subscription.close()` | 幂等地取消该流；可以在其回调中安全调用。不会等待正在执行的回调。 |

@@ -38,7 +38,7 @@ pip install "dapr[grpc] @ git+https://github.com/dapr/python-sdk.git@main"
 
 可以使用 `App` 对象创建服务器。
 
-### 监听服务调用请求
+### 监听 service invocation 请求
 
 可以使用 `InvokeMethodReqest` 和 `InvokeMethodResponse` 对象处理传入的请求。
 
@@ -65,7 +65,7 @@ app.run(50051)
 
 订阅主题时，你可以指示 Dapr 已接受投递的事件，还是应当丢弃它，或稍后重试。
 
-请为每个处理程序的事件参数标注 `SubscriptionMessage` 类型，它与流式订阅投递的类型相同。该类型提供解析后的负载（`data()`）、投递元数据（`metadata()`），以及 CloudEvent 字段，例如 `id()`、`type()` 和 `extensions()`。
+请为每个处理程序的事件参数标注 `SubscriptionMessage` 类型，它与 streaming subscription 投递的类型相同。该类型提供解析后的负载（`data()`）、投递元数据（`metadata()`），以及 CloudEvent 字段，例如 `id()`、`type()` 和 `extensions()`。
 
 ```python
 from typing import Optional
@@ -108,7 +108,7 @@ app.run(50051)
 - 在 1.22 中，基于 CloudEvents 的类型将被移除。
 {{% /alert %}}
 
-### 设置输入绑定触发器
+### 设置 input binding 触发器
 
 ```python
 from dapr.ext.grpc import App, BindingRequest

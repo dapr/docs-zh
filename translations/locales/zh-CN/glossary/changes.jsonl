@@ -787,3 +787,9 @@
 {"ts":"2026-11-17T03:17:06.487Z","run":"20261117-0133","op":"add","id":"minimal-api","target":"最小 API","version":308,"doc":"sdks_dotnet/dotnet-jobs/_index.md"}
 {"ts":"2026-11-17T03:17:06.939Z","run":"20261117-0133","op":"reject","id":"state-query","target":"状态查询","reason":"not-in-source: the term does not occur in the document's prose","version":308,"doc":"sdks_dotnet/dotnet-state-management/_index.md"}
 {"ts":"2026-11-17T03:17:09.296Z","run":"20261117-0133","op":"conflict","id":"activity","target":"活动","version":309,"doc":"sdks_dotnet/dotnet-workflow/_index.md"}
+{"ts":"2026-11-17T03:32:43.074Z","run":"20261117-0133","op":"add","id":"spring-boot","kind":"doNotTranslate","version":310,"doc":"sdks_java/java-jobs/java-jobs-howto.md"}
+{"ts":"2026-11-17T03:32:43.074Z","run":"20261117-0133","op":"add","id":"apache-maven","kind":"doNotTranslate","version":310,"doc":"sdks_java/java-jobs/java-jobs-howto.md"}
+{"ts":"2026-11-17T03:32:43.473Z","run":"20261117-0133","op":"add","id":"maven","kind":"doNotTranslate","version":311,"doc":"sdks_java/_index.md"}
+{"ts":"2026-11-17T03:32:43.473Z","run":"20261117-0133","op":"add","id":"gradle","kind":"doNotTranslate","version":311,"doc":"sdks_java/_index.md"}
+{"ts":"2026-11-17T03:32:43.473Z","run":"20261117-0133","op":"add","id":"netty","kind":"doNotTranslate","version":311,"doc":"sdks_java/_index.md"}
+{"ts":"2026-11-17T03:32:43.473Z","run":"20261117-0133","op":"reject","id":"grpc","target":"gRPC","reason":"identifier: looks like a path, flag or code symbol","version":311,"doc":"sdks_java/_index.md"}
