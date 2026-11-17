@@ -59,7 +59,7 @@ spec:
 
 | 字段              | 必需 | binding 支持 |  详细说明 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
-| `bucket` | Y | 输出 | bucket 名称 | `"mybucket"` |
+| `bucket` | Y | 输出 | 存储桶名称 | `"mybucket"` |
 | `project_id`     | Y | 输出 | GCP 项目 ID | `projectId` |
 | `type` | N | 输出 | GCP 凭据类型 | `"service_account"` |
 | `private_key_id` | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 文档中的 `private_key_id` 字段 | `"privateKeyId"` |
@@ -70,9 +70,9 @@ spec:
 | `token_uri`      | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 中的 `token_uri` 字段 | `https://oauth2.googleapis.com/token`|
 | `auth_provider_x509_cert_url` | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 中的 `auth_provider_x509_cert_url` 字段 | `https://www.googleapis.com/oauth2/v1/certs`|
 | `client_x509_cert_url` | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 中的 `client_x509_cert_url` 字段 | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com`|
-| `decodeBase64` | N | 输出 | 在保存到 bucket 存储之前解码 base64 文件内容的配置（用于保存二进制内容的文件）。`true` 是唯一允许的肯定值，其他肯定变体如 `"True", "1"` 不可接受。默认为 `false` | `true`, `false` |
+| `decodeBase64` | N | 输出 | 在保存到存储桶之前解码 base64 文件内容的配置（用于保存二进制内容的文件）。`true` 是唯一允许的肯定值，其他肯定变体如 `"True", "1"` 不可接受。默认为 `false` | `true`, `false` |
 | `encodeBase64` | N | 输出 | 在返回内容之前编码 base64 文件内容的配置（用于打开二进制内容的文件）。`true` 是唯一允许的肯定值，其他肯定变体如 `"True", "1"` 不可接受。默认为 `false` | `true`, `false` |
-| `contentType` | N | 输出 | 为 bucket 中创建的对象设置的 MIME 类型。如果未指定，GCP 会尝试自动检测内容类型。 | `"text/csv"`, `"application/json"`, `"image/png"` |
+| `contentType` | N | 输出 | 为存储桶中创建的对象设置的 MIME 类型。如果未指定，GCP 会尝试自动检测内容类型。 | `"text/csv"`, `"application/json"`, `"image/png"` |
 | `signTTL` | N | 输出 | `sign` 操作生成的签名 URL 的有效期（TTL）。接受任何 Go 时长字符串（例如 `"15m"`、`"1h"`）。可在每个请求的 metadata 中覆盖。 | `"15m"`, `"1h"` |
 
 ## GCP 凭据
@@ -99,7 +99,7 @@ spec:
 
 ### 创建文件
 
-要执行 create 操作，请使用 `POST` 方法调用 GCP Storage Bucket binding，并提供以下 JSON 请求体：
+要执行 create 操作，请使用 `POST` 方法调用 GCP 存储桶 binding，并提供以下 JSON 请求体：
 
 > 注意：默认情况下会生成一个随机 UUID。关于使用 metadata 设置名称，请参见下文。
 
@@ -209,7 +209,7 @@ metadata 参数包括：
 
 ### 获取对象
 
-要执行 get 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
+要执行 get 操作，请使用 `POST` 方法调用 GCP 存储桶 binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -251,7 +251,7 @@ metadata 参数包括：
 
 ### 批量获取对象
 
-要执行一次性检索所有 bucket 文件的批量获取操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
+要执行一次性检索所有存储桶文件的批量获取操作，请使用 `POST` 方法调用 GCP 存储桶 binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -284,7 +284,7 @@ metadata 参数包括：
 
 #### 响应
 
-响应体包含一个对象数组，其中每个对象代表 bucket 中的一个文件，结构如下：
+响应体包含一个对象数组，其中每个对象代表存储桶中的一个文件，结构如下：
 
 ```json
 [
@@ -318,7 +318,7 @@ metadata 参数包括：
 
 ### 删除对象
 
-要执行 delete 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
+要执行 delete 操作，请使用 `POST` 方法调用 GCP 存储桶 binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -361,7 +361,7 @@ metadata 参数包括：
 
 ### 列出对象
 
-要执行 list 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
+要执行 list 操作，请使用 `POST` 方法调用 GCP 存储桶 binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -423,7 +423,7 @@ metadata 参数包括：
 
 ### 复制对象
 
-要执行 copy 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
+要执行 copy 操作，请使用 `POST` 方法调用 GCP 存储桶 binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -444,7 +444,7 @@ metadata 参数包括：
 
 数据参数包括：
 
-- `destinationBucket` - （可选）目标 bucket 的名称。省略时默认为 component 配置的 `bucket`。
+- `destinationBucket` - （可选）目标存储桶的名称。省略时默认为 component 配置的 `bucket`。
 - `destinationKey` - （可选）目标对象的键（名称）。省略时默认为源 `key`。
 
 > **注意：** `destinationBucket` 和 `destinationKey` 至少须提供一个，两者都省略会导致错误。
@@ -453,7 +453,7 @@ metadata 参数包括：
 
 #### 示例
 
-##### 将对象复制到另一个 bucket
+##### 将对象复制到另一个存储桶
 
 ```json
 {
@@ -463,9 +463,9 @@ metadata 参数包括：
 }
 ```
 
-##### 在同一 bucket 内复制对象（bucket 内复制）
+##### 在同一存储桶内复制对象（存储桶内复制）
 
-如需将对象复制到同一 bucket 内的其他键前缀下，请仅使用 `destinationKey` 而不指定 `destinationBucket`：
+如需将对象复制到同一存储桶内的其他键前缀下，请仅使用 `destinationKey` 而不指定 `destinationBucket`：
 
 ```json
 {
@@ -477,7 +477,7 @@ metadata 参数包括：
 
 ### 移动对象
 
-要执行 move 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
+要执行 move 操作，请使用 `POST` 方法调用 GCP 存储桶 binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -498,7 +498,7 @@ metadata 参数包括：
 
 数据参数包括：
 
-- `destinationBucket` - （可选）目标 bucket 的名称。省略时默认为 component 配置的 `bucket`。
+- `destinationBucket` - （可选）目标存储桶的名称。省略时默认为 component 配置的 `bucket`。
 - `destinationKey` - （可选）目标对象的键（名称）。省略时默认为源 `key`。
 
 > **注意：** `destinationBucket` 和 `destinationKey` 至少须提供一个，两者都省略会导致错误。
@@ -507,7 +507,7 @@ metadata 参数包括：
 
 #### 示例
 
-##### 将对象移动到另一个 bucket
+##### 将对象移动到另一个存储桶
 
 ```json
 {
@@ -517,9 +517,9 @@ metadata 参数包括：
 }
 ```
 
-##### 在同一 bucket 内移动对象（bucket 内移动）
+##### 在同一存储桶内移动对象（存储桶内移动）
 
-如需将对象移动到同一 bucket 内的其他键前缀下，请仅使用 `destinationKey` 而不指定 `destinationBucket`：
+如需将对象移动到同一存储桶内的其他键前缀下，请仅使用 `destinationKey` 而不指定 `destinationBucket`：
 
 ```json
 {
@@ -531,7 +531,7 @@ metadata 参数包括：
 
 ### 重命名对象
 
-要执行 rename 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
+要执行 rename 操作，请使用 `POST` 方法调用 GCP 存储桶 binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -555,7 +555,7 @@ metadata 参数包括：
 
 ### 签名 URL
 
-要为对象生成 v4 签名 URL，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
+要为对象生成 v4 签名 URL，请使用 `POST` 方法调用 GCP 存储桶 binding，并提供以下 JSON 请求体：
 
 ```json
 {

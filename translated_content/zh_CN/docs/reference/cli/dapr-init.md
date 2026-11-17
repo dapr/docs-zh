@@ -30,19 +30,19 @@ dapr init [flags]
 | `--help`, `-h`        |                      |               | 打印此帮助信息                                                              |
 | `--image-registry`    |                      |               | 从给定的镜像仓库拉取 Dapr 所需的容器镜像                    |
 | `--kubernetes`, `-k`  |                      | `false`       | 将 Dapr 部署到 Kubernetes 集群                                                  |
-| `--namespace`, `-n`   |                      | `dapr-system` | 安装 Dapr 的 Kubernetes 命名空间                                          |
-| `--network`           |                      |               | 在其上安装和部署 Dapr 运行时的 Docker 网络                                          |
-| `--runtime-version`   |                      | `latest`      | 要安装的 Dapr 运行时版本，例如：`1.0.0`                     |
-| `--image-variant`   |                      |                 | 用于 Dapr 运行时的镜像变体，例如：`mariner`               |
+| `--namespace`, `-n`   |                      | `dapr-system` | 安装 Dapr 的 Kubernetes namespace                                          |
+| `--network`           |                      |               | 在其上安装和部署 Dapr runtime 的 Docker 网络                                          |
+| `--runtime-version`   |                      | `latest`      | 要安装的 Dapr runtime 版本，例如：`1.0.0`                     |
+| `--image-variant`   |                      |                 | 用于 Dapr runtime 的镜像变体，例如：`mariner`               |
 | `--set`               |                      |               | 在命令行上配置选项，以便在安装时传递给 Dapr Helm chart 和 Kubernetes 集群。可以在逗号分隔的列表中指定多个值，例如：`key1=val1,key2=val2`                     |
 | `--slim`, `-s`        |                      | `false`       | 在自托管安装中排除 placement service、Scheduler service，以及 Redis 和 Zipkin 容器 |
 | `--timeout`           |                      | `300`         | Kubernetes 安装的等待超时时间                                     |
 | `--wait`              |                      | `false`       | 等待 Kubernetes 初始化完成                                       |
-|        N/A            |DAPR_DEFAULT_IMAGE_REGISTRY|          | 用于指定默认容器仓库以拉取镜像。当其值设置为 `GHCR` 或 `ghcr` 时，它将从 Github 容器仓库拉取所需镜像。要默认使用 Docker Hub，请取消设置该环境变量或将其留空|
+|        N/A            |DAPR_DEFAULT_IMAGE_REGISTRY|          | 用于指定拉取镜像时默认使用的容器仓库。当其值设置为 `GHCR` 或 `ghcr` 时，将从 Github 容器仓库拉取所需镜像。要默认使用 Docker Hub，请取消设置该环境变量或将其留空|
 |        N/A            |DAPR_HELM_REPO_URL|          | 指定私有 Dapr Helm chart URL|
 |        N/A            | DAPR_HELM_REPO_USERNAME | 私有 Helm chart 的用户名 | 访问私有 Dapr Helm chart 所需的用户名。如果可以公开访问，则无需设置此环境变量|
 |        N/A            | DAPR_HELM_REPO_PASSWORD | 私有 Helm chart 的密码  |访问私有 Dapr Helm chart 所需的密码。如果可以公开访问，则无需设置此环境变量| |
-|  `--container-runtime`  |              |    `docker`      | 用于传入除 Docker 之外的不同容器运行时。支持的容器运行时包括：`docker`、`podman` |
+|  `--container-runtime`  |              |    `docker`      | 用于传入除 Docker 之外的其他容器运行时。支持的容器运行时包括：`docker`、`podman` |
 |  `--dev`  |              |          | 在 Kubernetes 中运行时创建 Redis 和 Zipkin 部署。 |
 |  `--scheduler-volume`  |              |          | 仅限自托管。可选地，您可以为 Scheduler service 的数据目录指定一个卷。默认情况下，如果不使用此标志，Scheduler 数据不会持久化，并且对重启没有弹性。 |
 |  `--scheduler-override-broadcast-host-port`  |  |  localhost:50006（Windows 上为 6060）  | 仅限自托管。指定 Scheduler 广播主机和端口，例如：192.168.42.42:50006。 |
@@ -97,7 +97,7 @@ dapr init --image-variant mariner
 dapr init --from-dir <path-to-installer-bundle-directory>
 ```
 
-Dapr 也可以在隔离环境中以 slim 自托管模式运行，无需 Docker。
+Dapr 也可以在隔离环境中以 Slim 自托管模式运行，无需 Docker。
 
 ```bash
 dapr init -s --from-dir <path-to-installer-bundle-directory>
@@ -107,7 +107,7 @@ dapr init -s --from-dir <path-to-installer-bundle-directory>
 
 您还可以指定私有仓库来拉取容器镜像。这些镜像需要按如下所示发布到私有仓库，以便 Dapr CLI 能够通过 `dapr init` 命令成功拉取它们：
 
-1. Dapr 运行时容器镜像（dapr）（用于运行 Placement）- dapr/dapr:<version>
+1. Dapr runtime 容器镜像（dapr）（用于运行 Placement）- dapr/dapr:<version>
 2. Redis 容器镜像（rejson）- dapr/3rdparty/rejson
 3. Zipkin 容器镜像（zipkin）- dapr/3rdparty/zipkin
 
@@ -203,7 +203,7 @@ dapr init -k --runtime-version 1.4.0
 dapr init -k --set global.tag=1.0.0 --set dapr_operator.logLevel=error
 ```
 
-您还可以指定私有仓库来拉取容器镜像。截至目前，`dapr init -k` 不会为 sentry、operator、placement、Scheduler 和 sidecar使用特定镜像，而是仅依赖 Dapr 运行时容器镜像 `dapr` 来提供所有这些镜像。
+您还可以指定私有仓库来拉取容器镜像。截至目前，`dapr init -k` 不会为 sentry、operator、placement、Scheduler 和 sidecar 使用特定镜像，而是仅依赖 Dapr runtime 容器镜像 `dapr` 来提供所有这些镜像。
 
 场景 1：dapr 镜像直接托管在私有仓库的根文件夹下 -
 ```bash

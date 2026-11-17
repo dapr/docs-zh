@@ -40,14 +40,14 @@ spec:
 上述示例以纯文本字符串形式使用 secrets。建议按[此处]({{% ref component-secrets.md %}})所述，使用 secret store 来管理 secrets。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段              | 必填 | binding 支持 | 详情 | 示例 |
 |--------------------|:--------:|--------|---------|---------|
 | `accountName` | Y | Input/Output | Azure Storage 账户名称 | `"myexmapleaccount"` |
 | `accountKey` | Y* | Input/Output | Azure Storage 账户访问密钥。仅在不使用 Microsoft Entra ID 身份验证时需要。 | `"access-key"` |
 | `containerName` | Y | Output | 要写入的 Blob Storage 容器名称 | `myexamplecontainer` |
-| `endpoint` | N | Input/Output | 可选的自定义 endpoint URL。在使用 [Azurite 模拟器](https://github.com/Azure/azurite)或为 Azure Storage 使用自定义域名（尽管这不属于官方支持的做法）时，此项很有用。endpoint 必须是完整的基础 URL，包括协议（`http://` 或 `https://`）、IP 或完全限定域名（FQDN），以及可选的端口。 | `"http://127.0.0.1:10000"` |
+| `endpoint` | N | Input/Output | 可选的自定义端点 URL。在使用 [Azurite 模拟器](https://github.com/Azure/azurite)或为 Azure Storage 使用自定义域名（尽管这不属于官方支持的做法）时，此项很有用。端点必须是完整的基础 URL，包括协议（`http://` 或 `https://`）、IP 或完全限定域名（FQDN），以及可选的端口。 | `"http://127.0.0.1:10000"` |
 | `decodeBase64` | N | Output | 在保存到 Blob Storage 之前对 base64 文件内容进行解码的配置（用于保存包含二进制内容的文件）。默认为 `false` | `true`、`false` |
 | `getBlobRetryCount` | N | Output | 指定从 RetryReader 读取时最多发出的 HTTP GET 请求次数。默认为 `10` | `1`、`2` |
 | `publicAccessLevel` | N | Output | 指定容器中的数据是否可以公开访问以及访问级别（仅在容器由 Dapr 创建时使用）。默认为 `none` | `blob`、`container`、`none` |
@@ -55,7 +55,7 @@ spec:
 
 ### Microsoft Entra ID 身份验证
 
-Azure Blob Storage binding component 支持使用所有 Microsoft Entra ID 机制进行身份验证。有关更多信息，以及根据所选 Microsoft Entra ID 身份验证机制需要提供的 component 元数据字段，请参阅[对 Azure 进行身份验证的文档]({{% ref authenticating-azure.md %}})。
+Azure Blob Storage binding component 支持使用所有 Microsoft Entra ID 机制进行身份验证。有关更多信息，以及根据所选 Microsoft Entra ID 身份验证机制需要提供的 component metadata 字段，请参阅[对 Azure 进行身份验证的文档]({{% ref authenticating-azure.md %}})。
 
 ## binding 支持
 
@@ -78,7 +78,7 @@ Blob storage component 的**input binding**通过 [Azure Event Grid]({{% ref eve
 
 要执行创建 blob 操作，请使用 `POST` 方法调用 Azure Blob Storage binding，并使用以下 JSON 请求体：
 
-> 注意：默认情况下会生成随机 UUID。有关使用元数据设置名称的支持，请参阅下文
+> 注意：默认情况下会生成随机 UUID。有关使用 metadata 设置名称的支持，请参阅下文
 
 ```json
 {
@@ -174,7 +174,7 @@ spec:
 
 #### 使用预签名 SAS URL 共享 blob
 
-若要在创建 blob 时生成预签名 SAS URL，请在 `create` 请求中添加 `signTTL` 元数据键。该 SAS URL 可提供对 blob 的临时只读访问。
+若要在创建 blob 时生成预签名 SAS URL，请在 `create` 请求中添加 `signTTL` metadata 键。该 SAS URL 可提供对 blob 的临时只读访问。
 `signTTL` 的有效值为 [Go duration strings](https://pkg.go.dev/time#ParseDuration)（例如 `"15m"`、`"1h"`、`"24h"`）。
 
 > **注意：** 此功能要求 binding 使用账户密钥或连接字符串进行配置。生成 SAS URL 时不支持 Microsoft Entra ID 身份验证。
@@ -209,7 +209,7 @@ spec:
 }
 ```
 
-> 仅当请求元数据中提供了 `signTTL` 时，才会包含 `presignURL` 字段。
+> 仅当请求 metadata 中提供了 `signTTL` 时，才会包含 `presignURL` 字段。
 
 ### 获取 blob
 
@@ -225,10 +225,10 @@ spec:
 }
 ```
 
-元数据参数为：
+metadata 参数为：
 
 - `blobName` - blob 的名称
-- `includeMetadata` -（可选）定义是否应返回用户定义的元数据，默认为：false
+- `includeMetadata` -（可选）定义是否应返回用户定义的 metadata，默认为：false
 - `filePath` -（可选）如果设置，blob 内容将直接流式写入此本地文件路径，而不是在响应体中返回。对于大型 blob，建议使用此参数，以避免将整个内容加载到内存中。使用此参数时，响应体为空，写入文件的路径将通过 `Metadata.filePath` HTTP 头返回。
 
 #### 示例
@@ -252,7 +252,7 @@ spec:
 
 #### 响应
 
-响应体包含存储在 blob 对象中的值。如果已启用，用户定义的元数据将以以下形式的 HTTP 头返回：
+响应体包含存储在 blob 对象中的值。如果已启用，用户定义的 metadata 将以以下形式的 HTTP 头返回：
 
 `Metadata.key1: value1`
 `Metadata.key2: value2`
@@ -270,7 +270,7 @@ spec:
 }
 ```
 
-元数据参数为：
+metadata 参数为：
 
 - `blobName` - blob 的名称
 - `deleteSnapshots` -（可选）当 blob 有关联快照时必需。请指定以下两个选项之一：
@@ -369,9 +369,9 @@ data 参数为：
 - `marker` -（可选）一个字符串值，用于标识下一次列表操作中要返回的列表部分。如果返回的列表不完整，操作会在响应体中返回一个 marker 值。随后可在后续调用中使用该 marker 值来请求下一组列表项。
 - `include` -（可选）指定响应中要包含的一个或多个数据集：
   - snapshots：指定枚举中应包含快照。快照在响应中按从旧到新的顺序列出。默认为：false
-  - metadata：指定响应中应返回 blob 元数据。默认为：false
+  - metadata：指定响应中应返回 blob metadata。默认为：false
   - uncommittedBlobs：指定响应中应包含已上传块但尚未通过 Put Block List 提交的 blob。默认为：false
-  - copy：版本 2012-02-12 及更新版本。指定响应中应包含与任何当前或先前 Copy Blob 操作相关的元数据。默认为：false
+  - copy：版本 2012-02-12 及更新版本。指定响应中应包含与任何当前或先前 Copy Blob 操作相关的 metadata。默认为：false
   - deleted：版本 2017-07-29 及更新版本。指定响应中应包含已软删除的 blob。默认为：false
 
 #### 响应
@@ -454,7 +454,7 @@ blob 列表将以以下形式的 JSON 数组返回：
 }
 ```
 
-元数据参数为：
+metadata 参数为：
 
 - `blobName` - 要为其生成 SAS URL 的 blob 名称
 - `signTTL` - SAS URL 的生存时间。有效值为 [Go duration strings](https://pkg.go.dev/time#ParseDuration)（例如 `"15m"`、`"1h"`、`"24h"`）
@@ -524,7 +524,7 @@ The response body contains the following JSON:
 
 #### 内联模式（在响应中返回）
 
-在 items 中省略 `filePath`，即可在响应中接收 base64 编码的 blob 内容：
+在 items 中省略 `filePath`，即可在响应中以内联方式接收 base64 编码的 blob 内容：
 
 ```json
 {
@@ -847,9 +847,9 @@ The response body contains the following JSON:
 ]
 ```
 
-## 元数据信息
+## metadata 信息
 
-默认情况下，Azure Blob Storage output binding 会自动生成 UUID 作为 blob 文件名，并且不会为其分配任何系统或自定义元数据。可以通过消息的元数据属性进行配置（均为可选）。
+默认情况下，Azure Blob Storage output binding 会自动生成 UUID 作为 blob 文件名，并且不会为其分配任何系统或自定义 metadata。可以通过消息的 metadata 属性进行配置（均为可选）。
 
 向 Azure Blob Storage output binding 发布的应用程序应发送以下格式的消息：
 
@@ -873,7 +873,7 @@ The response body contains the following JSON:
 ## 相关链接
 
 - [Dapr component 的基本架构]({{% ref component-schema %}})
-- [binding building block]({{% ref bindings %}})
+- [Bindings building block]({{% ref bindings %}})
 - [操作指南：使用 input binding 触发应用程序]({{% ref howto-triggers.md %}})
 - [操作指南：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
-- [binding API 参考]({{% ref bindings_api.md %}})
+- [Bindings API 参考]({{% ref bindings_api.md %}})

@@ -53,7 +53,7 @@ spec:
 | Field                      | Required | Details                                                                                                                                                                                                                                                                                                                       | Example |
 |----------------------------|:--------:|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | connectionString  | Y*       | Azure App Configuration 实例的连接字符串。无默认值。可以是 `secretKeyRef` 以使用 secrets 引用。*与 host 字段互斥。*使用 [Azure 身份验证](https://docs.dapr.io/integrations/azure/azure-authentication/authenticating-azure/)时不使用 | `Endpoint=https://foo.azconfig.io;Id=osOX-l9-s0:sig;Secret=00000000000000000000000000000000000000000000`
-| host              | N*       | Azure App Configuration 实例的终端节点。无默认值。*与 connectionString 字段互斥。*使用 [Azure 身份验证](https://docs.dapr.io/integrations/azure/azure-authentication/authenticating-azure/)时使用                                                   | `https://dapr.azconfig.io`
+| host              | N*       | Azure App Configuration 实例的端点。无默认值。*与 connectionString 字段互斥。*使用 [Azure 身份验证](https://docs.dapr.io/integrations/azure/azure-authentication/authenticating-azure/)时使用                                                   | `https://dapr.azconfig.io`
 | maxRetries                 | N        | 放弃前的最大重试次数。默认为 `3`                                                                                                                                                                                                                                                                   | `5`, `10`
 | retryDelay                 | N        | 重试延迟指定在重试操作前的初始延迟量。延迟随每次重试呈指数级增长，直到最大重试延迟指定的最大值。默认为 `4` 秒；`"-1"` 禁用重试间的延迟。                                                                                                                                         | `4s`
 | maxRetryDelay              | N        | 最大重试延迟指定重试操作前允许的最大延迟。该值通常应大于或等于重试延迟中指定的值。默认为 `120` 秒；`"-1"` 禁用该限制                                                                                                       | `120s`
@@ -78,12 +78,12 @@ Azure App Configuration 配置存储 component 还支持通过 Microsoft Entra I
 
 1. [启动 Azure App Configuration 创建流程](https://ms.portal.azure.com/#create/Microsoft.Azconfig)。必要时登录。
 1. 点击**创建**开始部署你的 Azure App Configuration 实例。
-1. 实例创建完成后，获取**主机（终端节点）**或**连接字符串**：
-   - 对于主机：导航至资源的**概览**并复制**终端节点**。
+1. 实例创建完成后，获取**主机（端点）**或**连接字符串**：
+   - 对于主机：导航至资源的**概览**并复制**端点**。
    - 对于连接字符串：导航至**设置** > **访问密钥**并复制你的连接字符串。
 1. 将你的主机或连接字符串添加到 Dapr 可应用的 `azappconfig.yaml` 文件中。
      
-   将 `host` 键设置为 `[终端节点]`或将 `connectionString` 键设置为你之前保存的值。
+   将 `host` 键设置为 `[端点]`，或将 `connectionString` 键设置为你之前保存的值。
    
    {{% alert title="Note" color="primary" %}}
    在生产级应用程序中，请遵循[secrets 管理]({{% ref component-secrets.md %}})说明，以安全地管理你的 secrets。

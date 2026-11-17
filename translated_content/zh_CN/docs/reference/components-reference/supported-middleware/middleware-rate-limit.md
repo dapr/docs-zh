@@ -42,7 +42,7 @@ spec:
 - [最大并发设置]({{% ref control-concurrency.md %}})可用于对应用程序进行速率限制，它适用于所有流量，无论远程 IP、协议或路径如何。
 - [workflow 并发限制]({{% ref workflow-concurrency.md %}})提供按 workflow 和按 activity 的并发控制，包括由 Scheduler 跨所有副本强制执行的全局限制。
 
-## Dapr 配置
+## Dapr configuration
 
 要应用 middleware，必须在[配置]({{% ref configuration-concept.md %}})中引用它。请参阅[middleware 流水线]({{% ref "middleware.md#customize-processing-pipeline"%}})。
 
@@ -62,5 +62,5 @@ spec:
 
 - [控制最大并发]({{% ref control-concurrency.md %}})
 - [middleware]({{% ref middleware.md %}})
-- [Dapr 配置]({{% ref configuration-concept.md %}})
+- [Dapr configuration]({{% ref configuration-concept.md %}})
 - [配置概述]({{% ref configuration-overview.md %}})

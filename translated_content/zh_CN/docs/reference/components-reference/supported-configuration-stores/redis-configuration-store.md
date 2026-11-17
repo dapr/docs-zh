@@ -2,14 +2,14 @@
 type: docs
 title: "Redis"
 linkTitle: "Redis"
-description: Redis 配置存储 component 的详细信息
+description: Redis configuration store component 的详细信息
 aliases:
   - "/zh-hans/operations/components/setup-configuration-store/supported-configuration-stores/setup-redis/"
 ---
 
 ## component 格式
 
-要设置 Redis 配置存储，需创建一个类型为 `configuration.redis` 的 component。有关如何创建和应用配置存储配置，请参阅[此指南]({{% ref "howto-manage-configuration.md#configure-a-dapr-configuration-store" %}})。
+要设置 Redis configuration store，需创建一个类型为 `configuration.redis` 的 component。有关如何创建和应用 configuration store 配置，请参阅[此指南]({{% ref "howto-manage-configuration.md#configure-a-dapr-configuration-store" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -65,7 +65,7 @@ spec:
 | poolTimeout        | N | Output        | 当所有连接都忙时，客户端等待连接的时间，超时后返回错误。默认为 readTimeout + 1 秒。 | `"5s"`
 | maxConnAge        | N | Output        | 连接的年龄，达到此年龄后客户端将关闭（退役）该连接。默认为不关闭旧连接。 | `"30m"`
 | minIdleConns        | N | Output        | 保持打开的最小空闲连接数，以避免创建新连接导致的性能下降。默认为 `"0"`。 | `"2"`
-| idleCheckFrequency        | N | Output        | 空闲连接清理器执行空闲检查的频率。默认为 `"1m"`。`"-1"` 禁用空闲连接清理器。 | `"-1"`
+| idleCheckFrequency        | N | Output        | 空闲连接回收器执行空闲检查的频率。默认为 `"1m"`。`"-1"` 禁用空闲连接回收器。 | `"-1"`
 | idleTimeout        | N | Output        | 客户端关闭空闲连接的时间长度。应小于服务器的超时时间。默认为 `"5m"`。`"-1"` 禁用空闲超时检查。 | `"10m"`
 
 ## 设置 Redis
@@ -115,7 +115,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 1. [使用官方 Microsoft 文档创建 Azure Cache for Redis 实例。](https://docs.microsoft.com/azure/azure-cache-for-redis/quickstart-create-redis)
 
-1. 实例创建完成后，从 Azure 门户获取主机名（完全限定域名）和访问密钥。
+1. 实例创建完成后，从 Azure 门户获取主机名（完全限定域名）和访问密钥。 
    - 对于主机名：
      - 导航到资源的**概览**页面。
      - 复制**主机名**值。
@@ -123,11 +123,11 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
      - 导航到**设置** > **访问密钥**。
      - 复制并保存你的密钥。
 
-1. 将你的密钥和主机名添加到 Dapr 可应用于集群的 `redis.yaml` 文件中。
-   - 如果你在运行示例，请将主机和密钥添加到提供的 `redis.yaml` 中。
-   - 如果你从零开始创建项目，请按照[component 格式部分](#component-格式)中的说明创建 `redis.yaml` 文件。
+1. 将你的密钥和主机名添加到 Dapr 可应用于集群的 `redis.yaml` 文件中。 
+   - 如果你在运行示例，请将主机和密钥添加到提供的 `redis.yaml` 中。 
+   - 如果你从零开始创建项目，请按照[component 格式部分](#component-格式)中的说明创建 `redis.yaml` 文件。   
    
-1. 将 `redisHost` 键设置为 `[上一步的主机名]:6379`，将 `redisPassword` 键设置为你之前保存的密钥。
+1. 将 `redisHost` 键设置为 `[上一步的主机名]:6379`，将 `redisPassword` 键设置为你之前保存的密钥。 
    
    **注意：** 在生产级应用程序中，请遵循[secrets 管理]({{% ref component-secrets.md %}})说明来安全地管理你的 secrets。
 
@@ -135,9 +135,9 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
    - 在 Azure Redis 服务器上启用 Entra ID 身份验证。这可能需要几分钟时间。
    - 将 `useEntraID` 设置为 `"true"` 以实现 Azure Cache for Redis 的 EntraID 支持。
 
-1. 将 `enableTLS` 设置为 `"true"` 以支持 TLS。
+1. 将 `enableTLS` 设置为 `"true"` 以支持 TLS。 
 
-> **注意：**`useEntraID` 假定你的 UserPrincipal（通过 AzureCLICredential）或 SystemAssigned 托管标识具有 RedisDataOwner 角色权限。如果使用用户分配的标识，[你需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
+> **注意：**`useEntraID` 假定你的 UserPrincipal（通过 AzureCLICredential）或 SystemAssigned 托管标识具有 RedisDataOwner 角色权限。如果使用用户分配标识，[你需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
 
 {{% /tab %}}
 
@@ -172,5 +172,5 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 ## 相关链接
 - [Dapr component 的基本架构]({{% ref component-schema %}})
-- 阅读[如何：从存储管理配置]({{% ref "howto-manage-configuration" %}})，了解如何将 Redis 用作配置存储的说明。
+- 阅读[如何：从 configuration store 管理配置]({{% ref "howto-manage-configuration" %}})，了解如何将 Redis 用作 configuration store 的说明。
 - [Configuration building block]({{% ref configuration-api-overview %}})

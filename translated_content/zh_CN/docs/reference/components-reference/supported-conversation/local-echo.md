@@ -20,7 +20,7 @@ spec:
 ```
 
 {{% alert title="Information" color="warning" %}}
-此 component 仅用于 Conversation component 实现的本地验证和测试。它实际上不会将数据发送到任何大型语言模型 (LLM)，而是直接回显输入。
+此 component 仅用于 conversation component 实现的本地验证和测试。它实际上不会将数据发送到任何大型语言模型 (LLM)，而是直接回显输入。
 {{% /alert %}}
 
 ## 规范 metadata 字段

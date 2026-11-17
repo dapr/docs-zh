@@ -1,13 +1,13 @@
 ---
 type: docs
-title: "Azure Blob 存储"
-linkTitle: "Azure Blob 存储"
-description: "Azure Blob 存储 Binary Store component 的配置"
+title: "Azure Blob Storage"
+linkTitle: "Azure Blob Storage"
+description: "Azure Blob Storage Binary Store component 的配置"
 aliases:
   - "/zh-hans/reference/components-reference/supported-binarystore/azure-blobstorage/"
 ---
 
-Azure Blob 存储 Binary Store 会将每个文件作为一个 Blob 存储在已配置的容器中。该 component 处于 alpha 阶段。
+Azure Blob Storage Binary Store 会将每个文件作为一个 Blob 存储在已配置的容器中。该 component 处于 alpha 阶段。
 
 ## component 格式
 
@@ -38,7 +38,7 @@ spec:
 
 - **连接字符串**：提供 `connectionString`。
 - **帐户密钥**：提供 `accountName` 和 `accountKey`。
-- **Microsoft Entra ID**：提供 `accountName`，并为 sidecar 的运行环境配置凭据。支持的凭据类型包括工作负载身份、托管标识、客户端密码和证书。请参阅 [向 Azure 进行身份验证]({{% ref "integrations/Azure/azure-authentication/authenticating-azure.md" %}})。
+- **Microsoft Entra ID**：提供 `accountName`，并为 sidecar 的运行环境配置凭据。支持的凭据类型包括工作负载身份、托管标识、client secret 和证书。请参阅 [向 Azure 进行身份验证]({{% ref "integrations/Azure/azure-authentication/authenticating-azure.md" %}})。
 
 ## 规范 metadata 字段
 

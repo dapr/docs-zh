@@ -10,7 +10,7 @@ aliases:
 
 ## component 格式
 
-要设置 Azure Service Bus 主题 pub/sub，请创建类型为 `pubsub.azure.servicebus.topics` 的 component。请参阅[pub/sub 代理 component 文件]({{% ref setup-pubsub.md %}})以了解 ConsumerID 是如何自动生成的。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用 pub/sub 配置。
+要设置 Azure Service Bus 主题 pub/sub，请创建类型为 `pubsub.azure.servicebus.topics` 的 component。请参阅[pub/sub broker component 文件]({{% ref setup-pubsub.md %}})以了解 ConsumerID 是如何自动生成的。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用 pub/sub 配置。
 
 > 此 component 使用 Azure Service Bus 上的主题；有关[主题和队列](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions)之间的差异，请参阅官方文档。  
 > 若要使用队列，请参阅 [Azure Service Bus 队列 pub/sub component]({{% ref "setup-azure-servicebus-queues" %}})。
@@ -81,11 +81,11 @@ spec:
 | `lockRenewalInSec`      | N  | 定义缓冲消息锁的续订频率。默认值：`20`。 | `20`
 | `maxActiveMessages`     | N  | 定义一次处理或缓冲的最大消息数。此值应至少与最大并发处理程序数相同。默认值：`1000` | `2000`
 | `maxConcurrentHandlers` | N  | 定义并发消息处理程序的最大数量。默认值：`0`（无限制） | `10`
-| `disableEntityManagement` | N  | 当设置为 true 时，队列和订阅不会自动创建。默认值：`"false"` | `"true"`, `"false"`
-| `defaultMessageTimeToLiveInSec` | N  | 默认消息生存时间（秒）。仅在创建订阅时使用。 | `10`
-| `autoDeleteOnIdleInSec` | N  | 空闲订阅自动删除前等待的时间（秒）。仅在创建订阅时使用。必须为 300 秒或更长。默认值：`0`（禁用） | `3600`
-| `maxDeliveryCount`      | N  | 定义服务器尝试投递消息的次数。仅在创建订阅时使用。默认值由服务器设置。 | `10`
-| `lockDurationInSec`     | N  | 定义消息在过期前被锁定的时长（秒）。仅在创建订阅时使用。默认值由服务器设置。 | `30`
+| `disableEntityManagement` | N  | 当设置为 true 时，队列和 subscription 不会自动创建。默认值：`"false"` | `"true"`, `"false"`
+| `defaultMessageTimeToLiveInSec` | N  | 默认消息生存时间（秒）。仅在创建 subscription 时使用。 | `10`
+| `autoDeleteOnIdleInSec` | N  | 空闲 subscription 自动删除前等待的时间（秒）。仅在创建 subscription 时使用。必须为 300 秒或更长。默认值：`0`（禁用） | `3600`
+| `maxDeliveryCount`      | N  | 定义服务器尝试投递消息的次数。仅在创建 subscription 时使用。默认值由服务器设置。 | `10`
+| `lockDurationInSec`     | N  | 定义消息在过期前被锁定的时长（秒）。仅在创建 subscription 时使用。默认值由服务器设置。 | `30`
 | `minConnectionRecoveryInSec` | N | 连接失败后，尝试重新连接 Azure Service Bus 前等待的最小间隔（秒）。默认值：`2` | `5`
 | `maxConnectionRecoveryInSec` | N | 连接失败后，尝试重新连接 Azure Service Bus 前等待的最大间隔（秒）。每次尝试之后，component 会在最小值与最大值之间等待一个随机秒数，且每次等待的时间都会递增。默认值：`300`（5 分钟） | `600`
 | `maxRetriableErrorsPerSec` | N | 每秒处理的可重试错误的最大数量。如果消息因可重试错误处理失败，component 会在开始处理下一条消息前添加延迟，以避免立即重新处理失败的消息。默认值：`10` | `10`
@@ -162,13 +162,13 @@ Azure Service Bus 消息使用额外的上下文 metadata 扩展了 Dapr 消息�
 
 ## 订阅启用会话的主题
 
-要订阅已[启用会话](https://learn.microsoft.com/azure/service-bus-messaging/message-sessions)的主题，你可以在订阅 metadata 中提供以下属性。
+要订阅已[启用会话](https://learn.microsoft.com/azure/service-bus-messaging/message-sessions)的主题，你可以在 subscription metadata 中提供以下属性。
 
 - `requireSessions（默认：false）`
 - `sessionIdleTimeoutInSec（默认：60）`
 - `maxConcurrentSessions（默认：8）`
 
-## 为主题创建 Azure Service Bus 代理
+## 为主题创建 Azure Service Bus broker
 
 按照[此处](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-topics-subscriptions-portal)的说明设置 Azure Service Bus 主题。
 

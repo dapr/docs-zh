@@ -42,7 +42,7 @@ spec:
     value: "/tmp/zeebe-credentials.yaml"
 ```
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段                   | 必填 | binding 支持 |  详情 | 示例 |
 |-------------------------|:--------:|------------|-----|---------|
@@ -51,13 +51,13 @@ spec:
 | `usePlainTextConnection`  | N | 输出 | 是否使用纯文本连接 | `"true"`, `"false"` |
 | `caCertificatePath`       | N | 输出 | CA 证书的路径 | `"/path/to/ca-cert"` |
 | `clientId`                | N | 输出 | 用于请求访问令牌的 OAuth 客户端 ID。配置 OAuth 时，需与 `clientSecret`、`authorizationServerUrl` 和 `tokenAudience` 一同设置 | `"zeebe-client"` |
-| `clientSecret`            | N | 输出 | 用于请求访问令牌的 OAuth 客户端密钥。配置 OAuth 时，需与 `clientId`、`authorizationServerUrl` 和 `tokenAudience` 一同设置 | `"zeebe-secret"` |
+| `clientSecret`            | N | 输出 | 用于请求访问令牌的 OAuth client secret。配置 OAuth 时，需与 `clientId`、`authorizationServerUrl` 和 `tokenAudience` 一同设置 | `"zeebe-secret"` |
 | `authorizationServerUrl`  | N | 输出 | 用于获取访问令牌的 OAuth 授权服务器 URL。配置 OAuth 时，需与 `clientId`、`clientSecret` 和 `tokenAudience` 一同设置 | `"https://issuer.example.com/oauth/token"` |
 | `tokenAudience`           | N | 输出 | 访问 Zeebe API 的 OAuth 令牌受众。配置 OAuth 时，需与 `clientId`、`clientSecret` 和 `authorizationServerUrl` 一同设置 | `"zeebe-api"` |
 | `tokenScope`              | N | 输出 | 配置 OAuth 时，可选地在访问令牌中请求的 OAuth 作用域 | `"read write"` |
 | `clientConfigPath`        | N | 输出 | 配置 OAuth 时，OAuth 凭据缓存文件的可选路径 | `"/tmp/zeebe-credentials.yaml"` |
 
-OAuth 是可选的。如果设置了任何 OAuth 元数据字段，则以下字段全部为必填：`clientId`、`clientSecret`、`authorizationServerUrl` 和 `tokenAudience`。
+OAuth 是可选的。如果设置了任何 OAuth metadata 字段，则以下字段全部为必填：`clientId`、`clientSecret`、`authorizationServerUrl` 和 `tokenAudience`。
 
 ### OAuth 缓存路径说明
 
@@ -169,7 +169,7 @@ binding 返回以下 JSON 响应：
 }
 ```
 
-元数据参数如下：
+metadata 参数如下：
 
 - `fileName` - 资源文件的名称
 
@@ -242,21 +242,24 @@ binding 返回以下 JSON 响应：
 
 - `key` - 标识此部署的唯一键
 - `deployments` - 已部署资源的列表，例如流程
-    - `metadata` - 部署元数据，每个部署只有一个元数据
-        - `process` - 已部署流程的元数据
-            - `bpmnProcessId` - BPMN 流程 ID，在部署时解析；与版本一起构成特定流程定义的唯一标识符
+    - `metadata` - 部署 metadata，每个部署只有一个 metadata
+        - `process` - 已部署流程的 metadata
+            - `bpmnProcessId` - BPMN 流程 ID，在部署时解析；与版本一起构成特定
+              流程定义的唯一标识符
             - `version` - 分配的流程版本
             - `processDefinitionKey` - 分配的键，作为此流程的唯一标识符
             - `resourceName` - 解析此流程所用的资源名称
-        - `decision` - 已部署决策的元数据
-            - `dmnDecisionId` - DMN 决策 ID，在部署时解析；与版本一起构成特定决策的唯一标识符
+        - `decision` - 已部署决策的 metadata
+            - `dmnDecisionId` - DMN 决策 ID，在部署时解析；与版本一起构成特定
+              决策的唯一标识符
             - `dmnDecisionName` - 决策的 DMN 名称，在部署时解析
             - `version` - 分配的决策版本
             - `decisionKey` - 分配的决策键，作为此决策的唯一标识符
-            - `dmnDecisionRequirementsId` - 此决策所属的决策需求图的 DMN ID，在部署时解析
-            - `decisionRequirementsKey` - 此决策所属的决策需求图的分配键
-        - `decisionRequirements` - 已部署决策需求的元数据
-            - `dmnDecisionRequirementsId` - DMN 决策需求 ID，在部署时解析；与版本一起构成特定决策需求的唯一标识符
+            - `dmnDecisionRequirementsId` - 此决策所属决策需求图的 DMN ID，在部署时解析
+            - `decisionRequirementsKey` - 此决策所属决策需求图的分配键
+        - `decisionRequirements` - 已部署决策需求的 metadata
+            - `dmnDecisionRequirementsId` - DMN 决策需求 ID，在部署时解析；与版本一起构成特定
+              决策需求的唯一标识符
             - `dmnDecisionRequirementsName` - 决策需求的 DMN 名称，在部署时解析
             - `version` - 分配的决策需求版本
             - `decisionRequirementsKey` - 分配的决策需求键，作为此决策需求的唯一标识符
@@ -264,11 +267,15 @@ binding 返回以下 JSON 响应：
 
 #### create-instance
 
-`create-instance` 操作创建并启动指定流程的一个实例。用于创建实例的流程定义，可以通过其唯一键（由 `deploy-process` 操作返回）指定，也可以通过 BPMN 流程 ID 和版本指定。
+`create-instance` 操作创建并启动指定流程的一个实例。用于创建实例的流程定义可以通过其唯一键（由 `deploy-process` 操作返回）指定，
+也可以通过 BPMN 流程 ID 和版本指定。
 
 请注意，只有没有启动事件的流程才能通过此命令启动。
 
-通常，流程的创建与执行是解耦的。这意味着该命令会创建一个新的流程实例，并立即以流程实例 ID 作为响应。流程的执行在响应发送之后才进行。然而，某些用例需要在流程执行完成后收集其结果。通过定义 `withResult` 属性，该命令可以"同步"执行流程，并通过一组变量接收结果。响应会在流程执行完成时发送。
+通常，流程的创建与执行是解耦的。这意味着该命令会创建一个新的流程实例，并立即以流程实例 ID 作出响应。
+流程的执行在响应发送之后才进行。然而，某些用例需要在流程执行完成后收集其结果。
+通过定义 `withResult` 属性，该命令可以“同步”执行流程，并通过一组变量接收结果。
+响应会在流程执行完成时发送。
 
 更多信息请访问[官方文档](https://docs.camunda.io/docs/components/concepts/process-instance-creation/)。
 
@@ -342,8 +349,8 @@ binding 返回以下 JSON 响应：
 - `version` - （可选，默认：最新版本）要实例化的流程版本
 - `variables` - （可选）JSON 文档，用于为流程实例的根变量作用域实例化变量；它必须是 JSON 对象，因为变量以键值方式映射。例如，{ "a": 1, "b": 2 } 会创建两个变量，分别命名为 "a" 和 "b"，并带有对应的值。[{ "a": 1, "b": 2 }] 则不是有效参数，因为 JSON 文档的根是数组而不是对象
 - `withResult` - （可选，默认：false）如果设置为 true，流程将被同步实例化并执行
-- `requestTimeout` - （可选，仅在 `withResult` 为 `true` 时使用）超时时间。如果流程在此时间内未完成，请求将被关闭。必须为 Go 时长字符串（例如 `"30s"`、`"5m"`、`"1h30m"`）。若 `requestTimeout` 为 `"0"`，则使用 gateway 中配置的通用 `requestTimeout`
-- `fetchVariables` - （可选，仅在 withResult 为 true 时使用）要包含在响应的 `variables` 属性中的变量名称列表。
+- `requestTimeout` - （可选，仅在 `withResult` 为 `true` 时使用）超时时间。若流程在该时间内未完成，请求将被关闭。必须为 Go 时长字符串（例如 `"30s"`、`"5m"`、`"1h30m"`）。若 `requestTimeout` 为 `"0"`，则使用 gateway 中配置的通用 `requestTimeout`
+- `fetchVariables` - （可选，仅在 withResult=true 时使用）要包含在响应 `variables` 属性中的变量名称列表。
 	若为空，则返回根作用域中的所有可见变量。
 
 ##### 响应
@@ -414,7 +421,7 @@ binding 不返回响应正文。
 数据参数如下：
 
 - `elementInstanceKey` - 特定元素的唯一标识符；可以是流程实例键（在创建实例时获得），也可以是某个给定元素的键，例如服务任务（参见 job 消息上的 elementInstanceKey）
-- `local` - （可选，默认：`false`）如果为 true，变量将严格合并到本地作用域（由 elementInstanceKey 指示）；这意味着变量不会传播到上层作用域。例如，假设我们有两个作用域"1"和"2"，其有效变量分别为：1 => `{ "foo" : 2 }`，2 => `{ "bar" : 1 }`。如果我们发送一个更新请求，其中 elementInstanceKey = 2，变量为 `{ "foo" : 5 }`，并且 local 为 true，那么作用域 1 保持不变，作用域 2 将变为 `{ "bar" : 1, "foo" 5 }`。但如果 local 为 false，那么作用域 1 将变为 `{ "foo": 5 }`，作用域 2 将保持为 `{ "bar" : 1 }`
+- `local` - （可选，默认：`false`）如果为 true，变量将严格合并到本地作用域（由 elementInstanceKey 指示）；这意味着变量不会传播到上层作用域。例如，假设我们有两个作用域“1”和“2”，其有效变量分别为：1 => `{ "foo" : 2 }`，2 => `{ "bar" : 1 }`。如果我们发送一个更新请求，其中 elementInstanceKey = 2，变量为 `{ "foo" : 5 }`，并且 local 为 true，那么作用域 1 保持不变，作用域 2 将变为 `{ "bar" : 1, "foo" 5 }`。但如果 local 为 false，那么作用域 1 将变为 `{ "foo": 5 }`，作用域 2 将保持为 `{ "bar" : 1 }`
 - `variables` - 以键值对形式描述变量的 JSON 序列化文档；文档的根必须是对象
 
 ##### 响应
@@ -527,7 +534,7 @@ binding 返回以下 JSON 响应：
 - `jobType` - job 类型，在 BPMN 流程中定义（例如 `<zeebe:taskDefinition type="fetch-products" />`）
 - `maxJobsToActivate` - 此请求最多激活的 job 数
 - `timeout` - （可选，默认：5 分钟）此调用返回的 job 在超时之前不会被其他调用激活。必须为 Go 时长字符串（例如 `"5m"`、`"30s"`、`"1h30m"`）
-- `workerName` - （可选，默认：`default`）激活 job 的工作程序名称，主要用于日志记录
+- `workerName` - （可选，默认：`default`）激活 job 的工作进程名称，主要用于日志记录
 - `fetchVariables` - （可选）要作为 job 变量获取的变量列表；若为空，则返回激活时 job 所在作用域的所有可见变量
 - `requestTimeout` - （可选）请求会在至少激活一个 job 时完成，或在 `requestTimeout` 到期后完成。必须为 Go 时长字符串（例如 `"30s"`、`"5m"`、`"1h30m"`）。若 `requestTimeout` 为 `"0"`，则使用默认超时。若 `requestTimeout` 为负的时长（例如 `"-1s"`），则禁用长轮询，请求会立即完成，即使没有激活任何 job
 
@@ -566,14 +573,14 @@ binding 返回以下 JSON 响应：
 - `elementId` - 关联的任务元素 ID
 - `elementInstanceKey` - 标识关联任务的唯一键，在流程实例作用域内唯一
 - `customHeaders` - 建模时定义的一组自定义标头；以序列化的 JSON 文档形式返回
-- `worker` - 激活此 job 的工作程序名称
+- `worker` - 激活此 job 的工作进程名称
 - `retries` - 此 job 剩余的重试次数（应始终为正数）
 - `deadline` - job 可以再次被激活的时间，以 UNIX 纪元时间戳形式发送
 - `variables` - 在激活时计算得出，由任务作用域内的所有可见变量组成；以序列化的 JSON 文档形式返回
 
 #### complete-job
 
-`complete-job` 操作使用给定的载荷完成一个 job，从而完成关联的服务任务。
+`complete-job` 操作使用给定的负载完成一个 job，从而完成关联的服务任务。
 
 要执行 `complete-job` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
@@ -602,7 +609,7 @@ binding 不返回响应正文。
 
 #### fail-job
 
-`fail-job` 操作将 job 标记为失败。如果 retries 参数为正数，则 job 会立即可再次被激活，工作程序可以再次尝试处理它。但如果为零或负数，则会引发一个事件（incident），并以给定的 errorMessage 作为标记，并且在该事件解决之前，job 无法被激活。
+`fail-job` 操作将 job 标记为失败。如果 retries 参数为正数，则 job 会立即可再次被激活，工作进程可以再次尝试处理它。但如果为零或负数，则会引发一个事件（incident），并以给定的 errorMessage 作为标记，并且在该事件解决之前，job 无法被激活。
 
 要执行 `fail-job` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
@@ -662,7 +669,7 @@ binding 不返回响应正文。
 
 #### throw-error
 
-`throw-error` 操作抛出一个错误，表示在处理 job 时发生了业务错误。错误由错误代码标识，并由流程中具有相同错误代码的错误捕获事件处理。
+`throw-error` 操作抛出一个错误，表示在处理 job 时发生了业务错误。该错误由错误代码标识，并由流程中具有相同错误代码的错误捕获事件处理。
 
 要执行 `throw-error` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
@@ -696,7 +703,7 @@ binding 不返回响应正文。
 ## 相关链接
 
 - [Dapr component 的基本架构]({{% ref component-schema %}})
-- [binding building block]({{% ref bindings %}})
+- [Bindings building block]({{% ref bindings %}})
 - [如何：使用 input binding 触发应用程序]({{% ref howto-triggers.md %}})
-- [如何：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
-- [binding API 参考]({{% ref bindings_api.md %}})
+- [如何：使用 bindings 与外部资源交互]({{% ref howto-bindings.md %}})
+- [Bindings API 参考]({{% ref bindings_api.md %}})

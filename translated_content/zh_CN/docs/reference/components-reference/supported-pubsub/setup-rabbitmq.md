@@ -9,7 +9,7 @@ aliases:
 
 ## component 格式
 
-要设置 RabbitMQ pub/sub，请创建类型为 `pubsub.rabbitmq` 的 component。请参阅[pub/sub 代理 component 文件]({{% ref setup-pubsub.md %}})以了解如何自动生成 ConsumerID。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用 pub/sub 配置。
+要设置 RabbitMQ pub/sub，请创建类型为 `pubsub.rabbitmq` 的 component。请参阅[pub/sub broker component 文件]({{% ref setup-pubsub.md %}})以了解如何自动生成 ConsumerID。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用 pub/sub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -74,43 +74,43 @@ spec:
 上述示例以纯文本字符串形式使用 secrets。建议按照[此处]({{% ref component-secrets.md %}})所述，使用 secret store 来管理 secrets。
 {{% /alert %}}
 
-## 规格元数据字段
+## 规格 metadata 字段
 
-| 字段              | 必填 | 详情                                                                                                                                                                                                                                                                                                                                 | 示例 |
+| 字段 | 必填 | 详情 | 示例 |
 |--------------------|:--------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
 | connectionString | Y* | RabbitMQ 连接字符串。与 protocol、hostname、username、password 字段互斥 | `amqp://user:pass@localhost:5672` |
 | protocol | N* | RabbitMQ 协议。与 connectionString 字段互斥 | `amqp` |
 | hostname | N* | RabbitMQ 主机名。与 connectionString 字段互斥 | `localhost` |
 | username | N* | RabbitMQ 用户名。与 connectionString 字段互斥 | `username` |
 | password | N* | RabbitMQ 密码。与 connectionString 字段互斥 | `password` |
-| consumerID         | N        | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，一条消息只会被组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr 运行时会将其设置为 Dapr 应用程序 ID（`appID`）的值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式的值（如 `"{podName}"` 等）。[查看您可以在 component 元数据中使用的所有模板标签]({{% ref "component-schema.md#templated-metadata-values" %}}) |
+| consumerID         | N        | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，一条消息只会被组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr runtime 会将其设置为 Dapr 应用程序 ID（`appID`）的值。 | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式的值（如 `"{podName}"` 等）。[查看您可以在 component metadata 中使用的所有模板标签]({{% ref "component-schema.md#templated-metadata-values" %}}) |
 | durable            | N        | 是否使用[持久化](https://www.rabbitmq.com/queues.html#durability)队列。默认为 `"false"` | `"true"`, `"false"` |
 | deletedWhenUnused  | N        | 是否将队列配置为[自动删除](https://www.rabbitmq.com/queues.html)。默认为 `"true"` | `"true"`, `"false"` |
 | autoAck  | N        | 队列消费者是否应[自动确认](https://www.rabbitmq.com/confirms.html)消息。默认为 `"false"` | `"true"`, `"false"` |
 | deliveryMode  | N        | 发布消息时的持久化模式。默认为 `"0"`。RabbitMQ 将 `"2"` 视为持久化，将所有其他数字视为非持久化 | `"0"`, `"2"` |
 | requeueInFailure  | N        | 在失败时发送[否定确认](https://www.rabbitmq.com/nack.html)时是否重新排队。默认为 `"false"` | `"true"`, `"false"` |
-| prefetchCount  | N        | 要[预取](https://www.rabbitmq.com/consumer-prefetch.html)的消息数量。建议在生产环境中将其设置为非零值。默认为 `"0"`，表示预取所有可用消息。 | `"2"` |
+| prefetchCount  | N        | 要[预取](https://www.rabbitmq.com/consumer-prefetch.html)的消息数量。生产环境中建议改为非零值。默认为 `"0"`，表示将预取所有可用消息。 | `"2"` |
 | publisherConfirm  | N        | 如果启用，客户端在发布消息后会等待[发布者确认](https://www.rabbitmq.com/confirms.html#publisher-confirms)。默认为 `"false"` | `"true"`, `"false"` |
 | reconnectWait  | N        | 发生连接故障后，重新连接前等待的时间（秒） | `"0"` |
-| concurrencyMode | N        | `parallel` 是默认值，允许并行处理多条消息（如果配置了 `app-max-concurrency` 注解，则受其限制）。设置为 `single` 可禁用并行处理。在大多数情况下，没有必要更改此项。 | `parallel`, `single` |
-| enableDeadLetter      | N        | 启用后，无法处理的消息将被转发到死信主题。默认为 `"false"` | `"true"`, `"false"` |
-| maxLen      | N        | 队列及其死信队列（如果启用了死信）的最大消息数。如果同时设置了 `maxLen` 和 `maxLenBytes`，两者都会生效，先达到的限制会被强制执行。默认不限制。 | `"1000"` |
-| maxLenBytes      | N        | 队列及其死信队列（如果启用了死信）的最大字节长度。如果同时设置了 `maxLen` 和 `maxLenBytes`，两者都会生效，先达到的限制会被强制执行。默认不限制。 | `"1048576"` |
-| exchangeKind      | N        | RabbitMQ 交换机的类型。默认为 `"fanout"`。`"x-consistent-hash"` 需要代理上已启用 [`rabbitmq_consistent_hash_exchange`](https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_consistent_hash_exchange) 插件。当 `exchangeDeclareMode` 为 `"passive"` 时，由于 component 不声明交换机，代理支持的任何交换机类型都会被接受。 | `"fanout"`,`"topic"`,`"direct"`,`"headers"`,`"x-consistent-hash"` |
+| concurrencyMode | N        | `parallel` 是默认值，允许并行处理多条消息（受 `app-max-concurrency` 注解限制，如已配置）。设置为 `single` 可禁用并行处理。多数情况下没有必要修改此项。 | `parallel`, `single` |
+| enableDeadLetter      | N        | 启用后，无法处理的消息将转发到死信主题。默认为 `"false"` | `"true"`, `"false"` |
+| maxLen      | N        | 队列及其死信队列（启用死信时）的最大消息数。若同时设置 `maxLen` 和 `maxLenBytes`，两者都会生效，先达到的限制将被执行。默认不限制。 | `"1000"` |
+| maxLenBytes      | N        | 队列及其死信队列（启用死信时）的最大字节长度。若同时设置 `maxLen` 和 `maxLenBytes`，两者都会生效，先达到的限制将被执行。默认不限制。 | `"1048576"` |
+| exchangeKind      | N        | RabbitMQ 交换机的类型。默认为 `"fanout"`。`"x-consistent-hash"` 需要 broker 上已启用 [`rabbitmq_consistent_hash_exchange`](https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_consistent_hash_exchange) 插件。当 `exchangeDeclareMode` 为 `"passive"` 时，由于 component 不声明交换机，broker 支持的任何交换机类型都会被接受。 | `"fanout"`,`"topic"`,`"direct"`,`"headers"`,`"x-consistent-hash"` |
 | exchangeDeclareMode | N      | component 获取主题所用交换机的方式。`"declare"`（默认）在交换机不存在时创建它。`"passive"` 仅断言交换机已存在，从不创建或修改它。参见[使用外部管理的拓扑](#使用外部管理的拓扑)。 | `"declare"`, `"passive"` |
-| queueDeclareMode  | N        | component 获取订阅所用队列的方式。`"declare"`（默认）创建队列并将其绑定到交换机。`"passive"` 仅断言队列已存在，并将其绑定关系交由外部所有者管理。参见[使用外部管理的拓扑](#使用外部管理的拓扑)。 | `"declare"`, `"passive"` |
+| queueDeclareMode  | N        | component 获取订阅所用队列的方式。`"declare"`（默认）创建队列并将其绑定到交换机。`"passive"` 仅断言队列已存在，并将其 binding 交由外部所有者管理。参见[使用外部管理的拓扑](#使用外部管理的拓扑)。 | `"declare"`, `"passive"` |
 | saslExternal      | N        | 使用 TLS 时，是否应从附加字段（例如 CN）获取用户名。请参阅 [RabbitMQ 身份验证机制](https://www.rabbitmq.com/access-control.html#mechanisms)。默认为 `"false"`。 | `"true"`, `"false"` |
 | ttlInSeconds      | N        | 在 component 级别设置消息 TTL，可被每个请求的消息级 TTL 覆盖。 | `"60"` |
 | caCert | 使用 TLS 时必需 | 用于验证服务器 TLS 证书的 PEM 格式证书颁发机构（CA）证书。 | `"-----BEGIN CERTIFICATE-----\n<base64-encoded DER>\n-----END CERTIFICATE-----"` |
 | clientCert  | 使用 TLS 时必需 | PEM 格式的 TLS 客户端证书。必须与 `clientKey` 一起使用。 | `"-----BEGIN CERTIFICATE-----\n<base64-encoded DER>\n-----END CERTIFICATE-----"` |
 | clientKey | 使用 TLS 时必需  | PEM 格式的 TLS 客户端密钥。必须与 `clientCert` 一起使用。可设置为 `secretKeyRef`，以引用 secrets。 | `"-----BEGIN RSA PRIVATE KEY-----\n<base64-encoded PKCS8>\n-----END RSA PRIVATE KEY-----"` |
-| clientName | N | 此 RabbitMQ [客户端提供的连接名称](https://www.rabbitmq.com/connections.html#client-provided-names)是一个自定义标识符。如果设置，该标识符会出现在 RabbitMQ 服务器日志条目和管理 UI 中。可设置为 {uuid}、{podName} 或 {appID}，Dapr 运行时会将其替换为实际值。 | `"app1"`, `{uuid}`, `{podName}`, `{appID}` |
+| clientName | N | 此 RabbitMQ [客户端提供的连接名称](https://www.rabbitmq.com/connections.html#client-provided-names)是一个自定义标识符。如果设置，该标识符会出现在 RabbitMQ 服务器日志条目和管理 UI 中。可设置为 {uuid}、{podName} 或 {appID}，Dapr runtime 会将其替换为实际值。 | `"app1"`, `{uuid}`, `{podName}`, `{appID}` |
 | heartBeat  | N | 定义与服务器的心跳间隔，用于检测与 RabbitMQ 服务器的 TCP 对等连接是否存活。默认为 `10s`。 | `"10s"` |
-| `publishMessagePropertiesToMetadata` | N | 是否将 AMQP 消息属性（标头、消息 ID 等）发布到元数据。 | "true", "false" |
+| `publishMessagePropertiesToMetadata` | N | 是否将 AMQP 消息属性（标头、消息 ID 等）发布到 metadata。 | "true", "false" |
 
 ## 使用 TLS 进行通信
 
-要配置使用 TLS 进行通信，请确保 RabbitMQ 节点已启用 TLS，并在 component 配置中提供 `caCert`、`clientCert`、`clientKey` 元数据。例如：
+要配置使用 TLS 进行通信，请确保 RabbitMQ 节点已启用 TLS，并在 component 配置中提供 `caCert`、`clientCert`、`clientKey` metadata。例如：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -168,7 +168,7 @@ spec:
 ### 启用消息传递重试
 
 RabbitMQ pub/sub component 没有内置对重试策略的支持。这意味着 sidecar 只会向服务发送一次消息。服务返回结果后，无论消息是否被正确处理，该消息都会被标记为已消费。请注意，这是所有 Dapr pub/sub component 的共同行为，而不仅限于 RabbitMQ。
-当 `autoAck` 设置为 `false` 且 `requeueInFailure` 设置为 `true` 时，Dapr 可以尝试第二次重新投递消息。
+当 `autoAck` 设置为 `false`，且 `requeueInFailure` 设置为 `true` 时，Dapr 可以尝试第二次重新投递消息。
 
 要让 Dapr 使用更复杂的重试策略，您可以将[重试 resiliency]({{% ref "retries-overview.md" %}})应用于 RabbitMQ pub/sub component。
 
@@ -201,7 +201,7 @@ helm install rabbitmq stable/rabbitmq
 
 查看 chart 的输出，获取用户名和密码。
 
-这会将 RabbitMQ 安装到 `default` 命名空间中。要与 RabbitMQ 交互，请使用以下命令查找服务：`kubectl get svc rabbitmq`。
+这会将 RabbitMQ 安装到 `default` namespace 中。要与 RabbitMQ 交互，请使用以下命令查找服务：`kubectl get svc rabbitmq`。
 
 例如，如果按照上面的示例安装，RabbitMQ 服务器的客户端地址为：
 
@@ -212,10 +212,10 @@ helm install rabbitmq stable/rabbitmq
 
 ## 使用主题交换机路由消息
 
-将 `exchangeKind` 设置为 `"topic"` 即可使用主题交换机，它通常用于消息的多播路由。要使用主题交换机路由消息，必须设置以下元数据：
+将 `exchangeKind` 设置为 `"topic"` 即可使用主题交换机，它通常用于消息的多播路由。要使用主题交换机路由消息，必须设置以下 metadata：
 
 - **`routingKey`：**  
-   具有路由键的消息会根据订阅时元数据中定义的 `routing key` 路由到一个或多个队列。
+   具有路由键的消息会根据订阅时 metadata 中定义的 `routing key` 路由到一个或多个队列。
 
 - **`queueName`：**  
    如果不设置 `queueName`，则只会创建一个队列，所有路由键都会路由到该队列。这意味着所有订阅者都会绑定到该队列，无法得到预期结果。
@@ -249,7 +249,7 @@ client.PublishEvent(context.Background(), "pubsub", "B", []byte("this is another
 ### 绑定多个 `routingKey`
 
 多个路由键可以用逗号分隔。  
-下面的示例绑定了三个 `routingKey`：`keyA`、`keyB` 和 `""`。注意空键的绑定方式。
+下面的示例绑定了三个 `routingKey`：`keyA`、`keyB` 和 `""`。注意空键的 binding 方式。
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -273,13 +273,13 @@ spec:
 将 `exchangeKind` 设置为 `"x-consistent-hash"`，可以在多个消费者之间对主题进行分区，同时保证共享同一路由键的消息保持顺序。给定键的所有消息都会路由到同一个队列，因此该键的消息按序处理，而其他键则在其他队列上并行处理。
 
 {{% alert title="注意" color="primary" %}}
-此交换机类型由 [`rabbitmq_consistent_hash_exchange`](https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_consistent_hash_exchange) 插件提供，使用前必须在代理上启用该插件。
+此交换机类型由 [`rabbitmq_consistent_hash_exchange`](https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_consistent_hash_exchange) 插件提供，使用前必须在 broker 上启用该插件。
 {{% /alert %}}
 
-`routingKey` 元数据在发布和订阅两端的含义不同：
+`routingKey` metadata 在发布和订阅两端的含义不同：
 
 - **发布时**，它是分区键。交换机对其进行哈希以选择队列，因此需要彼此保持顺序的消息必须共享同一个键。
-- **订阅时**，它是队列的*存储桶权重*。这是一个正整数，表示队列在哈希环上占用的存储桶数量，键空间会按各绑定队列的权重成比例划分。与主题交换机不同，一致性哈希交换机每个队列只有一个有效绑定，因此此处只接受一个值。
+- **订阅时**，它是队列的*存储桶权重*。这是一个正整数，表示队列在哈希环上占用的存储桶数量，键空间会按各绑定队列的权重成比例划分。与主题交换机不同，一致性哈希交换机每个队列只有一个有效 binding，因此此处只接受一个值。
 
 每个消费者绑定各自的队列，因此请为每个订阅设置不同的 `queueName`（或为每个 component 设置不同的 `consumerID`），并将 `concurrencyMode` 设置为 `single`，以保证每个分区按序处理：
 
@@ -315,7 +315,7 @@ spec:
     routingKey: "10"
 ```
 
-发布时，在 `routingKey` 元数据中设置分区键。在每个示例中，两条消息都携带相同的分区键，因此它们会被路由到同一个队列，并按发布顺序处理。
+发布时，在 `routingKey` metadata 中设置分区键。在每个示例中，两条消息都携带相同的分区键，因此它们会被路由到同一个队列，并按发布顺序处理。
 
 {{< tabpane text=true >}}
 
@@ -371,14 +371,14 @@ client.PublishEvent(context.Background(), "order-pub-sub", "orders", []byte("shi
 
 ## 使用外部管理的拓扑
 
-默认情况下，component 会声明它所需的拓扑：一个以主题命名的交换机、每个订阅对应的一个队列，以及它们之间的绑定。如果您的交换机和队列是通过声明式方式管理的（例如由 [RabbitMQ Cluster Kubernetes Operator 的 Topology Operator](https://www.rabbitmq.com/kubernetes/operator/using-topology-operator#exchanges-bindings)、Terraform 或其他任何配置步骤管理），这些声明就会发生冲突。
+默认情况下，component 会声明它所需的拓扑：一个以主题命名的交换机、每个订阅对应的一个队列，以及它们之间的 binding。如果您的交换机和队列是通过声明式方式管理的（例如由 [RabbitMQ Cluster Kubernetes Operator 的 Topology Operator](https://www.rabbitmq.com/kubernetes/operator/using-topology-operator#exchanges-bindings)、Terraform 或其他任何配置步骤管理），这些声明就会发生冲突。
 
 AMQP 声明只有在*所有*属性都一致时才是幂等的。若两者不一致，RabbitMQ 会返回 `PRECONDITION_FAILED (406)`，component 将无法使用该主题。由于两端的默认值各不相同，即使在默认配置下也会出现这种情况，而并非只发生在特殊配置中。
 
 为避免冲突，请将其中一种模式设置为 `"passive"`，使外部所有者成为唯一的事实来源：
 
 - `exchangeDeclareMode: passive` 断言主题交换机已存在，且从不创建或修改它。
-- `queueDeclareMode: passive` 断言消费者队列已存在，并将 `queue.bind` 留给外部所有者处理，因为绑定关系属于队列的所有者。
+- `queueDeclareMode: passive` 断言消费者队列已存在，并将 `queue.bind` 留给外部所有者处理，因为 binding 属于队列的所有者。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -414,7 +414,7 @@ spec:
 
 ## 使用优先级队列
 
-Dapr 支持 RabbitMQ [优先级队列](https://www.rabbitmq.com/priority.html)。要为队列设置优先级，请使用 `maxPriority` 主题订阅元数据。
+Dapr 支持 RabbitMQ [优先级队列](https://www.rabbitmq.com/priority.html)。要为队列设置优先级，请使用 `maxPriority` 主题订阅 metadata。
 
 ### 声明式优先级队列示例
 
@@ -531,7 +531,7 @@ func configureSubscribeHandler(w http.ResponseWriter, _ *http.Request) {
 
 ### 发布消息时设置优先级
 
-要为消息设置优先级，请在发布端点或 SDK 方法中添加发布元数据键 `maxPriority`。
+要为消息设置优先级，请在发布端点或 SDK 方法中添加发布 metadata 键 `maxPriority`。
 
 {{< tabpane text=true >}}
 
@@ -576,7 +576,7 @@ client.PublishEvent(ctx, PUBSUB_NAME, TOPIC_NAME, []byte(strconv.Itoa(orderId)),
 
 ## 使用仲裁队列
 
-默认情况下，Dapr 创建 `classic` 队列。要创建 `quorum` 队列，请将以下元数据添加到 pub/sub 的[订阅]({{% ref subscription-schema.md %}})中
+默认情况下，Dapr 创建 `classic` 队列。要创建 `quorum` 队列，请将以下 metadata 添加到 pub/sub 的[订阅]({{% ref subscription-schema.md %}})中
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -603,7 +603,7 @@ spec:
 ## 单一活跃消费者
 
 RabbitMQ [单一活跃消费者](https://www.rabbitmq.com/docs/consumers#single-active-consumer)设置可确保同一时间只有一个消费者处理队列中的消息，并在活跃消费者被取消或失败时切换到另一个已注册的消费者。当消息必须严格按照其到达队列的顺序被消费，且不支持多实例分布式处理时，可能需要这种方式。
-当 Dapr 在队列上启用此选项时，Dapr 运行时的一个实例将成为单一活跃消费者。为允许另一个应用程序实例在故障时接管，Dapr 运行时必须[探测应用程序的健康状况]({{% ref "app-health.md" %}})，并取消订阅 pub/sub component。
+当 Dapr 在队列上启用此选项时，Dapr runtime 的一个实例将成为单一活跃消费者。为允许另一个应用程序实例在故障时接管，Dapr runtime 必须[探测应用程序的健康状况]({{% ref "app-health.md" %}})，并取消订阅 pub/sub component。
 
 {{% alert title="注意" color="primary" %}}
 此模式会阻止应用程序扩展，因为只有一个实例能够处理负载。虽然这对于将 Dapr 与遗留或敏感应用程序集成可能很有意义，但如果您需要可扩展性，应考虑允许分布式处理的设计。
@@ -624,10 +624,10 @@ spec:
     singleActiveConsumer: "true"
 ```
 
-## 将消息属性发布到元数据
+## 将消息属性发布到 metadata
 
-要启用将[消息属性](https://www.rabbitmq.com/docs/publishers#message-properties)发布到元数据中，请在 component 规格中将 `publishMessagePropertiesToMetadata` 字段设置为 `"true"`。
-这将在已发布消息的元数据中包含消息 ID、时间戳和标头等属性。
+要启用将[消息属性](https://www.rabbitmq.com/docs/publishers#message-properties)发布到 metadata 中，请在 component 规格中将 `publishMessagePropertiesToMetadata` 字段设置为 `"true"`。
+这将在已发布消息的 metadata 中包含消息 ID、时间戳和标头等属性。
 
 ## 相关链接
 

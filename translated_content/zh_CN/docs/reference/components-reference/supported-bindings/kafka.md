@@ -82,16 +82,16 @@ spec:
 | `saslUsername` | N | 输入/输出 | 用于身份验证的 SASL 用户名。仅当 `authRequired` 设为 `"true"` 时需要。 | `"adminuser"` |
 | `saslPassword` | N | 输入/输出 | 用于身份验证的 SASL 密码。可以是 `secretKeyRef`，以使用[secrets 引用]({{% ref component-secrets.md %}})。仅当 `authRequired` 设为 `"true"` 时需要。 | `""`, `"KeFg23!"` |
 | `saslMechanism` | N | 输入/输出 | 要使用的 SASL 身份验证机制。仅当 `authtype` 设为 `"password"` 时需要。若未提供，则默认为 `PLAINTEXT`，这可能会导致某些服务（例如 Amazon Managed Service for Kafka）无法正常工作。 | `"SHA-512", "SHA-256", "PLAINTEXT"` |
-| `initialOffset`   | N | 输入 | 若之前没有已提交的偏移量，则使用的初始偏移量。应为 "newest" 或 "oldest"。默认为 "newest"。 | `"oldest"` |
+| `initialOffset`   | N | 输入 | 若之前没有已提交的偏移量，则使用的初始偏移量。应为“newest”或“oldest”。默认为“newest”。 | `"oldest"` |
 | `maxMessageBytes` | N | 输入/输出 | 单条 Kafka 消息允许的最大字节数。默认为 1024。 | `"2048"` |
 | `oidcTokenEndpoint` | N | 输入/输出 | OAuth2 身份提供方访问令牌端点的完整 URL。当 `authType` 设为 `oidc` 或 `oidc_private_key_jwt` 时必需 | "https://identity.example.com/v1/token" |
 | `oidcClientID` | N | 输入/输出 | 在身份提供方中预先配置的 OAuth2 客户端 ID。当 `authType` 设为 `oidc` 或 `oidc_private_key_jwt` 时必需 | `"dapr-kafka"` |
-| `oidcClientSecret` | N | 输入/输出 | 在身份提供方中预先配置的 OAuth2 客户端密钥：当 `authType` 设为 `oidc` 时必需 | `"KeFg23!"` |
-| `oidcScopes` | N | 输入/输出 | 请求访问令牌时使用的、以逗号分隔的 OAuth2/OIDC 范围列表。当 `authType` 设为 `oidc` 或 `oidc_private_key_jwt` 时推荐设置。默认为 `"openid"` | `"openid,kafka-prod"` |
+| `oidcClientSecret` | N | 输入/输出 | 在身份提供方中预先配置的 OAuth2 client secret：当 `authType` 设为 `oidc` 时必需 | `"KeFg23!"` |
+| `oidcScopes` | N | 输入/输出 | 请求访问令牌时使用的、以逗号分隔的 OAuth2/OIDC 作用域列表。当 `authType` 设为 `oidc` 或 `oidc_private_key_jwt` 时推荐设置。默认为 `"openid"` | `"openid,kafka-prod"` |
 | `oidcClientAssertionCert` | N | 输入/输出 | 用于身份验证的 OAuth2 客户端断言证书。当 `authType` 设为 `oidc_private_key_jwt` 时必需。可以是 `secretKeyRef`，以使用 secrets 引用 | `"-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"` |
 | `oidcClientAssertionKey` | N | 输入/输出 | 用于身份验证的 OAuth2 客户端断言密钥。当 `authType` 设为 `oidc_private_key_jwt` 时必需。可以是 `secretKeyRef`，以使用 secrets 引用 | `"-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"` |
 | `oidcResource` | N | 输入/输出 | 请求访问令牌时使用的 OAuth2 资源。当 `authType` 设为 `oidc_private_key_jwt` 时推荐设置。 | `"api://kafka"` |
-| `oidcAudience` | N | 输入/输出 | 请求访问令牌时使用的 OAuth2 受众。当 `authType` 设为 `oidc_private_key_jwt` 时推荐设置。 | `"http://<idp-host>/realms/local"` |
+| `oidcAudience` | N | 输入/输出 | 请求访问令牌时使用的 OAuth2 受众（audience）。当 `authType` 设为 `oidc_private_key_jwt` 时推荐设置。 | `"http://<idp-host>/realms/local"` |
 | `oidcKid` | N | 输入/输出 | 请求访问令牌时使用的 OAuth2 密钥 ID（kid）。当 `authType` 设为 `oidc_private_key_jwt` 时推荐设置。 | `"1234567890"` |
 | `version` | N | 输入/输出 | Kafka 集群版本。默认为 2.0.0。注意，对于 EventHubs with Kafka，此项必须设为 `1.0.0`。 | `"1.0.0"` |
 | `direction` | N | 输入/输出 | binding 的方向。 | `"input"`, `"output"`, `"input, output"` |
@@ -122,7 +122,7 @@ spec:
 使用 Azure EventHubs with Kafka 时，metadata `version` 必须设为 `1.0.0`。
 
 {{% alert title="消费者事务仅适用于 pubsub" color="info" %}}
-Kafka binding 不支持 `consumerTransactionsEnabled`，将其设为 `"true"` 会在初始化时失败。精确一次的"消费-转换-生产"要求交付的事务令牌通过同一个 component 实例回传，而 binding 模型（input binding 与 output binding 是各自独立的实例）无法提供这一点。请改用 [Kafka pub/sub component]({{% ref setup-apache-kafka.md %}})。
+Kafka binding 不支持 `consumerTransactionsEnabled`，将其设为 `"true"` 会在初始化时失败。恰好一次的“消费-转换-生产”要求交付的事务令牌通过同一个 component 实例回传，而 binding 模型（input binding 与 output binding 是各自独立的实例）无法提供这一点。请改用 [Kafka pub/sub component]({{% ref setup-apache-kafka.md %}})。
 {{% /alert %}}
 
 ## binding 支持
@@ -166,7 +166,7 @@ curl -X POST http://localhost:3500/v1.0/bindings/myKafka \
 ## 相关链接
 
 - [Dapr component 的基本架构]({{% ref component-schema %}})
-- [binding building block]({{% ref bindings %}})
+- [Bindings building block]({{% ref bindings %}})
 - [如何操作：使用 input binding 触发应用]({{% ref howto-triggers.md %}})
 - [如何操作：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
-- [binding API 参考]({{% ref bindings_api.md %}})
+- [Bindings API 参考]({{% ref bindings_api.md %}})

@@ -6,10 +6,10 @@ description: "Dapr MCPServer 资源的基础规范"
 weight: 3500
 ---
 
-`MCPServer` 是一种 Dapr 资源，用于声明到 MCP（模型上下文协议）服务器的连接。Dapr 在启动时加载这些资源，发现服务器提供的工具，并为每个工具注册内置的持久化 workflow 编排：用于工具发现的 `dapr.internal.mcp.<server>.ListTools`，以及为每个已发现的工具注册的 `dapr.internal.mcp.<server>.CallTool.<tool>`，用于持久化的工具执行。调用方通过标准的 [Dapr Workflow API]({{% ref workflow_api %}}) 调用它们。
+`MCPServer` 是一种 Dapr 资源，用于声明到模型上下文协议（MCP）服务器的连接。Dapr 在启动时加载这些资源，发现服务器提供的工具，并为每个工具注册内置的持久化 workflow 编排：用于工具发现的 `dapr.internal.mcp.<server>.ListTools`，以及为每个已发现的工具注册的 `dapr.internal.mcp.<server>.CallTool.<tool>`，用于持久化的工具执行。调用方通过标准的 [Dapr Workflow API]({{% ref workflow_api %}}) 调用它们。
 
 {{% alert title="注意" color="primary" %}}
-任何 MCPServer 资源都可以限制在特定的[namespace]({{% ref isolation-concept.md %}})内，并通过作用域限制为任意特定的应用集合访问。
+任何 MCPServer 资源都可以限制在特定的[namespace]({{% ref isolation-concept.md %}})内，并通过作用域（scopes）限制为任意特定的应用集合访问。
 {{% /alert %}}
 
 ## 格式
@@ -134,7 +134,7 @@ spec:
 
 | 字段 | 必填 | 说明 | 示例 |
 |-------|:--------:|---------|---------|
-| ignoreErrors | 否 | 为 `true` 时，如果此 MCPServer 未通过校验或密钥解析，daprd 仍保持运行。为 `false`（默认值）时，此类失败会导致 daprd 正常退出。 | `true` |
+| ignoreErrors | 否 | 为 `true` 时，如果此 MCPServer 未通过校验或 secret 解析，daprd 仍保持运行。为 `false`（默认值）时，此类失败会导致 daprd 正常退出。 | `true` |
 | endpoint | 是 | MCP 服务器的传输方式与目标。参见下方的[端点](#端点)。 | |
 | middleware | 否 | 围绕工具和列表操作调用的可选 workflow 钩子。参见下方的[middleware 字段](#middleware-字段)。 | |
 | catalog | 否 | 信息性的治理 metadata。参见下方的[Catalog 字段](#catalog-字段)。 | |
@@ -166,12 +166,12 @@ spec:
 | auth.secretStore | 否 | 用于解析 headers 中 `secretKeyRef` 条目的 Dapr secret store。默认为 `"kubernetes"`。 | `"my-secret-store"` |
 | auth.oauth2.issuer | 是（若使用 oauth2） | 授权服务器的令牌端点。 | `"https://auth.example.com/token"` |
 | auth.oauth2.clientID | 否 | 发送到令牌端点的 OAuth2 客户端标识符。标准的 `client_credentials` 流程依据 RFC 6749 要求此项；非标准流程中可以留空。 | `"my-client-id"` |
-| auth.oauth2.audience | 否 | 令牌请求中的 audience 声明。 | `"mcp://payments"` |
+| auth.oauth2.audience | 否 | 令牌请求中的受众（audience）声明。 | `"mcp://payments"` |
 | auth.oauth2.scopes | 否 | 令牌中请求的作用域。 | `["read", "write"]` |
 | auth.oauth2.secretKeyRef | 否 | 对 secret store 中 client secret 的引用。 | `name: "oauth-secret"` `key: "clientSecret"` |
 | auth.spiffe.jwt.header | 是（若使用 spiffe） | 注入 JWT 时使用的 HTTP 标头名称。 | `"Authorization"` |
 | auth.spiffe.jwt.headerValuePrefix | 否 | 拼接在 JWT 值前面的字符串。 | `"Bearer "` |
-| auth.spiffe.jwt.audience | 是（若使用 spiffe） | JWT 的目标受众。 | `"mcp://payments"` |
+| auth.spiffe.jwt.audience | 是（若使用 spiffe） | JWT 的目标受众（audience）。 | `"mcp://payments"` |
 
 ### Stdio 字段
 

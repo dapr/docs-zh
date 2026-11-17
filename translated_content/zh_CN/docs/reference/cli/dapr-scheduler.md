@@ -32,8 +32,8 @@ dapr scheduler [command]
 
 | 标志 | 描述 |
 | -k, --kubernetes | 在 Kubernetes Dapr 集群上执行操作 |
-| -n, --namespace string | Dapr 应用的命名空间（默认 "default"） |
-| --scheduler-namespace string | Scheduler 运行的命名空间（默认 "dapr-system"） |
+| -n, --namespace string | Dapr 应用的 namespace（默认 "default"） |
+| --scheduler-namespace string | Scheduler 运行的 namespace（默认 "dapr-system"） |
 
 ## dapr scheduler list
 

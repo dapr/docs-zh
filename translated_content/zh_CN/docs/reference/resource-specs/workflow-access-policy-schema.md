@@ -6,10 +6,10 @@ description: "Dapr WorkflowAccessPolicy 资源的基本规范"
 weight: 6000
 ---
 
-`WorkflowAccessPolicy` 是一种 Dapr 资源，用于控制哪些应用可以执行 workflow 操作（调度、终止、raise event、暂停、恢复、清除、获取、重新运行），以及在目标应用上跨应用调度 activity。策略是纯粹的允许列表：只要有任一已加载的规则匹配，调用即被允许。
+`WorkflowAccessPolicy` 是一种 Dapr 资源，用于控制哪些应用可以执行 workflow 操作（schedule、terminate、raise event、pause、resume、purge、get、rerun），以及在目标应用上跨应用调度 activity。策略是纯粹的允许列表：只要有任一已加载的规则匹配，调用即被允许。
 
-{{% alert title="不支持跨命名空间 workflow" color="warning" %}}
-workflow 始终限定在单个命名空间内。无论策略内容如何，也无论是否加载了任何策略，跨命名空间的 workflow 和 activity 调用都会被拒绝。multi-application workflow 中的所有调用方和目标都必须位于同一命名空间。
+{{% alert title="不支持跨 namespace 的 workflow" color="warning" %}}
+workflow 始终限定在单个 namespace 内。无论策略内容如何，也无论是否加载了任何策略，跨 namespace 的 workflow 和 activity 调用都会被拒绝。multi-application workflow 中的所有调用方和目标都必须位于同一 namespace 中。
 {{% /alert %}}
 
 ## 格式
@@ -42,10 +42,10 @@ spec:
 | `scopes` | 否 | 列表 | 此策略适用的目标应用 ID。若省略或为空，则策略适用于所有应用。策略在被调用方（目标）一侧强制执行。 | `["order-service"]` |
 | `rules` | 否 | 列表 | 规则的允许列表。只要有任一规则匹配，调用即被允许。若在已加载策略的情况下省略 `rules` 或其为空，则所有跨应用调用都会被拒绝。 | 见下文 |
 | `rules[].callers` | 是 | 列表 | 此规则适用的调用方对象列表。必须至少包含一项。 | 见下文 |
-| `rules[].callers[].appID` | 是 | 字符串 | 调用方应用的 Dapr App ID。调用方必须与目标位于同一命名空间；跨命名空间的 workflow 调用始终被拒绝，且不受支持。 | `frontend-app` |
+| `rules[].callers[].appID` | 是 | 字符串 | 调用方应用的 Dapr App ID。调用方必须与目标位于同一 namespace；跨 namespace 的 workflow 调用始终被拒绝，且不受支持。 | `frontend-app` |
 | `rules[].workflows` | 否\* | 列表 | 授予匹配调用方的 workflow 规则。 | 见下文 |
 | `rules[].workflows[].name` | 是 | 字符串 | workflow 的精确名称，或其 [glob 模式](https://pkg.go.dev/path#Match)。支持 `*`、`?` 和 `[abc]` 字符类。 | `OrderWF`, `Report*` |
-| `rules[].workflows[].operations` | 是 | 列表 | 授予的操作集合：`schedule`、`terminate`、`raise`、`pause`、`resume`、`purge`、`get`、`rerun`。每个操作在跨应用调用方针对指定 workflow 调用时强制执行。 | `[schedule, terminate]` |
+| `rules[].workflows[].operations` | 是 | 列表 | 授予的操作集合：`schedule`、`terminate`、`raise`、`pause`、`resume`、`purge`、`get`、`rerun`。每个操作在跨应用调用方针对指定 workflow 发起调用时强制执行。 | `[schedule, terminate]` |
 | `rules[].workflows[].requires` | 否 | 列表 | 可选的有序 history event 列表（最多 20 个），调用方的 [propagated history]({{% ref workflow-history-propagation.md %}}) 中必须全部按顺序存在，规则才适用。仅当规则的唯一操作为 `schedule` 时有效。需要启用 [history signing]({{% ref workflow-history-signing.md %}})；若签名未启用，`requires` 规则始终拒绝。 | 见下文 |
 | `rules[].activities` | 否\* | 列表 | 授予匹配调用方的 activity 规则。activity 只支持调度，因此没有 `operations` 字段。 | 见下文 |
 | `rules[].activities[].name` | 是 | 字符串 | activity 的精确名称，或其 [glob 模式](https://pkg.go.dev/path#Match)。 | `ChargePayment`, `Refund*` |

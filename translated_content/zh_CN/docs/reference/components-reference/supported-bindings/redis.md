@@ -47,14 +47,14 @@ spec:
 | `useOIDC` | N | 输出 | 使用 `private_key_jwt` 客户端身份验证方法（RFC 7523）的 OpenID Connect 进行身份验证。从身份提供方获取的 OAuth2 访问令牌会被用作 Redis `AUTH` 命令的密码，并在过期前自动刷新。不得与 `redisPassword` 或 `useEntraID` 同时使用。此 component 支持 [Redis state store 文档]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}})中记录的全部 `oidc*` metadata 字段 | `"true"`, `"false"` |
 | `enableTLS` | N | 输出 | 如果 Redis 实例支持使用公共证书的 TLS，可以配置为启用或禁用 TLS。默认为 `"false"` | `"true"`, `"false"` |
 | `insecureSkipTLSVerify` | N | 输出 | 当 `enableTLS` 为 `"true"` 时，跳过 TLS 证书验证。仅用于测试。默认为 `"false"` | `"true"`, `"false"` |
-| `clientCert`        | N | 输出        | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，且 `enableTLS` 必须设为 true。建议按[此处]({{% ref component-secrets.md %}})所述使用 secret store | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
-| `clientKey`        | N | 输出        | 客户端私钥的内容，与 `clientCert` 一起用于身份验证。建议按[此处]({{% ref component-secrets.md %}})所述使用 secret store | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
+| `clientCert`        | N | 输出        | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，且 `enableTLS` 必须设为 true。建议按[此处]({{% ref component-secrets.md %}})所述使用 secret store  | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
+| `clientKey`        | N | 输出        | 客户端私钥的内容，与 `clientCert` 一起用于身份验证。建议按[此处]({{% ref component-secrets.md %}})所述使用 secret store  | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
 | `failover`           | N | 输出         | 启用故障转移配置的属性。需要设置 sentinelMasterName。启用后，redisHost 应包含 Sentinel 地址。默认为 `"false"` | `"true"`, `"false"`
 | `sentinelMasterName` | N | 输出         | Sentinel 主节点名称。参见 [Redis Sentinel 文档](https://redis.io/docs/reference/sentinel-clients/) | `""`,  `"mymaster"`
 | `sentinelUsername`   | N | 输出         | Redis Sentinel 的用户名。仅当 "failover" 为 "true" 且 Redis Sentinel 启用了身份验证时适用 | `"username"`
 | `sentinelPassword`   | N | 输出         | Redis Sentinel 的密码。仅当 "failover" 为 "true" 且 Redis Sentinel 启用了身份验证时适用 | `"password"`
-| `redeliverInterval`  | N | 输出        | 检查待重新投递消息的时间间隔。默认为 `"60s"`。`"0"` 表示禁用重新投递。 | `"30s"`
-| `processingTimeout`  | N | 输出        | 消息处于待处理状态多久后才会尝试重新投递。默认为 `"15s"`。`"0"` 表示禁用重新投递。 | `"30s"`
+| `redeliverInterval`  | N | 输出        | 检查待重新传递消息的时间间隔。默认为 `"60s"`。`"0"` 表示禁用重新传递。 | `"30s"`
+| `processingTimeout`  | N | 输出        | 消息处于待处理状态多久后才会尝试重新传递。默认为 `"15s"`。`"0"` 表示禁用重新传递。 | `"30s"`
 | `redisType`        | N | 输出        | Redis 的类型。有两个有效值：`"node"` 表示单节点模式，`"cluster"` 表示 Redis 集群模式。默认为 `"node"`。 | `"cluster"`
 | `redisDB`        | N | 输出        | 连接 Redis 后选择的数据库。如果 `"redisType"` 为 `"cluster"`，则忽略此选项。默认为 `"0"`。 | `"0"`
 | `redisMaxRetries`        | N | 输出        | 放弃之前可重试命令的最大次数。默认不重试失败的命令。  | `"5"`
@@ -244,7 +244,7 @@ Dapr CLI 会自动为你创建并设置一个 Redis Streams 实例。运行 `dap
 
 1. 将 `enableTLS` 设为 `"true"`，以支持 TLS。
 
-> **注意：**`useEntraID` 假定你的 UserPrincipal（通过 AzureCLICredential）或系统分配的托管标识具有 RedisDataOwner 角色权限。如果使用用户分配的标识，[需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
+> **注意：**`useEntraID` 假定你的 UserPrincipal（通过 AzureCLICredential）或系统分配的托管标识具有 RedisDataOwner 角色权限。如果使用用户分配标识，[需要指定 `azureClientID` 属性]({{% ref "howto-mi.md#set-up-identities-in-your-component" %}})。
 {{% /tab %}}
 
 {{% tab "GCP" %}}

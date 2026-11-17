@@ -7,7 +7,7 @@ aliases:
   - "/zh-hans/reference/components-reference/supported-binarystore/oci-objectstorage/"
 ---
 
-OCI 对象存储 Binary Store 会将每个文件作为一个对象存储到已配置的存储桶中。该 component 处于 alpha。
+OCI 对象存储 Binary Store 会将每个文件作为一个对象存储到已配置的存储桶中。该 component 处于 alpha 阶段。
 
 ## component 格式
 
@@ -36,7 +36,7 @@ spec:
     value: "<OBJECT_STORAGE_NAMESPACE>"
 ```
 
-配置文件必须位于 sidecar 环境中的指定路径。请按照你的部署所采用的机密管理实践保护文件中的凭据。
+配置文件必须位于 sidecar 环境中的指定路径。请按照你的部署所采用的 secret 管理实践保护文件中的凭据。
 
 ## 身份验证
 
@@ -56,11 +56,11 @@ spec:
 | `compartmentOCID` | 是 | 包含该存储桶的区间（compartment）的 OCID。 | `"ocid1.compartment.oc1..example"` |
 | `namespace` | 否 | OCI 对象存储 namespace。如果省略，component 会从租户中解析该 namespace。 | `"my-namespace"` |
 | `prefix` | 否 | 添加到每个文件名前的前缀。如果配置，则不能以 `/` 开头。 | `"uploads"` |
-| `partSize` | 否 | 分块上传（multipart upload）的分块大小，可以用字节数或字节大小字符串指定。默认为 `16Mi`，必须介于 10 MiB 和 50 GiB 之间。OCI 限制每次上传最多 10,000 个分块；更大的分块可以提高最大上传大小（最高可达 10 TiB），但每个进行中的上传会占用更多内存。 | `"64Mi"` |
+| `partSize` | 否 | 分段上传（multipart upload）的分块大小，可以用字节数或字节大小字符串指定。默认为 `16Mi`，必须介于 10 MiB 和 50 GiB 之间。OCI 限制每次上传最多 10,000 个分块；更大的分块可以提高最大上传大小（最高可达 10 TiB），但每个进行中的上传会占用更多内存。 | `"64Mi"` |
 | `region` | 是（API 密钥认证） | 存储桶所在的 OCI 区域。 | `"us-ashburn-1"` |
 | `userOCID` | 是（API 密钥认证） | OCI 用户的 OCID。 | `"ocid1.user.oc1..example"` |
 | `fingerPrint` | 是（API 密钥认证） | API 密钥的指纹。 | `"xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx:xx"` |
-| `privateKey` | 是（API 密钥认证） | 用于 API 身份验证的私钥。请将此值视为机密。 | `"<PRIVATE_KEY>"` |
+| `privateKey` | 是（API 密钥认证） | 用于 API 身份验证的私钥。请将此值视为 secret。 | `"<PRIVATE_KEY>"` |
 | `tenancyOCID` | 是（API 密钥认证） | 租户的 OCID。 | `"ocid1.tenancy.oc1..example"` |
 | `instancePrincipalAuthentication` | 是（实例主体认证） | 设置为 `"true"` 以使用实例主体身份验证。默认为 `"false"`。 | `"true"` |
 | `configFileAuthentication` | 是（配置文件认证） | 设置为 `"true"` 以使用配置文件身份验证。默认为 `"false"`。 | `"true"` |

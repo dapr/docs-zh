@@ -6,14 +6,14 @@ description: "binding API 的详细文档"
 weight: 300
 ---
 
-Dapr 为应用程序提供双向 binding 能力，并为与不同的云服务或本地服务及系统交互提供一致的方法。
+Dapr 为应用程序提供双向 binding 能力，并为与不同的云端或本地部署的服务及系统交互提供一致的方法。
 开发者可以使用 Dapr API 调用 output binding，也可以让 Dapr runtime 通过 input binding 触发应用程序。
 
 binding 的示例包括 `Kafka`、`Rabbit MQ`、`Azure Event Hubs`、`AWS SQS`、`GCP Storage` 等。
 
 ## Bindings 结构
 
-Dapr Binding yaml 文件具有以下结构：
+Dapr binding yaml 文件具有以下结构：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -33,15 +33,15 @@ spec:
 
 如果以自托管方式在本地运行，请将此文件放置在你的 `components` 文件夹中，与你的 state store 和消息队列 yml 配置放在一起。
 
-如果在 Kubernetes 上运行，请将 component 应用到集群。
+如果在 Kubernetes 上运行，请将 component 应用到你的集群。
 
 > **注意：** 在生产环境中，切勿在 Dapr component 文件中放置密码或 secrets 信息。有关使用 secret store 安全存储和检索 secrets 信息的说明，请参阅[设置 secret store]({{% ref setup-secret-store %}})
 
 ### binding 方向（可选）
 
-在某些场景中，为 Dapr 提供额外信息以指示 binding component 支持的方向会很有用。
+在某些场景中，向 Dapr 提供额外信息以指明 binding component 支持的方向会很有用。
 
-提供 binding `direction` 可以帮助 Dapr sidecar 避免 `"wait for the app to become ready"` 状态，即无限期等待应用程序变为可用。这将 Dapr sidecar 与应用程序之间的生命周期依赖关系解耦。
+提供 binding `direction` 可以帮助 Dapr sidecar 避开 `"wait for the app to become ready"` 状态，即无限期等待应用程序可用的状态。这会解除 Dapr sidecar 与应用程序之间的生命周期依赖关系。
 
 你可以在 component 的 metadata 中指定 `direction` 字段。该字段的有效值为：
 - `"input"`
@@ -54,9 +54,9 @@ spec:
 
 以下是几个 `"direction"` metadata 字段可能有帮助的场景：
 
-- 当应用程序（与 sidecar 分离）作为无服务器工作负载运行并缩放为零时，Dapr sidecar 执行的 `"wait for the app to become ready"` 检查变得毫无意义。
+- 当应用程序（与 sidecar 分离）作为无服务器工作负载运行并缩容至零时，Dapr sidecar 执行的 `"wait for the app to become ready"` 检查就变得毫无意义。
 
-- 如果分离的 Dapr sidecar 缩放为零，且应用程序在启动 HTTP 服务器之前就访问了 sidecar，那么 `"wait for the app to become ready"` 会使应用程序与 sidecar 相互等待，陷入死锁。
+- 如果分离的 Dapr sidecar 缩容至零，且应用程序在启动 HTTP 服务器之前就访问了 sidecar，那么 `"wait for the app to become ready"` 会使应用程序与 sidecar 相互等待，陷入死锁。
 
 ### 示例
 
@@ -83,15 +83,15 @@ spec:
 
 ## 通过 input binding 调用服务代码
 
-想要使用 input binding 触发其应用程序的开发者，可以监听一个 `POST` HTTP 端点，其路由名称与 `metadata.name` 相同。
+希望使用 input binding 触发其应用程序的开发者，可以监听一个 `POST` HTTP 端点，其路由名称与 `metadata.name` 相同。
 
-启动时，Dapr 会向 `metadata.name` 端点发送 `OPTIONS` 请求。如果此应用程序希望订阅该 binding，它应返回不同于 `NOT FOUND (404)` 的状态码。
+启动时，Dapr 会向 `metadata.name` 端点发送 `OPTIONS` 请求。如果该应用程序希望订阅此 binding，则应返回与 `NOT FOUND (404)` 不同的状态码。
 
-`metadata` 部分是一个开放的键/值 metadata 对，允许 binding 定义连接属性以及 component 实现特有的自定义属性。
+`metadata` 部分是一个开放的键/值 metadata 对，允许 binding 定义连接属性，以及 component 实现特有的自定义属性。
 
 ### 示例
 
-例如，下面是一个 Python 应用程序如何使用符合 Dapr API 规范的平台订阅来自 `Kafka` 的事件。请注意，component 中的 metadata.name 值 `kafkaevent` 如何与 Python 代码中的 POST 路由名称相匹配。
+例如，下面展示了一个 Python 应用程序如何使用符合 Dapr API 规范的平台订阅来自 `Kafka` 的事件。请注意 component 中的 metadata.name 值 `kafkaevent` 如何与 Python 代码中的 POST 路由名称相匹配。
 
 #### Kafka component
 
@@ -155,7 +155,7 @@ name | binding 的名称
 
 ### binding 负载
 
-为了传递 binding 输入，会使用 binding 名称作为 URL 路径，向用户代码发起 POST 调用。
+为了传递 binding 输入，会以 binding 名称作为 URL 路径，向用户代码发起 POST 调用。
 
 #### HTTP 请求
 
@@ -180,11 +180,11 @@ name | binding 的名称
 
 #### HTTP 响应主体（可选）
 
-可选地，可以使用响应主体，将 input binding 直接与 state store 或 output binding 关联起来。
+也可以选择使用响应主体，将 input binding 直接关联到 state store 或 output binding。
 
 **示例：**
 Dapr 将 `stateDataToStore` 存储到名为 "stateStore" 的 state store 中。
-Dapr 并行将 `jsonObject` 发送到名为 "storage" 和 "queue" 的 output binding。
+Dapr 并行地将 `jsonObject` 发送到名为 "storage" 和 "queue" 的 output binding。
 如果未设置 `concurrency`，则按顺序发送（下面的示例展示了这些操作是并行完成的）
 
 ```json
@@ -267,12 +267,12 @@ curl -X POST http://localhost:3500/v1.0/bindings/myKafka \
 
 ### gRPC 请求 metadata
 
-通过 gRPC 调用 output binding 时，Dapr 除了转发你显式设置的任何 metadata，还会将传入的 gRPC 请求 metadata 转发到 binding 的 metadata 映射中。从 Dapr 1.19 开始，二进制 gRPC metadata（即以 `-bin` 结尾、其值不是有效 UTF-8 的键）不再被转发，因为它无法表示为字符串 component metadata。
+通过 gRPC 调用 output binding 时，除了你显式设置的任何 metadata 外，Dapr 还会将传入的 gRPC 请求 metadata 转发到 binding 的 metadata 映射中。从 Dapr 1.19 开始，二进制 gRPC metadata（即以 `-bin` 结尾、其值不是有效 UTF-8 的键）不再被转发，因为它无法表示为字符串形式的 component metadata。
 
 ### 常见 metadata 值
 
-有一些常见的 metadata 属性在多个 binding component 中受支持。下面的列表说明了它们：
+有一些常见的 metadata 属性在多个 binding component 中受支持。下表列出了这些属性：
 
 |属性|描述|binding 定义|可用于
 |-|-|-|-|
-|ttlInSeconds|以秒为单位定义消息的存活时间|如果在 binding 定义中设置，将导致所有消息具有默认的存活时间。消息 TTL 会覆盖 binding 定义中的任何值。|RabbitMQ, Azure Service Bus, Azure Storage Queue|
+|ttlInSeconds|以秒为单位定义消息的生存时间|如果在 binding 定义中设置，将使所有消息具有默认的生存时间。消息 TTL 会覆盖 binding 定义中的任何值。|RabbitMQ, Azure Service Bus, Azure Storage Queue|

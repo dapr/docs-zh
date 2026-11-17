@@ -7,7 +7,7 @@ weight: 1400
 ---
 
 Dapr 为用户提供了使用唯一命名标识符（appId）调用其他使用 Dapr 的应用程序，或调用不使用 Dapr 的 HTTP 端点的能力。
-这使得应用程序可以通过命名标识符相互交互，并将服务发现的负担交给 Dapr 运行时。
+这使得应用程序可以通过命名标识符相互交互，并将服务发现的负担交给 Dapr runtime。
 
 ## 调用远程 Dapr 应用程序的方法
 
@@ -19,9 +19,9 @@ Dapr 为用户提供了使用唯一命名标识符（appId）调用其他使用 
 PATCH/POST/GET/PUT/DELETE http://localhost:<daprPort>/v1.0/invoke/<appID>/method/<method-name>
 ```
 
-## 调用非 Dapr 端点的方法
+## 调用 non-Dapr endpoint 的方法
 
-此端点允许你使用 `HTTPEndpoint` 资源名称或完全限定域名（FQDN）URL，调用非 Dapr 端点上的方法。
+此端点允许你使用 `HTTPEndpoint` 资源名称或完全限定域名（FQDN）URL，调用 non-Dapr endpoint 上的方法。
 
 ### HTTP 请求
 
@@ -79,20 +79,20 @@ method-name | 要在远程应用上调用的方法或 URL 的名称
 
 ### 被调用服务接收的请求
 
-一旦你的服务代码调用了另一个启用了 Dapr 的应用程序或非 Dapr 端点中的方法，Dapr 会将请求连同标头和正文一起发送到 `<method-name>` 端点。
+一旦你的服务代码调用了另一个启用了 Dapr 的应用程序或 non-Dapr endpoint 中的方法，Dapr 会将请求连同标头和正文一起发送到 `<method-name>` 端点。
 
-被调用的 Dapr 应用程序或非 Dapr 端点需要在该端点上监听并响应请求。
+被调用的 Dapr 应用程序或 non-Dapr endpoint 需要在该端点上监听并响应请求。
 
-### 跨命名空间调用
+### 跨 namespace 调用
 
-在支持命名空间的托管平台上，Dapr 应用 ID 符合包含目标命名空间的有效完全限定域名（FQDN）格式。
-例如，以下字符串同时包含应用 ID（`myApp`）以及应用运行所在的命名空间（`production`）。
+在支持 namespace 的托管平台上，Dapr App ID 符合包含目标 namespace 的有效完全限定域名（FQDN）格式。
+例如，以下字符串同时包含 App ID（`myApp`）以及应用运行所在的 namespace（`production`）。
 
 ```
 myApp.production
 ```
 
-#### 支持命名空间的平台
+#### 支持 namespace 的平台
 
 - Kubernetes
 
@@ -128,11 +128,11 @@ app.listen(port, () => console.log(`Listening on port ${port}!`));
 
 `http://localhost:3500/v1.0/invoke/mathService/method/api/v1/add`
 
-如果你要调用另一个命名空间中的 `mathService`，可以使用以下 URL：
+如果你要调用另一个 namespace 中的 `mathService`，可以使用以下 URL：
 
 `http://localhost:3500/v1.0/invoke/mathService.testing/method/api/v1/add`
 
-在此 URL 中，`testing` 是 `mathService` 运行所在的命名空间。
+在此 URL 中，`testing` 是 `mathService` 运行所在的 namespace。
 
 ### service invocation 请求中的标头
 
@@ -141,7 +141,7 @@ app.listen(port, () => console.log(`Listening on port ${port}!`));
 | 标头 | 描述 | 示例 |
 |--------|-------------|---------|
 | `dapr-caller-app-id` | 调用应用程序的 ID | `myapp` |
-| `dapr-caller-namespace` | 调用应用程序的命名空间 | `production` |
+| `dapr-caller-namespace` | 调用应用程序的 namespace | `production` |
 | `dapr-callee-app-id` | 被调用应用程序的 ID | `mathService` |
 
 这些标头在 HTTP 和 gRPC service invocation 请求中都可用，包括通过 gRPC 代理发起的调用。
@@ -150,7 +150,7 @@ app.listen(port, () => console.log(`Listening on port ${port}!`));
 
 从 Dapr 1.19 和 1.18.6 版本开始，方法名中如果包含 `%2F`、`%5C` 或 `%2E`（不区分大小写），或包含字面量 `\`，则会在访问控制检查之前被拒绝。这是因为应用程序可能会将其解码为 [访问控制策略]({{% ref invoke-allowlist %}}) 不允许的路径。该规则适用于 HTTP 和 gRPC API、sidecar 之间的调用、经代理的 gRPC 调用以及 Actor 方法调用。
 
-#### 非 Dapr 端点示例
+#### non-Dapr endpoint 示例
 
 如果 `mathService` 服务是非 Dapr 应用程序，则可以使用 service invocation，通过 `HTTPEndpoint` 进行调用，也可以通过完全限定域名（FQDN）URL 进行调用。
 

@@ -652,7 +652,7 @@ curl -X POST http://localhost:3500/v1.0-alpha1/vector/myvectors/collections/cars
 
 ## 错误
 
-Dapr 运行时自身检测到的错误（例如 vector store 不存在或请求无效）会以标准 Dapr 错误格式返回，错误代码如下：
+Dapr runtime 自身检测到的错误（例如 vector store 不存在或请求无效）会以标准 Dapr 错误格式返回，错误代码如下：
 
 | 错误代码 | HTTP 状态 | gRPC 代码 | 说明 |
 | ---------- | ----------- | --------- | ----------- |
@@ -661,7 +661,7 @@ Dapr 运行时自身检测到的错误（例如 vector store 不存在或请求�
 | `ERR_VECTOR_INVALID_REQUEST` | `400` | `INVALID_ARGUMENT` | 请求未通过校验，例如 `dimensions` 设为 `0`、记录 ID 为空或重复、缺少 `query`、`vector` 与 `byId` 均未设置或均已设置、查询向量为空，或[索引选项]({{% ref "search_api.md#indexing-options" %}})无效。`google.rpc.BadRequest` 详情会指明出错字段，例如 `dimensions`、`records.id`、`query`、`query.vector.values`、`options` 或 `options.wait_timeout`。在[批量查询](#批量查询向量)中，错误会改为返回到失败查询所在的位置 |
 | `ERR_MALFORMED_REQUEST` | `400` | N/A | HTTP 请求正文不是有效的 JSON |
 
-vector store 返回的错误（例如集合不存在）会原样传递其标准 [gRPC 状态码](https://grpc.io/docs/guides/status-codes/)和详情。通过 HTTP 访问时，响应正文使用标准代码名称作为 `errorCode`，状态详情放在 `details` 中，HTTP 状态的映射方式与[搜索 API]({{% ref "search_api.md#errors" %}})相同，例如 `NOT_FOUND` 映射为 `404`、`ALREADY_EXISTS` 映射为 `409`、`UNAVAILABLE` 映射为 `503`、`DEADLINE_EXCEEDED` 映射为 `504`：
+vector store 返回的错误（例如集合不存在）会原样传递其标准 [gRPC 状态码](https://grpc.io/docs/guides/status-codes/)和详情。通过 HTTP 访问时，响应正文使用标准代码名称作为 `errorCode`，状态详情放在 `details` 中，HTTP 状态的映射方式与[Search API]({{% ref "search_api.md#errors" %}})相同，例如 `NOT_FOUND` 映射为 `404`、`ALREADY_EXISTS` 映射为 `409`、`UNAVAILABLE` 映射为 `503`、`DEADLINE_EXCEEDED` 映射为 `504`：
 
 ```json
 {
@@ -674,7 +674,7 @@ vector store 返回的错误（例如集合不存在）会原样传递其标准 
 
 无法确定结果的写入（即 vector store 报告了批次级失败，但未说明哪些记录已生效）会带有 `dapr.io` 域中原因为 `INDEXING_OUTCOME_UNKNOWN` 的 `google.rpc.ErrorInfo` 详情。请重试该请求；按键的 upsert 和删除操作都是幂等的。
 
-### resiliency
+### Resiliency
 
 vector store 调用在该存储的[resiliency]({{% ref resiliency-overview %}})下运行：
 
@@ -685,7 +685,7 @@ vector store 调用在该存储的[resiliency]({{% ref resiliency-overview %}})�
 
 ## gRPC API
 
-向量 API 也可以通过 gRPC 使用，位于 [Dapr 运行时 protos](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/vector.proto) 中的 `Dapr` 服务：
+向量 API 也可以通过 gRPC 使用，位于 [Dapr runtime protos](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/vector.proto) 中的 `Dapr` 服务：
 
 | RPC | 说明 |
 | --- | ----------- |

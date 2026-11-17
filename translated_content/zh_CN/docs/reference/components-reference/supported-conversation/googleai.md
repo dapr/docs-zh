@@ -26,7 +26,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-以上示例将密钥以纯字符串形式使用。建议使用 secret store 来管理密钥，具体说明请参见[此处]({{< ref component-secrets.md >}})。
+以上示例将 secrets 以纯字符串形式使用。建议使用 secret store 来管理 secrets，具体说明请参见[此处]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
 ## 规格 metadata 字段
