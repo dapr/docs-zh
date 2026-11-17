@@ -56,4 +56,4 @@ $daprClient->publishEvent(pubsubName: 'pubsub', topicName: 'my-topic', data: $ra
 
 ## 接收云事件
 
-在你的订阅处理程序中，你可以让 DI 容器向你的控制器中注入 `Dapr\PubSub\CloudEvent` 或 `array`。前者会进行一些验证以确保你有一个正确的事件。如果你需要直接访问数据，或者事件不符合规范，请使用 `array`。
+在你的订阅 handler 中，你可以让 DI 容器向你的控制器中注入 `Dapr\PubSub\CloudEvent` 或 `array`。前者会进行一些验证以确保你有一个正确的事件。如果你需要直接访问数据，或者事件不符合规范，请使用 `array`。
