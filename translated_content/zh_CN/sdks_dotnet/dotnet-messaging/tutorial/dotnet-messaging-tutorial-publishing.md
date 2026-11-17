@@ -90,7 +90,7 @@ await client.PublishByteEventAsync(
 
 ## 测试发布者
 
-单元测试使用 Moq 验证客户端接收到了预期的主题、负载、选项和内容类型。它们不会启动 Dapr。集成测试使用 `DaprHarnessBuilder.BuildPubSub()`，将真实客户端连接到测试框架（harness）的动态 gRPC 与 HTTP 端口，并针对 sidecar 和 Redis 验证有类型、批量与原始格式的发布。
+单元测试使用 Moq 验证客户端接收到了预期的 topic、负载、选项和内容类型。它们不会启动 Dapr。集成测试使用 `DaprHarnessBuilder.BuildPubSub()`，将真实客户端连接到测试框架（harness）的动态 gRPC 与 HTTP 端口，并针对 sidecar 和 Redis 验证有类型、批量与原始格式的发布。
 
 在 SDK 仓库中运行该示例：
 

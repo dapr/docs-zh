@@ -17,7 +17,7 @@ description: "一个由七部分组成的教程，介绍如何使用 Dapr.Messag
 ## 教程内容
 
 - [第 1 部分：发布事件]({{< ref dotnet-messaging-tutorial-publishing.md >}})：类型化事件、CloudEvent metadata、批量发布和原始负载。
-- [第 2 部分：声明式 streaming subscription]({{< ref dotnet-messaging-tutorial-streaming.md >}})：源生成的处理程序，并明确区分成功、重试和丢弃的确认。
+- [第 2 部分：声明式 streaming subscription]({{< ref dotnet-messaging-tutorial-streaming.md >}})：源生成的 handler，并明确区分成功、重试和丢弃的确认。
 - [第 3 部分：基于内容的路由与死信主题]({{< ref dotnet-messaging-tutorial-routing.md >}})：CEL 匹配规则、优先级、metadata 和死信处理。
 - [第 4 部分：批量订阅]({{< ref dotnet-messaging-tutorial-bulk.md >}})：通过有界的批大小和等待时长实现高吞吐量投递。
 - [第 5 部分：gRPC AppCallback 推送]({{< ref dotnet-messaging-tutorial-appcallback.md >}})：面向暴露 gRPC 端口的应用，由 sidecar 发起的 gRPC 投递。
@@ -26,7 +26,7 @@ description: "一个由七部分组成的教程，介绍如何使用 Dapr.Messag
 
 ## 测试模式
 
-将消息处理决策放在普通的 C# 处理程序中，以便直接对其进行测试。示例中的单元测试会构造 `TopicContext`，调用 `HandleAsync`，并断言针对有效、无效和瞬时输入返回的 `TopicResponseAction`。
+将消息处理决策放在普通的 C# handler 中，以便直接对其进行测试。示例中的单元测试会构造 `TopicContext`，调用 `HandleAsync`，并断言针对有效、无效和瞬时输入返回的 `TopicResponseAction`。
 
 为基础设施边界添加集成测试。示例会创建 `PubSubHarness`，将应用配置为使用测试工具动态分配的 Dapr 端点，发布真实事件，并等待可观察的处理结果。验证异步投递时，请使用有界超时、`IAsyncLifetime` 清理以及测试日志接收器，而不要只依赖 sleep。
 

@@ -17,7 +17,7 @@ description: "Dapr virtual Actor building block 在 .NET 中的概述"
 ## 核心概念
 
 - [操作指南：在 .NET SDK 中运行和使用 virtual Actor]({{< ref dotnet-actors-howto.md >}})：一份完整的教程，用于构建包含三个项目的解决方案，即 Actor 接口、带状态、reminder 和 timer 的 Actor 服务，以及代理客户端。
-- [编写与运行 Actor]({{< ref dotnet-actors-usage.md >}})：使用 `ActorHost` 编写 Actor，包括依赖注入、释放、日志记录和自定义类型名称；在 ASP.NET Core 中通过 `AddActors`、JSON 选项以及经由 `MapActorsHandlers` 的端点路由托管 Actor，并注意 middleware 的常见陷阱。
+- [编写与运行 Actor]({{< ref dotnet-actors-usage.md >}})：使用 `ActorHost` 编写 Actor，包括依赖注入、释放、日志记录和自定义类型名称；在 ASP.NET Core 中通过 `AddActors`、JSON 选项以及经由 `MapActorsHandlers` 的端点 Routing 托管 Actor，并注意 middleware 的常见陷阱。
 - [Actor 序列化]({{< ref dotnet-actors-serialization.md >}})：两种序列化模型，即弱类型客户端（System.Text.Json，输出 JSON）和强类型客户端（Data Contract Serializer，输出 XML），以及在两者中配置类型的规则。
 - [IActorProxyFactory 接口]({{< ref dotnet-actors-client.md >}})：使用强类型（`CreateActorProxy<>`）和弱类型（`Create`）代理方式创建 Actor 客户端，以及从方法调用中读取异常详情。
 

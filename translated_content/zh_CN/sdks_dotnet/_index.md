@@ -43,7 +43,7 @@ dotnet add package Dapr.Client
 | [Quickstarts]({{% ref quickstarts %}}) | 使用 .NET SDK 在几分钟内体验 Dapr 的 API building block。 |
 | [SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples) | 克隆 SDK 仓库以尝试一些示例并开始使用。 |
 | [pub/sub 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub) | 了解 Dapr .NET SDK 如何与其他 Dapr SDK 协作以实现 pub/sub 应用程序。 |
-| [Dapr.Messaging 教程]({{< ref "dotnet-messaging/tutorial/_index.md" >}}) | 演练现代 .NET 消息示例，包括发布、投递模式、路由和测试。 |
+| [Dapr.Messaging 教程]({{< ref "dotnet-messaging/tutorial/_index.md" >}}) | 演练现代 .NET 消息示例，包括发布、投递模式、Routing 和测试。 |
 
 ## 可用包
 

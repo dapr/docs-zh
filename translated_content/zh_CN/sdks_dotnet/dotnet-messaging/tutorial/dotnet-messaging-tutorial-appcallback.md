@@ -49,7 +49,7 @@ dapr run --app-id appcallback-example --app-port 5000 --app-protocol grpc `
 
 ## 测试两个层次
 
-单元测试验证有效付款能够成功处理，金额为零或负数的付款会被丢弃。集成测试为测试应用配置 gRPC 服务器、启动测试框架、发布真实付款，并观察处理程序的结果。这一区别很重要：单元测试验证业务规则，集成测试验证 AppCallback 注册、可达性与投递。
+单元测试验证有效付款能够成功处理，金额为零或负数的付款会被丢弃。集成测试为测试应用配置 gRPC 服务器、启动测试框架、发布真实付款，并观察 handler 的结果。这一区别很重要：单元测试验证业务规则，集成测试验证 AppCallback 注册、可达性与投递。
 
 ```powershell
 dotnet test examples\Messaging\05-AppCallbackPush\AppCallback.Example05.Tests\AppCallback.Example05.Tests.csproj
@@ -58,4 +58,4 @@ dotnet test examples\Messaging\05-AppCallbackPush\AppCallback.Example05.Tests\Ap
 ## 下一步
 
 - [第 6 部分：HTTP 推送订阅]({{< ref dotnet-messaging-tutorial-http.md >}})
-- [订阅主题操作指南]({{< ref dotnet-messaging-subscribe-howto.md >}})
+- [订阅 topic 操作指南]({{< ref dotnet-messaging-subscribe-howto.md >}})

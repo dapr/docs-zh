@@ -14,7 +14,7 @@ workflow history propagation 允许父 workflow 将其执行历史共享给 chil
 
 - 审计追踪：验证多步骤 workflow 中的保管链
 - 欺诈检测：在提交交易之前检查上游的决策
-- AI 代理编排：在分层的代理 workflow 中传递上下文
+- AI Agent Orchestration：在分层的代理 workflow 中传递上下文
 
 概念性的说明请参阅 [workflow history propagation]({{% ref "workflow-history-propagation.md" %}})。
 

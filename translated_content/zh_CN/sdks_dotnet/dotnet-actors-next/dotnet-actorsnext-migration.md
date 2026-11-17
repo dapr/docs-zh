@@ -459,7 +459,7 @@ builder.Services.AddDaprActors(options =>
 
 ## 投递语义保持不变——现在明确说明
 
-`Dapr.Actors` 中的 Actor 调用本来就是至少一次（at-least-once）语义，reminder 在未被确认前也会反复触发；只是许多团队并没有为此做设计。`Dapr.Actors.Next` 并未改变这一契约，但它让失败路径变得可测试：调用可能被重新传递，reminder 在确认丢失时可能再次触发，即使处理它的轮次已经提交。因此，每个 Actor 方法、reminder 和订阅处理程序都必须能够安全地重复执行。无论是状态变更还是外部副作用（发布消息、调用另一个 Actor、扣款），都需要幂等或去重；仅依靠 Actor 状态并不能让一次自增或追加操作变得可安全重放。可以使用带装饰的回调传输层，在提交之后注入响应丢失故障，然后显式地测试重新传递。参见[需要为之设计的投递保证]({{< ref "dotnet-actorsnext-howto.md#delivery-guarantees-you-must-design-for" >}})。
+`Dapr.Actors` 中的 Actor 调用本来就是至少一次（at-least-once）语义，reminder 在未被确认前也会反复触发；只是许多团队并没有为此做设计。`Dapr.Actors.Next` 并未改变这一契约，但它让失败路径变得可测试：调用可能被重新传递，reminder 在确认丢失时可能再次触发，即使处理它的轮次已经提交。因此，每个 Actor 方法、reminder 和订阅 handler 都必须能够安全地重复执行。无论是状态变更还是外部副作用（发布消息、调用另一个 Actor、扣款），都需要幂等或去重；仅依靠 Actor 状态并不能让一次自增或追加操作变得可安全重放。可以使用带装饰的回调传输层，在提交之后注入响应丢失故障，然后显式地测试重新传递。参见[需要为之设计的投递保证]({{< ref "dotnet-actorsnext-howto.md#delivery-guarantees-you-must-design-for" >}})。
 
 ## 测试
 
@@ -522,7 +522,7 @@ public sealed class DocumentActor(ActorActivationContext context)
 - **序列化器选项漂移。** 两侧的状态都是 JSON，但命名策略、枚举处理方式的不同，或旧版自定义序列化器，都可能导致已有状态无法读取。请进行验证，并对真正的结构变化使用状态迁移。
 - **共存期间的远程处理与 JSON 混用。** Next 代理（JSON）与旧版远程处理调用方（DataContract）无法对齐。请将一个 Actor 类型与其调用方一起迁移。
 - **reminder 方法重命名。** reminder 名称就是被路由的操作；重命名方法会使已注册的 reminder 仍指向旧名称。
-- **假设恰好一次。** 处理程序必须能够安全地重复执行；请让状态更新和外部副作用具有幂等性，或对请求去重。
+- **假设恰好一次。** handler 必须能够安全地重复执行；请让状态更新和外部副作用具有幂等性，或对请求去重。
 - **静态 `ActorProxy` 门面。** 它能工作，但其进程级可变状态是一个隐患；请改为注入 `IActorProxyFactory`。
 - **Actor 位于被引用的项目中。** 除非设置了 `DaprActorsScanReferences`，否则发现过程只扫描正在执行的程序集。
 

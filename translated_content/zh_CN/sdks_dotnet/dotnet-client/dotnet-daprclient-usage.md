@@ -52,7 +52,7 @@ services.AddDaprClient((serviceProvider, daprBuilder) => {
 
 ### 手动实例化
 
-除了使用依赖注入，还可以使用静态客户端构建器来构建 `DaprClient`。
+除了使用依赖注入，还可以使用 static client builder 来构建 `DaprClient`。
 
 为获得最佳性能，应创建一个单一的长生命周期 `DaprClient` 实例，并在整个应用程序中提供对该共享实例的访问。`DaprClient` 实例是线程安全的，旨在共享使用。
 

@@ -14,9 +14,9 @@ dotnet add package Dapr.Jobs
 
 job 的作用域限定在调度它的应用的 Dapr App ID 之内。调度触发器时，客户端不接受其他目标 App ID。参见 [Jobs 示例](https://github.com/dapr/dotnet-sdk/tree/v1.19.0/examples/Jobs/JobsSample)。
 
-## 注册客户端和回调处理程序
+## 注册客户端和回调 handler
 
-在构建主机之前注册客户端，并为动态命名的 job 映射一个处理程序：
+在构建主机之前注册客户端，并为动态命名的 job 映射一个 handler：
 
 ```csharp
 using Dapr.Jobs;
@@ -41,7 +41,7 @@ app.MapDaprScheduledJobHandler(
 await app.RunAsync();
 ```
 
-`HandleJobAsync` 代表你的应用逻辑。回调接收 job 名称和原始负载字节；其他服务可以从请求的依赖注入容器中解析。它的取消令牌包含已配置的处理程序超时。处理程序必须自行检查该令牌；超时并不会强制终止任意代码。异步工作请返回 `Task`，使回调在确认触发之前等待其完成。
+`HandleJobAsync` 代表你的应用逻辑。回调接收 job 名称和原始负载字节；其他服务可以从请求的依赖注入容器中解析。它的取消令牌包含已配置的 handler 超时。handler 必须自行检查该令牌；超时并不会强制终止任意代码。异步工作请返回 `Task`，使回调在确认触发之前等待其完成。
 
 对于 HTTP 回调，映射器会注册 `POST /job/{jobName}`。请使用匹配的应用端口启动应用：
 
@@ -89,7 +89,7 @@ await jobsClient.ScheduleJobAsync(
 | `repeats` | 可选的重复次数。 |
 | `ttl` | 可选的绝对 `DateTimeOffset` 过期时间，同时提供 `startingFrom` 时须晚于该时间。 |
 | `overwrite` | 默认为 `false`；需要显式开启才会替换同名的现有注册。 |
-| `failurePolicyOptions` | 针对失败触发器的丢弃策略或固定间隔重试策略。 |
+| `failurePolicyOptions` | 针对失败触发器的丢弃策略或固定间隔 retry policy。 |
 | `cancellationToken` | 取消等待客户端操作；它不是回调的取消令牌。 |
 
 ### 一次性、间隔与预定义调度
@@ -192,4 +192,4 @@ await jobsClient.PurgeAllJobsAsync(cancellationToken);
 
 ## 分析器
 
-`Dapr.Jobs.Analyzers` 包提供诊断 `DAPR1501`（警告，类别为 Usage）。当 `ScheduleJobAsync` 使用字面量 job 名称调用，而同一源文件中不存在 `MapDaprScheduledJobHandler` 调用时，它会触发。诊断消息为 “Job invocations require the MapDaprScheduledJobHandler be set and configured for job name '{name}' on IEndpointRouteBuilder”。请添加处理程序映射；如果处理程序有意映射在其他位置，可以用 `#pragma warning disable DAPR1501` 或 `.editorconfig` 规则抑制该诊断。
+`Dapr.Jobs.Analyzers` 包提供诊断 `DAPR1501`（警告，类别为 Usage）。当 `ScheduleJobAsync` 使用字面量 job 名称调用，而同一源文件中不存在 `MapDaprScheduledJobHandler` 调用时，它会触发。诊断消息为 “Job invocations require the MapDaprScheduledJobHandler be set and configured for job name '{name}' on IEndpointRouteBuilder”。请添加 handler 映射；如果 handler 有意映射在其他位置，可以用 `#pragma warning disable DAPR1501` 或 `.editorconfig` 规则抑制该诊断。

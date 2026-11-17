@@ -108,16 +108,16 @@ app.UseCloudEvents();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapSubscribeHandler(); // 这是 Dapr 订阅处理程序
+    endpoints.MapSubscribeHandler(); // 这是 Dapr 订阅 handler
     endpoints.MapControllers();
 });
 ```
 
-**如果添加订阅处理程序后问题仍未解决，请在此仓库中提交 issue，并附上你的 `Startup.cs` 文件内容。**
+**如果添加订阅 handler 后问题仍未解决，请在此仓库中提交 issue，并附上你的 `Startup.cs` 文件内容。**
 
 ### 选项 2：响应包含 JSON 但内容为空（如 `[]`）
 
-如果 JSON 输出是空数组（如 `[]`），则说明订阅处理程序已注册，但没有注册任何主题端点。
+如果 JSON 输出是空数组（如 `[]`），则说明订阅 handler 已注册，但没有注册任何 topic 端点。
 
 ---
 
@@ -128,7 +128,7 @@ app.UseEndpoints(endpoints =>
 [HttpPost("deposit")]
 public async Task<ActionResult> Deposit(...)
 
-// 使用 pub/sub 路由
+// 使用 pub/sub Routing
 [Topic("pubsub", "transactions", "event.type == \"withdraw.v2\"", 1)]
 [HttpPost("withdraw")]
 public async Task<ActionResult> Withdraw(...)
@@ -138,7 +138,7 @@ public async Task<ActionResult> Withdraw(...)
 
 ---
 
-如果你使用路由实现 pub/sub，应当有类似下面的端点：
+如果你使用 Routing 实现 pub/sub，应当有类似下面的端点：
 
 ```C#
 endpoints.MapPost("deposit", ...).WithTopic("pubsub", "deposit");
@@ -233,7 +233,7 @@ info: Microsoft.AspNetCore.Hosting.Diagnostics[2]
       Request finished in 157.056ms 400 application/problem+json; charset=utf-8
 ```
 
-最值得关注的是来自路由的日志条目：
+最值得关注的是来自 Routing 的日志条目：
 
 ```txt
 info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
@@ -242,14 +242,14 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
 
 此条目表明：
 
-- 路由已执行
-- 路由选择了 `ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)'` 端点
+- Routing 已执行
+- Routing 选择了 `ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)'` 端点
 
 现在你已经掌握了排查此步骤所需的信息。
 
-### 选项 0：路由选择了正确的端点
+### 选项 0：Routing 选择了正确的端点
 
-如果路由日志条目中的信息正确，则说明你的应用程序在单独运行时行为正常。
+如果 Routing 日志条目中的信息正确，则说明你的应用程序在单独运行时行为正常。
 
 示例：
 
@@ -268,14 +268,14 @@ dapr publish --pubsub pubsub --topic withdraw --data '{}'
 
 **如果执行此操作后你仍然无法理解问题，请在此仓库中提交 issue，并附上你的 `Startup.cs` 内容。**
 
-### 选项 1：路由未执行
+### 选项 1：Routing 未执行
 
-如果在日志中看不到 `Microsoft.AspNetCore.Routing.EndpointMiddleware` 的条目，则说明该请求是由路由之外的其他组件处理的。这种情况通常是 middleware 行为异常导致的。该请求的其他日志可能会提供线索，帮助你了解具体发生了什么。
+如果在日志中看不到 `Microsoft.AspNetCore.Routing.EndpointMiddleware` 的条目，则说明该请求是由 Routing 之外的其他组件处理的。这种情况通常是 middleware 行为异常导致的。该请求的其他日志可能会提供线索，帮助你了解具体发生了什么。
 
 **如果你需要帮助理解问题，请在此仓库中提交 issue，并附上你的 `Startup.cs` 内容。**
 
-### 选项 2：路由选择了错误的端点
+### 选项 2：Routing 选择了错误的端点
 
-如果日志中出现了 `Microsoft.AspNetCore.Routing.EndpointMiddleware` 的条目，但其中的端点不正确，则说明存在路由冲突。被选中的端点会出现在日志中，这应能帮助你判断是什么导致了冲突。
+如果日志中出现了 `Microsoft.AspNetCore.Routing.EndpointMiddleware` 的条目，但其中的端点不正确，则说明存在 Routing 冲突。被选中的端点会出现在日志中，这应能帮助你判断是什么导致了冲突。
 
 **如果你需要帮助理解问题，请在此仓库中提交 issue，并附上你的 `Startup.cs` 内容。**

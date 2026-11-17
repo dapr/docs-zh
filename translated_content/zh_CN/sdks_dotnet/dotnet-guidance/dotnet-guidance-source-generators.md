@@ -63,26 +63,26 @@ Dapr .NET SDK 的未来版本将默认包含这些分析器，无需单独安装
 | DAPR1415 | Dapr.Actors.Next | Compatibility | Warning | 1.18 | Actor 状态迁移目标不可达 | Yes |
 | DAPR1416 | Dapr.Actors.Next | Design | Info | 1.18 | Actor 轮次过滤器应保持横切性质 | Yes |
 | DAPR1417 | Dapr.Actors.Next | Usage | Warning | 1.18 | Actor 接口方法必须返回异步类型 | No |
-| DAPR1418 | Dapr.Actors.Next | Compatibility | Warning | 1.18 | Actor 接口变更会破坏已发布的线上契约 | Yes |
+| DAPR1418 | Dapr.Actors.Next | Compatibility | Warning | 1.18 | Actor 接口变更会破坏已发布的 wire contract | Yes |
 | DAPR1419 | Dapr.Actors.Next | Concurrency | Warning | 1.18 | Actor 字段不应持有可变的共享状态 | No |
 | DAPR1420 | Dapr.Actors.Next | Usage | Warning | 1.18 | Actor 类型名称必须能够区分共享的 Actor 契约 | No |
 | DAPR1421 | Dapr.Actors.Next | Usage | Warning | 1.18 | Actor 实现必须公开生成的客户端契约 | Yes |
 | DAPR1423 | Dapr.Actors.Next | Compatibility | Warning | 1.18 | Actor 状态类型未关联到其迁移族 | Yes |
 | DAPR1424 | Dapr.Actors.Next | Compatibility | Warning | 1.18 | Actor 状态迁移链存在缺口 | No |
 | DAPR1425 | Dapr.Actors.Next | Compatibility | Warning | 1.18 | Actor 状态迁移步骤需要升级器 | Yes |
-| DAPR1426 | Dapr.Actors.Next | Compatibility | Warning | 1.18 | Actor 状态迁移的折叠路径有歧义 | No |
+| DAPR1426 | Dapr.Actors.Next | Compatibility | Warning | 1.18 | Actor 状态迁移的 fold path 有歧义 | No |
 | DAPR1427 | Dapr.Actors.Next | Usage | Warning | 1.18 | Actor 状态名称映射到多个迁移族 | No |
 | DAPR1428 | Dapr.Actors.Next | Usage | Info | 1.18 | Actor 状态的使用应指向最新的状态版本 | No |
 | DAPR1429 | Dapr.Actors.Next | Usage | Error | 1.18 | 计划中的 Actor reminder/timer 回调与可分派的 Actor 方法不匹配 | Yes |
 | DAPR1430 | Dapr.Actors.Next | Usage | Warning | 1.18 | 计划中的 Actor reminder/timer 指向本应用中不存在的 Actor 类型 | No |
 | DAPR1431 | Dapr.Actors.Next | Usage | Error | 1.18 | 计划中的 Actor reminder/timer 回调方法未通过生成的 Actor 客户端公开 | No |
 | DAPR1501 | Dapr.Jobs | Usage | Warning | 1.16 | Job 调用要求在 IEndpointRouteBuilder 上为每个预期的 job 设置并配置 MapDaprScheduledJobHandler | No |
-| DAPR1610 | Dapr.Messaging | Usage | Warning | 1.18 | 主题同时以 Streaming 和 Programmatic 两种投递模式注册 | No |
+| DAPR1610 | Dapr.Messaging | Usage | Warning | 1.18 | Topic 同时以 Streaming 和 Programmatic 两种投递模式注册 | No |
 | DAPR1611 | Dapr.Messaging | Usage | Error | 1.18 | [DaprTopic] 应用于未实现 ITopicHandler<T> 或 ITopicHandler<T, TResult> 的类 | No |
 | DAPR1612 | Dapr.Messaging | Compatibility | Warning | 1.18 | 消息类型未在源生成的 JsonSerializerContext 中注册，无法兼容 Native AOT | No |
-| DAPR1613 | Dapr.Messaging | Usage | Warning | 1.18 | Programmatic 主题订阅要求调用 `app.MapDaprAppCallback()`，或使用统一的 `app.MapDaprMessaging()` 端点映射 | Yes |
+| DAPR1613 | Dapr.Messaging | Usage | Warning | 1.18 | Programmatic topic 订阅要求调用 `app.MapDaprAppCallback()`，或使用统一的 `app.MapDaprMessaging()` 端点映射 | Yes |
 | DAPR1614 | Dapr.Messaging | Usage | Warning | 1.18 | 直接调用 `DaprMessagingRegistration`，而不是使用生成的 `services.AddDaprMessaging()` | No |
-| DAPR1615 | Dapr.Messaging | Usage | Warning | 1.18 | 存在订阅者注册或端点映射，但没有匹配的主题订阅者 | No |
+| DAPR1615 | Dapr.Messaging | Usage | Warning | 1.18 | 存在订阅者注册或端点映射，但没有匹配的 topic 订阅者 | No |
 | DAPR1616 | Dapr.Messaging | Usage | Warning | 1.18 | `[DaprTopic]` 启用了某项功能，但未填充必需的配套属性 | No |
 | DAPR1617 | Dapr.Messaging | Usage | Warning | 1.18 | `[DaprTopic]` 设置了一个属性，但该属性对所选功能或投递模式会被忽略 | No |
 

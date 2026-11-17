@@ -52,7 +52,7 @@ services.AddDaprEncryptionClient((serviceProvider, clientBuilder) => {
 ```
 
 ### 手动实例化
-除了使用依赖注入之外，也可以使用静态客户端构建器来构建 `DaprEncryptionClient`。
+除了使用依赖注入之外，也可以使用 static client builder 来构建 `DaprEncryptionClient`。
 
 为获得最佳性能，请创建一个长期存活的 `DaprEncryptionClient` 实例，并在整个应用程序中共享对该实例的访问。`DaprEncryptionClient` 实例是线程安全的，设计上即用于共享。
 

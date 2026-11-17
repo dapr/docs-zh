@@ -343,7 +343,7 @@ var detachedId = await context.ScheduleNewDetachedWorkflowAsync(
     options: new WorkflowTaskOptions(TargetAppId: "document-service"));
 ```
 
-`AllowPayloadReferences` 仅适用于该调用的输入，并且在 SDK 重试时保持不变。detached workflow 选项仅支持路由和负载权限；重试策略和 history propagation 会被拒绝。
+`AllowPayloadReferences` 仅适用于该调用的输入，并且在 SDK 重试时保持不变。detached workflow 选项仅支持 Routing 和负载权限；retry policies 和 history propagation 会被拒绝。
 
 #### 限制与范围
 
@@ -363,7 +363,7 @@ var detachedId = await context.ScheduleNewDetachedWorkflowAsync(
 
 在 `PreferReference` 下，自动事件卸载由 `OffloadSites` 中的 `PayloadKind.ExternalEvent` 和 `OffloadThreshold` 控制。入站事件遵循标准的[入站处理规则](#入站处理保留已记录的表示形式)。
 
-由于外部应用可以将客户端指向目标的 sidecar 并调用 `RaiseEventAsync`，同应用路由并不能保证兼容的 SDK 支持。当从外部客户端发布到引用支持未知的应用时，请在该客户端上配置 `WritePreference = PayloadWritePreference.PreferInline`（注意这适用于该客户端的所有负载写入，并遵循相同的[要么内联成功、要么报错的限制](#限制与范围)）。
+由于外部应用可以将客户端指向目标的 sidecar 并调用 `RaiseEventAsync`，同应用 Routing 并不能保证兼容的 SDK 支持。当从外部客户端发布到引用支持未知的应用时，请在该客户端上配置 `WritePreference = PayloadWritePreference.PreferInline`（注意这适用于该客户端的所有负载写入，并遵循相同的[要么内联成功、要么报错的限制](#限制与范围)）。
 
 ## 迁移、回滚与生命周期
 

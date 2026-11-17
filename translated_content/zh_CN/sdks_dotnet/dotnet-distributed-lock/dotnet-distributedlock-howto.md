@@ -53,7 +53,7 @@ services.AddDaprDistributedLock((serviceProvider, clientBuilder) => {
 ```
 
 ### 手动实例化
-除了使用依赖注入，也可以使用静态客户端构建器来构建 `DaprDistributedLockClient`。
+除了使用依赖注入，也可以使用 static client builder 来构建 `DaprDistributedLockClient`。
 
 为获得最佳性能，请创建一个长生命周期的 `DaprDistributedLockClient` 实例，并在整个应用程序中共享访问该实例。`DaprDistributedLockClient` 实例是线程安全的，旨在共享使用。
 

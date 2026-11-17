@@ -8,7 +8,7 @@ description: "公开生成的 HTTP 订阅发现端点与自定义事件路由"
 
 [HTTP 订阅示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging/06-HttpSubscription)展示了 `DeliveryMode.Http` 的用法，适用于使用普通 HTTP 入口或反向代理的应用。
 
-## 定义带路由的处理程序
+## 定义带路由的 handler
 
 ```csharp
 [DaprTopic(
@@ -42,7 +42,7 @@ app.MapDaprMessaging();
 app.Run();
 ```
 
-生成的映射会公开 `GET /dapr/subscribe` 供 Dapr 发现订阅，并为该主题的 CloudEvents 映射 `POST /api/events/invoices`。该路由由 `Route` 属性生成，无需单独的控制器或操作。
+生成的映射会公开 `GET /dapr/subscribe` 供 Dapr 发现订阅，并为该 topic 的 CloudEvents 映射 `POST /api/events/invoices`。该路由由 `Route` 属性生成，无需单独的控制器或操作。
 
 使用应用的 HTTP 端口运行：
 
@@ -55,7 +55,7 @@ dapr run --app-id http-subscriber-example --app-port 5000 `
 
 ## 测试 HTTP 投递
 
-单元测试直接调用发票处理程序，验证有效金额、零金额和负金额的情况。集成测试使用测试应用和真实的 Dapr sidecar，验证订阅发现与 HTTP 推送投递。这使测试既能覆盖路由映射和 CloudEvent 派发，又无需将业务规则测试与 ASP.NET 宿主耦合在一起。
+单元测试直接调用发票 handler，验证有效金额、零金额和负金额的情况。集成测试使用测试应用和真实的 Dapr sidecar，验证订阅发现与 HTTP 推送投递。这使测试既能覆盖路由映射和 CloudEvent 派发，又无需将业务规则测试与 ASP.NET 宿主耦合在一起。
 
 ```powershell
 dotnet test examples\Messaging\06-HttpSubscription\HttpSubscription.Example06.Tests\HttpSubscription.Example06.Tests.csproj

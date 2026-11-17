@@ -76,7 +76,7 @@ public sealed class MetadataReporter(IOptions<DaprMetadata> metadata)
 
 ### 使用 `IOptionsSnapshot<DaprMetadata>`
 
-在作用域服务中使用 `IOptionsSnapshot<DaprMetadata>`，例如请求处理程序或 MVC 控制器：
+在作用域服务中使用 `IOptionsSnapshot<DaprMetadata>`，例如请求 handler 或 MVC 控制器：
 
 ```csharp
 using Dapr.Metadata.Abstractions;

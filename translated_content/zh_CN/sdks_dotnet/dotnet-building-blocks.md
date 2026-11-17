@@ -23,7 +23,7 @@ dotnet add package Dapr.Client
 | building block | 包与入口点 | 已实现的功能 |
 | --- | --- | --- |
 | [service invocation]({{< ref "dotnet-client/_index.md#invoke-a-service" >}}) | `Dapr.Client`：`CreateInvokeHttpClient`、`InvocationHandler`、`CreateInvocationInvoker`、`DaprClient` | HTTP 动词、JSON 或任意内容、请求头与查询参数、响应与状态检查、通过 Dapr 代理使用的生成式 gRPC 客户端，以及旧版 `InvokeMethodGrpcAsync` protobuf 调用。新应用建议优先使用原生 HTTP/gRPC 客户端。 |
-| [发布和订阅]({{< ref dotnet-messaging >}}) | `Dapr.Messaging`：`IDaprPublishSubscribeClient`、`DaprPublishSubscribeClient`、`[DaprTopic]` | 带类型的 JSON、CloudEvents、原始字节、空事件，以及按条目报告失败的批量发布；生成的流式订阅、gRPC 推送与 HTTP 订阅；动态流式订阅、路由、metadata、死信配置和显式确认。`Dapr.Client` 发布与 `Dapr.AspNetCore` 主题端点仍然可用。 |
+| [发布和订阅]({{< ref dotnet-messaging >}}) | `Dapr.Messaging`：`IDaprPublishSubscribeClient`、`DaprPublishSubscribeClient`、`[DaprTopic]` | 带类型的 JSON、CloudEvents、原始字节、空事件，以及按条目报告失败的批量发布；生成的流式订阅、gRPC 推送与 HTTP 订阅；动态流式订阅、路由、metadata、死信配置和显式确认。`Dapr.Client` 发布与 `Dapr.AspNetCore` topic 端点仍然可用。 |
 | [State Management]({{< ref dotnet-state-management >}}) | `Dapr.StateManagement`：`DaprStateManagementClient`、生成的 `IDaprStateStoreClient` 接口 | 单条与批量的读取、写入和删除，ETag，一致性与并发选项，事务，metadata/TTL，以及依赖 component 的查询。`Dapr.Client` 还额外提供字节状态方法和 `StateEntry<T>`。 |
 | [Binary Store]({{< ref dotnet-binarystore >}}) | `Dapr.BinaryStore`：`DaprBinaryStoreClient`、生成的 `IDaprBinaryStoreClient` 接口 | 流式或内存上传、覆盖控制、分块或流式下载、缓冲字节下载，以及删除。本 SDK 版本未公开列表、范围读取或文件 metadata API。 |
 | [搜索]({{< ref dotnet-search >}}) | `Dapr.Search`：`DaprSearchClient`、带有 `[SearchIndex]` 的生成 `IDaprSearchIndex<T>` 接口 | alpha 的索引管理，带类型的文档 upsert、读取和删除，全文查询与提供方原生查询，过滤、排序、投影、高亮，基于延续令牌的分页，写入确认，以及按文档报告的失败。component 能力各不相同。 |

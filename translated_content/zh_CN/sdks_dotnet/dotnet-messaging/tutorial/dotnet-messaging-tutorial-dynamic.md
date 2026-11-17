@@ -3,10 +3,10 @@ type: docs
 title: "Part 7: Dynamic streaming subscriptions"
 linkTitle: "第 7 部分：动态流式"
 weight: 160700
-description: "为运行时选定的主题打开命令式 streaming subscription"
+description: "为运行时选定的 topic 打开命令式 streaming subscription"
 ---
 
-当主题或 subscription 的生命周期无法在编译期确定时，可以使用 `SubscribeAsync`。[动态流式示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging/07-DynamicStreaming)展示了这一用法。
+当 topic 或 subscription 的生命周期无法在编译期确定时，可以使用 `SubscribeAsync`。[动态流式示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging/07-DynamicStreaming)展示了这一用法。
 
 ## 注册客户端与工作进程
 
@@ -15,7 +15,7 @@ builder.Services.AddDaprPubSubClient();
 builder.Services.AddHostedService<DynamicSubscriberWorker>();
 ```
 
-工作进程会为一个运行时选定的主题打开 subscription：
+工作进程会为一个运行时选定的 topic 打开 subscription：
 
 ```csharp
 var options = new DaprSubscriptionOptions(
@@ -45,7 +45,7 @@ await ((IDaprSubscription)subscription).Completion.WaitAsync(stoppingToken);
 
 ## 安全地处理无类型消息
 
-动态 subscription 接收的是 `TopicMessage`，因此处理程序需要负责解码并校验负载：
+动态 subscription 接收的是 `TopicMessage`，因此 handler 需要负责解码并校验负载：
 
 ```csharp
 try
@@ -69,7 +69,7 @@ catch (JsonException)
 
 格式错误的 JSON 属于永久性的输入问题，应当丢弃；临时性的处理错误则应请求重试。
 
-## 测试监督者与处理程序
+## 测试监督者与 handler
 
 单元测试会创建 `TopicMessage` 实例，其负载分别为序列化后的有效数据、需要重试的数据、无效数据和格式错误的数据，并断言对应的响应动作。集成测试使用 `DaprTestApplicationBuilder` 注册工作进程，发布真实的租户事件，并等待并发日志接收器中的处理结果与丢弃结果。这种模式无需依赖任意的固定等待时长，即可测试异步的后台工作。
 
@@ -80,4 +80,4 @@ dotnet test examples\Messaging\07-DynamicStreaming\DynamicStreaming.Example07.Te
 ## 下一步
 
 - [Dapr Messaging 概览]({{< ref _index.md >}})
-- [订阅主题操作指南]({{< ref dotnet-messaging-subscribe-howto.md >}})
+- [订阅 topic 操作指南]({{< ref dotnet-messaging-subscribe-howto.md >}})

@@ -11,7 +11,7 @@ description: "面向 .NET 的现代化 Dapr Actors 实现概述（Dapr.Actors.Ne
 Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID 寻址，并具备重入、timer、reminder 和代理功能。`Dapr.Actors.Next` 是一个独立的包系列，与 `Dapr.Actors` 不具备 API 兼容性，但与 Dapr runtime 在协议层面完全兼容。因此采用它无需对运行时做任何改动，唯一的要求是 Dapr runtime 为 v1.18 或更高版本。
 
 {{% alert title="运行时要求与连接" color="primary" %}}
-`Dapr.Actors.Next` 要求 Dapr runtime v1.18.0 或更高版本。它通过持久的、由应用发起的 `SubscribeActorEvents` gRPC 流托管 Actor，因此 Actor 回调经由该流到达，而不是作为入站 HTTP 请求发送到已映射的 Actor 处理程序端点，而后者正是 `Dapr.Actors` 所要求的方式。应用仍需暴露其 gRPC 服务器端口，运行时用它进行前置条件检查；变化的是 Actor 回调的投递方式，而不是应用是否运行 gRPC 服务器。
+`Dapr.Actors.Next` 要求 Dapr runtime v1.18.0 或更高版本。它通过持久的、由应用发起的 `SubscribeActorEvents` gRPC 流托管 Actor，因此 Actor 回调经由该流到达，而不是作为入站 HTTP 请求发送到已映射的 Actor handler 端点，而后者正是 `Dapr.Actors` 所要求的方式。应用仍需暴露其 gRPC 服务器端口，运行时用它进行前置条件检查；变化的是 Actor 回调的投递方式，而不是应用是否运行 gRPC 服务器。
 {{% /alert %}}
 
 {{% alert title="Dapr.Actors 的状态" color="warning" %}}
@@ -26,7 +26,7 @@ Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID �
 
 这次重写源于两个核心理念：
 
-1) 第一个是 SDK 与运行时的交互方式。Actor 回调（invoke、reminder、timer 和 deactivate）现在通过长期存活的双向 gRPC 流到达，而不再是对已托管 Actor 端点的逐次请求。这降低了每次调用的开销，也无需映射入站的 Actor 处理程序。这与 Dapr 在 pub/sub 订阅和 workflow 派发中已采用的流式模式一致。
+1) 第一个是 SDK 与运行时的交互方式。Actor 回调（invoke、reminder、timer 和 deactivate）现在通过长期存活的双向 gRPC 流到达，而不再是对已托管 Actor 端点的逐次请求。这降低了每次调用的开销，也无需映射入站的 Actor handler。这与 Dapr 在 pub/sub 订阅和 workflow 派发中已采用的流式模式一致。
 2) 第二个是 SDK 现在在该连接的你这一侧（无论是构建时还是运行时）本地完成的工作量，以使 Actor 代码更易于编写且更安全。源生成器取代了基于反射的代理与派发机制，这既消除了运行时开销，也使 Native AOT 成为可能。序列化迁移到与 State Management 和 workflow 相同的可插拔 `IDaprSerializer`。状态迁移、状态机编程模型、由 pub/sub 驱动的 Actor，以及确定性的内存测试运行时，均已内置提供。其目标是让你能够直接使用现代 Dapr .NET SDK 的其他部分来构建高性能的 Actor 应用，而不必遵循一套独立的 Actor 专属约定。
 
 ## 源生成器与编译期检查
@@ -39,7 +39,7 @@ Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID �
 
 | 关注点 | `Dapr.Actors`（原版） | `Dapr.Actors.Next` |
 | --- |------------------------------------------------------------------------------------| --- |
-| 运行时连接 | 运行时每次调用时访问的入站 Actor 处理程序端点 | 通过出站的持久 `SubscribeActorEvents` 流接收 Actor 回调；无需映射 Actor 端点（应用的 gRPC 服务器端口仍然保留） |
+| 运行时连接 | 运行时每次调用时访问的入站 Actor handler 端点 | 通过出站的持久 `SubscribeActorEvents` 流接收 Actor 回调；无需映射 Actor 端点（应用的 gRPC 服务器端口仍然保留） |
 | 代理与派发 | 反射（`DispatchProxy`、运行时 IL） | 源生成；热路径上无反射 |
 | Native AOT 与裁剪 | 不支持 | 支持；运行时包可安全地进行裁剪与 AOT |
 | 可空引用类型 | 部分支持 | 在公共接口范围内全面启用 |
@@ -73,7 +73,7 @@ Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID �
 - [序列化]({{< ref dotnet-actorsnext-serialization.md >}})：可插拔序列化器与每个 Actor 的缓存。
 - [状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})：状态信封，以及使用升级器进行的状态版本管理。
 - [state machine Actor]({{< ref dotnet-actorsnext-statemachine.md >}})：`StateMachineActor` 模型、何时选择它而非 workflow，以及如何测试它。
-- [Subscription streams]({{< ref dotnet-actorsnext-streams.md >}})：使用 `[Subscribe]` metadata 与显式流注册，由 pub/sub 主题驱动 Actor。
+- [Subscription streams]({{< ref dotnet-actorsnext-streams.md >}})：使用 `[Subscribe]` metadata 与显式流注册，由 pub/sub topic 驱动 Actor。
 - [动态调用]({{< ref dotnet-actorsnext-dynamic.md >}})：在没有编译期契约的情况下，按类型、ID 和方法调用 Actor，适用于网关、工具以及跨语言调用方。
 - [测试]({{< ref dotnet-actorsnext-testing.md >}})：内存测试运行时、远程调用模拟、暂停的状态写入与停用竞争、虚拟 timer 和 reminder、回调流故障注入，以及可选的 Coyote 集成。
 - 每类型的运行时选项通过 `options.Actors.RegisterActor<TActor>(...)` 支持，包括空闲超时、重入、排空以及状态迁移覆盖。

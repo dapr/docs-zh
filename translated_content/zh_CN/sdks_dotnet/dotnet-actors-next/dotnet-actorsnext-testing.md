@@ -279,7 +279,7 @@ public async Task Concurrent_bids_never_lose_the_high_bid()
 | `FailNextStreamRead()` | 在收到入站帧之后、交付给运行时之前。可选的帧 `kind:`；需要装饰后的回调传输层。 |
 | `FailNextStreamWrite()` | 在转发出站帧之前。可选的帧 `kind:`；需要装饰后的回调传输层。 |
 
-故障注入不会安装自动的调用重试策略。请先断言失败的那次尝试，然后显式地演练恢复或重新传递。状态写入失败与响应在成功提交**之后**丢失是两种不同的场景：二者都不提供通用的回滚或恰好一次（exactly-once）保证。参见[投递保证]({{< ref "dotnet-actorsnext-howto.md#delivery-guarantees-you-must-design-for" >}})和[状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})。
+故障注入不会安装自动的调用 retry policy。请先断言失败的那次尝试，然后显式地演练恢复或重新传递。状态写入失败与响应在成功提交**之后**丢失是两种不同的场景：二者都不提供通用的回滚或恰好一次（exactly-once）保证。参见[投递保证]({{< ref "dotnet-actorsnext-howto.md#delivery-guarantees-you-must-design-for" >}})和[状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})。
 
 ### 暂停状态写入并与停用竞争
 
@@ -374,7 +374,7 @@ public void Order_machine_is_structurally_sound()
 
 ## 使用 Coyote 进行深度测试
 
-内置 Scheduler 会探索 Actor 模型中结构化的不确定性：消息顺序、重入，以及 timer 与消息之间的竞争。无需任何额外工具，它就能覆盖绝大多数 Actor 缺陷。对于其余情况，例如处理程序中包含复杂的进程内异步，或需要全程序数据竞争检测的场景，你可以在 [Microsoft Coyote](https://microsoft.github.io/coyote/) 下运行同样的测试；Coyote 会对整个调用图中的 `Task`、`await` 和锁进行系统化控制。
+内置 Scheduler 会探索 Actor 模型中结构化的不确定性：消息顺序、重入，以及 timer 与消息之间的竞争。无需任何额外工具，它就能覆盖绝大多数 Actor 缺陷。对于其余情况，例如 handler 中包含复杂的进程内异步，或需要全程序数据竞争检测的场景，你可以在 [Microsoft Coyote](https://microsoft.github.io/coyote/) 下运行同样的测试；Coyote 会对整个调用图中的 `Task`、`await` 和锁进行系统化控制。
 
 ### 安装 Coyote
 
@@ -405,7 +405,7 @@ dotnet tool install --global Microsoft.Coyote.CLI
 
 ### 在系统化探索下运行测试套件
 
-对于最深入的模式（Coyote 同时控制处理程序内的异步与锁），请改写已编译的测试程序集，并在 Coyote 测试器下运行它。测试在 JIT 上运行，因此这不会与你的 AOT 生产构建发生冲突。
+对于最深入的模式（Coyote 同时控制 handler 内的异步与锁），请改写已编译的测试程序集，并在 Coyote 测试器下运行它。测试在 JIT 上运行，因此这不会与你的 AOT 生产构建发生冲突。
 
 ```bash
 # 改写测试程序集，使 Coyote 控制所有并发
@@ -420,7 +420,7 @@ coyote test ./bin/Debug/net10.0/MyActors.Tests.dll \
 如果你希望一切都在 `dotnet test` 中完成，也可以通过 `Microsoft.Coyote.SystematicTesting.TestingEngine` 从测试中以进程内方式驱动 Coyote。
 
 {{% alert title="何时使用 Coyote" color="primary" %}}
-先从内置运行时开始：它无需改写代码，开箱即可覆盖 Actor 模型的不确定性。当 Actor 的处理程序确实包含你希望探索的复杂进程内异步，或者你希望对 SDK 不负责的代码进行数据竞争检测时，再添加 Coyote。
+先从内置运行时开始：它无需改写代码，开箱即可覆盖 Actor 模型的不确定性。当 Actor 的 handler 确实包含你希望探索的复杂进程内异步，或者你希望对 SDK 不负责的代码进行数据竞争检测时，再添加 Coyote。
 {{% /alert %}}
 
 ## 使用 Testcontainers 进行集成测试

@@ -6,7 +6,7 @@ weight: 60000
 description: "了解如何使用 Dapr.Messaging 中的 IDaprPublishSubscribeClient 发布 JSON 事件、CloudEvents、原始负载和批量事件"
 ---
 
-本指南演示如何使用现代的 `Dapr.Messaging` .NET SDK 将事件发布到 Dapr pub/sub 主题。
+本指南演示如何使用现代的 `Dapr.Messaging` .NET SDK 将事件发布到 Dapr pub/sub topics。
 
 ## 前提条件
 
@@ -48,11 +48,11 @@ var app = builder.Build();
 
 ## 发布事件
 
-将 `IDaprPublishSubscribeClient`（或 `DaprPublishSubscribeClient`）注入到控制器、最小 API 路由处理程序或后台服务中。
+将 `IDaprPublishSubscribeClient`（或 `DaprPublishSubscribeClient`）注入到控制器、最小 API 路由 handler 或后台服务中。
 
 ### 1. 发布标准 JSON 事件
 
-要将序列化的对象发布到主题，请调用 `PublishEventAsync<TData>`：
+要将序列化的对象发布到 topic，请调用 `PublishEventAsync<TData>`：
 
 ```csharp
 public record Order(string Id, decimal Total, string CustomerEmail);
@@ -141,7 +141,7 @@ await pubsub.PublishEventAsync("pubsub", "cache-invalidated", cancellationToken)
 
 ## 使用 Bulk Publish 发布多个事件
 
-Bulk Publish 允许你在单个请求中将一批事件发布到主题，从而显著减少往返开销：
+Bulk Publish 允许你在单个请求中将一批事件发布到 topic，从而显著减少往返开销：
 
 ```csharp
 var orders = new List<Order>
@@ -197,6 +197,6 @@ await client.PublishEventAsync("pubsub", "orders", new Order("101", 19.99m, "a@b
 ## 后续步骤
 
 - [教程：通过示例学习 Dapr.Messaging]({{< ref "tutorial/_index.md" >}})
-- [操作指南：编写订阅并处理主题消息]({{< ref dotnet-messaging-subscribe-howto.md >}})
+- [操作指南：编写订阅并处理 topic 消息]({{< ref dotnet-messaging-subscribe-howto.md >}})
 - [Dapr Messaging 配置与用法参考]({{< ref dotnet-messaging-pubsub-usage.md >}})
 - [Dapr pub/sub building block 概览]({{% ref pubsub-overview %}})

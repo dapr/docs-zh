@@ -8,7 +8,7 @@ description: "运行时定义的审批状态机把结算交给带重试与补偿
 
 第六个示例把[第 5 部分]({{< ref dotnet-actorsnext-tutorial-interpreted.md >}})中的解释型运行时与一个 Dapr Workflow 放在一起，展示二者如何组合。审批文档是一个长期存在、可寻址的实体，因此它是一个行为以数据形式编写的 interpreted state machine Actor。结算一份已批准的文档则是一个有限且容易失败的过程，因此它是一个 workflow。实体启动 workflow，workflow 再把实体推回去：各自做自己擅长的事。
 
-场景是一个文档流转平台。每种文档类型（费用报销单或合同）都是一个在运行时提供的状态机，而一个编译好的 `InterpretedStateMachineActor` 运行其中的所有类型，因此新增一种文档类型只是配置，而无需代码部署。文档到达 `Approved` 时，一个经过审核的效果会启动结算 workflow：它通知各方、在重试策略下扣款，并在扣款无法完成时进行补偿。
+场景是一个文档流转平台。每种文档类型（费用报销单或合同）都是一个在运行时提供的状态机，而一个编译好的 `InterpretedStateMachineActor` 运行其中的所有类型，因此新增一种文档类型只是配置，而无需代码部署。文档到达 `Approved` 时，一个经过审核的效果会启动结算 workflow：它通知各方、在 retry policy 下扣款，并在扣款无法完成时进行补偿。
 
 本部分的代码位于 `/examples/Actor.Next/06-Approvals/`。
 
@@ -20,7 +20,7 @@ description: "运行时定义的审批状态机把结算交给带重试与补偿
 
 动态层是 `InterpretedMachineDefinition` 本身（它的状态、转换、分支，以及它所组合的守卫与效果名称），以数据形式编写，并在接入时为每种文档类型分别部署。`ExpenseReport()` 与 `Contract()` 这两个构建器看起来像逻辑，实际上是数据工厂：它们的输出才是动态部分。在真实系统中，同一个定义完全可以从数据库或 HTTP 请求体以 JSON 的形式到达，无需重新编译。两台真正不同的状态机（一台包含 `LegalReview` 阶段，另一台没有）运行在同一个编译好的 Actor 上，正是因为差异存在于数据之中，而非代码之中。
 
-两层通过名称相接，而从不通过引用相连。正如调用 Actor 必须提供其名称一样，定义中从不包含已编译的守卫或效果；它保存的是类似 `"StartSettlement"` 这样的字符串，并在运行时通过能力注册表 binding 到已编译的 `IActorEffect`。验证是保证 binding 一定成功的唯一检查点：`InterpretedMachineVerifier` 在 `InterpretedMachineDeployer.DeployAsync` 内运行，恰好位于定义被存储之前，拒绝结构不健全的定义（存在死胡同或不可达的状态），以及引用了注册表未收录的守卫或效果的定义。有问题的文档类型会在接入时被拦下，而不会出现在正在运行的文档上。
+两层通过名称相接，而从不通过引用相连。正如调用 Actor 必须提供其名称一样，定义中从不包含已编译的守卫或效果；它保存的是类似 `"StartSettlement"` 这样的字符串，并在运行时通过能力注册表 binding 到已编译的 `IActorEffect`。验证是保证 binding 一定成功的唯一 checkpoint：`InterpretedMachineVerifier` 在 `InterpretedMachineDeployer.DeployAsync` 内运行，恰好位于定义被存储之前，拒绝结构不健全的定义（存在死胡同或不可达的状态），以及引用了注册表未收录的守卫或效果的定义。有问题的文档类型会在接入时被拦下，而不会出现在正在运行的文档上。
 
 由于行为是数据而运行时是编译好的，新增文档类型就是配置，而非代码部署。接下来的各节正是这种划分的具体展开：一个以数据编写的文档类型、一个作为通往 workflow 接缝的已编译效果，以及一个把数据定义的文档推回去的已编译 workflow。这些已编译的部件都不指定任何一种文档类型。
 
@@ -92,7 +92,7 @@ public async ValueTask ExecuteAsync(ActorCapabilityContext context, Cancellation
 
 ### 结算 workflow：重试、补偿并把实体推回去
 
-workflow 先并行扇出通知，然后在重试策略下扣款；若扣款的重试次数耗尽，它就进行补偿，并把文档推进到 `SettlementFailed`；若成功，则把文档推进到 `Archived`。把文档推回去使用的是 `IDynamicActorClient`，即组合中从 workflow 到 Actor 的那一半，它不依赖已编译的文档契约。
+workflow 先并行扇出通知，然后在 retry policy 下扣款；若扣款的重试次数耗尽，它就进行补偿，并把文档推进到 `SettlementFailed`；若成功，则把文档推进到 `Archived`。把文档推回去使用的是 `IDynamicActorClient`，即组合中从 workflow 到 Actor 的那一半，它不依赖已编译的文档契约。
 
 ```csharp
 public override async Task<SettlementResult> RunAsync(WorkflowContext context, SettlementInput input)

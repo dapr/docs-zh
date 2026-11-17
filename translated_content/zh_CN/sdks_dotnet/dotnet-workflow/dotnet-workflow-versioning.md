@@ -199,7 +199,7 @@ public sealed class RevisedOrderWorkflow : Workflow<string, string>
 
 `StrategyType` 会为每个类型覆盖默认策略；`OptionsName` 用于为该覆盖选择命名的策略选项。不同的 workflow 系列可以使用不同的策略。同一规范名称系列中的所有覆盖必须在策略和选项上保持一致，并且其版本必须能被该策略比较。存在歧义的最新版本或冲突的配置会导致注册失败，而不是悄悄选择某个候选项。
 
-默认选择器为 `MaxVersionSelector`。高级注册可以在 `AddDaprWorkflowVersioning` 中提供 `DefaultStrategy` 和 `DefaultSelector` 工厂，或使用 `UseDefaultWorkflowSelector<TSelector>()`。来自已加载程序集的生成贡献会在版本选择之前合并。显式的 workflow 注册优先，因此显式的规范别名可以有意覆盖自动路由。
+默认选择器为 `MaxVersionSelector`。高级注册可以在 `AddDaprWorkflowVersioning` 中提供 `DefaultStrategy` 和 `DefaultSelector` 工厂，或使用 `UseDefaultWorkflowSelector<TSelector>()`。来自已加载程序集的生成贡献会在版本选择之前合并。显式的 workflow 注册优先，因此显式的规范别名可以有意覆盖自动 Routing。
 
 ## 最佳实践
 
@@ -210,8 +210,8 @@ public sealed class RevisedOrderWorkflow : Workflow<string, string>
 ## 当前限制
 
 - 没有从一种版本策略到另一种策略的自动迁移。
-- 版本选择由目标应用程序配置，而不是在应用之间协商。多应用调用方在目标启用基于名称的路由时，可以使用其规范名称；否则请使用其注册名称。
-- 基于名称的路由不会迁移正在运行的历史记录，也不会迁移不兼容的 activity 契约。请保留已保留历史所需的具体版本和 activity 名称。
+- 版本选择由目标应用程序配置，而不是在应用之间协商。多应用调用方在目标启用基于名称的 Routing 时，可以使用其规范名称；否则请使用其注册名称。
+- 基于名称的 Routing 不会迁移正在运行的历史记录，也不会迁移不兼容的 activity 契约。请保留已保留历史所需的具体版本和 activity 名称。
 
 ## 示例项目
 

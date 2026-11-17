@@ -10,7 +10,7 @@ description: "为高吞吐量的 pub/sub 消费者配置有界的批量投递"
 
 ## 配置批处理
 
-在主题特性上设置 `BulkSubscribe` 及其限制：
+在 topic 特性上设置 `BulkSubscribe` 及其限制：
 
 ```csharp
 [DaprTopic(
@@ -37,7 +37,7 @@ public sealed class TelemetryBulkHandler : ITopicHandler<DeviceTelemetry>
 }
 ```
 
-`MaxMessagesCount` 限制批次的大小，`MaxAwaitDurationMs` 限制 Dapr 在投递不完整批次之前的等待时长。应根据吞吐量、延迟和 broker 的行为选择取值。处理程序仍负责对每条单独的消息做出决定。
+`MaxMessagesCount` 限制批次的大小，`MaxAwaitDurationMs` 限制 Dapr 在投递不完整批次之前的等待时长。应根据吞吐量、延迟和 broker 的行为选择取值。handler 仍负责对每条单独的消息做出决定。
 
 ## 发布单个事件或批量事件
 

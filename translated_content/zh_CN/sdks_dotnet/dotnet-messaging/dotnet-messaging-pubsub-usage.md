@@ -27,13 +27,13 @@ description: "Dapr.Messaging（.NET）的配置、选项、生命周期管理、
 builder.Services.AddDaprMessaging();
 ```
 
-### 处理程序生命周期（`ITopicHandler<TMessage>`）
+### handler 生命周期（`ITopicHandler<TMessage>`）
 
 当消息投递到 `ITopicHandler<TMessage>` 时：
 
 - **作用域执行**：由源生成器生成的分发器在每次消息投递时，都会从独立的 `IServiceScope` 中解析主题处理程序。
-- **构造函数注入**：处理程序可以安全地注入瞬态或作用域依赖项（例如 Entity Framework Core 的 `DbContext` 实例、仓储或租户上下文提供程序）。
-- **自动释放**：处理程序解析的所有可释放依赖项，都会在该消息处理轮次结束时自动释放。
+- **构造函数注入**：handler 可以安全地注入瞬态或作用域依赖项（例如 Entity Framework Core 的 `DbContext` 实例、仓储或租户上下文提供程序）。
+- **自动释放**：handler 解析的所有可释放依赖项，都会在该消息处理轮次结束时自动释放。
 
 ```csharp
 public sealed class OrderHandler(ApplicationDbContext dbContext, ILogger<OrderHandler> logger) 
@@ -150,7 +150,7 @@ public sealed class BulkOrderHandler : ITopicHandler<Order>
 }
 ```
 
-批量投递在 Dapr 协议层面将消息成批处理，但当前 SDK 会将每个条目分别分发给处理程序。因此，处理程序应实现 `ITopicHandler<Order>`，而不是 `ITopicHandler<IReadOnlyList<Order>>`。
+批量投递在 Dapr 协议层面将消息成批处理，但当前 SDK 会将每个条目分别分发给 handler。因此，handler 应实现 `ITopicHandler<Order>`，而不是 `ITopicHandler<IReadOnlyList<Order>>`。
 
 批量订阅需要 HTTP 或编程式推送投递，并且需要 `app.MapDaprMessaging()`。如果保留默认的流式投递模式，批量设置将被忽略。
 
@@ -192,7 +192,7 @@ var cloudEvent = new CloudEvent<Order>(order)
 await pubsubClient.PublishEventAsync("pubsub", "orders", cloudEvent);
 ```
 
-#### 在处理程序中消费 CloudEvent 头
+#### 在 handler 中消费 CloudEvent 头
 ```csharp
 public Task<TopicResponseAction> HandleAsync(Order message, TopicContext context, CancellationToken cancellationToken)
 {
@@ -209,7 +209,7 @@ public Task<TopicResponseAction> HandleAsync(Order message, TopicContext context
 
 ## Native AOT 与裁剪注意事项
 
-`Dapr.Messaging.Generators` 源生成器在构建时生成分发逻辑与订阅者注册表，从而避免在处理程序发现与注册时使用反射。
+`Dapr.Messaging.Generators` 源生成器在构建时生成分发逻辑与订阅者注册表，从而避免在 handler 发现与注册时使用反射。
 生成的订阅者分发器目前使用运行时的 `System.Text.Json` metadata 反序列化消息。因此，Native AOT 与裁剪场景需要使用目标 SDK 版本进行显式验证；配置 `DaprMessagingOptions.JsonSerializerOptions` 目前并不会替换生成的订阅者反序列化器。
 
 {{% alert title="AOT 分析器警告 DAPR1612" color="primary" %}}
@@ -242,22 +242,22 @@ var options = new DaprSubscriptionOptions(
 
 ### 优雅关闭
 
-streaming subscription 会尝试在 `MaximumCleanupTimeout`（默认 30 秒）内刷新待处理的确认。这是一种有时限的尽力而为式关闭，并不提供零丢失或恰好一次的保证。当未收到确认时（包括处理已成功之后），消息可能被重复投递。因此，请让处理程序具备幂等性。
+streaming subscription 会尝试在 `MaximumCleanupTimeout`（默认 30 秒）内刷新待处理的确认。这是一种有时限的尽力而为式关闭，并不提供零丢失或恰好一次的保证。当未收到确认时（包括处理已成功之后），消息可能被重复投递。因此，请让 handler 具备幂等性。
 
 ### 监控后台订阅故障
 
-`SubscribeAsync` 返回 `IAsyncDisposable`，但其运行时句柄实现了 `IDaprSubscription`。请监控 `IDaprSubscription.Completion`，以便在启动后检测流或确认循环的故障。`ErrorHandler` 是通知回调，而不是恢复机制：原始故障仍会使订阅以异常方式完成。如果该回调本身也抛出异常，完成任务会通过 `AggregateException` 同时报告这两个故障。请根据应用程序自行管理的重试策略重新创建失败的动态订阅。
+`SubscribeAsync` 返回 `IAsyncDisposable`，但其运行时句柄实现了 `IDaprSubscription`。请监控 `IDaprSubscription.Completion`，以便在启动后检测流或确认循环的故障。`ErrorHandler` 是通知回调，而不是恢复机制：原始故障仍会使订阅以异常方式完成。如果该回调本身也抛出异常，完成任务会通过 `AggregateException` 同时报告这两个故障。请根据应用程序自行管理的 retry policy 重新创建失败的动态订阅。
 
 生成的 streaming subscriber 会使用已配置的重连延迟。不要因为生成的宿主会自动重连，就假设任意动态订阅也会自动重连。
 
 ## 现有的 DaprClient 与 ASP.NET 集成
 
-`DaprClient.PublishEventAsync` 和 `BulkPublishEventAsync`，以及 `Dapr.AspNetCore` 的 `[Topic]`、CloudEvents middleware 和订阅端点映射，仍然是各自独立且受支持的 API 接口。生成的 `[DaprTopic]`/`ITopicHandler<T>` 模型不要求整体迁移现有的订阅者。专用发布者使用 `PublishOptions`，较旧的客户端则使用 metadata 字典。迁移某个主题时，请避免注册重复的订阅。
+`DaprClient.PublishEventAsync` 和 `BulkPublishEventAsync`，以及 `Dapr.AspNetCore` 的 `[Topic]`、CloudEvents middleware 和订阅端点映射，仍然是各自独立且受支持的 API 接口。生成的 `[DaprTopic]`/`ITopicHandler<T>` 模型不要求整体迁移现有的订阅者。专用发布者使用 `PublishOptions`，较旧的客户端则使用 metadata 字典。迁移某个 topic 时，请避免注册重复的订阅。
 
 ## 后续步骤
 
 - [操作指南：使用 IDaprPublishSubscribeClient 发布事件]({{< ref dotnet-messaging-publish-howto.md >}})
-- [操作指南：编写订阅并处理主题消息]({{< ref dotnet-messaging-subscribe-howto.md >}})
+- [操作指南：编写订阅并处理 topic 消息]({{< ref dotnet-messaging-subscribe-howto.md >}})
 - [教程：通过示例学习 Dapr.Messaging]({{< ref "tutorial/_index.md" >}})
 - [Dapr pub/sub 概述]({{% ref pubsub-overview %}})
 - [Dapr component 规范]({{% ref supported-pubsub %}})

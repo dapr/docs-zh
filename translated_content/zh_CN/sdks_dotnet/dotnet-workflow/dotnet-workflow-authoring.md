@@ -50,7 +50,7 @@ public sealed class GreetActivity : WorkflowActivity<string, string>
 
 不要使用 `Task.Run`，不要直接执行网络或文件访问，也不要通过 `ConfigureAwait(false)` 脱离 workflow 的同步上下文。对于由 workflow API 创建的任务，适合使用 `Task.WhenAll` 和 `Task.WhenAny`。`context.IsReplaying` 仅用于抑制诊断输出，不应用于改变持久化操作的顺序。
 
-activity 可以执行 I/O 并使用注入的服务。activity 具有**至少一次**的执行语义，因此即使未配置显式的重试策略，也应实现幂等的副作用。
+activity 可以执行 I/O 并使用注入的服务。activity 具有**至少一次**的执行语义，因此即使未配置显式的 retry policy，也应实现幂等的副作用。
 
 ## 重试 activity 和 child workflow
 
@@ -128,9 +128,9 @@ var detachedId = await context.ScheduleNewDetachedWorkflowAsync(
     startTime: new DateTimeOffset(context.CurrentUtcDateTime).AddMinutes(5));
 ```
 
-返回的 ID 在操作被记录时即可获得，而不是在新 workflow 完成时。如果省略 ID，生成的 ID 具有重放安全性。detached workflow 的失败不会导致发起它的 workflow 失败，终止该 workflow 也不会递归终止分离的实例。选项重载支持应用路由和负载引用权限，但会拒绝重试策略和 history propagation。
+返回的 ID 在操作被记录时即可获得，而不是在新 workflow 完成时。如果省略 ID，生成的 ID 具有重放安全性。detached workflow 的失败不会导致发起它的 workflow 失败，终止该 workflow 也不会递归终止分离的实例。选项重载支持应用 Routing 和负载引用权限，但会拒绝 retry policies 和 history propagation。
 
-有关路由，请参阅[multi-app workflow]({{% ref dotnet-workflow-multi-app.md %}})；有关 child workflow 的历史共享，请参阅[history propagation]({{% ref dotnet-workflow-history-propagation.md %}})。
+有关 Routing，请参阅[multi-app workflow]({{% ref dotnet-workflow-multi-app.md %}})；有关 child workflow 的历史共享，请参阅[history propagation]({{% ref dotnet-workflow-history-propagation.md %}})。
 
 ## 延续长时间运行的 workflow
 
@@ -152,9 +152,9 @@ public sealed class CounterWorkflow : Workflow<int, int>
 
 ## 测试边界
 
-该包包含编译器分析器：当可以从 `nameof(...)` 解析出 activity 或 workflow 类型时，`DAPR1303` 和 `DAPR1304` 会对输入/输出不匹配发出警告；`DAPR1305` 会对 workflow 构造函数注入发出警告。对于本地的具体类型，优先使用 `nameof`；但当路由需要时，应使用已注册的规范字符串。分析器无法验证所有动态名称或远程契约，且无警告的构建并不能证明 workflow 具有确定性。
+该包包含编译器分析器：当可以从 `nameof(...)` 解析出 activity 或 workflow 类型时，`DAPR1303` 和 `DAPR1304` 会对输入/输出不匹配发出警告；`DAPR1305` 会对 workflow 构造函数注入发出警告。对于本地的具体类型，优先使用 `nameof`；但当 Routing 需要时，应使用已注册的规范字符串。分析器无法验证所有动态名称或远程契约，且无警告的构建并不能证明 workflow 具有确定性。
 
-activity 逻辑及其注入的依赖项可以照常进行单元测试。workflow 单元测试可以为抽象的 `WorkflowContext` 提供测试替身，以检查决策、已调度的调用和输出，但无法证明重放或运行时的持久性。应借助正在运行的 sidecar 和具有代表性的持久化存储，来验证重放、失败与重新传递、持久化事件超时、跨应用路由、版本升级，以及历史记录和负载的限制。
+activity 逻辑及其注入的依赖项可以照常进行单元测试。workflow 单元测试可以为抽象的 `WorkflowContext` 提供测试替身，以检查决策、已调度的调用和输出，但无法证明重放或运行时的持久性。应借助正在运行的 sidecar 和具有代表性的持久化存储，来验证重放、失败与重新传递、持久化事件超时、跨应用 Routing、版本升级，以及历史记录和负载的限制。
 
 ## 后续步骤
 
