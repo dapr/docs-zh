@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Dapr MCP 服务器可观测性"
+title: "Dapr MCP server observability"
 linkTitle: "可观测性"
 weight: 50
 description: "Dapr MCP 服务器通过 OpenTelemetry 导出的跟踪、指标和日志，以及它的健康检查端点"
@@ -55,7 +55,7 @@ dapr run --app-id dapr-mcp-server --resources-path ./components -- dapr-mcp-serv
 
 设置 OTLP 端点后，相同的记录还会以 OpenTelemetry 日志的形式导出，并与当前活动的跟踪相关联。若要让日志只保留在 stderr 上，请设置 `DAPR_MCP_SERVER_LOGS_OTEL_ENABLED=false`。
 
-在 `debug` 级别下，服务器会记录传入的请求标头，其中 `Authorization`、`Cookie`、`X-Api-Key` 以及已配置的令牌标头都会被脱敏。每次成功的工具调用以 `info` 级别记录，每次失败以 `warn` 级别记录，并附带其目标（例如存储名称和键），但绝不记录负载或机密值。
+在 `debug` 级别下，服务器会记录传入的请求标头，其中 `Authorization`、`Cookie`、`X-Api-Key` 以及已配置的令牌标头都会被脱敏。每次成功的工具调用以 `info` 级别记录，每次失败以 `warn` 级别记录，并附带其目标（例如存储名称和键），但绝不记录负载或 secret 值。
 
 ## 健康检查端点
 

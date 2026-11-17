@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "扩展与激活钩子"
+title: "Extensions and Activation Hooks"
 linkTitle: "扩展"
 weight: 55
 description: "通过一行激活钩子为 DurableAgent 挂载自定义触发源"
@@ -16,7 +16,7 @@ Dapr Agents 的 **激活钩子（activation hook）** 是用于*扩展* `Durable
 
 1. 扩展注册一个回调：`agent.add_activation(cb)`。
 2. 当代理通过**任意** `AgentRunner` 入口点被托管时（包括 `serve()`、`subscribe()`、`register_routes()`、`workflow()`、`run()` 或 `run_stream()`），运行器会恰好一次地调用每个已注册的回调，并传入一个 `ActivationContext`。
-3. 回调打开其事件源（订阅、路由或轮询器），并**返回一个可选的关闭器**：一个无参可调用对象，运行器会在 `shutdown()` 时调用它。
+3. 回调打开其事件源（subscription、路由或轮询器），并**返回一个可选的关闭器**：一个无参可调用对象，运行器会在 `shutdown()` 时调用它。
 4. 对于每个 external event，扩展通过 `ctx.runner.run(ctx.agent, payload={"task": ...}, wait=False)` 安排一次代理运行。
 
 回调按每个 `(runner, agent)` 组合触发一次。通过多个入口点托管同一代理时（例如 `serve()` 内部会调用 `subscribe()`），回调仍只触发一次。

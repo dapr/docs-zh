@@ -23,14 +23,14 @@ Dapr Python SDK 的 `dapr.ext.rag` 扩展通过 `DurableRAGPipeline` 解决了�
 
 ## 支持的提供方
 
-任意数据源都可以与任意嵌入器和任意向量存储搭配使用：
+任意数据源都可以与任意嵌入器和任意 vector store 搭配使用：
 
 | 关注点 | 可选项 |
 |---|---|
 | 文档源 | Amazon S3、Azure Blob Storage |
 | 解析器 | 文本、Markdown、PDF、HTML、DOCX（通过 `unstructured`） |
 | 嵌入器 | OpenAI、Azure OpenAI |
-| 向量存储 | PostgreSQL + pgvector、Pinecone、Azure AI Search |
+| Vector store | PostgreSQL + pgvector、Pinecone、Azure AI Search |
 
 摄取也可以随文档变化自动触发：S3 或 Azure Blob 事件通过 Dapr pub/sub 流入带去抖（debounced）的协调运行，而无需在每次添加或更新文档时手动调用重新摄取接口。
 
@@ -43,7 +43,7 @@ Dapr Python SDK 的 `dapr.ext.rag` 扩展通过 `DurableRAGPipeline` 解决了�
 
 ## 安装
 
-`dapr.ext.rag` 随主 `dapr` 包一同发布，作为一组可选依赖（extras）提供：一组用于嵌入器与核心流水线，每个数据源和向量存储各一组。因此安装时不会拉取你用不到的云 SDK 或数据库驱动：
+`dapr.ext.rag` 随主 `dapr` 包一同发布，作为一组可选依赖（extras）提供：一组用于嵌入器与核心流水线，每个数据源和 vector store 各一组。因此安装时不会拉取你用不到的云 SDK 或数据库驱动：
 
 ```bash
 pip install "dapr[rag,rag-s3,rag-pgvector]"
@@ -89,5 +89,5 @@ matches = resolver.query("What is the remote work policy?", top_k=5)
 
 ## 了解更多
 
-- [Python SDK RAG 示例](https://github.com/dapr/python-sdk/tree/main/examples/rag)——涵盖每种受支持的数据源、嵌入器与向量存储组合的可运行示例，以及一个崩溃与恢复演示。
+- [Python SDK RAG 示例](https://github.com/dapr/python-sdk/tree/main/examples/rag)——涵盖每种受支持的数据源、嵌入器与 vector store 组合的可运行示例，以及一个崩溃与恢复演示。
 - [`dapr.ext.rag` 参考文档](https://github.com/dapr/python-sdk/tree/main/docs/rag)——完整的配置参考、身份验证、版本激活，以及 Azure 原生旗舰路径（Azure Blob → Azure OpenAI → Azure AI Search → 带引用的有据可依的回答）。
