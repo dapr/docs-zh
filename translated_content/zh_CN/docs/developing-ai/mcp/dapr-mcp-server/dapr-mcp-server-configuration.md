@@ -47,7 +47,7 @@ Dapr MCP 服务器接受少量命令行标志，其余配置都从环境变量�
 |---|---|---|
 | `AUTH_MODE` | 未设置（禁用） | `oidc`、`spiffe`、`dapr-sentry` 或 `hybrid` 会启用认证。未设置或设为 `disabled` 则关闭认证。 |
 | `OIDC_ENABLED` | `false` | 在 `hybrid` 模式下接受 OIDC 令牌。在其他模式下忽略。 |
-| `OIDC_ISSUER_URL` | 未设置 | OIDC 颁发者 URL。启用 OIDC 时必填。 |
+| `OIDC_ISSUER_URL` | 未设置 | OIDC 颁发者（issuer）URL。启用 OIDC 时必填。 |
 | `OIDC_CLIENT_ID` | 未设置 | 期望的 `aud` 声明。启用 OIDC 时必填。 |
 | `OIDC_ALLOWED_ALGORITHMS` | `RS256,ES256` | 以逗号分隔的、可接受的签名算法。 |
 | `OIDC_SKIP_ISSUER_CHECK` | `false` | 跳过 `iss` 检查。仅供开发使用。 |

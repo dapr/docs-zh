@@ -57,7 +57,7 @@ from dapr_agents.hooks import (
 
 两者都继承自 `HookContext`，因此标注为 `def my_hook(ctx: HookContext)` 的钩子仍可正常工作。在新代码中，建议使用更具体的子类，使函数签名更清晰。
 
-框架传给钩子的是 payload 的副本。直接原地修改 `ctx.payload` **不会**生效，如需改变该步骤，请返回 `Mutate(payload=...)`。
+框架传给钩子的是负载的副本。直接原地修改 `ctx.payload` **不会**生效，如需改变该步骤，请返回 `Mutate(payload=...)`。
 
 ### `HookDecision`
 
@@ -313,7 +313,7 @@ agent = DurableAgent(
 | `usage` | 提供方报告的 token 用量。字段名遵循各提供方的约定：OpenAI 风格的客户端（包括 `DaprChatClient`）报告 `prompt_tokens`、`completion_tokens` 和 `total_tokens`；`AnthropicChatClient` 报告 `input_tokens` 和 `output_tokens`，并在存在时附带提示缓存计数器。当提供方未报告时，`usage` 可能为 `None` 或空字典。 |
 | 提供方特有字段 | 例如 OpenAI 风格客户端的 `object` 和 `created`，或 `AnthropicChatClient` 的 `stop_reason`、`stop_sequence` 和 `raw_content` |
 
-当 payload 中没有可读取 metadata 的 `LLMChatResponse` 时，`response_metadata` 键**不存在**，常见情况包括：
+当负载中没有可读取 metadata 的 `LLMChatResponse` 时，`response_metadata` 键**不存在**，常见情况包括：
 
 - 调用使用了结构化输出（`response_format`），因此客户端返回的是经过验证的 Pydantic 模型。
 - 响应以流式方式返回（分块迭代器）。流式 metadata 改为随流式分块一起传递。若流式请求回退为常规响应（Dapr 客户端在某些情况下会这样做），则仍会携带 `response_metadata`。

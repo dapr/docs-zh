@@ -7,7 +7,7 @@ description: "Drasi 集成"
 ---
 
 {{% alert title="注意" color="primary" %}}
-此集成目前处于 alpha；重大变更可能随时发生。
+此集成目前处于 alpha 阶段；重大变更可能随时发生。
 {{% /alert %}}
 
 Dapr Agents 中的 Drasi 扩展使 `DurableAgent` 的运行可以由 Drasi 事件触发。
@@ -54,14 +54,14 @@ from dapr_agents.ext.drasi import drasi_trigger
 agent = DurableAgent(
     name="InventoryAgent",
     pubsub=AgentPubSubConfig(
-        pubsub_name="pubsub",           # Replace with your pub/sub component
-        agent_topic="inventory-agent",  # Replace with your agent pub/sub topic
+        pubsub_name="pubsub",           # 替换为你的 pub/sub component
+        agent_topic="inventory-agent",  # 替换为你的代理 pub/sub 主题
     ),
 )
 
 drasi_trigger(
     agent,
-    query_id="low-stock-products",      # Replace with your Drasi query ID
+    query_id="low-stock-products",      # 替换为你的 Drasi 查询 ID
 )
 
 AgentRunner().serve(agent)

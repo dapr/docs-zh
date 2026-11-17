@@ -12,7 +12,7 @@ description: "使用 Configuration 的 accessControl 规则，为 MCP 服务器�
 
 ## 概述
 
-在多代理系统中，不同的代理应当对 MCP 服务器拥有不同级别的访问权限。分析代理可能被允许从某个服务器读取数据，但不能访问执行写入操作的服务器。运维代理可以调用写入类服务器，但不应调用具有破坏性的服务器。如果没有明确的策略，命名空间中的任何代理都可以调用任意 MCP 服务器——这是一个严重的攻击面。
+在多代理系统中，不同的代理应当对 MCP 服务器拥有不同级别的访问权限。分析代理可能被允许从某个服务器读取数据，但不能访问执行写入操作的服务器。运维代理可以调用写入类服务器，但不应调用具有破坏性的服务器。如果没有明确的策略，你的 namespace 中的任何代理都可以调用任意 MCP 服务器——这是一个严重的攻击面。
 
 Dapr 允许你使用**访问控制列表（ACL）**来实施这一点，ACL 作为 Dapr `Configuration` 资源的一部分进行定义。ACL 通过调用方的 Dapr App ID 来识别调用方（该 App ID 经由 [SPIFFE mTLS]({{% ref mtls.md %}}) 进行加密认证），并允许或拒绝调用。策略支持将 `deny` 作为默认值，因此每一次访问都必须被明确授权。
 
@@ -20,7 +20,7 @@ Dapr 允许你使用**访问控制列表（ACL）**来实施这一点，ACL 作�
 
 Dapr 访问控制会在**service invocation 边界**处评估 **调用方 App ID → 目标 App ID**。这与 Dapr 用于任何其他服务间流量的机制相同，它为你提供粗粒度的门控：哪些代理可以访问哪些 MCP 服务器。
 
-MCP 传输方式——`streamable-http` 与 `sse`——会将所有工具调用路由到**单个 HTTP 端点**。工具名称位于 [JSON-RPC](https://www.jsonrpc.org/specification) 请求体（`params.name`）中，而不在 URL 路径里，因此仅基于 HTTP 路径的 ACL 规则本身无法提供逐工具的粒度。若需要更细粒度的授权，可以在 MCP 服务器的入站管道上叠加一个 [OPA middleware](#使用-opa-进行逐工具授权)，它会读取 JSON-RPC 请求体、提取工具名称，并应用以 `(caller App ID, tool name)` 为键的 Rego 策略。
+MCP 传输方式——`streamable-http` 与 `sse`——会将所有工具调用路由到**单个 HTTP 端点**。工具名称位于 [JSON-RPC](https://www.jsonrpc.org/specification) 请求体（`params.name`）中，而不在 URL 路径里，因此仅基于 HTTP 路径的 ACL 规则本身无法提供逐工具的粒度。若需要更细粒度的授权，可以在 MCP 服务器的入站流水线上叠加一个 [OPA middleware](#使用-opa-进行逐工具授权)，它会读取 JSON-RPC 请求体、提取工具名称，并应用以 `(caller App ID, tool name)` 为键的 Rego 策略。
 
 若要在单个服务器内部实现以 workflow 为中心、参数级别的 RBAC，请参阅 [`MCPServer` 资源]({{% ref "mcp-server-resource.md#middleware-pipelines" %}}) 中的 middleware 钩子。
 
@@ -65,10 +65,10 @@ dapr run \
 | 字段 | 说明 |
 |---|---|
 | `defaultAction`（顶层） | 适用于未在 `policies` 中列出的 App ID 的默认动作。若要采用零信任策略，请设为 `deny`。 |
-| `trustDomain` | 策略生效的信任域。`"public"` 覆盖单个 Dapr 命名空间内的流量。 |
+| `trustDomain` | 策略生效的信任域。`"public"` 覆盖单个 Dapr namespace 内的流量。 |
 | `policies[].appId` | 调用代理的 Dapr App ID。 |
 | `policies[].defaultAction` | 针对该调用方的 `allow` 或 `deny`。 |
-| `policies[].namespace` | 调用方运行所在的 Dapr 命名空间（通常为 `"default"`）。 |
+| `policies[].namespace` | 调用方运行所在的 Dapr namespace（通常为 `"default"`）。 |
 
 ACL 的更改要等目标 Dapr sidecar 重新加载配置后才会生效，重启 sidecar 即可应用更改。
 
@@ -109,7 +109,7 @@ spec:
 
 ## 使用 OPA 进行逐工具授权
 
-App ID 门控较为粗粒度：它只控制代理能否访问某个 MCP 服务器，但该服务器上的每个工具都同样可以被访问。若要实现更细粒度的 `(caller App ID, tool name)` 授权，请在 MCP 服务器的入站 HTTP 管道上叠加一个 [Open Policy Agent（OPA）middleware]({{% ref middleware-opa.md %}})。OPA middleware 会读取 JSON-RPC 请求体，你编写的 Rego 策略提取 `method` 与 `params.name`，而决策则以调用方的 App ID 为键（由 Dapr 通过 `dapr-caller-app-id` 请求头传递）。
+App ID 门控较为粗粒度：它只控制代理能否访问某个 MCP 服务器，但该服务器上的每个工具都同样可以被访问。若要实现更细粒度的 `(caller App ID, tool name)` 授权，请在 MCP 服务器的入站 HTTP 流水线上叠加一个 [Open Policy Agent（OPA）middleware]({{% ref middleware-opa.md %}})。OPA middleware 会读取 JSON-RPC 请求体，你编写的 Rego 策略提取 `method` 与 `params.name`，而决策则以调用方的 App ID 为键（由 Dapr 通过 `dapr-caller-app-id` 请求头传递）。
 
 ### OPA 如何为逐工具的 MCP 流量把关
 
@@ -177,7 +177,7 @@ spec:
         }
 ```
 
-将该 middleware 附加到 MCP 服务器的应用 HTTP 管道上：
+将该 middleware 附加到 MCP 服务器的应用 HTTP 流水线上：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -205,14 +205,14 @@ spec:
 ACL 策略与 OAuth 2.0 Bearer middleware 是相互独立的执行层。为实现纵深防御，请同时将二者应用于 MCP 服务器：
 
 1. **ACL**——控制哪些代理 App ID 被允许调用哪些 MCP 服务器（由 Dapr 的 service invocation 层借助 SPIFFE 身份执行）。
-2. **Bearer middleware**——验证调用方是否出示了来自受信任身份提供方、仍然有效且已签名的 JWT（在 HTTP 管道层执行，与 App ID 无关）。
+2. **Bearer middleware**——验证调用方是否出示了来自受信任身份提供方、仍然有效且已签名的 JWT（在 HTTP 流水线层执行，与 App ID 无关）。
 
 攻击者需要同时突破两层防护：伪造或窃取有效的 App ID，**并且**获得有效的已签名令牌。有关 Bearer middleware 的设置，请参阅 [对 MCP 服务器进行身份验证]({{% ref mcp-authentication.md %}})。
 
 ## 故障排查
 
 **我为代理的 App ID 添加了策略，但代理仍然收到 `403`。**
-请核对策略中的 App ID 与代理启动时的 `--app-id` 完全一致（区分大小写）。确保 MCP 服务器的 sidecar 已重启以加载新配置。确认 `namespace` 字段与调用方 Dapr 应用所在的命名空间一致。
+请核对策略中的 App ID 与代理启动时的 `--app-id` 完全一致（区分大小写）。确保 MCP 服务器的 sidecar 已重启以加载新配置。确认 `namespace` 字段与调用方 Dapr 应用所在的 namespace 一致。
 
 **我想允许某个特定代理执行所有操作。**
 为该 App ID 在 `policies[].defaultAction` 层级设置 `defaultAction: allow`：

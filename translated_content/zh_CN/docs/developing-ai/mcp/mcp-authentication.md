@@ -8,11 +8,11 @@ description: "如何启用 MCP 客户端和服务器端身份验证"
 
 ## 概述
 
-[MCP 规范](https://modelcontextprotocol.io/specification/) 并不强制要求 MCP 客户端与服务器之间的任何形式的身份验证。安全模型由用户自行规划和实施。这给开发者带来了维护负担，并使 MCP 服务器面临各种攻击面。
+[MCP 规范](https://modelcontextprotocol.io/specification/) 并不强制要求 MCP 客户端与服务器之间采用任何形式的身份验证。安全模型由用户自行规划和实现。这给开发者带来了维护负担，并使 MCP 服务器暴露在各种攻击面之下。
 
-虽然 MCP 服务器缺少身份标识，但 OAuth2 是一个成熟的标准，可用于正确地对 MCP 客户端进行身份验证，以访问 MCP 服务器。
+虽然 MCP 服务器本身不具备身份标识，但 OAuth2 是一种成熟的标准，可用于正确地对 MCP 客户端进行身份验证，使其访问 MCP 服务器。
 
-在以下场景中，OAuth2 变得尤为重要：
+当 MCP 服务器具有以下特征时，OAuth2 变得尤为重要：
 
 * 多租户
 * 远程
@@ -25,25 +25,25 @@ Dapr 通过使用 [middleware]({{% ref "middleware" %}}) component，支持 MCP 
 
 ## 身份验证类型
 
-Dapr 为 MCP 服务器的生产级部署支持两种关键身份验证机制——客户端和服务器端。
+Dapr 为 MCP 服务器的生产级部署支持两种关键身份验证机制：客户端和服务器端。
 
 ### 客户端身份验证
 
-客户端发起 OAuth2 以获取访问令牌，并在连接到 MCP 服务器时包含该令牌。
-这证明了用户的身份和权限，对于远程、敏感或多租户 MCP 服务器是必需的。
+客户端发起 OAuth2 以获取访问令牌，并在连接到 MCP 服务器时携带该令牌。
+这可以证明用户的身份和权限，对于远程、敏感或多租户的 MCP 服务器是必需的。
 它确保服务器能够信任调用方的身份，以及客户端被允许使用的作用域。
 
 ### 服务器端身份验证
 
 服务器验证客户端的令牌，或者在令牌缺失或不足时触发 OAuth2 登录或作用域升级。
-这对于云托管或共享 MCP 服务器、租户感知系统以及需要用户特定授权的集成是必需的。
-它强制执行访问控制，隔离用户，并保护特权工具和数据。
+这对于云托管或共享的 MCP 服务器、租户感知系统，以及需要用户特定授权的集成而言是必需的。
+它强制执行访问控制、隔离用户，并保护特权工具和数据。
 
 ## 如何启用客户端身份验证
 
 ### 将 MCP 服务器定义为 HTTPEndpoint
 
-Dapr 允许开发者和运维人员将远程 HTTP 服务建模为可使用 Dapr [service invocation API]({{% ref "service-invocation-overview" %}}) 管理和调用的资源。
+Dapr 允许开发者和运维人员将远程 HTTP 服务建模为资源，这些资源可以通过 Dapr [service invocation API]({{% ref "service-invocation-overview" %}}) 进行管理和调用。
 创建此 `HTTPEndpoint` 资源来表示 MCP 服务器：
 
 ```yaml
@@ -127,7 +127,7 @@ async def main():
         },
     )
 
-    # 创建绑定到该传输的 MCP 会话
+    # 创建与该传输关联的 MCP 会话
     async with ClientSession(transport) as session:
         await session.initialize()
 
@@ -142,7 +142,7 @@ if __name__ == "__main__":
 
 ### 使用 Dapr 运行 MCP 客户端
 
-将上面的 YAML 文件放入 `components` 目录并运行 Dapr：
+将上面的 YAML 文件放入 `components` 目录，然后运行 Dapr：
 
 ```bash
 dapr run --app-id mcpclient --resources-path ./components --dapr-http-port 3500 --config ./config.yaml -- python mcpclient.py
@@ -177,7 +177,7 @@ spec:
     value: "<comma-separated scopes>"
 ```
 
-接下来，创建配置 component，并修改 `appHttpPipeline` 字段。这告诉 Dapr 对传入的调用应用该 middleware。
+接下来，创建配置 component，并修改其中的 `appHttpPipeline` 字段。这会告诉 Dapr 对传入的调用应用该 middleware。
 
 ```yaml
 piVersion: dapr.io/v1alpha1
@@ -195,17 +195,17 @@ spec:
 
 ### 使用 Dapr 运行 MCP 服务器
 
-将上面的 YAML 文件放入 `components` 目录并运行 Dapr：
+将上面的 YAML 文件放入 `components` 目录，然后运行 Dapr：
 
 ```bash
 dapr run --app-id mcpclient --resources-path ./components --dapr-http-port 3500 --config ./config.yaml -- python mcpserver.py
 ```
 
-当 MCP 服务器的请求到达时，Dapr 将启动 OAuth2 流水线。
+当 MCP 服务器收到请求时，Dapr 将启动 OAuth2 流水线。
 
 ### 替代方案：使用 bearer middleware 进行入站 JWT 验证
 
-要求 MCP 服务器的每个入站请求都携带有效的 OAuth 2.0 令牌，且无需在服务器端驱动 OAuth2 流程，请将 [`middleware.http.bearer`]({{% ref middleware-bearer.md %}}) 挂载到 MCP 服务器的 `appHttpPipeline` 上。该 middleware 会根据 JWKS 端点验证令牌的签名、颁发者（issuer）和受众（audience），并在请求到达服务器代码之前拒绝缺失或无效令牌的请求（`401 Unauthorized`）。
+要求 MCP 服务器的每个入站请求都携带有效的 OAuth 2.0 令牌，且无需在服务器端驱动 OAuth2 流程，可以将 [`middleware.http.bearer`]({{% ref middleware-bearer.md %}}) 挂载到 MCP 服务器的 `appHttpPipeline` 上。该 middleware 会根据 JWKS 端点验证令牌的签名、颁发者（issuer）和受众（audience），并在请求到达服务器代码之前，拒绝缺失或无效令牌的请求（`401 Unauthorized`）。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -236,7 +236,7 @@ spec:
       type: middleware.http.bearer
 ```
 
-将 bearer 验证与[基于 App-ID 的访问控制]({{% ref mcp-access-control.md %}})结合使用，以实现纵深防御：`accessControl` 决定*哪些调用方*可以访问服务器；bearer 验证则要求它们出示有效且已签名的令牌。
+将 bearer 验证与[基于 App-ID 的访问控制]({{% ref mcp-access-control.md %}})结合使用，可以实现纵深防御：`accessControl` 决定*哪些调用方*可以访问服务器；bearer 验证则要求它们出示有效且已签名的令牌。
 
 ## 另请参阅
 

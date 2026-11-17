@@ -22,7 +22,7 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 
 - **只读**：读取数据，不做任何更改。
 - **幂等**：使用相同输入再次调用不会产生额外影响，因此可以安全地重试。
-- **破坏性**：可能删除或覆盖数据，或触发无法撤销的操作。请考虑在首次调用前请用户确认。
+- **破坏性**：可能删除或覆盖数据，或触发无法撤销的操作。请考虑在首次调用前征得用户确认。
 - **副作用**：会更改状态，或在某处触发一个操作。
 
 除 `get_components` 外，每个工具还设置了 `openWorldHint`，因为它会访问服务器之外的系统。
@@ -128,11 +128,11 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 | `storeName` | 是 | state store component 名称。 |
 | `items` | 是 | 非空的操作列表。每项包含 `key`（必填）、要保存的 `value`，以及用于改为删除该键的 `isDelete: true`。 |
 
-## 发布与订阅
+## 发布和订阅
 
 ### publish_event
 
-向[pub/sub]({{% ref pubsub-overview.md %}})component 上的主题发布一条消息。
+向[pub/sub]({{% ref pubsub-overview.md %}}) component 上的主题发布一条消息。
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
@@ -153,7 +153,7 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 | `contentType` | 否 | `message` 的内容类型。 |
 | `metadata` | 否 | 发布 metadata，例如 `{"ttlInSeconds": "60"}`。 |
 
-## binding
+## Bindings
 
 ### invoke_output_binding
 
@@ -164,11 +164,11 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 | `bindingName` | 是 | binding component 名称。 |
 | `operation` | 是 | binding 支持的操作，例如 `create`、`get` 或 `delete`。 |
 | `data` | 否 | 负载，通常为 JSON。 |
-| `metadata` | 否 | binding 为此操作所需的 metadata，例如对象存储 binding所需的 `key`。 |
+| `metadata` | 否 | binding 为此操作所需的 metadata，例如对象存储 binding 所需的 `key`。 |
 
 ## secrets
 
-secret 值会在工具结果中返回给模型。只公开代理应当读取的 secret store，并通过[secrets 作用域]({{% ref secrets-scopes.md %}})进一步收窄范围。
+secret 值会在工具结果中返回给模型。只公开代理应当读取的 secret store，并通过[secret 作用域]({{% ref secrets-scopes.md %}})进一步收窄范围。
 
 ### get_secret
 
@@ -178,7 +178,7 @@ secret 值会在工具结果中返回给模型。只公开代理应当读取的 
 |---|---|---|
 | `storeName` | 是 | secret store component 名称。 |
 | `secretName` | 是 | secret 的名称。 |
-| `metadata` | 否 | 存储特定的选项，例如 `version_id`。 |
+| `metadata` | 否 | store 特定的选项，例如 `version_id`。 |
 
 ### get_bulk_secrets
 
@@ -187,13 +187,13 @@ secret 值会在工具结果中返回给模型。只公开代理应当读取的 
 | 输入 | 必填 | 说明 |
 |---|---|---|
 | `storeName` | 是 | secret store component 名称。 |
-| `metadata` | 否 | 存储特定的选项。 |
+| `metadata` | 否 | store 特定的选项。 |
 
 ## 对话
 
 ### converse_with_llm
 
-通过[对话]({{% ref conversation-overview.md %}})component 向另一个大型语言模型 (LLM) 发送提示词，并返回回复，以及用于继续该对话的 `context_id`。
+通过[对话]({{% ref conversation-overview.md %}}) component 向另一个大型语言模型 (LLM) 发送提示词，并返回回复，以及用于继续该对话的 `context_id`。
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
@@ -206,7 +206,7 @@ secret 值会在工具结果中返回给模型。只公开代理应当读取的 
 
 ### encrypt_data
 
-使用由[加密]({{% ref cryptography-overview.md %}})component 持有的密钥对文本进行加密，并返回经 base64 编码的密文。
+使用由[加密]({{% ref cryptography-overview.md %}}) component 持有的密钥对文本进行加密，并返回经 base64 编码的密文。
 
 | 输入 | 必填 | 说明 |
 |---|---|---|

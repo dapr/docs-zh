@@ -91,7 +91,7 @@ if (($userPath -split ";") -notcontains $dir) {
 go install github.com/dapr/dapr-mcp-server/cmd/dapr-mcp-server@latest
 ```
 
-使用这种方式构建的二进制文件会将版本报告为 `dev`，因为版本号只有在发布构建时才会写入。
+以这种方式构建的二进制文件会将版本报告为 `dev`，因为版本号只有在发布构建时才会写入。
 
 {{% /tab %}}
 
@@ -363,7 +363,7 @@ spec:
 
 将身份验证和遥测设置作为 `env` 条目添加到容器中；请参阅[配置参考]({{% ref dapr-mcp-server-configuration.md %}})。
 
-Streamable HTTP 会话保存在服务器的内存中。如果运行多个副本，请在负责转发流量的任何 component 上配置会话亲和性，以确保每个客户端始终访问同一个副本。
+Streamable HTTP 会话保存在服务器的内存中。如果运行多个副本，请在负责转发流量的组件上配置会话亲和性，以确保每个客户端始终访问同一个副本。
 
 ## 后续步骤
 

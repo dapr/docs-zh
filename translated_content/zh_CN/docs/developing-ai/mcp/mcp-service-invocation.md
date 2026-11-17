@@ -17,10 +17,10 @@ service invocation 路径复用的是你几乎肯定已经在运行的 Dapr 原�
 - **无 MCP SDK 绑定。** 任何 MCP 客户端或框架（LangGraph、官方 MCP SDK、自定义的 JSON-RPC HTTP 客户端）都可以原样通过 sidecar 驱动 MCP 服务器。采用 Dapr 只是部署阶段的变更，而不是代码变更。
 - **默认启用 mTLS 的 App ID 身份。** 每一次 Dapr 到 Dapr 的调用都使用由 [Sentry]({{% ref mtls.md %}}) 签发和轮换的 SPIFFE 身份进行双向认证。MCP 服务器能看到经过验证的调用方 App ID，你无需额外叠加一层独立的身份系统。
 - **粗粒度的 App ID 访问控制。** 附加到 MCP 服务器 App ID 上的 [`Configuration` `accessControl`]({{% ref mcp-access-control.md %}}) 决定哪些代理 App ID 可以访问它，并以 `deny` 作为默认动作，从而确保不可信的调用方不会意外访问到 MCP 服务器。
-- **通过 OPA 实现按工具授权。** 当 App ID 层面的控制粒度不够细时，MCP 服务器入站管道上的 [OPA middleware]({{% ref mcp-access-control.md %}}) 会检查 JSON-RPC 请求体，提取工具名称（必要时还包括参数），并应用以 `(caller App ID, tool name)` 为键的 Rego 策略。这样，无需修改 SDK，现成的 MCP 客户端也能获得按工具的授权能力。
-- **声明式的 OAuth 2.0 / bearer 认证。** 入站管道上的 [bearer middleware]({{% ref mcp-authentication.md %}}) 会根据颁发者的 JWKS、`iss` 和 `aud` 声明验证 JWT。出站方面，另一个 middleware 会为上游 MCP 服务器获取令牌。全部以声明式方式完成，MCP 服务器中无需任何代码。
+- **通过 OPA 实现按工具授权。** 当 App ID 层面的控制粒度不够细时，MCP 服务器入站流水线上的 [OPA middleware]({{% ref mcp-access-control.md %}}) 会检查 JSON-RPC 请求体，提取工具名称（必要时还包括参数），并应用以 `(caller App ID, tool name)` 为键的 Rego 策略。这样，无需修改 SDK，现成的 MCP 客户端也能获得按工具的授权能力。
+- **声明式的 OAuth 2.0 / bearer 认证。** 入站流水线上的 [bearer middleware]({{% ref mcp-authentication.md %}}) 会根据颁发者的 JWKS、`iss` 和 `aud` 声明验证 JWT。出站方面，另一个 middleware 会为上游 MCP 服务器获取令牌。全部以声明式方式完成，MCP 服务器中无需任何代码。
 - **内置可观测性。** service invocation 会生成按调用方和目标 App ID 切分的追踪、指标和日志，与你已用于非 MCP 流量的遥测数据完全相同。
-- **resiliency。** 重试、超时和断路器通过 [`Resiliency` 资源]({{% ref policies.md %}}) 附加到 MCP 服务器的 App ID 上。MCP 调用与其他 service invocation 一样，继承 Dapr 的 resiliency。
+- **resiliency 策略。** 重试、超时和断路器通过 [`Resiliency` 资源]({{% ref policies.md %}}) 附加到 MCP 服务器的 App ID 上。MCP 调用与其他 service invocation 一样，继承 Dapr 的 resiliency。
 
 | 不使用 Dapr service invocation | 使用 Dapr service invocation |
 |---|---|
@@ -40,7 +40,7 @@ service invocation 路径复用的是你几乎肯定已经在运行的 Dapr 原�
 - 通过 App ID 将请求从调用方应用路由到目标应用。
 - 验证调用方的工作负载身份（使用 SPIFFE 签发凭据的 [mTLS]({{% ref mtls.md %}})）。
 - 应用为目标 MCP 服务器 App ID 定义的[访问控制策略]({{% ref mcp-access-control.md %}})。
-- 在入站管道上应用 HTTP middleware，例如 [OAuth 2.0 bearer 验证]({{% ref middleware-bearer.md %}})。
+- 在入站流水线上应用 HTTP middleware，例如 [OAuth 2.0 bearer 验证]({{% ref middleware-bearer.md %}})。
 - 为该调用采集日志、指标和追踪。
 
 这些功能与应用于任何其他服务间调用的方式一样，同样适用于 MCP 调用，且无需修改 MCP 客户端或服务器代码。
@@ -106,13 +106,13 @@ dapr run \
 
 另一种方式是在 MCP 客户端传输层上设置 `dapr-app-id` 请求头，而不是使用显式的 `/v1.0/invoke/...` URL。两种形式均可使用，参见 [service invocation 概述]({{% ref service-invocation-overview.md %}}#how-to-invoke-services)。
 
-由于两个应用运行在同一个 Dapr control plane 上，service invocation 会按 App ID 将 `my-agent` 的请求路由到 `mcp-server`。无需任何额外的网络配置。
+由于两个应用运行在同一个 control plane 上，service invocation 会按 App ID 将 `my-agent` 的请求路由到 `mcp-server`。无需任何额外的网络配置。
 
 ## 应用安全控制
 
 MCP 工具调用会经过 Dapr 的 service invocation 层，因此你可以叠加两种相互独立的安全机制：
 
-- **OAuth 2.0 身份验证**：MCP 服务器上的 [bearer middleware]({{% ref middleware-bearer.md %}}) 会根据颁发者的 JWKS、`iss` 和 `aud` 声明验证入站 JWT。没有有效令牌的请求会在到达 MCP 服务器代码之前，被以 `401 Unauthorized` 拒绝。参见[对 MCP 服务器进行身份验证]({{% ref mcp-authentication.md %}})。
+- **OAuth 2.0 身份验证**：MCP 服务器上的 [bearer middleware]({{% ref middleware-bearer.md %}}) 会根据颁发者的 JWKS、`iss` 和 `aud` 声明验证入站 JWT。没有有效令牌的请求会在到达 MCP 服务器代码之前被以 `401 Unauthorized` 拒绝。参见[对 MCP 服务器进行身份验证]({{% ref mcp-authentication.md %}})。
 - **访问策略（ACL）**：附加到 MCP 服务器 App ID 上的 `Configuration` 资源定义了哪些代理 App ID 可以调用它，并采用默认拒绝的姿态。参见 [MCP 访问控制]({{% ref mcp-access-control.md %}})。
 
 这些机制既可以独立使用，也可以叠加在一起实现纵深防御。使用 SPIFFE 签发的工作负载身份的 mTLS 对所有 Dapr 到 Dapr 的流量默认启用，参见 [Dapr mTLS]({{% ref mtls.md %}})。
@@ -124,16 +124,16 @@ MCP 工具调用会经过 Dapr 的 service invocation 层，因此你可以叠�
 以下情况适合使用此路径：
 
 - 你使用现成的 MCP 客户端或代理框架（LangGraph、官方 MCP SDK 等），并希望保持该集成不变。
-- App ID 级别的访问控制和 HTTP 管道 middleware 已经足够，你不需要按参数的 RBAC，也不需要观察工具结果正文的钩子。
+- App ID 级别的访问控制和 HTTP 流水线 middleware 已经足够，你不需要按参数的 RBAC，也不需要观察工具结果正文的钩子。
 - 你尚未使用 Dapr Workflows，或者你不希望仅为了调用 MCP 工具而引入它。
 
 当出现以下情况时，改用 [`MCPServer` 资源]({{% ref mcp-server-resource.md %}})：
 
 - 你需要按工具进行参数级 RBAC、审计、脱敏或响应过滤（即 `beforeCallTool` / `afterCallTool` / `beforeListTools` / `afterListTools` 钩子）。
-- 你需要即使在调用中途 sidecar 重启后也能保持的持久重试。
+- 你需要在调用中途 sidecar 重启后仍能保留的持久重试。
 - 你希望按工具切分可观测性数据（每个工具对应一个 workflow 名称）。
 
-这两种路径并不互斥：你可以对大多数 MCP 流量使用 service invocation，当某个服务器的策略需要感知参数时，再将其切换到 `MCPServer` 资源。
+这两种路径并不互斥：你可以对大多数 MCP 流量使用 service invocation，并在某个服务器的策略需要感知参数时，将其切换为 `MCPServer` 资源。
 
 ## 相关链接
 

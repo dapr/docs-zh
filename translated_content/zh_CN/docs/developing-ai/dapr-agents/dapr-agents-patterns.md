@@ -12,9 +12,10 @@ Dapr Agents 简化了代理系统的实现，从简单的增强型大型语言�
 
 ## 概述
 
-代理系统使用反思、工具使用、规划和多代理协作等设计模式，以取得比单次提示交互更好的结果。与其把"代理"看作二元分类，不如把系统看作具有不同程度代理性的连续谱，这样更有用。
+代理系统使用反思、工具使用、规划和多代理协作等设计模式，以取得比单次提示交互更好的结果。与其把“代理”看作二元分类，不如把系统看作具有不同程度代理性的连续谱，这样更有用。
 
-这一范围从只提示模型一次的简单 workflow，到能够以更高自主性执行多个迭代步骤的复杂系统。有两种基本的架构方法：
+这一范围从只提示模型一次的简单 workflow，到能够以更高自主性执行多个迭代步骤的复杂系统。
+有两种基本的架构方法：
 
 * **workflow**：通过预定义代码路径编排 LLM 和工具的系统（更具规范性）
 * **代理**：LLM 动态引导自身流程和工具使用的系统（更具自主性）
@@ -404,7 +405,8 @@ agent = DurableAgent(
 
 此模式不仅仅持久化消息历史——它会为每次交互动态创建带有持久化活动的 workflow，其中 LLM 调用和工具执行都可靠地存储在 Dapr 的 state store 中。这使其非常适合对可靠性和持久性要求极高的环境。
 
-Durable Agent 还支持"无头代理"（headless agents）方式，即无需直接用户交互即可运行的自主系统。Dapr 的 Durable Agent 暴露 REST 和 pub/sub API，因此非常适合由其他应用或 external event 触发的长时间运行操作。
+Durable Agent 还支持“无头代理”方式，即无需直接用户交互即可运行的自主系统。Dapr 的 Durable Agent 暴露 REST 和 pub/sub API，因此非常适合由其他应用或 external event 触发的长时间运行操作。
+
 
 **使用场景：**
 - 可能需要数分钟甚至数天才能完成的长时间运行任务
@@ -475,14 +477,13 @@ async def main():
 
 asyncio.run(main())
 ```
-
 该实现遵循 Dapr 的 sidecar 架构模型，所有基础设施相关的问题均由 Dapr runtime 处理：
 - **持久化记忆** - 代理状态存储在 Dapr 的 state store 中，进程崩溃后依然存在
 - **workflow 编排** - 所有代理交互都通过 Dapr 的 workflow 系统进行管理
 - **服务暴露** - `AgentRunner.serve()` 暴露 REST 端点（例如 `POST /agent/run`），用于调度代理的 `@workflow_entry`
 - **pub/sub 输入/输出** - `AgentRunner.subscribe()` 扫描代理中的 `@message_router` 方法，并通过模式验证将配置的主题连接起来
 
-Durable Agent 实现了"无头代理"的概念，即在没有直接用户交互的情况下运行的自主系统。根据场景，你可以：
+Durable Agent 实现了“无头代理”的概念，即在没有直接用户交互的情况下运行的自主系统。根据场景，你可以：
 
 1. **以编程方式运行**持久化 workflow（如上所示的 `runner.run`）
 2. **订阅**代理到主题，使其他服务能够通过 pub/sub 触发它（`runner.subscribe`）

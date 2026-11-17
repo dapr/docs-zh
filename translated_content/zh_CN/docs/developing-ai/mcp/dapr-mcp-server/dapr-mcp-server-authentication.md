@@ -6,7 +6,7 @@ weight: 30
 description: "要求 Dapr MCP 服务器的 HTTP 传输使用 OIDC、SPIFFE 或 Dapr Sentry 令牌"
 ---
 
-Dapr MCP 服务器可以要求通过可流式传输 HTTP 提供的每个 MCP 请求都携带有效令牌。身份验证默认关闭。设置 `AUTH_MODE` 即可开启：
+Dapr MCP 服务器可以要求在 streamable HTTP 上提供的每个 MCP 请求都携带有效令牌。身份验证默认关闭。设置 `AUTH_MODE` 即可开启：
 
 | `AUTH_MODE` | 接受 |
 |---|---|
@@ -65,16 +65,16 @@ export SPIFFE_ALLOWED_CLIENTS=spiffe://example.org/ns/agents/sa/planner
 
 ## Dapr Sentry
 
-当调用方是 Dapr 应用时，请使用 `dapr-sentry`。Dapr Sentry 可以为每个应用签发一个 JWT，其主体为该应用的 SPIFFE ID，并将签名密钥以 JWKS 的形式发布。要在 Sentry 中启用此功能，请启用 JWT 签发与 OIDC 服务器，并使用 [使用联合身份凭据进行身份验证]({{% ref "authenticating-azure.md#authenticating-with-a-federated-identity-credential" %}}) 中所示的 Sentry Helm 值。该页面中的 Microsoft Entra ID 步骤不适用。JWKS 在 Sentry OIDC 端口的 `/jwks.json` 上提供。每个调用方应用都会通过 `dapr.io/sentry-request-jwt-audiences` 注解请求令牌，受众为你在 `DAPR_SENTRY_AUDIENCE` 中设置的值；在自托管模式下则使用 `--sentry-request-jwt-audiences` 参数。
+当调用方是 Dapr 应用时，请使用 `dapr-sentry`。Dapr Sentry 可以为每个应用签发一个 JWT，其主体为该应用的 SPIFFE ID，并将签名密钥以 JWKS 的形式发布。要在 Sentry 中启用此功能，请启用 JWT 签发与 OIDC 服务器，并使用 [使用联合标识凭据进行身份验证]({{% ref "authenticating-azure.md#authenticating-with-a-federated-identity-credential" %}}) 中所示的 Sentry Helm 值。该页面中的 Microsoft Entra ID 步骤不适用。JWKS 在 Sentry OIDC 端口的 `/jwks.json` 上提供。每个调用方应用都会通过 `dapr.io/sentry-request-jwt-audiences` 注解请求令牌，受众为你在 `DAPR_SENTRY_AUDIENCE` 中设置的值；在自托管模式下则使用 `--sentry-request-jwt-audiences` 参数。
 
-通过 `auth.spiffe.jwt` 配置的 [`MCPServer` 资源]({{% ref "mcp-server-resource.md#spiffe-workload-identity" %}}) 会在每次调用时发送此类令牌，因此此模式与将 Dapr MCP 服务器声明为 `MCPServer` 天然搭配。
+配置了 `auth.spiffe.jwt` 的 [`MCPServer` 资源]({{% ref "mcp-server-resource.md#spiffe-workload-identity" %}}) 会在每次调用时发送此类令牌，因此此模式与将 Dapr MCP 服务器声明为 `MCPServer` 天然搭配。
 
 | 变量 | 必需 | 说明 |
 |---|---|---|
 | `DAPR_SENTRY_JWKS_URL` | 是 | Sentry JWKS 的 URL。 |
 | `DAPR_SENTRY_TRUST_DOMAIN` | 是 | 调用方 SPIFFE ID 的信任域，例如 `public`。`sub` 声明必须是该信任域中、带有工作负载路径的 SPIFFE ID。 |
 | `DAPR_SENTRY_AUDIENCE` | 是 | 令牌的 `aud` 声明必须包含的值。使用调用方请求令牌时所用的受众。 |
-| `DAPR_SENTRY_ISSUER` | 否 | 期望的 `iss` 声明。未设置时，不检查签发方。 |
+| `DAPR_SENTRY_ISSUER` | 否 | 期望的 `iss` 声明。未设置时，不检查颁发者。 |
 | `DAPR_SENTRY_TOKEN_HEADER` | 否 | 承载原始令牌的标头。默认为 `Authorization`。在所有模式下均适用；参见[发送令牌](#发送令牌)。 |
 | `DAPR_SENTRY_JWKS_REFRESH_INTERVAL` | 否 | 刷新 JWKS 的间隔。默认 `5m`，最小 `30s`。 |
 

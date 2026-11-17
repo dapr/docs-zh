@@ -76,7 +76,7 @@ curl -X POST "http://localhost:3500/v1.0-beta1/workflows/dapr/dapr.internal.mcp.
   }'
 ```
 
-像步骤 2 一样轮询获取结果。输出是一个 [MCP `CallToolResult`](https://modelcontextprotocol.io/specification/2025-11-25/schema#calltoolresult)，其结构与 MCP 线上协议规范逐字节一致。`content` 中的每一项都是带有 `type` 判别字段的扁平标记联合类型：
+像步骤 2 一样轮询获取结果。输出是一个 [MCP `CallToolResult`](https://modelcontextprotocol.io/specification/2025-11-25/schema#calltoolresult)，其结构与 MCP 线上协议规范逐字节一致。`content` 中的每一项都是带有 `type` 判别标识的扁平标记联合类型：
 
 ```json
 {
@@ -115,7 +115,7 @@ spec:
             key: clientSecret
 ```
 
-Dapr 从颁发者处获取令牌，并将其作为 Bearer 令牌注入每个 MCP 请求。为提高效率，HTTP 客户端会按 MCPServer 进行缓存。
+Dapr 从颁发者（issuer）处获取令牌，并将其作为 Bearer 令牌注入每个 MCP 请求。为提高效率，HTTP 客户端会按 MCPServer 进行缓存。
 
 ## 步骤 5（可选）：添加 middleware
 

@@ -396,7 +396,7 @@ async def run_with_approval(executor, task: str) -> AgentEvent:
 
 ### 可观测性
 
-执行器的运行与由 LLM 驱动的代理一样，通过 Dapr Agents 的 OpenTelemetry 插桩进行追踪。每个 `run_executor` activity 都会获得一个 `invoke_agent {agent}` 跨度，并且执行器每报告一次工具调用，就会有一个 `execute_tool {tool}` 子跨度。跨度携带 OpenInference 和 GenAI 属性：代理名称、`session.id`、令牌用量、模型，以及 `executor.cost_usd`、`executor.session_total_cost_usd`、`executor.num_turns` 和 `executor.stop_reason`。出错时会设置 `error.type`。等待审批的工具调用会以 `tool.completed=false` 结束其跨度。
+执行器的运行与由 LLM 驱动的代理一样，通过 Dapr Agents 的 OpenTelemetry 插桩进行追踪。每个 `run_executor` activity 都会获得一个 `invoke_agent {agent}` 跨度，并且执行器每报告一次工具调用，就会有一个 `execute_tool {tool}` 子跨度。跨度携带 OpenInference 和 GenAI 属性：代理名称、`session.id`、token 用量、模型，以及 `executor.cost_usd`、`executor.session_total_cost_usd`、`executor.num_turns` 和 `executor.stop_reason`。出错时会设置 `error.type`。等待审批的工具调用会以 `tool.completed=false` 结束其跨度。
 
 `DurableAgent` 还会将每次运行的用量保存在 workflow 状态中，即 workflow 条目的 `executor_usage` 列表中（每个已完成或已暂停的运行对应一条记录）。
 
@@ -406,7 +406,7 @@ async def run_with_approval(executor, task: str) -> AgentEvent:
 |---|---|
 | `cost_usd` | 本次运行的花费：会话的当前总计减去运行开始时的总计。开始时的总计从会话存储中读取，因此只有设置了 `session_store`（在带 state store 的 `DurableAgent` 下总是如此）时，这才是仅本次运行的花费。若没有会话存储，恢复后的运行会在此报告会话总计 |
 | `session_total_cost_usd` | 会话的总花费，涵盖所有运行和恢复 |
-| `usage` | SDK 为本次运行报告的令牌用量 |
+| `usage` | SDK 为本次运行报告的token 用量 |
 | `model_usage` | 每个模型的用量 |
 | `num_turns` | SDK 报告的轮次数。跨恢复累计 |
 | `stop_reason`、`terminal_reason` | 运行停止的原因 |
