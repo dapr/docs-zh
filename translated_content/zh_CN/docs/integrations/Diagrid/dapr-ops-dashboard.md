@@ -2,7 +2,7 @@
 type: docs
 title: "Diagrid Dapr Ops Dashboard"
 linkTitle: "Dapr Ops Dashboard"
-description: "自动化运维、落实最佳实践，并免费获得跨 Dapr 集群的可观测性"
+description: "自动化运维、落实最佳实践，并免费获得跨 Dapr 集群的 observability"
 weight: 2000
 aliases:
   - /zh-hans/developing-applications/integrations/diagrid/diagrid-conductor/
@@ -21,7 +21,7 @@ aliases:
 
 针对 50+ 项生产标准进行持续检查，在问题进入生产环境之前发现安全配置错误和优化机会。
 
-**深度可观测性**
+**深度 observability**
 
 150+ 项指标、20+ 个内置仪表板、component 健康检查、Actor 指标，以及动态的应用图谱，可视化你的服务与基础设施 component。你还可以通过指标 API 将指标导出到 Grafana。
 

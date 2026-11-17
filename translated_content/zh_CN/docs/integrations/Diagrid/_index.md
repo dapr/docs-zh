@@ -12,6 +12,6 @@ aliases:
 
 - [**Diagrid**]({{< ref diagrid-platform.md >}}) — 面向 AI 代理、workflow 和应用的持久执行，基于 Dapr 构建。
 - [**Dapr Support**]({{< ref dapr-support.md >}}) — 开源 Dapr 的商业支持，每月 99 美元起。
-- [**Dapr Ops Dashboard**]({{< ref dapr-ops-dashboard.md >}}) — 免费平台，用于在 Kubernetes 上为 Dapr 提供自动化运维与可观测性。
+- [**Dapr Ops Dashboard**]({{< ref dapr-ops-dashboard.md >}}) — 免费平台，用于在 Kubernetes 上为 Dapr 提供自动化运维与 observability。
 - [**Dapr Dev Dashboard**]({{< ref dev-dashboard.md >}}) — 免费的本地 Dapr 开发配套工具。
 - [**D3E**]({{< ref d3e.md >}}) — 开源 Dapr 的定制发行版，具备额外的安全性与可扩展性能力。
