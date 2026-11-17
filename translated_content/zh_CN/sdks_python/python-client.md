@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Dapr 客户端 Python SDK 入门"
+title: "Getting started with the Dapr client Python SDK"
 linkTitle: "客户端"
 weight: 10000
 description: 如何快速上手使用 Dapr Python SDK
@@ -26,13 +26,10 @@ from dapr.clients import DaprClient
 ```
 
 ## 初始化客户端
-
 你可以通过多种方式初始化 Dapr 客户端：
 
 #### 默认值：
-
 在不传入任何参数的情况下初始化客户端时，将使用 Dapr sidecar 实例的默认值（`127.0.0.1:50001`）。
-
 ```python
 from dapr.clients import DaprClient
 
@@ -54,13 +51,12 @@ with DaprClient("mydomain:50051?tls=true") as d:
 使用 `host:port?tls=true` 或 `host:port?tls=false` 格式设置端点，以及连接是否使用 TLS。
 
 {{% alert title="已弃用" color="warning" %}}
-以 `http://` 或 `https://` 开头的 gRPC 端点（例如 `https://mydomain:443`）仍然可用，但会发出 `DeprecationWarning`，其中给出等效的端点。请将其替换为 `mydomain:443?tls=true`（对应 `https://`）或 `mydomain:443?tls=false`（对应 `http://`）。Python 在许多情况下会隐藏 `DeprecationWarning`，因此请使用 `-W default` 运行以查看它。
+以 `http://` 或 `https://` 开头的 gRPC 端点（例如 `https://mydomain:443`）仍然可用，但会发出 `DeprecationWarning`，并给出等效的端点。请将其替换为 `mydomain:443?tls=true`（对应 `https://`）或 `mydomain:443?tls=false`（对应 `http://`）。Python 在许多情况下会隐藏 `DeprecationWarning`，因此请使用 `-W default` 运行以查看它。
 {{% /alert %}}
 
 #### 配置选项：
 
 ##### Dapr sidecar 端点
-
 你可以使用标准化的 `DAPR_GRPC_ENDPOINT` 环境变量指定 gRPC 端点。设置该变量后，客户端可以在不带任何参数的情况下初始化：
 
 ```bash
@@ -80,18 +76,16 @@ with DaprClient() as d:
 `DAPR_GRPC_ENDPOINT` 中的 `http://` 和 `https://` 前缀同样已弃用，请改用 `host:port?tls=true` 或 `host:port?tls=false`。
 
 ##### Dapr API Token
-
 如果你的 Dapr 实例配置为需要 `DAPR_API_TOKEN` 环境变量，可以在环境中设置它，客户端会自动使用。你可以在[这里](https://docs.dapr.io/operations/security/api-token/)进一步了解 Dapr API Token 认证。
 
 ##### 健康检查超时
-
 客户端初始化时，会对 Dapr sidecar 执行健康检查（`/healthz/outbound`）。客户端会等待 sidecar 启动并运行后再继续。
 
 默认的健康检查超时时间为 60 秒，可以通过设置 `DAPR_HEALTH_TIMEOUT` 环境变量进行覆盖。每次健康检查尝试也受此超时限制，因此一个接受连接却不响应的 sidecar 不会无限期地阻塞客户端。
 
 ##### 重试与超时
 
-如果从 sidecar 收到特定的错误代码，Dapr 客户端可以重试请求。该行为可通过 `DAPR_API_MAX_RETRIES` 环境变量进行配置，并会被自动读取，无需修改代码。`DAPR_API_MAX_RETRIES` 的默认值为 `0`，表示不进行重试。
+Dapr 客户端可以在从 sidecar 收到特定错误代码时重试请求。该行为通过 `DAPR_API_MAX_RETRIES` 环境变量配置，并会被自动读取，无需修改代码。`DAPR_API_MAX_RETRIES` 的默认值为 `0`，表示不进行重试。
 
 你可以创建 `dapr.clients.retry.RetryPolicy` 对象并将其传给 DaprClient 构造函数，从而进一步微调重试参数：
 
@@ -125,12 +119,10 @@ proxy = ActorProxy.create('DemoActor', ActorId('1'), DemoActorInterface, factory
 
 ##### macOS 上的 DNS 解析
 
-在 macOS 上，如果未设置 `GRPC_DNS_RESOLVER` 环境变量，客户端会将其设为 `native`，使 gRPC 使用操作系统的解析器。gRPC 自带的解析器对于在系统中可以解析的主机名，可能会报 `DNS query cancelled` 错误。如需使用其他解析器，请在创建客户端之前设置 `GRPC_DNS_RESOLVER`。该变量作用于整个进程。
+在 macOS 上，客户端会在未设置 `GRPC_DNS_RESOLVER` 环境变量时将其设为 `native`，使 gRPC 使用操作系统的解析器。gRPC 自带的解析器可能会对系统中可以解析的主机名报 `DNS query cancelled` 错误。如需使用其他解析器，请在创建客户端之前设置 `GRPC_DNS_RESOLVER`。该变量作用于整个进程。
 
 ## 错误处理
-
 最初，Dapr 的错误遵循[标准 gRPC 错误模型](https://grpc.io/docs/guides/error/#standard-error-model)。但为了提供更详细、信息更丰富的错误消息，Dapr 在 1.13 版本中引入了增强的错误模型，该模型与 gRPC 的 [Richer Error Model](https://grpc.io/docs/guides/error/#richer-error-model) 保持一致。为此，Python SDK 实现了 `DaprGrpcError`，这是一个自定义异常类，旨在改善开发者体验。
-
 需要注意的是，将所有 gRPC 状态异常统一改用 `DaprGrpcError` 的工作仍在进行中。目前，并非 SDK 中的每个 API 调用都已采用这个自定义异常。我们正在积极推进这项改进，也欢迎社区贡献。
 
 以下是在使用 Dapr Python SDK 时处理 `DaprGrpcError` 异常的示例：
@@ -169,9 +161,11 @@ with DaprClient() as d:
     resp = d.invoke_method('service-to-invoke', 'method-to-invoke', data='{"id":"100", "FirstName":"Value", "LastName":"Value"}', http_verb='post')
 ```
 
-HTTP API 调用的基础端点通过 `DAPR_HTTP_ENDPOINT` 环境变量指定。如果未设置该变量，端点值将由 `DAPR_RUNTIME_HOST` 和 `DAPR_HTTP_PORT` 变量推导得出，它们的默认值分别为 `127.0.0.1` 和 `3500`。
+HTTP API 调用的基础端点通过 `DAPR_HTTP_ENDPOINT` 环境变量指定。
+如果未设置该变量，端点值将由 `DAPR_RUNTIME_HOST` 和 `DAPR_HTTP_PORT` 变量推导得出，它们的默认值分别为 `127.0.0.1` 和 `3500`。
 
 gRPC 调用的基础端点即客户端初始化时使用的端点（[见上文](#初始化客户端)）。
+
 
 - 有关 service invocation 的完整指南，请参阅[操作指南：调用服务]({{% ref howto-invoke-discover-services.md %}})。
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/invoke-simple)，获取 service invocation 的示例代码和试用说明。
@@ -236,8 +230,8 @@ with DaprClient() as d:
     resp = d.publish_event(pubsub_name='pubsub', topic_name='TOPIC_A', data='{"message":"Hello World"}')
 ```
 
-发送带 JSON 负载的 [CloudEvents](https://cloudevents.io/) 消息：
 
+发送带 JSON 负载的 [CloudEvents](https://cloudevents.io/) 消息：
 ```python
 from dapr.clients import DaprClient
 import json
@@ -262,7 +256,6 @@ with DaprClient() as d:
 ```
 
 以纯文本负载发布 [CloudEvents](https://cloudevents.io/) 消息：
-
 ```python
 from dapr.clients import DaprClient
 import json
@@ -286,8 +279,8 @@ with DaprClient() as d:
     )
 ```
 
-使用 `publish_events` 可以在一次调用中发布多条消息。`data` 中的每一项可以是 `str`、`bytes` 或 `BulkPublishEntry`。使用 `BulkPublishEntry` 可以为单条消息设置元数据、内容类型或条目 ID。`publish_metadata` 作用于每条消息，单个条目的元数据会覆盖它：
 
+使用 `publish_events` 可以在一次调用中发布多条消息。`data` 中的每一项可以是 `str`、`bytes` 或 `BulkPublishEntry`。使用 `BulkPublishEntry` 可以为单条消息设置元数据、内容类型或条目 ID。`publish_metadata` 作用于每条消息，单个条目的元数据会覆盖它：
 ```python
 from dapr.clients import BulkPublishEntry, DaprClient
 import json
@@ -343,7 +336,7 @@ def mytopic_important(event: SubscriptionMessage) -> None:
 
 #### 流式消息订阅
 
-你可以使用 `subscribe` 或 `subscribe_handler` 方法创建到 pub/sub 主题的 streaming subscription。
+你可以使用 `subscribe` 或 `subscribe_handler` 方法创建到 PubSub 主题的 streaming subscription。
 
 `subscribe` 方法返回一个可迭代的 `Subscription` 对象，允许你通过 `for` 循环（例如 `for message in subscription`）或调用 `next_message` 方法从流中拉取消息。在等待消息时，这会阻塞主线程。完成后，应调用 close 方法来终止订阅并停止接收消息。
 
@@ -437,7 +430,7 @@ def process_message(message):
 
 def main():
     with (DaprClient() as client):
-        # 这将启动一个新线程来监听消息，
+        # 这将启动一个新线程来监听消息
         # 并在 `process_message` 函数中处理它们
         close_fn = client.subscribe_with_handler(
             pubsub_name='pubsub', topic='TOPIC_A', handler_fn=process_message,
@@ -618,7 +611,7 @@ def main():
         )
         decrypt_bytes = resp.read()
 
-        print(decrypt_bytes.decode())  # secrets 内容为 "passw0rd"
+        print(decrypt_bytes.decode())  # secret 的内容为 "passw0rd"
 ```
 
 - 有关加密操作的完整列表，请参阅[操作指南：使用加密 API]({{% ref howto-cryptography.md %}})。

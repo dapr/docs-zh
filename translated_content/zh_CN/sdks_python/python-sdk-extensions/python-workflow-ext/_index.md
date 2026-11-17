@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Dapr Python SDK 与 Dapr Workflow 扩展集成"
+title: "Dapr Python SDK integration with Dapr Workflow extension"
 linkTitle: "Dapr Workflow"
 weight: 400000
 description: 如何快速上手 Dapr Workflow 扩展
@@ -96,7 +96,7 @@ if __name__ == '__main__':
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/workflow)，获取代码示例以及尝试 Dapr Workflow 的说明：
   - [简单 workflow 示例]({{% ref python-workflow.md %}})
   - [任务链示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/task_chaining.py)
-  - [Fan-out/Fan-in 示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/fan_out_fan_in.py)
+  - [扇出/扇入 示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/fan_out_fan_in.py)
   - [child workflow 示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/child_workflow.py)
   - [人工审批示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/human_approval.py)
   - [监控示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/monitor.py)
@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
 ## stateful workflow 历史
 
-从 Dapr 1.19 开始，workflow 工作进程会在内存中保存每个 workflow 实例的历史记录，因此 Dapr sidecar 在每一轮只发送新事件。此功能默认启用。若要关闭它（例如在工作进程内存有限时），请在 `WorkflowRuntime` 上设置 `disable_stateful_history=True`：
+从 Dapr 1.19 开始，workflow 工作进程会在内存中保存每个 workflow 实例的历史记录，因此 Dapr sidecar 在每个轮次只发送新事件。此功能默认启用。若要关闭它（例如在工作进程内存有限时），请在 `WorkflowRuntime` 上设置 `disable_stateful_history=True`：
 
 ```python
 import dapr.ext.workflow as wf

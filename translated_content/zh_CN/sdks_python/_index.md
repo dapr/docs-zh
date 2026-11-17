@@ -17,7 +17,7 @@ Dapr 提供了多种子包来帮助开发 Python 应用程序。使用它们，�
 ## 前提条件
 
 - 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
+- 已初始化 [Dapr environment]({{% ref install-dapr-selfhost.md %}})
 - 已安装 [Python 3.10+](https://www.python.org/downloads/)
 
 ## 安装
@@ -61,10 +61,10 @@ pip install "dapr[fastapi,grpc]"
 | `dapr[fastapi]` | [FastAPI]({{% ref python-fastapi %}}) | `dapr.ext.fastapi` |
 | `dapr[flask]` | [Flask]({{% ref python-flask %}}) | `dapr.ext.flask` |
 | `dapr[grpc]` | [gRPC]({{% ref python-grpc %}}) | `dapr.ext.grpc` |
-| `dapr[workflow]` | [workflow]({{% ref python-workflow-ext %}}) | `dapr.ext.workflow` |
+| `dapr[workflow]` | [Workflow]({{% ref python-workflow-ext %}}) | `dapr.ext.workflow` |
 | `dapr[databricks]` | [Databricks]({{% ref python-databricks-ext %}}) | `dapr.ext.databricks` |
 | `dapr[langgraph]` | LangGraph 检查点持久化 | `dapr.ext.langgraph` |
-| `dapr[strands]` | Strands 智能体会话管理 | `dapr.ext.strands` |
+| `dapr[strands]` | Strands 代理会话管理 | `dapr.ext.strands` |
 
 如需安装所有扩展，请使用 `pip install "dapr[all]"`。
 
@@ -99,15 +99,15 @@ Python SDK 导入是随主 SDK 安装包含的子包，但在使用时需要导�
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>Actors</b></h5>
+      <h5 class="card-title"><b>Actor</b></h5>
       <p class="card-text">创建并与 Dapr 的 Actor 框架交互。</p>
       <a href="{{% ref python-actor %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>Conversation</b></h5>
-      <p class="card-text">使用 Dapr conversation API（Alpha）进行大型语言模型 (LLM) 交互、工具调用和多轮流程。</p>
+      <h5 class="card-title"><b>对话</b></h5>
+      <p class="card-text">使用 Dapr Conversation API（Alpha）进行大型语言模型 (LLM) 交互、工具调用和多轮流程。</p>
       <a href="{{% ref conversation %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -117,7 +117,7 @@ Python SDK 导入是随主 SDK 安装包含的子包，但在使用时需要导�
 
 ### SDK 扩展
 
-SDK 扩展主要用作接收 pub/sub 事件、以编程方式创建 pub/sub 的订阅，以及处理 input binding 事件的实用工具。虽然你可以在不使用扩展的情况下完成所有这些任务，但使用 Python SDK 扩展会更加方便。
+SDK 扩展主要用作接收 pub/sub 事件、以编程方式创建 pub/sub 订阅，以及处理 input binding 事件的实用工具。虽然你可以在不使用扩展的情况下完成所有这些任务，但使用 Python SDK 扩展会更加方便。
 
 <div class="card-deck">
   <div class="card">
@@ -167,13 +167,13 @@ SDK 扩展主要用作接收 pub/sub 事件、以编程方式创建 pub/sub 的�
 git clone https://github.com/dapr/python-sdk.git
 ```
 
-浏览 Python Quickstart、教程和示例，查看 Dapr 的实际运行情况：
+浏览 Python Quickstarts、教程和示例，查看 Dapr 的实际运行情况：
 
 | SDK 示例 | 描述 |
 | ----------- | ----------- |
-| [Quickstart]({{% ref quickstarts %}}) | 使用 Python SDK，在几分钟内体验 Dapr 的 API building block。 |
+| [Quickstarts]({{% ref quickstarts %}}) | 使用 Python SDK，在几分钟内体验 Dapr 的 API building blocks。 |
 | [SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples) | 克隆 SDK 仓库，试用其中的一些示例并开始使用。 |
-| [binding 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/bindings) | 了解 Dapr Python SDK 如何与其他 Dapr SDK 协同工作以启用 binding。 |
+| [Bindings 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/bindings) | 了解 Dapr Python SDK 如何与其他 Dapr SDK 协同工作以启用 binding。 |
 | [分布式计算器教程](https://github.com/dapr/quickstarts/tree/master/tutorials/distributed-calculator/python) | 使用 Dapr Python SDK 处理方法调用和状态持久化功能。 |
 | [Hello World 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world) | 了解如何使用 Python SDK 在本地机器上启动并运行 Dapr。 |
 | [Hello Kubernetes 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes) | 在 Kubernetes 集群中快速上手 Dapr Python SDK。 |
