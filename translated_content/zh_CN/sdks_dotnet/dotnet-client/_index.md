@@ -10,11 +10,11 @@ no_list: true
 Dapr 客户端包允许你从 .NET 应用程序与其他 Dapr 应用程序进行交互。
 
 {{% alert title="注意" color="primary" %}}
- 如果尚未尝试，请先试用[Quickstart 之一]({{% ref quickstarts %}})，快速了解如何结合 API building block 使用 Dapr .NET SDK。
+ 如果尚未尝试，请先试用[其中一个 Quickstart]({{% ref quickstarts %}})，快速了解如何结合 API building block 使用 Dapr .NET SDK。
 
 {{% /alert %}}
 
-## building block
+## building blocks
 
 .NET SDK 允许你与所有 [Dapr building block]({{% ref building-blocks %}}) 进行交互。
 
@@ -30,7 +30,7 @@ Dapr 客户端包允许你从 .NET 应用程序与其他 Dapr 应用程序进行
 你可以使用 `DaprClient` 或 `System.Net.Http.HttpClient` 来调用服务。
 
 {{% alert title="注意" color="primary" %}}
- 你也可以[使用命名的 `HTTPEndpoint` 或非 Dapr 环境的完全限定域名 URL 调用非 Dapr 端点]({{% ref "howto-invoke-non-dapr-endpoints.md#using-an-httpendpoint-resource-or-fqdn-url-for-non-dapr-endpoints" %}})。
+ 你也可以[使用命名的 `HTTPEndpoint` 资源或完全限定域名 URL 调用 non-Dapr endpoint]({{% ref "howto-invoke-non-dapr-endpoints.md#using-an-httpendpoint-resource-or-fqdn-url-for-non-dapr-endpoints" %}})。
 
 {{% /alert %}}
 
@@ -119,7 +119,7 @@ await client.DeleteStateAsync(storeName, stateKeyName, cancellationToken: cancel
 Console.WriteLine("Deleted State!");
 ```
 
-### Query State（Alpha）
+### Query State（alpha）
 
 ```csharp
 var query = "{" +
@@ -208,7 +208,7 @@ await client.InvokeBindingAsync("send-email", "create", email);
 - 有关 output binding 的完整指南，请访问[操作指南：使用 binding]({{% ref howto-bindings.md %}})。
 
 ### 获取 secrets
-在获取 secrets 之前，必须先注册并就绪出站通道，否则 SDK 将无法与 Dapr sidecar 进行双向通信。SDK 提供了一个专为此目的而设计的辅助方法，名为 `CheckOutboundHealthAsync`。这里的"出站"并不是指从 SDK 到运行时的出站，而更多是指从 Dapr 运行时回到使用 SDK 的客户端应用程序的出站。
+在获取 secrets 之前，必须先注册并就绪出站通道，否则 SDK 将无法与 Dapr sidecar 进行双向通信。SDK 提供了一个专为此目的而设计的辅助方法，名为 `CheckOutboundHealthAsync`。这里的"出站"并不是指从 SDK 到运行时的出站，而更多是指从 Dapr runtime 回到使用 SDK 的客户端应用程序的出站。
 
 该方法只是连接到 Dapr Health API 中的 {{% ref "health_api#wait-for-specific-health-check-against-outbound-path" %}} 端点，并根据返回的 HTTP 状态码判断运行时所报告的该端点的健康状况。
 
@@ -227,7 +227,7 @@ var client = scope.GetRequiredService<DaprClient>();
 // 等待出站通道建立 - 仅用于此场景，不建议普遍使用
 await client.WaitForOutboundHealthAsync();
 
-// 获取基于键值对的 secrets - 返回 Dictionary<string, string>
+// 获取基于键值对的 secret - 返回 Dictionary<string, string>
 var secrets = await client.GetSecretAsync("mysecretstore", "key-value-pair-secret");
 Console.WriteLine($"Got secret keys: {string.Join(", ", secrets.Keys)}");
 ```
@@ -243,12 +243,12 @@ var client = scope.GetRequiredService<DaprClient>();
 // 等待出站通道建立 - 仅用于此场景，不建议普遍使用
 await client.WaitForOutboundHealthAsync();
 
-// 获取基于键值对的 secrets - 返回 Dictionary<string, string>
+// 获取基于键值对的 secret - 返回 Dictionary<string, string>
 var secrets = await client.GetSecretAsync("mysecretstore", "key-value-pair-secret");
 Console.WriteLine($"Got secret keys: {string.Join(", ", secrets.Keys)}");
 
-// 获取单值 secrets - 返回 Dictionary<string, string>，
-// 其中包含一个值，并以 secrets 名称作为键
+// 获取单值 secret - 返回 Dictionary<string, string>，
+// 其中包含一个值，并以 secret 名称作为键
 var data = await client.GetSecretAsync("mysecretstore", "single-value-secret");
 var value = data["single-value-secret"]
 Console.WriteLine("Got a secret value, I'm not going to be print it, it's a secret!");
@@ -289,7 +289,7 @@ await foreach (var items in subscribeConfigurationResponse.Source.WithCancellati
 }
 ```
 
-### 分布式锁（Alpha）
+### 分布式锁（alpha）
 
 #### 获取锁
 
@@ -376,7 +376,7 @@ namespace LockService
 并根据成功的 HTTP 状态码报告就绪状态。
 - `WaitForSidecarAsync`：持续轮询 `CheckOutboundHealthAsync`，直到其返回成功的状态码。
 
-"出站"方向是指从 Dapr 运行时到你的应用程序的出站通信。如果你的应用程序不使用 Actor、secrets 管理、配置获取或 workflow，运行时将不会尝试建立出站连接。这意味着，如果你的应用程序依赖 `WaitForSidecarAsync` 却没有使用上述任何 Dapr component，它将在启动期间无限期挂起，因为该端点永远不会建立。
+"出站"方向是指从 Dapr runtime 到你的应用程序的出站通信。如果你的应用程序不使用 Actor、secrets 管理、配置获取或 workflow，运行时将不会尝试建立出站连接。这意味着，如果你的应用程序依赖 `WaitForSidecarAsync` 却没有使用上述任何 Dapr component，它将在启动期间无限期挂起，因为该端点永远不会建立。
 
 未来版本将彻底移除这些方法，并将其改为 SDK 内部操作，因此通常不应依赖这两个方法。如需进一步确认你的场景是否需要使用它们，请到 Discord 的 #dotnet-sdk 频道咨询；但在大多数情况下，不需要使用这些方法。
 

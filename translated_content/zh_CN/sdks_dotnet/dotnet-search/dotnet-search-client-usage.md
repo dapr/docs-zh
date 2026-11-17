@@ -127,7 +127,7 @@ var page = await client.SearchAsync<JsonElement>("searchstore", "articles", new 
 | `OnWaitTimeout = ContinueAsync` | 等待超时时返回 `Queued`；需要 component 支持排队确认。 |
 | `OnWaitTimeout = FailRequest` | 等待超时时以 `DeadlineExceeded` 失败。提供方一侧的工作仍可能完成。 |
 
-在接受模式下，不要同时提供 `WaitTimeout` 或 `OnWaitTimeout`。`WaitTimeout` 必须短于剩余的 RPC 截止时间，并且要为存储 resiliency 中的超时留出余量，余量至少为该超时的 10%，且至少 100 毫秒。请参见运行时的[确认规则]({{% ref "search-overview.md#write-acknowledgements" %}})。
+在接受模式下，不要同时提供 `WaitTimeout` 或 `OnWaitTimeout`。`WaitTimeout` 必须短于剩余的 RPC 截止时间，并且要为 store resiliency 中的超时留出余量，余量至少为该超时的 10%，且至少 100 毫秒。请参见 Dapr runtime 的[确认规则]({{% ref "search-overview.md#write-acknowledgements" %}})。
 
 务必同时检查 `IndexDocumentsResult.Ack` 和 `FailedItems`。一个已完成的批次可能包含失败的文档，而整个请求不会因此抛出异常。每个 `SearchFailedItem` 包含 `Id`、规范的数字类型 `ErrorCode`、`ErrorMessage`，以及保留了 protobuf `TypeUrl` 和原始 `Value` 字节的 `Details`。在排队边界处，只能报告已知的失败；客户端没有 API 可用于轮询最终的索引结果。
 
@@ -184,7 +184,7 @@ public sealed class ArticleService(IArticleSearch articles)
 }
 ```
 
-生成的包装器提供了 API 表格中按索引范围划分的操作，但不包括范围覆盖整个存储的 `ListIndexesAsync`。它会原样转发选项、请求 metadata 和取消令牌，继承已注册客户端的生命周期，并且不拥有该客户端，也不负责释放它。注册本身不会创建索引；需要显式调用 `CreateIndexAsync`。
+生成的包装器提供了 API 表格中按索引范围划分的操作，但不包括范围覆盖整个 store 的 `ListIndexesAsync`。它会原样转发选项、请求 metadata 和取消令牌，继承已注册客户端的生命周期，并且不拥有该客户端，也不负责释放它。注册本身不会创建索引；需要显式调用 `CreateIndexAsync`。
 
 无效的声明、binding 或契约分别会产生构建错误 `DAPR1801`、`DAPR1802` 或 `DAPR1803`。
 

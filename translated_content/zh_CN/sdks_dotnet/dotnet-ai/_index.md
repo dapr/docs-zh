@@ -11,7 +11,7 @@ description: "Dapr AI building block 在 .NET 中的概述"
 如果你已经在使用 `Microsoft.Extensions.AI` 生态，`Dapr.AI.Microsoft.Extensions` 包基于 Dapr conversation building block 实现了 `IChatClient`，因此你可以将 Dapr 用作任何兼容 `IChatClient` 的代码的后端，包括工具调用和函数调用。
 
 {{% alert title="运行时要求" color="primary" %}}
-Dapr conversation building block 需要 Dapr 运行时 v1.16.0 或更高版本。响应格式、提示词缓存保留和 token 用量统计需要 Dapr 运行时 v1.17.0 或更高版本。
+Dapr conversation building block 需要 Dapr runtime v1.16.0 或更高版本。响应格式、提示词缓存保留和 token 用量统计需要 Dapr runtime v1.17.0 或更高版本。
 {{% /alert %}}
 
 ## 核心概念

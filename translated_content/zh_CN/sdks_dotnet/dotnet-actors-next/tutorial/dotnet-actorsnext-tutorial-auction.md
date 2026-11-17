@@ -102,7 +102,7 @@ public sealed class AuctionActor(ActorActivationContext context, IActorTimerSche
 
 拍卖是一个长期存活、可寻址的实体，具有明确的状态，而不是一个有限的流程，因此它应当放在 state machine Actor 中，而不是 workflow 里。大量的出价会让 workflow 的重放历史无限增长；每位竞拍者都需要即时、同步地读取当前最高出价；而软关闭行为本身就是一场竞争。转移到 `Sold` 状态正是交接点：其入口动作标记履约已开始。在真实的部署中，此时会启动一个履约 workflow，处理有限的多步骤流程（向中标者扣款、通知落标者、安排发货）。因此实体留在 Actor 中，有界的编排交给 workflow。这一边界是需要记住的重点：二者是相互配合，而非彼此竞争。
 
-有关编写细节和完整的适用场景对比，请参阅[state machine Actor]({{< ref dotnet-actorsnext-statemachine.md >}})。
+有关编写细节和完整的适用场景对比，请参阅 [state machine Actor]({{< ref dotnet-actorsnext-statemachine.md >}})。
 
 ## 测试
 
@@ -132,7 +132,7 @@ public void State_machine_has_no_structural_defects()
     ActorStateMachine.Analyze<AuctionActor>().AssertNoStructuralDefects();
     Assert.Contains(ActorStateMachine.Analyze<BadAuctionActor>().StructuralDefects, defect => defect.Contains("unreachable", StringComparison.Ordinal));
 
-    // For deeper exploration, run the same test body under the optional Coyote bridge when enabled.
+    // 如需更深入地探索，可在启用可选的 Coyote 桥接时，于其下运行同一测试体。
     Assert.False(CoyoteBridge.IsEnabled);
 }
 

@@ -6,7 +6,7 @@ weight: 51000
 description: "调度 job、接收 HTTP 或 gRPC 回调，并在 .NET 中管理 job 注册"
 ---
 
-请使用 `Dapr.Jobs` 的 `1.19.0` 或更高版本，并配合运行中的 Dapr sidecar 与 Scheduler。本文描述的完整管理功能需要运行时支持相应操作；1.19 的功能请使用 Dapr 1.19。所有客户端操作都会在稳定版与 alpha 版 API 之间自动回退，但这并不意味着旧版运行时可以使用较新的管理操作。
+请使用 `Dapr.Jobs` 的 `1.19.0` 或更高版本，并配合运行中的 Dapr sidecar 与 Scheduler。本文描述的完整管理功能需要运行时支持相应操作；1.19 的功能请使用 Dapr 1.19。所有客户端操作都会在 Stable（稳定）与 alpha 版 API 之间按版本自动回退，但这并不意味着旧版运行时可以使用较新的管理操作。
 
 ```sh
 dotnet add package Dapr.Jobs
@@ -142,7 +142,7 @@ await jobsClient.ScheduleJobAsync(
     cancellationToken: cancellationToken);
 ```
 
-`JobFailurePolicyConstantOptions` 按指定间隔重试；未设置 `MaxRetries` 时会无限重试。`JobFailurePolicyDropOptions` 会丢弃失败的触发器。省略策略时，将沿用运行时默认值。该策略与 job 的周期性调度和重复次数相互独立。由于触发器可能被多次投递，请确保回调的副作用是幂等的。
+`JobFailurePolicyConstantOptions` 按指定间隔重试；未设置 `MaxRetries` 时会无限重试。`JobFailurePolicyDropOptions` 会丢弃失败的触发器。省略策略时，将沿用运行时默认值。该策略与 job 的周期性调度和重复次数相互独立。由于触发器可能被多次投递，请让回调的副作用保持幂等。
 
 ## 获取已调度 job 的详细信息
 
@@ -162,7 +162,7 @@ foreach (var job in registered)
 }
 ```
 
-结果为 `IReadOnlyList<DaprJobDetails>`，范围限定为当前 App ID。空列表通常表示没有 job；另请参阅下文描述的、与版本相关的取消行为。
+结果为 `IReadOnlyList<DaprJobDetails>`，范围限定为当前 App ID。空列表通常表示没有 job；另请考虑下文描述的特定版本取消行为。
 
 ## 删除已调度的 job
 
@@ -192,4 +192,4 @@ await jobsClient.PurgeAllJobsAsync(cancellationToken);
 
 ## 分析器
 
-`Dapr.Jobs.Analyzers` 包提供诊断 `DAPR1501`（警告，类别为 Usage）。当 `ScheduleJobAsync` 使用字面量 job 名称调用，而同一源文件中不存在 `MapDaprScheduledJobHandler` 调用时，它会被触发。诊断消息为 “Job invocations require the MapDaprScheduledJobHandler be set and configured for job name '{name}' on IEndpointRouteBuilder”。请添加处理程序映射；如果处理程序有意映射在其他位置，可以用 `#pragma warning disable DAPR1501` 或 `.editorconfig` 规则抑制该诊断。
+`Dapr.Jobs.Analyzers` 包提供诊断 `DAPR1501`（警告，类别为 Usage）。当 `ScheduleJobAsync` 使用字面量 job 名称调用，而同一源文件中不存在 `MapDaprScheduledJobHandler` 调用时，它会触发。诊断消息为 “Job invocations require the MapDaprScheduledJobHandler be set and configured for job name '{name}' on IEndpointRouteBuilder”。请添加处理程序映射；如果处理程序有意映射在其他位置，可以用 `#pragma warning disable DAPR1501` 或 `.editorconfig` 规则抑制该诊断。

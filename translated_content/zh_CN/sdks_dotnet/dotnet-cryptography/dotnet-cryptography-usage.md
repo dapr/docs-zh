@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "Dapr Cryptography Client"
-linkTitle: "Cryptography client"
+title: "Dapr Cryptography 客户端"
+linkTitle: "加密客户端"
 weight: 510005
 description: 了解如何创建 Dapr Cryptography 客户端
 ---
@@ -63,7 +63,7 @@ var daprEncryptionClient = new DaprEncryptionClientBuilder()
 ## 通过依赖注入配置 `DaprEncryptionClient`
 使用依赖注入容器中内置的扩展方法注册 `DaprEncryptionClient`，可以带来以下好处：只需注册一次长期存在的服务、集中管理复杂的配置，并在可能的情况下复用同样长期存在的资源（例如 `HttpClient` 实例），从而提升性能。
 
-提供了三种重载，让开发人员能够以最大的灵活性为其场景配置客户端。若尚未注册，每个重载都会自动为你注册 `IHttpClientFactory`，并配置 `DaprEncryptionClientBuilder` 在创建 `HttpClient` 实例时使用它，从而尽可能复用同一实例，避免套接字耗尽等问题。
+共有三种重载，让开发人员能够针对其场景以最大的灵活性配置客户端。若尚未注册，每个重载都会自动为你注册 `IHttpClientFactory`，并配置 `DaprEncryptionClientBuilder` 在创建 `HttpClient` 实例时使用它，从而尽可能复用同一实例，避免套接字耗尽等问题。
 
 第一种方式无需任何配置，`DaprEncryptionClient` 将使用默认设置进行配置。
 
@@ -94,7 +94,7 @@ var app = builder.Build();
 ```cs
 var builder = WebApplication.CreateBuilder(args);
 
-// 注册一个从某处检索机密的虚构服务
+// 注册一个从某处检索 secrets 的虚构服务
 builder.Services.AddSingleton<SecretService>();
 
 builder.Services.AddDaprEncryptionClient((serviceProvider, daprEncryptionClientBuilder) => {

@@ -50,7 +50,7 @@ Workflow data references 让你可以把大型负载排除在 workflow 历史记
 
 - `Dapr.Workflow` 1.19.0 或更高版本。负载支持包含在 `Dapr.Workflow` 中。
 - Dapr runtime 1.19.0 或更高版本。
-- 除 workflow 通常所需的 state store、placement 服务和 Scheduler 之外，还需配置一个 Binary Store component。
+- 除 workflow 通常所需的 actor state store、placement 服务和 Scheduler 之外，还需配置一个 Binary Store component。
 - 在每个写入或读取这些 workflow 的客户端和工作进程上注册负载支持，且这些客户端和工作进程可以访问被引用的 component，并使用兼容的序列化设置。
 
 SDK 负责管理引用；workflow runtime 协议不需要原生的数据引用支持。仅添加 component 并不会启用卸载。
@@ -244,7 +244,7 @@ options.OffloadSites = PayloadKind.WorkflowInput | PayloadKind.ActivityInput;
 
 - **提高限制**通常是向后兼容的，但需要重新评估内存并发和传输限制。
 - **降低限制**可能会破坏已有 workflow，因为其历史记录中包含大于新值的引用（会在重放、类型化状态读取、自动反序列化、`PreferInline` 转换或跨应用内联时失败）。在降低之前：
-  1. 找出 activity workflow instance 所使用的最大被引用负载。
+  1. 找出仍在运行的 workflow instance 所使用的最大被引用负载。
   2. 将大负载的消费者修改为接受 `PayloadReference<T>`，并通过 `OpenAsync` 流式读取内容。
   3. 当把普通 `T` 输入更改为 `PayloadReference<T>` 输入时，为 workflow 和 activity 契约进行版本化。
   4. 在已有实例完成或退役之前，保留旧的 workflow 版本及其之前的限制。
@@ -486,4 +486,4 @@ workflow protobuf 字节数统计的是为调度、工作项、完成和历史�
 - [Workflow data references 示例](https://github.com/dapr/dotnet-sdk/tree/622c5374db5b06d0cdf538e94927853f0beede88/examples/Workflow/WorkflowDataReferences)
 - [workflow 序列化]({{% ref dotnet-workflow-serialization.md %}})
 - [workflow 负载大小]({{% ref workflow-payload-size.md %}})
-- [.NET SDK 中的 multi-app workflow]({{% ref dotnet-workflow-multi-app.md %}})
+- [.NET SDK 中的 multi-application workflow]({{% ref dotnet-workflow-multi-app.md %}})

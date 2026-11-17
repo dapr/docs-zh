@@ -11,13 +11,13 @@ Dapr Actor 包使您能够在 .NET 应用程序中使用弱类型或强类型客
 请注意，由于这两种序列化方法不同，不支持混用弱类型和强类型 Actor 客户端。使用一种 Actor 客户端持久化的数据，无法通过另一种 Actor 客户端访问，因此请务必选定一种，并在整个应用程序中始终如一地使用它。
 
 ## 弱类型 Dapr Actor 客户端
-在本节中，您将学习如何配置 C# 类型，使其在使用弱类型 Actor 客户端时能够在运行时被正确地序列化和反序列化。这些客户端使用基于字符串的方法名称，其请求和响应负载使用 System.Text.Json 序列化程序进行序列化。请注意，此序列化框架并非 Dapr 专有，而是由 .NET 团队在 [.NET GitHub 仓库](https://github.com/dotnet/runtime/tree/main/src/libraries/System.Text.Json) 中单独维护。
+在本节中，您将学习如何配置 C# 类型，使其在使用弱类型 Actor 客户端时能够在运行时被正确地序列化和反序列化。这些客户端使用基于字符串的方法名称，其请求和响应负载使用 System.Text.Json 序列化器进行序列化。请注意，此序列化框架并非 Dapr 专有，而是由 .NET 团队在 [.NET GitHub 仓库](https://github.com/dotnet/runtime/tree/main/src/libraries/System.Text.Json) 中单独维护。
 
 使用弱类型 Dapr Actor 客户端调用各个 Actor 的方法时，无需自行序列化或反序列化方法负载，因为 SDK 会代您透明地完成这一过程。
 
 客户端将使用您所构建的 .NET 版本中可用的最新版 System.Text.Json，序列化行为受[相关 .NET 文档](https://learn.microsoft.com/dotnet/standard/serialization/system-text-json/overview)中所述的全部固有功能约束。
 
-除非使用自定义选项配置进行覆盖，序列化程序将配置为使用 `JsonSerializerOptions.Web` [默认选项](https://learn.microsoft.com/dotnet/standard/serialization/system-text-json/configure-options?pivots=dotnet-8-0#web-defaults-for-jsonserializeroptions)，这意味着以下规则将生效：
+除非使用自定义选项配置进行覆盖，序列化器将配置为使用 `JsonSerializerOptions.Web` [默认选项](https://learn.microsoft.com/dotnet/standard/serialization/system-text-json/configure-options?pivots=dotnet-8-0#web-defaults-for-jsonserializeroptions)，这意味着以下规则将生效：
 - 属性名称的反序列化以不区分大小写的方式进行
 - 属性名称的序列化使用 [camel casing](https://en.wikipedia.org/wiki/Camel_case)，除非属性被 `[JsonPropertyName]` 属性覆盖
 - 反序列化时将从数字和/或字符串值中读取数值
@@ -112,7 +112,7 @@ var myEngagement = new Engagement("Ski Trip", Season.Winter);
 {"name":  "Ski Trip", "season":  3}
 ```
 
-`Season.Winter` 被表示为 `3` 可能令人意外，但这是因为序列化程序会自动使用枚举值的数字表示形式：第一个值从零开始，之后的每个可用值依次递增。同样，如果正在进行迁移，而开发人员调换了枚举的顺序，这将构成解决方案中的一项重大变更，因为反序列化时，序列化后的数值将指向不同的值。
+`Season.Winter` 被表示为 `3` 可能令人意外，但这是因为序列化器会自动使用枚举值的数字表示形式：第一个值从零开始，之后的每个可用值依次递增。同样，如果正在进行迁移，而开发人员调换了枚举的顺序，这将构成解决方案中的一项重大变更，因为反序列化时，序列化后的数值将指向不同的值。
 
 相反，`System.Text.Json` 提供了一个 `JsonConverter`，它会选择使用基于字符串的值来代替数值。要启用此功能，需要将 `[JsonConverter]` 属性应用于枚举类型本身，此后在任何引用该枚举的下游序列化或反序列化操作中都会生效。
 
@@ -241,7 +241,7 @@ var myEngagement = new Engagement("Conference", Season.Fall);
 
 在 Dapr Actor 客户端中处理多态类型时，必须正确地进行序列化和反序列化，以确保实例化出恰当的派生类型。多态序列化允许您序列化基类型的对象，同时保留特定的派生类型信息。
 
-要启用多态反序列化，必须在基类型上使用 `[JsonPolymorphic]` 属性。此外，务必包含 `[AllowOutOfOrderMetadataProperties]` 属性，以确保即使 `$type` 等元数据属性不是 JSON 对象中的第一个属性，System.Text.Json 也能正确处理它们。
+要启用多态反序列化，必须在基类型上使用 `[JsonPolymorphic]` 属性。此外，务必包含 `[AllowOutOfOrderMetadataProperties]` 属性，以确保即使 `$type` 等 metadata 属性不是 JSON 对象中的第一个属性，System.Text.Json 也能正确处理它们。
 
 #### 示例
 ```cs
@@ -257,7 +257,7 @@ public class DerivedSampleValue : SampleValueBase
     public string SpecificProperty { get; set; }
 }
 ```
-在此示例中，`SampleValueBase` 类同时标记了 `[JsonPolymorphic]` 和 `[AllowOutOfOrderMetadataProperties]` 属性。此设置可确保在反序列化期间，无论 `$type` 元数据属性位于 JSON 对象中的哪个位置，都能被正确识别和处理。
+在此示例中，`SampleValueBase` 类同时标记了 `[JsonPolymorphic]` 和 `[AllowOutOfOrderMetadataProperties]` 属性。此设置可确保在反序列化期间，无论 `$type` metadata 属性位于 JSON 对象中的哪个位置，都能被正确识别和处理。
 
 通过遵循这一方法，您可以在 Dapr Actor 客户端中有效地管理多态序列化与反序列化，确保实例化并使用正确的派生类型。
 
@@ -282,16 +282,16 @@ public class DerivedSampleValue : SampleValueBase
 ### 反序列化如何工作？
 反序列化所采用的方法取决于类型是否使用 [DataContractAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.datacontractattribute) 属性进行了装饰。如果不存在此属性，则使用无参构造函数创建类型的实例。然后，每个属性和字段通过各自的设置器映射到该类型中，并将实例返回给调用方。
 
-如果类型_是_标记了 `[DataContract]` 的，序列化程序则改为使用反射读取类型的元数据，并根据成员是否标记了 DataMemberAttribute 属性来确定应包含哪些属性或字段，因为这是一种选择加入（opt-in）的机制。随后，它会在内存中分配一个未初始化的对象（无论是否带参数，都不调用任何构造函数），并直接在每个已映射的属性或字段上设置值，即使它们是私有的或使用了 init-only 设置器。在此过程中，会在适当时调用序列化回调，然后将对象返回给调用方。
+如果类型_是_标记了 `[DataContract]` 的，序列化器则改为使用反射读取类型的 metadata，并根据成员是否标记了 DataMemberAttribute 属性来确定应包含哪些属性或字段，因为这是一种选择加入（opt-in）的机制。随后，它会在内存中分配一个未初始化的对象（无论是否带参数，都不调用任何构造函数），并直接在每个已映射的属性或字段上设置值，即使它们是私有的或使用了 init-only 设置器。在此过程中，会在适当时调用序列化回调，然后将对象返回给调用方。
 
-强烈建议使用序列化属性，因为它们在覆盖名称和命名空间方面提供了更大的灵活性，并且通常会用到更多现代 C# 功能。虽然默认序列化程序可用于基元类型，但不建议将其用于您自己的任何类型，无论是类、结构体还是记录。如果您使用 DataContractAttribute 属性装饰了类型，同时建议也显式地使用 DataMemberAttribute 属性装饰要序列化或反序列化的每个成员。
+强烈建议使用序列化属性，因为它们在覆盖名称和 namespace 方面提供了更大的灵活性，并且通常会用到更多现代 C# 功能。虽然默认序列化器可用于基元类型，但不建议将其用于您自己的任何类型，无论是类、结构体还是记录。如果您使用 DataContractAttribute 属性装饰了类型，同时建议也显式地使用 DataMemberAttribute 属性装饰要序列化或反序列化的每个成员。
 
 #### .NET 类
 只要同时遵循本文档以及 [Data Contract Serializer](https://learn.microsoft.com/dotnet/framework/wcf/feature-details/serializable-types) 文档中详述的其他规则，类便会获得 Data Contract Serializer 的完全支持。
 
 这里最重要的一点是，您必须拥有公共无参构造函数，或者必须使用适当的属性对其进行装饰。让我们看几个示例，以真正厘清哪些做法可行，哪些不可行。
 
-在以下示例中，我们展示一个名为 Doodad 的简单类。这里我们没有提供显式构造函数，因此编译器会提供默认的无参构造函数。由于我们使用的是[支持的基元类型](###支持的基元类型)（Guid、string 和 int32），并且所有成员都具有公共 getter 和 setter，因此无需任何属性，我们就能在通过 Dapr Actor 方法发送和接收此类时毫无问题地使用它。
+在以下示例中，我们展示一个名为 Doodad 的简单类。这里我们没有提供显式构造函数，因此编译器会提供默认的无参构造函数。由于我们使用的是[支持的基元类型](###supported-primitive-types)（Guid、string 和 int32），并且所有成员都具有公共 getter 和 setter，因此无需任何属性，我们就能在通过 Dapr Actor 方法发送和接收此类时毫无问题地使用它。
 
 ```csharp
 public class Doodad
@@ -372,13 +372,13 @@ public class Doodad
 }
 ```
 
-在上面的示例中，我们不需要同时使用 [DataMemberAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.datamemberattribute) 属性，因为同样地，我们使用的是序列化程序所支持的[内置基元类型](###支持的基元类型)。不过，如果使用这些属性，我们将获得更大的灵活性。通过 DataContractAttribute 属性，我们可以使用 Namespace 参数指定自己的 XML 命名空间，并通过 Name 参数更改类型在序列化为 XML 文档时所使用的名称。
+在上面的示例中，我们不需要同时使用 [DataMemberAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.datamemberattribute) 属性，因为同样地，我们使用的是序列化器所支持的[内置基元类型](###supported-primitive-types)。不过，如果使用这些属性，我们将获得更大的灵活性。通过 DataContractAttribute 属性，我们可以使用 Namespace 参数指定自己的 XML namespace，并通过 Name 参数更改类型在序列化为 XML 文档时所使用的名称。
 
 建议的做法是为类型附加 DataContractAttribute 属性，并为所有要序列化的成员附加 DataMemberAttribute 属性——即使它们并非必需，并且您没有更改默认值，它们也会被忽略，但它们为您提供了一种选择机制，可将原本不会包含的成员纳入序列化范围，例如标记为私有的成员，或本身为复杂类型或集合的成员。
 
 请注意，如果您选择序列化私有成员，它们的值将以纯文本形式被序列化——根据您在序列化之后处理数据的方式，这些值很可能被查看、拦截，甚至被篡改，因此在您的使用场景中，是否要标记这些成员，是一项需要慎重考虑的问题。
 
-在以下示例中，我们将看到如何使用属性来更改某些成员的序列化名称，并引入 [IgnoreDataMemberAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.ignoredatamemberattribute) 属性。顾名思义，它会告诉序列化程序跳过该属性，即使它原本符合序列化条件。此外，由于我使用 DataContractAttribute 属性装饰了该类型，这意味着我可以在属性上使用 init-only 设置器。
+在以下示例中，我们将看到如何使用属性来更改某些成员的序列化名称，并引入 [IgnoreDataMemberAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.ignoredatamemberattribute) 属性。顾名思义，它会告诉序列化器跳过该属性，即使它原本符合序列化条件。此外，由于我使用 DataContractAttribute 属性装饰了该类型，这意味着我可以在属性上使用 init-only 设置器。
 
 ```csharp
 [DataContract(Name="Doodad")]
@@ -455,7 +455,7 @@ public class Doodad(ILogger<Doodad> _logger)
 ```
 
 #### .NET 结构体
-只要结构体使用 DataContractAttribute 属性标记，并且希望序列化的成员使用 DataMemberAttribute 属性标记，Data Contract 序列化程序便会支持该结构体。此外，为了支持反序列化，该结构体还需要具有无参构造函数。即使像 C# 10 所允许的那样定义了自己的无参构造函数，这也同样可行。
+只要结构体使用 DataContractAttribute 属性标记，并且希望序列化的成员使用 DataMemberAttribute 属性标记，Data Contract 序列化器便会支持该结构体。此外，为了支持反序列化，该结构体还需要具有无参构造函数。即使像 C# 10 所允许的那样定义了自己的无参构造函数，这也同样可行。
 
 ```csharp
 [DataContract]
@@ -467,7 +467,7 @@ public struct Doodad
 ```
 
 #### .NET 记录
-记录是在 C# 9 中引入的，在序列化方面，它与类遵循完全相同的规则。我们建议您使用 DataContractAttribute 属性装饰所有记录，并使用 DataMemberAttribute 属性装饰要序列化的成员，这样在使用此功能或其他较新的 C# 功能时，就不会遇到任何反序列化问题。由于记录类默认对属性使用 init-only 设置器，并且鼓励使用主构造函数，因此为类型应用这些属性可确保序列化程序能够按原样正确地容纳您的类型。
+记录是在 C# 9 中引入的，在序列化方面，它与类遵循完全相同的规则。我们建议您使用 DataContractAttribute 属性装饰所有记录，并使用 DataMemberAttribute 属性装饰要序列化的成员，这样在使用此功能或其他较新的 C# 功能时，就不会遇到任何反序列化问题。由于记录类默认对属性使用 init-only 设置器，并且鼓励使用主构造函数，因此为类型应用这些属性可确保序列化器能够按原样正确地容纳您的类型。
 
 通常，记录会以简洁的单行语句形式呈现，使用新的主构造函数概念：
 
@@ -477,7 +477,7 @@ public record Doodad(Guid Id, string Name, int Count);
 
 一旦您在 Dapr Actor 方法调用中使用它，由于既没有可用的无参构造函数，也没有使用上述属性进行装饰，它就会抛出错误，并提示使用序列化属性。
 
-这里我们添加一个显式的无参构造函数，它不会再抛出错误，但在反序列化期间不会设置任何值，因为这些属性是通过 init-only 设置器创建的。由于它没有对任何成员使用 DataContractAttribute 属性或 DataMemberAttribute 属性，序列化程序将无法在反序列化期间正确映射目标成员。
+这里我们添加一个显式的无参构造函数，它不会再抛出错误，但在反序列化期间不会设置任何值，因为这些属性是通过 init-only 设置器创建的。由于它没有对任何成员使用 DataContractAttribute 属性或 DataMemberAttribute 属性，序列化器将无法在反序列化期间正确映射目标成员。
 ```csharp
 public record Doodad(Guid Id, string Name, int Count)
 {
@@ -524,7 +524,7 @@ public record Doodad(
 同样，如果您想通过 Actor 方法传递这些类型，无需额外考虑，因为它们会毫无问题地被序列化和反序列化。此外，本身标记了 [SerializableAttribute](https://learn.microsoft.com/dotnet/api/system.serializableattribute) 属性的类型也会被序列化。
 
 #### 枚举类型
-如果枚举被适当地标记，那么包括标志枚举（flag enumerations）在内的枚举都是可序列化的。您希望序列化的枚举成员必须使用 [EnumMemberAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.enummemberattribute) 属性进行标记，才能被序列化。在该属性的可选 Value 参数中传入自定义值，即可指定成员在序列化文档中使用的值，而不必让序列化程序根据成员名称自动推导。
+如果枚举被适当地标记，那么包括标志枚举（flag enumerations）在内的枚举都是可序列化的。您希望序列化的枚举成员必须使用 [EnumMemberAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.enummemberattribute) 属性进行标记，才能被序列化。在该属性的可选 Value 参数中传入自定义值，即可指定成员在序列化文档中使用的值，而不必让序列化器根据成员名称自动推导。
 
 枚举类型本身无需使用 `DataContractAttribute` 属性进行装饰，只需要您希望序列化的成员使用 `EnumMemberAttribute` 属性进行标记即可。
 
@@ -540,19 +540,19 @@ public enum Colors
 ```
 
 #### 集合类型
-对于数据约定序列化程序而言，所有实现了 [IEnumerable](https://learn.microsoft.com/dotnet/api/system.collections.ienumerable) 接口的集合类型（包括数组和泛型集合）都被视为集合。实现了 [IDictionary](https://learn.microsoft.com/dotnet/api/system.collections.idictionary) 或泛型 [IDictionary<TKey, TValue>](https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2) 的类型被视为字典集合；其他所有类型都被视为列表集合。
+对于数据约定序列化器而言，所有实现了 [IEnumerable](https://learn.microsoft.com/dotnet/api/system.collections.ienumerable) 接口的集合类型（包括数组和泛型集合）都被视为集合。实现了 [IDictionary](https://learn.microsoft.com/dotnet/api/system.collections.idictionary) 或泛型 [IDictionary<TKey, TValue>](https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2) 的类型被视为字典集合；其他所有类型都被视为列表集合。
 
 与其他复杂类型一样，集合类型必须具有可用的无参构造函数。此外，它们还必须具有名为 Add 的方法，以便能够被正确地序列化和反序列化。这些集合类型所使用的类型本身必须标记 `DataContractAttribute` 属性，或者按照本文档的描述是可序列化的。
 
 #### 数据约定版本控制
-由于数据约定序列化程序在 Dapr 中仅用于通过代理方法，在 .NET SDK 中的值与 Dapr Actor 实例之间进行序列化和反序列化，因此几乎无需考虑数据约定的版本控制，因为数据不会在使用同一序列化程序的应用程序版本之间持久化。如果您有兴趣进一步了解数据约定版本控制，请访问[此处](https://learn.microsoft.com/dotnet/framework/wcf/feature-details/data-contract-versioning)。
+由于数据约定序列化器在 Dapr 中仅用于通过代理方法，在 .NET SDK 中的值与 Dapr Actor 实例之间进行序列化和反序列化，因此几乎无需考虑数据约定的版本控制，因为数据不会在使用同一序列化器的应用程序版本之间持久化。如果您有兴趣进一步了解数据约定版本控制，请访问[此处](https://learn.microsoft.com/dotnet/framework/wcf/feature-details/data-contract-versioning)。
 
 #### 已知类型
-通过为每个类型标记 [DataContractAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.datacontractattribute) 属性，可以轻松地嵌套您自己的复杂类型。这会告知序列化程序应如何执行反序列化。
+通过为每个类型标记 [DataContractAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.datacontractattribute) 属性，可以轻松地嵌套您自己的复杂类型。这会告知序列化器应如何执行反序列化。
 
-但是，如果您正在处理多态类型，并且某个成员是基类或接口，而它具有派生类或其他实现，该怎么办？此时，您可以使用 [KnownTypeAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.knowntypeattribute) 属性，向序列化程序提供关于如何继续处理的提示。
+但是，如果您正在处理多态类型，并且某个成员是基类或接口，而它具有派生类或其他实现，该怎么办？此时，您可以使用 [KnownTypeAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.knowntypeattribute) 属性，向序列化器提供关于如何继续处理的提示。
 
-当您将 [KnownTypeAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.knowntypeattribute) 属性应用于某个类型时，就是在告知数据约定序列化程序它可能会遇到哪些子类型，从而使其能够正确处理这些类型的序列化和反序列化，即使运行时的实际类型与声明的类型不同。
+当您将 [KnownTypeAttribute](https://learn.microsoft.com/dotnet/api/system.runtime.serialization.knowntypeattribute) 属性应用于某个类型时，就是在告知数据约定序列化器它可能会遇到哪些子类型，从而使其能够正确处理这些类型的序列化和反序列化，即使运行时的实际类型与声明的类型不同。
 
 ```csharp
 [DataContract]
@@ -569,6 +569,6 @@ public class DerivedClass : BaseClass
 }
 ```
 
-在此示例中，`BaseClass` 标记了 `[KnownType(typeof(DerivedClass))]`，这告诉数据约定序列化程序，`DerivedClass` 是 `BaseClass` 的一种可能实现，在序列化或反序列化时可能需要用到它。如果没有此属性，当序列化程序遇到实际类型为 `DerivedClass` 的 `BaseClass` 实例时，将无法识别 `DerivedClass`，这可能会导致序列化异常，因为序列化程序不知道如何处理该派生类型。通过将所有可能的派生类型指定为已知类型，可以确保序列化程序能够正确处理该类型及其成员。
+在此示例中，`BaseClass` 标记了 `[KnownType(typeof(DerivedClass))]`，这告诉数据约定序列化器，`DerivedClass` 是 `BaseClass` 的一种可能实现，在序列化或反序列化时可能需要用到它。如果没有此属性，当序列化器遇到实际类型为 `DerivedClass` 的 `BaseClass` 实例时，将无法识别 `DerivedClass`，这可能会导致序列化异常，因为序列化器不知道如何处理该派生类型。通过将所有可能的派生类型指定为已知类型，可以确保序列化器能够正确处理该类型及其成员。
 
 有关使用 `[KnownType]` 的更多信息和示例，请参阅[官方文档](https://learn.microsoft.com/dotnet/framework/wcf/feature-details/data-contract-known-types)。

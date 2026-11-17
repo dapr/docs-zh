@@ -11,7 +11,7 @@ description: "Dapr virtual Actor building block 在 .NET 中的概述"
 {{% alert title="Dapr.Actors 的状态" color="warning" %}}
 `Dapr.Actors` 的活跃开发已经停止；该包现在只接收安全修复，所有新的 Actor 开发都在 [`Dapr.Actors.Next`]({{% ref dotnet-actors-next %}}) 中进行。`Dapr.Actors` 目前没有弃用日期，但它被视为处于仅维护模式。
 
-`Dapr.Actors.Next` 预计将与 v1.19 版本的 Dapr 运行时和 SDK 一同作为稳定包发布。
+`Dapr.Actors.Next` 预计将与 v1.19 版本的 Dapr runtime 和 SDK 一同作为稳定包发布。
 {{% /alert %}}
 
 ## 核心概念

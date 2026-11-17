@@ -12,7 +12,7 @@ description: 了解如何创建和使用结合 Microsoft AI 扩展的 Dapr
   [.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) 或
   [.NET 11](https://dotnet.microsoft.com/download/dotnet/11.0)
 - [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
-- [已初始化的 Dapr 环境](https://docs.dapr.io/getting-started/install-dapr-selfhost)
+- [已初始化的 Dapr environment](https://docs.dapr.io/getting-started/install-dapr-selfhost)
 
 ## 安装
 
@@ -27,7 +27,7 @@ dotnet add package Dapr.AI
 dotnet add package Dapr.AI.Microsoft.Extensions
 ```
 
-`DaprChatClient` 是 `IChatClient` 接口的基于 Dapr 的实现，该接口由 `Microsoft.Extensions.AI.Abstractions` 包提供，使用 Dapr 的[conversation building block]({{< ref conversation-overview.md >}})。它允许开发者针对 Microsoft 提供的抽象类型进行开发，同时与 Dapr conversation building block 保持最大程度的一致。由于这两种方法都采用 OpenAI 的 API 方式，预计它们会随着时间推移逐步趋同。
+`DaprChatClient` 是 `IChatClient` 接口的基于 Dapr 的实现，该接口由 `Microsoft.Extensions.AI.Abstractions` 包提供，使用 Dapr 的 [conversation building block]({{< ref conversation-overview.md >}})。它允许开发者针对 Microsoft 提供的抽象类型进行开发，同时与 Dapr conversation building block 保持最大程度的一致。由于这两种方法都采用 OpenAI 的 API 方式，预计它们会随着时间推移逐步趋同。
 
 {{% alert title="Dapr conversation building block" color="primary" %}}
 
@@ -123,8 +123,8 @@ foreach (var toolResp in toolResponse.Messages)
 ## 错误处理
 `DaprChatClient` 集成了 Dapr 的错误处理机制，并会在出现问题时抛出相应的异常。
 
-## 配置和元数据
-底层的 Dapr conversation component 可以通过 Dapr conversation building block 的配置来设置元数据和参数。`DaprChatClient` 在调用 conversation component 时会遵循这些设置。
+## 配置和 metadata
+底层的 Dapr conversation component 可以通过 Dapr conversation building block 的配置来设置 metadata 和参数。`DaprChatClient` 在调用 conversation component 时会遵循这些设置。
 
 ### SDK 1.19.0 中的映射
 
@@ -137,7 +137,7 @@ foreach (var toolResp in toolResponse.Messages)
 | `ChatOptions.ConversationId` | `ConversationOptions.ContextId` |
 | `ChatOptions.ToolMode` | None、auto、required，或指定的必需函数 |
 | `ChatOptions.Tools` | 工具名称、描述以及 `AdditionalProperties` 映射为函数参数；请验证你的工具实际发送的 schema。 |
-| `ChatOptions.AdditionalProperties` | 字符串化的 component 元数据，而非 protobuf `Parameters`。 |
+| `ChatOptions.AdditionalProperties` | 字符串化的 component metadata，而非 protobuf `Parameters`。 |
 | 响应 | 对话 ID、结束原因、文本、返回的函数调用，以及 `RawRepresentation` 中的每个原始 choice。在本版本中，`ChatResponse` 不映射 token 用量和模型。 |
 
 此适配器不映射响应格式、提示词缓存保留和 PII 清理等选项。如果你需要这些功能，或需要完全控制[工具调用对话历史]({{< ref dotnet-ai-conversation-tools.md >}})，请直接使用 `DaprConversationClient`。

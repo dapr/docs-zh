@@ -33,7 +33,7 @@ description: "一个由七部分组成的教程，介绍如何使用 Dapr.Messag
 ## 前提条件
 
 - [.NET SDK](https://dotnet.microsoft.com/download) 8、9、10 或 11
-- [Dapr CLI]({{< ref install-dapr-cli.md >}}) 以及 Dapr 环境
+- [Dapr CLI]({{< ref install-dapr-cli.md >}}) 以及 Dapr environment
 - Dapr runtime 1.18 或更高版本，用于 streaming subscription
 - Docker 或其他容器运行时，用于集成测试
 - `Dapr.Messaging` 包

@@ -16,13 +16,13 @@ description: "运行时定义的审批状态机把结算交给带重试与补偿
 
 本示例由两层构成，二者从不混用，而保持二者分离正是关键所在。
 
-编译层随程序集一同发布，并在启动时注册一次：唯一的 `InterpretedStateMachineActor` 类型、能力注册表 `ICapabilityRegistry`（收录经过审核的守卫与效果，例如 `WithinApprovalLimit`、`StartSettlement` 等）、`InterpretedMachineVerifier`、`InterpretedMachineDeployer`、定义存储以及 `SettlementWorkflow`。它们都不区分费用报销单与合同；这是通用的机制，新增文档类型时无需重新注册。
+编译层随程序集一同发布，并在启动时注册一次：唯一的 `InterpretedStateMachineActor` 类型、能力注册表 `ICapabilityRegistry`（收录经过审核的守卫与效果，如 `WithinApprovalLimit`、`StartSettlement` 等）、`InterpretedMachineVerifier`、`InterpretedMachineDeployer`、定义存储以及 `SettlementWorkflow`。它们都不区分费用报销单与合同；这是通用的机制，新增文档类型时无需重新注册。
 
-动态层是 `InterpretedMachineDefinition` 本身（它的状态、转换、分支，以及它所组合的守卫与效果名称）。它以数据形式编写，并在接入时为每种文档类型分别部署。`ExpenseReport()` 与 `Contract()` 这两个构建器看起来像逻辑，实际上是数据工厂：它们的输出才是动态部分。在真实系统中，同样的定义完全可以从数据库或 HTTP 请求体以 JSON 形式到达，无需重新编译。两台真正不同的状态机（一台包含 `LegalReview` 阶段，另一台没有）运行在同一个编译好的 Actor 上，正因为差异存在于数据之中，而非代码之中。
+动态层是 `InterpretedMachineDefinition` 本身（它的状态、转换、分支，以及它所组合的守卫与效果名称），以数据形式编写，并在接入时为每种文档类型分别部署。`ExpenseReport()` 与 `Contract()` 这两个构建器看起来像逻辑，实际上是数据工厂：它们的输出才是动态部分。在真实系统中，同一个定义完全可以从数据库或 HTTP 请求体以 JSON 的形式到达，无需重新编译。两台真正不同的状态机（一台包含 `LegalReview` 阶段，另一台没有）运行在同一个编译好的 Actor 上，正是因为差异存在于数据之中，而非代码之中。
 
-两层通过名称相接，而从不通过引用相连。正如调用 Actor 必须提供其名称一样，定义中从不包含已编译的守卫或效果；它保存的是类似 `"StartSettlement"` 这样的字符串，并在运行时通过能力注册表绑定到已编译的 `IActorEffect`。验证是保证 binding 一定成功的唯一检查点：`InterpretedMachineVerifier` 在 `InterpretedMachineDeployer.DeployAsync` 内运行，恰在定义被存储之前，拒绝结构不健全的定义（存在死胡同或不可达的状态），以及引用了注册表未收录的守卫或效果的定义。有问题的文档类型会在接入时被拦下，而不会出现在正在运行的文档上。
+两层通过名称相接，而从不通过引用相连。正如调用 Actor 必须提供其名称一样，定义中从不包含已编译的守卫或效果；它保存的是类似 `"StartSettlement"` 这样的字符串，并在运行时通过能力注册表 binding 到已编译的 `IActorEffect`。验证是保证 binding 一定成功的唯一检查点：`InterpretedMachineVerifier` 在 `InterpretedMachineDeployer.DeployAsync` 内运行，恰好位于定义被存储之前，拒绝结构不健全的定义（存在死胡同或不可达的状态），以及引用了注册表未收录的守卫或效果的定义。有问题的文档类型会在接入时被拦下，而不会出现在正在运行的文档上。
 
-由于行为是数据而运行时是编译好的，新增文档类型就是配置，而非代码部署。接下来的各节正是这种划分的具体展开：以数据编写的文档类型、作为通往 workflow 接缝的已编译效果，以及把数据定义的文档推回去的已编译 workflow。这些已编译的部件都不指定任何一种文档类型。
+由于行为是数据而运行时是编译好的，新增文档类型就是配置，而非代码部署。接下来的各节正是这种划分的具体展开：一个以数据编写的文档类型、一个作为通往 workflow 接缝的已编译效果，以及一个把数据定义的文档推回去的已编译 workflow。这些已编译的部件都不指定任何一种文档类型。
 
 ## 你将构建的内容
 

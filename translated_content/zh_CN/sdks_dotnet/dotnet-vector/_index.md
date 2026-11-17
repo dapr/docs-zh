@@ -8,7 +8,7 @@ description: 使用 Dapr Vector .NET SDK 存储嵌入向量并执行相似性查
 
 `Dapr.Vector` 包为 Dapr 的向量 building block 提供了专用的 .NET 客户端。它支持集合管理、向量的写入与检索、类型化或不透明的负载、metadata 过滤、按向量或按 ID 查询、分数阈值，以及有序的批量查询结果。内置的源生成器可以生成一个类型化客户端，并将其绑定到某个 component、集合和负载类型。
 
-这些指南面向 Dapr .NET SDK 1.19.0 或更高版本，以及 Dapr 运行时 1.19 或更高版本。
+这些指南面向 Dapr .NET SDK 1.19.0 或更高版本，以及 Dapr runtime 1.19 或更高版本。
 
 {{% alert title="Alpha API" color="primary" %}}
 向量 API 目前处于 [alpha]({{% ref "certification-lifecycle#certification-levels" %}})。

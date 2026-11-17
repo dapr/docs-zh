@@ -149,7 +149,7 @@ foreach (var historyEvent in events)
 }
 ```
 
-返回的 `IReadOnlyList<WorkflowHistoryEvent>` 包含事件 ID、事件类型和时间戳。它**不会**公开原始的序列化输入和输出，也不会暴露完整的 protobuf 历史记录。事件类型可区分 activity 的调度、完成或失败、child workflow、timer、事件、挂起与恢复、继续执行，以及 detached workflow 的创建。
+返回的 `IReadOnlyList<WorkflowHistoryEvent>` 包含事件 ID、事件类型和时间戳。它**不会**公开原始的序列化输入和输出，也不会暴露完整的 protobuf 历史记录。事件类型可区分 activity 的调度、完成或失败、child workflow、timer、事件、挂起与恢复、延续，以及 detached workflow 的创建。
 
 ## 从 history event 重新运行
 

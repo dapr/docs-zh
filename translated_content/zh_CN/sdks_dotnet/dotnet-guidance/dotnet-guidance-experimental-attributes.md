@@ -1,30 +1,30 @@
 ---
 type: docs
-title: "Experimental Attributes"
-linkTitle: "Experimental Attributes"
+title: "实验性属性"
+linkTitle: "实验性属性"
 weight: 85200
 description: 了解为什么我们用 `[Experimental]` 属性标记某些方法
 ---
 
-## Experimental Attributes
+## 实验性属性
 
-### Experimental Attributes 简介
+### 实验性属性简介
 
-随着 .NET 8 的发布，C# 12 引入了 `[Experimental]` 属性，它提供了一种标准化的方式来标记仍在开发或处于实验阶段的 API。该属性定义在 `System.Diagnostics.CodeAnalysis` 命名空间中，需要一个诊断 ID 参数，用于在使用实验性 API 时生成编译器警告。
+随着 .NET 8 的发布，C# 12 引入了 `[Experimental]` 属性，它提供了一种标准化的方式来标记仍在开发或处于实验阶段的 API。该属性定义在 `System.Diagnostics.CodeAnalysis` namespace 中，需要一个诊断 ID 参数，用于在使用实验性 API 时生成编译器警告。
 
 {{% alert title=".NET 框架支持" color="warning" %}}
 请注意，.NET 8 和 .NET 9 将于 2026 年 11 月结束支持。Dapr v1.20 将不再支持这两个版本；只有 .NET 10 和 .NET 11 会支持到 2027 年底。
 {{% /alert %}}
 
-在 Dapr .NET SDK 中，我们现在使用 `[Experimental]` 属性而不是 `[Obsolete]` 来标记尚未通过稳定生命周期认证的 building block 和 component。这种方式能在以下两者之间提供更清晰的区分：
+在 Dapr .NET SDK 中，我们现在使用 `[Experimental]` 属性而不是 `[Obsolete]` 来标记尚未通过 Stable（稳定）生命周期认证的 building block 和 component。这种方式能在以下两者之间提供更清晰的区分：
 
-1. **Experimental APIs** — 已经可用但仍在演进的功能，尚未根据 [Dapr Component Certification Lifecycle](https://docs.dapr.io/operations/components/certification-lifecycle/) 认证为稳定。
+1. **Experimental APIs** — 已经可用但仍在演进的功能，尚未根据 [Dapr Component Certification Lifecycle](https://docs.dapr.io/operations/components/certification-lifecycle/) 认证为 Stable（稳定）。
 
 2. **Obsolete APIs** — 真正已被弃用并将在未来版本中移除的功能。
 
 ### 在 Dapr .NET SDK 中的使用
 
-在 Dapr .NET SDK 中，我们在类级别为仍处于 [Component Certification Lifecycle](https://docs.dapr.io/operations/components/certification-lifecycle/) 的 Alpha 或 Beta 阶段的 building block 应用 `[Experimental]` 属性。该属性包括：
+在 Dapr .NET SDK 中，我们在类级别为仍处于 [Component Certification Lifecycle](https://docs.dapr.io/operations/components/certification-lifecycle/) 的 alpha 或 beta 阶段的 building block 应用 `[Experimental]` 属性。该属性包括：
 
 - 一个用于标识实验性 building block 的诊断 ID
 - 一个指向该 building block 相关文档的 URL
@@ -100,7 +100,7 @@ var client = new DaprEncryptionClient();
 
 该文件应放在测试项目的根目录中。您可以在 [MSBuild 文档](https://learn.microsoft.com/visualstudio/msbuild/customize-by-directory) 中进一步了解 `Directory.Build.props` 文件的用法。
 
-### Experimental API 的生命周期
+### 实验性 API 的生命周期
 
 随着 building block 通过认证生命周期并进入 Stable（稳定）阶段，`[Experimental]` 属性将被移除。届时用户无需进行任何迁移或代码修改，只需删除之前添加的警告抑制（如果有的话）。
 

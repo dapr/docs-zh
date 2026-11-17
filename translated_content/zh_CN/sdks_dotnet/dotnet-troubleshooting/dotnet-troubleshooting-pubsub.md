@@ -78,7 +78,7 @@ curl http://localhost:5000/dapr/subscribe -v
 
 200 状态码表示成功。
 
-末尾包含的 JSON 数据是 `/dapr/subscribe` 经 Dapr 运行时处理后的输出。本例使用的是本仓库中的 `ControllerSample`，因此这是正确输出的示例。
+末尾包含的 JSON 数据是 `/dapr/subscribe` 经 Dapr runtime 处理后的输出。本例使用的是本仓库中的 `ControllerSample`，因此这是正确输出的示例。
 
 ```json
 [

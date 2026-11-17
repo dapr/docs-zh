@@ -23,7 +23,7 @@ description: "Dapr.Messaging（.NET）的配置、选项、生命周期管理、
 - **不要按操作创建**：避免为每次操作实例化或释放 `DaprPublishSubscribeClient`。整个应用应共用同一个客户端。
 
 ```csharp
-// 注册 Dapr Messaging component 栈，包括以单例方式注册的 IDaprPublishSubscribeClient 与 DaprPublishSubscribeClient
+// 注册 Dapr Messaging 栈，包括以 Singleton 方式注册的 IDaprPublishSubscribeClient 与 DaprPublishSubscribeClient
 builder.Services.AddDaprMessaging();
 ```
 
@@ -71,13 +71,15 @@ builder.Services.AddDaprMessaging(options =>
 | --- | --- | --- |
 | `DaprGrpcEndpoint` | `http://localhost:50001` | Dapr sidecar 的 gRPC 端点 URL。 |
 | `DaprApiToken` | `null` | 在出站的 Dapr 请求中转发的 API 令牌，用于 sidecar 身份验证。 |
-| `StreamingReconnectDelay` | `5 seconds` | 重新连接已断开的 streaming subscription 之前所等待的时间间隔。 |
-| `JsonSerializerOptions` | `JsonSerializerDefaults.Web` | 消息发布客户端使用的选项。生成的订阅者分发器目前使用其生成时的默认选项。 |
+| `StreamingReconnectDelay` | `5 seconds` | 重新连接已断开的 streaming subscription 之前等待的时间间隔。 |
+| `JsonSerializerOptions` | `JsonSerializerDefaults.Web` | 消息发布客户端所使用的选项。生成的订阅者分发器目前使用其生成时的默认选项。 |
 
 ### 端点与环境变量的优先级
 
 底层构建器能够识别标准的 Dapr 端点/端口与 API 令牌环境变量。
-但在 SDK `1.19.0` 中，`AddDaprMessaging` 会在创建构建器**之后**应用非空的 `DaprMessagingOptions.DaprGrpcEndpoint`。因此，即使你没有显式配置，其默认值 `http://localhost:50001` 也会覆盖由环境变量推导出的 gRPC 地址。
+但在 SDK `1.19.0` 中，`AddDaprMessaging` 会在创建构建器**之后**应用非空的
+`DaprMessagingOptions.DaprGrpcEndpoint`。因此，即使你没有显式配置，其默认值
+`http://localhost:50001` 也会覆盖由环境变量推导出的 gRPC 地址。
 
 当 sidecar 使用其他端口时，请绑定正确的端点：
 
@@ -90,7 +92,8 @@ builder.Services.AddDaprMessaging(options =>
 });
 ```
 
-显式配置的 `DaprApiToken` 会覆盖构建器由环境变量推导出的令牌。不要在源代码中硬编码生产环境的令牌，应从部署的配置或机密管理机制中获取。
+显式配置的 `DaprApiToken` 会覆盖构建器由环境变量推导出的令牌。
+不要在源代码中硬编码生产环境的令牌；请从部署的配置或 secret 管理机制中获取。
 
 ## 选择合适的投递模式
 
@@ -206,17 +209,18 @@ public Task<TopicResponseAction> HandleAsync(Order message, TopicContext context
 
 ## Native AOT 与裁剪注意事项
 
-`Dapr.Messaging.Generators` 源生成器在构建时生成分发逻辑与订阅者注册表，从而避免在处理程序发现与注册时使用反射。生成的订阅者分发器目前使用运行时的 `System.Text.Json` 元数据反序列化消息。因此，Native AOT 与裁剪场景需要使用目标 SDK 版本进行显式验证；配置 `DaprMessagingOptions.JsonSerializerOptions` 目前并不会替换生成的订阅者反序列化器。
+`Dapr.Messaging.Generators` 源生成器在构建时生成分发逻辑与订阅者注册表，从而避免在处理程序发现与注册时使用反射。
+生成的订阅者分发器目前使用运行时的 `System.Text.Json` metadata 反序列化消息。因此，Native AOT 与裁剪场景需要使用目标 SDK 版本进行显式验证；配置 `DaprMessagingOptions.JsonSerializerOptions` 目前并不会替换生成的订阅者反序列化器。
 
 {{% alert title="AOT 分析器警告 DAPR1612" color="primary" %}}
-如果与 `ITopicHandler<TMessage>` 一起使用的消息类型未包含在源生成器生成的 `JsonSerializerContext` 中，分析器 `DAPR1612` 会发出构建警告。该分析器警告本身并不能使生成的订阅者反序列化具备裁剪安全性。
+如果与 `ITopicHandler<TMessage>` 一起使用的消息类型未包含在源生成的 `JsonSerializerContext` 中，分析器 `DAPR1612` 会发出构建警告。该分析器警告本身并不能使生成的订阅者反序列化具备裁剪安全性。
 {{% /alert %}}
 
 ## resiliency 与错误处理
 
 ### 流式模式下的背压管理
 
-使用 `DeliveryMode.Streaming` 或动态 streaming subscription 时，SDK 会将传入的消息排入应用程序内存中的队列。`MaximumQueuedMessages` 可以为空，默认为无界队列；设置一个正数上限即可限制客户端缓冲并施加背压。
+使用 `DeliveryMode.Streaming` 或动态 streaming subscription 时，SDK 会将传入的消息排入应用程序内存中的队列。`MaximumQueuedMessages` 可为空，默认为无界队列；设置一个正数上限即可限制客户端缓冲并施加背压。
 
 你可以在 `DaprSubscriptionOptions` 中调整队列大小与清理超时时间：
 
@@ -242,13 +246,13 @@ streaming subscription 会尝试在 `MaximumCleanupTimeout`（默认 30 秒）�
 
 ### 监控后台订阅故障
 
-`SubscribeAsync` 返回 `IAsyncDisposable`，但其运行时句柄实现了 `IDaprSubscription`。请监控 `IDaprSubscription.Completion`，以便在启动后检测流或确认循环的故障。`ErrorHandler` 是一种通知回调，而不是恢复机制：原始故障仍会使订阅以异常方式完成。如果该回调本身也抛出异常，则完成任务会通过 `AggregateException` 同时报告这两个故障。请根据应用程序自行管理的重试策略重新创建失败的动态订阅。
+`SubscribeAsync` 返回 `IAsyncDisposable`，但其运行时句柄实现了 `IDaprSubscription`。请监控 `IDaprSubscription.Completion`，以便在启动后检测流或确认循环的故障。`ErrorHandler` 是通知回调，而不是恢复机制：原始故障仍会使订阅以异常方式完成。如果该回调本身也抛出异常，完成任务会通过 `AggregateException` 同时报告这两个故障。请根据应用程序自行管理的重试策略重新创建失败的动态订阅。
 
 生成的 streaming subscriber 会使用已配置的重连延迟。不要因为生成的宿主会自动重连，就假设任意动态订阅也会自动重连。
 
 ## 现有的 DaprClient 与 ASP.NET 集成
 
-`DaprClient.PublishEventAsync` 和 `BulkPublishEventAsync`，以及 `Dapr.AspNetCore` 的 `[Topic]`、CloudEvents middleware 和订阅端点映射，仍然是各自独立且受支持的 API 接口。生成的 `[DaprTopic]`/`ITopicHandler<T>` 模型不要求整体迁移现有的订阅者。专用发布者使用 `PublishOptions`，较旧的客户端则使用元数据字典。迁移某个主题时，请避免注册重复的订阅。
+`DaprClient.PublishEventAsync` 和 `BulkPublishEventAsync`，以及 `Dapr.AspNetCore` 的 `[Topic]`、CloudEvents middleware 和订阅端点映射，仍然是各自独立且受支持的 API 接口。生成的 `[DaprTopic]`/`ITopicHandler<T>` 模型不要求整体迁移现有的订阅者。专用发布者使用 `PublishOptions`，较旧的客户端则使用 metadata 字典。迁移某个主题时，请避免注册重复的订阅。
 
 ## 后续步骤
 

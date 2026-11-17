@@ -12,7 +12,7 @@ description: 了解如何使用 .NET SDK 创建和使用 Dapr 对话式 AI 客�
   [.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) 或
   [.NET 11](https://dotnet.microsoft.com/download/dotnet/11.0)
 - [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
-- [已初始化 Dapr 环境](https://docs.dapr.io/getting-started/install-dapr-selfhost)
+- [已初始化的 Dapr environment](https://docs.dapr.io/getting-started/install-dapr-selfhost)
 
 ## 安装
 
@@ -25,7 +25,7 @@ description: 了解如何使用 .NET SDK 创建和使用 Dapr 对话式 AI 客�
 dotnet add package Dapr.AI
 ```
 
-本指南面向 SDK `1.19.0` 或更高版本。请配置对话组件及其模型提供方的凭据。导入 `Dapr.AI.Conversation` 和 `Dapr.AI.Conversation.Extensions`。该 API 为实验性功能（`DAPR_CONVERSATION`）。
+本指南面向 SDK `1.19.0` 或更高版本。请配置 conversation component 及其模型提供方的凭据。导入 `Dapr.AI.Conversation` 和 `Dapr.AI.Conversation.Extensions`。该 API 为实验性功能（`DAPR_CONVERSATION`）。
 
 `DaprConversationClient` 以 TCP 套接字的形式维护网络资源的访问，用于与 Dapr sidecar 通信。
 
@@ -76,8 +76,8 @@ var daprConversationClient = new DaprConversationClientBuilder()
 | ----------- | ----------- |
 | [SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples) | 克隆 SDK 存储库以试用一些示例并开始使用。 |
 
-## building block
+## Building Blocks
 
 .NET SDK 的这一部分允许你与对话 API 交互，以向大语言模型发送消息并接收其回复。
 
-关于消息角色、选项、响应结构、缓存和令牌用量，请参阅 [对话请求与响应]({{< ref dotnet-ai-conversation-usage.md >}})；关于应用程序管理的工具调用周期，请参阅 [工具调用]({{< ref dotnet-ai-conversation-tools.md >}})。
+关于消息角色、选项、响应结构、缓存和 token 用量，请参阅 [对话请求与响应]({{< ref dotnet-ai-conversation-usage.md >}})；关于应用程序管理的工具调用周期，请参阅 [工具调用]({{< ref dotnet-ai-conversation-tools.md >}})。

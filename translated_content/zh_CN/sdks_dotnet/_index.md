@@ -16,7 +16,7 @@ Dapr 提供了多种包来帮助开发 .NET 应用程序。使用它们，你可
 
 ## 前置条件
 - 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})
-- 已初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})
+- 已初始化 [Dapr environment]({{< ref install-dapr-selfhost.md >}})
 - 已安装 [.NET 8](https://dotnet.microsoft.com/download)、[.NET 9](https://dotnet.microsoft.com/download)、
   [.NET 10](https://dotnet.microsoft.com/download) 或 [.NET 11](https://dotnet.microsoft.com/download)
 
@@ -40,10 +40,10 @@ dotnet add package Dapr.Client
 
 | SDK 示例 | 描述 |
 | ----------- | ----------- |
-| [Quickstart]({{% ref quickstarts %}}) | 使用 .NET SDK 在几分钟内体验 Dapr 的 API building block。 |
+| [Quickstarts]({{% ref quickstarts %}}) | 使用 .NET SDK 在几分钟内体验 Dapr 的 API building block。 |
 | [SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples) | 克隆 SDK 仓库以尝试一些示例并开始使用。 |
 | [pub/sub 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub) | 了解 Dapr .NET SDK 如何与其他 Dapr SDK 协作以实现 pub/sub 应用程序。 |
-| [Dapr.Messaging 教程]({{< ref "dotnet-messaging/tutorial/_index.md" >}}) | 演练现代 .NET 消息示例，包括发布、传递模式、路由和测试。 |
+| [Dapr.Messaging 教程]({{< ref "dotnet-messaging/tutorial/_index.md" >}}) | 演练现代 .NET 消息示例，包括发布、投递模式、路由和测试。 |
 
 ## 可用包
 
@@ -70,7 +70,7 @@ dotnet add package Dapr.Client
 | [Dapr.PluggableComponents.AspNetCore](https://www.nuget.org/packages/Dapr.PluggableComponents.AspNetCore) | | 使用 .NET 实现 Dapr pluggable component，并提供丰富的 ASP.NET Core 支持。 |
 | [Dapr.PluggableComponents.Protos](https://www.nuget.org/packages/Dapr.PluggableComponents.Protos) | | **注意：** 开发人员无需在其应用程序中直接安装此包。 |
 | [Dapr.Messaging](https://www.nuget.org/packages/Dapr.Messaging) | [文档]({{% ref dotnet-messaging %}}) | 面向 .NET 的统一 pub/sub 消息 SDK：支持事件发布、流式拉取、编程式 gRPC 推送，以及基于无反射源生成器的 HTTP 订阅。 |
-| [Dapr.Metadata](https://www.nuget.org/packages/Dapr.Metadata) | [文档]({{% ref dotnet-metadata %}}) | 在 .NET 中通过选项模式检索类型化的 Dapr 运行时元数据。 |
+| [Dapr.Metadata](https://www.nuget.org/packages/Dapr.Metadata) | [文档]({{% ref dotnet-metadata %}}) | 在 .NET 中通过选项模式检索类型化的 Dapr runtime metadata。 |
 | [Dapr.StateManagement](https://www.nuget.org/packages/Dapr.StateManagement) | [文档]({{% ref dotnet-state-management %}}) | 在 Dapr 应用程序中创建和管理状态。 |
 | [Dapr.SecretsManagement](https://www.nuget.org/packages/Dapr.SecretsManagement) | [文档]({{% ref dotnet-secrets %}}) | 在 Dapr 应用程序中检索 secrets。 |
 | [Dapr.Testcontainers](https://www.nuget.org/packages/Dapr.Testcontainers) | [文档]({{% ref dotnet-guidance-testcontainers.md %}}) | 使用基于 Testcontainers 的测试工具运行 Dapr 集成测试。 |

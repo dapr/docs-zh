@@ -9,17 +9,17 @@ description: 了解如何创建 Dapr AI 客户端
 Dapr AI 客户端包允许你与 Dapr sidecar 提供的 AI 能力进行交互。
 
 {{% alert title="注意" color="primary" %}}
-Dapr conversation building block 需要 Dapr 运行时 v1.16.0 或更高版本。响应格式、提示词缓存保留以及令牌使用统计需要 Dapr 运行时 v1.17.0 或更高版本。
+Dapr conversation building block 需要 Dapr runtime v1.16.0 或更高版本。响应格式、提示词缓存保留以及 token 用量统计需要 Dapr runtime v1.17.0 或更高版本。
 {{% /alert %}}
 
 ## 生命周期管理
-`DaprConversationClient` 是 Dapr 客户端的一个专用版本，用于与 Dapr conversation API 交互。它可以与 `DaprClient` 及其他 Dapr 客户端一同注册，不会有任何问题。
+`DaprConversationClient` 是 Dapr 客户端的一个专用版本，专门用于与 Dapr conversation API 交互。它可以与 `DaprClient` 及其他 Dapr 客户端一同注册，不会有任何问题。
 
 它通过用于与 Dapr sidecar 通信的 TCP 套接字维持对网络资源的访问。
 
 为获得最佳性能，请创建一个长期存活的 `DaprConversationClient` 实例，并在整个应用程序中共享访问该实例。`DaprConversationClient` 实例是线程安全的，设计上就是用于共享的。
 
-依赖注入功能可以帮助实现这一点。注册方法支持以单例、作用域或瞬态（即每次注入时都重新创建）的方式注册，还支持使用 `IConfiguration` 中的值或其他已注入的服务进行注册，这在每个类中从零开始创建客户端时很难做到。
+依赖注入功能可以帮助实现这一点。注册方法支持以单例、作用域或瞬态（即每次注入时都重新创建）的方式注册，还支持利用 `IConfiguration` 中的值或其他已注入的服务进行注册，而这在从零开始于每个类中创建客户端时难以做到。
 
 避免为每次操作都创建一个 `DaprConversationClient`。
 
@@ -162,17 +162,17 @@ foreach (var output in response.Outputs)
 | `ContextId` | 可选的现有对话上下文。返回的上下文可通过 `ConversationResponse.ConversationId` 获取；保留时长取决于运行时和 component。 |
 | `Temperature` | 提供商支持的创造性与可预测性设置。 |
 | `ScrubPII` | 请求对响应数据进行脱敏。`ConversationInput.ScrubPII` 则单独请求对输入数据进行脱敏。 |
-| `Metadata` | component 特定的字符串键值元数据。 |
+| `Metadata` | component 特定的字符串键值 metadata。 |
 | `Parameters` | 以 `Google.Protobuf.WellKnownTypes.Any` 值表示的自定义参数。 |
 | `Tools`、`ToolChoice` | 每个请求的工具声明与选择策略；参见 [工具调用]({{< ref dotnet-ai-conversation-tools.md >}})。 |
 | `ResponseFormat` | 可选的 protobuf `Struct`，描述所请求的响应架构。 |
-| `PromptCacheRetention` | 在受支持的情况下，可选的缓存保留时长。 |
+| `PromptCacheRetention` | 在受支持的情况下，可选的提示词缓存保留时长。 |
 
-客户端会将这些选项发送给运行时；提供商的支持情况各不相同。上下文 ID 并不是客户端侧的消息历史存储。你需要保留并发送提供商所要求的任何历史消息。`ConverseAsync` 返回完整的响应；本版本的此客户端没有令牌流式传输 API。
+客户端会将这些选项发送给运行时；提供商的支持情况各不相同。上下文 ID 并不是客户端侧的消息历史存储。你需要保留并发送提供商所要求的任何历史消息。`ConverseAsync` 返回完整的响应；本版本的此客户端没有 token 流式传输 API。
 
 ## 响应格式（JSON 架构）
 
-你可以通过 `ConversationOptions.ResponseFormat` 提供 JSON 架构，以将响应强制转换为特定格式。此功能需要 Dapr 运行时 v1.17.0 或更高版本。
+你可以通过 `ConversationOptions.ResponseFormat` 提供 JSON 架构，以将响应强制转换为特定格式。此功能需要 Dapr runtime v1.17.0 或更高版本。
 
 ```cs
 using Google.Protobuf.WellKnownTypes;
@@ -216,7 +216,7 @@ var options = new ConversationOptions("my-conversation-component")
 
 ## 提示词缓存保留
 
-如果你的 conversation component 支持提示缓存，可以使用 `ConversationOptions.PromptCacheRetention` 请求一个缓存保留时间窗口。此功能需要 Dapr 运行时 v1.17.0 或更高版本。
+如果你的 conversation component 支持提示缓存，可以使用 `ConversationOptions.PromptCacheRetention` 请求一个缓存保留时间窗口。此功能需要 Dapr runtime v1.17.0 或更高版本。
 
 ```cs
 var options = new ConversationOptions("my-conversation-component")
@@ -225,9 +225,9 @@ var options = new ConversationOptions("my-conversation-component")
 };
 ```
 
-## 令牌使用统计
+## token 用量统计
 
-当 component 和运行时均支持时，响应中会包含可选的令牌使用统计信息。使用数据可通过 `ConversationResponseResult.Usage` 获取，其中包括总计数以及详细明细：
+当 component 和运行时均支持时，响应中会包含可选的 token 用量统计信息。用量数据可通过 `ConversationResponseResult.Usage` 获取，其中包括总计数以及详细明细：
 
 ```cs
 var response = await daprConversationClient.ConverseAsync(inputs, options);

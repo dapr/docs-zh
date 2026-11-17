@@ -67,7 +67,7 @@ public sealed class CartState(string ownerId)
 
 ## 每个 Actor 的状态缓存
 
-状态读取由一个以激活为作用域的内存中写后（write-behind）缓存提供服务。修改不会在每次变更时直写；而是在每个轮次结束时一次性保存挂起的状态，从而减少对 state store 的调用。
+状态读取由一个以激活为作用域的内存中写后缓存（write-behind cache）提供服务。修改不会在每次变更时直写；而是在每个轮次结束时一次性保存挂起的状态，从而减少对 state store 的调用。
 
 ```csharp
 public async Task AddItem(CartItem item, CancellationToken ct = default)

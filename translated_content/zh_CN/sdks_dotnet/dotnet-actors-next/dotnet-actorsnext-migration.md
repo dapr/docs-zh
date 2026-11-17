@@ -6,7 +6,7 @@ weight: 105000
 description: "逐概念介绍如何把现有的 Dapr.Actors（以及 Dapr.Actors.AspNetCore）Actor 层迁移到 Dapr.Actors.Next"
 ---
 
-本指南面向已经在 `Dapr.Actors`（通常由 `Dapr.Actors.AspNetCore` 托管）上运行 Actor、并希望迁移到 `Dapr.Actors.Next` 的开发者。它逐一介绍你当前使用的每个概念，给出新 SDK 中的对应写法，说明概念本身有哪些变化，指出容易导致严重错误的地方，并提供迁移前后的代码对比。本文默认你已了解 `Dapr.Actors` 的工作方式，不再重新讲解 Actor 模型；对于旧 SDK 中没有对应功能的特性（状态机、Subscription streams、内存测试运行时和状态迁移，各自都有独立页面），本文有意略过。
+本指南面向已经在 `Dapr.Actors`（通常由 `Dapr.Actors.AspNetCore` 托管）上运行 Actor、并希望迁移到 `Dapr.Actors.Next` 的开发者。它逐一介绍你当前使用的每个概念，给出新 SDK 中的对应写法，说明概念本身有哪些变化，指出容易犯严重错误的地方，并提供迁移前后的代码对比。本文默认你已了解 `Dapr.Actors` 的工作方式，不再重新讲解 Actor 模型；对于旧 SDK 中没有对应功能的特性（状态机、Subscription streams、内存测试运行时和状态迁移，各自都有独立页面），本文有意略过。
 
 `Dapr.Actors.Next` 是一个全新的包族，API 与旧版不同。采用它意味着重写你的 Actor 层，而不是原地升级包版本。好消息是，它与 Dapr runtime 的线协议兼容，并且使用相同的类型名称寻址 Actor，因此新旧 SDK 可以共存，你可以一次迁移一个 Actor 类型，而不必一次性全部切换。
 
@@ -18,7 +18,7 @@ description: "逐概念介绍如何把现有的 Dapr.Actors（以及 Dapr.Actors
 
 请先阅读这两点。相比之下，迁移的其余部分都是机械性的工作。
 
-1. **已持久化的状态必须仍然可读。** 这是风险最高的一项，因为现有 Actor 已在存储中保存了状态。好消息是，`Dapr.Actors` 默认就用 System.Text.Json 序列化 Actor **状态**，`Dapr.Actors.Next` 也是如此，因此状态总体上是兼容的。真正可能让你出问题的，是 `JsonSerializerOptions` 的差异（属性命名策略、枚举按字符串还是数字序列化、null 与默认值如何输出），或者你在旧版中配置的自定义状态序列化器。请把序列化器配置视为静态存储契约的一部分，并验证两者一致；如果状态的结构确实发生了变化，请使用内置的[状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})，而不是寄希望于字节恰好一致。
+1. **已持久化的状态必须仍然可读。** 这是风险最高的一项，因为现有 Actor 已在你的 state store 中保存了状态。好消息是，`Dapr.Actors` 默认就用 System.Text.Json 序列化 Actor **状态**，`Dapr.Actors.Next` 也是如此，因此状态总体上是兼容的。真正可能让你出问题的，是 `JsonSerializerOptions` 的差异（属性命名策略、枚举按字符串还是数字序列化、null 与默认值如何输出），或者你在旧版中配置的自定义状态序列化器。请把序列化器配置视为静态存储契约的一部分，并验证两者一致；如果状态的结构确实发生了变化，请使用内置的[状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})，而不是寄希望于字节恰好一致。
 
 2. **跨 SDK 的实时调用只能在 JSON 路径上对齐。** 在新旧共存期间，`Dapr.Actors.Next` 代理发出的调用使用 System.Text.Json 序列化。这与旧版的**非远程处理**代理（同样是 JSON）一致，但与旧版的**远程处理**代理（DataContract）**不一致**。如果迁移途中的集群里，一个应用通过 Actor 协议调用另一个应用，那么两端必须就线协议格式达成一致。避免这类问题的一个简便方法，是把一个 Actor 类型与它的调用方一起迁移，这样同一类型就不会跨越两种序列化格式。
 
@@ -120,7 +120,7 @@ builder.Services.AddActors(options =>
 builder.Services.AddDaprActors();
 ```
 
-你仍然可以使用 `options.Actors.RegisterActor<T>(name)` 以显式名称注册类型（例如名称来自配置），也可以在注册选项中设置 `EnableAutoActorRegistration = false` 来关闭自动托管，从而构建一个只调用 Actor、不托管任何 Actor 的网关。这些内容在[控制自动注册]({{< ref "dotnet-actorsnext-howto.md#controlling-automatic-registration" >}})中有详细介绍。
+你仍然可以使用 `options.Actors.RegisterActor<T>(name)` 以显式名称注册类型（例如名称来自配置），也可以在注册选项中设置 `EnableAutoActorRegistration = false` 来关闭自动托管，从而构建一个只调用 Actor、不托管任何 Actor 的 gateway。这些内容在[控制自动注册]({{< ref "dotnet-actorsnext-howto.md#controlling-automatic-registration" >}})中有详细介绍。
 
 {{% alert title="如果 Actor 位于被引用的项目中，请选择启用引用扫描" color="warning" %}}
 默认情况下，生成器只扫描正在执行的程序集。如果你的 `[DaprActor]` 类型（或状态升级器）位于宿主所引用的类库中，请在宿主的 `.csproj` 中添加 `<CompilerVisibleProperty Include="DaprActorsScanReferences" />`，以便它们被发现。这有助于那些希望把 Actor 类型放在共享项目中、再在各应用中按需引用的团队。如果你的应用不打算托管所有可被发现的 Actor 类型，应将 `EnableAutoActorRegistration` 设为 false，并自行手动注册它们。参见[跨程序集发现]({{< ref "dotnet-actorsnext-howto.md#cross-assembly-discovery" >}})。
@@ -128,7 +128,7 @@ builder.Services.AddDaprActors();
 
 ## 定义 Actor
 
-由"契约接口 + 实现类"组成的两部分结构没有变化，但两部分现在都带有特性，而且实现类获取标识和状态的方式也不同：它从注入的上下文对象中获取，而不再通过传给基类构造函数的 `ActorHost`。
+由“契约接口 + 实现类”组成的两部分结构没有变化，但两部分现在都带有特性，而且实现类获取标识和状态的方式也不同：它从注入的上下文对象中获取，而不再通过传给基类构造函数的 `ActorHost`。
 
 ```csharp
 // 之前
@@ -192,11 +192,11 @@ public sealed class CartActor(ActorActivationContext context) : Actor, ICartActo
 变化及其原因：
 
 - `[Actor(TypeName = "…")]` 变为 `[DaprActor("…")]`。两者的名称参数都是可选的；省略时使用类型名。Actor 类型名仍然是运行时用来路由的持久地址，因此请保持它与已有实例创建时使用的名称完全一致。
-- 接口现在需要 `[GenerateActorClient]`。没有它，生成器就看不到这个契约；而如果实现类没有引用任何带标记的接口，生成器就什么都不会生成（没有代理、没有分发器、没有注册），也不会有任何错误提示。这是"Actor 静默不工作"最常见的原因。
+- 接口现在需要 `[GenerateActorClient]`。没有它，生成器就看不到这个契约；而如果实现类没有引用任何带标记的接口，生成器就什么都不会生成（没有代理、没有分发器、没有注册），也不会有任何错误提示。这是“Actor 静默不工作”最常见的原因。
 - `Actor(ActorHost host)` 已经不存在。改为注入 `ActorActivationContext`，并从中重写 `Id` 和 `State`。基类上没有 `Host`、`ProxyFactory` 属性，也没有 `Logger` 属性；如果需要它们，请注入 `IActorProxyFactory` 和 `ILogger<T>`。
 
 {{% alert title="两个特性必须成对使用" color="warning" %}}
-接口上的 `[GenerateActorClient]` 与类上的 `[DaprActor]` 不能互相替代，两者也都不是可选的。生成器只会为实现了 `[GenerateActorClient]` 接口的 `[DaprActor]` 类生成 Actor。如果某个 Actor "能编译但从不被调用"，首先要检查它的接口是否派生自 `IActor` 并带有 `[GenerateActorClient]`（分析器 `DAPR1421` 会标记没有对应带标记契约的 `[DaprActor]`）。
+接口上的 `[GenerateActorClient]` 与类上的 `[DaprActor]` 不能互相替代，两者也都不是可选的。生成器只会为实现了 `[GenerateActorClient]` 接口的 `[DaprActor]` 类生成 Actor。如果某个 Actor “能编译但从不被调用”，首先要检查它的接口是否派生自 `IActor` 并带有 `[GenerateActorClient]`（分析器 `DAPR1421` 会标记没有对应带标记契约的 `[DaprActor]`）。
 {{% /alert %}}
 
 ### 生命周期钩子
@@ -253,7 +253,7 @@ cart.Value.Items.Add(item);                        // 修改 .Value；无需再�
 | `SaveStateAsync()` | `SaveStateAsync()` | 可选；仅在需要轮次中途写入时使用。轮次结束时的自动保存仍然有效 |
 | `ClearCacheAsync()` | `EvictCacheAsync()` | 丢弃缓存条目但不持久化，因此下一次读取会访问存储 |
 
-变化的原因：旧的缓存同样会在轮次结束时保存，因此自动保存并不是新东西。真正的新变化是使用体验（修改 `.Value`，代替"读取、修改、再设置"）。你通常不需要显式保存；只有当同一方法中的后续操作依赖于状态已经持久化时，才需要调用 `State.SaveStateAsync()`。一次成功的显式保存会把缓存标记为干净，因此除非 Actor 之后又修改了数据，轮次结束时的保存不会重复写入相同的数据。多次修改在一次保存前仍会合并为一次写入。
+变化的原因：旧的缓存同样会在轮次结束时保存，因此自动保存并不是新东西。真正的新变化是使用体验（修改 `.Value`，代替“读取、修改、再设置”）。你通常不需要显式保存；只有当同一方法中的后续操作依赖于状态已经持久化时，才需要调用 `State.SaveStateAsync()`。一次成功的显式保存会把缓存标记为干净，因此除非 Actor 之后又修改了数据，轮次结束时的保存不会重复写入相同的数据。多次修改在一次保存前仍会合并为一次写入。
 
 不要把 `EvictCacheAsync` 当作保存操作使用。它会从当前激活的缓存中移除条目，之后的读取将重新读取持久化的状态。默认情况下，它会拒绝驱逐脏条目；当 `EvictOnDirtyState = true` 时，脏条目会被直接丢弃，而不是被持久化。
 
@@ -351,7 +351,7 @@ public sealed class CartActor(ActorActivationContext context, IActorTimerSchedul
 
 ## reminder
 
-reminder 是回调形态变化最大的部分。在 `Dapr.Actors` 中，你需要实现 `IRemindable.ReceiveReminderAsync`，这是一个接收*所有*reminder 的方法，你必须根据 `reminderName` 进行分支判断，并且负载是 `byte[]`。在 `Dapr.Actors.Next` 中，reminder 通过 `IActorReminderScheduler` 调度，并直接路由到指定的具名 Actor 方法；既没有 `IRemindable`，也没有集中派发的 switch。
+reminder 是回调形态变化最大的部分。在 `Dapr.Actors` 中，你需要实现 `IRemindable.ReceiveReminderAsync`，这是一个接收*所有* reminder 的方法，你必须根据 `reminderName` 进行分支判断，并且负载是 `byte[]`。在 `Dapr.Actors.Next` 中，reminder 通过 `IActorReminderScheduler` 调度，并直接路由到指定的具名 Actor 方法；既没有 `IRemindable`，也没有集中派发的 switch。
 
 ```csharp
 // 之前 —— 实现 IRemindable，并按名称分支
@@ -476,7 +476,7 @@ builder.Services.AddDaprActors(options =>
 Task<Quote> PriceItem(string sku, int quantity, string currency, CancellationToken ct = default);
 ```
 
-**一个接口可以支撑多个 Actor 类型。** 决定已注册 Actor 身份的是 Actor 类型名，而不是接口。因此，多个 `[DaprActor]` 类可以实现同一个 `[GenerateActorClient]` 接口，每个类都是独立的 Actor 类型，拥有各自的状态和放置。这使得在多个专用 Actor 之间共享同一契约变得切实可行。
+**一个接口可以支撑多个 Actor 类型。** 决定已注册 Actor 身份的是 Actor 类型名，而不是接口。因此，多个 `[DaprActor]` 类可以实现同一个 `[GenerateActorClient]` 接口，每个类都是独立的 Actor 类型，拥有各自的状态和 placement。这使得在多个专用 Actor 之间共享同一契约变得切实可行。
 
 ```csharp
 [GenerateActorClient]

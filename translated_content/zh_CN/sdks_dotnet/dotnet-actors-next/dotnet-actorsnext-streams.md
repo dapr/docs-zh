@@ -14,7 +14,7 @@ Subscription streams 位于 `Dapr.Actors.Next.Streams` namespace 中，包含在
 
 ## 工作原理
 
-订阅位于宿主中，而不在 Actor 的代码体中。该包会向主题打开一个 streaming subscription，接收经过过滤的事件，并把每个事件作为普通的、经 Placement 路由的代理调用转发给目标 Actor。正是这次调用唤醒了 Actor（无论 Placement 将它放置在哪里），并以基于轮次的方式运行它，同时保留所有常规保证。
+订阅位于宿主中，而不在 Actor 的代码体中。该包会向主题打开一个 streaming subscription，接收经过过滤的事件，并把每个事件作为普通的、经 placement 路由的代理调用转发给目标 Actor。正是这次调用唤醒了 Actor（无论 placement 将它放置在哪里），并以基于轮次的方式运行它，同时保留所有常规保证。
 
 由于转发本身是一次普通调用，接收主题事件的实例不需要承载目标 Actor。投递到某个副本的事件，完全可以驱动放置在另一个副本上的 Actor。
 
@@ -65,10 +65,10 @@ app.Services.GetRequiredService<ActorStreamSubscriptionRegistry>().Add(
 - 瞬时失败：重试。
 - 有毒消息：根据 component 的配置丢弃（drop）或进入死信（dead-letter）。
 
-跨副本的单次投递由 pub/sub component 自身的消费者与队列语义保证；该包不会重新实现扇出。每个事件只投递给一个应用实例，由它向唯一的目标 Actor 发起一次经 Placement 路由的调用。
+跨副本的单次投递由 pub/sub component 自身的消费者与队列语义保证；该包不会重新实现扇出。每个事件只投递给一个应用实例，由它向唯一的目标 Actor 发起一次经 placement 路由的调用。
 
 {{% alert title="顺序与宿主由 component 决定，而非 Actor" color="primary" %}}
-这两点来自两个事实：订阅位于宿主中，投递又来自 pub/sub component。第一，顺序取决于 component 提供的保证，通常不是跨事件的全序；转发调用和 Placement 本身也不会增加任何顺序保证，因此不要假设处理程序会按发布顺序看到事件。当顺序重要时，应在事件中携带序列号或时间戳，由 Actor 自行调和，而不是依赖到达顺序。第二，只有在承载该应用的实例运行并能接收时，事件才会被消费；订阅在 Actor 中并不持久。若没有任何宿主在线，投递遵循的是 component 的保留与重新传递行为，而非 Actor 的行为。再加上至少一次投递的语义，这就是 `[Subscribe]` 处理程序必须幂等且容忍乱序的原因。
+这两点来自两个事实：订阅位于宿主中，投递又来自 pub/sub component。第一，顺序取决于 component 提供的保证，通常不是跨事件的全序；转发调用和 placement 本身也不会增加任何顺序保证，因此不要假设处理程序会按发布顺序看到事件。当顺序重要时，应在事件中携带序列号或时间戳，由 Actor 自行调和，而不是依赖到达顺序。第二，只有在承载该应用的实例运行并能接收时，事件才会被消费；订阅在 Actor 中并不持久。若没有任何宿主在线，投递遵循的是 component 的保留与重新传递行为，而非 Actor 的行为。再加上至少一次投递的语义，这就是 `[Subscribe]` 处理程序必须幂等且容忍乱序的原因。
 {{% /alert %}}
 
 ## 追踪
@@ -77,7 +77,7 @@ CloudEvents 的 `traceparent` 会从事件中提取，并附加到转发调用�
 
 ## 测试 Subscription streams
 
-无需搭建假的消息代理。你可以直接对着内存运行时驱动订阅运行器，它执行的是流式宿主所用的同一套转发调用以及 `Ack`/`Retry`/`Drop` 路径。描述订阅、基于运行时的调用客户端构建运行器，然后向其输入 `ActorStreamEvent`：
+无需搭建假的 broker。你可以直接在内存运行时上驱动订阅运行器，它执行的是流式宿主所用的同一套转发调用以及 `Ack`/`Retry`/`Drop` 路径。描述订阅、基于运行时的调用客户端构建运行器，然后向其输入 `ActorStreamEvent`：
 
 ```csharp
 private static readonly ActorStreamSubscription Subscription = new(
@@ -86,7 +86,7 @@ private static readonly ActorStreamSubscription Subscription = new(
 
 private static readonly JsonSerializerOptions WebJson = new(JsonSerializerDefaults.Web);
 
-// 运行器把投递来的事件转发给经 Placement 路由的 Actor。它需要运行时的调用客户端，
+// 运行器把投递来的事件转发给经 placement 路由的 Actor。它需要运行时的调用客户端，
 // 内存运行时在内部公开了该客户端。
 private static ActorStreamSubscriptionRunner Runner(ActorTestRuntime rt)
 {

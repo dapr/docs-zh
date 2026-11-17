@@ -48,7 +48,7 @@ public sealed class GreetActivity : WorkflowActivity<string, string>
 | 日志 | 使用 `context.CreateReplaySafeLogger<T>()` 抑制重放时产生的重复日志。 |
 | 客户端可见的进度 | `context.SetCustomStatus(value)` 与 `state.ReadCustomStatusAs<T>()`。 |
 
-不要使用 `Task.Run`，不要直接执行网络或文件访问，也不要通过 `ConfigureAwait(false)` 脱离 workflow 的同步上下文。对于由 workflow API 创建的任务，适合使用 `Task.WhenAll` 和 `Task.WhenAny`。`context.IsReplaying` 仅用于抑制诊断输出，不应用来改变持久化操作的顺序。
+不要使用 `Task.Run`，不要直接执行网络或文件访问，也不要通过 `ConfigureAwait(false)` 脱离 workflow 的同步上下文。对于由 workflow API 创建的任务，适合使用 `Task.WhenAll` 和 `Task.WhenAny`。`context.IsReplaying` 仅用于抑制诊断输出，不应用于改变持久化操作的顺序。
 
 activity 可以执行 I/O 并使用注入的服务。activity 具有**至少一次**的执行语义，因此即使未配置显式的重试策略，也应实现幂等的副作用。
 
@@ -74,7 +74,7 @@ var greeting = await context.CallActivityAsync<string>(
 
 ## durable timer 与 external event
 
-使用 `CreateTimer(TimeSpan, CancellationToken)` 或 `CreateTimer(DateTime, CancellationToken)` 实现持久化延迟。绝对截止时间应基于 `CurrentUtcDateTime` 计算。对于在与其他持久化任务的竞争中落败的 timer，应将其取消。
+使用 `CreateTimer(TimeSpan, CancellationToken)` 或 `CreateTimer(DateTime, CancellationToken)` 实现持久化延迟。绝对截止时间应基于 `CurrentUtcDateTime` 计算。应取消在竞争中落败的 timer。
 
 对于带持久化超时的事件：
 
@@ -92,7 +92,7 @@ catch (TaskCanceledException)
 
 带超时的重载使用 durable timer，并取消落败的等待。在匹配的等待之前到达的事件会被缓冲；每个事件只会完成一个等待者。.NET 工作进程以不区分大小写的方式匹配事件名称，但应在所有发送方和 SDK 之间保持一致的大小写。等待上的取消令牌只会取消该等待，而不会取消 workflow 或事件生产者。
 
-外部应用程序使用 `client.RaiseEventAsync` 发送事件。workflow 可以在不调用客户端或直接执行 I/O 的情况下，向其所在应用中的另一个 workflow instance 发送事件：
+外部应用程序使用 `client.RaiseEventAsync` 发送事件。workflow 可以在不调用客户端或直接执行 I/O 的情况下，向同一应用中的另一个 workflow instance 发送事件：
 
 ```csharp
 context.SendEvent(targetInstanceId, "Approval", true);

@@ -68,12 +68,12 @@ Actor 接口需满足以下要求：
 ### 创建接口项目并添加依赖项
 
 ```bash
-# Create Actor Interfaces
+# 创建 Actor 接口项目
 dotnet new classlib -o MyActor.Interfaces
 
 cd MyActor.Interfaces
 
-# Add Dapr.Actors nuget package. Please use the latest package version from nuget.org
+# 添加 Dapr.Actors NuGet 包。请使用 nuget.org 上的最新包版本
 dotnet add package Dapr.Actors
 
 cd ..
@@ -123,15 +123,15 @@ Dapr 使用 ASP.NET Web 服务来承载 Actor 服务。本节将实现 `IMyActor
 ### 创建 Actor 服务项目并添加依赖项
 
 ```bash
-# Create ASP.Net Web service to host Dapr actor
+# 创建用于承载 Dapr Actor 的 ASP.NET Web 服务
 dotnet new web -o MyActorService
 
 cd MyActorService
 
-# Add Dapr.Actors.AspNetCore nuget package. Please use the latest package version from nuget.org
+# 添加 Dapr.Actors.AspNetCore NuGet 包。请使用 nuget.org 上的最新包版本
 dotnet add package Dapr.Actors.AspNetCore
 
-# Add Actor Interface reference
+# 添加 Actor 接口引用
 dotnet add reference ../MyActor.Interfaces/MyActor.Interfaces.csproj
 
 cd ..
@@ -154,79 +154,78 @@ namespace MyActorService
 {
     internal class MyActor : Actor, IMyActor, IRemindable
     {
-        // The constructor must accept ActorHost as a parameter, and can also accept additional
-        // parameters that will be retrieved from the dependency injection container
+        // 构造函数必须接受 ActorHost 作为参数，并且可以接受其他从依赖注入容器中获取的参数
         //
         /// <summary>
-        /// Initializes a new instance of MyActor
+        /// 初始化 MyActor 的新实例
         /// </summary>
-        /// <param name="host">The Dapr.Actors.Runtime.ActorHost that will host this actor instance.</param>
+        /// <param name="host">将承载此 Actor 实例的 Dapr.Actors.Runtime.ActorHost。</param>
         public MyActor(ActorHost host)
             : base(host)
         {
         }
 
         /// <summary>
-        /// This method is called whenever an actor is activated.
-        /// An actor is activated the first time any of its methods are invoked.
+        /// 每当 Actor 被激活时调用此方法。
+        /// Actor 在其任一方法首次被调用时激活。
         /// </summary>
         protected override Task OnActivateAsync()
         {
-            // Provides opportunity to perform some optional setup.
+            // 提供执行一些可选初始化操作的机会。
             Console.WriteLine($"Activating actor id: {this.Id}");
             return Task.CompletedTask;
         }
 
         /// <summary>
-        /// This method is called whenever an actor is deactivated after a period of inactivity.
+        /// 每当 Actor 在一段时间不活动后被停用时调用此方法。
         /// </summary>
         protected override Task OnDeactivateAsync()
         {
-            // Provides Opporunity to perform optional cleanup.
+            // 提供执行可选清理操作的机会。
             Console.WriteLine($"Deactivating actor id: {this.Id}");
             return Task.CompletedTask;
         }
 
         /// <summary>
-        /// Set MyData into actor's private state store
+        /// 将 MyData 写入 Actor 的私有 state store
         /// </summary>
-        /// <param name="data">the user-defined MyData which will be stored into state store as "my_data" state</param>
+        /// <param name="data">用户定义的 MyData，将以 "my_data" 状态写入 state store</param>
         public async Task<string> SetDataAsync(MyData data)
         {
-            // Data is saved to configured state store implicitly after each method execution by Actor's runtime.
-            // Data can also be saved explicitly by calling this.StateManager.SaveStateAsync();
-            // State to be saved must be DataContract serializable.
+            // 每次方法执行后，Actor runtime 会隐式地将数据保存到已配置的 state store 中。
+            // 也可以通过调用 this.StateManager.SaveStateAsync() 显式保存数据。
+            // 要保存的状态必须可以通过 DataContract 序列化。
             await this.StateManager.SetStateAsync<MyData>(
-                "my_data",  // state name
-                data);      // data saved for the named state "my_data"
+                "my_data",  // 状态名称
+                data);      // 为名为 "my_data" 的状态保存的数据
 
             return "Success";
         }
 
         /// <summary>
-        /// Get MyData from actor's private state store
+        /// 从 Actor 的私有 state store 中获取 MyData
         /// </summary>
-        /// <return>the user-defined MyData which is stored into state store as "my_data" state</return>
+        /// <return>用户定义的 MyData，以 "my_data" 状态存储在 state store 中</return>
         public Task<MyData> GetDataAsync()
         {
-            // Gets state from the state store.
+            // 从 state store 中获取状态。
             return this.StateManager.GetStateAsync<MyData>("my_data");
         }
 
         /// <summary>
-        /// Register MyReminder reminder with the actor
+        /// 为 Actor 注册 MyReminder reminder
         /// </summary>
         public async Task RegisterReminder()
         {
             await this.RegisterReminderAsync(
-                "MyReminder",              // The name of the reminder
-                null,                      // User state passed to IRemindable.ReceiveReminderAsync()
-                TimeSpan.FromSeconds(5),   // Time to delay before invoking the reminder for the first time
-                TimeSpan.FromSeconds(5));  // Time interval between reminder invocations after the first invocation
+                "MyReminder",              // reminder 的名称
+                null,                      // 传递给 IRemindable.ReceiveReminderAsync() 的用户状态
+                TimeSpan.FromSeconds(5),   // 首次调用 reminder 前的延迟时间
+                TimeSpan.FromSeconds(5));  // 首次调用之后，reminder 调用之间的时间间隔
         }
 
         /// <summary>
-        /// Get MyReminder reminder details with the actor
+        /// 获取 Actor 上 MyReminder reminder 的详细信息
         /// </summary>
         public async Task<IActorReminder> GetReminder()
         {
@@ -234,7 +233,7 @@ namespace MyActorService
         }
 
         /// <summary>
-        /// Unregister MyReminder reminder with the actor
+        /// 为 Actor 取消注册 MyReminder reminder
         /// </summary>
         public Task UnregisterReminder()
         {
@@ -243,7 +242,7 @@ namespace MyActorService
         }
 
         // <summary>
-        // Implement IRemindeable.ReceiveReminderAsync() which is call back invoked when an actor reminder is triggered.
+        // 实现 IRemindable.ReceiveReminderAsync()，该回调在 Actor reminder 被触发时调用。
         // </summary>
         public Task ReceiveReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period)
         {
@@ -252,20 +251,20 @@ namespace MyActorService
         }
 
         /// <summary>
-        /// Register MyTimer timer with the actor
+        /// 为 Actor 注册 MyTimer timer
         /// </summary>
         public Task RegisterTimer()
         {
             return this.RegisterTimerAsync(
-                "MyTimer",                  // The name of the timer
-                nameof(this.OnTimerCallBack),       // Timer callback
-                null,                       // User state passed to OnTimerCallback()
-                TimeSpan.FromSeconds(5),    // Time to delay before the async callback is first invoked
-                TimeSpan.FromSeconds(5));   // Time interval between invocations of the async callback
+                "MyTimer",                  // timer 的名称
+                nameof(this.OnTimerCallBack),       // timer 回调
+                null,                       // 传递给 OnTimerCallback() 的用户状态
+                TimeSpan.FromSeconds(5),    // 首次调用异步回调前的延迟时间
+                TimeSpan.FromSeconds(5));   // 异步回调调用之间的时间间隔
         }
 
         /// <summary>
-        /// Unregister MyTimer timer with the actor
+        /// 为 Actor 取消注册 MyTimer timer
         /// </summary>
         public Task UnregisterTimer()
         {
@@ -274,7 +273,7 @@ namespace MyActorService
         }
 
         /// <summary>
-        /// Timer callback once timer is expired
+        /// timer 到期后的回调
         /// </summary>
         private Task OnTimerCallBack(byte[] data)
         {
@@ -287,7 +286,7 @@ namespace MyActorService
 
 ### 在 ASP.NET Core 启动时注册 Actor runtime
 
-Actor runtime 通过 ASP.NET Core 的 `Startup.cs` 进行配置。
+Actor runtime 通过 ASP.NET Core 的 `Startup.cs` 进行配置。 
 
 运行时使用 ASP.NET Core 依赖注入系统来注册 Actor 类型和基本服务。该集成通过在 `ConfigureServices(...)` 中调用 `AddActors(...)` 方法提供。使用传递给 `AddActors(...)` 的委托来注册 Actor 类型并配置 Actor runtime 设置。你可以在 `ConfigureServices(...)` 内注册其他用于依赖注入的类型，这些类型之后即可注入到 Actor 类型的构造函数中。
 
@@ -309,7 +308,7 @@ namespace MyActorService
         {
             services.AddActors(options =>
             {
-                // Register actor types and configure actor settings
+                // 注册 Actor 类型并配置 Actor 设置
                 options.Actors.RegisterActor<MyActor>();
             });
         }
@@ -323,7 +322,7 @@ namespace MyActorService
 
             app.UseRouting();
 
-            // Register actors handlers that interface with the Dapr runtime.
+            // 注册与 Dapr runtime 交互的 Actor 处理程序。
             app.MapActorsHandlers();
         }
     }
@@ -337,15 +336,15 @@ namespace MyActorService
 ### 创建 Actor 客户端项目并添加依赖项
 
 ```bash
-# Create Actor's Client
+# 创建 Actor 客户端
 dotnet new console -o MyActorClient
 
 cd MyActorClient
 
-# Add Dapr.Actors nuget package. Please use the latest package version from nuget.org
+# 添加 Dapr.Actors NuGet 包。请使用 nuget.org 上的最新包版本
 dotnet add package Dapr.Actors
 
-# Add Actor Interface reference
+# 添加 Actor 接口引用
 dotnet add reference ../MyActor.Interfaces/MyActor.Interfaces.csproj
 
 cd ..
@@ -372,19 +371,19 @@ namespace MyActorClient
         {
             Console.WriteLine("Startup up...");
 
-            // Registered Actor Type in Actor Service
+            // 在 Actor 服务中注册的 Actor 类型
             var actorType = "MyActor";
 
-            // An ActorId uniquely identifies an actor instance
-            // If the actor matching this id does not exist, it will be created
+            // ActorId 唯一标识一个 Actor 实例
+            // 如果不存在与此 ID 匹配的 Actor，则会创建它
             var actorId = new ActorId("1");
 
-            // Create the local proxy by using the same interface that the service implements.
+            // 使用服务所实现的同一接口创建本地代理。
             //
-            // You need to provide the type and id so the actor can be located. 
+            // 需要提供类型和 ID，以便定位该 Actor。
             var proxy = ActorProxy.Create<IMyActor>(actorId, actorType);
 
-            // Now you can use the actor interface to call the actor's methods.
+            // 现在可以使用 Actor 接口调用 Actor 的方法。
             Console.WriteLine($"Calling SetDataAsync on {actorType}:{actorId}...");
             var response = await proxy.SetDataAsync(new MyData()
             {

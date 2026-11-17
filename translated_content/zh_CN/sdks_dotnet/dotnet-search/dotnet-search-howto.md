@@ -25,7 +25,7 @@ description: 使用 Dapr.Search 创建索引、写入类型化文档、搜索并
 dotnet add package Dapr.Search
 ```
 
-[搜索 SDK 概述]({{% ref dotnet-search %}}) 介绍了 alpha 的 API 及其发布要求。
+[搜索 SDK 概述]({{% ref dotnet-search %}}) 介绍了 alpha API 及其发布要求。
 
 ## 配置 search component
 
@@ -94,7 +94,7 @@ Console.WriteLine(string.Join(", ", indexes));
 
 对已存在的索引再次调用创建会以 `AlreadyExists` 失败，且不会更新索引设置。如果在两次执行之间保持 sidecar 运行，请先删除示例索引，再重新创建。
 
-`CreateIndexAsync` 的 `metadata` 参数接受component 特定的索引设置。例如，Meilisearch component 需要通过 `filterableAttributes` 和 `sortableAttributes` 声明用于过滤和排序的字段。in-memory 示例不需要这些设置。
+`CreateIndexAsync` 的 `metadata` 参数接受 component 特定的索引设置。例如，Meilisearch component 需要通过 `filterableAttributes` 和 `sortableAttributes` 声明用于过滤和排序的字段。in-memory 示例不需要这些设置。
 
 ## 写入类型化文档
 
@@ -128,7 +128,7 @@ if (write.FailedItems.Count != 0 || write.Ack != IndexAck.Completed)
 }
 ```
 
-`SearchDocument<T>` 包含一个 ID、类型化的内容以及可选的字符串 metadata。SDK 使用客户端的 JSON 选项将内容序列化为 UTF-8 JSON。内容必须序列化为 JSON **对象**；无效内容会由运行时报告为单项失败。ID 必须非空，并且在同一次写入请求中唯一。写入已存在的 ID 会更新该文档（upsert）。
+`SearchDocument<T>` 包含一个 ID、类型化的内容以及可选的字符串 metadata。SDK 使用客户端的 JSON 选项将内容序列化为 UTF-8 JSON。内容必须序列化为 JSON **对象**；无效内容会由运行时报告为单项失败。ID 必须非空，并且在同一次写入请求中唯一。写入已存在的 ID 会 upsert 该文档。
 
 文档 metadata 会原样存储和返回，但不会被索引，也不能用于过滤。过滤条件针对 `Content` 的字段，而不是 `SearchDocument<T>.Metadata`。
 
