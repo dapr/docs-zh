@@ -2,12 +2,12 @@
 type: docs
 title: "DeepSeek"
 linkTitle: "DeepSeek"
-description: DeepSeek 对话组件的详细信息
+description: DeepSeek conversation component 的详细信息
 ---
 
-## 组件格式
+## component 格式
 
-Dapr `conversation.yaml` 组件文件具有以下结构：
+Dapr `conversation.yaml` component 文件具有以下结构：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -27,7 +27,7 @@ spec:
 上述示例将 secrets 以明文字符串的形式提供。建议使用 secret store 来保存 secrets，具体方法请参阅[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-## 规格元数据字段
+## 规格 metadata 字段
 
 | 字段              | 必填 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
@@ -36,4 +36,4 @@ spec:
 
 ## 相关链接
 
-- [对话 API 概览]({{% ref conversation-overview.md %}})
+- [conversation API 概览]({{% ref conversation-overview.md %}})

@@ -10,7 +10,7 @@ aliases: [/zh-hans/reference/cli/dapr-dashboard/]
 Dapr CLI 允许你在本地开发机器或 Kubernetes 集群上设置 Dapr，提供调试支持，并启动和管理 Dapr 实例。
 
 {{% alert title="正在寻找 `dapr dashboard` 吗？" color="primary" %}}
-`dapr dashboard` 命令已不再是 Dapr CLI 的一部分。如需在本机查看应用、边车、工作流、Actor、订阅、组件、状态和日志的本地视图，请使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}})。
+`dapr dashboard` 命令已不再是 Dapr CLI 的一部分。如需在本机查看应用、sidecar、workflow、Actor、订阅、component、状态和日志的本地视图，请使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}})。
 {{% /alert %}}
 
 ```bash

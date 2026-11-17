@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 288,
-  "updatedAt": "2026-11-17T01:58:54.028Z",
+  "version": 292,
+  "updatedAt": "2026-11-17T02:18:47.379Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -2046,6 +2046,54 @@
     {
       "term": "durabletask-go",
       "note": "Go 语言的 durabletask 客户端库名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Kubernetes Operator",
+      "note": "Dapr 产品名称,保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Support",
+      "note": "Diagrid 提供的开源 Dapr 商业支持方案名称,保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "D3E",
+      "note": "Diagrid Dapr Distribution for Enterprise 的缩写,保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Ops Dashboard",
+      "note": "Diagrid 的免费 SaaS 运维工具名称,保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Diagrid Conductor",
+      "note": "该工具的旧名称,保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "PowerPoint",
+      "note": "微软演示文稿软件名称,保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "YouTube",
+      "note": "视频平台名称,保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Space Grotesk",
+      "note": "字体名称,保留英文",
       "origin": "auto",
       "locked": false
     }

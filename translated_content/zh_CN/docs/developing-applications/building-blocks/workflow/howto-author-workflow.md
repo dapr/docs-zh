@@ -1,34 +1,34 @@
 ---
 type: docs
-title: "方法指南：编写工作流"
-linkTitle: "方法指南：编写工作流"
+title: "方法指南：编写 workflow"
+linkTitle: "方法指南：编写 workflow"
 weight: 5000
-description: "了解如何开发和编写工作流"
+description: "了解如何开发和编写 workflow"
 ---
 
-本文提供有关如何编写由 Dapr 工作流引擎执行的工作流的高级概述。
+本文提供有关如何编写由 Dapr workflow 引擎执行的 workflow 的高级概述。
 
 {{% alert title="Note" color="primary" %}}
-如果你还没有尝试过，建议先体验一下 [工作流快速入门]({{% ref workflow-quickstart.md %}})，快速了解如何使用工作流。
+如果你还没有尝试过，建议先体验一下 [workflow Quickstart]({{% ref workflow-quickstart.md %}})，快速了解如何使用 workflow。
 
 {{% /alert %}}
 
 
-## 以代码形式编写工作流
+## 以代码形式编写 workflow
 
-Dapr 工作流逻辑使用通用编程语言实现，使你能够：
+Dapr workflow 逻辑使用通用编程语言实现，使你能够：
 
 - 使用你偏好的编程语言（无需学习新的 DSL 或 YAML 模式）。
 - 访问语言的标准库。
 - 构建你自己的库和抽象。
 - 使用调试器并检查局部变量。
-- 像应用程序的其他部分一样，为工作流编写单元测试。
+- 像应用程序的其他部分一样，为 workflow 编写单元测试。
 
-Dapr 边车不会加载任何工作流定义。相反，边车只是驱动工作流的执行，所有工作流活动都作为应用程序的一部分。
+Dapr sidecar 不会加载任何 workflow 定义。相反，sidecar 只是驱动 workflow 的执行，所有 workflow activity 都作为应用程序的一部分。
 
-## 编写工作流活动
+## 编写 workflow activity
 
-[工作流活动]({{% ref "workflow-features-concepts.md#workflow-activites" %}})是工作流中的基本工作单元，也是在业务流程中被编排的任务。
+[workflow activity]({{% ref "workflow-features-concepts.md#workflow-activites" %}})是 workflow 中的基本工作单元，也是在业务流程中被编排的任务。
 
 {{< tabpane text=true >}}
 
@@ -36,7 +36,7 @@ Dapr 边车不会加载任何工作流定义。相反，边车只是驱动工作
 
 <!--python-->
 
-定义你希望工作流执行的工作流活动。活动是一个函数定义，可以接受输入和输出。以下示例创建了一个名为 `hello_act` 的计数器（活动），用于通知用户当前的计数器值。`hello_act` 是一个从名为 `WorkflowActivityContext` 的类派生的函数。
+定义你希望 workflow 执行的 workflow activity。activity 是一个函数定义，可以接受输入和输出。以下示例创建了一个名为 `hello_act` 的计数器（activity），用于通知用户当前的计数器值。`hello_act` 是一个从名为 `WorkflowActivityContext` 的类派生的函数。
 
 ```python
 @wfr.activity(name='hello_act')
@@ -46,7 +46,7 @@ def hello_act(ctx: WorkflowActivityContext, wf_input):
     print(f'New counter value is: {counter}!', flush=True)
 ```
 
-[查看任务链工作流活动的上下文。](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)
+[查看任务链 workflow activity 的上下文。](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)
 
 
 {{% /tab %}}
@@ -55,7 +55,7 @@ def hello_act(ctx: WorkflowActivityContext, wf_input):
 
 <!--javascript-->
 
-定义你希望工作流执行的工作流活动。活动被包装在 `WorkflowActivityContext` 类中，该类实现了工作流活动。
+定义你希望 workflow 执行的 workflow activity。activity 被包装在 `WorkflowActivityContext` 类中，该类实现了 workflow activity。
 
 ```javascript
 export default class WorkflowActivityContext {
@@ -77,7 +77,7 @@ export default class WorkflowActivityContext {
 }
 ```
 
-[查看上下文中的工作流活动。](https://github.com/dapr/js-sdk/blob/main/src/workflow/runtime/WorkflowActivityContext.ts)
+[查看上下文中的 workflow activity。](https://github.com/dapr/js-sdk/blob/main/src/workflow/runtime/WorkflowActivityContext.ts)
 
 
 {{% /tab %}}
@@ -86,9 +86,9 @@ export default class WorkflowActivityContext {
 
 <!--csharp-->
 
-定义你希望工作流执行的工作流活动。活动是一个类定义，可以接受输入和输出。活动也参与依赖注入，例如 binding 到 Dapr 客户端。
+定义你希望 workflow 执行的 workflow activity。activity 是一个类定义，可以接受输入和输出。activity 也参与依赖注入，例如 binding 到 Dapr 客户端。
 
-下面示例中调用的活动包括：
+下面示例中调用的 activity 包括：
 - `NotifyActivity`：接收新订单的通知。
 - `ReserveInventoryActivity`：检查库存是否足以满足新订单。
 - `ProcessPaymentActivity`：为订单处理付款。其中包含 `NotifyActivity`，用于发送订单处理成功的通知。
@@ -109,7 +109,7 @@ public class NotifyActivity : WorkflowActivity<Notification, object>
 }
 ```
 
-[查看完整的 `NotifyActivity.cs` 工作流活动示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Activities/NotifyActivity.cs)
+[查看完整的 `NotifyActivity.cs` workflow activity 示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Activities/NotifyActivity.cs)
 
 ### ReserveInventoryActivity
 
@@ -128,7 +128,7 @@ public class ReserveInventoryActivity : WorkflowActivity<InventoryRequest, Inven
 
 }
 ```
-[查看完整的 `ReserveInventoryActivity.cs` 工作流活动示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Activities/ReserveInventoryActivity.cs)
+[查看完整的 `ReserveInventoryActivity.cs` workflow activity 示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Activities/ReserveInventoryActivity.cs)
 
 ### ProcessPaymentActivity
 
@@ -146,7 +146,7 @@ public class ProcessPaymentActivity : WorkflowActivity<PaymentRequest, object>
 }
 ```
 
-[查看完整的 `ProcessPaymentActivity.cs` 工作流活动示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Activities/ProcessPaymentActivity.cs)
+[查看完整的 `ProcessPaymentActivity.cs` workflow activity 示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Activities/ProcessPaymentActivity.cs)
 
 {{% /tab %}}
 
@@ -154,7 +154,7 @@ public class ProcessPaymentActivity : WorkflowActivity<PaymentRequest, object>
 
 <!--java-->
 
-定义你希望工作流执行的工作流活动。活动被包装在公共类 `DemoWorkflowActivity` 中，该类实现了工作流活动。
+定义你希望 workflow 执行的 workflow activity。activity 被包装在公共类 `DemoWorkflowActivity` 中，该类实现了 workflow activity。
 
 ```java
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
@@ -189,7 +189,7 @@ public class DemoWorkflowActivity implements WorkflowActivity {
 }
 ```
 
-[查看上下文中的 Java SDK 工作流活动示例。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/ToUpperCaseActivity.java)
+[查看上下文中的 Java SDK workflow activity 示例。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/ToUpperCaseActivity.java)
 
 {{% /tab %}}
 
@@ -197,9 +197,9 @@ public class DemoWorkflowActivity implements WorkflowActivity {
 
 <!--go-->
 
-### 定义工作流活动
+### 定义 workflow activity
 
-定义你希望工作流执行的每个工作流活动。活动的输入可以通过 `ctx.GetInput` 从上下文中反序列化。活动应定义为接受一个 `ctx workflow.ActivityContext` 参数，并返回一个接口和一个错误。
+定义你希望 workflow 执行的每个 workflow activity。activity 的输入可以通过 `ctx.GetInput` 从上下文中反序列化。activity 应定义为接受一个 `ctx workflow.ActivityContext` 参数，并返回一个接口和一个错误。
 
 ```go
 func BusinessActivity(ctx workflow.ActivityContext) (any, error) {
@@ -213,9 +213,9 @@ func BusinessActivity(ctx workflow.ActivityContext) (any, error) {
 }
 ```
 
-### 定义工作流
+### 定义 workflow
 
-使用参数 `ctx *workflow.WorkflowContext` 定义工作流函数，并返回任意类型和一个错误。在工作流中调用你定义的活动。
+使用参数 `ctx *workflow.WorkflowContext` 定义 workflow 函数，并返回任意类型和一个错误。在 workflow 中调用你定义的 activity。
 
 ```go
 func BusinessWorkflow(ctx *workflow.WorkflowContext) (any, error) {
@@ -238,28 +238,28 @@ func BusinessWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 }
 ```
 
-### 注册工作流和活动
+### 注册 workflow 和 activity
 
-在应用程序能够执行工作流之前，必须将工作流编排器及其活动一同注册到工作流注册表中。这样可以确保 Dapr 知道在执行工作流时应调用哪些函数。
+在应用程序能够执行 workflow 之前，必须将 workflow 编排器及其 activity 一同注册到 workflow registry 中。这样可以确保 Dapr 知道在执行 workflow 时应调用哪些函数。
 
 ```go
 func main() {
-	// 创建工作流注册表
+	// 创建 workflow registry
 	r := workflow.NewRegistry()
 
-	// 注册工作流编排器
+	// 注册 workflow 编排器
 	if err := r.AddWorkflow(BusinessWorkflow); err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println("BusinessWorkflow registered")
 
-	// 注册工作流活动
+	// 注册 workflow activity
 	if err := r.AddActivity(BusinessActivity); err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println("BusinessActivity registered")
 
-	// 创建工作流客户端并启动工作器
+	// 创建 Workflow Client 并启动工作器
 	wclient, err := client.NewWorkflowClient()
 	if err != nil {
 		log.Fatal(err)
@@ -273,36 +273,36 @@ func main() {
 	fmt.Println("runner started")
 
 	// 应用程序的其余逻辑在此继续...
-	// 示例：启动工作流
+	// 示例：启动 workflow
 	instanceID, err := wclient.ScheduleWorkflow(ctx, "BusinessWorkflow", workflow.WithInput(1))
 	if err != nil {
 		log.Fatalf("failed to start workflow: %v", err)
 	}
 	fmt.Printf("workflow started with id: %v\n", instanceID)
 
-	// 完成后停止工作流工作器
+	// 完成后停止 workflow 工作器
 	cancel()
 	fmt.Println("workflow worker successfully shutdown")
 }
 ```
 
 **注册要点：**
-- 使用 `workflow.NewRegistry()` 创建工作流注册表
-- 使用 `r.AddWorkflow()` 注册工作流函数
-- 使用 `r.AddActivity()` 注册活动函数
-- 使用 `client.NewWorkflowClient()` 创建工作流客户端
-- 调用 `wclient.StartWorker()` 开始处理工作流
-- 使用 `wclient.ScheduleWorkflow` 调度工作流的一个命名实例
+- 使用 `workflow.NewRegistry()` 创建 workflow registry
+- 使用 `r.AddWorkflow()` 注册 workflow 函数
+- 使用 `r.AddActivity()` 注册 activity 函数
+- 使用 `client.NewWorkflowClient()` 创建 Workflow Client
+- 调用 `wclient.StartWorker()` 开始处理 workflow
+- 使用 `wclient.ScheduleWorkflow` 调度 workflow 的一个命名实例
 
-[查看上下文中的 Go SDK 工作流活动示例。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
+[查看上下文中的 Go SDK workflow activity 示例。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
 
 {{% /tab %}}
 
 {{< /tabpane >}}
 
-## 编写工作流
+## 编写 workflow
 
-接下来，在工作流中注册并调用这些活动。
+接下来，在 workflow 中注册并调用这些 activity。
 
 {{< tabpane text=true >}}
 
@@ -310,7 +310,7 @@ func main() {
 
 <!--python-->
 
-`hello_world_wf` 函数是一个从名为 `DaprWorkflowContext` 的类派生的函数，带有输入和输出参数类型。它还包含 `yield` 语句，负责工作流的主要逻辑并调用工作流活动。
+`hello_world_wf` 函数是一个从名为 `DaprWorkflowContext` 的类派生的函数，带有输入和输出参数类型。它还包含 `yield` 语句，负责 workflow 的主要逻辑并调用 workflow activity。
 
 ```python
 @wfr.workflow(name='hello_world_wf')
@@ -335,7 +335,7 @@ def hello_world_wf(ctx: DaprWorkflowContext, wf_input):
     return 'Completed'
 ```
 
-[查看上下文中的 `hello_world_wf` 工作流。](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)
+[查看上下文中的 `hello_world_wf` workflow。](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)
 
 
 {{% /tab %}}
@@ -344,13 +344,13 @@ def hello_world_wf(ctx: DaprWorkflowContext, wf_input):
 
 <!--javascript-->
 
-接下来，使用 `WorkflowRuntime` 类注册工作流，并启动工作流运行时。
+接下来，使用 `WorkflowRuntime` 类注册 workflow，并启动 workflow runtime。
 
 ```javascript
 export default class WorkflowRuntime {
 
   //..
-  // 注册用于处理编排的工作流实现
+  // 注册用于处理编排的 workflow 实现
   public registerWorkflow(workflow: TWorkflow): WorkflowRuntime {
     const name = getFunctionName(workflow);
     const workflowWrapper = (ctx: OrchestrationContext, input: any): any => {
@@ -361,7 +361,7 @@ export default class WorkflowRuntime {
     return this;
   }
 
-  // 注册工作流活动
+  // 注册 workflow activity
   public registerActivity(fn: TWorkflowActivity<TInput, TOutput>): WorkflowRuntime {
     const name = getFunctionName(fn);
     const activityWrapper = (ctx: ActivityContext, input: TInput): TOutput => {
@@ -372,7 +372,7 @@ export default class WorkflowRuntime {
     return this;
   }
 
-  // 启动工作流运行时以处理条目，并保持阻塞。
+  // 启动 workflow runtime 以处理条目，并保持阻塞。
   public async start() {
     await this.worker.start();
   }
@@ -389,7 +389,7 @@ export default class WorkflowRuntime {
 
 <!--csharp-->
 
-`OrderProcessingWorkflow` 类派生自名为 `Workflow` 的基类，带有输入和输出参数类型。它还包含 `RunAsync` 方法，负责工作流的主要逻辑并调用工作流活动。
+`OrderProcessingWorkflow` 类派生自名为 `Workflow` 的基类，带有输入和输出参数类型。它还包含 `RunAsync` 方法，负责 workflow 的主要逻辑并调用 workflow activity。
 
 ```csharp
  class OrderProcessingWorkflow : Workflow<OrderPayload, OrderResult>
@@ -417,13 +417,13 @@ export default class WorkflowRuntime {
                 nameof(NotifyActivity),
                 new Notification($"Order {orderId} processed successfully!"));
 
-            // 以成功结果结束工作流
+            // 以成功结果结束 workflow
             return new OrderResult(Processed: true);
         }
     }
 ```
 
-[查看 `OrderProcessingWorkflow.cs` 中的完整工作流示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Workflows/OrderProcessingWorkflow.cs)
+[查看 `OrderProcessingWorkflow.cs` 中的完整 workflow 示例。](https://github.com/dapr/dotnet-sdk/blob/master/examples/Workflow/WorkflowConsoleApp/Workflows/OrderProcessingWorkflow.cs)
 
 
 {{% /tab %}}
@@ -432,18 +432,18 @@ export default class WorkflowRuntime {
 
 <!--java-->
 
-接下来，使用 `WorkflowRuntimeBuilder` 注册工作流，并启动工作流运行时。
+接下来，使用 `WorkflowRuntimeBuilder` 注册 workflow，并启动 workflow runtime。
 
 ```java
 public class DemoWorkflowWorker {
 
   public static void main(String[] args) throws Exception {
 
-    // 向构建器注册工作流
+    // 向构建器注册 workflow
     WorkflowRuntimeBuilder builder = new WorkflowRuntimeBuilder().registerWorkflow(DemoWorkflow.class);
     builder.registerActivity(DemoWorkflowActivity.class);
 
-    // 构建并启动工作流运行时，拉取并执行任务
+    // 构建并启动 workflow runtime，拉取并执行任务
     try (WorkflowRuntime runtime = builder.build()) {
       System.out.println("Start workflow runtime");
       runtime.start();
@@ -454,7 +454,7 @@ public class DemoWorkflowWorker {
 }
 ```
 
-[查看上下文中的 Java SDK 工作流示例。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorker.java)
+[查看上下文中的 Java SDK workflow 示例。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorker.java)
 
 
 {{% /tab %}}
@@ -463,7 +463,7 @@ public class DemoWorkflowWorker {
 
 <!--go-->
 
-使用参数 `ctx *workflow.WorkflowContext` 定义工作流函数，并返回任意类型和一个错误。在工作流中调用你定义的活动。
+使用参数 `ctx *workflow.WorkflowContext` 定义 workflow 函数，并返回任意类型和一个错误。在 workflow 中调用你定义的 activity。
 
 ```go
 func BusinessWorkflow(ctx *workflow.WorkflowContext) (any, error) {
@@ -486,7 +486,7 @@ func BusinessWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 }
 ```
 
-[查看上下文中的 Go SDK 工作流示例。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
+[查看上下文中的 Go SDK workflow 示例。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
 
 {{% /tab %}}
 
@@ -494,7 +494,7 @@ func BusinessWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 
 ## 编写应用程序
 
-最后，使用该工作流组装应用程序。
+最后，使用该 workflow 组装应用程序。
 
 {{< tabpane text=true >}}
 
@@ -506,10 +506,10 @@ func BusinessWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 
 - 一个名为 `DaprClient` 的 Python 包，用于获取 Python SDK 的各项能力。
 - 一组构建器扩展，包括：
-  - `WorkflowRuntime`：允许你注册工作流运行时。
-  - `DaprWorkflowContext`：允许你[创建工作流]({{% ref "#write-the-workflow" %}})。
-  - `WorkflowActivityContext`：允许你[创建工作流活动]({{% ref "#write-the-workflow-activities" %}})。
-- API 调用。在下面的示例中，这些调用用于启动、暂停、恢复、清除以及完成工作流。
+  - `WorkflowRuntime`：允许你注册 workflow runtime。
+  - `DaprWorkflowContext`：允许你[创建 workflow]({{% ref "#write-the-workflow" %}})。
+  - `WorkflowActivityContext`：允许你[创建 workflow activity]({{% ref "#write-the-workflow-activities" %}})。
+- API 调用。在下面的示例中，这些调用用于启动、暂停、恢复、清除以及完成 workflow。
 
 ```python
 from datetime import timedelta
@@ -629,7 +629,7 @@ def main():
 
     wf_client.wait_for_workflow_start(instance_id)
 
-    # 休眠，让工作流运行初始活动
+    # 休眠，让 workflow 运行初始 activity
     sleep(12)
 
     assert counter == 11
@@ -646,7 +646,7 @@ def main():
     metadata = wf_client.get_workflow_state(instance_id=instance_id)
     print(f'Get response from {workflow_name} after resume call: {metadata.runtime_status.name}')
 
-    sleep(2)  # 留出时间，让工作流到达事件等待状态
+    sleep(2)  # 留出时间，让 workflow 到达事件等待状态
     wf_client.raise_workflow_event(instance_id=instance_id, event_name=event_name, data=event_data)
 
     print('========= Waiting for Workflow completion', flush=True)
@@ -683,10 +683,10 @@ if __name__ == '__main__':
 [以下示例](https://github.com/dapr/js-sdk/blob/main/src/workflow/client/DaprWorkflowClient.ts)是一个使用 JavaScript SDK 的基础 JavaScript 应用程序。与此示例一样，你的项目代码将包括：
 
 - 一组构建器扩展，包括：
-  - `WorkflowRuntime`：允许你注册工作流和工作流活动
-  - `DaprWorkflowContext`：允许你[创建工作流]({{% ref "#write-the-workflow" %}})
-  - `WorkflowActivityContext`：允许你[创建工作流活动]({{% ref "#write-the-workflow-activities" %}})
-- API 调用。以下示例是一个调用工作流 API 的简单项目：
+  - `WorkflowRuntime`：允许你注册 workflow 和 workflow activity
+  - `DaprWorkflowContext`：允许你[创建 workflow]({{% ref "#write-the-workflow" %}})
+  - `WorkflowActivityContext`：允许你[创建 workflow activity]({{% ref "#write-the-workflow-activities" %}})
+- API 调用。以下示例是一个调用 workflow API 的简单项目：
 
 ```bash
 mkdir my-wf && cd my-wf
@@ -726,10 +726,10 @@ import {
 const workflowClient = new DaprWorkflowClient();
 const workflowRuntime = new WorkflowRuntime();
 
-// 简单活动
+// 简单 activity
 const hello = async (_: WorkflowActivityContext, name: string) => `Hello ${name}!`;
 
-// 简单工作流：调用活动 3 次
+// 简单 workflow：调用 activity 3 次
 const sequence: TWorkflow = async function* (ctx: WorkflowContext): any {
   const out: string[] = [];
   out.push(yield ctx.callActivity(hello, "Tokyo"));
@@ -771,7 +771,7 @@ main().catch((e) => { console.error(e); });
 
 - 一个名为 `Dapr.Workflow` 的 NuGet 包，用于获取 .NET SDK 的各项能力
 - 一个带有扩展方法 `AddDaprWorkflow` 的构建器
-  - 这将允许你注册工作流和工作流活动（工作流可以调度的任务）
+  - 这将允许你注册 workflow 和 workflow activity（workflow 可以调度的任务）
 - HTTP API 调用
   - 一个用于提交新订单
   - 一个用于查询现有订单的状态
@@ -780,14 +780,14 @@ main().catch((e) => { console.error(e); });
 using Dapr.Workflow;
 //...
 
-// Dapr 工作流作为服务配置的一部分进行注册
+// Dapr workflow 作为服务配置的一部分进行注册
 builder.Services.AddDaprWorkflow(options =>
 {
-    // 注意，也可以将 lambda 函数注册为工作流，
-    // 或活动的实现，而不是使用类。
+    // 注意，也可以将 lambda 函数注册为 workflow，
+    // 或 activity 的实现，而不是使用类。
     options.RegisterWorkflow<OrderProcessingWorkflow>();
 
-    // 以下是由工作流调用的活动。
+    // 以下是由 workflow 调用的 activity。
     options.RegisterActivity<NotifyActivity>();
     options.RegisterActivity<ReserveInventoryActivity>();
     options.RegisterActivity<ProcessPaymentActivity>();
@@ -795,7 +795,7 @@ builder.Services.AddDaprWorkflow(options =>
 
 WebApplication app = builder.Build();
 
-// POST 启动新的订单工作流实例
+// POST 启动新的订单 workflow instance
 app.MapPost("/orders", async (DaprWorkflowClient client, [FromBody] OrderPayload orderInfo) =>
 {
     if (orderInfo?.Name == null)
@@ -810,7 +810,7 @@ app.MapPost("/orders", async (DaprWorkflowClient client, [FromBody] OrderPayload
 //...
 });
 
-// GET 获取订单工作流的状态以报告进度
+// GET 获取订单 workflow 的状态以报告进度
 app.MapGet("/orders/{orderId}", async (string orderId, DaprWorkflowClient client) =>
 {
     WorkflowState state = await client.GetWorkflowStateAsync(orderId, true);
@@ -838,13 +838,13 @@ app.Run();
 
 <!--java-->
 
-[如下示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorkflow.java)所示，一个使用 Java SDK 和 Dapr 工作流的 hello-world 应用程序将包括：
+[如下示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorkflow.java)所示，一个使用 Java SDK 和 Dapr workflow 的 hello-world 应用程序将包括：
 
 - 一个名为 `io.dapr.workflows.client` 的 Java 包，用于获取 Java SDK 客户端的能力。
 - 导入 `io.dapr.workflows.Workflow`
 - 扩展 `Workflow` 的 `DemoWorkflow` 类
-- 创建带有输入和输出的工作流。
-- API 调用。在下面的示例中，这些调用用于启动工作流并调用工作流活动。
+- 创建带有输入和输出的 workflow。
+- API 调用。在下面的示例中，这些调用用于启动 workflow 并调用 workflow activity。
 
 ```java
 package io.dapr.examples.workflows;
@@ -877,7 +877,7 @@ public class DemoWorkflow extends Workflow {
 }
 ```
 
-[查看上下文中的完整 Java SDK 工作流示例。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorkflow.java)
+[查看上下文中的完整 Java SDK workflow 示例。](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorkflow.java)
 
 {{% /tab %}}
 
@@ -885,12 +885,12 @@ public class DemoWorkflow extends Workflow {
 
 <!--go-->
 
-[如下示例](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)所示，一个使用 Go SDK 和 Dapr 工作流的 hello-world 应用程序将包括：
+[如下示例](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)所示，一个使用 Go SDK 和 Dapr workflow 的 hello-world 应用程序将包括：
 
 - 一个名为 `client` 的 Go 包，用于获取 Go SDK 客户端的能力。
 - `BusinessWorkflow` 方法
-- 创建带有输入和输出的工作流。
-- API 调用。在下面的示例中，这些调用用于启动工作流并调用工作流活动。
+- 创建带有输入和输出的 workflow。
+- API 调用。在下面的示例中，这些调用用于启动 workflow 并调用 workflow activity。
 
 
 ```go
@@ -941,10 +941,10 @@ func main() {
 	}
 	fmt.Println("runner started")
 
-	// 启动工作流测试
-	// 将开始时间设置为当前时间，以免等待工作流“启动”。
+	// 启动 workflow 测试
+	// 将开始时间设置为当前时间，以免等待 workflow“启动”。
 	// 这有助于提高创建
-	// 工作流的吞吐量。
+	// workflow 的吞吐量。
 	// workflow.WithStartTime(time.Now())
 	instanceID, err := wclient.ScheduleWorkflow(ctx, "BusinessWorkflow", workflow.WithInstanceID("a7a4168d-3a1c-41da-8a4f-e7f6d9c718d9"), workflow.WithInput("1"))
 	if err != nil {
@@ -952,7 +952,7 @@ func main() {
 	}
 	fmt.Printf("workflow started with id: %v\n", instanceID)
 
-	// 暂停工作流测试
+	// 暂停 workflow 测试
 	err = wclient.SuspendWorkflow(ctx, instanceID, "")
 	if err != nil {
 		log.Fatalf("failed to pause workflow: %v", err)
@@ -969,7 +969,7 @@ func main() {
 
 	fmt.Printf("workflow paused\n")
 
-	// 恢复工作流测试
+	// 恢复 workflow 测试
 	err = wclient.ResumeWorkflow(ctx, instanceID, "")
 	if err != nil {
 		log.Fatalf("failed to resume workflow: %v", err)
@@ -996,7 +996,7 @@ func main() {
 
 	fmt.Println("workflow event raised")
 
-	time.Sleep(time.Second) // 留出时间，让工作流继续推进
+	time.Sleep(time.Second) // 留出时间，让 workflow 继续推进
 
 	fmt.Printf("stage: %d\n", stage)
 
@@ -1014,7 +1014,7 @@ func main() {
 
 	fmt.Printf("workflow status: %v\n", respFetch.String())
 
-	// 清除工作流测试
+	// 清除 workflow 测试
 	err = wclient.PurgeWorkflowState(ctx, instanceID)
 	if err != nil {
 		log.Fatalf("failed to purge workflow: %v", err)
@@ -1029,7 +1029,7 @@ func main() {
 
 	fmt.Printf("stage: %d\n", stage)
 
-	// 终止工作流测试
+	// 终止 workflow 测试
 	id, err := wclient.ScheduleWorkflow(ctx, "BusinessWorkflow", workflow.WithInstanceID("a7a4168d-3a1c-41da-8a4f-e7f6d9c718d9"), workflow.WithInput("1"))
 	if err != nil {
 		log.Fatalf("failed to start workflow: %v", err)
@@ -1113,22 +1113,22 @@ func FailActivity(ctx workflow.ActivityContext) (any, error) {
 }
 ```
 
-[查看上下文中的完整 Go SDK 工作流示例。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
+[查看上下文中的完整 Go SDK workflow 示例。](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)
 
 {{% /tab %}}
 
 {{< /tabpane >}}
 
 {{% alert title="Important" color="warning" %}}
-由于基于重放的工作流的执行方式，你需要把 I/O 以及与系统交互之类的逻辑编写在**活动内部**。而**工作流方法**仅用于编排这些活动。
+由于基于重放的 workflow 的执行方式，你需要把 I/O 以及与系统交互之类的逻辑编写在**activity 内部**。而**workflow 方法**仅用于编排这些 activity。
 
 {{% /alert %}}
 
-## 运行工作流并使用 Diagrid Dev Dashboard 检查工作流执行情况
+## 运行 workflow 并使用 Diagrid Dev Dashboard 检查 workflow 执行情况
 
-通过 IDE 或 Dapr CLI 启动工作流应用程序，并调度一个新的工作流实例。如果要同时启动多个应用程序，请使用 [Dapr multi-app run]({{%  ref multi-app-overview.md %}})；如果只启动一个应用程序，请使用常规的 [Dapr run 命令](#通过-dapr-cli-测试工作流)。
+通过 IDE 或 Dapr CLI 启动 workflow 应用程序，并调度一个新的 workflow instance。如果要同时启动多个应用程序，请使用 [Dapr multi-app run]({{%  ref multi-app-overview.md %}})；如果只启动一个应用程序，请使用常规的 [Dapr run 命令](#通过-dapr-cli-测试-workflow)。
 
-使用本地的 [Diagrid Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 可视化并检查工作流状态，还可以深入查看详细的工作流执行历史。该仪表板作为独立工具运行，并从 Dapr 工作流所使用的 state store 中读取工作流（默认为本地 Redis 实例）。Redis、PostgreSQL、SQLite 和 MongoDB 会被直接读取；其他 state store 则通过边车的工作流 API 读取，这需要 Dapr 1.17 或更高版本。
+使用本地的 [Diagrid Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 可视化并检查 workflow 状态，还可以深入查看详细的 workflow 执行历史。该仪表板作为独立工具运行，并从 Dapr workflow 所使用的 state store 中读取 workflow（默认为本地 Redis 实例）。Redis、PostgreSQL、SQLite 和 MongoDB 会被直接读取；其他 state store 则通过 sidecar 的 workflow API 读取，这需要 Dapr 1.17 或更高版本。
 
 <img src="/images/workflow-overview/workflow-diagrid-dashboard.png" width=800 alt="Diagrid Dev Dashboard 显示本地工作流执行情况"/><br/>
 
@@ -1161,18 +1161,18 @@ diagrid-dev-dashboard
 ```
 
 <!-- IGNORE_LINKS -->
-仪表板会在浏览器中打开 [http://localhost:9090](http://localhost:9090)。前往 Workflows 页面以检查工作流。
+仪表板会在浏览器中打开 [http://localhost:9090](http://localhost:9090)。前往 Workflows 页面以检查 workflow。
 <!-- END_IGNORE -->
 
-## 通过 Dapr CLI 测试工作流
+## 通过 Dapr CLI 测试 workflow
 
-编写工作流之后，你可以使用 Dapr CLI 对其进行测试：
+编写 workflow 之后，你可以使用 Dapr CLI 对其进行测试：
 
 {{< tabpane text=true >}}
 
 {{% tab "Python" %}}
 
-#### 运行工作流应用程序
+#### 运行 workflow 应用程序
 
 ```bash
 dapr run --app-id workflow-app python3 app.py
@@ -1183,22 +1183,22 @@ dapr run --app-id workflow-app python3 app.py
 dapr list
 ```
 
-#### 运行工作流
+#### 运行 workflow
 ```bash
 dapr workflow run hello_world_wf --app-id workflow-app --input 'hello world' --instance-id test-run
 ```
 
-#### 查看工作流状态
+#### 查看 workflow 状态
 ```bash
 dapr workflow list --app-id workflow-app -o wide
 ```
 
-#### 查看已完成的工作流
+#### 查看已完成的 workflow
 ```bash
 dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 ```
 
-#### 查看工作流历史
+#### 查看 workflow 历史
 ```bash
 dapr workflow history --app-id workflow-app test-run
 ```
@@ -1207,7 +1207,7 @@ dapr workflow history --app-id workflow-app test-run
 
 {{% tab "Javascript" %}}
 
-#### 运行工作流应用程序
+#### 运行 workflow 应用程序
 
 ```bash
 dapr run --app-id workflow-app npx ts-node src/app.ts
@@ -1218,27 +1218,27 @@ dapr run --app-id workflow-app npx ts-node src/app.ts
 dapr list
 ```
 
-#### 运行工作流
+#### 运行 workflow
 ```bash
 dapr workflow run sequence --app-id workflow-app --input 'hello world' --instance-id test-run
 ```
 
-#### 查看工作流状态
+#### 查看 workflow 状态
 ```bash
 dapr workflow list --app-id workflow-app -o wide
 ```
 
-#### 触发正在等待的外部事件
+#### 触发正在等待的 external event
 ```bash
 dapr workflow raise-event --app-id workflow-app test-run/businessEvent
 ```
 
-#### 查看已完成的工作流
+#### 查看已完成的 workflow
 ```bash
 dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 ```
 
-#### 查看工作流历史
+#### 查看 workflow 历史
 ```bash
 dapr workflow history --app-id workflow-app test-run
 ```
@@ -1247,7 +1247,7 @@ dapr workflow history --app-id workflow-app test-run
 
 {{% tab ".NET" %}}
 
-#### 运行工作流应用程序
+#### 运行 workflow 应用程序
 
 ```bash
 dapr run --app-id workflow-app dotnet run
@@ -1258,27 +1258,27 @@ dapr run --app-id workflow-app dotnet run
 dapr list
 ```
 
-#### 运行工作流
+#### 运行 workflow
 ```bash
 dapr workflow run OrderProcessingWorkflow --app-id workflow-app  --instance-id test-run --input '{"name": "Paperclips", "totalCost": 99.95}'
 ```
 
-#### 查看工作流状态
+#### 查看 workflow 状态
 ```bash
 dapr workflow list --app-id workflow-app -o wide
 ```
 
-#### 触发正在等待的外部事件
+#### 触发正在等待的 external event
 ```bash
 dapr workflow raise-event --app-id workflow-app test-run/incoming-purchase-order --input '{"name": "Paperclips", "totalCost": 99.95}'
 ```
 
-#### 查看已完成的工作流
+#### 查看已完成的 workflow
 ```bash
 dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 ```
 
-#### 查看工作流历史
+#### 查看 workflow 历史
 ```bash
 dapr workflow history --app-id workflow-app test-run
 ```
@@ -1287,7 +1287,7 @@ dapr workflow history --app-id workflow-app test-run
 
 {{% tab "Java" %}}
 
-#### 运行工作流应用程序
+#### 运行 workflow 应用程序
 
 ```bash
 dapr run --app-id workflow-app -- java -jar target/WorkflowService-0.0.1-SNAPSHOT.jar
@@ -1299,17 +1299,17 @@ dapr run --app-id workflow-app -- java -jar target/WorkflowService-0.0.1-SNAPSHO
 dapr list
 ```
 
-#### 运行工作流
+#### 运行 workflow
 ```bash
 dapr workflow run DemoWorkflow --app-id workflow-app  --instance-id test-run --input "input data"
 ```
 
-#### 查看工作流状态
+#### 查看 workflow 状态
 ```bash
 dapr workflow list --app-id workflow-app -o wide
 ```
 
-#### 触发正在等待的外部事件
+#### 触发正在等待的 external event
 ```bash
 dapr workflow raise-event --app-id workflow-app test-run/TestEvent --input 'TestEventPayload'
 dapr workflow raise-event --app-id workflow-app test-run/event1 --input 'TestEvent 1 Payload'
@@ -1317,12 +1317,12 @@ dapr workflow raise-event --app-id workflow-app test-run/event2 --input 'TestEve
 dapr workflow raise-event --app-id workflow-app test-run/event3 --input 'TestEvent 3 Payload'
 ```
 
-#### 查看已完成的工作流
+#### 查看已完成的 workflow
 ```bash
 dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 ```
 
-#### 查看工作流历史
+#### 查看 workflow 历史
 ```bash
 dapr workflow history --app-id workflow-app test-run
 ```
@@ -1331,7 +1331,7 @@ dapr workflow history --app-id workflow-app test-run
 
 {{% tab "Go" %}}
 
-#### 运行工作流应用程序
+#### 运行 workflow 应用程序
 ```bash
 dapr run --app-id workflow-app go run main.go
 ```
@@ -1342,27 +1342,27 @@ dapr run --app-id workflow-app go run main.go
 dapr list
 ```
 
-#### 运行工作流
+#### 运行 workflow
 ```bash
 dapr workflow run BusinessWorkflow --app-id workflow-app --input '1' --instance-id test-run
 ```
 
-#### 查看工作流状态
+#### 查看 workflow 状态
 ```bash
 dapr workflow list --app-id workflow-app -o wide
 ```
 
-#### 触发正在等待的外部事件
+#### 触发正在等待的 external event
 ```bash
 dapr workflow raise-event --app-id workflow-app test-run/businessEvent
 ```
 
-#### 查看已完成的工作流
+#### 查看已完成的 workflow
 ```bash
 dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 ```
 
-#### 查看工作流历史
+#### 查看 workflow 历史
 ```bash
 dapr workflow history test-run --app-id workflow-app
 ```
@@ -1372,7 +1372,7 @@ dapr workflow history test-run --app-id workflow-app
 {{< /tabpane >}}
 
 
-### 监控工作流执行
+### 监控 workflow 执行
 
 ```bash
 dapr workflow list --app-id workflow-app --filter-status RUNNING -o wide
@@ -1386,37 +1386,37 @@ dapr workflow list --app-id workflow-app --filter-status FAILED -o wide
 dapr workflow list --app-id workflow-app --filter-status COMPLETED -o wide
 ```
 
-### 测试外部事件
+### 测试 external event
 
 ```bash
-# 触发工作流正在等待的事件
+# 触发 workflow 正在等待的事件
 dapr workflow raise-event <instance-id>/ApprovalReceived \
   --app-id workflow-app \
   --input '{"approved": true, "approver": "manager@company.com"}'
 ```
 
-### 调试失败的工作流
+### 调试失败的 workflow
 
 ```bash
-# 列出失败的工作流
+# 列出失败的 workflow
 dapr workflow list --app-id workflow-app --filter-status FAILED --output wide
 
-# 获取失败工作流的详细历史记录
+# 获取失败 workflow 的详细历史记录
 dapr workflow history <failed-instance-id> --app-id workflow-app --output json
 
-# 修复问题后重新运行工作流
+# 修复问题后重新运行 workflow
 dapr workflow rerun <failed-instance-id> --app-id workflow-app --input '<new-input-json-data>'
 ```
 
 ## 后续步骤
 
-你已经编写了一个工作流，接下来了解如何管理它。若要运行每种工作流模式的示例，请参阅 Quickstarts 仓库中的[工作流教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)。
+你已经编写了一个 workflow，接下来了解如何管理它。若要运行每种 workflow 模式的示例，请参阅 Quickstarts 仓库中的[workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)。
 
 {{< button text="管理工作流 >>" page="howto-manage-workflow.md" >}}
 
 ## 相关链接
-- [工作流概述]({{% ref workflow-overview.md %}})
-- Quickstarts 仓库中的[工作流教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)
+- [workflow 概述]({{% ref workflow-overview.md %}})
+- Quickstarts 仓库中的[workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)
 - 试用完整的 SDK 示例：
   - [Python 示例](https://github.com/dapr/python-sdk/tree/main/examples/workflow)
   - [JavaScript 示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow)

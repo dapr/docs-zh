@@ -2,24 +2,24 @@
 type: docs
 title: "Diagrid 平台"
 linkTitle: "Diagrid 平台"
-description: "基于 Dapr 构建的持久执行平台，适用于智能体、工作流、MCP 服务器和应用"
+description: "基于 Dapr 构建的持久执行平台，适用于智能体、workflow、MCP 服务器和应用"
 weight: 3000
 aliases:
   - /zh-hans/integrations/diagrid/catalyst/
   - /zh-hans/integrations/diagrid/diagrid-catalyst/
 ---
 
-[Diagrid](https://www.diagrid.io/catalyst) 是基于开源 Dapr 构建的持久执行平台。它为智能体、工作流、MCP 服务器和应用提供持久执行、可验证执行，以及带有基于策略的访问控制的加密身份，并且可与任何智能体框架协同工作。
+[Diagrid](https://www.diagrid.io/catalyst) 是基于开源 Dapr 构建的持久执行平台。它为智能体、workflow、MCP 服务器和应用提供持久执行、可验证执行，以及带有基于策略的访问控制的加密身份，并且可与任何智能体框架协同工作。
 
 {{< diagram name="diagrid-platform" width="85" >}}
 
 **持久执行**
 
-智能体和工作流可以从故障中自动恢复，无论是简单的重启还是整个系统的完全中断，并从中断处继续执行。
+智能体和 workflow 可以从故障中自动恢复，无论是简单的重启还是整个系统的完全中断，并从中断处继续执行。
 
 **可验证执行**
 
-已签名的工作流历史记录具有防篡改性，因此你可以证明运行过什么。
+已签名的 workflow 历史记录具有防篡改性，因此你可以证明运行过什么。
 
 **零信任安全**
 

@@ -2,7 +2,7 @@
 type: docs
 title: "Azure API Management 的 Dapr 集成策略"
 linkTitle: "Azure API Management"
-description: "通过 Azure API Management 策略发布 Dapr 服务与组件的 API"
+description: "通过 Azure API Management 策略发布 Dapr 服务与 components 的 API"
 weight: 2000
 aliases:
   - /zh-hans/developing-applications/integrations/azure/azure-api-management/

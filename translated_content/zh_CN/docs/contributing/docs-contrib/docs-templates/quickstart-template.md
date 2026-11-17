@@ -1,16 +1,16 @@
 ---
 type: docs
-title: "快速入门指南模板"
-linkTitle: "快速入门模板"
+title: "Quickstart 指南模板"
+linkTitle: "Quickstart 模板"
 weight: 20
-description: 创建快速入门指南的建议模板和指导
+description: 创建 Quickstart 指南的建议模板和指导
 ---
 
-## 贡献新的快速入门指南
+## 贡献新的 Quickstart 指南
 
-Dapr 快速入门指南由简明的说明组成，引导读者完成一个已经准备好的快速入门。这些快速入门保存在 [dapr/quickstarts 仓库](https://github.com/dapr/quickstarts)中。每个快速入门将一整个功能或构建块打包在一起，让读者无需改动自己的项目，就能轻松体验它的工作方式。
+Dapr Quickstart 指南由简明的说明组成，引导读者完成一个已经准备好的 Quickstart。这些 Quickstart 保存在 [dapr/quickstarts 仓库](https://github.com/dapr/quickstarts)中。每个 Quickstart 将一整个功能或 building block 打包在一起，让读者无需改动自己的项目，就能轻松体验它的工作方式。
 
-快速入门说明应简洁、直接、清晰。快速入门指南的唯一目的，是引导读者完成准备好的快速入门。如果你想解释快速入门背后的概念，请引导读者阅读概念文章，以获取更多背景信息。
+Quickstart 说明应简洁、直接、清晰。Quickstart 指南的唯一目的，是引导读者完成准备好的 Quickstart。如果你想解释 Quickstart 背后的概念，请引导读者阅读概念文章，以获取更多背景信息。
 
 {{% alert title="注意" color="primary" %}}
 此模板仅作为建议。你可以根据文档的用途自由修改。

@@ -2,12 +2,12 @@
 type: docs
 title: "Ollama"
 linkTitle: "Ollama"
-description: Ollama 对话组件的详细信息
+description: Ollama conversation component 的详细信息
 ---
 
-## 组件格式
+## component 格式
 
-Dapr `conversation.yaml` 组件文件具有以下结构：
+Dapr `conversation.yaml` component 文件具有以下结构：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -27,7 +27,7 @@ spec:
 上面的示例使用明文字符串作为密钥。建议按照[此处]({{< ref component-secrets.md >}})的说明，使用 secret store 保管这些密钥。
 {{% /alert %}}
 
-## 规格元数据字段
+## 规格 metadata 字段
 
 | Field              | Required | Details | Example |
 |--------------------|:--------:|---------|---------|
@@ -37,7 +37,7 @@ spec:
 
 ### OpenAI 兼容性
 
-Ollama 与 [OpenAI 的 API](https://ollama.com/blog/openai-compatibility) 兼容。你可以通过以下更改使用 OpenAI 组件与 Ollama 模型配合使用：
+Ollama 与 [OpenAI 的 API](https://ollama.com/blog/openai-compatibility) 兼容。你可以通过以下更改使用 OpenAI component 与 Ollama 模型配合使用：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -45,7 +45,7 @@ kind: Component
 metadata:
   name: ollama-openai
 spec:
-  type: conversation.openai # 使用 openai 组件类型
+  type: conversation.openai # 使用 openai component 类型
   metadata:
   - name: key
     value: 'ollama' # 任何非空字符串
@@ -57,4 +57,4 @@ spec:
 
 ## 相关链接
 
-- [对话 API 概述]({{< ref conversation-overview.md >}})
+- [conversation API 概述]({{< ref conversation-overview.md >}})

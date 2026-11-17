@@ -6,7 +6,7 @@ weight: 2000
 description: "了解如何通过一个服务向主题发送消息，并在另一个服务中订阅该主题"
 ---
 
-在了解了 Dapr pub/sub 构建块提供的能力之后，接下来了解它如何在你的服务中工作。下面的代码示例大致描述了一个处理订单的应用程序，它包含两个服务，每个服务都配有 Dapr 边车：
+在了解了 Dapr pub/sub building block 提供的能力之后，接下来了解它如何在你的服务中工作。下面的代码示例大致描述了一个处理订单的应用程序，它包含两个服务，每个服务都配有 Dapr sidecar：
 
 - 一个订单处理服务，使用 Dapr 向 RabbitMQ 发布消息。
 - 一个结账服务，使用 Dapr 订阅消息队列中的主题。
@@ -19,13 +19,13 @@ Dapr 会自动将用户负载封装在符合 CloudEvents v1.0 规范的信封中
 下面的示例演示了你的应用程序如何发布和订阅名为 `orders` 的主题。
 
 {{% alert title="注意" color="primary" %}}
-如果你还没有尝试过，请先体验[pub/sub 快速入门]({{% ref pubsub-quickstart %}})，快速了解如何使用 pub/sub。
+如果你还没有尝试过，请先体验[pub/sub Quickstart]({{% ref pubsub-quickstart %}})，快速了解如何使用 pub/sub。
 
 {{% /alert %}}
 
-## 设置 pub/sub 组件
+## 设置 pub/sub component
 
-第一步是设置 pub/sub 组件：
+第一步是设置 pub/sub component：
 
 {{< tabpane text=true >}}
 
@@ -35,7 +35,7 @@ Dapr 会自动将用户负载封装在符合 CloudEvents v1.0 规范的信封中
 - 在 Windows 上，位于 `%UserProfile%\.dapr\components\pubsub.yaml`
 - 在 Linux/MacOS 上，位于 `~/.dapr/components/pubsub.yaml`
 
-借助 `pubsub.yaml` 组件，你无需更改应用程序代码即可轻松替换底层组件。本示例使用的是 RabbitMQ。
+借助 `pubsub.yaml` component，你无需更改应用程序代码即可轻松替换底层 component。本示例使用的是 RabbitMQ。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -63,13 +63,13 @@ scopes:
   - checkout
 ```
 
-你可以创建一个包含该文件的组件目录（本例中为 `myComponents`），并在 `dapr run` CLI 命令中使用 `--resources-path` 标志，从而用另一个[pub/sub 组件]({{% ref setup-pubsub %}})覆盖此文件。
+你可以创建一个包含该文件的 component 目录（本例中为 `myComponents`），并在 `dapr run` CLI 命令中使用 `--resources-path` 标志，从而用另一个[pub/sub component]({{% ref setup-pubsub %}})覆盖此文件。
 
 {{% /tab %}}
 
 {{% tab "Kubernetes" %}}
 
-要将其部署到 Kubernetes 集群中，请在下方的 YAML 中填写[pub/sub 组件]({{% ref setup-pubsub %}})的 `metadata` 连接详情，将其保存为 `pubsub.yaml`，然后运行 `kubectl apply -f pubsub.yaml`。
+要将其部署到 Kubernetes 集群中，请在下方的 YAML 中填写[pub/sub component]({{% ref setup-pubsub %}})的 `metadata` 连接详情，将其保存为 `pubsub.yaml`，然后运行 `kubectl apply -f pubsub.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -160,7 +160,7 @@ Dapr 提供了三种订阅主题的方法：
 - **流式**，订阅在用户代码中定义。
 - **编程式**，订阅在用户代码中定义。
 
-在[声明式、流式和编程式订阅文档]({{% ref subscription-methods %}})中了解更多信息。本示例演示的是**声明式**订阅。
+在[声明式、流式和 programmatic subscription 文档]({{% ref subscription-methods %}})中了解更多信息。本示例演示的是 **declarative** subscription。
 
 创建一个名为 `subscription.yaml` 的文件，并粘贴以下内容：
 
@@ -179,15 +179,15 @@ scopes:
 - checkout
 ```
 
-上面的示例展示了对 `orders` 主题的事件订阅，使用的是 pub/sub 组件 `order-pub-sub`。
+上面的示例展示了对 `orders` 主题的事件订阅，使用的是 pub/sub component `order-pub-sub`。
 
 - `route` 字段告诉 Dapr 将所有主题消息发送到应用程序中的 `/checkout` 端点。
 - `scopes` 字段为 ID 为 `orderprocessing` 和 `checkout` 的应用程序启用此订阅。
 
-将 `subscription.yaml` 放在与 `pubsub.yaml` 组件相同的目录中。Dapr 启动时，会与组件一起加载订阅。
+将 `subscription.yaml` 放在与 `pubsub.yaml` component 相同的目录中。Dapr 启动时，会与 component 一起加载订阅。
 
 {{% alert title="注意" color="primary" %}}
-声明式订阅默认会被“热重载”，即无需重启即可自动获取更新。如需退出该行为，请在 Dapr 应用程序配置中禁用 `HotReload` 功能：
+declarative subscription 默认会被“热重载”，即无需重启即可自动获取更新。如需退出该行为，请在 Dapr 应用程序配置中禁用 `HotReload` 功能：
 
 ```yaml
 spec:
@@ -217,7 +217,7 @@ namespace CheckoutService.Controllers;
 [ApiController]
 public sealed class CheckoutServiceController : ControllerBase
 {
-    //从 "order-pub-sub" 组件订阅名为 "orders" 的主题
+    //从 "order-pub-sub" component 订阅名为 "orders" 的主题
     [Topic("order-pub-sub", "orders")]
     [HttpPost("checkout")]
     public void GetCheckout([FromBody] int orderId)
@@ -227,7 +227,7 @@ public sealed class CheckoutServiceController : ControllerBase
 }
 ```
 
-导航到包含上述代码的目录，然后运行以下命令来启动 Dapr 边车和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令来启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002 --app-protocol https dotnet run
@@ -267,7 +267,7 @@ public class CheckoutServiceController {
 }
 ```
 
-导航到包含上述代码的目录，然后运行以下命令来启动 Dapr 边车和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令来启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002 mvn spring-boot:run
@@ -296,7 +296,7 @@ def mytopic(event: v1.Event) -> None:
 app.run(6002)
 ```
 
-导航到包含上述代码的目录，然后运行以下命令来启动 Dapr 边车和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令来启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --app-protocol grpc -- python3 CheckoutService.py
@@ -341,7 +341,7 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 }
 ```
 
-导航到包含上述代码的目录，然后运行以下命令来启动 Dapr 边车和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令来启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002 go run CheckoutService.go
@@ -383,7 +383,7 @@ async function start(orderId) {
 }
 ```
 
-导航到包含上述代码的目录，然后运行以下命令来启动 Dapr 边车和订阅者应用程序：
+导航到包含上述代码的目录，然后运行以下命令来启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-port 60002 npm start
@@ -469,7 +469,7 @@ while(true) {
 }
 ```
 
-导航到包含上述代码的目录，然后运行以下命令来启动 Dapr 边车和发布者应用程序：
+导航到包含上述代码的目录，然后运行以下命令来启动 Dapr sidecar 和发布者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 --app-protocol https dotnet run
@@ -519,7 +519,7 @@ public class OrderProcessingServiceApplication {
 }
 ```
 
-导航到包含上述代码的目录，然后运行以下命令来启动 Dapr 边车和发布者应用程序：
+导航到包含上述代码的目录，然后运行以下命令来启动 Dapr sidecar 和发布者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 mvn spring-boot:run
@@ -556,7 +556,7 @@ while True:
     logging.info('Published data: ' + str(orderId))
 ```
 
-导航到包含上述代码的目录，然后运行以下命令来启动 Dapr 边车和发布者应用程序：
+导航到包含上述代码的目录，然后运行以下命令来启动 Dapr sidecar 和发布者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --app-protocol grpc python3 OrderProcessingService.py
@@ -604,7 +604,7 @@ func main() {
 }
 ```
 
-导航到包含上述代码的目录，然后运行以下命令来启动 Dapr 边车和发布者应用程序：
+导航到包含上述代码的目录，然后运行以下命令来启动 Dapr sidecar 和发布者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 go run OrderProcessingService.go
@@ -651,7 +651,7 @@ function sleep(ms) {
 main();
 ```
 
-导航到包含上述代码的目录，然后运行以下命令来启动 Dapr 边车和发布者应用程序：
+导航到包含上述代码的目录，然后运行以下命令来启动 Dapr sidecar 和发布者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-grpc-port 60001 npm start
@@ -679,5 +679,5 @@ dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-g
 
 - 尝试[pub/sub 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)。
 - 了解[使用 CloudEvents 进行消息传递]({{% ref pubsub-cloudevents %}})，以及何时可能需要[不使用 CloudEvents 发送消息]({{% ref pubsub-raw %}})。
-- 查看[pub/sub 组件]({{% ref setup-pubsub %}})列表。
+- 查看[pub/sub component]({{% ref setup-pubsub %}})列表。
 - 阅读 [API 参考]({{% ref pubsub_api %}})。

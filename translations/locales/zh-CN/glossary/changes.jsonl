@@ -738,3 +738,14 @@
 {"ts":"2026-11-17T01:54:11.226Z","run":"20261117-0133","op":"add","id":"trigger-time","target":"触发时间","version":287,"doc":"docs/developing-applications/building-blocks/jobs/howto-schedule-and-handle-triggered-jobs.md"}
 {"ts":"2026-11-17T01:58:54.028Z","run":"20261117-0133","op":"add","id":"monitor-pattern","target":"监控模式","version":288,"doc":"docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md"}
 {"ts":"2026-11-17T01:58:54.028Z","run":"20261117-0133","op":"add","id":"durabletask-go","kind":"doNotTranslate","version":288,"doc":"docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md"}
+{"ts":"2026-11-17T02:12:20.059Z","run":"20261117-0133","op":"collision","id":"managed-identities","target":"托管标识","with":"managed-identity","version":288,"doc":"docs/integrations/Azure/azure-authentication/_index.md"}
+{"ts":"2026-11-17T02:12:20.609Z","run":"20261117-0133","op":"add","id":"dapr-kubernetes-operator","kind":"doNotTranslate","version":289,"doc":"docs/integrations/kubernetes-operator.md"}
+{"ts":"2026-11-17T02:15:31.816Z","run":"20261117-0133","op":"reject","id":"huggingface","target":"Huggingface","reason":"title: the document's own title is not a term","version":289,"doc":"docs/reference/components-reference/supported-conversation/hugging-face.md"}
+{"ts":"2026-11-17T02:17:28.392Z","run":"20261117-0133","op":"add","id":"dapr-support","kind":"doNotTranslate","version":290,"doc":"docs/enterprise-support/_index.md"}
+{"ts":"2026-11-17T02:17:28.392Z","run":"20261117-0133","op":"add","id":"d3e","kind":"doNotTranslate","version":290,"doc":"docs/enterprise-support/_index.md"}
+{"ts":"2026-11-17T02:17:28.749Z","run":"20261117-0133","op":"add","id":"dapr-ops-dashboard","kind":"doNotTranslate","version":291,"doc":"docs/integrations/Diagrid/dapr-ops-dashboard.md"}
+{"ts":"2026-11-17T02:17:28.749Z","run":"20261117-0133","op":"add","id":"diagrid-conductor","kind":"doNotTranslate","version":291,"doc":"docs/integrations/Diagrid/dapr-ops-dashboard.md"}
+{"ts":"2026-11-17T02:18:47.379Z","run":"20261117-0133","op":"add","id":"powerpoint","kind":"doNotTranslate","version":292,"doc":"docs/contributing/presentations.md"}
+{"ts":"2026-11-17T02:18:47.379Z","run":"20261117-0133","op":"add","id":"youtube","kind":"doNotTranslate","version":292,"doc":"docs/contributing/presentations.md"}
+{"ts":"2026-11-17T02:18:47.379Z","run":"20261117-0133","op":"add","id":"space-grotesk","kind":"doNotTranslate","version":292,"doc":"docs/contributing/presentations.md"}
+{"ts":"2026-11-17T02:19:58.491Z","run":"20261117-0133","op":"reject","id":"aws-bedrock","target":"AWS Bedrock","reason":"title: the document's own title is not a term","version":292,"doc":"docs/reference/components-reference/supported-conversation/aws-bedrock.md"}

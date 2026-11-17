@@ -49,7 +49,7 @@ description: >
    ```
 
    此集群配置：
-   - 请求 KiND 启动一个由控制平面和两个工作节点组成的 Kubernetes 集群。
+   - 请求 KiND 启动一个由 control plane 和两个工作节点组成的 Kubernetes 集群。
    - 允许后续设置入口。
    - 将容器端口暴露到主机。
 
@@ -86,9 +86,9 @@ description: >
    dapr init --kubernetes
    ```
 
-   Dapr 完成初始化后，你可以在集群上使用其核心组件。
+   Dapr 完成初始化后，你可以在集群上使用其核心 components。
 
-1. 验证 Dapr 组件的状态：
+1. 验证 Dapr components 的状态：
 
    ```bash
    dapr status -k
@@ -106,7 +106,7 @@ description: >
 
 ## 在 Kind Kubernetes 集群上安装 metrics-server
 
-1. 获取 metrics-server 清单文件
+1. 获取 metrics-server manifest 文件
 
    ```bash
    wget https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
@@ -135,14 +135,14 @@ description: >
             path: /livez
    ```
 
-1. 应用修改后的清单文件
+1. 应用修改后的 manifest 文件
 
    ```bash
    kubectl apply -f components.yaml
    ```
 
 ## 相关链接
-- [尝试 Dapr 快速入门]({{% ref quickstarts.md %}})
+- [尝试 Dapr Quickstart]({{% ref quickstarts.md %}})
 - 了解如何[在你的集群上部署 Dapr]({{% ref kubernetes-deploy.md %}})
 - [在 Kubernetes 上升级 Dapr]({{% ref kubernetes-upgrade.md %}})
 - [Kubernetes 生产指南]({{% ref kubernetes-production.md %}})

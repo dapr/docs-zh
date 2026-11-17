@@ -2,14 +2,14 @@
 type: docs
 title: "Google Cloud Storage 存储桶"
 linkTitle: "Google Cloud Storage"
-description: "Google Cloud Storage Binary Store 组件的配置"
+description: "Google Cloud Storage Binary Store component 的配置"
 aliases:
   - "/zh-hans/reference/components-reference/supported-binarystore/gcp-bucket/"
 ---
 
-Google Cloud Storage Binary Store 会将每个文件作为一个对象存储到已配置的存储桶中。该组件处于 Alpha 阶段，并使用 Dapr 内置的 GCP 身份验证配置文件。
+Google Cloud Storage Binary Store 会将每个文件作为一个对象存储到已配置的存储桶中。该 component 处于 alpha 阶段，并使用 Dapr 内置的 GCP 身份验证配置文件。
 
-## 组件格式
+## component 格式
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -26,9 +26,9 @@ spec:
     value: "uploads"
 ```
 
-请使用 Google Cloud 的 [Application Default Credentials](https://cloud.google.com/docs/authentication/application-default-credentials) 或合适的工作负载身份为边车配置凭据。不要将服务账号密钥直接存储在组件清单中。
+请使用 Google Cloud 的 [Application Default Credentials](https://cloud.google.com/docs/authentication/application-default-credentials) 或合适的工作负载身份为 sidecar 配置凭据。不要将 service account 密钥直接存储在 component manifest 中。
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段 | 必填 | 说明 | 示例 |
 |-------|:--------:|---------|---------|
@@ -41,5 +41,5 @@ spec:
 ## 相关链接
 
 - [Google Cloud Storage 文档](https://cloud.google.com/storage/docs)
-- [Dapr 组件的基本架构]({{% ref "reference/resource-specs/component-schema.md" %}})
+- [Dapr component 的基本架构]({{% ref "reference/resource-specs/component-schema.md" %}})
 - [如何使用 Binary Store]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})

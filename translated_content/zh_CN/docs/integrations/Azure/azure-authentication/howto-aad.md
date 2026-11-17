@@ -63,7 +63,7 @@ az ad app credential reset \
 }
 ```
 
-将返回的值添加到 Dapr 组件的元数据中时：
+将返回的值添加到 Dapr component 的 metadata 中时：
 
 - `appId` 是 `azureClientId` 的值
 - `password` 是 `azureClientSecret` 的值（这是随机生成的）
@@ -95,7 +95,7 @@ az ad app credential reset \
 }
 ```
 
-将返回的值添加到 Dapr 组件的元数据中时：
+将返回的值添加到 Dapr component 的 metadata 中时：
 
 - `appId` 是 `azureClientId` 的值
 - `tenant` 是 `azureTenantId` 的值
@@ -129,9 +129,9 @@ Service Principal ID: 1d0ccf05-5427-4b5e-8eb4-005ac5f9f163
 上面返回的值即为 **服务主体 ID**，它不同于 Microsoft Entra ID 应用程序 ID（客户端 ID）。服务主体 ID 在 Azure 租户内定义，用于向应用程序授予访问 Azure 资源的权限。  
 你将使用服务主体 ID 为应用程序授予访问 Azure 资源的权限。
 
-同时，**客户端 ID** 由你的应用程序用于身份验证。你将在 Dapr 清单中使用客户端 ID 来配置与 Azure 服务的身份验证。
+同时，**客户端 ID** 由你的应用程序用于身份验证。你将在 Dapr manifest 中使用客户端 ID 来配置与 Azure 服务的身份验证。
 
-请注意，刚刚创建的服务主体默认不具备访问任何 Azure 资源的权限。需要根据需要为每个资源单独授予访问权限，具体见各组件的文档。
+请注意，刚刚创建的服务主体默认不具备访问任何 Azure 资源的权限。需要根据需要为每个资源单独授予访问权限，具体见各 component 的文档。
 
 ## 后续步骤
 

@@ -2,12 +2,12 @@
 type: docs
 title: "OpenAI"
 linkTitle: "OpenAI"
-description: OpenAI 对话组件的详细信息
+description: OpenAI conversation component 的详细信息
 ---
 
-## 组件格式
+## component 格式
 
-Dapr `conversation.yaml` 组件文件具有以下结构：
+Dapr `conversation.yaml` component 文件具有以下结构：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -35,7 +35,7 @@ spec:
 上述示例将密钥以纯文本字符串的形式使用。建议使用 secret store 来管理密钥，具体描述请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段 | 必填 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
@@ -47,11 +47,11 @@ spec:
 | `responseCacheTTL` | N | 内存响应缓存的存活时间（TTL）。设置后，相同的请求会从缓存中返回，直到缓存过期。 | `10m` |
 | `apiType` | N | 指定 API 提供商类型。使用不遵循默认 OpenAI API 端点约定的提供商时必填。 | `azure` |
 | `apiVersion` | N | 要使用的 API 版本。当 `apiType` 设置为 `azure` 时必填。 | `2025-04-01-preview` |
-| `useResponsesAPI` | N | 将请求发送到 OpenAI Responses API（`/v1/responses`），而不是 Chat Completions API。当推理模型在 Chat Completions 上拒绝工具时，可设置此项以在这些模型上使用函数工具。请求以 `store: false` 发送，因此 OpenAI 不保留任何对话状态。当 `apiType` 设置为 `azure` 时不受支持：组件将初始化失败。默认为 `false`。 | `true` |
+| `useResponsesAPI` | N | 将请求发送到 OpenAI Responses API（`/v1/responses`），而不是 Chat Completions API。当推理模型在 Chat Completions 上拒绝工具时，可设置此项以在这些模型上使用函数工具。请求以 `store: false` 发送，因此 OpenAI 不保留任何对话状态。当 `apiType` 设置为 `azure` 时不受支持：component 将初始化失败。默认为 `false`。 | `true` |
 
 ## Azure OpenAI 配置
 
-要配置 OpenAI 组件以连接到 Azure OpenAI，你需要设置以下元数据字段，这些字段对于 Azure 的 API 格式是必需的。
+要配置 OpenAI component 以连接到 Azure OpenAI，你需要设置以下 metadata 字段，这些字段对于 Azure 的 API 格式是必需的。
 
 ### Azure OpenAI 的必填字段
 
@@ -64,7 +64,7 @@ spec:
 
 从以下网址获取你的配置值：https://ai.azure.com/
 
-### Azure OpenAI 组件示例
+### Azure OpenAI component 示例
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -88,10 +88,10 @@ spec:
 
 
 {{% alert title="Note" color="primary" %}}
-使用 Azure OpenAI 时，`endpoint` 和 `apiVersion` 都是必填字段。当 `apiType` 设置为 `azure` 时，如果缺少任一字段，组件将返回错误。
+使用 Azure OpenAI 时，`endpoint` 和 `apiVersion` 都是必填字段。当 `apiType` 设置为 `azure` 时，如果缺少任一字段，component 将返回错误。
 {{% /alert %}}
 
 ## 相关链接
 
-- [对话 API 概述]({{% ref conversation-overview.md %}})
+- [conversation API 概述]({{% ref conversation-overview.md %}})
 - [Azure AI Foundry 模型 API 生命周期中的 Azure OpenAI](https://learn.microsoft.com/azure/ai-foundry/openai/api-version-lifecycle)

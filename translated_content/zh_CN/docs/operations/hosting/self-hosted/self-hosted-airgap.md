@@ -8,13 +8,13 @@ description: "如何在隔离环境中以自托管模式部署和运行 Dapr"
 
 ## 概述
 
-默认情况下，Dapr 初始化会从网络下载二进制文件并拉取镜像，以设置开发环境。不过，Dapr 也支持使用预先下载的产物进行离线或隔离安装，可以在 Docker 或精简（slim）环境中使用。每个 Dapr 版本的产物都被构建进一个可下载的 [Dapr 安装程序包](https://github.com/dapr/installer-bundle)。通过在 Dapr CLI `init` 命令中使用该安装程序包，你可以在没有任何网络访问的环境中安装 Dapr。
+默认情况下，Dapr 初始化会从网络下载二进制文件并拉取镜像，以设置开发环境。不过，Dapr 也支持使用预先下载的产物进行离线或隔离安装，可以在 Docker 或精简（slim）环境中使用。每个 Dapr 版本的产物都被构建进一个可下载的 [Dapr Installer Bundle](https://github.com/dapr/installer-bundle)。通过在 Dapr CLI `init` 命令中使用该 Dapr Installer Bundle，你可以在没有任何网络访问的环境中安装 Dapr。
 
 ## 设置
 
-在进行隔离初始化之前，需要预先下载一个 Dapr 安装程序包，其中将 CLI 与运行时打包在一起。这样在本地初始化 Dapr 时，就无需再下载二进制文件和 Docker 镜像。
+在进行隔离初始化之前，需要预先下载一个 Dapr Installer Bundle，其中将 CLI 与运行时打包在一起。这样在本地初始化 Dapr 时，就无需再下载二进制文件和 Docker 镜像。
 
-1. 下载与所需发布版本对应的 [Dapr 安装程序包](https://github.com/dapr/installer-bundle/releases)。例如，daprbundle_linux_amd64.tar.gz、daprbundle_windows_amd64.zip。
+1. 下载与所需发布版本对应的 [Dapr Installer Bundle](https://github.com/dapr/installer-bundle/releases)。例如，daprbundle_linux_amd64.tar.gz、daprbundle_windows_amd64.zip。
 2. 解压该程序包。
 3. 要安装 Dapr CLI，请将 `daprbundle/dapr (dapr.exe for Windows)` 二进制文件复制到所需位置：
    * 对于 Linux/MacOS - `/usr/local/bin`
@@ -22,7 +22,7 @@ description: "如何在隔离环境中以自托管模式部署和运行 Dapr"
 
    > 注意：如果没有将 Dapr CLI 移动到所需位置，你可以直接使用安装程序包中的本地 `dapr` CLI 二进制文件。上面的步骤是将其移动到常用位置并添加到 PATH 中。
 
-## 初始化 Dapr 环境
+## 初始化 Dapr environment
 
 Dapr 可以在隔离环境中使用或不使用 Docker 容器进行初始化。
 

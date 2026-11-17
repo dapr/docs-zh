@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "声明式、流式和编程式订阅类型"
+title: "声明式、流式和 programmatic subscription 类型"
 linkTitle: "订阅类型"
 weight: 3000
 description: "了解可用于订阅消息主题的订阅类型。"
@@ -12,16 +12,16 @@ Dapr 应用程序可以通过三种订阅类型订阅已发布的主题，这三
 
 | 订阅类型 | 描述 |
 | ------------------- | ----------- |
-| [**声明式**]({{% ref "subscription-methods#声明式订阅" %}}) | 订阅在**外部文件**中定义。声明式方法让你的代码无需依赖 Dapr，允许现有应用程序在无需更改代码的情况下订阅主题。 |
-| [**流式**]({{% ref "subscription-methods#流式订阅" %}}) | 订阅在**应用程序代码**中定义。流式订阅是动态的，这意味着可以在运行时添加或删除订阅。它们不需要应用程序提供订阅端点（编程式和声明式订阅都需要），因此易于在代码中配置。流式订阅也不要求为应用程序配置边车即可接收消息。 |
-| [**编程式**]({{% ref "subscription-methods#编程式订阅" %}}) | 订阅在**应用程序代码**中定义。编程式方法实现静态订阅，并要求代码中提供一个端点。 |
+| [**声明式**]({{% ref "subscription-methods#declarative-subscription" %}}) | 订阅在**外部文件**中定义。声明式方法让你的代码无需依赖 Dapr，允许现有应用程序在无需更改代码的情况下订阅主题。 |
+| [**流式**]({{% ref "subscription-methods#streaming-subscription" %}}) | 订阅在**应用程序代码**中定义。streaming subscription 是动态的，这意味着可以在运行时添加或删除订阅。它们不需要应用程序提供订阅端点（编程式和 declarative subscription 都需要），因此易于在代码中配置。streaming subscription 也不要求为应用程序配置 sidecar 即可接收消息。 |
+| [**编程式**]({{% ref "subscription-methods#programmatic-subscription" %}}) | 订阅在**应用程序代码**中定义。编程式方法实现静态订阅，并要求代码中提供一个端点。 |
 
-下面的示例演示了 `checkout` 应用与 `orderprocessing` 应用之间通过 `orders` 主题进行的 pub/sub 消息传递。这些示例先以声明式方式使用同一个 Dapr pub/sub 组件，然后以编程式方式使用它。
+下面的示例演示了 `checkout` 应用与 `orderprocessing` 应用之间通过 `orders` 主题进行的 pub/sub 消息传递。这些示例先以声明式方式使用同一个 Dapr pub/sub component，然后以编程式方式使用它。
 
-### 声明式订阅
+### declarative subscription
 
 {{% alert title="注意" color="primary" %}}
-声明式订阅默认会被“热重载”，即无需重启即可自动获取更新。如需退出该行为，请在 Dapr 应用程序配置中禁用 `HotReload` 功能：
+declarative subscription 默认会被“热重载”，即无需重启即可自动获取更新。如需退出该行为，请在 Dapr 应用程序配置中禁用 `HotReload` 功能：
 
 ```yaml
 spec:
@@ -32,7 +32,7 @@ spec:
 为防止消息被重复处理或未处理的消息丢失，在热重载事件期间，Dapr 与你的应用程序之间正在传输的消息不受影响。
 {{% /alert %}}
 
-你可以使用外部组件文件以声明式方式订阅主题。本示例使用名为 `subscription.yaml` 的 YAML 组件文件：
+你可以使用外部 component 文件以声明式方式订阅主题。本示例使用名为 `subscription.yaml` 的 YAML component 文件：
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -49,11 +49,11 @@ scopes:
 ```
 
 这里名为 `order` 的订阅：
-- 使用名为 `pubsub` 的 pub/sub 组件订阅名为 `orders` 的主题。
+- 使用名为 `pubsub` 的 pub/sub component 订阅名为 `orders` 的主题。
 - 设置 `route` 字段，将所有主题消息发送到应用程序中的 `/orders` 端点。
 - 设置 `scopes` 字段，使此订阅仅可由 ID 为 `orderprocessing` 的应用程序访问。
 
-运行 Dapr 时，请将 YAML 组件文件路径设置为指向该组件，使 Dapr 能够找到它。
+运行 Dapr 时，请将 YAML component 文件路径设置为指向该 component，使 Dapr 能够找到它。
 
 {{< tabpane text=true >}}
 
@@ -99,7 +99,7 @@ dapr run --app-id myapp --resources-path ./myComponents -- go run app.go
 
 {{% tab "Kubernetes" %}}
 
-在 Kubernetes 中，将组件应用到集群：
+在 Kubernetes 中，将 component 应用到集群：
 
 ```bash
 kubectl apply -f subscription.yaml
@@ -109,7 +109,7 @@ kubectl apply -f subscription.yaml
 
 {{< /tabpane >}}
 
-在应用程序代码中，订阅 Dapr pub/sub 组件中指定的主题。
+在应用程序代码中，订阅 Dapr pub/sub component 中指定的主题。
 
 {{< tabpane text=true >}}
 
@@ -197,11 +197,11 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 
 `/orders` 端点与订阅中的 `route` 相匹配，Dapr 会将所有主题消息发送到该端点。
 
-### 流式订阅
+### streaming subscription
 
-流式订阅是在应用程序代码中定义、可以在运行时动态停止和启动的订阅。
-消息由应用程序从 Dapr 中拉取。这意味着订阅主题不需要端点，甚至可以在完全未为边车配置任何应用的情况下订阅。
-可以同时订阅任意数量的 pub/sub 组件和主题。
+streaming subscription 是在应用程序代码中定义、可以在运行时动态停止和启动的订阅。
+消息由应用程序从 Dapr 中拉取。这意味着订阅主题不需要端点，甚至可以在完全未为 sidecar 配置任何应用的情况下订阅。
+可以同时订阅任意数量的 pub/sub component 和主题。
 由于消息会被发送到给定的消息处理代码，因此不存在路由或批量订阅的概念。
 
 下面的示例展示了通过流式方式订阅主题的不同方法。
@@ -225,7 +225,7 @@ var app = builder.Build();
 
 var messagingClient = app.Services.GetRequiredService<DaprPublishSubscribeClient>();
 
-// 创建动态流式订阅，订阅超时为 30 秒，消息处理超时为 10 秒
+// 创建动态 streaming subscription，订阅超时为 30 秒，消息处理超时为 10 秒
 var cancellationTokenSource = new CancellationTokenSource(TimeSpan.FromSeconds(30));
 var subscription = await messagingClient.SubscribeAsync("pubsub", "myTopic",
     new DaprSubscriptionOptions(new MessageHandlingPolicy(TimeSpan.FromSeconds(10), TopicResponseAction.Retry)),
@@ -359,7 +359,7 @@ if __name__ == '__main__':
     main()
 ```
 
-[了解有关使用 Python SDK 客户端进行流式订阅的更多信息。]({{% ref "python-client#streaming-message-subscription" %}})
+[了解有关使用 Python SDK 客户端进行 streaming subscription 的更多信息。]({{% ref "python-client#streaming-message-subscription" %}})
 
 {{% /tab %}}
 
@@ -463,21 +463,21 @@ func eventHandler(e *common.TopicEvent) common.SubscriptionResponseStatus {
 
 ## 演示
 
-观看[此视频，了解流式订阅概览](https://youtu.be/57l-QDwgI-Y?t=841)：
+观看[此视频，了解 streaming subscription 概览](https://youtu.be/57l-QDwgI-Y?t=841)：
 
 {{< youtube id=57l-QDwgI-Y start=841 >}}
 
-### 编程式订阅
+### programmatic subscription
 
 动态编程式方法在代码中返回 `routes` JSON 结构，而声明式方法使用的是 YAML 中的 `route` 结构。
 
-> **注意：** 编程式订阅仅在应用程序启动时读取一次。你无法_动态_添加新的编程式订阅，只能在编译时添加。
+> **注意：** programmatic subscription 仅在应用程序启动时读取一次。你无法_动态_添加新的 programmatic subscription，只能在编译时添加。
 
-{{% alert title="禁用编程式订阅" color="primary" %}}
-如果你的应用程序不使用编程式订阅，可以禁用对 `/dapr/subscribe` 的自动 HTTP 调用，以减少日志噪音。在 `dapr run` 中使用 `--disable-init-endpoints subscribe` 标志，或在 Kubernetes 中使用 `dapr.io/disable-init-endpoints: "subscribe"` 注解即可。[了解有关禁用初始化端点的更多信息。]({{% ref "arguments-annotations-overview#disable-init-endpoints" %}})
+{{% alert title="禁用 programmatic subscription" color="primary" %}}
+如果你的应用程序不使用 programmatic subscription，可以禁用对 `/dapr/subscribe` 的自动 HTTP 调用，以减少日志噪音。在 `dapr run` 中使用 `--disable-init-endpoints subscribe` 标志，或在 Kubernetes 中使用 `dapr.io/disable-init-endpoints: "subscribe"` 注解即可。[了解有关禁用初始化端点的更多信息。]({{% ref "arguments-annotations-overview#disable-init-endpoints" %}})
 {{% /alert %}}
 
-在下面的示例中，你将在应用程序代码中定义上方[声明式 YAML 订阅](#声明式订阅)中的各项值。
+在下面的示例中，你将在应用程序代码中定义上方[声明式 YAML 订阅](#declarative-subscription)中的各项值。
 
 {{< tabpane text=true >}}
 
@@ -670,15 +670,15 @@ func main() {
 
 ## 在本地检查订阅
 
-无论选择哪种订阅类型，在本地开发期间都可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用已注册的订阅，包括 pub/sub 组件、主题和路由。这是快速确认声明式订阅文件已加载，或确认应用返回了预期编程式订阅的便捷方法。你还可以在仪表板中向订阅发送测试消息。
+无论选择哪种订阅类型，在本地开发期间都可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用已注册的订阅，包括 pub/sub component、主题和路由。这是快速确认 declarative subscription 文件已加载，或确认应用返回了预期 programmatic subscription 的便捷方法。你还可以在仪表板中向订阅发送测试消息。
 
 ## 后续步骤
 
-* 尝试[pub/sub 快速入门]({{% ref pubsub-quickstart %}})
-* 参阅[操作指南：使用多个命名空间配置 pub/sub 组件]({{% ref pubsub-namespaces %}})
-* 了解更多关于[声明式和编程式订阅方法]({{% ref subscription-methods %}})的信息。
-* 了解[主题限制]({{% ref pubsub-scopes %}})
+* 尝试[pub/sub Quickstart]({{% ref pubsub-quickstart %}})
+* 参阅[操作指南：使用多个 namespace 配置 pub/sub component]({{% ref pubsub-namespaces %}})
+* 了解更多关于[声明式和 programmatic subscription 方法]({{% ref subscription-methods %}})的信息。
+* 了解[topic scoping]({{% ref pubsub-scopes %}})
 * 了解[消息 TTL]({{% ref pubsub-message-ttl %}})
 * 了解更多关于[使用和不使用 CloudEvent 的 pub/sub]({{% ref pubsub-cloudevents %}})
-* [pub/sub 组件]({{% ref supported-pubsub %}})列表
+* [pub/sub component]({{% ref supported-pubsub %}})列表
 * 阅读[pub/sub API 参考]({{% ref pubsub_api %}})

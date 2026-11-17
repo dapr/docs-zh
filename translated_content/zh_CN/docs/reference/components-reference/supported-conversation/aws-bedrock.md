@@ -2,12 +2,12 @@
 type: docs
 title: "AWS Bedrock"
 linkTitle: "AWS Bedrock"
-description: 关于 AWS Bedrock 对话组件的详细信息
+description: "关于 AWS Bedrock conversation component 的详细信息"
 ---
 
-## 组件格式
+## component 格式
 
-Dapr `conversation.yaml` 组件文件具有以下结构：
+Dapr `conversation.yaml` component 文件具有以下结构：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -29,12 +29,12 @@ spec:
 上述示例将密钥作为纯字符串使用。建议使用 secret store 来管理密钥，如[这里]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
-## 规格元数据字段
+## 规格 metadata 字段
 
 | 字段              | 必填 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
 | `region` | N | Bedrock 服务的 AWS 区域。 | `us-east-1` |
-| `endpoint` | N | 组件用于连接模拟器的 AWS 端点。不推荐用于生产 AWS 环境。 | `http://localhost:4566` |
+| `endpoint` | N | component 用于连接模拟器的 AWS 端点。不推荐用于生产 AWS 环境。 | `http://localhost:4566` |
 | `accessKey` | N | 用于身份验证的 AWS 访问密钥。建议使用 secret store 来存储此值。 | `"AKIAIOSFODNN7EXAMPLE"` |
 | `secretKey` | N | 用于身份验证的 AWS 密钥。建议使用 secret store 来存储此值。 | `"wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"` |
 | `sessionToken` | N | 用于临时凭证的 AWS 会话令牌。建议使用 secret store 来存储此值。 | `"session-token-example"` |
@@ -51,4 +51,4 @@ AWS Bedrock 不使用 `key` 参数，而是使用 Dapr 的标准 IAM 或静态�
 
 ## 相关链接
 
-- [对话 API 概述]({{% ref conversation-overview.md %}})
+- [conversation API 概述]({{% ref conversation-overview.md %}})

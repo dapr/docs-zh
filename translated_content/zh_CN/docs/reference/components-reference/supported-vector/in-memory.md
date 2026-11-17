@@ -2,14 +2,14 @@
 type: docs
 title: "In-memory"
 linkTitle: "In-memory"
-description: "内存向量组件的详细文档"
+description: "内存向量 component 的详细文档"
 ---
 
-内存向量存储将每个集合都保存在 Dapr 边车的内存中。它适用于不需要外部向量数据库的本地开发和测试。该存储不具备持久性：边车停止时，集合和记录都会丢失，并且不同边车实例之间不共享。
+内存向量存储将每个集合都保存在 Dapr sidecar 的内存中。它适用于不需要外部向量数据库的本地开发和测试。该存储不具备持久性：sidecar 停止时，集合和记录都会丢失，并且不同 sidecar 实例之间不共享。
 
-## 组件格式
+## component 格式
 
-要设置内存向量存储，请创建一个类型为 `vector.in-memory` 的组件。请参阅[本指南]({{% ref "howto-vector.md#set-up-the-vector-component" %}})了解如何创建和应用向量存储配置。
+要设置内存向量存储，请创建一个类型为 `vector.in-memory` 的 component。请参阅[本指南]({{% ref "howto-vector.md#set-up-the-vector-component" %}})了解如何创建和应用向量存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -24,7 +24,7 @@ spec:
     value: "0s"
 ```
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段 | 必填 | 详细信息 | 示例 |
 |-------|:--------:|---------|---------|
@@ -51,7 +51,7 @@ spec:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
 - [向量 API 概述]({{% ref vector-overview %}})
 - [向量 API 参考]({{% ref vector_api %}})
-- [内存搜索组件]({{% ref "/reference/components-reference/supported-search/in-memory.md" %}})
+- [内存 search component]({{% ref "/reference/components-reference/supported-search/in-memory.md" %}})

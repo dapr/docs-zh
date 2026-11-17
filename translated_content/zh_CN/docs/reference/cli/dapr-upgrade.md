@@ -12,7 +12,7 @@ description: "upgrade CLI 命令的详细信息"
 {{% alert title="Warning" color="warning" %}}
 升级或降级版本时，应逐步进行，包括小版本。
 
-降级之前，请确认组件向后兼容，并且应用程序代码未使用 Dapr 早期版本不支持的 API。
+降级之前，请确认 component 向后兼容，并且应用程序代码未使用 Dapr 早期版本不支持的 API。
 {{% /alert %}}
 
 ### 支持的平台
@@ -31,7 +31,7 @@ dapr upgrade [flags]
 | -------------------- | -------- | -------- | ------------------------------------------------------------------------------------------------------ |
 | `--help`, `-h`       |          |          | 打印此帮助信息                                                                                         |
 | `--kubernetes`, `-k` |          | `false`  | 在 Kubernetes 集群中升级/降级 Dapr                                                                     |
-| `--runtime-version`  |          | `latest` | 要升级/降级到的 Dapr 运行时版本，例如：`1.0.0`                                                          |
+| `--runtime-version`  |          | `latest` | 要升级/降级到的 Dapr runtime 版本，例如：`1.0.0`                                                          |
 | `--set`              |          |          | 在命令行上设置值（可以指定多个或用逗号分隔多个值：key1=val1,key2=val2）                                  |
 | `--image-registry`   |          |          | 从给定的镜像仓库拉取 Dapr 所需的容器镜像                                                                |
 
@@ -41,10 +41,10 @@ dapr upgrade [flags]
 # 在 Kubernetes 中将 Dapr 升级到最新版本
 dapr upgrade -k
 
-# 在 Kubernetes 中升级或降级到指定的 Dapr 运行时版本
+# 在 Kubernetes 中升级或降级到指定的 Dapr runtime 版本
 dapr upgrade -k --runtime-version {{% dapr-latest-version long="true" %}}
 
-# 在 Kubernetes 中升级或降级到指定的 Dapr 运行时版本并设置值
+# 在 Kubernetes 中升级或降级到指定的 Dapr runtime 版本并设置值
 dapr upgrade -k --runtime-version {{% dapr-latest-version long="true" %}} --set global.logAsJson=true
 ```
 ```bash

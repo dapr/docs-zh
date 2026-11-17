@@ -2,14 +2,14 @@
 type: docs
 title: "In-memory"
 linkTitle: "In-memory"
-description: "内存搜索组件的详细文档"
+description: "内存 search component 的详细文档"
 ---
 
-内存搜索存储将每个索引都保存在 Dapr 边车的内存中。它适用于不需要外部搜索服务的本地开发和测试。该存储不具备持久性：边车停止时，索引和文档都会丢失，并且不同边车实例之间不共享。
+内存搜索存储将每个索引都保存在 Dapr sidecar 的内存中。它适用于不需要外部搜索服务的本地开发和测试。该存储不具备持久性：sidecar 停止时，索引和文档都会丢失，并且不同 sidecar 实例之间不共享。
 
-## 组件格式
+## component 格式
 
-要设置内存搜索存储，请创建一个类型为 `search.in-memory` 的组件。请参阅[本指南]({{% ref "howto-search.md#set-up-the-search-component" %}})了解如何创建和应用搜索存储配置。
+要设置内存搜索存储，请创建一个类型为 `search.in-memory` 的 component。请参阅[本指南]({{% ref "howto-search.md#set-up-the-search-component" %}})了解如何创建和应用搜索存储配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -24,7 +24,7 @@ spec:
     value: "0s"
 ```
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段 | 必填 | 详细信息 | 示例 |
 |-------|:--------:|---------|---------|
@@ -49,11 +49,11 @@ spec:
 - 只有当每个查询词都出现在被搜索的字段中时，文档才会匹配。命中分数为查询词出现的次数。
 - 未设置 `sort` 时，命中结果按分数从高到低排序，分数相同则按文档 ID 排序。设置 `sort` 后，分数和文档 ID 用于打破并列的情况。
 - `totalHits` 是精确值，并以 `TOTAL_HITS_RELATION_EXACT` 报告。
-- 未设置 `topK` 时，组件每页最多返回 10 条命中结果。
+- 未设置 `topK` 时，component 每页最多返回 10 条命中结果。
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
 - [搜索 API 概述]({{% ref search-overview %}})
 - [搜索 API 参考]({{% ref search_api %}})
-- [内存向量组件]({{% ref "/reference/components-reference/supported-vector/in-memory.md" %}})
+- [内存向量 component]({{% ref "/reference/components-reference/supported-vector/in-memory.md" %}})

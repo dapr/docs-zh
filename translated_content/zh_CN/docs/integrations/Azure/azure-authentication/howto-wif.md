@@ -14,11 +14,11 @@ aliases:
 
 [工作负载身份联合](https://learn.microsoft.com/entra/workload-id/workload-identities-overview)是一种让应用程序向 Azure 进行身份验证的方式，无需将凭据作为发布流程的一部分进行存储或管理。
 
-通过使用工作负载身份联合，任何在 Kubernetes 和 AKS 上运行、面向 Azure 的 Dapr 组件都可以透明地完成身份验证，无需任何额外配置。
+通过使用工作负载身份联合，任何在 Kubernetes 和 AKS 上运行、面向 Azure 的 Dapr component 都可以透明地完成身份验证，无需任何额外配置。
 
 ## 指南
 
-我们将演示如何为你的 AKS 集群配置 Azure 密钥保管库资源。你可以根据需要替换组件定义，将本指南用于其他 Dapr Azure 组件。
+我们将演示如何为你的 AKS 集群配置 Azure 密钥保管库资源。你可以根据需要替换 component 定义，将本指南用于其他 Dapr Azure component。
 
 本操作指南将使用这个 [Dapr AKS secrets 示例应用](https://github.com/dapr/samples/dapr-aks-workload-identity-federation)。
 
@@ -31,7 +31,7 @@ aliases:
 
 请按照 [Azure 文档中在 AKS 集群上启用工作负载身份联合的说明](https://learn.microsoft.com/azure/aks/workload-identity-deploy-cluster#deploy-your-application4)操作。
 
-本操作指南将引导你配置 Azure Entra ID 租户，使其信任源自 AKS 集群颁发者的身份。此外，它还会引导你设置一个与你创建的 Azure 托管标识关联的 [Kubernetes 服务账号](https://kubernetes.io/docs/concepts/security/service-accounts/)。
+本操作指南将引导你配置 Azure Entra ID 租户，使其信任源自 AKS 集群颁发者的身份。此外，它还会引导你设置一个与你创建的 Azure 托管标识关联的 [Kubernetes service account](https://kubernetes.io/docs/concepts/security/service-accounts/)。
 
 完成后，请返回此处继续第 2 步。
 
@@ -39,9 +39,9 @@ aliases:
 
 在你创建的 Azure 密钥保管库中，添加一个名为 `dapr`、值为 `Hello Dapr!` 的 secret。
 
-### 3 - 配置 Azure 密钥保管库 dapr 组件
+### 3 - 配置 Azure 密钥保管库 dapr component
 
-至此，你应该已有一个名称类似 `workload-identity-sa0a1b2c` 的 Kubernetes 服务账号。
+至此，你应该已有一个名称类似 `workload-identity-sa0a1b2c` 的 Kubernetes service account。
 
 将以下内容应用到你的 Kubernetes 集群，并记得将 `your-key-vault` 更新为你的密钥保管库名称：
 
@@ -59,7 +59,7 @@ spec:
     value: your-key-vault # 请替换
 ```
 
-你会注意到，组件定义中没有提供任何与身份验证相关的具体细节。这是有意为之，因为 Dapr 能够利用 Kubernetes 服务账号透明地向 Azure 进行身份验证。
+你会注意到，component 定义中没有提供任何与身份验证相关的具体细节。这是有意为之，因为 Dapr 能够利用 Kubernetes service account 透明地向 Azure 进行身份验证。
 
 ### 4 - 部署测试应用
 
@@ -67,9 +67,9 @@ spec:
 
 请确保将镜像推送到你的 AKS 集群可以访问且有权拉取的镜像仓库中。
 
-接下来，创建一个 Deployment，同时包含示例 AKS secrets 应用容器和 Dapr 边车。
+接下来，创建一个 Deployment，同时包含示例 AKS secrets 应用容器和 Dapr sidecar。
 
-请记得将 `dapr-wif-k8s-service-account` 更新为你的服务账号名称，并将 `dapraksworkloadidentityfederation` 更新为集群可以解析的镜像：
+请记得将 `dapr-wif-k8s-service-account` 更新为你的 service account 名称，并将 `dapraksworkloadidentityfederation` 更新为集群可以解析的镜像：
 
 
 ```yaml

@@ -2,12 +2,12 @@
 type: docs
 title: "本地测试"
 linkTitle: "Echo"
-description: 用于本地测试的 echo conversation 组件的详细信息
+description: 用于本地测试的 echo conversation component 的详细信息
 ---
 
-## 组件格式
+## component 格式
 
-Dapr `conversation.yaml` 组件文件具有以下结构：
+Dapr `conversation.yaml` component 文件具有以下结构：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -20,10 +20,10 @@ spec:
 ```
 
 {{% alert title="Information" color="warning" %}}
-此组件仅用于 Conversation 组件实现的本地验证和测试。它实际上不会将数据发送到任何大型语言模型 (LLM)，而是直接回显输入。
+此 component 仅用于 Conversation component 实现的本地验证和测试。它实际上不会将数据发送到任何大型语言模型 (LLM)，而是直接回显输入。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段              | 必需 | 说明 | 示例 |
 |--------------------|:--------:|---------|---------|
@@ -31,4 +31,4 @@ spec:
 
 ## 相关链接
 
-- [对话 API 概览]({{% ref conversation-overview.md %}})
+- [conversation API 概览]({{% ref conversation-overview.md %}})

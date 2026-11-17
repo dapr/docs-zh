@@ -2,12 +2,12 @@
 type: docs
 title: "GoogleAI"
 linkTitle: "GoogleAI"
-description: GoogleAI 对话组件的详细信息
+description: GoogleAI conversation component 的详细信息
 ---
 
-## 组件格式
+## component 格式
 
-Dapr `conversation.yaml` 组件文件具有以下结构：
+Dapr `conversation.yaml` component 文件具有以下结构：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -29,7 +29,7 @@ spec:
 以上示例将密钥以纯字符串形式使用。建议使用 secret store 来管理密钥，具体说明请参见[此处]({{< ref component-secrets.md >}})。
 {{% /alert %}}
 
-## 规格元数据字段
+## 规格 metadata 字段
 
 | 字段              | 必填 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|
@@ -40,4 +40,4 @@ spec:
 
 ## 相关链接
 
-- [对话 API 概述]({{< ref conversation-overview.md >}})
+- [conversation API 概述]({{< ref conversation-overview.md >}})

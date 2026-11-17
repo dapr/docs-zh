@@ -7,10 +7,10 @@ weight: 1100
 ---
 
 {{% alert title="弃用通知" color="warning" %}}
-独立的 Placement 服务计划在 Dapr v1.21 中弃用，届时由 [Scheduler 服务]({{% ref scheduler %}}) 默认提供 actor 放置功能。在此之前，可通过可选标志 `global.scheduler.placement.enabled=true`（默认为 `false`）启用调度器放置功能。此 API 不由 Scheduler 提供。
+独立的 Placement 服务计划在 Dapr v1.21 中弃用，届时由 [Scheduler service]({{% ref scheduler %}}) 默认提供 actor 放置功能。在此之前，可通过可选标志 `global.scheduler.placement.enabled=true`（默认为 `false`）启用 Scheduler 放置功能。此 API 不由 Scheduler 提供。
 {{% /alert %}}
 
-Dapr 提供了一个 HTTP API `/placement/state`，供 Placement 服务使用，用于暴露 placement 表信息。该 API 通过边车上与 healthz 相同的端口暴露。这是一个未经身份验证的端点，默认处于禁用状态。
+Dapr 提供了一个 HTTP API `/placement/state`，供 Placement 服务使用，用于暴露 placement 表信息。该 API 通过 sidecar 上与 healthz 相同的端口暴露。这是一个未经身份验证的端点，默认处于禁用状态。
 
 若要在自托管模式下启用 placement 元数据，可在 Placement 服务上将环境变量 `DAPR_PLACEMENT_METADATA_ENABLED` 或命令行参数 `metadata-enabled` 设置为 `true`。参见[如何在自托管模式下运行 Placement 服务]({{% ref "self-hosted-no-docker.md#enable-actors" %}})。
 
@@ -20,7 +20,7 @@ Dapr 提供了一个 HTTP API `/placement/state`，供 Placement 服务使用，
 
 如果您使用 Helm 在 Kubernetes 上部署 Placement 服务，若要启用 placement 元数据，请将 `dapr_placement.metadataEnabled` 设置为 `true`。
 
-> **注意：** 此 API 仅在独立的 Placement 服务中可用。当 Actor 放置由 [Scheduler 服务]({{% ref "placement#serving-placement-from-the-scheduler-service" %}}) 提供时，`/placement/state` 端点不可用。
+> **注意：** 此 API 仅在独立的 Placement 服务中可用。当 Actor 放置由 [Scheduler service]({{% ref "placement#serving-placement-from-the-scheduler-service" %}}) 提供时，`/placement/state` 端点不可用。
 
 ## 用例
 

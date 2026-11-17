@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "secret store 组件规格"
+title: "secret store component 规格"
 linkTitle: "secret store"
 weight: 9000
 description: 与 Dapr 对接的受支持的 secret store
@@ -9,7 +9,7 @@ aliases:
 no_list: true
 ---
 
-下表列出了 Dapr Secrets Management 构建块支持的 secret store。[了解如何为 Dapr Secrets Management 设置不同的 secret store。]({{% ref setup-secret-store.md %}})
+下表列出了 Dapr Secrets Management building block 支持的 secret store。[了解如何为 Dapr Secrets Management 设置不同的 secret store。]({{% ref setup-secret-store.md %}})
 
 {{< partial "components/description.html" >}}
 
@@ -36,4 +36,4 @@ no_list: true
 }
 ```
 
-部分 secret store 允许通过组件元数据字段在这两种行为之间选择，例如 [AWS Secrets Manager]({{% ref aws-secret-manager.md %}}) 的 `multipleKeyValuesPerSecret`、[local file secret store]({{% ref file-secret-store.md %}}) 的 `multiValued`，以及 [HashiCorp Vault]({{% ref hashicorp-vault.md %}}) 的 `vaultValueType`。有关响应格式的更多详细信息，请参阅[secrets API 参考]({{% ref "secrets_api.md#response-body" %}})。
+部分 secret store 允许通过 component metadata 字段在这两种行为之间选择，例如 [AWS Secrets Manager]({{% ref aws-secret-manager.md %}}) 的 `multipleKeyValuesPerSecret`、[local file secret store]({{% ref file-secret-store.md %}}) 的 `multiValued`，以及 [HashiCorp Vault]({{% ref hashicorp-vault.md %}}) 的 `vaultValueType`。有关响应格式的更多详细信息，请参阅[secrets API 参考]({{% ref "secrets_api.md#response-body" %}})。

@@ -16,25 +16,25 @@ aliases:
 
 跟踪所有正在运行的 Dapr 应用，并查看其健康状况、端口、PID 和运行时信息。
 
-**工作流检查**
+**workflow 检查**
 
-查看应用中的工作流执行情况，包括实时事件历史和执行状态，并可以终止、清除或重新运行工作流实例。
+查看应用中的 workflow 执行情况，包括实时事件历史和执行状态，并可以终止、清除或重新运行 workflow instance。
 
 **Actor、订阅与状态**
 
 查看 Actor 类型及活跃 Actor 数量，列出 pub/sub 的订阅，并向其发布测试消息，还可以浏览、添加和删除 state store 中的记录。
 
-**组件与配置查看器**
+**component 与配置查看器**
 
-浏览 Dapr 组件和配置，并使用构建向导创建组件和弹性策略定义，无需手动编写 YAML。
+浏览 Dapr component 和配置，并使用构建向导创建 component 和 resiliency 策略定义，无需手动编写 YAML。
 
-**控制平面与日志**
+**control plane 与日志**
 
-检查本地 Dapr 控制平面服务的状态，并以过滤和高亮的方式实时流式输出边车和应用日志。
+检查本地 Dapr control plane 服务的状态，并以过滤和高亮的方式实时流式输出 sidecar 和应用日志。
 
 **Dapr CLI 命令**
 
-复制与当前查看内容相匹配的 Dapr CLI 命令，例如工作流实例的执行历史。
+复制与当前查看内容相匹配的 Dapr CLI 命令，例如 workflow instance 的执行历史。
 
 Dev Dashboard 可与通过 `dapr run`、Aspire、Docker Compose 或 Dapr Testcontainers 启动的应用一起使用。
 

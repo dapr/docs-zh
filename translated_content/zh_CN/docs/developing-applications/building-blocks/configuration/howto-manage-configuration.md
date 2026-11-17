@@ -6,23 +6,23 @@ weight: 2000
 description: "了解如何获取应用程序配置并订阅变更"
 ---
 
-本示例使用 Redis 配置存储组件来演示如何检索配置项。
+本示例使用 Redis 配置存储 component 来演示如何检索配置项。
 
 {{< diagram name="configuration-example" width="55" >}}
 
 {{% alert title="注意" color="primary" %}}
- 如果你还没有尝试过，可以先体验一下[配置快速入门]({{% ref configuration-quickstart %}})，快速了解如何使用配置 API。
+ 如果你还没有尝试过，可以先体验一下[配置 Quickstart]({{% ref configuration-quickstart %}})，快速了解如何使用 Configuration API。
 
 {{% /alert %}}
 
 {{% alert title="禁用配置初始化端点" color="primary" %}}
-如果你的应用程序不使用配置构建块，可以禁用初始化期间对 `/dapr/config` 端点的自动 HTTP 调用，以减少日志噪音。使用 `dapr run` 时加上 `--disable-init-endpoints config` 参数，或在 Kubernetes 中使用 `dapr.io/disable-init-endpoints: "config"` 注解。[了解更多关于禁用初始化端点的信息。]({{% ref "arguments-annotations-overview#disable-init-endpoints" %}})
+如果你的应用程序不使用 Configuration building block，可以禁用初始化期间对 `/dapr/config` 端点的自动 HTTP 调用，以减少日志噪音。使用 `dapr run` 时加上 `--disable-init-endpoints config` 参数，或在 Kubernetes 中使用 `dapr.io/disable-init-endpoints: "config"` 注解。[了解更多关于禁用初始化端点的信息。]({{% ref "arguments-annotations-overview#disable-init-endpoints" %}})
 {{% /alert %}}
 
 
 ## 在存储中创建配置项
 
-在支持的配置存储中创建一个配置项。它可以是一个简单的键值项，键可以由你自行选择。如前所述，本示例使用 Redis 配置存储组件。
+在支持的配置存储中创建一个配置项。它可以是一个简单的键值项，键可以由你自行选择。如前所述，本示例使用 Redis 配置存储 component。
 
 ### 使用 Docker 运行 Redis
 
@@ -46,13 +46,13 @@ MSET orderId1 "101||1" orderId2 "102||1"
 
 ## 配置 Dapr 配置存储
 
-将以下组件文件保存到你机器上的[默认组件文件夹]({{% ref "install-dapr-selfhost#step-5-verify-components-directory-has-been-initialized" %}})中。你可以把它用作 Dapr 组件 YAML：
+将以下 component 文件保存到你机器上的[默认 component 文件夹]({{% ref "install-dapr-selfhost#step-5-verify-components-directory-has-been-initialized" %}})中。你可以把它用作 Dapr component YAML：
 
 - 使用 `kubectl` 的 Kubernetes 环境。
 - 使用 Dapr CLI 运行时。
 
 {{% alert title="注意" color="primary" %}}
- 由于 Redis 配置组件与 Redis `statestore.yaml` 组件的元数据相同，如果你已经有 Redis `statestore.yaml`，只需复制并修改 Redis state store 组件的类型即可。
+ 由于 Redis 配置 component 与 Redis `statestore.yaml` component 的 metadata 相同，如果你已经有 Redis `statestore.yaml`，只需复制并修改 Redis state store component 的类型即可。
 
 {{% /alert %}}
 
@@ -73,7 +73,7 @@ spec:
 ## 检索配置项
 ### 获取配置项
 
-以下示例展示如何使用 Dapr 配置 API 获取已保存的配置项。
+以下示例展示如何使用 Dapr Configuration API 获取已保存的配置项。
 
 {{< tabpane text=true >}}
 
@@ -221,7 +221,7 @@ main().catch((e) => {
 
 {{% tab "HTTP API (BASH)" %}}
 
-启动 Dapr 边车：
+启动 Dapr sidecar：
 
 ```bash
 dapr run --app-id orderprocessing --dapr-http-port 3601
@@ -237,7 +237,7 @@ curl http://localhost:3601/v1.0/configuration/configstore?key=orderId1
 
 {{% tab "HTTP API (PowerShell)" %}}
 
-启动 Dapr 边车：
+启动 Dapr sidecar：
 
 ```bash
 dapr run --app-id orderprocessing --dapr-http-port 3601
@@ -256,7 +256,7 @@ Invoke-RestMethod -Uri 'http://localhost:3601/v1.0/configuration/configstore?key
 
 ### 订阅配置项更新
 
-下面的代码示例使用 SDK，通过 `configstore` 存储组件订阅键 `[orderId1, orderId2]`。
+下面的代码示例使用 SDK，通过 `configstore` 存储 component 订阅键 `[orderId1, orderId2]`。
 
 {{< tabpane text=true >}}
 
@@ -296,7 +296,7 @@ await foreach (var items in subscribe.Source)
 }
 ```
 
-进入包含上述代码的目录，然后运行以下命令，同时启动 Dapr 边车和订阅者应用程序：
+进入包含上述代码的目录，然后运行以下命令，同时启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing -- dotnet run
@@ -334,7 +334,7 @@ await builder.Build().RunAsync();
 Console.WriteLine("Closing application.");
 ```
 
-进入包含上述代码的目录，然后运行以下命令，同时启动 Dapr 边车和订阅者应用程序：
+进入包含上述代码的目录，然后运行以下命令，同时启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing -- dotnet run
@@ -382,7 +382,7 @@ public static void main(String[] args) throws Exception {
 }
 ```
 
-进入包含上述代码的目录，然后运行以下命令，同时启动 Dapr 边车和订阅者应用程序：
+进入包含上述代码的目录，然后运行以下命令，同时启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing -- -- mvn spring-boot:run
@@ -414,7 +414,7 @@ def executeConfiguration():
 executeConfiguration()
 ```
 
-进入包含上述代码的目录，然后运行以下命令，同时启动 Dapr 边车和订阅者应用程序：
+进入包含上述代码的目录，然后运行以下命令，同时启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing -- python3 OrderProcessingService.py
@@ -453,7 +453,7 @@ func main() {
 }
 ```
 
-进入包含上述代码的目录，然后运行以下命令，同时启动 Dapr 边车和订阅者应用程序：
+进入包含上述代码的目录，然后运行以下命令，同时启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing -- go run main.go
@@ -506,7 +506,7 @@ main().catch((e) => {
 });
 ```
 
-将代码保存为 `index.mjs`，然后运行以下命令，同时启动 Dapr 边车和订阅者应用程序：
+将代码保存为 `index.mjs`，然后运行以下命令，同时启动 Dapr sidecar 和订阅者应用程序：
 
 ```bash
 dapr run --app-id orderprocessing --dapr-grpc-port 50001 -- node index.mjs
@@ -687,4 +687,4 @@ Invoke-RestMethod -Uri 'http://localhost:<DAPR_HTTP_PORT>/v1.0/configuration/con
 
 ## 后续步骤
 
-* 阅读[配置 API 概述]({{% ref configuration-api-overview %}})
+* 阅读[Configuration API 概述]({{% ref configuration-api-overview %}})

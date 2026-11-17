@@ -85,14 +85,14 @@ spec:
 kubectl apply -f tracing.yaml
 ```
 
-为了为您的 Dapr 边车启用此配置，请将以下注解添加到您的 pod 规范模板中：
+为了为您的 Dapr sidecar 启用此配置，请将以下注解添加到您的 pod 规范模板中：
 
 ```yml
 annotations:
   dapr.io/config: "tracing"
 ```
 
-就是这样！您的边车现在已配置为向 Zipkin 发送追踪数据。
+就是这样！您的 sidecar 现在已配置为向 Zipkin 发送追踪数据。
 
 ### 查看追踪数据
 

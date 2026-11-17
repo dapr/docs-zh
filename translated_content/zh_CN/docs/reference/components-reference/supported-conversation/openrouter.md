@@ -2,12 +2,12 @@
 type: docs
 title: "OpenRouter"
 linkTitle: "OpenRouter"
-description: OpenRouter 对话组件的详细信息
+description: OpenRouter conversation component 的详细信息
 ---
 
-## 组件格式
+## component 格式
 
-Dapr `conversation.yaml` 组件文件具有以下结构：
+Dapr `conversation.yaml` component 文件具有以下结构：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -29,7 +29,7 @@ spec:
 上述示例直接以明文字符串的形式提供 secrets。建议对 secrets 使用 secret store，具体方法见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段 | 必填 | 详情 | 示例 |
 |------|:----:|------|------|
@@ -42,6 +42,6 @@ spec:
 
 ## 相关链接
 
-- [对话 API 概述]({{% ref conversation-overview.md %}})
+- [conversation API 概述]({{% ref conversation-overview.md %}})
 - [OpenRouter 文档](https://openrouter.ai/docs)
 - [OpenRouter 模型](https://openrouter.ai/models)

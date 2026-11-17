@@ -2,14 +2,14 @@
 type: docs
 title: "InfluxDB binding 规范"
 linkTitle: "InfluxDB"
-description: "InfluxDB binding 组件的详细文档"
+description: "InfluxDB binding component 的详细文档"
 aliases:
   - "/zh-hans/operations/components/setup-bindings/supported-bindings/influxdb/"
 ---
 
-## 组件格式
+## component 格式
 
-要设置 InfluxDB binding，请创建一个类型为 `bindings.influx` 的组件。关于如何创建并应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
+要设置 InfluxDB binding，请创建一个类型为 `bindings.influx` 的 component。关于如何创建并应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
 
 
 ```yaml
@@ -35,7 +35,7 @@ spec:
 上述示例将密钥作为纯字符串使用。建议按照[此处]({{% ref component-secrets.md %}})所述，使用 secret store 来管理密钥。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段              | 必填 | binding 支持 |  详情 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
@@ -46,7 +46,7 @@ spec:
 
 ## binding 支持
 
-此组件支持**output binding**，包含以下操作：
+此 component 支持**output binding**，包含以下操作：
 
 - `create`
 - `query`
@@ -70,7 +70,7 @@ curl -X POST http://localhost:3500/v1.0/bindings/myInfluxBinding \
 
 ### 查询
 
-要查询 InfluxDB，请使用 `query` 操作，并在调用的元数据中提供一个 `raw` 键，其值为查询语句：
+要查询 InfluxDB，请使用 `query` 操作，并在调用的 metadata 中提供一个 `raw` 键，其值为查询语句：
 
 ```
 curl -X POST http://localhost:3500/v1.0/bindings/myInfluxBinding \
@@ -85,8 +85,8 @@ curl -X POST http://localhost:3500/v1.0/bindings/myInfluxBinding \
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [binding 构建块]({{% ref bindings %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
+- [binding building block]({{% ref bindings %}})
 - [如何操作：使用 input binding 触发应用]({{% ref howto-triggers.md %}})
 - [如何操作：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
 - [binding API 参考]({{% ref bindings_api.md %}})

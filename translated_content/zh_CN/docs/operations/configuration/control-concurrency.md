@@ -16,11 +16,11 @@ Dapr 提供了多种并发和速率限制的方法。了解它们之间的区别
 
 | 方法 | 控制内容 | 范围 |
 |------|---------|------|
-| `app-max-concurrency` | 发送到应用程序的最大并发请求和事件数 | 每个边车 |
-| `middleware.http.ratelimit` | 按远程 IP 统计的每秒 HTTP 请求数 | 每个边车 |
-| [工作流并发限制]({{% ref workflow-concurrency.md %}}) | 工作流和活动的执行，可按名称细分 | 每个边车，或全局（跨所有副本） |
+| `app-max-concurrency` | 发送到应用程序的最大并发请求和事件数 | 每个 sidecar |
+| `middleware.http.ratelimit` | 按远程 IP 统计的每秒 HTTP 请求数 | 每个 sidecar |
+| [workflow 并发限制]({{% ref workflow-concurrency.md %}}) | workflow 和 activity 的执行，可按名称细分 | 每个 sidecar，或全局（跨所有副本） |
 
-本指南重点介绍 `app-max-concurrency`。有关其他方法，请参阅[速率限制中间件]({{% ref middleware-rate-limit.md %}})和[工作流并发限制]({{% ref workflow-concurrency.md %}})。
+本指南重点介绍 `app-max-concurrency`。有关其他方法，请参阅[rate limit middleware]({{% ref middleware-rate-limit.md %}})和[workflow 并发限制]({{% ref workflow-concurrency.md %}})。
 
 ## 演示
 
