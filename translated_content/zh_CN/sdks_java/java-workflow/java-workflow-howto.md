@@ -6,10 +6,10 @@ weight: 20000
 description: 如何使用 Dapr Java SDK 快速上手 workflow
 ---
 
-让我们创建一个 Dapr Workflow，并通过控制台调用它。借助[提供的 workflow 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)，你将：
+让我们创建一个 Dapr workflow，并通过控制台调用它。借助[提供的 workflow 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)，你将：
 
 - 使用 [Java workflow worker](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowWorker.java) 执行 workflow instance
-- 利用 Java Workflow Client 和 API 调用，[启动和终止 workflow instance](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowClient.java)
+- 利用 Java workflow client 和 API 调用，[启动和终止 workflow instance](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowClient.java)
 
 本示例使用 `dapr init` 的默认配置，运行于[自托管模式](https://github.com/dapr/cli#install-dapr-on-your-local-machine-self-hosted)。
 
@@ -54,7 +54,7 @@ cd examples
 public class DemoWorkflowWorker {
 
   public static void main(String[] args) throws Exception {
-    // 向运行时注册 workflow。
+    // 向运行时注册 Workflow。
     WorkflowRuntime.getInstance().registerWorkflow(DemoWorkflow.class);
     System.out.println("Start workflow runtime");
     WorkflowRuntime.getInstance().startAndBlock();
@@ -64,8 +64,8 @@ public class DemoWorkflowWorker {
 ```
 
 在上述代码中：
-- `WorkflowRuntime.getInstance().registerWorkflow()` 将 `DemoWorkflow` 注册为 Dapr Workflow 运行时中的一个 workflow。
-- `WorkflowRuntime.getInstance().start()` 在 Dapr Workflow 运行时中构建并启动引擎。
+- `WorkflowRuntime.getInstance().registerWorkflow()` 将 `DemoWorkflow` 注册为 Dapr Workflow runtime 中的一个 workflow。
+- `WorkflowRuntime.getInstance().start()` 在 Dapr Workflow runtime 中构建并启动引擎。
 
 在终端中执行以下命令，启动 `DemoWorkflowWorker`：
 
@@ -235,7 +235,7 @@ Exiting DemoWorkflowClient.
 
 ## 发生了什么？
 
-1. 当你运行 `dapr run` 时，workflow worker 将 workflow（`DemoWorkflow`）及其 activity 注册到 Dapr Workflow 引擎。
+1. 当你运行 `dapr run` 时，workflow 工作进程将 workflow（`DemoWorkflow`）及其 activity 注册到 Dapr Workflow 引擎。
 1. 当你运行 `java` 时，Workflow Client 启动了 workflow instance，其中包含以下 activity。你可以对照运行 `dapr run` 的终端输出进行跟踪。
    1. workflow 启动后，触发三个并行任务，并等待它们完成。
    1. Workflow Client 调用该 activity，并将 "Hello Activity" 消息发送到控制台。
@@ -285,7 +285,7 @@ public class TaskExecutionKeyActivity implements WorkflowActivity {
 
 ### stateful workflow 历史
 
-从 Dapr 1.19 开始，workflow worker 会在内存中保存每个 workflow instance 的历史，因此 Dapr sidecar 每轮只发送新事件。此功能默认开启。若要将其关闭（例如 worker 内存有限时），可在 `WorkflowRuntimeBuilder` 上调用 `withStatefulHistoryDisabled(true)`：
+从 Dapr 1.19 开始，workflow 工作进程会在内存中保存每个 workflow instance 的历史，因此 Dapr sidecar 每个轮次只发送新事件。此功能默认开启。若要将其关闭（例如工作进程内存有限时），可在 `WorkflowRuntimeBuilder` 上调用 `withStatefulHistoryDisabled(true)`：
 
 ```java
 WorkflowRuntime runtime = new WorkflowRuntimeBuilder()
@@ -320,7 +320,7 @@ try {
 
 ### 列出、检查和重新运行 workflow instance
 
-从 Dapr 1.19 开始，`DaprWorkflowClient` 可以列出应用的 workflow instance ID、读取实例的历史，并从其某个历史事件重新运行已结束的实例。你可以借助这些功能在无需自行保存实例 ID 的情况下查找实例、查看失败实例停止的位置，并使用新输入从该步骤重试，而不必从头开始。
+从 Dapr 1.19 开始，`DaprWorkflowClient` 可以列出应用的 workflow instance ID、读取实例的历史，并从其某个 history event 重新运行已结束的实例。你可以借助这些功能在无需自行保存实例 ID 的情况下查找实例、查看失败实例停止的位置，并使用新输入从该步骤重试，而不必从头开始。
 
 ```java
 // 列出第一页的实例 ID，每页最多 100 个。

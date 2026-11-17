@@ -9,7 +9,7 @@ description: 如何使用 Dapr Java SDK 快速上手 Jobs
 在本演示中，我们将调度一个 Dapr job。被调度的 job 将触发同一应用中注册的端点。使用[提供的 job 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/jobs)，你将：
 
 - 调度一个 job [job 调度示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/jobs/DemoJobsClient.java)
-- 注册一个端点，供 dapr sidecar 在触发时调用 [端点注册](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/jobs/DemoJobsSpringApplication.java)
+- 注册一个端点，供 dapr sidecar 在触发时间调用 [端点注册](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/jobs/DemoJobsSpringApplication.java)
 
 本示例使用[自托管模式](https://github.com/dapr/cli#install-dapr-on-your-local-machine-self-hosted)下 `dapr init` 的默认配置。
 
@@ -53,18 +53,18 @@ dapr run --app-id jobsapp --dapr-grpc-port 51439 --dapr-http-port 3500 --app-por
 
 ## 调度和获取 job
 
-在 `DemoJobsClient` 中有调度 job 的步骤。使用 `DaprPreviewClient` 调用 `scheduleJob`，将向 Dapr Runtime 调度一个 job。
+在 `DemoJobsClient` 中有调度 job 的步骤。使用 `DaprPreviewClient` 调用 `scheduleJob`，将向 Dapr runtime 调度一个 job。
 
 ```java
 public class DemoJobsClient {
 
   /**
-   * The main method of this app to schedule and get jobs.
+   * 此应用的 main 方法，用于调度和获取 job。
    */
   public static void main(String[] args) throws Exception {
     try (DaprPreviewClient client = new DaprClientBuilder().withPropertyOverrides(overrides).buildPreviewClient()) {
 
-      // Schedule a job.
+      // 调度一个 job。
       System.out.println("**** Scheduling a Job with name dapr-jobs-1 *****");
       ScheduleJobRequest scheduleJobRequest = new ScheduleJobRequest("dapr-job-1",
           JobSchedule.fromString("* * * * * *")).setData("Hello World!".getBytes());
@@ -104,11 +104,11 @@ java -jar target/dapr-java-sdk-examples-exec.jar io.dapr.examples.jobs.DemoJobsC
 public class JobsController {
 
   /**
-   * Handles jobs callback from Dapr.
+   * 处理来自 Dapr 的 job 回调。
    *
-   * @param jobName name of the job.
-   * @param payload data from the job if payload exists.
-   * @return Empty Mono.
+   * @param jobName job 的名称。
+   * @param payload 如果存在负载，则为 job 的数据。
+   * @return 空的 Mono。
    */
   @PostMapping("/job/{jobName}")
   public Mono<Void> handleJob(@PathVariable("jobName") String jobName,
@@ -144,12 +144,12 @@ Job Payload: Hello World!
 public class DemoJobsClient {
 
   /**
-   * The main method of this app deletes a job that was previously scheduled.
+   * 此应用的 main 方法，用于删除先前调度的 job。
    */
   public static void main(String[] args) throws Exception {
     try (DaprPreviewClient client = new DaprClientBuilder().buildPreviewClient()) {
 
-      // Delete a job.
+      // 删除一个 job。
       System.out.println("**** Delete a Job with name dapr-jobs-1 *****");
       client.deleteJob(new DeleteJobRequest("dapr-job-1")).block();
     }

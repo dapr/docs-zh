@@ -20,7 +20,6 @@ Spring Boot 集成仍处于 alpha 阶段。我们需要你的帮助和反馈，�
 
 ## 将 Dapr 和 Spring Boot 集成添加到你的项目
 
-
 如果你已经有 Spring Boot 应用程序，可以直接将以下依赖项添加到项目中：
 
 ```
@@ -152,7 +151,7 @@ mvn spring-boot:test-run
 Java SDK 允许你与所有 [Dapr building block]({{% ref building-blocks %}}) 交互。
 但如果你想利用 Spring 和 Spring Boot 编程模型，可以使用 `dapr-spring-boot-starter` 集成。
 它包括 Spring Data（`KeyValueTemplate` 和 `CrudRepository`）的实现，以及用于生产和消费消息的 `DaprMessagingTemplate`
-（类似于 [Spring Kafka](https://spring.io/projects/spring-kafka)、[Spring Pulsar](https://spring.io/projects/spring-pulsar) 和 [Spring AMQP for RabbitMQ](https://spring.io/projects/spring-amqp)），以及 Dapr Workflow。
+（类似于 [Spring Kafka](https://spring.io/projects/spring-kafka)、[Spring Pulsar](https://spring.io/projects/spring-pulsar) 和 [Spring AMQP for RabbitMQ](https://spring.io/projects/spring-amqp)），以及 Dapr workflow。
 
 ## 使用 Spring Data `CrudRepository` 和 `KeyValueTemplate`
 
@@ -243,14 +242,13 @@ public void storeOrder(@RequestBody Order order){
 
 ```
 
-与 `CrudRepository` 类似，我们需要指定用于发布和消费消息的 PubSub 代理。
+与 `CrudRepository` 类似，我们需要指定用于发布和消费消息的 PubSub broker。
 
 ```properties
 dapr.pubsub.name=pubsub
 ```
 
-由于使用 Dapr 时可以连接多个 PubSub 代理，你需要提供以下 bean，让 Dapr 知道你的 `DaprMessagingTemplate` 将使用哪个 PubSub 代理：
-
+由于使用 Dapr 时可以连接多个 PubSub broker，你需要提供以下 bean，让 Dapr 知道你的 `DaprMessagingTemplate` 将使用哪个 PubSub broker：
 ```java
 @Bean
 public DaprMessagingTemplate<Order> messagingTemplate(DaprClient daprClient,
@@ -280,7 +278,7 @@ public DaprContainer daprContainer(Network daprNetwork, PostgreSQLContainer<?> p
 ```
 
 现在，在 Dapr 配置中，我们包含了一个 `pubsub` component，它将连接到由 Testcontainers 启动的 RabbitMQ 实例。
-我们还设置了两个重要参数 `.withAppPort(8080)` 和 `.withAppChannelAddress("host.testcontainers.internal")`，它们允许 Dapr 在代理中发布消息时回连应用程序。
+我们还设置了两个重要参数 `.withAppPort(8080)` 和 `.withAppChannelAddress("host.testcontainers.internal")`，它们允许 Dapr 在消息发布到 broker 时回连应用程序。
 
 要监听事件/消息，你需要在应用程序中暴露一个负责接收消息的端点。
 如果你暴露了 REST 端点，可以使用 `@Topic` 注解告诉 Dapr 将事件/消息转发到何处：
@@ -293,7 +291,7 @@ public void subscribe(@RequestBody CloudEvent<Order> cloudEvent){
 }
 ```
 
-在启动应用程序时，Dapr 会注册消息订阅，把消息转发到应用程序暴露的 `subscribe` 端点。
+在启动应用程序时，Dapr 会注册 subscription，把消息转发到应用程序暴露的 `subscribe` 端点。
 
 如果你要为这些订阅者编写测试，需要确保 Testcontainers 知道你的应用程序将运行在 8080 端口，
 这样由 Testcontainers 启动的容器才能找到你的应用程序：
@@ -338,7 +336,7 @@ DaprContainer daprContainer = new DaprContainer("daprio/daprd:1.19.0")
 
 处理程序的 `name` 必须与你添加到容器中的某个[middleware component]({{% ref middleware.md %}})的名称一致。
 
-此外，`Subscription` 现在接受 `scopes` 列表（即允许使用该订阅的应用 ID），与 declarative subscription 上的 `scopes` 字段对应。
+此外，`Subscription` 现在接受 `scopes` 列表（即允许使用该订阅的 App ID），与 declarative subscription 上的 `scopes` 字段对应。
 
 {{% alert title="注意" color="primary" %}}
 这些是 Dapr 1.19 中的新增内容。请查看 [Testcontainers Dapr 模块 Javadoc](https://javadoc.io/doc/io.dapr/testcontainers-dapr/latest/index.html)，了解每个设置类完整的构造函数签名。
@@ -348,7 +346,7 @@ DaprContainer daprContainer = new DaprContainer("daprio/daprd:1.19.0")
 
 了解有关[可添加到 Java 应用程序中的 Dapr Java SDK 包](https://dapr.github.io/java-sdk/)的更多信息。
 
-查看如何指南：[使用 Spring Boot 和 Testcontainers 进行 Dapr Workflow，获得本地 workflow 开发体验](sb-workflows-howto.md)。
+查看如何指南：[使用 Spring Boot 和 Testcontainers 进行 Dapr workflow，获得本地 workflow 开发体验](sb-workflows-howto.md)。
 
 ## 相关链接
 - [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples)

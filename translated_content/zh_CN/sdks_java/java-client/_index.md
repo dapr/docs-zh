@@ -29,9 +29,9 @@ DaprClient client = new DaprClientBuilder().build()
 
 #### 错误处理
 
-最初，Dapr 中的错误遵循标准 gRPC 错误模型。然而，为了提供更详细、信息量更大的错误消息，Dapr 在 1.13 版本中引入了增强的错误模型，该错误模型与 gRPC 的 Richer error model 保持一致。作为响应，Java SDK 扩展了 DaprException，使其包含 Dapr 中新增的错误详细信息。
+最初，Dapr 中的错误遵循标准 gRPC 错误模型。然而，为了提供更详细、信息量更大的错误消息，Dapr 在 1.13 版本中引入了增强的错误模型，该模型与 gRPC 的 Richer error model 保持一致。作为响应，Java SDK 扩展了 DaprException，使其包含 Dapr 中新增的错误详细信息。
 
-下面的示例演示如何在使用 Dapr Java SDK 时处理 DaprException，并获取其中的错误详细信息：
+下面的示例演示了在使用 Dapr Java SDK 时如何处理 DaprException 并获取其中的错误详细信息：
 
 ```java
 ...
@@ -82,14 +82,14 @@ try (DaprClient client = new DaprClientBuilder().build()) {
 }
 ```
 
-`DaprBodyPublishers.json(...)` 使用 SDK 默认的 Jackson 序列化器来序列化负载，与已弃用的 `invokeMethod` API 内部采用的 JSON 编码方式一致。对于原始负载，可以使用任意 `HttpRequest.BodyPublisher`（例如 `HttpRequest.BodyPublishers.ofString(...)`）。
+`DaprBodyPublishers.json(...)` 使用 SDK 默认的 Jackson 序列化器对负载进行序列化，与已弃用的 `invokeMethod` API 内部采用的 JSON 编码方式一致。对于原始负载，可以使用任意 `HttpRequest.BodyPublisher`（例如 `HttpRequest.BodyPublishers.ofString(...)`）。
 
 `newRequestBuilder(relativePath)` 会按原样解析路径，不会替你进行编码。如果某个路径段可能包含 URI 中不合法的字符（例如空格），请先使用 `io.dapr.utils.UriUtils.encodePath(...)` 方法对其编码。若不编码而直接传入这些字符，会抛出 `IllegalArgumentException`。`encodePath` 方法会对每个以正斜杠（`/`）分隔的路径段进行百分号编码，保留分隔符和任何前导斜杠，并原样附加查询字符串。这一行为与已弃用的 `invokeMethod` API 自动应用的逐段编码保持一致：
 
 ```java
 import io.dapr.utils.UriUtils;
 
-// 将 "Name With Spaces" 编码为 "Name%20With%20Spaces"
+// "Name With Spaces" 编码后为 "Name%20With%20Spaces"
 HttpRequest request = invoker.newRequestBuilder(
         UriUtils.encodePath("orders/Name With Spaces"))
     .GET()
@@ -103,7 +103,7 @@ HttpRequest request = invoker.newRequestBuilder(
 | 调用 URL（`/v1.0/invoke/{appId}/method/...`） | ✓ — 基于 sidecar 端点解析，默认为 `http://localhost:3500`（可通过 `DAPR_HTTP_ENDPOINT`，或 `DAPR_SIDECAR_IP` 加 `DAPR_HTTP_PORT` 覆盖） | |
 | `dapr-api-token` 请求头 | ✓ — 仅在通过 `dapr.api.token` 系统属性或 `DAPR_API_TOKEN` 环境变量配置时附加 | |
 | HTTP 读取超时 | ✓ — 默认为 **60 秒**；可通过 `dapr.http.client.readTimeoutSeconds` 系统属性或 `DAPR_HTTP_CLIENT_READ_TIMEOUT_SECONDS` 环境变量覆盖 | |
-| `User-Agent: dapr-sdk-java/<version>` 请求头 | ✓ — 其值自动跟随 SDK 版本 | |
+| `User-Agent: dapr-sdk-java/<version>` 请求头 | ✓ — 其值会自动跟随 SDK 版本 | |
 | URL 路径编码 | | 使用 `UriUtils.encodePath(...)` 对可能包含 URI 非法字符（如空格）的路径段进行编码。`newRequestBuilder` 方法会原样解析路径，遇到非法字符时抛出 `IllegalArgumentException`。 |
 | `Content-Type` 请求头 | | 通过 `.header("Content-Type", "...")` 设置 |
 | 请求体序列化 | | 默认 JSON 使用 `DaprBodyPublishers.json(...)`，或使用任意 `HttpRequest.BodyPublisher` |
@@ -142,7 +142,6 @@ HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandle
 
 ```java
 import io.dapr.client.DaprClient;
-
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.domain.State;
 import reactor.core.publisher.Mono;
@@ -284,13 +283,12 @@ class Solution {
 ```
 
 - 有关发布消息和订阅主题的完整指南，请访问[操作指南：发布和订阅]({{% ref howto-publish-subscribe.md %}})。
-- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/pubsub/http)，获取代码示例，并了解如何试用 pub/sub 功能。
+- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/pubsub/http)，获取代码示例，并了解如何试用 pub/sub。
 
 ### 与 output binding 交互
 
 ```java
 import io.dapr.client.DaprClient;
-
 import io.dapr.client.DaprClientBuilder;
 
 try (DaprClient client = (new DaprClientBuilder()).build()) {
@@ -345,7 +343,6 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/secrets)，获取代码示例，并了解如何获取 secrets。
 
 ### Actor
-
 Actor 是一个隔离的、独立的计算与状态单元，以单线程方式执行。Dapr 提供了基于[virtual Actor 模式](https://www.microsoft.com/research/project/orleans-virtual-actors/)的 Actor 实现，它提供单线程编程模型，并且 Actor 在闲置时会被垃圾回收。在 Dapr 的实现中，你按照 Actor 模型编写 Dapr Actor，Dapr 则利用底层平台提供的可扩展性与可靠性。
 
 ```java
@@ -432,7 +429,6 @@ try (DaprPreviewClient client = (new DaprClientBuilder()).buildPreviewClient()) 
 
 > 注意：这是一个预览 API，因此只能通过 DaprPreviewClient 接口访问，而不能通过普通的 DaprClient 接口访问。
 
-
 ```java
 import io.dapr.client.DaprClient;
 import io.dapr.client.DaprClientBuilder;
@@ -499,7 +495,6 @@ try (DaprClient client = builder.build(); DaprPreviewClient previewClient = buil
 
 - 有关 Query State 的完整操作指南，请访问[操作指南：Query State]({{% ref howto-state-query-api.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/querystate)，查看完整的代码示例。
-
 ### 分布式锁
 
 ```java
@@ -691,7 +686,6 @@ public class DemoWorkflowClient {
 ## sidecar API
 
 #### 等待 sidecar
-
 `DaprClient` 还提供了一个辅助方法，用于等待 sidecar 变为健康状态（仅适用于 component）。使用此方法时，请务必以毫秒为单位指定超时时间，并调用 block() 来等待响应式操作的结果。
 
 ```java
@@ -735,7 +729,7 @@ Dapr 使用两种不同的令牌来保护通信。有关这两种令牌的详细
 
 #### 实现服务端令牌校验
 
-使用 gRPC 协议时，需要实现一个服务端拦截器来捕获元数据。
+使用 gRPC 协议时，需要实现一个服务端拦截器来捕获 metadata。
 
 ```java
 import io.grpc.Context;
@@ -748,7 +742,7 @@ import io.grpc.ServerInterceptor;
 public class SubscriberGrpcService extends AppCallbackGrpc.AppCallbackImplBase {
   public static final Context.Key<Metadata> METADATA_KEY = Context.key("grpc-metadata");
   
-  // 用于捕获元数据的 gRPC 拦截器
+  // 用于捕获 metadata 的 gRPC 拦截器
   public static class MetadataInterceptor implements ServerInterceptor {
     @Override
     public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(
@@ -774,14 +768,14 @@ Server server = ServerBuilder.forPort(port)
 server.start();
 ```
 
-然后，在服务方法中从元数据中提取令牌：
+然后，在服务方法中从 metadata 中提取令牌：
 
 ```java
 @Override
 public void onTopicEvent(DaprAppCallbackProtos.TopicEventRequest request,
     StreamObserver<DaprAppCallbackProtos.TopicEventResponse> responseObserver) {
   try {
-    // 从上下文中提取元数据
+    // 从上下文中提取 metadata
     Context context = Context.current();
     Metadata metadata = METADATA_KEY.get(context);
     

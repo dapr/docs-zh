@@ -16,7 +16,7 @@ Dapr 提供了多种软件包来协助 Java 应用程序的开发。使用它们
 ## 前提条件
 
 - 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
+- 已初始化 [Dapr environment]({{% ref install-dapr-selfhost.md %}})
 - JDK 17 或更高版本：
     - [Eclipse Temurin](https://adoptium.net/)
     - [Oracle JDK](https://www.oracle.com/java/technologies/downloads/)
