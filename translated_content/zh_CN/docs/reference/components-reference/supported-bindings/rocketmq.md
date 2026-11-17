@@ -52,7 +52,7 @@ spec:
 
 | 字段                  | 必填 | Binding 支持 | 详情                                                                 | 示例                        |
 | -------------------- | :------: | --------------- | --------------------------------------------------------------------- | ------------------------------ |
-| `topics`             |     Y    | Input/Output    | 用于发布或订阅的以逗号分隔的主题列表。                                | `"topic1,topic2"`              |
+| `topics`             |     Y    | Input/Output    | 用于发布或订阅的以逗号分隔的 topic 列表。                                | `"topic1,topic2"`              |
 | `nameServer`         |     N    | Input/Output    | RocketMQ name server 地址。                                           | `"localhost:9876"`             |
 | `endpoint`           |     N    | Input/Output    | RocketMQ 端点（用于 `http` 协议）。                                    | `"http://localhost:8080"`      |
 | `accessProto`        |     N    | Input/Output    | 用于连接 RocketMQ 的 SDK 协议。                                        | `"tcp"`, `"tcp-cgo"`, `"http"` |
@@ -91,11 +91,11 @@ spec:
 此组件支持以下操作的**输出 binding**：
 
 * `create`：发布新消息
-* `read`：从 RocketMQ 主题消费消息
+* `read`：从 RocketMQ topic 消费消息
 
-## 按请求设置主题
+## 按请求设置 topic
 
-您可以按请求覆盖组件元数据中的主题：
+您可以按请求覆盖组件元数据中的 topic：
 
 ```json
 {

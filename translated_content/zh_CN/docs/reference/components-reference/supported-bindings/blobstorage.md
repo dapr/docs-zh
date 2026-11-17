@@ -51,7 +51,7 @@ spec:
 | `decodeBase64` | N | Output | 在保存到 Blob Storage 之前对 base64 文件内容进行解码的配置（用于保存包含二进制内容的文件）。默认为 `false` | `true`、`false` |
 | `getBlobRetryCount` | N | Output | 指定从 RetryReader 读取时最多发出的 HTTP GET 请求次数。默认为 `10` | `1`、`2` |
 | `publicAccessLevel` | N | Output | 指定容器中的数据是否可以公开访问以及访问级别（仅在容器由 Dapr 创建时使用）。默认为 `none` | `blob`、`container`、`none` |
-| `disableEntityManagement` | N | Output | 用于禁用实体管理的配置。设置为 `true` 时，binding 将跳过创建指定存储容器的尝试。在使用最小 Azure AD 权限时，此项很有用。默认为 `false` | `true`、`false` |
+| `disableEntityManagement` | N | Output | 用于禁用 entity management 的配置。设置为 `true` 时，binding 将跳过创建指定存储容器的尝试。在使用最小 Azure AD 权限时，此项很有用。默认为 `false` | `true`、`false` |
 
 ### Microsoft Entra ID 身份验证
 

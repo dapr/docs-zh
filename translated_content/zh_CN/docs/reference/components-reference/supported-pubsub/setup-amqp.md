@@ -50,12 +50,12 @@ spec:
 | caCert | N | 用于验证服务器 TLS 证书的 PEM 格式证书颁发机构（CA）证书。仅当 broker 证书不是由公共信任的 CA 签发时才需要。需要 `amqps://` 方案。 | `"-----BEGIN CERTIFICATE-----\n<base64-encoded DER>\n-----END CERTIFICATE-----"`
 | clientCert  | N | 用于双向 TLS 的 PEM 格式 TLS 客户端证书。必须与 `clientKey` 一起使用，并且需要 `amqps://` 方案。 | `"-----BEGIN CERTIFICATE-----\n<base64-encoded DER>\n-----END CERTIFICATE-----"`
 | clientKey | N | 用于双向 TLS 的 PEM 格式 TLS 客户端密钥。必须与 `clientCert` 一起使用，并且需要 `amqps://` 方案。可以是 `secretKeyRef`，以使用 secrets 引用。 | `"-----BEGIN RSA PRIVATE KEY-----\n<base64-encoded PKCS8>\n-----END RSA PRIVATE KEY-----"`
-| topicAddressPrefix | N | 添加到主题 AMQP 地址前的前缀，用于不带前缀的主题名以及名为 `topic:<name>` 的主题。默认无前缀，即按名称寻址主题。参见[主题与队列的寻址](#主题与队列的寻址)。 | `multicast://`
-| queueAddressPrefix | N | 添加到队列 AMQP 地址前的前缀，用于名为 `queue:<name>` 的主题。默认无前缀，即按名称寻址队列。参见[主题与队列的寻址](#主题与队列的寻址)。 | `anycast://`
+| topicAddressPrefix | N | 添加到 topic AMQP 地址前的前缀，用于不带前缀的 topic 名以及名为 `topic:<name>` 的 topic。默认无前缀，即按名称寻址 topic。参见[topic 与队列的寻址](#topic-与队列的寻址)。 | `multicast://`
+| queueAddressPrefix | N | 添加到队列 AMQP 地址前的前缀，用于名为 `queue:<name>` 的 topic。默认无前缀，即按名称寻址队列。参见[topic 与队列的寻址](#topic-与队列的寻址)。 | `anycast://`
 | containerID | N | 承载命名订阅的连接所使用的 AMQP 容器 ID。broker 通过容器 ID 和订阅名称来识别命名订阅。默认值为 Dapr 为每个 pub/sub component 分配的消费者 ID，即应用 ID；如果 component 设置了 `consumerID`，则使用该值（参见 [pub/sub broker component 文件]({{% ref setup-pubsub.md %}})）。因此，默认情况下，应用的所有副本共享同一个容器 ID。请勿将 `containerID` 或 `consumerID` 设置为按副本区分的值，例如 `{podName}` 或 `{uuid}` 的[标记]({{% ref component-schema.md %}})：否则每个副本都会获得各自的订阅，并各自收到每条消息的一份副本。参见[命名、持久与共享订阅](#命名持久与共享订阅)。 | `orders-service`
 | durableMessages | N | 将每条已发布的消息标记为持久化，使 broker 在重启后仍保留该消息。除非显式指定，否则 AMQP 1.0 消息不是持久化的。默认值为 `false`。 | `true`
 | applicationPropertiesFromMetadata | N | 将每个发布请求的 metadata 复制到消息中，以便 broker 端过滤器据此进行匹配。默认值为 `false`。参见[按消息属性过滤](#按消息属性过滤)。 | `true`
-| backOffPolicy | N | broker 连接断开后，重新打开订阅时各次尝试之间使用的重试策略。可选 `constant` 或 `exponential`。默认值为 `constant`。 | `"constant"`
+| backOffPolicy | N | broker 连接断开后，重新打开订阅时各次尝试之间使用的 retry policy。可选 `constant` 或 `exponential`。默认值为 `constant`。 | `"constant"`
 | backOffDuration | N | 当 `backOffPolicy` 为 `constant` 时，重新打开订阅各次尝试之间的延迟。默认值为 `5s`。只要订阅存在，component 就会一直重试，因此该值设置的是重试节奏，而非上限。 | `1s`
 | backOffInitialInterval | N | 当 `backOffPolicy` 为 `exponential` 时，首次尝试之间的延迟。默认值为 `500ms`。 | `100ms`
 | backOffMaxInterval | N | 当 `backOffPolicy` 为 `exponential` 时，各次尝试之间的最长延迟。默认值为 `60s`。 | `30s`
@@ -127,25 +127,25 @@ auth:
 
 在 Dapr 1.19 之前，`anonymous` 在 `amqps://` 上会被忽略，并且始终使用 SASL PLAIN。
 
-## 主题与队列的寻址
+## topic 与队列的寻址
 
-该 component 会将 Dapr 主题名转换为 AMQP 地址。`topicAddressPrefix` 和 `queueAddressPrefix` 控制这一转换，二者默认均不添加前缀。因此，开箱即用时，AMQP 地址就是 Dapr 主题名本身，不作任何改变：
+该 component 会将 Dapr topic 名转换为 AMQP 地址。`topicAddressPrefix` 和 `queueAddressPrefix` 控制这一转换，二者默认均不添加前缀。因此，开箱即用时，AMQP 地址就是 Dapr topic 名本身，不作任何改变：
 
-| Dapr 主题名 | 使用默认前缀时的 AMQP 地址 |
+| Dapr topic 名 | 使用默认前缀时的 AMQP 地址 |
 |-----------------|------------------------------------------|
 | `orders` | `orders` |
 | `topic:orders` | `orders` |
 | `queue:orders` | `orders` |
 
 {{% alert title="在配置前缀之前，`queue:` 不起作用" color="warning" %}}
-Dapr 主题名可以带有 `queue:` 或 `topic:` 方案。该方案决定应用两个前缀中的哪一个，它本身并不能选择路由类型。
+Dapr topic 名可以带有 `queue:` 或 `topic:` 方案。该方案决定应用两个前缀中的哪一个，它本身并不能选择路由类型。
 
 在未配置前缀的情况下，`queue:orders` 与 `orders` 会解析为同一地址，因此方案不产生任何效果，路由类型由 broker 为该地址解析得出。
 
 要让 `queue:` 选择队列，请将两个前缀都设置为 broker 所使用的值。参见[使用 namespace 区分目标的 broker](#使用-namespace-区分目标的-broker)。
 {{% /alert %}}
 
-已以某个已配置前缀开头的主题名，将原样用作 AMQP 地址。
+已以某个已配置前缀开头的 topic 名，将原样用作 AMQP 地址。
 
 ## 使用 namespace 区分目标的 broker
 
@@ -176,7 +176,7 @@ spec:
       value: 'anycast://'
 ```
 
-此时，名为 `orders` 的 Dapr 主题将被寻址为 `multicast://orders`，而 `queue:orders` 则被寻址为 `anycast://orders`。
+此时，名为 `orders` 的 Dapr topic 将被寻址为 `multicast://orders`，而 `queue:orders` 则被寻址为 `anycast://orders`。
 
 如果没有这些前缀，路由类型改由 broker 决定，即通过匹配地址设置中的 `default-address-routing-type` 决定。
 
@@ -198,11 +198,11 @@ spec:
 
 应用的每个副本都从同一队列消费，关闭订阅也绝不会删除该队列。请在应用启动前创建队列：Artemis 自动创建的队列会受 `auto-delete-queues` 约束。
 
-此示例使用默认的地址前缀，即空前缀。如果设置了 `topicAddressPrefix`，component 会将其加在主题名之前，因此链路会建立在 `<prefix>orders::billing` 上。
+此示例使用默认的地址前缀，即空前缀。如果设置了 `topicAddressPrefix`，component 会将其加在 topic 名之前，因此链路会建立在 `<prefix>orders::billing` 上。
 
 ### Solace PubSub+
 
-Solace 以 `topic://<name>` 寻址主题，以 `queue://<name>` 寻址队列：
+Solace 以 `topic://<name>` 寻址 topic，以 `queue://<name>` 寻址队列：
 
 ```yaml
     - name: topicAddressPrefix
@@ -257,16 +257,16 @@ spec:
 无论使用哪种 broker，都请牢记以下几点：
 
 - **副本。** 当应用有多个副本时，请设置 `shared`。对于非共享的持久订阅，broker 可能只允许一个消费者连接。
-- **同一主题上的多个订阅。** 对于每个 pub/sub component 和主题，Dapr 只保留一个声明式或 programmatic subscription。若要在同一主题上保存多个命名订阅，请为每个订阅定义一个 component，如[下面的示例](#同一主题上的多个订阅)所示，或使用 [streaming subscription]({{% ref "subscription-methods.md#streaming-subscriptions" %}})。
+- **同一 topic 上的多个订阅。** 对于每个 pub/sub component 和 topic，Dapr 只保留一个声明式或 programmatic subscription。若要在同一 topic 上保存多个命名订阅，请为每个订阅定义一个 component，如[下面的示例](#同一-topic-上的多个订阅)所示，或使用 [streaming subscription]({{% ref "subscription-methods.md#streaming-subscriptions" %}})。
 - **更改选择器。** broker 可能会将更改后的选择器视为新订阅，并丢弃旧订阅所持有的消息。在没有消费者连接时，此过程不会报错，也不会有任何报告。当有消费者连接时（例如在滚动升级期间），broker 会拒绝更改后的选择器并记录错误，除非设置了 `allowSelectorChange`；设置后，component 会持续重试，broker 则会在旧消费者断开后重新创建订阅。如果未设置 `allowSelectorChange` 且错误已被记录，则没有任何副本消费该订阅，并且使用新选择器重启会丢弃其中的消息。必须恢复原选择器才能继续消费。若要更改选择器，请更新 `subscriptionName`，并在旧订阅排空后将其删除。
 - **删除订阅。** 即使从应用中移除了订阅，Dapr 也绝不会删除持久订阅。请在 broker 上将其删除。
 - **broker 重启。** 持久订阅只保留持久化的消息。请在发布 component 上设置 `durableMessages`，或从其他客户端发布持久化消息。JMS 客户端默认发布持久化消息。
 - **权限。** broker 用户需要具备创建持久订阅和从中消费的权限。使用 `anonymous: "true"` 时没有用户名：请将权限授予 broker 为该连接映射的角色，例如客户端证书所对应的角色。
 - **连接。** 每个命名订阅都使用各自独立的连接，使容器 ID 保持不变，并且停止订阅时绝不会删除它。
 
-### 同一主题上的多个订阅
+### 同一 topic 上的多个订阅
 
-Dapr 为每个 pub/sub component 和主题映射一个声明式或 programmatic subscription。因此，要在主题 `orders` 上设置两个各自带有选择器的命名订阅，需要在同一 broker 上配置两个 Dapr component：
+Dapr 为每个 pub/sub component 和 topic 映射一个声明式或 programmatic subscription。因此，要在 topic `orders` 上设置两个各自带有选择器的命名订阅，需要在同一 broker 上配置两个 Dapr component：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -376,7 +376,7 @@ curl -X POST "http://localhost:3500/v1.0/publish/artemis/orders?metadata.eventTy
 
 ## 订阅者返回错误时
 
-处理程序返回错误的消息，会以 `modified` 状态及 `delivery-failed` 返回给 broker。broker 会重新传递该消息并计入此次尝试，因此 broker 自身的 `redelivery-delay` 和 `max-delivery-attempts` 设置会生效，始终失败的消息最终会到达死信地址。
+handler 返回错误的消息，会以 `modified` 状态及 `delivery-failed` 返回给 broker。broker 会重新传递该消息并计入此次尝试，因此 broker 自身的 `redelivery-delay` 和 `max-delivery-attempts` 设置会生效，始终失败的消息最终会到达死信地址。
 
 重新传递的节奏和尝试次数上限是 broker 设置，而非 component 设置。在 ActiveMQ Artemis 中，它们位于 `address-settings` 中；请确保在该处配置了死信地址和 `max-delivery-attempts`。
 

@@ -12,7 +12,7 @@ aliases:
 要设置 Apache Kafka pub/sub，请创建类型为 `pubsub.kafka` 的 component。请参阅[pub/sub broker component 文件]({{% ref setup-pubsub.md %}})，了解 ConsumerID 是如何自动生成的。请阅读[操作指南：发布与订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})，了解如何创建并应用 pub/sub 配置。
 
 所有 component metadata 字段值都可以携带[模板化 metadata 值]({{% ref "component-schema.md#templated-metadata-values" %}})，这些值会在 Dapr sidecar 启动时解析。
-例如，你可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同的 namespace 中使用相同的 `appId` 和相同的主题，具体见[本文]({{% ref "howto-namespace.md#with-namespace-consumer-groups"%}})。
+例如，你可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同的 namespace 中使用相同的 `appId` 和相同的 topic，具体见[本文]({{% ref "howto-namespace.md#with-namespace-consumer-groups"%}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -85,7 +85,7 @@ spec:
 | 字段              | 必需 | 详细信息 | 示例 |
 |--------------------|:--------:|---------|---------|
 | brokers             | Y | 以逗号分隔的 Kafka brokers 列表。 | `"localhost:9092,dapr-kafka.myapp.svc.cluster.local:9093"`
-| consumerGroup       | N | 要监听的 Kafka 消费者组。发布到主题的每条记录都会被传递给订阅该主题的每个消费者组中的一个消费者。如果提供了 `consumerGroup` 的值，则会忽略 `consumerID` 的任何值——取而代之的是，为 `consumerID` 设置消费者组与随机唯一标识符的组合。 | `"group1"`
+| consumerGroup       | N | 要监听的 Kafka 消费者组。发布到 topic 的每条记录都会被传递给订阅该 topic 的每个消费者组中的一个消费者。如果提供了 `consumerGroup` 的值，则会忽略 `consumerID` 的任何值——取而代之的是，为 `consumerID` 设置消费者组与随机唯一标识符的组合。 | `"group1"`
 | consumerID       | N | 消费者 ID（消费者标签）将一个或多个消费者组织成一个组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，消息只会被组中的一个消费者处理一次。如果未提供 `consumerID`，Dapr runtime 会将其设置为 Dapr 应用 ID（`appID`）的值。如果提供了 `consumerGroup` 的值，则会忽略 `consumerID` 的任何值——取而代之的是，为 `consumerID` 设置消费者组与随机唯一标识符的组合。  | 可以设置为字符串值（如上例中的 `"channel1"`）或字符串格式的值（如 `"{podName}"` 等）。[查看 component metadata 中可用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | clientID            | N | 用户提供的字符串，随每个请求发送到 Kafka brokers，用于日志记录、调试和审计。默认值：Kubernetes 模式下为 `"namespace.appID"`，自托管模式下为 `"appID"`。 | `"my-namespace.my-dapr-app"`, `"my-dapr-app"`
 | authRequired        | N | *已弃用* 通过 [SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) 与 Kafka brokers 启用身份验证。 | `"true"`, `"false"`
@@ -95,11 +95,11 @@ spec:
 | saslMechanism      | N | 你希望使用的 SASL 身份验证机制。仅当 `authType` 设置为 `"password"` 时才需要。默认为 `PLAINTEXT` | `"SHA-512", "SHA-256", "PLAINTEXT"`
 | initialOffset       | N | 如果之前未提交偏移量，则使用的初始偏移量。应为 "newest" 或 "oldest"。默认为 "newest"。 | `"oldest"`
 | maxMessageBytes     | N | 单个 Kafka 消息允许的最大字节数。默认为 1024。 | `2048`
-| consumeRetryInterval | N | 尝试消费主题时的重试间隔。没有后缀的数字视为毫秒。默认为 100ms。 | `200ms` |
+| consumeRetryInterval | N | 尝试消费 topic 时的重试间隔。没有后缀的数字视为毫秒。默认为 100ms。 | `200ms` |
 | consumeRetryEnabled | N | 通过设置 `"false"` 禁用消费重试 | `"true"`, `"false"` |
 
 {{% alert title="注意" color="primary" %}}
-从 Dapr 1.19 开始，当消息的重试策略耗尽时（订阅者持续返回可重试错误，直到约束它的[resiliency]({{% ref "resiliency-overview.md" %}})放弃该消息），component 会提交该消息的偏移量并继续前进，同时记录一条警告。在 1.19 之前，偏移量不会被提交，因此同一条消息会被无限次重新投递，分区无法越过它继续处理。
+从 Dapr 1.19 开始，当消息的 retry policy 耗尽时（订阅者持续返回可重试错误，直到约束它的[resiliency]({{% ref "resiliency-overview.md" %}})放弃该消息），component 会提交该消息的偏移量并继续前进，同时记录一条警告。在 1.19 之前，偏移量不会被提交，因此同一条消息会被无限次重新投递，分区无法越过它继续处理。
 {{% /alert %}}
 | version               | N | Kafka 集群版本。默认为 2.0.0。请注意，如果你使用的是 Azure EventHubs with Kafka，则必须将其设置为 `1.0.0`。 | `0.10.2.0` |
 | caCert | N | 证书颁发机构证书，使用 TLS 时必需。可以是 `secretKeyRef`，以使用 secrets 引用 | `"-----BEGIN CERTIFICATE-----\n<base64-encoded DER>\n-----END CERTIFICATE-----"`
@@ -129,7 +129,7 @@ spec:
 | schemaCachingEnabled | N | 使用 Schema Registry Avro 序列化/反序列化时。启用 schema 缓存。默认为 `true` | `true` |
 | schemaLatestVersionCacheTTL | N | 使用 Schema Registry Avro 序列化/反序列化时。使用最新可用 schema 发布消息时，schema 缓存的 TTL。默认为 5 分钟 | `5m` |
 | useAvroJson | N | 启用 Avro JSON schema 进行序列化，而非默认的 Standard JSON。仅在订阅使用 valueSchemaType=Avro 时适用。默认为 `"false"` | `"true"` |
-| clientConnectionTopicMetadataRefreshInterval | N | 客户端连接的主题 metadata 与 broker 刷新的间隔，以 Go 时长格式表示。默认为 `9m`。 | `"4m"` |
+| clientConnectionTopicMetadataRefreshInterval | N | 客户端连接的 topic metadata 与 broker 刷新的间隔，以 Go 时长格式表示。默认为 `9m`。 | `"4m"` |
 | clientConnectionKeepAliveInterval | N | 客户端连接与 broker 保持活动的最长时间（以 Go 时长格式表示），超时后关闭连接。零值（默认）表示无限期保持活动。 | `"4m"` |
 | consumerFetchMin | N | 单个请求中获取的最小消息字节数——broker 会等待，直到至少有这么多字节可用。默认为 `1`，因为 `0` 会导致在没有可用消息时消费者空转。等同于 JVM 的 `fetch.min.bytes`。 | `"2"` |
 | consumerFetchDefault | N | 每个请求从 broker 获取的默认消息字节数。默认为 `"1048576"` 字节。 | `"2097152"` |
@@ -138,7 +138,7 @@ spec:
 | sessionTimeout | N | 使用 Kafka 的组管理功能时，用于检测客户端故障的超时时间。如果在该会话超时到期前，broker 没有收到消费者的任何心跳，则会移除该消费者并触发重新平衡。默认为 "10s"。 | `"20s"` |
 | consumerGroupRebalanceStrategy | N | 用于消费者组重新平衡的策略。支持的值：`range`、`sticky`、`roundrobin`。默认为 `range` | `"sticky"` |
 | escapeHeaders | N | 启用对消费者接收的消息头值进行 URL 转义。允许接收通常不允许出现在 HTTP 头中的特殊字符内容。默认为 `false`。 | `true` |
-| excludeHeaderMetaRegex | N | 一个正则表达式，用于在消费消息时，将某些键排除在从消息头转换为 metadata 的范围之外，并在发布消息时排除从 metadata 转换为消息头的情况。此功能可避免对主题消费者产生意外的下游副作用。 | '"^valueSchemaType$"`
+| excludeHeaderMetaRegex | N | 一个正则表达式，用于在消费消息时，将某些键排除在从消息头转换为 metadata 的范围之外，并在发布消息时排除从 metadata 转换为消息头的情况。此功能可避免对 topic 消费者产生意外的下游副作用。 | '"^valueSchemaType$"`
 | dialTimeout | N | 等待与 broker 建立初始 TCP 连接的最长时间。限制在不可达的集群上 `Init()` 的阻塞时长。默认为 `"30s"`（与 Sarama 内置默认值一致）。 | `"10s"` |
 | readTimeout | N | 发送请求后，等待 broker 响应的最长时间。默认为 `"30s"`. | `"10s"` |
 | writeTimeout | N | 等待请求成功传输到 broker 的最长时间。默认为 `"30s"`. | `"10s"` |
@@ -146,10 +146,10 @@ spec:
 | producerRequiredAcks | N | broker 在认为生产请求成功之前所需的确认数。可接受的值：`"all"`（所有同步副本，持久性最高）、`"local"`（仅分区 leader）、`"none"`（不确认）。默认为 `"all"`. | `"local"` |
 | producerRetryMax | N | 放弃前重试发送消息的最大次数。默认为 `5`. | `3` |
 | producerTransactionsEnabled | N | 设置为 `"true"` 时，每次发布（单条或批量）都会包装在幂等生产者上的[Kafka 事务](#kafka-事务与精确一次处理)中：被中止的发布对使用 `read_committed` 的消费者不可见，Bulk Publish 具有原子性（所有条目要么全部提交，要么全部不提交）。要求 `producerRequiredAcks: "all"`, `producerRetryMax` >= 1 且 Kafka 0.11 或更高版本。事务会串行化发布操作并增加 broker 往返次数，从而降低发布吞吐量。默认为 `"false"` | `"true"`, `"false"` |
-| consumerTransactionsEnabled | N | 设置为 `"true"`，每次投递都会在 Kafka 事务（[精确一次消费-转换-生产](#精确一次消费-转换-生产)）中处理：处理程序发出的、携带该投递事务令牌的发布会加入该事务，消费者偏移量会在处理程序成功时与之原子性地一起提交。会强制 `consumerIsolationLevel: "read_committed"`。需要消费者组（`consumerGroup`，或由 Dapr 为你设置的 `consumerID`）以及 `producerRequiredAcks: "all"`, `producerRetryMax` >= 1，且需要 Kafka 2.5 或更高版本（请相应设置 `version`）。默认为 `"false"` | `"true"`, `"false"` |
+| consumerTransactionsEnabled | N | 设置为 `"true"`，每次投递都会在 Kafka 事务（[精确一次消费-转换-生产](#精确一次消费-转换-生产)）中处理：handler 发出的、携带该投递事务令牌的发布会加入该事务，消费者偏移量会在 handler 成功时与之原子性地一起提交。会强制 `consumerIsolationLevel: "read_committed"`。需要消费者组（`consumerGroup`，或由 Dapr 为你设置的 `consumerID`）以及 `producerRequiredAcks: "all"`, `producerRetryMax` >= 1，且需要 Kafka 2.5 或更高版本（请相应设置 `version`）。默认为 `"false"` | `"true"`, `"false"` |
 | transactionalIdPrefix | N | 启用事务时，该 component 向 broker 注册的 `transactional.id` 值的前缀。对于发布生产者，默认为 `clientID`，然后是 `consumerGroup`，再然后是 `"dapr"`；对于消费者事务，默认为 `clientID`，然后是 `"dapr"`，并且必须在消费应用的每个副本上解析为相同的值。参见[扩缩容与隔离](#扩缩容僵尸隔离与-transactionalidprefix)。 | `"my-app"` |
 | consumerIsolationLevel | N | 消费者的隔离级别。`"read_uncommitted"`（默认）会投递所有记录；`"read_committed"` 会隐藏属于未结束或已中止 Kafka 事务的记录，并且需要 Kafka 0.11 或更高版本。当 `consumerTransactionsEnabled` 为 `"true"` 时，级别必须为 `"read_committed"`：保持此字段未设置会自动选择该级别，而显式设置为 `"read_uncommitted"` 会导致验证失败。 | `"read_committed"` |
-| transactionTimeout | N | 启用事务时，向 broker 请求的事务超时时间，以 Go 时长格式表示。启用 `consumerTransactionsEnabled` 时，事务会在整个处理程序调用期间保持打开，因此该值必须大于最慢的预期处理程序耗时。不得超过 broker 的 `transaction.max.timeout.ms`（默认为 15 分钟）：当生产者初始化时，broker 会拒绝更大的值。启用 `producerTransactionsEnabled` 时，该生产者会在 component 初始化期间创建，因此 component 将无法启动；仅启用 `consumerTransactionsEnabled` 时，每个分区的生产者会在首次使用时创建，因此每次投递都会失败，而不携带事务令牌的发布仍可正常工作。默认为 `"60s"` | `"90s"` |
+| transactionTimeout | N | 启用事务时，向 broker 请求的事务超时时间，以 Go 时长格式表示。启用 `consumerTransactionsEnabled` 时，事务会在整个 handler 调用期间保持打开，因此该值必须大于最慢的预期 handler 耗时。不得超过 broker 的 `transaction.max.timeout.ms`（默认为 15 分钟）：当生产者初始化时，broker 会拒绝更大的值。启用 `producerTransactionsEnabled` 时，该生产者会在 component 初始化期间创建，因此 component 将无法启动；仅启用 `consumerTransactionsEnabled` 时，每个分区的生产者会在首次使用时创建，因此每次投递都会失败，而不携带事务令牌的发布仍可正常工作。默认为 `"60s"` | `"90s"` |
 
 上面的 `secretKeyRef` 引用了 [Kubernetes secret store]({{% ref kubernetes-secret-store.md %}})来访问 TLS 信息。访问[此处]({{% ref setup-secret-store.md %}})，了解如何配置 secret store component。
 
@@ -493,15 +493,15 @@ auth:
   secretStore: <SECRET_STORE_NAME>
 ```
 
-## 从多个主题消费
+## 从多个 topic 消费
 
-使用单个 pub/sub component 从多个主题消费时，无法保证消费者组中的消费者在各主题分区之间如何均衡分配。
+使用单个 pub/sub component 从多个 topic 消费时，无法保证消费者组中的消费者在各 topic 分区之间如何均衡分配。
 
-例如，假设你订阅了两个主题，每个主题有 10 个分区，并且有 20 个服务副本从这两个主题消费。无法保证其中 10 个会分配给第一个主题、10 个分配给第二个主题。相反，分区可能被不均匀地划分，第一个主题可能分配到 10 个以上，其余分配给第二个主题。
+例如，假设你订阅了两个 topic，每个 topic 有 10 个分区，并且有 20 个服务副本从这两个 topic 消费。无法保证其中 10 个会分配给第一个 topic、10 个分配给第二个 topic。相反，分区可能被不均匀地划分，第一个 topic 可能分配到 10 个以上，其余分配给第二个 topic。
 
-这可能导致监听第一个主题的消费者处于空闲状态，而第二个主题的消费者负载过重，反之亦然。在使用 HPA 或 KEDA 等自动伸缩器时，也会出现同样的行为。
+这可能导致监听第一个 topic 的消费者处于空闲状态，而第二个 topic 的消费者负载过重，反之亦然。在使用 HPA 或 KEDA 等自动伸缩器时，也会出现同样的行为。
 
-如果遇到此问题，建议为每个主题分别配置一个 pub/sub component，并为每个 component 定义唯一的消费者组。这样可以保证服务的所有副本都完全分配到唯一的消费者组中，且每个消费者组只针对一个特定主题。
+如果遇到此问题，建议为每个 topic 分别配置一个 pub/sub component，并为每个 component 定义唯一的消费者组。这样可以保证服务的所有副本都完全分配到唯一的消费者组中，且每个消费者组只针对一个特定 topic。
 
 例如，你可以按以下配置定义两个 Dapr component：
 
@@ -537,7 +537,7 @@ Apache Kafka component 支持通过 Bulk Publish 和 Bulk Subscribe API，在单
 
 ### 配置 Bulk Subscribe
 
-订阅主题时，可以配置 `bulkSubscribe` 选项。更多详情请参阅[Bulk Subscribe 消息]({{% ref "pubsub-bulk#subscribing-messages-in-bulk" %}})。进一步了解[Bulk Subscribe API]({{% ref pubsub-bulk.md %}})。
+订阅 topic 时，可以配置 `bulkSubscribe` 选项。更多详情请参阅[Bulk Subscribe 消息]({{% ref "pubsub-bulk#subscribing-messages-in-bulk" %}})。进一步了解[Bulk Subscribe API]({{% ref pubsub-bulk.md %}})。
 
 Apache Kafka 支持以下批量 metadata 选项：
 
@@ -552,7 +552,7 @@ Kafka pubsub component 支持 [Kafka 事务](https://kafka.apache.org/documentat
 
 - **事务性发布**（`producerTransactionsEnabled`）：每次发布（包括每次 Bulk Publish）作为一个整体提交或中止。
 - **仅消费已提交的消息**（`consumerIsolationLevel: "read_committed"`）：订阅者永远不会看到来自未完成或已中止事务的记录。
-- **精确一次的消费-转换-生产**（`consumerTransactionsEnabled`）：每次投递都在一个 Kafka 事务中处理；处理程序在处理过程中发起的发布会加入该事务，消费者偏移量与之原子地一起提交。
+- **精确一次的消费-转换-生产**（`consumerTransactionsEnabled`）：每次投递都在一个 Kafka 事务中处理；handler 在处理过程中发起的发布会加入该事务，消费者偏移量与之原子地一起提交。
 
 ### 事务性发布
 
@@ -597,11 +597,11 @@ spec:
       value: "read_committed"
 ```
 
-使用 `consumerIsolationLevel: "read_committed"` 时，此 component 上的订阅只会接收来自已提交事务的记录；属于未完成事务的记录会被 broker 扣留，来自已中止事务的记录则会在到达处理程序之前被客户端丢弃。请在任何位于事务性生产者下游的消费者上使用此设置。
+使用 `consumerIsolationLevel: "read_committed"` 时，此 component 上的订阅只会接收来自已提交事务的记录；属于未完成事务的记录会被 broker 扣留，来自已中止事务的记录则会在到达 handler 之前被客户端丢弃。请在任何位于事务性生产者下游的消费者上使用此设置。
 
 ### 精确一次消费-转换-生产
 
-对于从 Kafka 消费、处理并再发布回 Kafka 的管道，`consumerTransactionsEnabled` 可在输入主题与输出主题之间提供精确一次语义。
+对于从 Kafka 消费、处理并再发布回 Kafka 的管道，`consumerTransactionsEnabled` 可在输入 topic 与输出 topic 之间提供精确一次语义。
 
 此功能需要 **Kafka 2.5 或更高版本**，门槛高于其他两项：只有从 2.5 开始，偏移量提交才会携带消费者组的成员 ID 和代数，broker 需要借助它们来隔离迟到提交的已撤销组成员。component 的默认 `version` 为 `2.0.0`，因此必须显式设置 `version`，否则初始化会失败。
 
@@ -628,13 +628,13 @@ spec:
 
 工作原理如下：
 
-1. 对于每次投递，component 会在调用处理程序之前打开一个 Kafka 事务，并将事务令牌注入消息 metadata 中，你的应用会以 `__txnToken` 标头（HTTP）或 metadata 条目（gRPC）的形式接收它。
-1. 处理程序发起的发布**必须回显该令牌**，才能加入投递所属的未完成事务：
+1. 对于每次投递，component 会在调用 handler 之前打开一个 Kafka 事务，并将事务令牌注入消息 metadata 中，你的应用会以 `__txnToken` 标头（HTTP）或 metadata 条目（gRPC）的形式接收它。
+1. handler 发起的发布**必须回显该令牌**，才能加入投递所属的未完成事务：
    - HTTP：在发布调用中，将令牌作为 `metadata.__txnToken` 查询参数传递。
    - gRPC：在发布请求 metadata 中，传递键为 `__txnToken` 的条目。
    - Bulk Publish：在请求级 metadata 中传递令牌（不支持为令牌设置每条目 metadata）。
-1. 当处理程序成功时，component 提交事务：已发布的记录与消费者偏移量原子地一起提交。
-1. 当处理程序失败时，component 中止事务：处理程序在其中发布的记录（即带有事务令牌的记录）对 `read_committed` 消费者永远不可见；当 `consumeRetryEnabled` 为 `"true"`（默认值）时，消息会被重新传递。重新传递由本 component 的 `backOff*` metadata 控制，默认无上限；设置 `backOffMaxRetries` 可对其加以限制。Dapr resiliency 约束的是单次处理程序调用，而非重新传递循环。从 Dapr 1.19 开始，一旦处理程序的重试策略耗尽，component 会自行提交偏移量（在已中止的事务之外），而不再无限期地重新传递该消息。
+1. 当 handler 成功时，component 提交事务：已发布的记录与消费者偏移量原子地一起提交。
+1. 当 handler 失败时，component 中止事务：handler 在其中发布的记录（即带有事务令牌的记录）对 `read_committed` 消费者永远不可见；当 `consumeRetryEnabled` 为 `"true"`（默认值）时，消息会被重新传递。重新传递由本 component 的 `backOff*` metadata 控制，默认无上限；设置 `backOffMaxRetries` 可对其加以限制。Dapr resiliency 约束的是单次 handler 调用，而非重新传递循环。从 Dapr 1.19 开始，一旦 handler 的 retry policy 耗尽，component 会自行提交偏移量（在已中止的事务之外），而不再无限期地重新传递该消息。
 
 例如，一个回显令牌的 HTTP 订阅者：
 
@@ -652,30 +652,30 @@ curl -X POST "http://localhost:3500/v1.0/publish/kafka-pubsub/processed-orders?m
 使用消费者事务时隐含 `read_committed` 隔离级别：未设置 `consumerIsolationLevel` 时会自动选择该级别，而显式设置为 `"read_uncommitted"` 会导致验证失败。使用[Bulk Subscribe]({{% ref pubsub-bulk.md %}})时，批次是全有或全无的：任一条目失败都会中止并重新传递整个批次。
 
 {{% alert title="携带令牌的发布必须使用同一 component" color="warning" %}}
-事务按 component 实例进行跟踪。携带令牌的发布必须通过**投递该消息的同一个 Kafka pubsub component**进行：通过*其他* Kafka component 的携带令牌发布会直接报错；过期的令牌（例如在处理程序返回之后）同样会直接报错，而不会悄悄地将消息发布到事务之外。非 Kafka component 会完全忽略令牌，从而将消息发布到任何事务之外。
+事务按 component 实例进行跟踪。携带令牌的发布必须通过**投递该消息的同一个 Kafka pubsub component**进行：通过*其他* Kafka component 的携带令牌发布会直接报错；过期的令牌（例如在 handler 返回之后）同样会直接报错，而不会悄悄地将消息发布到事务之外。非 Kafka component 会完全忽略令牌，从而将消息发布到任何事务之外。
 {{% /alert %}}
 
 {{% alert title="不携带令牌的发布保持在事务之外" color="warning" %}}
-不携带令牌的发布是普通发布：即使是在处理程序内部发起的，它也会独立于投递所属的事务提交。如果该投递之后被重试，此发布会重复执行。只有携带令牌的发布才受精确一次保证的覆盖。
+不携带令牌的发布是普通发布：即使是在 handler 内部发起的，它也会独立于投递所属的事务提交。如果该投递之后被重试，此发布会重复执行。只有携带令牌的发布才受精确一次保证的覆盖。
 {{% /alert %}}
 
 #### 保证的作用域
 
-精确一次保证覆盖 Kafka 记录和消费者偏移量：输出发布与输入偏移量提交要么一起提交，要么一起中止。你的处理程序本身仍以至少一次（at-least-once）的方式运行——非 Kafka 的副作用（数据库写入、外部 API 调用）不在该事务之内，因此应当是幂等的。
+精确一次保证覆盖 Kafka 记录和消费者偏移量：输出发布与输入偏移量提交要么一起提交，要么一起中止。你的 handler 本身仍以至少一次（at-least-once）的方式运行——非 Kafka 的副作用（数据库写入、外部 API 调用）不在该事务之内，因此应当是幂等的。
 
 #### 事务超时
 
-使用消费者事务时，事务会在整个处理程序调用期间保持打开，因此 `transactionTimeout`（默认 `60s`）必须大于你预期的最慢处理程序的耗时。超时后，broker 会中止该事务，并重新传递该消息。该值不得超过 broker 的 `transaction.max.timeout.ms`（默认 15 分钟）：broker 会在生产者初始化时拒绝更大的值，这会导致每次投递都失败（如果同时设置了 `producerTransactionsEnabled`，component 甚至无法启动）。对于慢于 broker 上限的处理程序，请在 broker 上提高 `transaction.max.timeout.ms`。
+使用消费者事务时，事务会在整个 handler 调用期间保持打开，因此 `transactionTimeout`（默认 `60s`）必须大于你预期的最慢 handler 的耗时。超时后，broker 会中止该事务，并重新传递该消息。该值不得超过 broker 的 `transaction.max.timeout.ms`（默认 15 分钟）：broker 会在生产者初始化时拒绝更大的值，这会导致每次投递都失败（如果同时设置了 `producerTransactionsEnabled`，component 甚至无法启动）。对于慢于 broker 上限的 handler，请在 broker 上提高 `transaction.max.timeout.ms`。
 
 #### 扩缩容、僵尸隔离与 transactionalIdPrefix
 
-使用消费者事务时，每个主题分区都使用稳定的 `transactional.id` `"<prefix>-<digest>-<partition>"` 进行生产，其中 `digest` 是对消费者组、一个 NUL 字节和主题依次计算 SHA-256 后取前 8 个字节，并以小写十六进制表示。正是这种稳定性提供了僵尸隔离（zombie fencing）：当某个分区在重平衡或崩溃后转移到另一个副本时，新副本的生产者会隔离旧实例，并且在开始重新处理之前，旧实例遗留的所有未完成事务都会被中止。
+使用消费者事务时，每个 topic-partition 都使用稳定的 `transactional.id` `"<prefix>-<digest>-<partition>"` 进行生产，其中 `digest` 是对消费者组、一个 NUL 字节和 topic 依次计算 SHA-256 后取前 8 个字节，并以小写十六进制表示。正是这种稳定性提供了僵尸隔离（zombie fencing）：当某个分区在重平衡或崩溃后转移到另一个副本时，新副本的生产者会隔离旧实例，并且在开始重新处理之前，旧实例遗留的所有未完成事务都会被中止。
 
 前缀默认为 `clientID`，若未设置则为 `"dapr"`，也可以通过 `transactionalIdPrefix` 显式设置。它必须在消费应用的**每个副本上解析为相同的值**——不要将每个副本模板化的 `clientID`（例如 `"{podName}"`）用作有效前缀，否则副本之间将无法相互隔离。
 
-之所以对消费者组和主题取摘要，而不是直接写入 id，是因为 `-` 在两者中都是合法字符：如果直接写出，消费者组 `a-b`（主题 `c`）与消费者组 `a`（主题 `b-c`）将注册相同的 id，而两个共享同一 id 的 component 会在每次事务中相互隔离对方的生产者，且不会有任何错误指明原因。前缀按原样保留，因此 `<prefix>-*` 形式的 broker ACL 模式不受影响。
+之所以对消费者组和 topic 取摘要，而不是直接写入 id，是因为 `-` 在两者中都是合法字符：如果直接写出，消费者组 `a-b`（topic `c`）与消费者组 `a`（topic `b-c`）将注册相同的 id，而两个共享同一 id 的 component 会在每次事务中相互隔离对方的生产者，且不会有任何错误指明原因。前缀按原样保留，因此 `<prefix>-*` 形式的 broker ACL 模式不受影响。
 
-要将你在 broker 上看到的 `transactional.id` 映射回消费者组和主题，请为候选值重新计算摘要：
+要将你在 broker 上看到的 `transactional.id` 映射回消费者组和 topic，请为候选值重新计算摘要：
 
 ```bash
 # sha256sum 来自 coreutils；在 macOS 上请使用：shasum -a 256
@@ -710,7 +710,7 @@ curl -X POST http://localhost:3500/v1.0/publish/myKafka/myTopic?metadata.partiti
 
 调用 Kafka pub/sub 时，可以通过请求 URL 中的 `metadata` 查询参数提供可选的分区编号。这使你可以直接指定目标 Kafka 分区，绕过 `partitionKey` 所使用的基于哈希的分区分配。
 
-参数名为 `partitionNumber`，其值必须是非负整数，并且位于该主题的分区范围（`0` 到 `partitionCount - 1`）之内。如果该值超出范围、为负数或不是有效整数，发布将失败并返回错误。
+参数名为 `partitionNumber`，其值必须是非负整数，并且位于该 topic 的分区范围（`0` 到 `partitionCount - 1`）之内。如果该值超出范围、为负数或不是有效整数，发布将失败并返回错误。
 
 如果同时提供了 `partitionNumber` 和 `partitionKey`（或 `__key`），则选择分区时以 `partitionNumber` 为准。`partitionKey` 仍会被设置在 Kafka 消息记录上。
 
@@ -749,7 +749,7 @@ curl -X POST http://localhost:3500/v1.0/publish/myKafka/myTopic?metadata.correla
 消费消息时，特殊的消息 metadata 会自动作为标头传递。它们包括：
 
 - `__key`：消息键（如果有）
-- `__topic`：消息所属的主题
+- `__topic`：消息所属的 topic
 - `__partition`：消息所在的分区编号
 - `__offset`：消息在分区中的偏移量
 - `__timestamp`：消息的时间戳
@@ -845,7 +845,7 @@ spec:
 - Schema Registry 的 URL
 - API key/secret（如适用）
 
-Schema 主体（subject）会根据主题名称，按照标准命名约定自动派生。例如，对于名为 `my-topic` 的主题，Schema 主体将为 `my-topic-value`。
+Schema 主体（subject）会根据 topic 名称，按照标准命名约定自动派生。例如，对于名为 `my-topic` 的 topic，Schema 主体将为 `my-topic-value`。
 在服务中与消息负载交互时，负载为 JSON 格式。负载由 Dapr component 透明地进行序列化和反序列化。
 日期/日期时间字段必须以其 [Epoch Unix 时间戳](https://en.wikipedia.org/wiki/Unix_time)的等价形式传递（而非常见的 Iso8601 格式）。例如：
 - `2024-01-10T04:36:05.986Z` 应以 `1704861365986` 传递（自 1970 年 1 月 1 日起的毫秒数）
@@ -887,7 +887,7 @@ with DaprClient() as d:
 {{< /tabpane >}}
 
 
-### 订阅 Avro 主题
+### 订阅 Avro topic
 
 要告知 Kafka pub/sub component 应使用 Avro 反序列化消息，必须在订阅 metadata 中将 `valueSchemaType` metadata 设置为 `Avro`。
 
@@ -935,7 +935,7 @@ Dapr 允许通过设置自定义发布 metadata 来定制发布行为。
 但是，默认情况下，这些 metadata 项会被转换为 Kafka 标头并与消息一同发布。这一默认行为非常有用，例如可以在一连串的发布者和消费者之间转发追踪标头。
 
 然而，在某些场景下，这会产生不必要的副作用。
-假设你使用 Dapr 消费上述带有标头的 Avro 消息。如果该消息无法成功消费，并被配置为发送到死信主题，那么在发布到死信主题时，`valueSchemaType=Avro` 会被自动继承，从而要求为该主题配置相关联的 Schema。在许多场景中，更可取的做法是仅以 JSON 格式发布死信消息，因为无法遵循既定的 Schema。
+假设你使用 Dapr 消费上述带有标头的 Avro 消息。如果该消息无法成功消费，并被配置为发送到死信主题，那么在发布到死信主题时，`valueSchemaType=Avro` 会被自动继承，从而要求为该 topic 配置相关联的 Schema。在许多场景中，更可取的做法是仅以 JSON 格式发布死信消息，因为无法遵循既定的 Schema。
 
 要避免此行为，可以配置 kafka-pubsub component，将某些 metadata 键排除在与标头的相互转换之外。
 ```yaml

@@ -44,7 +44,7 @@ spec:
 |--------------------|:--------:|---------|---------|
 | `url`    | Y  | MQTT 代理的地址。可以是 `secretKeyRef` 以使用密钥引用。<br> 对于非 TLS 通信，使用 **`tcp://`** URI 协议。<br> 对于 TLS 通信，使用 **`ssl://`** URI 协议。 | `"tcp://[username][:password]@host.domain[:port]"`
 | `consumerID` | N | 用于连接到 MQTT 代理的客户端 ID。默认为 Dapr 应用 ID。 | 可以设置为字符串值（例如上面示例中的 `"channel1"`）或字符串格式值（例如 `"{podName}"` 等）。[查看您可以在组件元数据中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
-| `retain` | N  | 定义消息是否由代理保存为指定主题的最后一个已知良好值。默认为 `"false"`。 | `"true"`, `"false"`
+| `retain` | N  | 定义消息是否由代理保存为指定 topic 的最后一个已知良好值。默认为 `"false"`。 | `"true"`, `"false"`
 | `cleanSession` | N | 如果为 `"true"`，则设置到 MQTT 代理的连接消息中的 `clean_session` 标志（[更多信息](http://www.steves-internet-guide.com/mqtt-clean-sessions-example/)）。默认为 `"false"`。 | `"true"`, `"false"`
 | `caCert` | 使用 TLS 时必填 | 用于验证服务器 TLS 证书的 PEM 格式证书颁发机构 (CA) 证书。 | 参见下面的示例
 | `clientCert`  | 使用 TLS 时必填 | PEM 格式的 TLS 客户端证书。必须与 `clientKey` 一起使用。 | 参见下面的示例
@@ -92,9 +92,9 @@ spec:
 
 请注意，虽然 `caCert` 和 `clientCert` 值可能不是密钥，但为了方便起见，也可以从 Dapr 密钥存储中引用它们。
 
-### 消费共享主题
+### 消费共享 topic
 
-在消费共享主题时，每个消费者必须具有唯一的标识符。默认情况下，应用 ID 用于唯一标识每个消费者和发布者。在自托管模式下，为每个 `dapr run` 调用使用不同的应用 ID 就足以使它们从同一个共享主题消费。然而，在 Kubernetes 上，应用 Pod 的多个实例将共享同一个应用 ID，从而阻止所有实例消费同一个主题。为了克服这一点，请使用 `{uuid}` 标签（这将在每个实例启动时为其生成一个随机生成的值）或 `{podName}`（这将使用 Kubernetes 上的 Pod 名称）配置组件的 `consumerID` 元数据。例如：
+在消费共享 topic 时，每个消费者必须具有唯一的标识符。默认情况下，应用 ID 用于唯一标识每个消费者和发布者。在自托管模式下，为每个 `dapr run` 调用使用不同的应用 ID 就足以使它们从同一个共享 topic 消费。然而，在 Kubernetes 上，应用 Pod 的多个实例将共享同一个应用 ID，从而阻止所有实例消费同一个 topic。为了克服这一点，请使用 `{uuid}` 标签（这将在每个实例启动时为其生成一个随机生成的值）或 `{podName}`（这将使用 Kubernetes 上的 Pod 名称）配置组件的 `consumerID` 元数据。例如：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

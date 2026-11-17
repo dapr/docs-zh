@@ -6,7 +6,7 @@ description: "发布订阅 API 的详细文档"
 weight: 1200
 ---
 
-## 向指定主题发布消息
+## 向指定 topic 发布消息
 
 此端点允许您向正在监听 `topic` 的多个消费者发布数据。
 Dapr 保证此端点至少一次（At-Least-Once）语义。
@@ -23,7 +23,7 @@ POST http://localhost:<daprPort>/v1.0/publish/<pubsubname>/<topic>[?<metadata>]
 ---- | -----------
 204  | 消息已投递
 403  | 消息被访问控制拒绝
-404  | 未提供 pubsub 名称或主题
+404  | 未提供 pubsub 名称或 topic
 500  | 投递失败
 
 ### URL 参数
@@ -32,7 +32,7 @@ POST http://localhost:<daprPort>/v1.0/publish/<pubsubname>/<topic>[?<metadata>]
 --------- | -----------
 `daprPort` | Dapr 端口
 `pubsubname` | 发布订阅组件的名称
-`topic` | 主题的名称
+`topic` | topic 的名称
 `metadata` | 元数据的查询参数，如下所述
 
 > 注意，所有 URL 参数区分大小写。
@@ -64,7 +64,7 @@ curl -X POST http://localhost:3500/v1.0/publish/pubsubName/deathStarStatus \
 
 > 根据每个发布订阅组件，可提供其他元数据参数。
 
-## 向指定主题发布多条消息
+## 向指定 topic 发布多条消息
 
 此端点允许您向正在监听 `topic` 的消费者发布多条消息。
 
@@ -112,7 +112,7 @@ curl -X POST http://localhost:3500/v1.0/publish/bulk/pubsubName/deathStarStatus 
 |--|--|
 |`daprPort`|Dapr 端口|
 |`pubsubname`|发布/订阅组件的名称|
-|`topic`|主题的名称|
+|`topic`|topic 的名称|
 |`metadata`|[元数据]({{% ref "pubsub_api.md#metadata" %}})的查询参数|
 
 ### 元数据
@@ -150,9 +150,9 @@ curl -X POST http://localhost:3500/v1.0/publish/bulk/pubsubName/deathStarStatus 
 
 ## 可选的应用程序（用户代码）路由
 
-### 提供路由供 Dapr 发现主题订阅
+### 提供路由供 Dapr 发现 topic 订阅
 
-Dapr 将调用用户代码上的以下端点以发现主题订阅：
+Dapr 将调用用户代码上的以下端点以发现 topic 订阅：
 
 #### HTTP 请求
 
@@ -203,11 +203,11 @@ GET http://localhost:<appPort>/dapr/subscribe
 --------- | -----------
 `rawPayload` | 布尔值，用于订阅不符合 CloudEvent 规范的事件，如[此处所述]({{% ref pubsub-raw.md %}})
 
-### 提供路由供 Dapr 投递主题事件
+### 提供路由供 Dapr 投递 topic 事件
 
-为了投递主题事件，将使用订阅响应中指定的路由对用户代码进行 `POST` 调用。在 `routes` 下，您可以提供[在接收到消息主题时将特定条件匹配到特定路径的规则。]({{% ref "howto-route-messages.md" %}}) 您还可以为没有特定匹配的规则提供默认路由。
+为了投递 topic 事件，将使用订阅响应中指定的路由对用户代码进行 `POST` 调用。在 `routes` 下，您可以提供[在接收到消息 topic 时将特定条件匹配到特定路径的规则。]({{% ref "howto-route-messages.md" %}}) 您还可以为没有特定匹配的规则提供默认路由。
 
-以下示例说明了这一点，考虑在端口 3000 上为路由 `orders` 订阅主题 `newOrder`：`POST http://localhost:3000/orders`
+以下示例说明了这一点，考虑在端口 3000 上为路由 `orders` 订阅 topic `newOrder`：`POST http://localhost:3000/orders`
 
 #### HTTP 请求
 
@@ -253,13 +253,13 @@ HTTP 状态 | 描述
 404 | 记录错误并丢弃消息
 其他 | 记录警告并重试消息
 
-## 从指定主题订阅多条消息
+## 从指定 topic 订阅多条消息
 
 这允许您在监听 `topic` 时从代理订阅多条消息。
 
-为了以批量方式接收主题订阅的消息，应用程序：
+为了以批量方式接收 topic 订阅的消息，应用程序：
 
-- 需要在发送要订阅的主题列表时选择 `bulkSubscribe`
+- 需要在发送要订阅的 topic 列表时选择 `bulkSubscribe`
 - 可选地，可以配置 `maxMessagesCount` 和/或 `maxAwaitDurationMs`
 有关如何选择加入的更多详细信息，请参阅[批量发送和接收消息]({{% ref pubsub-bulk.md %}}) 指南。
 
@@ -323,5 +323,5 @@ Dapr 发布订阅遵循 [CloudEvents 1.0 版本](https://github.com/cloudevents/
 
 ## 相关链接
 
-* [如何发布和消费主题]({{% ref howto-publish-subscribe.md %}})
+* [如何发布和消费 topic]({{% ref howto-publish-subscribe.md %}})
 * [发布/订阅示例](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub)

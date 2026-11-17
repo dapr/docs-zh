@@ -78,13 +78,13 @@ spec:
 | `maxDeliveryCount`      | N | 输入/输出 | 定义服务器尝试传递消息的次数。仅在订阅创建期间使用。默认值由服务器设置。 | `"10"`
 | `minConnectionRecoveryInSec` | N | 输入/输出 | 在连接失败时尝试重新连接到 Azure Service Bus 之前等待的最小时间间隔（秒）。默认值：`"2"` | `"5"`
 | `maxConnectionRecoveryInSec` | N | 输入/输出 | 在连接失败时尝试重新连接到 Azure Service Bus 之前等待的最大时间间隔（秒）。每次尝试后，组件会在最小值和最大值之间等待一个随机秒数，且每次递增。默认值：`"300"`（5 分钟） | `"600"`
-| `maxActiveMessages`     | N  | 定义一次要处理或在缓冲区中的最大消息数。此值应至少与最大并发处理程序数一样大。默认值：`"1"` | `"1"`
-| `handlerTimeoutInSec`| N | 输入 |  调用应用程序处理程序的超时时间。默认值：`"0"`（无超时） | `"30"`
+| `maxActiveMessages`     | N  | 定义一次要处理或在缓冲区中的最大消息数。此值应至少与最大并发 handler 数一样大。默认值：`"1"` | `"1"`
+| `handlerTimeoutInSec`| N | 输入 |  调用应用程序 handler 的超时时间。默认值：`"0"`（无超时） | `"30"`
 | `minConnectionRecoveryInSec` | N | 输入 | 在连接失败时尝试重新连接到 Azure Service Bus 之前等待的最小时间间隔（秒）。默认值：`"2"` | `"5"` |
 | `maxConnectionRecoveryInSec` | N | 输入 | 在连接失败时尝试重新连接到 Azure Service Bus 之前等待的最大时间间隔（秒）。每次尝试后，绑定会在最小值和最大值之间等待一个随机秒数，且每次递增。默认值：`"300"`（5 分钟） | `"600"` |
 | `lockRenewalInSec`      | N | 输入 | 定义缓冲消息锁的续订频率。默认值：`"20"`。 | `"20"`
-| `maxActiveMessages`     | N | 输入 | 定义一次要处理或在缓冲区中的最大消息数。此值应至少与最大并发处理程序数一样大。默认值：`"1"` | `"2000"`
-| `maxConcurrentHandlers` | N | 输入 | 定义最大并发消息处理程序数；设置为 `0` 表示无限制。默认值：`"1"` | `"10"`
+| `maxActiveMessages`     | N | 输入 | 定义一次要处理或在缓冲区中的最大消息数。此值应至少与最大并发 handler 数一样大。默认值：`"1"` | `"2000"`
+| `maxConcurrentHandlers` | N | 输入 | 定义最大并发消息 handler 数；设置为 `0` 表示无限制。默认值：`"1"` | `"10"`
 | `maxRetriableErrorsPerSec` | N | 输入 | 每秒处理的最大可重试错误数。如果消息处理失败并出现可重试错误，组件会在开始处理另一条消息之前添加延迟，以避免立即重新处理失败的消息。默认值：`"10"` | `"10"`
 | `publishMaxRetries` | N  | 输出 | 当 Azure Service Bus 响应"太忙"以限制消息时的最大重试次数。默认值：`"5"` | `"5"`
 | `publishInitialRetryIntervalInMs` | N  | 输出 | 当 Azure Service Bus 限制消息时的初始指数退避时间（毫秒）。默认值：`"500"` | `"500"`

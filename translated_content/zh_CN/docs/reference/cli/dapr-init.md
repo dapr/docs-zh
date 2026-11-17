@@ -7,7 +7,7 @@ description: "init CLI 命令的详细信息"
 
 ### 说明
 
-在支持的托管平台上安装 Dapr。
+在支持的 hosting platform 上安装 Dapr。
 
 ### 支持的平台
 

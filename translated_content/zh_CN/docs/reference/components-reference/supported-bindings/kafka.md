@@ -12,7 +12,7 @@ aliases:
 要设置 Kafka binding，请创建一个类型为 `bindings.kafka` 的 component。有关如何创建和应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。有关使用 `secretKeyRef` 的详细信息，请参阅[如何在 component 中引用 secrets]({{% ref component-secrets.md %}})指南。
 
 所有 component metadata 字段值都可以携带[模板化 metadata 值]({{% ref "component-schema.md#templated-metadata-values" %}})，这些值会在 Dapr sidecar 启动时解析。
-例如，你可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同的 namespace 中使用相同的主题和相同的 `appId`，如[本文]({{% ref "howto-namespace.md#with-namespace-consumer-groups"%}})中所述。
+例如，你可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同的 namespace 中使用相同的 topic 和相同的 `appId`，如[本文]({{% ref "howto-namespace.md#with-namespace-consumer-groups"%}})中所述。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -71,12 +71,12 @@ spec:
 
 | 字段 | 必需 | binding 支持 | 详细说明 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
-| `topics` | N | 输入 | 以逗号分隔的主题字符串。 | `"mytopic1,topic2"` |
+| `topics` | N | 输入 | 以逗号分隔的 topic 字符串。 | `"mytopic1,topic2"` |
 | `brokers` | Y | 输入/输出 | 以逗号分隔的 Kafka broker 字符串。 | `"localhost:9092,dapr-kafka.myapp.svc.cluster.local:9093"` |
 | `clientID`            | N | 输入/输出 | 随每个请求发送到 Kafka broker 的用户自定义字符串，用于日志记录、调试和审计。 | `"my-dapr-app"` |
-| `consumerGroup` | N | 输入 | 用于监听的 Kafka 消费者组。发布到某个主题的每条记录，都会被投递给订阅该主题的每个消费者组中的一个消费者。 | `"group1"` |
+| `consumerGroup` | N | 输入 | 用于监听的 Kafka 消费者组。发布到某个 topic 的每条记录，都会被投递给订阅该 topic 的每个消费者组中的一个消费者。 | `"group1"` |
 | `consumeRetryEnabled` | N | 输入/输出 | 设为 `"true"` 以启用消费重试。在 Kafka binding component 中默认为 `false`。 | `"true"`, `"false"` |
-| `publishTopic` | Y | 输出 | 要发布到的主题。 | `"mytopic"` |
+| `publishTopic` | Y | 输出 | 要发布到的 topic。 | `"mytopic"` |
 | `authRequired` | N | *已弃用* | 启用与 Kafka broker 之间的 [SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) 身份验证。 | `"true"`, `"false"` |
 | `authType`            | Y | 输入/输出 | 配置或禁用身份验证。支持的值：`none`、`password`、`mtls`、`oidc` 或 `oidc_private_key_jwt` | `"password"`, `"none"` |
 | `saslUsername` | N | 输入/输出 | 用于身份验证的 SASL 用户名。仅当 `authRequired` 设为 `"true"` 时需要。 | `"adminuser"` |
@@ -101,7 +101,7 @@ spec:
 | `schemaRegistryAPISecret` | N | 使用 Schema Registry Avro 序列化/反序列化时。Schema Registry 凭证 API Secret。 | `ABCDEFGMEADFF` |
 | `schemaCachingEnabled` | N | 使用 Schema Registry Avro 序列化/反序列化时。启用 schema 缓存。默认为 `true` | `true` |
 | `schemaLatestVersionCacheTTL` | N | 使用 Schema Registry Avro 序列化/反序列化时。使用可用的最新 schema 发布消息时，schema 缓存的 TTL。默认为 5 分钟 | `5m` |
-| `clientConnectionTopicMetadataRefreshInterval` | N | 输入/输出 | 客户端连接与 broker 之间刷新主题 metadata 的间隔，以 Go duration 表示。默认为 `9m`。 | `"4m"` |
+| `clientConnectionTopicMetadataRefreshInterval` | N | 输入/输出 | 客户端连接与 broker 之间刷新 topic metadata 的间隔，以 Go duration 表示。默认为 `9m`。 | `"4m"` |
 | `clientConnectionKeepAliveInterval` | N | 输入/输出 | 客户端连接与 broker 保持存活的最长时间（以 Go duration 表示），超过后关闭连接。零值（默认）表示无限期保持连接。 | `"4m"` |
 | `consumerFetchDefault` | N | 输入/输出 | 每次请求从 broker 获取的默认消息字节数。默认为 `"1048576"` 字节。 | `"2097152"` |
 | `heartbeatInterval` | N | 输入 | 向消费者协调器发送心跳的间隔。该值至多应设为 `sessionTimeout` 值的 1/3。默认为 `"3s"`。 | `"5s"` |

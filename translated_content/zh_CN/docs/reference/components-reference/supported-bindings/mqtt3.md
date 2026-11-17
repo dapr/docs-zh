@@ -47,9 +47,9 @@ spec:
 | 字段              | 必填 | Binding 支持 | 详情 | 示例 |
 |--------------------|:--------:|---------|---------|---------|
 | `url`    | Y  | Input/Output | MQTT broker 的地址。可以是 `secretKeyRef` 以使用密钥引用。 <br> 对于非 TLS 通信，使用 **`tcp://`** URI scheme。 <br> 对于 TLS 通信，使用 **`ssl://`** URI scheme。 | `"tcp://[username][:password]@host.domain[:port]"`
-| `topic`  | Y | Input/Output | 要监听或发送事件的主题。 | `"mytopic"` |
+| `topic`  | Y | Input/Output | 要监听或发送事件的 topic。 | `"mytopic"` |
 | `consumerID` | Y | Input/Output | 用于连接到 MQTT broker 的客户端 ID。 | `"myMqttClientApp"`
-| `retain` | N  | Input/Output | 定义消息是否由 broker 保存为指定主题的最后一个已知良好值。默认为 `"false"`。  | `"true"`, `"false"`
+| `retain` | N  | Input/Output | 定义消息是否由 broker 保存为指定 topic 的最后一个已知良好值。默认为 `"false"`。  | `"true"`, `"false"`
 | `cleanSession` | N | Input/Output | 如果为 `"true"`，则在向 MQTT broker 发送的连接消息中设置 `clean_session` 标志。默认为 `"false"`。  | `"true"`, `"false"`
 | `caCert` | 使用 TLS 时必填 | Input/Output | PEM 格式的证书颁发机构（CA）证书，用于验证服务器 TLS 证书。 | 见下方示例
 | `clientCert`  | 使用 TLS 时必填 | Input/Output | PEM 格式的 TLS 客户端证书。必须与 `clientKey` 一起使用。 | 见下方示例
@@ -102,9 +102,9 @@ spec:
 
 > 请注意，虽然 `caCert` 和 `clientCert` 值可能不是密钥，但为了方便，它们也可以从 Dapr 密钥存储中引用。
 
-### 消费共享主题
+### 消费共享 topic
 
-当消费共享主题时，每个消费者必须具有唯一标识符。如果运行应用程序的多个实例，您可以使用 `{uuid}` 标记配置组件的 `consumerID` 元数据，这将在启动时为每个实例提供随机生成的 `consumerID` 值。例如：
+当消费共享 topic 时，每个消费者必须具有唯一标识符。如果运行应用程序的多个实例，您可以使用 `{uuid}` 标记配置组件的 `consumerID` 元数据，这将在启动时为每个实例提供随机生成的 `consumerID` 值。例如：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -144,9 +144,9 @@ spec:
 
 - `create`：发布新消息
 
-## 按请求设置主题
+## 按请求设置 topic
 
-您可以在每次请求时覆盖组件元数据中的主题：
+您可以在每次请求时覆盖组件元数据中的 topic：
 
 ```json
 {

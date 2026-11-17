@@ -59,8 +59,8 @@ spec:
 
 | 字段              | 必需 | 绑定支持 |  详情 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
-| `accessKey` | Y | Output | 用于将 Event Grid 事件发布到自定义主题的访问密钥 | `"accessKey"` |
-| `topicEndpoint` | Y | Output | 此输出绑定应向其发布事件的主题端点 | `"topic-endpoint"` |
+| `accessKey` | Y | Output | 用于将 Event Grid 事件发布到自定义 topic 的访问密钥 | `"accessKey"` |
+| `topicEndpoint` | Y | Output | 此输出绑定应向其发布事件的 topic 端点 | `"topic-endpoint"` |
 | `azureTenantId` | Y | Input | Event Grid 资源的 Azure 租户 ID  | `"tenentID"` |
 | `azureSubscriptionId` | Y | Input | Event Grid 资源的 Azure 订阅 ID  | `"subscriptionId"` |
 | `azureClientId` | Y | Input | 绑定应使用此客户端 ID 来创建或更新 Event Grid 事件订阅并对传入消息进行身份验证 | `"clientId"` |
@@ -73,12 +73,12 @@ spec:
 
 ### 作用域
 
-作用域是需要创建或更新事件订阅的资源的标识符。作用域可以是订阅、资源组、属于资源提供程序命名空间的顶级资源，或 Event Grid 主题。例如：
+作用域是需要创建或更新事件订阅的资源的标识符。作用域可以是订阅、资源组、属于资源提供程序命名空间的顶级资源，或 Event Grid topic。例如：
 
 - `/subscriptions/{subscriptionId}/` 表示订阅
 - `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}` 表示资源组
 - `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}` 表示资源
-- `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}` 表示 Event Grid 主题
+- `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}` 表示 Event Grid topic
 
 > 花括号 {} 中的值应替换为实际值。
 
@@ -88,11 +88,11 @@ spec:
 
 此组件支持**输出绑定**，具有以下操作：
 
-- `create`：在 Event Grid 主题上发布消息
+- `create`：在 Event Grid topic 上发布消息
 
 ## 接收事件
 
-你可以使用 Event Grid 绑定从各种来源和操作接收事件。[了解有关与 Event Grid 兼容的所有可用事件源和处理程序的更多信息。](https://learn.microsoft.com/azure/event-grid/overview)
+你可以使用 Event Grid 绑定从各种来源和操作接收事件。[了解有关与 Event Grid 兼容的所有可用事件源和 handler 的更多信息。](https://learn.microsoft.com/azure/event-grid/overview)
 
 在下表中，你可以找到可以引发事件的 Dapr 组件列表。
 
@@ -102,7 +102,7 @@ spec:
 | [Azure Cache for Redis](https://learn.microsoft.com/azure/azure-cache-for-redis/cache-overview) | [Redis 绑定]({{% ref redis.md %}}) <br/>[Redis 发布订阅]({{% ref setup-redis-pubsub.md %}}) |
 | [Azure Event Hubs](https://learn.microsoft.com/azure/event-hubs/event-hubs-about) | [Azure Event Hubs 发布订阅]({{% ref setup-azure-eventhubs.md %}}) <br/>[Azure Event Hubs 绑定]({{% ref eventhubs.md %}}) |
 | [Azure IoT Hub](https://learn.microsoft.com/azure/iot-hub/iot-concepts-and-iot-hub) | [Azure Event Hubs 发布订阅]({{% ref setup-azure-eventhubs.md %}}) <br/>[Azure Event Hubs 绑定]({{% ref eventhubs.md %}}) |
-| [Azure Service Bus](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview) | [Azure Service Bus 绑定]({{% ref servicebusqueues.md %}}) <br/>[Azure Service Bus 发布订阅主题]({{% ref setup-azure-servicebus-topics.md %}}) 和[队列]({{% ref setup-azure-servicebus-queues.md %}}) |
+| [Azure Service Bus](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview) | [Azure Service Bus 绑定]({{% ref servicebusqueues.md %}}) <br/>[Azure Service Bus 发布订阅 topic]({{% ref setup-azure-servicebus-topics.md %}}) 和[队列]({{% ref setup-azure-servicebus-queues.md %}}) |
 | [Azure SignalR Service](https://learn.microsoft.com/azure/azure-signalr/signalr-overview) | [SignalR 绑定]({{% ref signalr.md %}}) |
 
 ## Microsoft Entra ID 凭据

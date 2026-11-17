@@ -13,12 +13,12 @@ aliases:
 
 默认情况下，AWS SNS/SQS 组件：
 
-- 生成 SNS 主题
+- 生成 SNS topic
 - 预配 SQS 队列
-- 配置队列到主题的订阅
+- 配置队列到 topic 的订阅
 
 {{% alert title="注意" color="primary" %}}
-如果你只有发布者而没有订阅者，则仅创建 SNS 主题。
+如果你只有发布者而没有订阅者，则仅创建 SNS topic。
 
 但是，如果你有订阅者，则会生成 SNS、SQS 及其动态或静态订阅。
 {{% /alert %}}
@@ -95,7 +95,7 @@ spec:
 | messageMaxNumber         | N  | 一次从队列接收的最大消息数。默认值：`10`，最大值：`10` | `10`
 | fifo | N  | 使用 SQS FIFO 队列提供消息排序和去重。默认值：`"false"`。有关 [SQS FIFO](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html) 的更多详情 | `"true"`, `"false"`
 | fifoMessageGroupID | N | 如果启用了 `fifo`，指示 Dapr 为发布订阅部署使用自定义[消息组 ID](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/using-messagegroupid-property.html)。这不是必需的，因为 Dapr 会为每个生产者创建自定义消息组 ID，从而确保每个 Dapr 生产者的消息排序。默认值：`""` | `"app1-mgi"`
-| disableEntityManagement | N  | 当设置为 true 时，SNS 主题、SQS 队列以及 SNS 的 SQS 订阅不会自动创建。默认值：`"false"` | `"true"`, `"false"`
+| disableEntityManagement | N  | 当设置为 true 时，SNS topic、SQS 队列以及 SNS 的 SQS 订阅不会自动创建。默认值：`"false"` | `"true"`, `"false"`
 | disableDeleteOnRetryLimit | N  | 当设置为 true 时，在重试和处理消息失败 `messageRetryLimit` 次后，重置消息可见性超时，以便其他消费者可以尝试处理，而不是从 SQS 中删除该消息（默认行为）。默认值：`"false"` | `"true"`, `"false"`
 | assetsManagementTimeoutSeconds | N  | AWS 资源管理操作的超时时间（秒），超时后将取消操作。资源管理操作是在 STS、SNS 和 SQS 上执行的任何操作，除了实现默认 Dapr 组件重试行为的消息发布和消费操作。该值可以设置为任何非负浮点数/整数。默认值：`5` | `0.5`, `10`
 | concurrencyMode | N | 当从 SQS 批量接收消息时，按顺序（一次"单条"消息）或并发（"并行"）调用订阅者。默认值：`"parallel"` | `"single"`, `"parallel"`
@@ -105,13 +105,13 @@ spec:
 
 #### 符合 AWS 规范
 
-Dapr 创建的 SNS 主题和 SQS 队列名称符合 [AWS 规范](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/quotas-queues.html)。默认情况下，Dapr 根据消费者的 `app-id` 创建 SQS 队列名称，因此 Dapr 可能会执行名称标准化以符合 AWS 规范。
+Dapr 创建的 SNS topic 和 SQS 队列名称符合 [AWS 规范](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/quotas-queues.html)。默认情况下，Dapr 根据消费者的 `app-id` 创建 SQS 队列名称，因此 Dapr 可能会执行名称标准化以符合 AWS 规范。
 
 #### SNS/SQS 组件行为
 
-当发布订阅 SNS/SQS 组件预配 SNS 主题时，SQS 队列和订阅在组件代表消息生产者（未部署订阅者应用程序）运行的情况下的行为，与存在订阅者应用程序（未部署发布者）的情况下的行为不同。
+当发布订阅 SNS/SQS 组件预配 SNS topic 时，SQS 队列和订阅在组件代表消息生产者（未部署订阅者应用程序）运行的情况下的行为，与存在订阅者应用程序（未部署发布者）的情况下的行为不同。
 
-由于 SNS 在仅发布者设置中没有 SQS 订阅的工作方式，SQS 队列和订阅的行为类似于依赖于监听主题消息的订阅者的"经典"发布订阅系统。如果没有这些订阅者，消息：
+由于 SNS 在仅发布者设置中没有 SQS 订阅的工作方式，SQS 队列和订阅的行为类似于依赖于监听 topic 消息的订阅者的"经典"发布订阅系统。如果没有这些订阅者，消息：
 
 - 无法继续传递并会被有效丢弃
 - 对于未来的订阅者不可用（订阅者最终订阅时不会重放消息）
@@ -138,14 +138,14 @@ Dapr 创建的 SNS 主题和 SQS 队列名称符合 [AWS 规范](https://docs.aw
 
 #### SNS/SQS 与 Dapr 的争用
 
-从根本上说，SNS 通过创建对这些主题的 SQS 订阅，将来自多个发布者主题的消息聚合到单个 SQS 队列中。作为订阅者，SNS/SQS 发布订阅组件从该唯一的 SQS 队列消费消息。
+从根本上说，SNS 通过创建对这些 topic 的 SQS 订阅，将来自多个发布者 topic 的消息聚合到单个 SQS 队列中。作为订阅者，SNS/SQS 发布订阅组件从该唯一的 SQS 队列消费消息。
 
-然而，像任何 SQS 消费者一样，该组件无法有选择地检索发布到其特定订阅的 SNS 主题的消息。这可能导致组件接收来自没有关联处理程序的主题的消息。通常，这发生在：
+然而，像任何 SQS 消费者一样，该组件无法有选择地检索发布到其特定订阅的 SNS topic 的消息。这可能导致组件接收来自没有关联 handler 的 topic 的消息。通常，这发生在：
 
-- **组件初始化：** 如果基础设施订阅在组件订阅处理程序之前准备就绪，或
-- **关闭：** 如果组件处理程序在基础设施订阅之前被移除。
+- **组件初始化：** 如果基础设施订阅在组件订阅 handler 之前准备就绪，或
+- **关闭：** 如果组件 handler 在基础设施订阅之前被移除。
 
-由于此问题会影响多个 SNS 主题的任何 SQS 消费者，因此该组件无法防止消费来自缺少处理程序的主题的消息。当发生这种情况时，组件会记录一条错误，指示此类消息被错误地检索。
+由于此问题会影响多个 SNS topic 的任何 SQS 消费者，因此该组件无法防止消费来自缺少 handler 的 topic 的消息。当发生这种情况时，组件会记录一条错误，指示此类消息被错误地检索。
 
 在这些情况下，未处理的消息将在每次拉取后在其[接收计数](https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html#sqs-receive-count)递减的情况下重新出现在 SQS 中。因此，存在未处理的消息可能超过其 `messageReceiveLimit` 并丢失的风险。
 

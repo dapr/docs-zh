@@ -214,7 +214,7 @@ DELETE http://localhost:<daprPort>/v1.0-alpha1/vector/<storeName>/collections/<c
 | `404` | 未找到 vector store 或集合 |
 | `500` | vector store 未配置或请求失败 |
 
-当[resiliency]({{% ref resiliency-overview %}})的重试策略重试删除操作，且之后某次尝试发现集合已不存在时，删除视为成功，因为较早的尝试很可能已经将其删除。第一次尝试返回的 `NOT_FOUND` 则原样返回。
+当[resiliency]({{% ref resiliency-overview %}})的 retry policy 重试删除操作，且之后某次尝试发现集合已不存在时，删除视为成功，因为较早的尝试很可能已经将其删除。第一次尝试返回的 `NOT_FOUND` 则原样返回。
 
 ### 示例
 
@@ -678,7 +678,7 @@ vector store 返回的错误（例如集合不存在）会原样传递其标准 
 
 vector store 调用在该存储的[resiliency]({{% ref resiliency-overview %}})下运行：
 
-- 重试策略可以通过 `matching.gRPCStatusCodes` 匹配 vector store 的标准 gRPC 代码。
+- retry policies 可以通过 `matching.gRPCStatusCodes` 匹配 vector store 的标准 gRPC 代码。
 - 策略超时返回为 `DEADLINE_EXCEEDED`，被取消的请求返回为 `CANCELLED`，断路器打开时返回为 `UNAVAILABLE`。
 - 对重试的[创建集合](#创建集合)返回的 `ALREADY_EXISTS` 原样返回，因为该集合可能属于其他调用方。对重试的[删除集合](#删除集合)返回的 `NOT_FOUND` 视为成功。
 - 等待超时（`INDEXING_WAIT_TIMEOUT_ACTION_FAIL_REQUEST`）到期的写入不会被重试。

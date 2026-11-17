@@ -202,7 +202,7 @@ DELETE http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index
 | `404` | 未找到 search store 或索引 |
 | `500` | search store 未配置或请求失败 |
 
-当[resiliency]({{% ref resiliency-overview %}})的重试策略重试删除操作，且之后某次尝试发现索引已不存在时，删除视为成功，因为较早的尝试很可能已经将其删除。第一次尝试返回的 `NOT_FOUND` 则原样返回。
+当[resiliency]({{% ref resiliency-overview %}})的 retry policy 重试删除操作，且之后某次尝试发现索引已不存在时，删除视为成功，因为较早的尝试很可能已经将其删除。第一次尝试返回的 `NOT_FOUND` 则原样返回。
 
 ### 示例
 
@@ -250,7 +250,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | ----- | ----------- |
 | `mode` | 请求何时返回。取值之一：<ul><li>`INDEXING_MODE_RETURN_ON_ACCEPTANCE`：search store 持久接受写入并转入后台处理后返回。API 不会公开任何最终结果。</li><li>`INDEXING_MODE_WAIT_FOR_COMPLETION`：等待最终结果，最长等待 `waitTimeout`。</li><li>`INDEXING_MODE_UNSPECIFIED`（默认）：与 `INDEXING_MODE_RETURN_ON_ACCEPTANCE` 相同。</li></ul> |
 | `waitTimeout` | 等待写入完成的时长，例如 `"10s"`。在 `INDEXING_MODE_WAIT_FOR_COMPLETION` 下必填且必须为正数，在其他模式下不得设置。当请求有截止时间时，`waitTimeout` 必须短于剩余时间。当存储配置了[resiliency]({{% ref resiliency-overview %}})的超时策略时，`waitTimeout` 还必须比该超时至少短其十分之一，且不少于 100ms。例如，超时策略为 `10s` 时，`waitTimeout` 最多为 `9s` |
-| `onWaitTimeout` | `waitTimeout` 到期时的处理方式。在 `INDEXING_MODE_WAIT_FOR_COMPLETION` 下必填，在其他模式下不得设置。取值之一：<ul><li>`INDEXING_WAIT_TIMEOUT_ACTION_CONTINUE_ASYNC`：返回 `INDEX_ACK_QUEUED`，并让排队中的写入继续执行。没有排队确认的 search store 会以 `INVALID_ARGUMENT` 拒绝此选项。</li><li>`INDEXING_WAIT_TIMEOUT_ACTION_FAIL_REQUEST`：请求以 `DEADLINE_EXCEEDED` 失败。resiliency 中的重试策略不会重试该请求，且不保证 search store 会取消该写入。</li></ul> |
+| `onWaitTimeout` | `waitTimeout` 到期时的处理方式。在 `INDEXING_MODE_WAIT_FOR_COMPLETION` 下必填，在其他模式下不得设置。取值之一：<ul><li>`INDEXING_WAIT_TIMEOUT_ACTION_CONTINUE_ASYNC`：返回 `INDEX_ACK_QUEUED`，并让排队中的写入继续执行。没有排队确认的 search store 会以 `INVALID_ARGUMENT` 拒绝此选项。</li><li>`INDEXING_WAIT_TIMEOUT_ACTION_FAIL_REQUEST`：请求以 `DEADLINE_EXCEEDED` 失败。resiliency 中的 retry policy 不会重试该请求，且不保证 search store 会取消该写入。</li></ul> |
 
 违反这些规则的索引选项会在写入到达存储之前被拒绝，返回 `INVALID_ARGUMENT`、`ERR_SEARCH_INVALID_REQUEST` 错误代码（向量 API 为 `ERR_VECTOR_INVALID_REQUEST`），以及 `options` 或 `options.wait_timeout` 上的 `google.rpc.BadRequest` 字段违规信息。
 
@@ -611,7 +611,7 @@ search store 返回的错误（例如索引不存在）会原样传递其标准 
 
 search store 调用在该存储的[resiliency]({{% ref resiliency-overview %}})下运行：
 
-- 重试策略可以通过 `matching.gRPCStatusCodes` 匹配 search store 的标准 gRPC 代码。
+- retry policies 可以通过 `matching.gRPCStatusCodes` 匹配 search store 的标准 gRPC 代码。
 - 策略超时返回为 `DEADLINE_EXCEEDED`，被取消的请求返回为 `CANCELLED`，断路器打开时返回为 `UNAVAILABLE`。
 - 对重试的[创建索引](#创建索引)返回的 `ALREADY_EXISTS` 原样返回，因为该索引可能属于其他调用方。对重试的[删除索引](#删除索引)返回的 `NOT_FOUND` 视为成功。
 - 等待超时（`INDEXING_WAIT_TIMEOUT_ACTION_FAIL_REQUEST`）到期的写入不会被重试。

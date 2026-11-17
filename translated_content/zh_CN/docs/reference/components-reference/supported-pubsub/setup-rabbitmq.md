@@ -97,7 +97,7 @@ spec:
 | maxLen      | N        | 队列及其死信队列（启用死信时）的最大消息数。若同时设置 `maxLen` 和 `maxLenBytes`，两者都会生效，先达到的限制将被执行。默认不限制。 | `"1000"` |
 | maxLenBytes      | N        | 队列及其死信队列（启用死信时）的最大字节长度。若同时设置 `maxLen` 和 `maxLenBytes`，两者都会生效，先达到的限制将被执行。默认不限制。 | `"1048576"` |
 | exchangeKind      | N        | RabbitMQ 交换机的类型。默认为 `"fanout"`。`"x-consistent-hash"` 需要 broker 上已启用 [`rabbitmq_consistent_hash_exchange`](https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_consistent_hash_exchange) 插件。当 `exchangeDeclareMode` 为 `"passive"` 时，由于 component 不声明交换机，broker 支持的任何交换机类型都会被接受。 | `"fanout"`,`"topic"`,`"direct"`,`"headers"`,`"x-consistent-hash"` |
-| exchangeDeclareMode | N      | component 获取主题所用交换机的方式。`"declare"`（默认）在交换机不存在时创建它。`"passive"` 仅断言交换机已存在，从不创建或修改它。参见[使用外部管理的拓扑](#使用外部管理的拓扑)。 | `"declare"`, `"passive"` |
+| exchangeDeclareMode | N      | component 获取 topic 所用交换机的方式。`"declare"`（默认）在交换机不存在时创建它。`"passive"` 仅断言交换机已存在，从不创建或修改它。参见[使用外部管理的拓扑](#使用外部管理的拓扑)。 | `"declare"`, `"passive"` |
 | queueDeclareMode  | N        | component 获取订阅所用队列的方式。`"declare"`（默认）创建队列并将其绑定到交换机。`"passive"` 仅断言队列已存在，并将其 binding 交由外部所有者管理。参见[使用外部管理的拓扑](#使用外部管理的拓扑)。 | `"declare"`, `"passive"` |
 | saslExternal      | N        | 使用 TLS 时，是否应从附加字段（例如 CN）获取用户名。请参阅 [RabbitMQ 身份验证机制](https://www.rabbitmq.com/access-control.html#mechanisms)。默认为 `"false"`。 | `"true"`, `"false"` |
 | ttlInSeconds      | N        | 在 component 级别设置消息 TTL，可被每个请求的消息级 TTL 覆盖。 | `"60"` |
@@ -170,7 +170,7 @@ spec:
 RabbitMQ pub/sub component 没有内置对重试策略的支持。这意味着 sidecar 只会向服务发送一次消息。服务返回结果后，无论消息是否被正确处理，该消息都会被标记为已消费。请注意，这是所有 Dapr pub/sub component 的共同行为，而不仅限于 RabbitMQ。
 当 `autoAck` 设置为 `false`，且 `requeueInFailure` 设置为 `true` 时，Dapr 可以尝试第二次重新投递消息。
 
-要让 Dapr 使用更复杂的重试策略，您可以将[重试 resiliency]({{% ref "retries-overview.md" %}})应用于 RabbitMQ pub/sub component。
+要让 Dapr 使用更复杂的 retry policies，您可以将[重试 resiliency]({{% ref "retries-overview.md" %}})应用于 RabbitMQ pub/sub component。
 
 两种重试消息的方式之间存在关键区别：
 
@@ -212,7 +212,7 @@ helm install rabbitmq stable/rabbitmq
 
 ## 使用主题交换机路由消息
 
-将 `exchangeKind` 设置为 `"topic"` 即可使用主题交换机，它通常用于消息的多播路由。要使用主题交换机路由消息，必须设置以下 metadata：
+将 `exchangeKind` 设置为 `"topic"` 即可使用主题交换机，它通常用于消息的多播 Routing。要使用主题交换机路由消息，必须设置以下 metadata：
 
 - **`routingKey`：**  
    具有路由键的消息会根据订阅时 metadata 中定义的 `routing key` 路由到一个或多个队列。
@@ -270,7 +270,7 @@ spec:
 
 ## 使用一致性哈希交换机实现分区有序
 
-将 `exchangeKind` 设置为 `"x-consistent-hash"`，可以在多个消费者之间对主题进行分区，同时保证共享同一路由键的消息保持顺序。给定键的所有消息都会路由到同一个队列，因此该键的消息按序处理，而其他键则在其他队列上并行处理。
+将 `exchangeKind` 设置为 `"x-consistent-hash"`，可以在多个消费者之间对 topic 进行分区，同时保证共享同一路由键的消息保持顺序。给定键的所有消息都会路由到同一个队列，因此该键的消息按序处理，而其他键则在其他队列上并行处理。
 
 {{% alert title="注意" color="primary" %}}
 此交换机类型由 [`rabbitmq_consistent_hash_exchange`](https://github.com/rabbitmq/rabbitmq-server/tree/main/deps/rabbitmq_consistent_hash_exchange) 插件提供，使用前必须在 broker 上启用该插件。
@@ -371,9 +371,9 @@ client.PublishEvent(context.Background(), "order-pub-sub", "orders", []byte("shi
 
 ## 使用外部管理的拓扑
 
-默认情况下，component 会声明它所需的拓扑：一个以主题命名的交换机、每个订阅对应的一个队列，以及它们之间的 binding。如果您的交换机和队列是通过声明式方式管理的（例如由 [RabbitMQ Cluster Kubernetes Operator 的 Topology Operator](https://www.rabbitmq.com/kubernetes/operator/using-topology-operator#exchanges-bindings)、Terraform 或其他任何配置步骤管理），这些声明就会发生冲突。
+默认情况下，component 会声明它所需的拓扑：一个以 topic 命名的交换机、每个订阅对应的一个队列，以及它们之间的 binding。如果您的交换机和队列是通过声明式方式管理的（例如由 [RabbitMQ Cluster Kubernetes Operator 的 Topology Operator](https://www.rabbitmq.com/kubernetes/operator/using-topology-operator#exchanges-bindings)、Terraform 或其他任何配置步骤管理），这些声明就会发生冲突。
 
-AMQP 声明只有在*所有*属性都一致时才是幂等的。若两者不一致，RabbitMQ 会返回 `PRECONDITION_FAILED (406)`，component 将无法使用该主题。由于两端的默认值各不相同，即使在默认配置下也会出现这种情况，而并非只发生在特殊配置中。
+AMQP 声明只有在*所有*属性都一致时才是幂等的。若两者不一致，RabbitMQ 会返回 `PRECONDITION_FAILED (406)`，component 将无法使用该 topic。由于两端的默认值各不相同，即使在默认配置下也会出现这种情况，而并非只发生在特殊配置中。
 
 为避免冲突，请将其中一种模式设置为 `"passive"`，使外部所有者成为唯一的事实来源：
 
@@ -414,7 +414,7 @@ spec:
 
 ## 使用优先级队列
 
-Dapr 支持 RabbitMQ [优先级队列](https://www.rabbitmq.com/priority.html)。要为队列设置优先级，请使用 `maxPriority` 主题订阅 metadata。
+Dapr 支持 RabbitMQ [优先级队列](https://www.rabbitmq.com/priority.html)。要为队列设置优先级，请使用 `maxPriority` topic 订阅 metadata。
 
 ### 声明式优先级队列示例
 

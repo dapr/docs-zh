@@ -7,7 +7,7 @@ description: "upgrade CLI 命令的详细信息"
 
 ### 描述
 
-在支持的托管平台上升级或降级 Dapr。
+在支持的 hosting platform 上升级或降级 Dapr。
 
 {{% alert title="Warning" color="warning" %}}
 升级或降级版本时，应逐步进行，包括小版本。

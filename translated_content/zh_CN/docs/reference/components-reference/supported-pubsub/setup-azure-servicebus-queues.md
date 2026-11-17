@@ -11,8 +11,8 @@ aliases:
 
 要设置 Azure Service Bus 队列发布订阅，需创建类型为 `pubsub.azure.servicebus.queues` 的组件。请参阅 [发布订阅代理组件文件]({{% ref setup-pubsub.md %}}) 以了解 ConsumerID 是如何自动生成的。阅读[操作指南：发布和订阅]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})了解如何创建和应用发布订阅配置。
 
-> 此组件使用 Azure Service Bus 上的队列；有关[主题和队列](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions)之间差异的说明，请参阅官方文档。
-> 若要使用主题，请参阅 [Azure Service Bus Topics 发布订阅组件]({{% ref "setup-azure-servicebus-topics" %}})。
+> 此组件使用 Azure Service Bus 上的队列；有关[topics 和队列](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions)之间差异的说明，请参阅官方文档。
+> 若要使用 topics，请参阅 [Azure Service Bus Topics 发布订阅组件]({{% ref "setup-azure-servicebus-topics" %}})。
 
 ### 连接字符串身份验证
 
@@ -173,7 +173,7 @@ Azure Service Bus 支持使用批量发布订阅 API 在单个操作中发送和
 
 ### 配置批量订阅
 
-订阅主题时，您可以配置 `bulkSubscribe` 选项。有关更多详细信息，请参阅[批量订阅消息]({{% ref "pubsub-bulk#subscribing-messages-in-bulk" %}})。了解有关[批量订阅 API]({{% ref pubsub-bulk.md %}})的更多信息。
+订阅 topic 时，您可以配置 `bulkSubscribe` 选项。有关更多详细信息，请参阅[批量订阅消息]({{% ref "pubsub-bulk#subscribing-messages-in-bulk" %}})。了解有关[批量订阅 API]({{% ref pubsub-bulk.md %}})的更多信息。
 
 | 配置 | 默认值 |
 |---------------|---------|
@@ -184,19 +184,19 @@ Azure Service Bus 支持使用批量发布订阅 API 在单个操作中发送和
 按照[此处](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal)的说明设置 Azure Service Bus 队列。
 
 {{% alert title="注意" color="primary" %}}
-您的队列必须与您使用 Dapr 发布到的主题同名。例如，如果您在主题 `"orders"` 上发布到发布订阅 `"myPubsub"`，您的队列必须命名为 `"orders"`。
+您的队列必须与您使用 Dapr 发布到的 topic 同名。例如，如果您在 topic `"orders"` 上发布到发布订阅 `"myPubsub"`，您的队列必须命名为 `"orders"`。
 如果您使用共享访问策略连接到队列，该策略必须能够"管理"队列。要使用死信队列，该策略必须位于包含主队列和死信队列的 Service Bus 命名空间上。
 {{% /alert %}}
 
-### 重试策略和死信队列
+### retry policy 和死信队列
 
 默认情况下，Azure Service Bus 队列有一个死信队列。消息会重试 `maxDeliveryCount` 给定的次数。默认的 `maxDeliveryCount` 值默认为 10，但可以设置为最高 2000。这些重试发生得非常快，如果没有返回成功，消息将被放入死信队列。
 
-Dapr 发布订阅提供了自己的死信队列概念，允许您控制重试策略并通过 Dapr 订阅死信队列。
+Dapr 发布订阅提供了自己的死信队列概念，允许您控制 retry policy 并通过 Dapr 订阅死信队列。
 1. 在 Azure Service Bus 命名空间中设置一个单独的队列作为死信队列，以及一个定义如何重试的弹性策略。
-1. 订阅主题以获取失败的消息并处理它们。
+1. 订阅 topic 以获取失败的消息并处理它们。
 
-例如，在订阅中设置死信队列 `orders-dlq` 和弹性策略可以让您订阅主题 `orders-dlq` 来处理失败的消息。
+例如，在订阅中设置死信队列 `orders-dlq` 和弹性策略可以让您订阅 topic `orders-dlq` 来处理失败的消息。
 
 有关设置死信队列的更多详细信息，请参阅[死信文章]({{% ref pubsub-deadletter %}})。
 

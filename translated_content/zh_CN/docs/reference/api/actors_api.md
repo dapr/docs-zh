@@ -1123,7 +1123,7 @@ rpc SubscribeActorEventsAlpha1(stream SubscribeActorEventsRequestAlpha1)
 | `entities` | `[]string` | 是 | 由此应用承载的 Actor 类型。 |
 | `actor_idle_timeout` | `Duration` | 否 | 停用前的空闲超时时间。未设置时使用 Dapr 默认值（60 分钟）。 |
 | `drain_ongoing_call_timeout` | `Duration` | 否 | 重新平衡期间等待进行中调用完成的时长。未设置时使用 Dapr 默认值（2 秒）。 |
-| `drain_rebalanced_actors` | `bool` | 否 | 在停用重新平衡的 Actor 之前排空进行中的调用。未设置时使用 Dapr 默认值。 |
+| `drain_rebalanced_actors` | `bool` | 否 | 在停用重新平衡的 Actor 之前 drain 进行中的调用。未设置时使用 Dapr 默认值。 |
 | `reentrancy` | `ActorReentrancyConfig` | 否 | 此流上所有 Actor 类型的重入配置。 |
 | `entities_config` | `[]ActorEntityConfig` | 否 | 按 Actor 类型的覆盖配置。每个条目都必须引用 `entities` 中列出的类型。 |
 

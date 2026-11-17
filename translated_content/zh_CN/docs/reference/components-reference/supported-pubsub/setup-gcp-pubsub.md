@@ -88,12 +88,12 @@ spec:
 | tokenUri      | N | 如果使用显式凭据，此字段应包含服务账户 json 中的 `token_uri` 字段 | `https://oauth2.googleapis.com/token`
 | authProviderX509CertUrl | N | 如果使用显式凭据，此字段应包含服务账户 json 中的 `auth_provider_x509_cert_url` 字段 | `https://www.googleapis.com/oauth2/v1/certs`
 | clientX509CertUrl | N | 如果使用显式凭据，此字段应包含服务账户 json 中的 `client_x509_cert_url` 字段 | `https://www.googleapis.com/robot/v1/metadata/x509/myserviceaccount%40myproject.iam.gserviceaccount.com`
-| disableEntityManagement | N | 当设置为 `"true"` 时，主题和订阅不会自动创建。默认值：`"false"` | `"true"`, `"false"`
+| disableEntityManagement | N | 当设置为 `"true"` 时，topics 和订阅不会自动创建。默认值：`"false"` | `"true"`, `"false"`
 | enableMessageOrdering | N | 当设置为 `"true"` 时，订阅的消息将按顺序接收，具体取决于发布和权限配置。 | `"true"`, `"false"`
 | orderingKey |N | 请求中提供的键。当 `enableMessageOrdering` 设置为 `true` 时使用，用于根据该键对消息进行排序。 | "my-orderingkey"
 | maxReconnectionAttempts | N  |定义最大重连尝试次数。默认值：`30` | `30`
 | connectionRecoveryInSec | N  |连接恢复尝试之间等待的秒数。默认值：`2` | `2`
-| deadLetterTopic | N  | GCP Pub/Sub 主题的名称。使用此组件前，此主题**必须**存在。  | `"myapp-dlq"`
+| deadLetterTopic | N  | GCP Pub/Sub topic 的名称。使用此组件前，此 topic **必须**存在。  | `"myapp-dlq"`
 | maxDeliveryAttempts | N  | 尝试传递消息的最大次数。如果指定了 `deadLetterTopic`，`maxDeliveryAttempts` 是消息处理失败的最大尝试次数。达到该次数后，消息将被移动到死信主题。默认值：`5` | `5`
 | type           | N | **已弃用** GCP 凭据类型。仅支持 `service_account`。默认值为 `service_account`  | `service_account`
 | maxOutstandingMessages | N | 给定[流式拉取](https://cloud.google.com/pubsub/docs/pull#streamingpull_api)连接可以拥有的最大未完成消息数。默认值：`1000` | `50`

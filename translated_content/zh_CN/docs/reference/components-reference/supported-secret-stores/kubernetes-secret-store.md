@@ -10,7 +10,7 @@ aliases:
 ## 默认 Kubernetes secret store component
 当 Dapr 部署到 Kubernetes 集群时，会自动创建一个名为 `kubernetes` 的 secret store。这个预置的 secret store 允许你使用原生的 Kubernetes secret store，无需为 secret store 编写、部署或维护 component 配置文件，对于希望简单访问 Kubernetes 集群中原生 secrets 的开发者非常有用。
 
-仍然可以为 Kubernetes secret store 配置自定义 component 定义文件（详见下文）。使用自定义定义，可以将代码中对 secret store 的引用与托管平台解耦，因为存储名称不是固定的，可以自定义，从而使代码更加通用和可移植。此外，通过显式定义 Kubernetes secret store component，你可以从本地 Dapr 自托管安装连接到 Kubernetes secret store。这需要一个有效的 [`kubeconfig`](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) 文件。
+仍然可以为 Kubernetes secret store 配置自定义 component 定义文件（详见下文）。使用自定义定义，可以将代码中对 secret store 的引用与 hosting platform 解耦，因为存储名称不是固定的，可以自定义，从而使代码更加通用和可移植。此外，通过显式定义 Kubernetes secret store component，你可以从本地 Dapr 自托管安装连接到 Kubernetes secret store。这需要一个有效的 [`kubeconfig`](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/) 文件。
 
 {{% alert title="限制 secret store 访问范围" color="warning" %}}
 当使用 [secret scopes]({{%ref secrets-scopes.md%}}) 限制应用程序对 secrets 的访问时，需要在作用域定义中包含默认的 secret store，才能对其进行限制。

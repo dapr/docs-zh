@@ -44,7 +44,7 @@ spec:
 
 | 字段              | 必填 | 绑定支持 |  详细说明 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
-| `topicArn`           | Y        | 输出 | SNS 主题名称                                                    | `"arn:::topicarn"`               |
+| `topicArn`           | Y        | 输出 | SNS topic 名称                                                    | `"arn:::topicarn"`               |
 | `region`             | Y        | 输出 | 特定的 AWS 区域                                               | `"us-east-1"`                    |
 | `endpoint`           | N        | 输出 | 特定的 AWS 端点                                             | `"sns.us-east-1.amazonaws.com"`  |
 | `accessKey`          | Y        | 输出 | 用于访问此资源的 AWS 访问密钥                            | `"key"`                          |

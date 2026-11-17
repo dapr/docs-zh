@@ -54,7 +54,7 @@ spec:
 | clientKey        | N        | 客户端私钥的内容，与 `clientCert` 结合使用以进行身份验证。建议按照[此处]({{% ref component-secrets.md %}})所述，使用 secret store | `"----BEGIN PRIVATE KEY-----\nMIIE..."` |
 | redeliverInterval  | N        | 检查待处理消息以进行重新传递的时间间隔。可以是 Go 持续时间字符串（例如 "ms"、"s"、"m"），也可以是毫秒数值。默认为 `"15s"`。`"0"` 禁用重新传递。 | `"30s"`, `"30000"` |
 | entryKeepAliveInterval | N    | sidecar 重置其所持有的待处理消息空闲时间的时间间隔，使已读取但尚未处理完成的消息在处理过程中不会被重新传递。默认为 `processingTimeout` 的一半。`"0"` 禁用保活机制，此时等待空闲工作进程的时间将计入 `processingTimeout`。 | `"30s"` |
-| processingTimeout  | N        | 消息处于待处理状态的时长达到该值后，才会尝试重新传递该消息。可以是 Go 持续时间字符串（例如 "ms"、"s"、"m"），也可以是毫秒数值。默认为 `"60s"`。`"0"` 禁用重新传递。启用重新传递时，这也是应用处理程序的超时时间。从 1.18.5 起，它还会限制入站 resiliency 重试：超时后 Dapr 将停止重试；如果订阅配置了[死信主题]({{% ref pubsub-deadletter.md %}})，则会将消息发送到该死信主题。 | `"60s"`, `"600000"` |
+| processingTimeout  | N        | 消息处于待处理状态的时长达到该值后，才会尝试重新传递该消息。可以是 Go 持续时间字符串（例如 "ms"、"s"、"m"），也可以是毫秒数值。默认为 `"60s"`。`"0"` 禁用重新传递。启用重新传递时，这也是应用 handler 的超时时间。从 1.18.5 起，它还会限制入站 resiliency 重试：超时后 Dapr 将停止重试；如果订阅配置了[死信主题]({{% ref pubsub-deadletter.md %}})，则会将消息发送到该死信主题。 | `"60s"`, `"600000"` |
 | queueDepth         | N        | 用于处理的消息队列大小。默认为 `"100"`。 | `"1000"`
 | concurrency        | N        | 同时处理消息的并发工作进程数。默认为 `"10"`。 | `"15"`
 | redisType        | N        | Redis 的类型。有两个有效值：一个是 `"node"`，表示单节点模式；另一个是 `"cluster"`，表示 Redis 集群模式。默认为 `"node"`。 | `"cluster"`
@@ -200,7 +200,7 @@ Dapr CLI 会在自托管模式下，作为 `dapr init` 命令的一部分自动�
 ## Resiliency 与重新传递
 
 Redis Streams pubsub 组件遵循 [Dapr resiliency 策略]({{% ref "resiliency-overview" %}})。在你的
-应用处理程序返回（成功、重试或丢弃）后，组件会向 Redis 确认该消息。随后 Redis
+应用 handler 返回（成功、重试或丢弃）后，组件会向 Redis 确认该消息。随后 Redis
 将停止重新传递该消息。重试和死信行为由你的 resiliency 策略控制（例如 `maxRetries` 和重试持续时间）。
 
 ## 相关链接

@@ -79,11 +79,11 @@ spec:
 | `eventHubNamespace` | Y* | 输入/输出 | Event Hub namespace 的名称。<br>* 与 `connectionString` 字段互斥。<br>* 当使用 [Microsoft Entra ID 身份验证]({{% ref "authenticating-azure.md" %}})时必需                                        | `"namespace"`
 | `enableEntityManagement` | N | 输入/输出 | 允许管理 Event Hub namespace 和存储帐户的布尔值。默认值：`false`                                                                                                                               | `"true"`, `"false"`
 | `enableInOrderMessageDelivery` | N | 输入 | 控制消息是否在每个分区内按顺序处理的布尔值。这假设发布时设置了 `partitionKey`，以保持相关消息的顺序。默认值：`false` | `"true"`, `"false"`
-| `maxConcurrentHandlers` | N | 输入 | 仅当 `enableInOrderMessageDelivery` 为 `false` 时适用。每个分区未完成的处理程序调用数上限。调用在运行期间、成功之前处于未完成状态；如果分区中更早的调用尚未成功，则在该调用已成功后也仍处于未完成状态。只有当该调用及其之前的所有调用都已成功后，槽位才会释放，与检查点是否已写入无关。达到上限时，component 会停止从该分区接收消息，直到有槽位释放。参见 [Input binding 投递行为](#input-binding-投递行为)。必须大于 `0`。默认值：`100`。 | `"100"`
-| `resourceGroupName` | N | 输入/输出 | Event Hub namespace 所属的资源组名称。启用实体管理时必需                                                                                                                       | `"test-rg"`
-| `subscriptionID` | N | 输入/输出 | Azure 订阅 ID 值。启用实体管理时必需                                                                                                                                                         | `"azure subscription id"`
-| `partitionCount` | N | 输入/输出 | 新 Event Hub namespace 的分区数。仅在启用实体管理时使用。默认值：`"1"`                                                                                                               | `"2"`
-| `messageRetentionInDays` | N | 输入/输出 | 在新创建的 Event Hub namespace 中保留消息的天数。仅在启用实体管理时使用。默认值：`"1"`                                                                                     | `"90"`
+| `maxConcurrentHandlers` | N | 输入 | 仅当 `enableInOrderMessageDelivery` 为 `false` 时适用。每个分区未完成的 handler 调用数上限。调用在运行期间、成功之前处于未完成状态；如果分区中更早的调用尚未成功，则在该调用已成功后也仍处于未完成状态。只有当该调用及其之前的所有调用都已成功后，槽位才会释放，与 checkpoint 是否已写入无关。达到上限时，component 会停止从该分区接收消息，直到有槽位释放。参见 [Input binding 投递行为](#input-binding-投递行为)。必须大于 `0`。默认值：`100`。 | `"100"`
+| `resourceGroupName` | N | 输入/输出 | Event Hub namespace 所属的资源组名称。启用 entity management 时必需                                                                                                                       | `"test-rg"`
+| `subscriptionID` | N | 输入/输出 | Azure 订阅 ID 值。启用 entity management 时必需                                                                                                                                                         | `"azure subscription id"`
+| `partitionCount` | N | 输入/输出 | 新 Event Hub namespace 的分区数。仅在启用 entity management 时使用。默认值：`"1"`                                                                                                               | `"2"`
+| `messageRetentionInDays` | N | 输入/输出 | 在新创建的 Event Hub namespace 中保留消息的天数。仅在启用 entity management 时使用。默认值：`"1"`                                                                                     | `"90"`
 | `consumerGroup` | Y | 输入 | 要监听的 [Event Hubs 消费者组](https://docs.microsoft.com/azure/event-hubs/event-hubs-features#consumer-groups)的名称                                                                                       | `"group1"` |
 | `storageAccountName`  | Y  | 输入 | 用于 checkpoint store 的存储帐户名称。                                                                                                                                                                           |`"myeventhubstorage"`
 | `storageAccountKey`   | Y*  | 输入 | checkpoint store 的存储帐户密钥。<br>* 使用 Microsoft Entra ID 时，如果服务主体也有权访问存储帐户，则可以省略此项。                                            | `"112233445566778899"`
@@ -94,11 +94,11 @@ spec:
 
 ### Input binding 投递行为
 
-当 `enableInOrderMessageDelivery` 为 `true` 时，component 按分区顺序每次处理一个事件。为 `false` 时，处理程序并发运行。两种模式都提供至少一次投递。component 会按照已配置的退避时间无限次重试失败的处理程序调用，直到处理成功或 binding 关闭。
+当 `enableInOrderMessageDelivery` 为 `true` 时，component 按分区顺序每次处理一个事件。为 `false` 时，handler 并发运行。两种模式都提供至少一次投递。component 会按照已配置的退避时间无限次重试失败的 handler 调用，直到处理成功或 binding 关闭。
 
-在并发模式下，`maxConcurrentHandlers` 限制每个分区未完成的处理程序调用数。每次调用处理一个事件。调用在运行或重试期间会占用其槽位；如果分区中更早的调用尚未成功，即使该调用已成功，它也会继续占用槽位。只有当该调用及其之前的所有调用都已成功后，component 才会释放槽位。所有槽位都被占用时，component 会停止从该分区接收消息，直到有槽位释放。持续失败的事件会占用其槽位，之后的所有调用也同样会占用槽位，因此达到上限后，该分区将停止接收消息。
+在并发模式下，`maxConcurrentHandlers` 限制每个分区未完成的 handler 调用数。每次调用处理一个事件。调用在运行或重试期间会占用其槽位；如果分区中更早的调用尚未成功，即使该调用已成功，它也会继续占用槽位。只有当该调用及其之前的所有调用都已成功后，component 才会释放槽位。所有槽位都被占用时，component 会停止从该分区接收消息，直到有槽位释放。持续失败的事件会占用其槽位，之后的所有调用也同样会占用槽位，因此达到上限后，该分区将停止接收消息。
 
-检查点只会随连续成功处理的事件向前推进。每当该范围向前推进时，component 都会写入一个检查点。例如，如果事件 1、2 和 4 已成功，而事件 3 仍在运行或重试，则检查点保持在事件 2。事件 3 成功后，检查点会推进到事件 4。已存储的检查点仍是重启位置。如果不存在检查点，则有序模式和并发模式都从最早保留的事件开始。
+Checkpoint 只会随连续成功处理的事件向前推进。每当该范围向前推进时，component 都会写入一个 checkpoint。例如，如果事件 1、2 和 4 已成功，而事件 3 仍在运行或重试，则 checkpoint 保持在事件 2。事件 3 成功后，checkpoint 会推进到事件 4。已存储的 checkpoint 仍是重启位置。如果不存在 checkpoint，则有序模式和并发模式都从最早保留的事件开始。
 
 ### Microsoft Entra ID 身份验证
 

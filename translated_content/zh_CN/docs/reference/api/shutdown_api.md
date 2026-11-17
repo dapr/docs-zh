@@ -11,7 +11,7 @@ Shutdown API 会触发 Dapr sidecar（`daprd`）的优雅关闭。它与 daprd �
 该 API 有两种模式：
 
 - **优雅关闭**（默认）：触发常规的关闭流程并立即返回。
-- **强制关闭**：跳过优雅关闭流程，在短暂延迟后通过 `os.Exit(1)` 退出进程，以便 HTTP/gRPC 响应能够发送出去。适用于 sidecar 卡住、排空请求没有进展的情况。
+- **强制关闭**：跳过优雅关闭流程，在短暂延迟后通过 `os.Exit(1)` 退出进程，以便 HTTP/gRPC 响应能够发送出去。适用于 sidecar 卡住、drain 请求没有进展的情况。
 
 ## HTTP 请求
 
@@ -41,7 +41,7 @@ POST http://localhost:<daprPort>/v1.0/shutdown
 curl -X POST http://localhost:3500/v1.0/shutdown
 ```
 
-不排空请求，立即强制关闭：
+不 drain 请求，立即强制关闭：
 
 ```bash
 curl -X POST -H "Dapr-Force-Shutdown: 1" http://localhost:3500/v1.0/shutdown
@@ -55,14 +55,14 @@ curl -X POST -H "Dapr-Force-Shutdown: 1" http://localhost:3500/v1.0/shutdown
 
 | metadata 键 | 必填 | 说明 |
 | --- | :---: | --- |
-| `dapr-force-shutdown` | N | 存在时，daprd 会跳过优雅关闭，并在短暂延迟后通过 `os.Exit(1)` 退出。与 HTTP 标头 `Dapr-Force-Shutdown` 等效（HTTP 处理程序会把该标头桥接到 gRPC metadata 上下文中，使 `Universal.Shutdown` 只保留一条代码路径）。 |
+| `dapr-force-shutdown` | N | 存在时，daprd 会跳过优雅关闭，并在短暂延迟后通过 `os.Exit(1)` 退出。与 HTTP 标头 `Dapr-Force-Shutdown` 等效（HTTP handler 会把该标头桥接到 gRPC metadata 上下文中，使 `Universal.Shutdown` 只保留一条代码路径）。 |
 
 ## 何时使用哪种模式
 
 | 模式 | 适用场景 | 注意事项 |
 | --- | --- | --- |
-| 优雅关闭（默认） | 常规的运维人员触发关闭、自动化 CI 清理，以及需要 daprd 干净退出的 [Kubernetes Job]({{% ref "kubernetes-job.md" %}}) | 受 `--dapr-graceful-shutdown-seconds`（默认 5）和 `--dapr-block-shutdown-duration` 限制。在配置的排空或阻塞时间窗口结束之前，sidecar 不会退出。 |
-| 强制关闭 | sidecar 卡住、排空没有进展时，或需要确定性拆除的端到端测试 | 退出码为 `1`。容器编排器通常把非零退出视为失败，会将其当作崩溃处理；仅在可以接受这一点时使用。 |
+| 优雅关闭（默认） | 常规的运维人员触发关闭、自动化 CI 清理，以及需要 daprd 干净退出的 [Kubernetes Job]({{% ref "kubernetes-job.md" %}}) | 受 `--dapr-graceful-shutdown-seconds`（默认 5）和 `--dapr-block-shutdown-duration` 限制。在配置的 drain 或阻塞时间窗口结束之前，sidecar 不会退出。 |
+| 强制关闭 | sidecar 卡住、drain 没有进展时，或需要确定性拆除的端到端测试 | 退出码为 `1`。容器编排器通常把非零退出视为失败，会将其当作崩溃处理；仅在可以接受这一点时使用。 |
 
 ## API 允许列表
 

@@ -85,7 +85,7 @@ method-name | 要在远程应用上调用的方法或 URL 的名称
 
 ### 跨 namespace 调用
 
-在支持 namespace 的托管平台上，Dapr App ID 符合包含目标 namespace 的有效完全限定域名（FQDN）格式。
+在支持 namespace 的 hosting platform 上，Dapr App ID 符合包含目标 namespace 的有效完全限定域名（FQDN）格式。
 例如，以下字符串同时包含 App ID（`myApp`）以及应用运行所在的 namespace（`production`）。
 
 ```

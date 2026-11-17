@@ -12,7 +12,7 @@ aliases:
 
 要设置 Azure Service Bus 主题 pub/sub，请创建类型为 `pubsub.azure.servicebus.topics` 的 component。请参阅[pub/sub broker component 文件]({{% ref setup-pubsub.md %}})以了解 ConsumerID 是如何自动生成的。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用 pub/sub 配置。
 
-> 此 component 使用 Azure Service Bus 上的主题；有关[主题和队列](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions)之间的差异，请参阅官方文档。  
+> 此 component 使用 Azure Service Bus 上的 topics；有关[topics 和队列](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions)之间的差异，请参阅官方文档。  
 > 若要使用队列，请参阅 [Azure Service Bus 队列 pub/sub component]({{% ref "setup-azure-servicebus-queues" %}})。
 
 ### 连接字符串身份验证
@@ -63,7 +63,7 @@ spec:
   #   value: 500
 ```
 
-> __注意：__ 上述设置在使用此 component 的所有主题之间共享。
+> __注意：__ 上述设置在使用此 component 的所有 topics 之间共享。
 
 {{% alert title="警告" color="warning" %}}
 上述示例以纯文本字符串的形式填写 secrets。建议按照[此处]({{% ref component-secrets.md %}})的描述，使用 secret store 来管理这些 secrets。
@@ -77,10 +77,10 @@ spec:
 | `namespaceName`| N | 用于设置 Service Bus namespace 地址的参数，为完全限定域名。如果使用 Microsoft Entra ID 身份验证，则为必需。 | `"namespace.servicebus.windows.net"` |
 | `consumerID`         | N        | 消费者 ID（消费者标签）将一个或多个消费者组织成一组。具有相同消费者 ID 的消费者作为一个虚拟消费者工作；例如，一条消息只会被组中的其中一个消费者处理一次。如果未提供 `consumerID`，Dapr runtime 会将其设置为 Dapr 应用程序 ID（`appID`）的值。(`appID`) 值。 | 可以设置为字符串值（例如上面示例中的 `"channel1"`）或字符串格式值（例如 `"{podName}"` 等）。[请参阅你可以在 component metadata 中使用的所有模板标签。]({{% ref "component-schema.md#templated-metadata-values" %}})
 | `timeoutInSec`       | N  | 发送消息和管理操作的超时时间。默认值：`60` |`30`
-| `handlerTimeoutInSec`| N  | 调用应用程序处理程序的超时时间。默认值：`60`。自 1.18.5 起，该超时还会限制入站 resiliency 的重试：超时后 Dapr 将停止重试；如果订阅配置了[死信主题]({{% ref pubsub-deadletter.md %}})，则会将消息发送到该死信主题。 | `30`
+| `handlerTimeoutInSec`| N  | 调用应用程序 handler 的超时时间。默认值：`60`。自 1.18.5 起，该超时还会限制入站 resiliency 的重试：超时后 Dapr 将停止重试；如果订阅配置了[死信主题]({{% ref pubsub-deadletter.md %}})，则会将消息发送到该死信主题。 | `30`
 | `lockRenewalInSec`      | N  | 定义缓冲消息锁的续订频率。默认值：`20`。 | `20`
-| `maxActiveMessages`     | N  | 定义一次处理或缓冲的最大消息数。此值应至少与最大并发处理程序数相同。默认值：`1000` | `2000`
-| `maxConcurrentHandlers` | N  | 定义并发消息处理程序的最大数量。默认值：`0`（无限制） | `10`
+| `maxActiveMessages`     | N  | 定义一次处理或缓冲的最大消息数。此值应至少与最大并发 handler 数相同。默认值：`1000` | `2000`
+| `maxConcurrentHandlers` | N  | 定义并发消息 handler 的最大数量。默认值：`0`（无限制） | `10`
 | `disableEntityManagement` | N  | 当设置为 true 时，队列和 subscription 不会自动创建。默认值：`"false"` | `"true"`, `"false"`
 | `defaultMessageTimeToLiveInSec` | N  | 默认消息生存时间（秒）。仅在创建 subscription 时使用。 | `10`
 | `autoDeleteOnIdleInSec` | N  | 空闲 subscription 自动删除前等待的时间（秒）。仅在创建 subscription 时使用。必须为 300 秒或更长。默认值：`0`（禁用） | `3600`
@@ -140,7 +140,7 @@ Azure Service Bus 消息使用额外的上下文 metadata 扩展了 Dapr 消息�
 
 > **注意：** `metadata.MessageId` 属性不会设置 Dapr 返回的 cloud event 的 `id` 属性，应单独处理。
 
-> **注意：** 如果未设置 `metadata.SessionId` 属性但主题需要会话，则将使用空的会话 ID。
+> **注意：** 如果未设置 `metadata.SessionId` 属性但 topic 需要会话，则将使用空的会话 ID。
 
 > **注意：** `metadata.ScheduledEnqueueTimeUtc` 属性支持 [RFC1123](https://www.rfc-editor.org/rfc/rfc1123) 和 [RFC3339](https://www.rfc-editor.org/rfc/rfc3339) 时间戳格式。
 
@@ -160,15 +160,15 @@ Azure Service Bus 消息使用额外的上下文 metadata 扩展了 Dapr 消息�
 
 > 注意：所有时间均由服务器填充，且未针对时钟偏差进行调整。
 
-## 订阅启用会话的主题
+## 订阅启用会话的 topic
 
-要订阅已[启用会话](https://learn.microsoft.com/azure/service-bus-messaging/message-sessions)的主题，你可以在 subscription metadata 中提供以下属性。
+要订阅已[启用会话](https://learn.microsoft.com/azure/service-bus-messaging/message-sessions)的 topic，你可以在 subscription metadata 中提供以下属性。
 
 - `requireSessions（默认：false）`
 - `sessionIdleTimeoutInSec（默认：60）`
 - `maxConcurrentSessions（默认：8）`
 
-## 为主题创建 Azure Service Bus broker
+## 为 topics 创建 Azure Service Bus broker
 
 按照[此处](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-topics-subscriptions-portal)的说明设置 Azure Service Bus 主题。
 

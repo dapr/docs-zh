@@ -29,7 +29,7 @@ Dapr 有一个元数据 API，返回关于边车的信息，允许运行时可�
 每个已加载的 `HttpEndpoint` 提供一个名称，以轻松识别与运行时关联的 Dapr 资源。
 
 ### 订阅
-元数据 API 返回应用程序已向 Dapr 运行时注册的发布订阅订阅列表。这包括发布订阅名称、主题、路由、死信主题、订阅类型以及与订阅关联的元数据。
+元数据 API 返回应用程序已向 Dapr 运行时注册的发布订阅订阅列表。这包括发布订阅名称、topic、路由、死信 topic、订阅类型以及与订阅关联的元数据。
 
 ### 启用的功能
 通过 Configuration 规范启用的功能列表（包括构建时覆盖）。
@@ -118,10 +118,10 @@ name    | string | HttpEndpoint 的名称。
 名称            | 类型   | 描述
 ----            | ----   | -----------
 pubsubname      | string | 发布订阅的名称。
-topic           | string | 主题名称。
+topic           | string | topic 名称。
 metadata        | object | 与订阅关联的元数据。
 rules           | [元数据 API 响应订阅规则](#metadataapiresponsesubscriptionrules)[] | 与订阅关联的规则列表。
-deadLetterTopic | string | 死信主题名称。
+deadLetterTopic | string | 死信 topic 名称。
 type            | string | 订阅类型，可以是 `DECLARATIVE`、`STREAMING` 或 `PROGRAMMATIC`。
 
 <a id="metadataapiresponsesubscriptionrules"></a>**元数据 API 响应订阅规则**
