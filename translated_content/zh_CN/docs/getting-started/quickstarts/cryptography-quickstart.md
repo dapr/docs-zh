@@ -1,16 +1,16 @@
 ---
 type: docs
-title: "Quickstart：密码学"
-linkTitle: 密码学
+title: "Quickstart：加密"
+linkTitle: 加密
 weight: 79
-description: Dapr cryptography building block 入门
+description: Dapr Cryptography building block 入门
 ---
 
 {{% alert title="Alpha" color="warning" %}}
 cryptography building block 目前处于 **alpha** 阶段。
 {{% /alert %}}
 
-让我们来看看 Dapr [cryptography building block]({{% ref cryptography %}})。在本 Quickstart 中，你将创建一个应用程序，使用 Dapr 密码学 API 加密和解密数据。你将：
+让我们来看看 Dapr [cryptography building block]({{% ref cryptography %}})。在本 Quickstart 中，你将创建一个应用程序，使用 Dapr 加密 API 加密和解密数据。你将：
 
 - 使用 RSA 密钥加密然后解密一个短字符串，并在 Go 字节切片中以内存方式读取结果。
 - 使用 AES 密钥加密然后解密一个大文件，使用流将加密和解密后的数据存储到文件中。
@@ -18,10 +18,10 @@ cryptography building block 目前处于 **alpha** 阶段。
 <img src="/images/crypto-quickstart.png" width=800 style="padding-bottom:15px;">
 
 {{% alert title="注意" color="primary" %}}
-此示例使用 Dapr SDK，它基于 gRPC。在使用密码学 API 加密和解密消息时，**强烈推荐**使用它。
+此示例使用 Dapr SDK，它基于 gRPC。在使用加密 API 加密和解密消息时，**强烈推荐**使用它。
 {{% /alert %}}
 
-目前，你可以使用 Go SDK 体验密码学 API。
+目前，你可以使用 Go SDK 体验加密 API。
 
 {{< tabpane text=true >}}
 
@@ -49,7 +49,7 @@ cryptography building block 目前处于 **alpha** 阶段。
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在终端中，从根目录进入密码学示例。
+在终端中，从根目录进入加密示例。
 
 ```bash
 cd cryptography/javascript/sdk
@@ -111,7 +111,7 @@ dapr run --app-id crypto-quickstart --resources-path ../../../components/ -- npm
 
 #### `local-storage.yaml`
 
-早些时候，你在 `crypto-quickstarts` 中创建了一个名为 `keys` 的目录。在 [`local-storage` 组件 YAML](https://github.com/dapr/quickstarts/blob/master/cryptography/components/local-storage.yaml) 中，`path` 元数据映射到新创建的 `keys` 目录。
+早些时候，你在 `crypto-quickstarts` 中创建了一个名为 `keys` 的目录。在 [`local-storage` component YAML](https://github.com/dapr/quickstarts/blob/master/cryptography/components/local-storage.yaml) 中，`path` metadata 映射到新创建的 `keys` 目录。
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -251,7 +251,7 @@ async function encryptDecryptStream(client) {
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在终端中，从根目录进入密码学示例。
+在终端中，从根目录进入加密示例。
 
 ```bash
 cd cryptography/go/sdk
@@ -267,7 +267,7 @@ cd ./crypto-quickstart
 
 应用程序代码定义了两个必需的密钥：
 
-- 私有 RSA 密钥
+- 私有 RSA 密钥 
 - 一个 256 位对称（AES）密钥
 
 使用 OpenSSL 生成两个密钥，即一个 RSA 密钥和一个 AES 密钥，并将它们写入两个文件：
@@ -301,7 +301,7 @@ dapr run --app-id crypto-quickstart --resources-path ../../../components/ -- go 
 
 #### `local-storage.yaml`
 
-早些时候，你在 `crypto-quickstarts` 中创建了一个名为 `keys` 的目录。在 [`local-storage` 组件 YAML](https://github.com/dapr/quickstarts/blob/master/cryptography/components/local-storage.yaml) 中，`path` 元数据映射到新创建的 `keys` 目录。
+早些时候，你在 `crypto-quickstarts` 中创建了一个名为 `keys` 的目录。在 [`local-storage` component YAML](https://github.com/dapr/quickstarts/blob/master/cryptography/components/local-storage.yaml) 中，`path` metadata 映射到新创建的 `keys` 目录。
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -473,7 +473,7 @@ func encryptDecryptFile(client dapr.Client) {
 
 ## 观看演示
 
-观看此 [Dapr Community Call #83 中的密码学 API 演示视频](https://youtu.be/PRWYX4lb2Sg?t=1148)：
+观看此 [Dapr Community Call #83 中的加密 API 演示视频](https://youtu.be/PRWYX4lb2Sg?t=1148)：
 
 {{< youtube id=PRWYX4lb2Sg start=1148 >}}
 
@@ -485,7 +485,7 @@ func encryptDecryptFile(client dapr.Client) {
 
 ## 后续步骤
 
-- 浏览[更多使用密码学 API 加密和解密的示例]({{% ref howto-cryptography %}})
-- 了解更多关于[作为 Dapr building block 的密码学]({{% ref cryptography-overview %}})
+- 浏览[更多使用加密 API 加密和解密的示例]({{% ref howto-cryptography %}})
+- 了解更多关于[作为 Dapr building block 的加密]({{% ref cryptography-overview %}})
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

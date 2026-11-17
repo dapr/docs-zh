@@ -1,18 +1,18 @@
 ---
 type: docs
-title: "Quickstart：服务到组件的弹性"
-linkTitle: "弹性：服务到组件"
+title: "Quickstart：服务到组件的 resiliency"
+linkTitle: "resiliency：服务到组件"
 weight: 110
-description: "通过状态管理 API 快速上手 Dapr 的弹性能力"
+description: "通过 State Management API 快速上手 Dapr 的 resiliency 能力"
 ---
 
-通过模拟系统故障来观察 Dapr 的弹性能力。在本 Quickstart 中，你将：
+通过模拟系统故障来观察 Dapr 的 resiliency 能力。在本 Quickstart 中，你将：
 
-- 运行一个微服务应用程序，该应用程序通过 Dapr 的状态管理 API 持续持久化和检索状态。 
+- 运行一个微服务应用程序，该应用程序通过 Dapr 的 State Management API 持续持久化和检索状态。 
 - 通过模拟系统故障来触发 resiliency 策略。 
 - 故障解决后，微服务应用程序将恢复运行。 
 
-<img src="/images/resiliency-quickstart-svc-component.png" width="1000" alt="显示应用于 Dapr API 的弹性的图表">
+<img src="/images/resiliency-quickstart-svc-component.png" width="1000" alt="显示应用于 Dapr API 的 resiliency 的图表">
 
 在继续 Quickstart 之前，请选择你偏好的特定语言的 Dapr SDK。
 
@@ -53,7 +53,7 @@ uv sync
 
 ### 第 2 步：运行应用程序
 
-运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的弹性规范：
+运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的 resiliency 规范：
 
 
    ```yaml
@@ -108,7 +108,7 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- uv run
 
 通过停止在开发机器上执行 `dapr init` 时初始化的 Redis 容器实例来模拟故障。实例停止后，`order-processor` 服务的写入和读取操作将开始失败。
 
-由于 `resiliency.yaml` 规范将 `statestore` 定义为组件目标，因此所有失败的请求都将应用重试和熔断器策略：
+由于 `resiliency.yaml` 规范将 `statestore` 定义为 component 目标，因此所有失败的请求都将应用重试和断路器策略：
 
 ```yaml
   targets:
@@ -140,7 +140,7 @@ retryForever:
   maxRetries: -1 
 ```
 
-一旦 5 次连续重试失败，熔断器策略 `simpleCB` 就会被触发，熔断器打开，停止所有请求：
+一旦 5 次连续重试失败，断路器策略 `simpleCB` 就会被触发，断路器打开，停止所有请求：
 
 ```bash
 INFO[0026] Circuit breaker "simpleCB-statestore" changed state from closed to open
@@ -154,7 +154,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒过后，熔断器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，熔断器将重新跳回打开状态。 
+5 秒过后，断路器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，断路器将重新跳回打开状态。 
 
 ```bash
 INFO[0031] Circuit breaker "simpleCB-statestore" changed state from open to half-open  
@@ -224,7 +224,7 @@ npm install
 
 ### 第 2 步：运行应用程序 
 
-运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的弹性规范：
+运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的 resiliency 规范：
 
 
    ```yaml
@@ -277,7 +277,7 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- npm st
 
 通过停止在开发机器上执行 `dapr init` 时初始化的 Redis 容器实例来模拟故障。实例停止后，`order-processor` 服务的写入和读取操作将开始失败。
 
-由于 `resiliency.yaml` 规范将 `statestore` 定义为组件目标，因此所有失败的请求都将应用重试和熔断器策略：
+由于 `resiliency.yaml` 规范将 `statestore` 定义为 component 目标，因此所有失败的请求都将应用重试和断路器策略：
 
 ```yaml
   targets:
@@ -309,7 +309,7 @@ retryForever:
   maxRetries: -1 
 ```
 
-一旦 5 次连续重试失败，熔断器策略 `simpleCB` 就会被触发，熔断器打开，停止所有请求：
+一旦 5 次连续重试失败，断路器策略 `simpleCB` 就会被触发，断路器打开，停止所有请求：
 
 ```bash
 INFO[0026] Circuit breaker "simpleCB-statestore" changed state from closed to open
@@ -323,7 +323,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒过后，熔断器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，熔断器将重新跳回打开状态。 
+5 秒过后，断路器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，断路器将重新跳回打开状态。 
 
 ```bash
 INFO[0031] Circuit breaker "simpleCB-statestore" changed state from open to half-open  
@@ -394,7 +394,7 @@ dotnet build
 
 ### 第 2 步：运行应用程序
 
-运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的弹性规范：
+运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的 resiliency 规范：
 
    ```yaml
    apiVersion: dapr.io/v1alpha1
@@ -446,7 +446,7 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- dotnet
 
 通过停止在开发机器上执行 `dapr init` 时初始化的 Redis 容器实例来模拟故障。实例停止后，`order-processor` 服务的写入和读取操作将开始失败。
 
-由于 `resiliency.yaml` 规范将 `statestore` 定义为组件目标，因此所有失败的请求都将应用重试和熔断器策略：
+由于 `resiliency.yaml` 规范将 `statestore` 定义为 component 目标，因此所有失败的请求都将应用重试和断路器策略：
 
 ```yaml
   targets:
@@ -478,7 +478,7 @@ retryForever:
   maxRetries: -1 
 ```
 
-一旦 5 次连续重试失败，熔断器策略 `simpleCB` 就会被触发，熔断器打开，停止所有请求：
+一旦 5 次连续重试失败，断路器策略 `simpleCB` 就会被触发，断路器打开，停止所有请求：
 
 ```bash
 INFO[0026] Circuit breaker "simpleCB-statestore" changed state from closed to open
@@ -492,7 +492,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒过后，熔断器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，熔断器将重新跳回打开状态。 
+5 秒过后，断路器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，断路器将重新跳回打开状态。 
 
 ```bash
 INFO[0031] Circuit breaker "simpleCB-statestore" changed state from open to half-open  
@@ -565,7 +565,7 @@ mvn clean install
 
 ### 第 2 步：运行应用程序
 
-运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的弹性规范：
+运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的 resiliency 规范：
 
    ```yaml
    apiVersion: dapr.io/v1alpha1
@@ -617,7 +617,7 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- java -
 
 通过停止在开发机器上执行 `dapr init` 时初始化的 Redis 容器实例来模拟故障。实例停止后，`order-processor` 服务的写入和读取操作将开始失败。
 
-由于 `resiliency.yaml` 规范将 `statestore` 定义为组件目标，因此所有失败的请求都将应用重试和熔断器策略：
+由于 `resiliency.yaml` 规范将 `statestore` 定义为 component 目标，因此所有失败的请求都将应用重试和断路器策略：
 
 ```yaml
   targets:
@@ -649,7 +649,7 @@ retryForever:
   maxRetries: -1 
 ```
 
-一旦 5 次连续重试失败，熔断器策略 `simpleCB` 就会被触发，熔断器打开，停止所有请求：
+一旦 5 次连续重试失败，断路器策略 `simpleCB` 就会被触发，断路器打开，停止所有请求：
 
 ```bash
 INFO[0026] Circuit breaker "simpleCB-statestore" changed state from closed to open
@@ -663,7 +663,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒过后，熔断器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，熔断器将重新跳回打开状态。 
+5 秒过后，断路器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，断路器将重新跳回打开状态。 
 
 ```bash
 INFO[0031] Circuit breaker "simpleCB-statestore" changed state from open to half-open  
@@ -733,7 +733,7 @@ go build .
 
 ### 第 2 步：运行应用程序
 
-运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的弹性规范：
+运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的 resiliency 规范：
 
    ```yaml
    apiVersion: dapr.io/v1alpha1
@@ -785,7 +785,7 @@ dapr run --app-id order-processor --resources-path ../../../resources -- go run 
 
 通过停止在开发机器上执行 `dapr init` 时初始化的 Redis 容器实例来模拟故障。实例停止后，`order-processor` 服务的写入和读取操作将开始失败。
 
-由于 `resiliency.yaml` 规范将 `statestore` 定义为组件目标，因此所有失败的请求都将应用重试和熔断器策略：
+由于 `resiliency.yaml` 规范将 `statestore` 定义为 component 目标，因此所有失败的请求都将应用重试和断路器策略：
 
 ```yaml
   targets:
@@ -817,7 +817,7 @@ retryForever:
   maxRetries: -1 
 ```
 
-一旦 5 次连续重试失败，熔断器策略 `simpleCB` 就会被触发，熔断器打开，停止所有请求：
+一旦 5 次连续重试失败，断路器策略 `simpleCB` 就会被触发，断路器打开，停止所有请求：
 
 ```bash
 INFO[0026] Circuit breaker "simpleCB-statestore" changed state from closed to open
@@ -831,7 +831,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒过后，熔断器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，熔断器将重新跳回打开状态。 
+5 秒过后，断路器将切换到半开状态，允许一个请求通过，以验证故障是否已解决。如果请求继续失败，断路器将重新跳回打开状态。 
 
 ```bash
 INFO[0031] Circuit breaker "simpleCB-statestore" changed state from open to half-open  
@@ -870,7 +870,7 @@ INFO[0036] Recovered processing operation component[statestore] output.
 
 ## 使用 Dapr Dev Dashboard 构建你自己的 resiliency 策略
 
-[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 内置了 resiliency builder。无需手动编写 `resiliency.yaml` 文件，你可以使用界面中的向导来定义超时、重试和熔断器，并将它们应用到你的应用、组件和 Actor。你可以尝试重新创建本 Quickstart 中的 `myresiliency` 策略，或者尝试不同的重试和熔断器设置，然后重新运行故障场景。
+[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 内置了 resiliency builder。无需手动编写 `resiliency.yaml` 文件，你可以使用界面中的向导来定义超时、重试和断路器，并将它们应用到你的应用、component 和 Actor。你可以尝试重新创建本 Quickstart 中的 `myresiliency` 策略，或者尝试不同的重试和断路器设置，然后重新运行故障场景。
 
 ## 告诉我们你的想法！
 我们会持续改进 Quickstart 示例，并重视你的反馈。你觉得这个 Quickstart 有帮助吗？你对改进有什么建议？
@@ -879,6 +879,6 @@ INFO[0036] Recovered processing operation component[statestore] output.
 
 ## 后续步骤
 
-进一步了解[弹性特性]({{% ref resiliency-overview %}})及其如何与 Dapr 的 building block API 协同工作。
+进一步了解 [resiliency 功能]({{% ref resiliency-overview %}})及其如何与 Dapr 的 building block API 协同工作。
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

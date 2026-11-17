@@ -8,7 +8,7 @@ description: "通过 service invocation API 开始使用 Dapr 的 resiliency 策
 
 通过模拟系统故障来观察 Dapr resiliency 策略功能。在本 Quickstart 中，你将：
 
-- 运行两个微服务应用程序：`checkout` 和 `order-processor`。`checkout` 将持续向 `order-processor` 发起 Dapr service invocation 请求。
+- 运行两个微服务应用程序：`checkout` 和 `order-processor`。`checkout` 将持续向 `order-processor` 发起 Dapr service invocation 请求。 
 - 通过模拟系统故障来触发 resiliency 策略规范。
 - 移除故障，使微服务应用程序能够恢复。
 
@@ -199,7 +199,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒过后，断路器将切换到半开状态，放行一个请求以验证故障是否已解决。如果该请求仍然失败，断路器将重新跳回打开状态。
+5 秒过后，断路器将切换到半开状态，放行一个请求以验证故障是否已解决。如果该请求仍然失败，断路器将重新跳回打开状态。 
 
 ```bash
 INFO[0030] Circuit breaker "order-processor:orders" changed state from open to half-open  
@@ -340,7 +340,7 @@ dapr run --app-id checkout --resources-path ../../../resources/ --app-protocol h
    ```
 
 ### 步骤 4：查看 service invocation 输出
-当两个服务和 sidecar 都在运行时，注意订单是如何通过 Dapr service invocation 从 `checkout` 服务传递到 `order-processor` 服务的。 
+当两个服务和 sidecar 都在运行时，注意订单是如何通过 Dapr service invoke 从 `checkout` 服务传递到 `order-processor` 服务的。 
 
 `checkout` 服务输出：
 
@@ -572,7 +572,7 @@ dapr run --app-id checkout --resources-path ../../../resources/ --app-protocol h
    ```
 
 ### 步骤 4：查看 service invocation 输出
-当两个服务和 sidecar 都在运行时，注意订单是如何通过 Dapr service invocation 从 `checkout` 服务传递到 `order-processor` 服务的。 
+当两个服务和 sidecar 都在运行时，注意订单是如何通过 Dapr service invoke 从 `checkout` 服务传递到 `order-processor` 服务的。 
 
 `checkout` 服务输出：
 
@@ -661,7 +661,7 @@ circuitBreakers:
   trip: consecutiveFailures >= 5
 ```
 
-5 秒过后，断路器将切换到半开状态，放行一个请求以验证故障是否已解决。如果该请求仍然失败，断路器将重新跳回打开状态。 
+5 秒过后，断路器将切换到半开状态，放行一个请求以验证故障是否已解决。如果该请求仍然失败，断路器将重新跳回打开状态。
 
 ```bash
 INFO[0030] Circuit breaker "order-processor:orders" changed state from open to half-open  
@@ -805,7 +805,7 @@ dapr run --app-id checkout --resources-path ../../../resources/ --app-protocol h
    ```
 
 ### 步骤 4：查看 service invocation 输出
-当两个服务和 sidecar 都在运行时，注意订单是如何通过 Dapr service invocation 从 `checkout` 服务传递到 `order-processor` 服务的。 
+当两个服务和 sidecar 都在运行时，注意订单是如何通过 Dapr service invoke 从 `checkout` 服务传递到 `order-processor` 服务的。 
 
 `checkout` 服务输出：
 
@@ -1035,7 +1035,7 @@ dapr run --app-id checkout --resources-path ../../../resources/ --app-protocol h
    ```
 
 ### 步骤 4：查看 service invocation 输出
-当两个服务和 sidecar 都在运行时，注意订单是如何通过 Dapr service invocation 从 `checkout` 服务传递到 `order-processor` 服务的。 
+当两个服务和 sidecar 都在运行时，注意订单是如何通过 Dapr service invoke 从 `checkout` 服务传递到 `order-processor` 服务的。 
 
 `checkout` 服务输出：
 

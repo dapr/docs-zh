@@ -6,10 +6,10 @@ weight: 77
 description: "开始使用 Dapr 的 Secrets Management building block"
 ---
 
-Dapr 提供了一个专门的机密 API，允许开发者从 secret store 中检索机密。在本 Quickstart 中，你将：
+Dapr 提供了一个专门的 secrets API，允许开发者从 secret store 中检索 secrets。在本 Quickstart 中，你将：
 
 1. 运行带有 secret store component 的微服务。
-1. 在应用程序代码中使用 Dapr 机密 API 检索机密。
+1. 在应用程序代码中使用 Dapr secrets API 检索 secrets。
 
 <img src="/images/secretsmanagement-quickstart/secrets-mgmt-quickstart.png" width=1000 alt="显示示例服务 Secrets Management 的图表。">
 
@@ -39,7 +39,7 @@ Dapr 提供了一个专门的机密 API，允许开发者从 secret store 中检
 git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤 2：检索机密
+### 步骤 2：检索 secrets
 
 在终端窗口中，导航到 `order-processor` 目录。
 
@@ -68,7 +68,7 @@ dapr run --app-id order-processor --resources-path ../../../components/ -- uv ru
 请注意下面的 `order-processor` 服务如何指向：
 
 - 在 `local-secret-store.yaml` component 中定义的 `DAPR_SECRET_STORE`。
-- 在 `secrets.json` 中定义的机密。
+- 在 `secrets.json` 中定义的 secret。
 
 ```python
 # app.py
@@ -102,7 +102,7 @@ spec:
 在 YAML 文件中：
 
 - `metadata/name` 是你的应用程序引用 component 的方式（在代码示例中称为 `DAPR_SECRET_STORE`）。
-- `spec/metadata` 定义 component 使用的机密的连接。
+- `spec/metadata` 定义 component 所使用的 secret 的连接。
 
 **`secrets.json` 文件**
 
@@ -116,7 +116,7 @@ spec:
 
 ### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索机密并在控制台中显示它。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索 secret，并在控制台中显示它。
 
 Order-processor 输出：
 
@@ -147,7 +147,7 @@ Order-processor 输出：
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤 2：检索机密
+### 步骤 2：检索 secrets
 
 在终端窗口中，导航到 `order-processor` 目录。
 
@@ -174,7 +174,7 @@ dapr run --app-id order-processor --resources-path ../../../components/ -- npm s
 请注意下面的 `order-processor` 服务如何指向：
 
 - 在 `local-secret-store.yaml` component 中定义的 `DAPR_SECRET_STORE`。
-- 在 `secrets.json` 中定义的机密。
+- 在 `secrets.json` 中定义的 secret。
 
 ```javascript
 // index.js
@@ -211,7 +211,7 @@ spec:
 在 YAML 文件中：
 
 - `metadata/name` 是你的应用程序引用 component 的方式（在代码示例中称为 `DAPR_SECRET_STORE`）。
-- `spec/metadata` 定义 component 使用的机密的连接。
+- `spec/metadata` 定义 component 所使用的 secret 的连接。
 
 **`secrets.json` 文件**
 
@@ -225,7 +225,7 @@ spec:
 
 ### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索机密并在控制台中显示它。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索 secret，并在控制台中显示它。
 
 Order-processor 输出：
 
@@ -263,7 +263,7 @@ Order-processor 输出：
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤 2：检索机密
+### 步骤 2：检索 secrets
 
 在终端窗口中，导航到 `order-processor` 目录。
 
@@ -291,7 +291,7 @@ dapr run --app-id order-processor --resources-path ../../../components/ -- dotne
 请注意下面的 `order-processor` 服务如何指向：
 
 - 在 `local-secret-store.yaml` component 中定义的 `DAPR_SECRET_STORE`。
-- 在 `secrets.json` 中定义的机密。
+- 在 `secrets.json` 中定义的 secret。
 
 ```csharp
 // Program.cs
@@ -327,7 +327,7 @@ spec:
 在 YAML 文件中：
 
 - `metadata/name` 是你的应用程序引用 component 的方式（在代码示例中称为 `DAPR_SECRET_NAME`）。
-- `spec/metadata` 定义 component 使用的机密的连接。
+- `spec/metadata` 定义 component 所使用的 secret 的连接。
 
 **`secrets.json` 文件**
 
@@ -341,7 +341,7 @@ spec:
 
 ### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索机密并在控制台中显示它。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索 secret，并在控制台中显示它。
 
 Order-processor 输出：
 
@@ -375,7 +375,7 @@ Order-processor 输出：
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤 2：检索机密
+### 步骤 2：检索 secrets
 
 在终端窗口中，导航到 `order-processor` 目录。
 
@@ -402,7 +402,7 @@ dapr run --app-id order-processor --resources-path ../../../components/ -- java 
 请注意下面的 `order-processor` 服务如何指向：
 
 - 在 `local-secret-store.yaml` component 中定义的 `DAPR_SECRET_STORE`。
-- 在 `secrets.json` 中定义的机密。
+- 在 `secrets.json` 中定义的 secret。
 
 ```java
 // OrderProcessingServiceApplication.java
@@ -435,7 +435,7 @@ spec:
 在 YAML 文件中：
 
 - `metadata/name` 是你的应用程序引用 component 的方式（在代码示例中称为 `DAPR_SECRET_NAME`）。
-- `spec/metadata` 定义 component 使用的机密的连接。
+- `spec/metadata` 定义 component 所使用的 secret 的连接。
 
 **`secrets.json` 文件**
 
@@ -449,7 +449,7 @@ spec:
 
 ### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索机密并在控制台中显示它。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索 secret，并在控制台中显示它。
 
 Order-processor 输出：
 
@@ -480,7 +480,7 @@ Order-processor 输出：
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤 2：检索机密
+### 步骤 2：检索 secrets
 
 在终端窗口中，导航到 `order-processor` 目录。
 
@@ -507,7 +507,7 @@ dapr run --app-id order-processor --resources-path ../../../components/ -- go ru
 请注意下面的 `order-processor` 服务如何指向：
 
 - 在 `local-secret-store.yaml` component 中定义的 `DAPR_SECRET_STORE`。
-- 在 `secrets.json` 中定义的机密。
+- 在 `secrets.json` 中定义的 secret。
 
 ```go
 const DAPR_SECRET_STORE = "localsecretstore"
@@ -542,7 +542,7 @@ spec:
 在 YAML 文件中：
 
 - `metadata/name` 是你的应用程序引用 component 的方式（在代码示例中称为 `DAPR_SECRET_NAME`）。
-- `spec/metadata` 定义 component 使用的机密的连接。
+- `spec/metadata` 定义 component 所使用的 secret 的连接。
 
 **`secrets.json` 文件**
 
@@ -556,7 +556,7 @@ spec:
 
 ### 步骤 3：查看 order-processor 输出
 
-如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索机密并在控制台中显示它。
+如上面的应用程序代码所指定，`order-processor` 服务通过 Dapr secret store 检索 secret，并在控制台中显示它。
 
 Order-processor 输出：
 

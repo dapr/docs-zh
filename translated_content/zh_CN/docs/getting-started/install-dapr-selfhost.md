@@ -20,8 +20,8 @@ Dapr 初始化包括：
 1. 运行 **Redis 容器实例**，将其用作本地 state store 和消息代理。
 1. 运行 **Zipkin 容器实例**，用于可观测性。
 1. 创建一个**默认 component 文件夹**，其中包含上述 component 的定义。
-1. 运行 **Dapr placement 服务容器实例**，以支持本地 Actor。
-1. 运行 **Dapr scheduler 服务容器实例**，用于 job 调度。
+1. 运行 **Dapr placement service 容器实例**，以支持本地 Actor。
+1. 运行 **Dapr Scheduler service 容器实例**，用于 job 调度。
 
 {{% alert title="Kubernetes 开发环境" color="primary" %}}
 要在本地或远程 **Kubernetes** 集群中初始化 Dapr 以用于开发（包括上面列出的 Redis 和 Zipkin 容器），请参阅[如何在 Kubernetes 上使用开发标志初始化 Dapr]({{%ref "kubernetes-deploy.md#install-dapr-from-the-official-dapr-helm-chart-with-development-flag" %}})
@@ -108,7 +108,7 @@ dapr init
 dapr --version
 ```
 
-**输出：**
+**输出：**  
 
 `CLI version: {{% dapr-latest-version cli="true" %}}` <br>
 `Runtime version: {{% dapr-latest-version long="true" %}}`
@@ -121,7 +121,7 @@ dapr --version
 docker ps
 ```
 
-**输出：**
+**输出：**  
 
 <img src="/images/install-dapr-selfhost/docker-containers.png">
 
@@ -145,7 +145,7 @@ docker ps
 ls $HOME/.dapr
 ```
 
-**输出：**
+**输出：**  
 
 `bin  components  config.yaml`
 
@@ -174,7 +174,7 @@ explorer "%USERPROFILE%\.dapr"
 
 ### 精简初始化
 
-要在安装 CLI 时不安装任何默认配置文件或 Docker 容器，请使用 `--slim` 标志。[详细了解 `init` 命令及其标志。]({{% ref dapr-init.md %}})
+要在不安装任何默认配置文件或 Docker 容器的情况下安装 CLI，请使用 `--slim` 标志。[详细了解 `init` 命令及其标志。]({{% ref dapr-init.md %}})
 
 ```bash
 dapr init --slim
@@ -184,7 +184,7 @@ dapr init --slim
 
 #### Dapr Dev Dashboard
 
-免费的 [Diagrid Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 是用于本地 Dapr 开发的配套工具。它可以让你深入了解应用程序、sidecar、component、state store、订阅、Actor、workflow 和日志。你还可以使用它创建 Dapr component 文件和 resiliency，而无需手动编辑 yaml。
+免费的 [Diagrid Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 是用于本地 Dapr 开发的配套工具。它可以让你深入了解应用程序、sidecar、component、state store、subscription、Actor、workflow 和日志。你还可以使用它创建 Dapr component 文件和 resiliency，而无需手动编辑 yaml。
 
 <img src="/images/install-dapr-selfhost/diagrid-dashboard-applications.png" width=800 alt="显示本地 Dapr 应用程序的 Diagrid Dev Dashboard"/><br/>
 
