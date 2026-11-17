@@ -1,16 +1,16 @@
 ---
 type: docs
-title: "如何：为 service invocation 应用访问控制列表配置"
+title: "How-To: Apply access control list configuration for service invocation"
 linkTitle: "service invocation 访问控制"
 weight: 4000
 description: "限制调用应用程序可以执行的操作"
 ---
 
-使用访问控制，您可以配置策略，通过 service invocation 限制_调用_应用程序可以对_被调用_应用程序执行的操作。您可以在 Configuration 架构中定义访问控制策略规范，以限制以下访问：
+使用访问控制，您可以配置策略，通过 service invocation 限制_调用_应用程序可以对_被调用_应用程序执行的操作。您可以在配置（Configuration）架构中定义访问控制策略规范，以限制以下访问：
 - 从特定操作访问被调用应用程序，以及
 - 调用应用程序使用的 HTTP 动词。
 
-访问控制策略在 Configuration 中指定，并应用于_被调用_应用程序的 Dapr sidecar。对被调用应用程序的访问基于匹配的策略操作。
+访问控制策略在配置中指定，并应用于_被调用_应用程序的 Dapr sidecar。对被调用应用程序的访问基于匹配的策略操作。
 
 {{% alert title="workflow 访问控制" color="primary" %}}
 如需限制哪些应用程序可以跨应用调度 workflow 和活动，请改用 [`WorkflowAccessPolicy`]({{% ref workflow-access-policy.md %}})。service invocation 访问控制不涵盖跨应用的 workflow 调度。
@@ -28,11 +28,11 @@ description: "限制调用应用程序可以执行的操作"
 
 ### 应用程序身份
 
-Dapr 请求 sentry 服务为所有应用程序生成 [SPIFFE](https://spiffe.io/) ID。此 ID 附加在 TLS 证书中。
+Dapr 请求 Sentry 服务为所有应用程序生成 [SPIFFE](https://spiffe.io/) ID。此 ID 附加在 TLS 证书中。
 
 SPIFFE ID 的格式为：`**spiffe://\<trustdomain>/ns/\<namespace\>/\<appid\>**`。
 
-为了匹配策略，调用应用程序的信任域、namespace 和应用程序 ID 值从调用应用程序的 TLS 证书中的 SPIFFE ID 中提取。这些值与策略规范中指定的信任域、namespace 和应用程序 ID 值进行匹配。如果这三个值都匹配，则会进一步匹配更具体的策略。
+为了匹配策略，调用应用程序的信任域、namespace 和 App ID 值从调用应用程序的 TLS 证书中的 SPIFFE ID 提取。这些值会与策略规范中指定的信任域、namespace 和 App ID 值进行匹配。如果这三个值都匹配，则会进一步匹配更具体的策略。
 
 ## 配置属性
 
@@ -40,52 +40,52 @@ SPIFFE ID 的格式为：`**spiffe://\<trustdomain>/ns/\<namespace\>/\<appid\>**
 
 ### 访问控制
 
-| 属性      | 类型   | 描述 |
+| 属性 | 类型 | 描述 |
 |---------------|--------|-------------|
 | `defaultAction` | string | 当没有其他策略匹配时的全局默认操作
-| `trustDomain`   | string | 分配给应用程序的信任域。默认为 "public"。
-| `policies`      | string | 用于确定调用应用程序可以对被调用应用程序执行的操作的策略
+| `trustDomain` | string | 分配给应用程序的信任域。默认为 "public"。
+| `policies` | string | 用于确定调用应用程序可以对被调用应用程序执行哪些操作的策略
 
 ### 策略
 
-| 属性      | 类型   | 描述 |
+| 属性 | 类型 | 描述 |
 |---------------|--------|-------------|
-| `app`           | string | 要允许/拒绝 service invocation 的调用应用程序的 AppId
-| `namespace`     | string | 需要与调用应用程序的 namespace 匹配的 namespace 值
-| `trustDomain`   | string | 需要与调用应用程序的信任域匹配的信任域。默认为 "public"
-| `defaultAction` | string | 应用程序级别的默认操作，当找到应用程序但没有匹配特定操作时使用
-| `operations`    | string | 从调用应用程序允许的操作
+| `app` | string | 要允许或拒绝其 service invocation 的调用应用程序的 AppId
+| `namespace` | string | 需要与调用应用程序的 namespace 匹配的 namespace 值
+| `trustDomain` | string | 需要与调用应用程序的信任域匹配的信任域。默认为 "public"
+| `defaultAction` | string | 应用程序级别的默认操作，在找到应用程序但未匹配到特定操作时使用
+| `operations` | string | 从调用应用程序允许的操作
 
 ### 操作
 
-| 属性 | 类型   | 描述                                                  |
+| 属性 | 类型 | 描述 |
 | -------- | ------ | ------------------------------------------------------------ |
-| `name`     | string | 被调用应用程序上允许的操作的路径名称。可以在路径中使用通配符 "\*" 进行匹配。可以使用通配符 "\**" 在多个路径下进行匹配。 |
-| `httpVerb` | list   | 列出调用应用程序可以使用的特定 http 动词。可以使用通配符 "\*" 匹配任何 http 动词。对于 grpc 调用未使用。 |
-| `action`   | string | 访问修饰符。接受的值为 "allow"（默认）或 "deny" |
+| `name` | string | 被调用应用程序上允许的操作的路径名称。可以在路径中使用通配符 "\*" 进行匹配。可以使用通配符 "\**" 匹配多个路径。 |
+| `httpVerb` | list | 列出调用应用程序可以使用的特定 HTTP 动词。可以使用通配符 "\*" 匹配任意 HTTP 动词。对 grpc 调用不使用。 |
+| `action` | string | 访问修饰符。可接受的值为 "allow"（默认）或 "deny" |
 
 ## 策略规则
 
 1. 如果未指定访问策略，则默认行为是允许所有应用程序访问被调用应用程序上的所有方法。
-1. 如果未指定全局默认操作且未定义应用程序特定策略，则空访问策略被视为未指定访问策略。默认行为是允许所有应用程序访问被调用应用程序上的所有方法。
-1. 如果未指定全局默认操作但已定义某些应用程序特定策略，则我们采用更安全的选项，即假设全局默认操作拒绝访问被调用应用程序上的所有方法。
-1. 如果定义了访问策略并且无法验证传入应用程序的身份凭证，则全局默认操作生效。
-1. 如果传入应用程序的信任域或 namespace 与应用程序策略中指定的值不匹配，则应用程序策略将被忽略，全局默认操作生效。
+1. 如果未指定全局默认操作，且未定义任何应用程序特定策略，则空访问策略视同未指定访问策略。默认行为是允许所有应用程序访问被调用应用程序上的所有方法。
+1. 如果未指定全局默认操作，但已定义了某些应用程序特定策略，则采用更安全的做法：假定全局默认操作为拒绝，即拒绝访问被调用应用程序上的所有方法。
+1. 如果定义了访问策略，且无法验证传入应用程序的凭证，则全局默认操作生效。
+1. 如果传入应用程序的信任域或 namespace 与应用程序策略中指定的值不匹配，则忽略该应用程序策略，全局默认操作生效。
 
 ## 策略优先级
 
-与匹配的最具体策略对应的操作按以下顺序生效：
-1. HTTP 情况下的特定 HTTP 动词，或 GRPC 情况下的操作级别操作。
+与匹配到的最具体策略对应的操作，按以下顺序生效：
+1. HTTP 时为特定 HTTP 动词的操作，gRPC 时为操作级别的操作。
 1. 应用程序级别的默认操作
 1. 全局级别的默认操作
 
 ## 示例场景
 
-以下是一些使用 service invocation 访问控制列表的示例场景。请参阅[配置指南]({{% ref "configuration-concept.md" %}})以了解应用程序 sidecar 的可用配置设置。
+以下是一些使用 service invocation 访问控制列表的示例场景。请参阅[配置指南]({{% ref "configuration-concept.md" %}})，了解应用程序 sidecar 可用的配置设置。
 
 ### 场景 1：
 
-拒绝所有应用程序的访问，除了 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`
+拒绝所有应用程序的访问，但 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1` 除外
 
 使用此配置，允许 `appId` = `app1` 的所有调用方法。来自其他应用程序的所有其他调用请求都被拒绝。
 
@@ -107,7 +107,7 @@ spec:
 
 ### 场景 2：
 
-拒绝所有应用程序的访问，除了 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`、`operation` = `op1`
+拒绝所有应用程序的访问，但 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`、`operation` = `op1` 除外
 
 使用此配置，只允许 `appId` = `app1` 的方法 `op1`。来自所有其他应用程序的所有其他方法请求（包括 `app1` 上的其他方法）都被拒绝。
 
@@ -133,12 +133,12 @@ spec:
 
 ### 场景 3：
 
-拒绝所有应用程序的访问，除非匹配 HTTP 的特定动词和 GRPC 的特定操作
+拒绝所有应用程序的访问，除非匹配 HTTP 的特定动词或 GRPC 的特定操作
 
-使用此配置，仅允许以下场景访问。来自所有其他应用程序的所有其他方法请求（包括 `app1` 或 `app2` 上的其他方法）都被拒绝。
+使用此配置，仅允许以下场景的访问。来自所有其他应用程序的所有其他方法请求（包括 `app1` 或 `app2` 上的其他方法）都被拒绝。
 
 - `trustDomain` = `public`、`namespace` = `default`、`appID` = `app1`、`operation` = `op1`、`httpVerb` = `POST`/`PUT`
-- `trustDomain` = `"myDomain"`、`namespace` = `"ns1"`、`appID` = `app2`、`operation` = `op2` 且应用程序协议为 GRPC
+- `trustDomain` = `"myDomain"`、`namespace` = `"ns1"`、`appID` = `app2`、`operation` = `op2`，且应用协议为 GRPC
 
 只允许 `appId` = `app1` 的方法 `op1` 上的 `httpVerb` `POST`/`PUT`。来自所有其他应用程序的所有其他方法请求（包括 `app1` 上的其他方法）都被拒绝。
 
@@ -171,7 +171,7 @@ spec:
 
 ### 场景 4：
 
-允许所有方法的访问，除了 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`、`operation` = `/op1/*`、所有 `httpVerb`
+允许所有方法的访问，但 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`、`operation` = `/op1/*`、所有 `httpVerb` 除外
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -197,7 +197,7 @@ spec:
 
 允许 `trustDomain` = `public`、`namespace` = `ns1`、`appId` = `app1` 的所有方法的访问，并拒绝 `trustDomain` = `public`、`namespace` = `ns2`、`appId` = `app1` 的所有方法的访问
 
-此场景展示了如何指定具有相同应用程序 ID 但属于不同 namespace 的应用程序。
+此场景展示了如何指定具有相同 App ID 但属于不同 namespace 的应用程序。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -221,7 +221,7 @@ spec:
 
 ### 场景 6：
 
-允许所有方法的访问，除了 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`、`operation` = `/op1/**/a`、所有 `httpVerb`
+允许所有方法的访问，但 `trustDomain` = `public`、`namespace` = `default`、`appId` = `app1`、`operation` = `/op1/**/a`、所有 `httpVerb` 除外
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -247,7 +247,7 @@ spec:
 
 在这些示例中，您将学习如何对 [hello world](https://github.com/dapr/quickstarts/tree/master/tutorials) 教程应用访问控制。
 
-访问控制列表依赖 Dapr [Sentry 服务]({{% ref "security-concept.md" %}}) 来生成带有用于身份验证的 SPIFFE ID 的 TLS 证书。这意味着 Sentry 服务必须在本地运行或部署到您的托管环境（例如 Kubernetes 集群）。
+访问控制列表依赖 Dapr [Sentry 服务]({{% ref "security-concept.md" %}}) 为身份验证生成带有 SPIFFE ID 的 TLS 证书。这意味着 Sentry 服务必须在本地运行，或部署到您的托管环境（例如 Kubernetes 集群）中。
 
 下面的 `nodeappconfig` 示例展示了如何**拒绝** `pythonapp` 对 `neworder` 方法的访问，其中 Python 应用程序位于 `myDomain` 信任域和 `default` namespace 中。Node.js 应用程序位于 `public` 信任域中。
 
@@ -332,7 +332,7 @@ spec:
 
     {{< /tabpane >}}
 
-1. 运行 daprd 以启动 Node.js 应用的 Dapr sidecar，启用 mTLS，并引用本地 Sentry 服务：
+1. 运行 daprd，为 Node.js 应用启动 Dapr sidecar，启用 mTLS 并引用本地 Sentry 服务：
 
    ```bash
    daprd --app-id nodeapp --dapr-grpc-port 50002 -dapr-http-port 3501 --log-level debug --app-port 3000 --enable-mtls --sentry-address localhost:50001 --config nodeappconfig.yaml
@@ -373,7 +373,7 @@ spec:
 
    {{< /tabpane >}}
 
-1. 运行 daprd 以启动 Python 应用的 Dapr sidecar，启用 mTLS，并引用本地 Sentry 服务：
+1. 运行 daprd，为 Python 应用启动 Dapr sidecar，启用 mTLS 并引用本地 Sentry 服务：
 
    ```bash
    daprd --app-id pythonapp   --dapr-grpc-port 50003 --metrics-port 9092 --log-level debug --enable-mtls --sentry-address localhost:50001 --config pythonappconfig.yaml
@@ -384,7 +384,7 @@ spec:
    python app.py
    ```
 
-您应该会看到在 Python 应用命令提示符中调用 Node.js 应用失败，这是由于 `nodeappconfig` 文件中的 **deny** 操作。将此操作更改为 **allow** 并重新运行应用程序，即可看到此调用成功。
+您应该会看到在 Python 应用的命令提示符中，调用 Node.js 应用失败，这是由于 `nodeappconfig` 文件中的 **deny** 操作。将此操作更改为 **allow** 并重新运行应用程序，即可看到此调用成功。
 
 ### Kubernetes 模式
 
@@ -397,7 +397,7 @@ spec:
 
 您可以创建并应用上述 [`nodeappconfig.yaml`](#nodeappconfigyaml) 和 [`pythonappconfig.yaml`](#pythonappconfigyaml) 配置文件，如[配置]({{% ref "configuration-concept.md" %}})中所述。
 
-例如，下面的 Kubernetes Deployment 展示了如何将 Python 应用部署到 Kubernetes 的 default namespace 中，并使用此 `pythonappconfig` 配置文件。
+例如，下面的 Kubernetes Deployment 展示了如何使用此 `pythonappconfig` 配置文件，将 Python 应用部署到 Kubernetes 的 default namespace 中。
 
 对 Node.js 部署执行相同的操作，并查看 Python 应用的日志，以查看由于 `nodeappconfig` 文件中设置的 **deny** 操作而导致的调用失败。
 

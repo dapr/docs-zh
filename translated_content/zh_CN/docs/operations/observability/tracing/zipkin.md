@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：设置 Zipkin 进行分布式追踪"
+title: "How-To: Set up Zipkin for distributed tracing"
 linkTitle: "Zipkin"
 weight: 4000
 description: "设置 Zipkin 进行分布式追踪"

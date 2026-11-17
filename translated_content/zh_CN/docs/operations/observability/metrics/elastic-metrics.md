@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：设置 Elastic 收集 Dapr 指标"
+title: "How-To: Set up Elastic to collect Dapr metrics"
 linkTitle: "Elastic"
 weight: 8000
 description: "使用 Elastic Distribution of OpenTelemetry Collector 抓取 Dapr 指标并写入 Elastic"

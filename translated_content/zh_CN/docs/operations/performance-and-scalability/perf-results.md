@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "性能结果"
+title: "Performance results"
 linkTitle: "性能结果"
 weight: 10000
 description: "Dapr API 的性能基准和图表"

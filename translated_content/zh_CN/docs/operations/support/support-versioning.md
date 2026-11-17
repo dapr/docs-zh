@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "版本控制策略"
+title: "Versioning policy"
 linkTitle: "版本控制"
 weight: 1000
 description: "Dapr 的版本控制策略"
@@ -55,12 +55,12 @@ component 在 components-contrib 仓库中实现，遵循 `MAJOR` 版本控制�
 
 [components-contrib](https://github.com/dapr/components-contrib/) 仓库发布版本是其内部所有 component 的统一版本。也就是说，components-contrib 仓库发布版本由其中所有 component 的 schema 组成。如果没有 component 更改，Dapr 的新版本并不意味着 components-contrib 有新发布版本。
 
-注意：component 具有生产使用生命周期状态：Alpha、Beta 和 Stable。这些状态与其版本控制无关。受支持 component 的表格显示了它们的版本和状态。
+注意：component 具有生产使用生命周期状态：Alpha、Beta 和 Stable（稳定）。这些状态与其版本控制无关。受支持 component 的表格显示了它们的版本和状态。
 * [state store component]({{% ref supported-state-stores.md %}})列表
 * [pub/sub component]({{% ref supported-pubsub.md %}})列表
 * [binding component]({{% ref supported-bindings.md %}})列表
 * [secret store component]({{% ref supported-secret-stores.md %}})列表
-* [配置存储 component]({{% ref supported-configuration-stores.md %}})列表
+* [configuration store component]({{% ref supported-configuration-stores.md %}})列表
 * [锁 component]({{% ref supported-locks.md %}})列表
 * [加密 component]({{% ref supported-cryptography.md %}})列表
 * [middleware component]({{% ref supported-middleware.md %}})列表

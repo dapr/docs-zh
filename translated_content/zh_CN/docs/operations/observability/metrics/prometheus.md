@@ -7,11 +7,11 @@ description: "使用 Prometheus 收集与 Dapr 运行时本身执行相关的时
 ---
 
 ## 在本地设置 Prometheus
-要在本地计算机上运行 Prometheus，您可以[安装并作为进程运行](#install)，也可以将其作为 [Docker 容器](#run-as-container)运行。
+要在本地计算机上运行 Prometheus，您可以[安装并作为进程运行](#安装)，也可以将其作为 [Docker 容器](#作为容器运行)运行。
 
 ### 安装
 {{% alert title="注意" color="warning" %}}
-如果您计划将 Prometheus 作为 Docker 容器运行，则无需安装它。请参阅[容器](#run-as-container)说明。
+如果您计划将 Prometheus 作为 Docker 容器运行，则无需安装它。请参阅[容器](#作为容器运行)说明。
 {{% /alert %}}
 
 要安装 Prometheus，请按照[此处](https://prometheus.io/docs/prometheus/latest/getting_started/)针对您的操作系统概述的步骤操作。

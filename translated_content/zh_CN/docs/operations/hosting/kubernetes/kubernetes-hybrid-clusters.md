@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "部署到混合 Linux/Windows Kubernetes 集群"
+title: "Deploy to hybrid Linux/Windows Kubernetes clusters"
 linkTitle: "混合集群"
 weight: 70000
 description: "如何在带有 Windows 节点的 Kubernetes 集群上运行 Dapr 应用"
@@ -13,7 +13,7 @@ Dapr 支持在以下 Kubernetes 集群上运行微服务：
 
 这在将传统应用程序逐步迁移到 Dapr Kubernetes 集群时特别有用。
 
-Kubernetes 使用一个称为**node affinity**的概念来表示你希望应用程序在 Linux 节点还是 Windows 节点上启动。当部署到同时具有 Windows 和 Linux 节点的集群时，必须为应用程序提供亲和性规则，否则 Kubernetes Scheduler 可能会在错误类型的节点上启动应用程序。
+Kubernetes 使用一个称为 **node affinity** 的概念来表示你希望应用程序在 Linux 节点还是 Windows 节点上启动。当部署到同时具有 Windows 和 Linux 节点的集群时，必须为应用程序提供亲和性规则，否则 Kubernetes Scheduler 可能会在错误类型的节点上启动应用程序。
 
 ## 前置条件
 

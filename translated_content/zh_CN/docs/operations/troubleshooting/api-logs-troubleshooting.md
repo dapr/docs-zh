@@ -117,7 +117,7 @@ Dapr gRPC API 发出的日志不受此配置选项的影响，因为它们仅包
 
 当启用 API 日志记录时，对 Dapr API 服务器的所有调用都会被记录，包括对健康检查端点的调用（例如 `/v1.0/healthz`）。根据您的环境，这每分钟可能会生成多个日志行，并可能产生不必要的噪音。
 
-您可以使用 Dapr 配置规范配置 Dapr 在启用 API 日志记录时不记录对健康检查端点的调用，方法是将 `logging.apiLogging.omitHealthChecks` 设置为 `true`。默认值为 `false`，这意味着健康检查调用会记录在 API 日志中。
+您可以使用 Dapr 配置规范配置 Dapr 在启用 API 日志记录时不记录对健康检查端点的调用，方法是设置 `logging.apiLogging.omitHealthChecks: true`。默认值为 `false`，这意味着健康检查调用会记录在 API 日志中。
 
 例如：
 

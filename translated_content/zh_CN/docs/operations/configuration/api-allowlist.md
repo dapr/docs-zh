@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：在 Dapr sidecar 上选择性地启用 Dapr API"
+title: "How-To: Selectively enable Dapr APIs on the Dapr sidecar"
 linkTitle: "Dapr API 允许列表"
 weight: 4500
 description: "选择哪些 Dapr sidecar API 可用于应用"
@@ -116,18 +116,18 @@ spec:
 
 | API 组 | HTTP API | [gRPC API](https://github.com/dapr/dapr/tree/master/pkg/api/grpc) |
 | ----- | ----- | ----- |
-| [service invocation]({{% ref service_invocation_api.md %}}) | `invoke` (`v1.0`) | `invoke` (`v1`) |
+| [Service Invocation]({{% ref service_invocation_api.md %}}) | `invoke` (`v1.0`) | `invoke` (`v1`) |
 | [状态]({{% ref state_api.md%}})| `state` (`v1.0` 和 `v1.0-alpha1`) | `state` (`v1` 和 `v1alpha1`) |
 | [pub/sub]({{% ref pubsub.md %}}) | `publish` (`v1.0` 和 `v1.0-alpha1`) | `publish` (`v1` 和 `v1alpha1`) |
-| [output binding]({{% ref bindings_api.md %}})  | `bindings` (`v1.0`) |`bindings` (`v1`) |
+| [Output Bindings]({{% ref bindings_api.md %}})  | `bindings` (`v1.0`) |`bindings` (`v1`) |
 | 订阅 | n/a | `subscribe` (`v1alpha1`) |
-| [secrets]({{% ref secrets_api.md %}})| `secrets` (`v1.0`) | `secrets` (`v1`) |
+| [Secrets]({{% ref secrets_api.md %}})| `secrets` (`v1.0`) | `secrets` (`v1`) |
 | [Actor]({{% ref actors_api.md %}}) | `actors`  (`v1.0`) |`actors` (`v1`) |
-| [metadata]({{% ref metadata_api.md %}}) | `metadata` (`v1.0`) |`metadata` (`v1`) |
+| [Metadata]({{% ref metadata_api.md %}}) | `metadata` (`v1.0`) |`metadata` (`v1`) |
 | [配置]({{% ref configuration_api.md %}}) | `configuration` (`v1.0` 和 `v1.0-alpha1`) | `configuration` (`v1` 和 `v1alpha1`) |
 | [分布式锁]({{% ref distributed_lock_api.md %}}) | `lock` (`v1.0-alpha1`)<br/>`unlock` (`v1.0-alpha1`) | `lock` (`v1alpha1`)<br/>`unlock` (`v1alpha1`) |
 | [加密]({{% ref cryptography_api.md %}}) | `crypto` (`v1.0-alpha1`) | `crypto` (`v1alpha1`) |
-| [workflow]({{% ref workflow_api.md %}}) | `workflows` (`v1.0`) |`workflows` (`v1`) |
+| [Workflow]({{% ref workflow_api.md %}}) | `workflows` (`v1.0`) |`workflows` (`v1`) |
 | [对话]({{% ref conversation_api.md %}}) | `conversation` (`v1.0-alpha1`) | `conversation` (`v1alpha1`) |
 | [搜索]({{% ref search_api.md %}}) | `search` (`v1.0-alpha1`) | `search` (`v1alpha1`) |
 | [向量]({{% ref vector_api.md %}}) | `vector` (`v1.0-alpha1`) | `vector` (`v1alpha1`) |

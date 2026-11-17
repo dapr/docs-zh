@@ -36,7 +36,7 @@ New Relic 提供了一个 [Fluent Bit](https://fluentbit.io/) 输出[插件](htt
     helm install newrelic/newrelic-logging --name newrelic-logging --set licenseKey=YOUR_LICENSE_KEY
     ```
 
-对于欧盟用户，请在上述任何 helm install 命令中添加 `--set endpoint=https://log-api.eu.newrelic.com/log/v1`。
+对于欧盟用户，请在上述任何 helm install 命令中添加 --set endpoint=https://log-api.eu.newrelic.com/log/v1。
 
 默认情况下，日志跟踪设置为 /var/log/containers/*.log。要更改此设置，请在上述任何 helm install 命令中添加 --set fluentBit.path=DESIRED_PATH 来提供您首选的路径。
 

@@ -122,7 +122,7 @@ spec:
         deniedSecrets: ["secret1", "secret2"]
 ```
 
-此配置明确拒绝访问名为 `vault` 的 secret 存储中的 `secret1` 和 `secret2`，同时允许访问所有其他密钥。遵循 [边车配置指南]({{% ref "configuration-overview.md#sidecar-configuration" %}}) 将配置应用到边车。
+此配置明确拒绝访问名为 `vault,` 的 secret 存储中的 `secret1` 和 `secret2`，同时允许访问所有其他密钥。遵循 [边车配置指南]({{% ref "configuration-overview.md#sidecar-configuration" %}}) 将配置应用到边车。
 
 ## 后续步骤
 

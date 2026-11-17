@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "应用健康检查"
+title: "App health checks"
 linkTitle: "应用健康检查"
 weight: 100
 description: 对应用的健康状态变化做出反应
 ---
 
-应用健康检查功能允许探测应用程序的健康状况，并对状态变化做出反应。
+应用健康检查功能可以探测应用程序的健康状况，并对状态变化做出反应。
 
 应用程序可能因多种原因而无响应。例如，你的应用程序：
 - 可能过于忙碌，无法接受新工作；
@@ -17,27 +17,27 @@ description: 对应用的健康状态变化做出反应
 - 如果应用只是忙碌，最终会恢复接受新工作
 - 如果应用因某种原因正在重启，并处于其初始化阶段
 
-应用健康检查默认禁用。启用应用健康检查后，Dapr runtime（sidecar）会通过 HTTP 或 gRPC 调用定期探测你的应用程序。当它检测到应用的健康状况失败时，Dapr 会通过以下方式停止代表该应用接受新工作：
+应用健康检查默认禁用。启用应用健康检查后，Dapr runtime（sidecar）会通过 HTTP 或 gRPC 调用定期探测你的应用程序。当它检测到应用的健康状况出现故障时，Dapr 会通过以下方式停止代表该应用接受新工作：
 
-- 取消订阅所有 pub/sub
-- 停止所有 input binding
-- 短路所有 service invocation 请求，这些请求在 Dapr runtime 终止，不会转发到应用程序
+- 取消订阅所有 pub/sub subscriptions
+- 停止所有 input bindings
+- 短路所有 service invocation 请求，这些请求在 Dapr runtime 中终止，不会转发到应用程序
 - 注销 Dapr Actor 类型，从而在有其他可用副本时，使 Actor 实例迁移到其他副本
 
 这些更改是临时的，一旦 Dapr 检测到应用程序再次响应，就会恢复正常操作。
 
 {{< diagram name="app-health" width="85" >}}
 
-## 应用健康检查 vs 平台级健康检查
+## 应用健康检查与平台级健康检查
 
 Dapr 中的应用健康检查旨在与平台级健康检查互补，而不是取代它们，例如在 Kubernetes 上运行时的 [liveness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)。
 
 平台级健康检查（或 liveness probes）通常确保应用程序正在运行，并在失败时促使平台重启应用程序。  
 
-与平台级健康检查不同，Dapr 的应用健康检查专注于暂停向当前无法接受工作、但预期最终能够恢复接受工作的应用程序传递工作。目标包括：
+与平台级健康检查不同，Dapr 的应用健康检查专注于暂停向当前无法接受工作、但预计*最终*能够恢复接受工作的应用程序传递工作。目标包括：
 
 - 不为已经超载的应用程序带来更多负载。
-- 当 Dapr 知道应用程序无法处理消息时，不从队列、binding 或 pub/sub broker 获取消息，做到“礼貌”的行为。
+- 在 Dapr 知道应用程序无法处理消息时，不从队列、binding 或 pub/sub broker 获取消息，做到“礼貌”的行为。
 
 在这方面，Dapr 的应用健康检查更“温和”，它会等待应用程序能够处理工作，而不是以“强硬”的方式终止正在运行的进程。
 
@@ -79,7 +79,7 @@ Dapr 中的应用健康检查旨在与平台级健康检查互补，而不是取
 ### 健康检查路径
 
 #### HTTP
-当 `app-protocol` 使用 HTTP（包括 `http`、`https` 和 `h2c`）时，Dapr 会向 `app-health-check-path` 中指定的路径（默认为 `/health`）发起 HTTP 调用来执行 health probe。
+当 `app-protocol` 使用 HTTP（包括 `http`、`https` 和 `h2c`）时，Dapr 会向 `app-health-check-path` 中指定的路径（默认为 `/health`）发起 HTTP 调用，以执行 health probe。  
 
 要使应用被视为健康，响应必须具有 200-299 范围内的 HTTP 状态码。任何其他状态码都会被视为失败。Dapr 只关心响应的状态码，并忽略任何响应头或响应体。
 
@@ -94,14 +94,14 @@ Dapr 中的应用健康检查旨在与平台级健康检查互补，而不是取
 默认情况下，启用应用健康检查后，Dapr 每 5 秒探测一次你的应用程序。你可以使用 `app-health-probe-interval` 以秒为单位配置间隔。无论你的应用程序是否健康，这些探测都会定期进行。
 
 #### 超时
-Dapr runtime（sidecar）首次启动时，Dapr 会等待一次成功的 health probe，然后才认为应用健康。这意味着在首次健康检查完成并成功之前，不会为你的应用程序启用 pub/sub、input binding 和 service invocation 请求。
+Dapr runtime（sidecar）首次启动时，Dapr 会等待一次成功的 health probe，然后才认为应用健康。这意味着在首次健康检查完成并成功之前，不会为你的应用程序启用 pub/sub subscriptions、input bindings 和 service invocation 请求。
 
-如果应用程序在 `app-health-probe-timeout` 配置的超时时间内发送了成功响应（如上所述），则health probe 请求被视为成功。默认值为 500，即 500 毫秒（半秒）。
+如果应用程序能在 `app-health-probe-timeout` 配置的超时时间内发送成功响应（如上所述），则 health probe 请求被视为成功。默认值为 500，即 500 毫秒（半秒）。
 
 #### 阈值
-在 Dapr 认为应用进入不健康状态之前，它会等待 `app-health-threshold` 次连续失败，默认值为 3。这意味着你的应用程序必须*连续*失败 3 次 health probe，才会被视为不健康。
+在 Dapr 认为应用进入不健康状态之前，它会等待 `app-health-threshold` 次连续失败，默认值为 3。这意味着你的应用程序必须*连续*失败 3 次 health probe，才会被视为不健康。  
 
-如果将阈值设为 1，任何一次失败都会使 Dapr 认为你的应用不健康，并停止向其传递工作。
+如果将阈值设为 1，任何一次失败都会使 Dapr 认为你的应用不健康，并停止向其传递工作。  
 
 大于 1 的阈值有助于排除由外部情况导致的临时性失败。适合你的应用程序的值取决于你的需求。
 

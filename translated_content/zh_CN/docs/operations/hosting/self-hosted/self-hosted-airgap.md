@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：在离线或隔离环境中运行 Dapr"
+title: "How-To: Run Dapr in an offline or airgap environment"
 linkTitle: "在离线或隔离环境中运行"
 weight: 30000
 description: "如何在隔离环境中以自托管模式部署和运行 Dapr"

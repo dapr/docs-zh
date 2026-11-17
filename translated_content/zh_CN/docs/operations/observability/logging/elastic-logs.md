@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：为 Dapr 日志配置 Elastic"
+title: "How-To: Set up Elastic for Dapr logging"
 linkTitle: "Elastic"
 weight: 4000
 description: "使用 Elastic 发行版 OpenTelemetry Collector 将 Dapr 的 JSON 日志收集到 Elastic 中"
