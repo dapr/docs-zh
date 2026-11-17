@@ -10,7 +10,7 @@ aliases:
 
 在 AKS 上安装 Dapr 的推荐方式是使用 AKS Dapr extension。该扩展提供以下功能：
 - 通过 Azure CLI 的命令行参数支持所有原生 Dapr 配置功能
-- 可选择启用 Dapr 运行时的自动次版本升级
+- 可选择启用 Dapr runtime 的自动次版本升级
 
 {{% alert title="注意" color="warning" %}}
 如果你通过 AKS 扩展安装 Dapr，最佳实践是之后继续使用该扩展管理 Dapr，_而不是 Dapr CLI_。同时使用这两种工具可能会产生冲突，导致非预期的行为。

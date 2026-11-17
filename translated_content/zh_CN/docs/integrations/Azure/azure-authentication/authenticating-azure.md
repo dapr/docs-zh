@@ -12,7 +12,7 @@ weight: 10000
 
 ## 关于 Microsoft Entra ID 的身份验证
 
-Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用于对用户和服务进行身份验证与授权。它基于 OAuth 2.0 等开放标准构建，允许服务（应用程序）获取访问令牌，从而向 Azure 服务发出请求，包括 Azure Storage、Azure Service Bus、Azure 密钥保管库、Azure Cosmos DB、Azure Database for Postgres、Azure SQL 等。
+Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用于对用户和服务进行身份验证与授权。它基于 OAuth 2.0 等开放标准构建，允许服务（应用程序）获取访问令牌，从而向 Azure 服务发出请求，包括 Azure Storage、Azure Service Bus、Azure Key Vault、Azure Cosmos DB、Azure Database for Postgres、Azure SQL 等。
 
 ## 身份验证选项
 
@@ -20,7 +20,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 
  - [工作负载身份联合]({{< ref howto-wif.md >}}) - 推荐的方式，用于配置 Microsoft Entra ID 租户以信任外部身份提供方。这包括来自 Kubernetes 或 AKS 集群的 service account。[了解有关工作负载身份联合的更多信息](https://learn.microsoft.com/entra/workload-id/workload-identities-overview)。
  - [系统分配和用户分配的托管标识]({{< ref howto-mi.md >}}) - 粒度不如工作负载身份联合细，但保留了其中的部分优势。[了解有关系统分配和用户分配托管标识的更多信息](https://learn.microsoft.com/azure/aks/use-managed-identity)。
- - [客户端 ID 和密钥]({{ < ref howto-aad.md >}}) - 不推荐，因为它要求你在应用程序级别维护并关联凭据。
+ - [客户端 ID 和 client secret]({{ < ref howto-aad.md >}}) - 不推荐，因为它要求你在应用程序级别维护并关联凭据。
  - Pod 标识 - [已弃用的方法，用于在 Pod 级别对运行在 Kubernetes 上的应用程序进行身份验证](https://learn.microsoft.com/azure/aks/use-azure-ad-pod-identity)。不应再使用。
 
 如果你刚刚开始，建议使用工作负载身份联合。
@@ -69,7 +69,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 
 ## 凭据 metadata 字段
 
-要使用 Microsoft Entra ID 进行身份验证，你需要将以下凭据作为值，添加到你的 [Dapr component](#在-dapr-component-中的示例用法)的 metadata 中。
+要使用 Microsoft Entra ID 进行身份验证，你需要将以下凭据作为值，添加到你的 [Dapr component](#在-dapr-component-中的示例用法) 的 metadata 中。
 
 ### metadata 选项
 
@@ -89,7 +89,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 |---------------------|------|--------------------------------------|----------------------------------------------|
 | `azureTenantId`     | Y    | Microsoft Entra ID 租户的 ID         | `"cd4b2887-304c-47e1-b4d5-65447fdd542b"`     |
 | `azureClientId`     | Y    | 客户端 ID（应用程序 ID）             | `"c7dd251f-811f-4ba2-a905-acd4d3f8f08b"`     |
-| `azureClientSecret` | Y    | client secret（应用程序密码）           | `"Ecy3XG7zVZK3/vl/a2NSB+a1zXLa8RnMum/IgD0E"` |
+| `azureClientSecret` | Y    | client secret（应用程序密码）        | `"Ecy3XG7zVZK3/vl/a2NSB+a1zXLa8RnMum/IgD0E"` |
 
 在 Kubernetes 上运行时，你也可以对上述任意或全部值使用 Kubernetes secrets 引用。
 
@@ -119,7 +119,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 
 #### 使用联合标识凭据进行身份验证
 
-你可以在 Microsoft Entra ID 中使用[联合标识凭据](https://learn.microsoft.com/graph/api/resources/federatedidentitycredentials-overview?view=graph-rest-1.0)，直接将信任联合到你的 Dapr 安装实例，无论它运行在何处。这样，你就可以在不同云之间一致地，针对 Dapr 应用的 [SPIFFE](https://spiffe.io/) ID 配置访问规则。
+你可以在 Microsoft Entra ID 中使用[联合标识凭据](https://learn.microsoft.com/graph/api/resources/federatedidentitycredentials-overview?view=graph-rest-1.0)，将信任直接联合到你的 Dapr 安装实例，无论它运行在何处。这样，你就可以在不同云之间一致地，针对 Dapr 应用的 [SPIFFE](https://spiffe.io/) ID 配置访问规则。
 
 要联合信任，你必须运行启用了 JWT 签发和 OIDC 发现功能的 Dapr Sentry。可以使用以下 Dapr Sentry Helm 值进行配置：
 
@@ -127,7 +127,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 jwt:
   # 启用 Sentry 签发 JWT 令牌
   enabled: true
-  # JWT 令牌的签发者值
+  # JWT 令牌的颁发者值
   issuer: "<your-issuer-domain>"
 
 oidc:
@@ -148,17 +148,17 @@ oidc:
 `issuer` 的值必须与你在 Microsoft Entra ID 中创建联合标识凭据时提供的值完全一致。
 {{% /alert %}}
 
-设置这些选项后，你的 Dapr Sentry 安装实例将在指定的 OIDC HTTP 端口上暴露以下端点：
+设置这些选项后，你的 Dapr Sentry 安装实例将在提供的 OIDC HTTP 端口上暴露以下端点：
 ```
 /.well-known/openid-configuration
 /jwks.json
 ```
 
-你还需要提供 Dapr runtime 配置，以请求受众为 `api://AzureADTokenExchange` 的 JWT 令牌。在独立模式下运行时，可以使用参数 `--sentry-request-jwt-audiences=api://AzureADTokenExchange` 进行设置。在 Kubernetes 中运行时，可以为应用程序的 Kubernetes manifest 添加注解 `"dapr.io/sentry-request-jwt-audiences": "api://AzureADTokenExchange"` 进行设置。这可确保 Sentry 服务签发具有正确受众的 JWT 令牌，而这是 Microsoft Entra ID 验证该令牌所必需的。
+你还需要为 Dapr runtime 提供配置，以请求受众（audience）为 `api://AzureADTokenExchange` 的 JWT 令牌。在独立模式下运行时，可以使用参数 `--sentry-request-jwt-audiences=api://AzureADTokenExchange` 进行设置。在 Kubernetes 中运行时，可以为应用程序的 Kubernetes manifest 添加注解 `"dapr.io/sentry-request-jwt-audiences": "api://AzureADTokenExchange"` 进行设置。这可确保 Sentry 服务签发具有正确受众的 JWT 令牌，而这是 Microsoft Entra ID 验证该令牌所必需的。
 
-为使 Microsoft Entra ID 能够访问 OIDC 端点，你必须将它们暴露在公网地址上。你还必须确保提供这些端点的域名，与配置 Dapr Sentry 时提供的签发者一致。
+为使 Microsoft Entra ID 能够访问 OIDC 端点，你必须将其暴露在公网地址上。你还必须确保提供这些端点的域名，与配置 Dapr Sentry 时提供的颁发者（issuer）一致。
 
-现在，你可以在 Microsoft Entra ID 中创建联合凭据了。
+现在你可以在 Microsoft Entra ID 中创建联合凭据了。
 
 ```shell
 cat > creds.json <<EOF
@@ -277,7 +277,7 @@ spec:
 
 ### 在 Dapr component 中的示例用法
 
-在此示例中，你将设置一个使用 Microsoft Entra ID 进行身份验证的 Azure 密钥保管库 secret store component。
+在此示例中，你将设置一个使用 Microsoft Entra ID 进行身份验证的 Azure Key Vault secret store component。
 
 {{< tabpane text=true >}}
 
@@ -435,7 +435,7 @@ spec:
 
 - [Microsoft Entra ID 应用凭据：Azure CLI 参考](https://docs.microsoft.com/cli/azure/ad/app/credential)
 - [Azure 托管服务标识（MSI）概述](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
-- [secrets building block]({{% ref secrets %}})
-- [操作指南：检索 secrets]({{% ref "howto-secrets.md" %}})
+- [Secrets building block]({{% ref secrets %}})
+- [操作指南：检索 secret]({{% ref "howto-secrets.md" %}})
 - [操作指南：在 Dapr component 中引用 secrets]({{% ref component-secrets.md %}})
 - [secrets API 参考]({{% ref secrets_api.md %}})

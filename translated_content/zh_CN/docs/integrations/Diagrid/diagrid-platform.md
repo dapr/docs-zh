@@ -2,20 +2,20 @@
 type: docs
 title: "Diagrid 平台"
 linkTitle: "Diagrid 平台"
-description: "基于 Dapr 构建的持久执行平台，适用于智能体、workflow、MCP 服务器和应用"
+description: "基于 Dapr 构建的持久执行平台，适用于代理、workflow、MCP 服务器和应用"
 weight: 3000
 aliases:
   - /zh-hans/integrations/diagrid/catalyst/
   - /zh-hans/integrations/diagrid/diagrid-catalyst/
 ---
 
-[Diagrid](https://www.diagrid.io/catalyst) 是基于开源 Dapr 构建的持久执行平台。它为智能体、workflow、MCP 服务器和应用提供持久执行、可验证执行，以及带有基于策略的访问控制的加密身份，并且可与任何智能体框架协同工作。
+[Diagrid](https://www.diagrid.io/catalyst) 是基于开源 Dapr 构建的持久执行平台。它为代理、workflow、MCP 服务器和应用提供持久执行、可验证执行，以及带有基于策略的访问控制的加密身份，并且可与任何代理框架协同工作。
 
 {{< diagram name="diagrid-platform" width="85" >}}
 
 **持久执行**
 
-智能体和 workflow 可以从故障中自动恢复，无论是简单的重启还是整个系统的完全中断，并从中断处继续执行。
+代理和 workflow 可以从故障中自动恢复，无论是简单的重启还是整个系统的完全中断，并从中断处继续执行。
 
 **可验证执行**
 
@@ -23,11 +23,11 @@ aliases:
 
 **零信任安全**
 
-为智能体、MCP 服务器和工具签发加密身份，并在整个组织内应用基于策略的访问控制。
+为代理、MCP 服务器和工具签发加密身份，并在整个组织内应用基于策略的访问控制。
 
 **框架兼容性**
 
-与现有的智能体框架协同工作，例如 CrewAI、LangGraph、OpenAI Agents 和 Pydantic AI，支持任何语言和任何云。
+与现有的代理框架协同工作，例如 CrewAI、LangGraph、OpenAI Agents 和 Pydantic AI，支持任何语言和任何云。
 
 **灵活的部署方式**
 
