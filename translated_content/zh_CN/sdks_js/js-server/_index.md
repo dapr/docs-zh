@@ -15,7 +15,7 @@ Dapr Server 允许你接收来自 Dapr sidecar 的通信，并访问其面向服
 ## 前置条件
 
 - 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
+- 已初始化 [Dapr environment]({{% ref install-dapr-selfhost.md %}})
 - [最新 LTS 版本的 Node 或更高版本](https://nodejs.org/en/)
 
 ## 安装和导入 Dapr 的 JS SDK
@@ -97,7 +97,7 @@ npm run start:dapr-http
 
 注意，目前仅支持 [`express`](https://www.npmjs.com/package/express)。
 
-> 💡 **注意：** 使用自定义 Web 服务器时，SDK 会配置最大请求体大小等服务器属性，并向其中添加新路由。这些路由本身是唯一的，以避免与你的应用程序发生冲突，但不保证绝不会冲突。
+> 💡 **注意：** 使用自定义 Web 服务器时，SDK 会配置最大请求体大小等服务器属性，并向其中添加新路由。这些路由本身具有唯一性，旨在避免与你的应用程序发生冲突，但不能保证完全不会冲突。
 
 ```typescript
 import { DaprServer, CommunicationProtocolEnum } from "@dapr/dapr";
@@ -162,13 +162,13 @@ npm run start:dapr-grpc
 
 > ℹ️ **注意：** 这里必须设置 `app-port`，因为服务器需要绑定到该端口。Dapr 会在完成启动前检查应用程序是否已绑定到此端口。
 
-## building block
+## Building blocks
 
-JavaScript Server SDK 允许你与所有 [Dapr building block]({{% ref building-blocks %}}) 交互，重点是 sidecar 到应用程序的功能。
+JavaScript Server SDK 允许你与所有 [Dapr building blocks]({{% ref building-blocks %}}) 交互，重点是 sidecar 到应用程序的功能。
 
 ### Invocation API
 
-对于 JavaScript SDK 3.19.0 或更高版本，关于 HTTP 和 gRPC 的能力，请参阅[service invocation 概述]({{% ref js-service-invocation %}})。
+对于 JavaScript SDK 3.19.0 或更高版本，关于 HTTP 和 gRPC 的能力，请参阅 [service invocation 概述]({{% ref js-service-invocation %}})。
 
 #### 监听调用
 
@@ -216,7 +216,7 @@ start().catch((e) => {
 
 ### PubSub API
 
-对于 JavaScript SDK 3.19.0 或更高版本，请参阅[发布与订阅概述]({{% ref js-pubsub %}})以选择投递模式。由客户端发起的[streaming subscription]({{% ref js-pubsub-streaming-howto.md %}})不需要 `DaprServer`。
+对于 JavaScript SDK 3.19.0 或更高版本，请参阅[发布和订阅概述]({{% ref js-pubsub %}})以选择投递模式。由客户端发起的 [streaming subscriptions]({{% ref js-pubsub-streaming-howto.md %}}) 不需要 `DaprServer`。
 
 #### 订阅消息
 
@@ -250,7 +250,7 @@ start().catch((e) => {
 
 #### 使用 SUCCESS/RETRY/DROP 状态订阅
 
-请返回 `DaprPubSubStatusEnum` 的值，而不是响应对象。关于状态优先级、抛出的错误以及入站 resiliency，请参阅[确认与重试]({{% ref "js-pubsub-subscribe-howto.md#acknowledge-retry-or-drop" %}})。
+请返回 `DaprPubSubStatusEnum` 的值，而不是响应对象。关于状态优先级、抛出的错误以及入站 resiliency 策略，请参阅[确认与重试]({{% ref "js-pubsub-subscribe-howto.md#acknowledge-retry-or-drop" %}})。
 
 #### 基于规则订阅消息
 
@@ -262,7 +262,7 @@ start().catch((e) => {
 
 #### Bulk Subscribe 消息
 
-`subscribeBulk()` 会逐条将条目投递给你的回调，并为每个条目生成确认。关于批处理选项和 HTTP 负载限制，请参阅[Bulk Subscribe]({{% ref "js-pubsub-subscribe-howto.md#bulk-subscriptions" %}})。
+`subscribeBulk()` 会逐条将条目投递给你的回调，并为每个条目生成确认。关于批处理选项和 HTTP 负载限制，请参阅 [Bulk Subscribe]({{% ref "js-pubsub-subscribe-howto.md#bulk-subscriptions" %}})。
 
 #### 死信主题
 
@@ -305,11 +305,11 @@ start().catch((e) => {
 });
 ```
 
-> 有关 output binding 的完整指南，请参阅[操作指南：使用 binding]({{% ref howto-bindings.md %}})。
+> 有关 output binding 的完整指南，请参阅[操作指南：使用 bindings]({{% ref howto-bindings.md %}})。
 
 ### Configuration API
 
-Configuration API 是一个客户端侧的 building block，即使在同时运行 `DaprServer` 的应用程序中也是如此。请使用 gRPC `DaprClient` 读取配置或订阅更新。配置订阅通过客户端的 gRPC 流接收更新，不需要服务端回调路由。
+配置是一个客户端侧的 building block，即使在同时运行 `DaprServer` 的应用程序中也是如此。请使用 gRPC `DaprClient` 读取设置或订阅更新。配置订阅通过客户端的 gRPC 流接收更新，不需要服务端回调路由。
 
 #### 获取配置值
 

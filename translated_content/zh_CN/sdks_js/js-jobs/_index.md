@@ -20,7 +20,7 @@ SDK 通过现有的客户端和服务端提供 job 功能：
 | `DaprServer.jobs.listen(name, callback)` | 为指定名称的 job 注册异步处理程序。 |
 | `CronExpressionBuilder` | 构建包含六个字段的 cron 表达式，可选指定时区。 |
 
-HTTP 和 gRPC 都支持 job 管理和 JSON 回调。不透明的二进制负载在调度、获取和回调时都需要使用 gRPC。SDK 会为所连接的运行时自动选择稳定版或 Alpha1 版本的 Jobs API。
+HTTP 和 gRPC 都支持 job 管理和 JSON 回调。不透明的二进制负载在调度、获取和回调时都需要使用 gRPC。SDK 会为所连接的运行时自动选择 Stable（稳定）或 Alpha1 版本的 Jobs API。
 
 以上即为本包版本中 JavaScript SDK 的 Jobs API。它不提供列出 job、批量删除、按前缀删除，或针对单个操作的取消选项。不要假设其他语言 SDK 中的全部管理方法在 JavaScript 中都可用。
 

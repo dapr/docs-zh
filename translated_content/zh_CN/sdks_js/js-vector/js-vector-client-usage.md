@@ -67,7 +67,7 @@ alpha 的 API 仅涵盖稠密向量。稀疏向量、命名向量、混合融合
 
 `upsertVectors` 和 `deleteVectors` 接受 `VectorIndexingOptions`。默认模式为 `"returnOnAcceptance"`，允许写入操作在索引完成之前返回。确认结果为 `"queued"` 表示工作已被接受，但并不代表其已成功或已可查询。排队中的工作仍可能在之后失败；此 API 不会公开其最终结果。
 
-对于写后读（read-after-write）的流程，请显式等待操作完成：
+对于写后读（read-after-write）的流程，请显式等待写入完成：
 
 ```javascript
 const write = await client.vector.upsertVectors(

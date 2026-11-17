@@ -113,4 +113,4 @@ const schedule = new CronExpressionBuilder()
 
 你也可以在原始字符串中直接传入运行时的时区前缀，例如 `"CRON_TZ=Europe/Rome 0 0 9 * * *"` 或 `"CRON_TZ=Europe/Rome @daily"`。若不希望受夏令时切换影响，请使用 `"UTC"`。使用地区时区时，Dapr 会在夏令时切换前后按本地墙钟时间计算调度。
 
-不要将时区前缀与 `@every` 组合使用：固定时长的间隔没有挂钟时区，运行时会拒绝这种组合。关于运行时调度语法，请参阅 [Jobs API 参考]({{% ref jobs_api.md %}})。
+不要将时区前缀与 `@every` 组合使用：固定时长的间隔没有墙钟时区，运行时会拒绝这种组合。关于运行时调度语法，请参阅 [Jobs API 参考]({{% ref jobs_api.md %}})。

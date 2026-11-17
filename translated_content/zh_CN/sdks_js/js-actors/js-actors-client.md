@@ -120,12 +120,12 @@ await actors.invoke("CounterActor", new ActorId("counter-1"), "add", [3]);
 
 Actor 宿主使用其内置的 `BufferSerializer` 和 HTTP 响应处理。gRPC 调用使用 `JSON.stringify` 编码参数，并在可能时将响应字节解析为 JSON，否则返回文本。HTTP 响应取决于响应的 Content-Type。特别地，基本类型与 `void` 类型的响应在两种传输方式下的 JavaScript 类型不必相同。当调用方需要可预期的契约时，优先使用对象形式的响应，例如 `{ value: 3 }`。
 
-设置 `DaprClientOptions.serializer` **不会**替换 Actor 宿主的序列化器，也不会提供自定义的 Actor 序列化管道。与通用的应用负载 API 不同，Actor 路径不会把该选项传递下去。
+设置 `DaprClientOptions.serializer` **不会**替换 Actor 宿主的序列化器，也不会提供自定义的 Actor 序列化流水线。与通用的应用负载 API 不同，Actor 路径不会把该选项传递下去。
 
 ## 错误与客户端生命周期
 
 传输失败、缺少 Actor 类型或方法，以及 Actor 异常，都会使被 await 的调用被拒绝。不要假定调用被拒绝就意味着没有产生副作用；需要时应将命令和重试设计为幂等的。
 
-HTTP 运行时失败是 `Error` 实例，其消息中包含一个带有 `status`、`error` 和 `error_msg` 的 JSON 封装；网络失败可能具有其他形式。gRPC 失败会保留 Connect RPC 错误码。不要把每条错误消息都当作 JSON 解析，也不要将 gRPC 错误码与 HTTP 状态码数字进行比较。
+HTTP 运行时失败是 `Error` 实例，其消息中包含一个带有 `status`、`error` 和 `error_msg` 的 JSON 信封；网络失败可能具有其他形式。gRPC 失败会保留 Connect RPC 错误码。不要把每条错误消息都当作 JSON 解析，也不要将 gRPC 错误码与 HTTP 状态码数字进行比较。
 
 待未完成的调用结束后，对于应用自己拥有的客户端，调用 `await client.stop()`。不要在每次 Actor 方法调用后都停止共享客户端。

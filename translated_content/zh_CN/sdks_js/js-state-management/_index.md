@@ -6,7 +6,7 @@ weight: 1800
 description: "使用 Dapr JavaScript SDK 保存、读取、删除、执行事务和查询应用状态"
 ---
 
-使用 `DaprClient.state` 从 JavaScript 或 TypeScript 访问已配置的 Dapr state store component。该客户端支持单键读取与删除、批量保存、批量读取与删除、基于 ETag 的乐观并发控制、多键事务，以及通过 HTTP 或 gRPC 进行的 Query State。
+使用 `DaprClient.state` 从 JavaScript 或 TypeScript 访问已配置的 Dapr state store component。该客户端支持单键读取与删除、批量保存、批量读取与删除、基于 ETag 的乐观并发控制、多键事务，以及通过 HTTP 或 gRPC 进行的 Query State 查询。
 
 本指南面向 [`@dapr/dapr`](https://www.npmjs.com/package/@dapr/dapr) 3.19.0 或更高版本。State Management 是该包的一部分，不存在单独的 State Management 包或客户端注册步骤。
 

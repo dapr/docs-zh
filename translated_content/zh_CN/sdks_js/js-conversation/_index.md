@@ -6,9 +6,9 @@ weight: 100000
 description: 使用 Dapr JavaScript SDK 与大型语言模型对话
 ---
 
-使用 `DaprClient.conversation` 通过 Dapr conversation component 向大型语言模型发送消息。JavaScript SDK 通过 HTTP 和 gRPC 支持 Conversation Alpha2 API，包括消息历史、函数工具调用、结构化输出、PII 清理、提示词缓存保留以及令牌用量统计。
+使用 `DaprClient.conversation` 通过 Dapr conversation component 向大型语言模型发送消息。JavaScript SDK 通过 HTTP 和 gRPC 支持 Conversation Alpha2 API，包括消息历史、函数工具调用、结构化输出、PII 清理、提示词缓存保留以及 token 用量统计。
 
-这些指南面向 **`@dapr/dapr` 3.19.0 或更高版本**。底层的 [conversation API]({{% ref conversation_api.md %}}) 处于 alpha。基本的 Alpha2 请求需要 Dapr 运行时 **1.16 或更高版本**；部分选项需要更新的运行时，并且取决于所选 component 和模型的支持。
+这些指南面向 **`@dapr/dapr` 3.19.0 或更高版本**。底层的 [conversation API]({{% ref conversation_api.md %}}) 处于 alpha。基本的 Alpha2 请求需要 Dapr runtime **1.16 或更高版本**；部分选项需要更新的运行时，并且取决于所选 component 和模型的支持。
 
 | 指南 | 描述 |
 | ----- | ----------- |

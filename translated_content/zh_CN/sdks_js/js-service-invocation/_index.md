@@ -13,7 +13,7 @@ no_list: true
 
 ## 前提条件
 
-- [Dapr CLI]({{% ref install-dapr-cli.md %}})，以及一个[已初始化的 Dapr 环境]({{% ref install-dapr-selfhost.md %}})。
+- [Dapr CLI]({{% ref install-dapr-cli.md %}})，以及一个[已初始化的 Dapr environment]({{% ref install-dapr-selfhost.md %}})。
 - 受支持的 Node.js LTS 版本。该包要求 Node.js 18 或更高版本。
 - 一个正在运行的目标应用，并已配置 App ID 和应用端口。不需要 state store 或 pub/sub component。
 
@@ -48,7 +48,7 @@ npm install @dapr/dapr@3.19.0
 
 | 指南 | 内容 |
 | --- | --- |
-| [调用服务]({{% ref js-service-invocation-howto.md %}}) | HTTP 与 gRPC 客户端、动词、请求头、路径、查询字符串、namespace 以及非 Dapr 端点。 |
+| [调用服务]({{% ref js-service-invocation-howto.md %}}) | HTTP 与 gRPC 客户端、动词、请求头、路径、查询字符串、namespace 以及 non-Dapr endpoint。 |
 | [接收调用请求]({{% ref js-service-invocation-server.md %}}) | 一个完整的服务端、HTTP 与 gRPC 的启动命令、回调数据、返回值以及现有的 Express 应用。 |
 | [配置与用法]({{% ref js-service-invocation-usage.md %}}) | 客户端生命周期、端点、身份验证、序列化、错误、resiliency 以及 API 限制。 |
 

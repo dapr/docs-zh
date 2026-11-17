@@ -22,7 +22,7 @@ const client = new DaprClient({
 });
 ```
 
-若使用 gRPC，请选择 `CommunicationProtocolEnum.GRPC` 并将端口设为 `"50001"`。包含 `await` 的语句需要放在 async 函数或 ES 模块中运行。复用客户端，并在应用关闭时停止它；参见[配置与用法]({{% ref js-pubsub-usage.md %}})。
+若使用 gRPC，请选择 `CommunicationProtocolEnum.GRPC` 并将端口设为 `"50001"`。包含 `await` 的语句需要在 async 函数或 ES 模块中运行。复用客户端，并在应用关闭时停止它；参见[配置与用法]({{% ref js-pubsub-usage.md %}})。
 
 ## 单条消息与 metadata
 
@@ -82,7 +82,7 @@ if (response.error) {
 }
 ```
 
-在接收端订阅中配置：[服务端订阅]({{% ref js-pubsub-subscribe-howto.md %}}) 使用 `metadata: { rawPayload: true }`，[streaming subscription]({{% ref js-pubsub-streaming-howto.md %}}) 使用 `metadata: { rawPayload: "true" }`。服务端订阅的 metadata 值在发现之前会先进行 JSON 字符串化；streaming subscription 的 metadata 则直接以字符串映射的形式发送。这一区别对 `rawPayload` 等布尔选项很重要。
+在接收端订阅中配置：[服务端订阅]({{% ref js-pubsub-subscribe-howto.md %}}) 使用 `metadata: { rawPayload: true }`，[streaming subscription]({{% ref js-pubsub-streaming-howto.md %}}) 使用 `metadata: { rawPayload: "true" }`。服务端订阅的 metadata 值在订阅发现（discovery）之前会先做 JSON 字符串化；streaming subscription 的 metadata 则直接以字符串映射的形式发送。这一区别对 `rawPayload` 等布尔选项很重要。
 
 原始负载不提供与经 CloudEvent 信封封装的事件相同的 CloudEvent 属性。参见[原始负载]({{% ref pubsub-raw.md %}})。
 
@@ -112,11 +112,11 @@ if (response.failedMessages.length > 0) {
 
 Bulk Publish 不是事务性的。Promise 正常结束（resolve）后，结果中仍可能包含失败项，因此务必检查 `failedMessages`。每个失败项都包含原始的规范化 `message` 和一个 `error`。请求级别的失败通常会表现为每个条目都失败；而参数处理、序列化或客户端初始化仍可能导致 Promise 被拒绝（reject）。
 
-在 Dapr 1.17 或更高版本上，Bulk Publish 使用稳定 API；在较旧的运行时上，会自动回退到已弃用的 alpha1 API。HTTP 通过 sidecar metadata 选择 API；gRPC 则在稳定 RPC 不受支持时回退。
+Bulk Publish 在 Dapr 1.17 或更高版本上使用稳定 API，在较旧的运行时上会自动回退到已弃用的 alpha1 API。HTTP 通过 sidecar metadata 选择 API；gRPC 则在稳定 RPC 不受支持时回退。
 
-无论使用哪种传输方式，请通过第四个参数传递请求 metadata。尽管显式条目类型提供了 `metadata` 字段，但此 SDK 版本不会在 gRPC 批量请求中转发逐条目的 metadata。另外，在没有自定义序列化器的情况下，gRPC 批量路径会根据每个事件推断内容类型，而不会采用显式条目中指定的内容类型。请避免依赖这些字段来实现跨协议的行为。
+无论使用哪种传输方式，请通过第四个参数传递请求 metadata。尽管显式条目类型提供了 `metadata` 字段，但此 SDK 版本不会在 gRPC 批量请求中转发逐条目的 metadata。另外，在没有自定义序列化器（serializer）的情况下，gRPC 批量路径会根据每个事件推断内容类型，而不会采用显式条目中指定的内容类型。请避免依赖这些字段来实现跨协议的行为。
 
-参见[Bulk Publish 与订阅]({{% ref pubsub-bulk.md %}})。
+参见[Bulk Publish 与发布和订阅]({{% ref pubsub-bulk.md %}})。
 
 ## 发布错误处理
 

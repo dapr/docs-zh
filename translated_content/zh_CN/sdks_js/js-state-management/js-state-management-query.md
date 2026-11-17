@@ -6,11 +6,11 @@ weight: 53150
 description: 使用 JavaScript SDK 的 alpha Query State API 对状态进行筛选、排序和分页
 ---
 
-使用 `client.state.query` 在支持[Query State API]({{% ref howto-state-query-api.md %}})的 state store 中查询 JSON 文档。HTTP 和 gRPC 在 3.19.0 中均已实现。这是 **alpha** 的 Query State API，而不是通用的 SQL 或原生数据库查询接口。
+使用 `client.state.query` 在支持 [Query State API]({{% ref howto-state-query-api.md %}}) 的 state store 中查询 JSON 文档。HTTP 和 gRPC 在 3.19.0 中均已实现。这是 **alpha** 的 Query State API，而不是通用的 SQL 或原生数据库查询接口。
 
 ## 前提条件
 
-按照[State Management 操作方法]({{% ref js-state-management-howto.md %}})安装 SDK，并运行一个带 sidecar 的应用。本指南需要配置一个支持查询的 component，名为 `state-mongodb`，配置方法参见 [MongoDB state store 参考]({{% ref setup-mongodb.md %}})。操作方法中的基础 Redis component 本身并不包含查询支持的配置。
+按照 [State Management 操作方法]({{% ref js-state-management-howto.md %}}) 安装 SDK，并运行一个带 sidecar 的应用。本指南需要配置一个支持查询的 component，名为 `state-mongodb`，配置方法参见 [MongoDB state store 参考]({{% ref setup-mongodb.md %}})。操作方法中的基础 Redis component 本身并不包含查询支持的配置。
 
 使用 JSON 兼容的已存储文档表示形式。某些 component 需要额外的查询配置或 metadata，请查阅 component 参考。
 
@@ -82,7 +82,7 @@ for (const item of response.results) {
 
 筛选中使用的是**已存储文档**中的字段路径。SDK 不会通过自定义序列化器转换筛选路径。例如，若序列化器把每个值包装在 `payload` 属性中，则筛选路径需要与这种表示形式一致。
 
-SDK 声明的筛选操作符包括 `EQ`、`IN`、`AND` 和 `OR`。排序项接受 `ASC` 或 `DESC`；省略时默认为升序（即运行时的默认值）。运行时 Query API 文档中列出了更多操作符，但不要假设本 SDK 版本的顶层筛选类型中也能表示它们。
+SDK 声明的筛选操作符包括 `EQ`、`IN`、`AND` 和 `OR`。排序项接受 `ASC` 或 `DESC`，省略时默认为升序，这也是运行时的默认值。运行时 Query API 文档中列出了更多操作符，但不要假设本 SDK 版本的顶层筛选类型中也能表示它们。
 
 对于不带筛选、不排序的单页查询，使用 `filter: {}`、`sort: []` 和 `page: { limit: 10 }`。包含 `language` 和 `query` 的 SQL 字符串或对象，都不是本 API 接受的 `StateQueryType`。
 
@@ -90,7 +90,7 @@ SDK 声明的筛选操作符包括 `EQ`、`IN`、`AND` 和 `OR`。排序项接�
 
 ## 获取下一页
 
-响应包含 `results` 和可选的 `token`。将 token 视为不透明值，把它放入 `page.token` 中传回，同时保留原来的筛选、排序和页大小：
+响应包含 `results` 和可选的延续令牌 `token`。将该令牌视为不透明值，把它放入 `page.token` 中传回，同时保留原来的筛选、排序和页大小：
 
 ```javascript
 if (response.token) {
@@ -108,14 +108,14 @@ if (response.token) {
 }
 ```
 
-持续请求，直到不再返回延续令牌。这里没有自动分页器；不应因为 `results` 是空数组就代替对令牌的检查。
+持续请求，直到不再返回延续令牌为止。这里没有自动分页器；`results` 为空数组时，也不应代替对令牌的检查。
 
 ## 响应与协议注意事项
 
-每个查询结果包含 `key`、`data`，以及可选的 `etag` 和 `error`。除了捕获 Promise 拒绝之外，还要检查每条结果中的 error。
+每个查询结果包含 `key`、`data`，以及可选的 `etag` 和 `error`。除了捕获 Promise 拒绝之外，还要检查每个条目的 error 字段。
 
 配置了序列化器后，SDK 会对成功且非空的结果值进行反序列化。若未配置，HTTP 返回运行时的 JSON 结果数据，而 gRPC 返回字节。对于 gRPC 上未配置序列化器的已知 JSON 数据，需要显式解码成功条目的 data：`JSON.parse(Buffer.from(item.data).toString("utf8"))`；不要对 HTTP 结果应用这一转换，因为它们已经是对象。
 
-声明的响应只暴露 `results` 和 `token`，没有可移植的响应 metadata 映射。`query` 也没有单独的请求 metadata 参数。存储的支持情况、索引、筛选行为以及分页语义都取决于具体 component。
+声明的响应只暴露 `results` 和 `token`，不提供可移植的响应 metadata 映射。`query` 也没有单独的请求 metadata 参数。存储的支持情况、索引、筛选行为以及分页语义都取决于具体 component。
 
 有关配置、序列化兼容性和错误处理，请参阅[状态客户端用法]({{% ref js-state-management-client-usage.md %}})。

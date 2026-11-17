@@ -132,7 +132,7 @@ await server.invoker.listen("orders", async (request) => {
 await server.invoker.listen("version", async () => ({ version: "1.0" }));
 ```
 
-默认情况下，SDK 会对真值（truthy）的返回值进行 JSON 编码。不存在特殊的 `{ status, headers, body }` 响应包装格式：返回这样的对象时，这些属性会作为应用数据发送。回调 API 不提供 HTTP 响应对象，也不暴露 gRPC 响应 metadata。
+默认情况下，SDK 会对真值（truthy）的返回值进行 JSON 编码。不存在特殊的 `{ status, headers, body }` 响应信封：返回这样的对象时，这些属性会作为应用数据发送。回调 API 不提供 HTTP 响应对象，也不暴露 gRPC 响应 metadata。
 
 在没有自定义序列化器的情况下，`undefined`、`null`、`false`、`0` 和 `""` 不会生成对应的 JSON 值。HTTP 处理程序会改为返回 `{"closed":true}`；gRPC 处理程序则不返回任何数据。默认的 gRPC 客户端无法解析这种空响应。建议返回对象，例如 `{ accepted: false }`。
 

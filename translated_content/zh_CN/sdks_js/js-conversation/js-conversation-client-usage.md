@@ -229,4 +229,4 @@ token 计数和 choice 索引是 JavaScript 数字。SDK 会拒绝超出安全�
 
 请在应用的错误边界处捕获错误，并进行报告或继续向上抛出。不要把失败的请求变成成功的空回答。提供商错误可能包括速率限制、无效的工具历史、不受支持的选项和身份验证失败；它们在 HTTP 和 gRPC 中的表示形式可能不同。
 
-该方法返回的是完整响应。它**不**提供流式补全、自动工具执行，也不提供按请求设置的 `AbortSignal`、超时或取消参数。如需设置 sidecar 到提供商之间的超时和重试，请配置 [Dapr resiliency]({{% ref resiliency-overview.md %}})。仅靠 JavaScript 的 `Promise.race` 超时并不会取消底层请求。
+该方法返回的是完整响应。它**不**提供流式补全、自动工具执行，也不提供按请求设置的 `AbortSignal`、超时或取消参数。如需为 sidecar 到提供商之间的超时和重试设置限制，请配置 [Dapr resiliency 策略]({{% ref resiliency-overview.md %}})。仅靠 JavaScript 的 `Promise.race` 超时并不会取消底层请求。

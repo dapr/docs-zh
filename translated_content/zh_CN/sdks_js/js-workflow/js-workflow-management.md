@@ -84,7 +84,7 @@ await client.resumeWorkflow(instanceId, "Investigation complete");
 await client.raiseEvent(instanceId, "approval", { approved: true });
 ```
 
-不要把挂起或终止当作撤销 activity 副作用的手段。被取消的客户端请求也不会终止实例。清除历史**不会**删除Binary Store 中的负载。
+不要把挂起或终止当作撤销 activity 副作用的手段。被取消的客户端请求也不会终止实例。清除历史**不会**删除 Binary Store 中的负载。
 
 ### 取消客户端请求
 

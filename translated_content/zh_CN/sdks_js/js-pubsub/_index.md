@@ -1,7 +1,7 @@
 ---
 type: docs
-title: "使用 JavaScript SDK 进行发布与订阅"
-linkTitle: "发布与订阅"
+title: "使用 JavaScript SDK 进行发布和订阅"
+linkTitle: "发布和订阅"
 weight: 3000
 description: "选择 pub/sub 投递模式，开始使用事件发布、服务端订阅或 gRPC 流式传输"
 no_list: true
@@ -11,7 +11,7 @@ JavaScript SDK 支持通过 HTTP 或 gRPC 发布事件，支持通过 `DaprServe
 
 ## 前提条件
 
-- [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及[已初始化的 Dapr 环境]({{% ref install-dapr-selfhost.md %}})。
+- [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及[已初始化的 Dapr environment]({{% ref install-dapr-selfhost.md %}})。
 - 受支持的 Node.js LTS 版本。该包要求 Node.js 18 或更高版本。
 - 已配置的[pub/sub component]({{% ref supported-pubsub %}})。示例使用 component 名 `pubsub` 和主题 `orders`。
 

@@ -131,11 +131,11 @@ function* resilientGreeting(ctx, name) {
 }
 ```
 
-所有间隔均以**秒**为单位。`maxNumberOfAttempts` 包含初始调用；`backoffCoefficient` 默认为 `1`。首个间隔以及可选的限制值必须为正的有限数；尝试次数必须为正整数，退避系数必须至少为 `1`。不可重试的失败会停止重试。`retryTimeout` 限制的是继续调度新尝试的时间窗口，它并不是中断正在运行的 activity 的超时。失败会在 `yield` 处抛入生成器，你可以在那里捕获它们，并调度补偿 activity。
+所有间隔均以**秒**为单位。`maxNumberOfAttempts` 包含初始调用；`backoffCoefficient` 默认为 `1`。首个间隔以及可选的限制值必须为正的有限数；尝试次数必须为正整数，退避系数必须至少为 `1`。不可重试的失败会停止重试。`retryTimeout` 限制的是继续调度后续尝试，它并不是中断正在运行的 activity 的超时。失败会在 `yield` 处抛入生成器，你可以在那里捕获它们，并调度补偿 activity。
 
 ## 等待 external event
 
-external event 允许另一个进程向某个实例发送信号。SDK 以不区分大小写的方式匹配事件名称，并会缓存在等待创建之前到达的事件。
+external event 允许另一个进程向某个实例发送信号。SDK 以不区分大小写的方式匹配事件名称，并会缓冲在等待创建之前到达的事件。
 
 ```javascript
 import { TaskTimeoutError } from "@dapr/dapr";
@@ -191,7 +191,7 @@ function* batchLoop(ctx, input) {
 }
 ```
 
-请在 `continueAsNew` 之后立即返回。第二个参数 `saveEvents` 默认为 `true`，会保留未消费的 external event；将其设为 `false` 则会丢弃这些事件。请求继续之后，不要再调度更多工作。在启动工作进程之前，请注册此示例中使用的 activity。
+请在 `continueAsNew` 之后立即返回。第二个参数 `saveEvents` 默认为 `true`，会保留未消费的 external event；将其设为 `false` 则会丢弃这些事件。请求延续之后，不要再调度更多工作。在启动工作进程之前，请注册此示例中使用的 activity。
 
 ## 后续步骤
 

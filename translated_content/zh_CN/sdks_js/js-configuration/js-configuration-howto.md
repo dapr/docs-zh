@@ -6,7 +6,7 @@ weight: 54050
 description: 使用 Dapr JavaScript SDK 获取应用设置，并订阅配置变更
 ---
 
-使用 `DaprClient.configuration` 读取应用设置，并响应设置变更，无需直接调用配置存储。本指南使用 Redis 进行本地开发。
+使用 `DaprClient.configuration` 读取应用设置，并响应设置变更，无需直接调用 configuration store。本指南使用 Redis 进行本地开发。
 
 ## 前提条件
 
@@ -24,7 +24,7 @@ npm install @dapr/dapr@3.19.0
 
 示例使用保存为 `.mjs` 文件的 JavaScript ES 模块，不需要 TypeScript 编译器。同样的 API 在 TypeScript 中也可用。
 
-## 配置存储
+## 配置 store
 
 启动一个专用的本地 Redis 实例，监听 6380 端口，以避免与 `dapr init` 启动的 Redis 冲突：
 
@@ -32,7 +32,7 @@ npm install @dapr/dapr@3.19.0
 docker run --name js-config-redis -p 127.0.0.1:6380:6379 -d redis:7
 ```
 
-Redis 配置 component 会在订阅开始时启用所需的键空间通知，因此无需额外的 Redis 标志。本示例未启用身份验证，并将 Redis 绑定到回环地址，仅用于本地开发。生产环境中，请按照 [Redis 配置存储参考]({{% ref redis-configuration-store.md %}}) 中的说明配置身份验证和 TLS。
+Redis 配置 component 会在订阅开始时启用所需的键空间通知，因此无需额外的 Redis 标志。本示例未启用身份验证，并将 Redis 绑定到回环地址，仅用于本地开发。生产环境中，请按照 [Redis configuration store 参考]({{% ref redis-configuration-store.md %}}) 中的说明配置身份验证和 TLS。
 
 在应用目录中创建 `components` 目录，并将以下内容保存为 `components\configstore.yaml`：
 
@@ -51,9 +51,9 @@ spec:
       value: ""
 ```
 
-component 的 `metadata.name`（即 `configstore`）是每个 SDK 方法所使用的存储名称。Redis state store component 不是配置存储；component 类型必须为 `configuration.redis`。
+component 的 `metadata.name`（即 `configstore`）是每个 SDK 方法所使用的 store 名称。Redis state store component 不是 configuration store；component 类型必须为 `configuration.redis`。
 
-填充存储：
+填充 store：
 
 ```sh
 docker exec js-config-redis redis-cli MSET orderId1 "101||1" orderId2 "102||1"
@@ -112,7 +112,7 @@ orderId2: 102 (version 1)
 const config = await client.configuration.get("configstore");
 ```
 
-空键列表会被发送给 component。能否返回全部键，以及包含哪些键，取决于存储。请显式检查所需的键，而不要假设每个请求的键都一定存在。
+空键列表会被发送给 component。能否返回全部键，以及包含哪些键，取决于 store。请显式检查所需的键，而不要假设每个请求的键都一定存在。
 
 ## 订阅配置变更
 
@@ -166,9 +166,9 @@ dapr run --app-id js-config-watcher --dapr-grpc-port 50001 --resources-path .\co
 docker exec js-config-redis redis-cli SET orderId1 "103||2"
 ```
 
-订阅建立后，回调会输出 `orderId1: 103 (version 2)`。订阅返回的 Promise 只是本地句柄，并不表示服务端已确认就绪。如果在启动应用后立即更新存储，订阅可能尚未生效。
+订阅建立后，回调会输出 `orderId1: 103 (version 2)`。订阅返回的 Promise 只是本地句柄，并不表示服务端已确认就绪。如果在启动应用后立即更新 store，订阅可能尚未生效。
 
-要监听整个存储，请将 `subscribeWithKeys` 调用替换为：
+要监听整个 store，请将 `subscribeWithKeys` 调用替换为：
 
 ```javascript
 subscription = await client.configuration.subscribe(

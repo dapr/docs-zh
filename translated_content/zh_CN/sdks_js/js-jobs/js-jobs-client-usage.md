@@ -56,9 +56,9 @@ job 功能需要 **Dapr runtime 1.16 或更高版本**，并且需要正在运�
 | --- | --- | --- |
 | 1.16 和 1.17 | `v1.0-alpha1` | `ScheduleJobAlpha1`、`GetJobAlpha1`、`DeleteJobAlpha1` |
 | 1.18 预发布版 | `v1.0-alpha1` | Alpha1 方法 |
-| 1.18 正式版及更高版本 | `v1.0` | `ScheduleJob`、`GetJob`、`DeleteJob` |
+| 1.18 Stable（稳定）及更高版本 | `v1.0` | `ScheduleJob`、`GetJob`、`DeleteJob` |
 
-1.18 之后的预发布版以及 `edge` 运行时标识符会选择正式 API。`DaprServer` 会同时注册正式版和 Alpha1 的 gRPC 回调服务。
+1.18 之后的预发布版以及 `edge` 运行时标识符会选择 Stable（稳定）API。`DaprServer` 会同时注册 Stable（稳定）和 Alpha1 的 gRPC 回调服务。
 
 SDK 会按客户端缓存成功的 API 选择结果。metadata 查询失败、版本缺失或无法识别、运行时版本不受支持时，操作会被拒绝，而不会去猜测 API。后续调用可以重试失败的 metadata 查询。失败的 job 请求不会自动改用其他 API 版本重放。
 
@@ -138,7 +138,7 @@ await client.jobs.schedule("create-report", {
 
 SDK 会拒绝非 JSON 数据，例如 `Date` 实例、`BigInt`、非有限数字、嵌套的 `undefined` 值以及循环引用。请先将此类值转换为与 JSON 兼容的表示形式。
 
-job 使用自己的负载编码，而不是客户端的自定义序列化器。对于 gRPC，JSON 负载会被打包为 `google.protobuf.Value`；解码器也能理解其他客户端发送的 `google.protobuf.Struct` 负载。你无需自行构造 protobuf 封装。
+job 使用自己的负载编码，而不是客户端的自定义序列化器。对于 gRPC，JSON 负载会被打包为 `google.protobuf.Value`；解码器也能理解其他客户端发送的 `google.protobuf.Struct` 负载。你无需自行构造 protobuf 信封。
 
 在不同传输方式下，省略 `data` 的效果并不相同。为兼容旧版运行时，HTTP 调度会发送 JSON `null`；gRPC 则不发送负载。请勿依赖跨协议区分“省略的负载”与 `null`。
 

@@ -82,7 +82,7 @@ await this.registerActorReminder(
 
 请让 TTL 足够长，以覆盖首次到期时间以及所需的任何重复次数。运行时会校验调度值。建议使用秒、分钟、小时等基于时间的时长：HTTP 注册实现会将 `Temporal` 字符串转换为 Go 风格的时长，且无法正确编码日历或天级别的时长字符串。这些辅助方法不接受绝对时间戳、cron 表达式或重复次数字符串。
 
-timer 回调使用你以 `callback` 提供的方法名。每个 reminder 都会调用 **`receiveReminder(data)`**。JavaScript 回调不会将 reminder 名称、到期时间或周期作为单独的参数接收。当多个 reminder 共享同一个回调时，请在数据中加入一个区分标记。继承而来的 `receiveReminder` 只会记录一条警告；请覆盖它以执行实际工作。
+timer 回调使用你以 `callback` 提供的方法名。每个 reminder 都会调用 **`receiveReminder(data)`**。JavaScript 回调不会将 reminder 名称、到期时间或周期作为单独的参数接收。当多个 reminder 共享同一个回调时，请在数据中加入一个判别标识。继承而来的 `receiveReminder` 只会记录一条警告；请覆盖它以执行实际工作。
 
 回调数据由内置的 buffer 序列化器解码。优先使用简单的字符串负载，或在回调中校验过的显式 JSON 序列化内容。不要假定任意对象和数组能在每一种 timer 或 reminder 注册路径中原样往返；数组还会被分发器展开为位置参数。由于重试可能导致重复投递，请让持久化的回调处理保持幂等。
 
