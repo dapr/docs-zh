@@ -132,7 +132,7 @@ metadata:
 {{% /alert %}}
 
 ## 相关链接
-- 尝试 [可观测性快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability/README.md)
+- 尝试 [observability 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability/README.md)
 - 了解如何设置[追踪配置选项]({{< ref "configuration-overview.md#tracing" >}})
 - [Dynatrace OpenTelemetry 文档](https://docs.dynatrace.com/docs/ingest-from/opentelemetry)
 - 使用 Kubernetes 元数据[增强 OTLP 遥测数据

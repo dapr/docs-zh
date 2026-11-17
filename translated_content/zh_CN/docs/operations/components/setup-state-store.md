@@ -39,7 +39,7 @@ spec:
 
 访问[此参考]({{% ref supported-state-stores %}})查看 Dapr 中所有支持的状态存储。
 
-## 相关主题
+## 相关 topics
 - [组件概念]({{% ref components-concept.md %}})
 - [状态管理概述]({{% ref state-management %}})
 - [状态管理 API 规范]({{% ref state_api.md %}})

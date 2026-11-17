@@ -40,7 +40,7 @@ spec:
 
 - [了解更多关于默认弹性策略]({{% ref default-policies.md %}})
 - 了解更多关于：
-  - [重试策略]({{% ref retries-overview.md %}})
+  - [Retry policies]({{% ref retries-overview.md %}})
   - [熔断器策略]({{% ref circuit-breakers.md %}})
 
 ## 相关链接

@@ -6,7 +6,7 @@ weight: 20
 description: 在 Dapr 中使用 W3C 追踪上下文和标头的背景与场景
 ---
 
-Dapr 使用 [Open Telemetry 协议](https://opentelemetry.io/)，而该协议又使用 [W3C 追踪上下文](https://www.w3.org/TR/trace-context/)进行分布式追踪，涵盖服务调用和发布订阅消息。Dapr 生成并传播追踪上下文信息，可将其发送到可观测性工具以进行可视化和查询。
+Dapr 使用 [Open Telemetry 协议](https://opentelemetry.io/)，而该协议又使用 [W3C 追踪上下文](https://www.w3.org/TR/trace-context/)进行分布式追踪，涵盖服务调用和发布订阅消息。Dapr 生成并传播追踪上下文信息，可将其发送到 observability 工具以进行可视化和查询。
 
 ## 背景
 

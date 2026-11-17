@@ -21,7 +21,7 @@ Dapr 为任何不成功的请求（如故障和临时错误）提供[默认重�
 
 下面的弹性规范示例展示了如何使用保留的命名关键字 'DaprBuiltInServiceRetries' 来覆盖_所有_服务调用请求的默认重试。
 
-同时还定义了一个名为 'retryForever' 的重试策略，该策略仅应用于 appB 目标。appB 使用 'retryForever' 重试策略，而所有其他应用程序服务调用重试故障则使用被覆盖的 'DaprBuiltInServiceRetries' 默认策略。
+同时还定义了一个名为 'retryForever' 的 retry policy，该策略仅应用于 appB 目标。appB 使用 'retryForever' retry policy，而所有其他应用程序服务调用重试故障则使用被覆盖的 'DaprBuiltInServiceRetries' 默认策略。
 
 ```yaml
 spec:

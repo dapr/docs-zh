@@ -12,7 +12,7 @@ Dapr 提供了一种使用 [HTTP `/healthz` 端点]({{% ref health_api.md %}})�
 - 从基础设施平台探测 Dapr sidecar 的就绪状态
 - 在 Kubernetes 中确定就绪状态和存活状态
 
-在本指南中，你将了解 Dapr `/healthz` 端点如何与应用程序托管平台（例如 Kubernetes）的 health probe 以及 Dapr SDK 集成。
+在本指南中，你将了解 Dapr `/healthz` 端点如何与应用程序 hosting platform（例如 Kubernetes）的 health probe 以及 Dapr SDK 集成。
 
 {{% alert title="重要" color="warning" %}}
 **不要在应用程序代码中依赖 `/healthz` 端点**。让应用程序依赖 `/healthz` 端点在某些情况下会失败（例如使用 Actor 和 Workflow API 的应用程序），而在其他情况下则被视为不良实践，因为它会产生循环依赖。`/healthz` 端点旨在用于基础设施健康检查（如 Kubernetes 探针），而不是用于应用程序级别的健康验证。
@@ -55,7 +55,7 @@ Dapr Actor 也有一个健康 API 端点，Dapr 通过该端点探测应用程�
 
 ## 健康端点：与 Kubernetes 集成
 
-将 Dapr 部署到 Kubernetes 等托管平台时，Dapr 健康端点会自动为你配置。
+将 Dapr 部署到 Kubernetes 等 hosting platform 时，Dapr 健康端点会自动为你配置。
 
 Kubernetes 使用*就绪*探针和*存活*探针来确定容器的健康状况。
 
@@ -76,7 +76,7 @@ kubelet 使用存活探针来判断何时重启容器。例如，存活探针可
       periodSeconds: 10
 ```
 
-在上面的示例中，`periodSeconds` 字段指定 kubelet 每 10 秒执行一次存活探针。`initialDelaySeconds` 字段告诉 kubelet 在执行第一次探针前等待 180 秒。执行探针时，kubelet 会向容器中运行并监听 8080 端口的服务器发送 HTTP GET 请求。如果服务器对 `/healthz` 路径的处理程序返回成功状态码，kubelet 即认为容器存活且健康。如果处理程序返回失败状态码，kubelet 会终止该容器并将其重启。
+在上面的示例中，`periodSeconds` 字段指定 kubelet 每 10 秒执行一次存活探针。`initialDelaySeconds` 字段告诉 kubelet 在执行第一次探针前等待 180 秒。执行探针时，kubelet 会向容器中运行并监听 8080 端口的服务器发送 HTTP GET 请求。如果服务器对 `/healthz` 路径的 handler 返回成功状态码，kubelet 即认为容器存活且健康。如果 handler 返回失败状态码，kubelet 会终止该容器并将其重启。
 
 任何介于 200 到 399 之间的 HTTP 状态码均表示成功；其他任何状态码均表示失败。
 
@@ -138,7 +138,7 @@ Dapr 接受 [`dapr.io/block-shutdown-duration` 注解或 `--dapr-block-shutdown-
 
 在此期间，所有订阅和 input binding 都会关闭。这对于需要在自身关闭流程中使用 Dapr API 的应用程序很有用。
 
-对于 Kubernetes 上的 Actor 宿主，只有当应用程序的存活时间超过该延迟*并且*能够覆盖其后的 Actor 排空和停用过程时，此延迟才有帮助。请使用时长足以覆盖这三者的 `preStop` 钩子，让应用程序容器保持存活。请参阅 [Actor 宿主的优雅关闭]({{% ref "kubernetes-production.md#graceful-shutdown-for-actor-hosts" %}})。
+对于 Kubernetes 上的 Actor 宿主，只有当应用程序的存活时间超过该延迟*并且*能够覆盖其后的 Actor drain 和停用过程时，此延迟才有帮助。请使用时长足以覆盖这三者的 `preStop` 钩子，让应用程序容器保持存活。请参阅 [Actor 宿主的优雅关闭]({{% ref "kubernetes-production.md#graceful-shutdown-for-actor-hosts" %}})。
 
 适用的注解或 CLI 标志包括：
 

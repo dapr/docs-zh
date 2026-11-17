@@ -171,7 +171,7 @@ kubectl logs <name-of-pod> daprd
 
 ## 我无法发布和接收事件
 
-你是否在集群中安装了 Dapr 消息总线？
+你是否在集群中安装了 Dapr message bus？
 
 要检查，请使用 kubectl 获取 component 列表：
 

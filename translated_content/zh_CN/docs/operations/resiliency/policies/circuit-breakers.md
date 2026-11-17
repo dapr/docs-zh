@@ -39,7 +39,7 @@ spec:
 ## 后续步骤
 - [了解默认弹性策略的更多信息]({{% ref default-policies.md %}})
 - 了解更多：
-  - [重试策略]({{% ref retries-overview.md %}})
+  - [Retry policies]({{% ref retries-overview.md %}})
   - [超时策略]({{% ref timeouts.md %}})
 
 ## 相关链接

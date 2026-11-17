@@ -6,7 +6,7 @@ weight: 10000
 description: "在多命名空间中使用 Dapr 发布订阅"
 ---
 
-在某些场景中，应用程序可以分布在多个命名空间中，并通过 PubSub 共享队列或主题。在这种情况下，必须在每个命名空间中配置 PubSub 组件。
+在某些场景中，应用程序可以分布在多个命名空间中，并通过 PubSub 共享队列或 topic。在这种情况下，必须在每个命名空间中配置 PubSub 组件。
 
 {{% alert title="Note" color="primary" %}}
 命名空间是用于限定应用程序和组件范围的 Dapr 概念。本示例使用 Kubernetes 命名空间，但 Dapr 组件命名空间范围限定可用于任何受支持的平台。阅读 [How-To: 将组件限定到一个或多个应用程序]({{% ref "component-scopes.md" %}}) 以了解有关组件范围限定的更多信息。
@@ -31,7 +31,7 @@ description: "在多命名空间中使用 Dapr 发布订阅"
 | React UI 发布者         | ❌         | ✅          |
 
 {{% alert title="Note" color="primary" %}}
-所有发布订阅组件都支持使用[命名空间或组件范围]({{% ref pubsub-scopes.md %}})将发布订阅主题限定到特定应用程序。
+所有发布订阅组件都支持使用[命名空间或组件范围]({{% ref pubsub-scopes.md %}})将发布订阅 topics 限定到特定应用程序。
 {{% /alert %}}
 
 ## 前置条件
@@ -87,7 +87,7 @@ kubectl apply -f deploy/redis.yaml
 kubectl apply -f deploy/react-form.yaml
 ```
 
-现在，找到 react-form 的 IP 地址，在浏览器中打开它并向每个主题（A、B 和 C）发布消息。
+现在，找到 react-form 的 IP 地址，在浏览器中打开它并向每个 topic（A、B 和 C）发布消息。
 ```
 kubectl get service -A
 ```

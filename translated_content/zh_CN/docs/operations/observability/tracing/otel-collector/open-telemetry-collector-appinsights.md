@@ -79,5 +79,5 @@ Application Map 拓扑中仅显示通过 Dapr 边车暴露的 Dapr API 进行的
 {{% /alert %}}
 
 ## 相关链接
-- 尝试 [可观测性快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability/README.md)
+- 尝试 [observability 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability/README.md)
 - 了解如何设置[追踪配置选项]({{% ref "configuration-overview.md#tracing" %}})

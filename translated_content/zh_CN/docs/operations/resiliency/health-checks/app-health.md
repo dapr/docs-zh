@@ -84,7 +84,7 @@ Dapr 中的应用健康检查旨在与平台级健康检查互补，而不是取
 要使应用被视为健康，响应必须具有 200-299 范围内的 HTTP 状态码。任何其他状态码都会被视为失败。Dapr 只关心响应的状态码，并忽略任何响应头或响应体。
 
 #### gRPC
-当 app channel 使用 gRPC（`app-protocol` 设置为 `grpc` 或 `grpcs`）时，Dapr 会在你的应用程序中调用 `/dapr.proto.runtime.v1.AppCallbackHealthCheck/HealthCheck` 方法。你很可能会使用 Dapr SDK 来实现该方法的处理程序。
+当 app channel 使用 gRPC（`app-protocol` 设置为 `grpc` 或 `grpcs`）时，Dapr 会在你的应用程序中调用 `/dapr.proto.runtime.v1.AppCallbackHealthCheck/HealthCheck` 方法。你很可能会使用 Dapr SDK 来实现该方法的 handler。
 
 在响应 health probe 请求时，你的应用程序*可以*执行额外的内部健康检查，以确定它是否已准备好处理来自 Dapr runtime 的工作。但这并非必需，而是取决于应用程序需求的选择。
 

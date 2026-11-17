@@ -183,7 +183,7 @@ description: "如何在 Grafana 仪表板中查看 Dapr 指标。"
 
 ## 参考
 
-* [Dapr 可观测性]({{%ref observability-concept.md %}})
+* [Dapr observability]({{%ref observability-concept.md %}})
 * [Prometheus 安装](https://github.com/prometheus-community/helm-charts)
 * [Kubernetes 上的 Prometheus](https://github.com/coreos/kube-prometheus)
 * [Prometheus 查询语言](https://prometheus.io/docs/prometheus/latest/querying/basics/)

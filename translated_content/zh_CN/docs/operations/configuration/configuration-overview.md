@@ -133,7 +133,7 @@ tracing:
 | `OTEL_EXPORTER_OTLP_TRACES_HEADERS` | 以逗号分隔的 `key=value` 标头列表，用于 OTLP 追踪导出器 |
 | `OTEL_EXPORTER_OTLP_TRACES_TIMEOUT` | OTLP 追踪导出器的超时时间（毫秒，例如 `30000`） |
 
-更多信息，请参阅 [可观测性分布式追踪]({{% ref "tracing-overview.md" %}})。
+更多信息，请参阅 [observability 分布式追踪]({{% ref "tracing-overview.md" %}})。
 
 #### 指标
 
@@ -223,7 +223,7 @@ logging:
 
 #### middleware
 
-middleware 配置用于设置具名的 HTTP 流水线 middleware 处理程序。`Configuration` 规范下的 `httpPipeline` 和 `appHttpPipeline` 部分包含以下属性：
+middleware 配置用于设置具名的 HTTP 流水线 middleware handler。`Configuration` 规范下的 `httpPipeline` 和 `appHttpPipeline` 部分包含以下属性：
 
 ```yml
 httpPipeline: # for incoming http calls
@@ -240,7 +240,7 @@ appHttpPipeline: # for outgoing http calls
       type: middleware.http.uppercase
 ```
 
-下表列出了 HTTP 处理程序的属性：
+下表列出了 HTTP handler 的属性：
 
 | 属性 | 类型 | 描述 |
 |---|---|---|
@@ -435,7 +435,7 @@ Dapr control plane 配置包含以下部分：
 | `workloadCertTTL` | string | Dapr 签发的 TLS 证书的有效期。格式遵循 [Go 的 time.ParseDuration](https://pkg.go.dev/time#ParseDuration)。默认为 `24h`（24 小时）。
 | `sentryAddress` | string | 用于连接 Sentry 服务器的主机名和端口地址。
 | `controlPlaneTrustDomain` | string | control plane 的信任域，用于验证与 control plane 服务的连接。
-| `tokenValidators` | array | 用于对证书请求进行身份验证的其他 Sentry 令牌验证器。
+| `tokenValidators` | array | 用于对证书请求进行身份验证的其他 Sentry token validators。
 
 更多信息，请参阅 [mTLS 操作指南]({{% ref "mtls.md" %}})和[安全概念]({{% ref "security-concept.md" %}})。
 

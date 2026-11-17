@@ -330,7 +330,7 @@ Dapr 支持通过以下步骤进行零停机升级。
 4. **超时**。使用以下超时值控制 Placement 服务与 sidecar 之间网络连接的敏感度。已设置默认值，但你可以根据网络状况进行调整。
    1. `dapr_placement.keepAliveTime` 设置 Placement 服务在 gRPC 流上向 Dapr sidecar 发送 [keepalive](https://grpc.io/docs/guides/keepalive/) ping 以检查连接是否仍然存活的间隔。较低的值会在 Pod 丢失或重启时缩短 Actor 重新平衡时间，但正常运行期间的网络流量会更高。可接受 `1s` 到 `10s` 之间的值。默认为 `2s`。
    2. `dapr_placement.keepAliveTimeout` 设置 Dapr sidecar 响应 Placement 服务 [keepalive](https://grpc.io/docs/guides/keepalive/) ping 的超时时间，超时后 Placement 服务会关闭连接。较低的值会在 Pod 丢失或重启时缩短 Actor 重新平衡时间，但正常运行期间的网络流量会更高。可接受 `1s` 到 `10s` 之间的值。默认为 `3s`。
-   3. `dapr_placement.disseminateTimeout` 设置一轮 placement 表 dissemination 被视为失败前的完成时限。在此时限内未确认更新的 sidecar 会被视为无响应，并从该轮分发中移除，其 placement 流也会被重置。注意，sidecar 端的 Actor draining（`drainOngoingCallTimeout`）会延迟 sidecar 的确认，因此会计入此时限。默认为 `8s`。
+   3. `dapr_placement.disseminateTimeout` 设置一轮 placement 表 dissemination 被视为失败前的完成时限。在此时限内未确认更新的 sidecar 会被视为无响应，并从该轮 dissemination 中移除，其 placement 流也会被重置。注意，sidecar 端的 Actor draining（`drainOngoingCallTimeout`）会延迟 sidecar 的确认，因此会计入此时限。默认为 `8s`。
 
 当 Actor placement 由 Scheduler 服务提供（`global.scheduler.placement.enabled=true`）时，上述 `dapr_placement.*` 值不适用，因为未部署 Placement 服务。由 Scheduler 提供的 placement 需通过 Scheduler 参数调优：`--placement-disseminate-timeout`（一轮 dissemination 在移除慢速 sidecar 之前等待所有 sidecar 确认的时间，默认 `8s`，与 `dapr_placement.disseminateTimeout` 是不同的配置项）和 `--placement-disseminate-coalesce-window`（将成员变更合并为单次 dissemination 轮次的时间窗口，默认 `0`，即立即 dissemination）。[进一步了解由 Scheduler 服务提供 placement]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})。
 

@@ -6,7 +6,7 @@ weight: 5000
 description: "设置 Dash0 进行分布式追踪"
 ---
 
-Dapr 可捕获指标、链路追踪和日志，并可以通过 OpenTelemetry Collector 直接发送到 Dash0。Dash0 是一个原生 OpenTelemetry 可观测性平台，为分布式应用程序提供全面的监控能力。
+Dapr 可捕获指标、链路追踪和日志，并可以通过 OpenTelemetry Collector 直接发送到 Dash0。Dash0 是一个原生 OpenTelemetry observability 平台，为分布式应用程序提供全面的监控能力。
 
 ## 配置 Dapr 追踪：使用 OpenTelemetry Collector 和 Dash0
 
@@ -198,6 +198,6 @@ kubectl delete ns opentelemetry
 ## 相关链接
 
 * [Dapr Kubernetes 快速入门教程](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)
-* [Dapr 可观测性快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability)
+* [Dapr observability 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability)
 * [Dash0 文档](https://www.dash0.com/docs)
 * [OpenTelemetry Collector 文档](https://opentelemetry.io/docs/collector/)

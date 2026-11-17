@@ -329,7 +329,7 @@ helm upgrade \
 如果你使用**不同的私有密钥**签署了新的根证书，则必须先重启 Dapr Sentry 服务，然后再重启 Dapr control plane 的其余服务。
 
 {{% alert title="Workflow history signing：轮换 CA 时保护长时间运行的 workflow" color="warning" %}}
-如果你轮换到一个全新的根 CA（不同的私有密钥），任何带有[已签名历史]({{% ref "workflow-history-signing.md" %}})的正在运行的 workflow 都将无法通过签名验证，因为它们的签名证书由旧 CA 签发。这些 workflow 将被报告为 FAILED，错误类型为 `SignatureVerificationFailed`。
+如果你轮换到一个全新的根 CA（不同的私有密钥），任何带有 [signed history]({{% ref "workflow-history-signing.md" %}}) 的正在运行的 workflow 都将无法通过签名验证，因为它们的签名证书由旧 CA 签发。这些 workflow 将被报告为 FAILED，错误类型为 `SignatureVerificationFailed`。
 
 对于长时间运行的 workflow（任何可能超过 CA 有效期的 workflow，对于 Dapr 生成的自签名根证书，通常为一年），请提前规划：
 
@@ -556,7 +556,7 @@ step certificate create cluster.local issuer.crt issuer.key --ca ca.crt --ca-key
 *注意：如果你使用不同的私有密钥签署了根证书，请重启 Dapr 实例。*
 
 {{% alert title="Workflow history signing：轮换 CA 时保护长时间运行的 workflow" color="warning" %}}
-如果你轮换到一个全新的根 CA（不同的私有密钥），任何带有[已签名历史]({{% ref "workflow-history-signing.md" %}})的正在运行的 workflow 都将无法通过签名验证。要在自托管模式下避免这种情况，请使用**同一根私有密钥**（复用 `ca.key`）续订颁发者证书，或者在轮换到新的根密钥之前，完成并 purge 所有已签名的进行中 workflow。有关完整指南，请参阅[长时间运行的 workflow 与根 CA 过期]({{% ref "workflow-history-signing.md#long-running-workflows-and-root-ca-expiry" %}})。
+如果你轮换到一个全新的根 CA（不同的私有密钥），任何带有 [signed history]({{% ref "workflow-history-signing.md" %}}) 的正在运行的 workflow 都将无法通过签名验证。要在自托管模式下避免这种情况，请使用**同一根私有密钥**（复用 `ca.key`）续订颁发者证书，或者在轮换到新的根密钥之前，完成并 purge 所有已签名的进行中 workflow。有关完整指南，请参阅[长时间运行的 workflow 与根 CA 过期]({{% ref "workflow-history-signing.md#long-running-workflows-and-root-ca-expiry" %}})。
 {{% /alert %}}
 
 ## 关于证书轮换的社区会议视频
@@ -564,19 +564,19 @@ step certificate create cluster.local issuer.crt issuer.key --ca ca.crt --ca-key
 
 {{< youtube id=Hkcx9kBDrAc start=1400 >}}
 
-## Sentry 令牌验证器
+## Sentry Token Validators
 
 令牌通常用于身份验证和授权。
-令牌验证器是负责验证这些令牌有效性和真实性的 component。
+Token validators 是负责验证这些令牌有效性和真实性的 component。
 例如，在 Kubernetes 环境中，常见的令牌验证方式是通过 Kubernetes bound service account 机制。该验证器会将绑定的 service account 令牌与 Kubernetes 进行核对，以确保其合法性。
 
 Sentry 服务可以配置为：
-- 启用 Kubernetes bound service account 验证器之外的额外令牌验证器
+- 启用 Kubernetes bound service account 验证器之外的额外 token validators
 - 替换自托管模式下默认启用的 `insecure` 验证器
 
-Sentry 令牌验证器用于将额外的非 Kubernetes 客户端加入以 Kubernetes 模式运行的 Dapr 集群，或者在自托管模式下替换不安全的“允许全部”验证器，以启用正确的身份验证。除非你使用特殊的部署场景，否则通常无需配置令牌验证器。
+Sentry token validators 用于将额外的非 Kubernetes 客户端加入以 Kubernetes 模式运行的 Dapr 集群，或者在自托管模式下替换不安全的“允许全部”验证器，以启用正确的身份验证。除非你使用特殊的部署场景，否则通常无需配置 token validator。
 
-> 目前唯一支持的令牌验证器是 `jwks` 验证器。
+> 目前唯一支持的 token validator 是 `jwks` 验证器。
 
 ### JWKS
 
@@ -584,7 +584,7 @@ Sentry 令牌验证器用于将额外的非 Kubernetes 客户端加入以 Kubern
 
 `jwks` 验证器既可以接受用于获取公钥列表的远程源，也可以接受静态的公钥数组。
 
-下面的配置使用远程源启用 `jwks` 令牌验证器。该远程源使用 HTTPS，因此 `caCertificate` 字段包含远程源的信任根。
+下面的配置使用远程源启用 `jwks` token validator。该远程源使用 HTTPS，因此 `caCertificate` 字段包含远程源的信任根。
 
 ```yaml
 kind: Configuration
@@ -603,7 +603,7 @@ spec:
           caCertificate: "<optional ca certificate bundle string>"
 ```
 
-下面的配置使用静态公钥数组启用 `jwks` 令牌验证器。
+下面的配置使用静态公钥数组启用 `jwks` token validator。
 
 ```yaml
 kind: Configuration

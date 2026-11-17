@@ -6,9 +6,9 @@ weight: 900
 description: "如何使用 Dapr 通过 OpenTelemetry Collector 推送追踪事件。"
 ---
 
-Dapr 使用 OpenTelemetry (OTLP) 协议直接写入追踪数据，这是**推荐**的方法。对于直接支持 OTLP 的可观测性工具，建议使用 [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector)，因为它允许应用程序快速卸载数据，并包含重试、批处理和加密等功能。更多信息，请阅读 OpenTelemetry Collector [文档](https://opentelemetry.io/docs/collector/#when-to-use-a-collector)。
+Dapr 使用 OpenTelemetry (OTLP) 协议直接写入追踪数据，这是**推荐**的方法。对于直接支持 OTLP 的 observability 工具，建议使用 [OpenTelemetry Collector](https://github.com/open-telemetry/opentelemetry-collector)，因为它允许应用程序快速卸载数据，并包含重试、批处理和加密等功能。更多信息，请阅读 OpenTelemetry Collector [文档](https://opentelemetry.io/docs/collector/#when-to-use-a-collector)。
 
-Dapr 也可以使用 Zipkin 协议写入追踪数据。在支持 OTLP 协议之前，Zipkin 协议与 OpenTelemetry Collector 一起使用，将追踪数据发送到 AWS X-Ray、Google Cloud Operations Suite 和 Azure Monitor 等可观测性工具。两种协议方法都是有效的，但 OpenTelemetry 协议是推荐的选择。
+Dapr 也可以使用 Zipkin 协议写入追踪数据。在支持 OTLP 协议之前，Zipkin 协议与 OpenTelemetry Collector 一起使用，将追踪数据发送到 AWS X-Ray、Google Cloud Operations Suite 和 Azure Monitor 等 observability 工具。两种协议方法都是有效的，但 OpenTelemetry 协议是推荐的选择。
 
 ![使用 OpenTelemetry Collector 与多个后端集成](/images/open-telemetry-collector.png)
 
@@ -79,5 +79,5 @@ spec:
 部署并运行一些应用程序。等待追踪数据传播到您的追踪后端，然后在那里查看它们。
 
 ## 相关链接
-- 尝试[可观测性快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability/README.md)
+- 尝试[observability 快速入门](https://github.com/dapr/quickstarts/tree/master/tutorials/observability/README.md)
 - 了解如何设置[追踪配置选项]({{% ref "configuration-overview.md#tracing" %}})

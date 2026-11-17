@@ -121,7 +121,7 @@ auth:
 
 ## 更新被引用的 secrets
 
-每次协调（每 60 秒）时，Dapr 都会重新解析 component 通过 `secretKeyRef` 引用的 secrets，并将其与正在运行的 component 进行比较。当被引用的 secret 的值发生变化时，[热重载]({{% ref "component-updates.md#hot-reloading" %}})会关闭该 component，并使用新值重新初始化它。无需重启应用的 Pod 或 Dapr sidecar，component manifest 也无需修改。
+每次 reconcile（每 60 秒）时，Dapr 都会重新解析 component 通过 `secretKeyRef` 引用的 secrets，并将其与正在运行的 component 进行比较。当被引用的 secret 的值发生变化时，[热重载]({{% ref "component-updates.md#hot-reloading" %}})会关闭该 component，并使用新值重新初始化它。无需重启应用的 Pod 或 Dapr sidecar，component manifest 也无需修改。
 
 这一行为适用于所有 secret store。对于内置的 `kubernetes` secret store，由 Dapr operator 解析引用。对于其他 store，例如通过 `auth.secretStore` 配置的 HashiCorp Vault 或 Azure Key Vault，则由 sidecar 直接解析。两种情况下的行为和时机相同。
 
