@@ -11,7 +11,7 @@ description: "了解如何保存、读取和删除状态，使用 ETag，并执�
 ## 前提条件
 
 - [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 已初始化的 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
+- 已初始化的 [Dapr environment]({{% ref install-dapr-selfhost.md %}})
 - [Node.js](https://nodejs.org/) 18 或更高版本
 - [`@dapr/dapr`](https://www.npmjs.com/package/@dapr/dapr) 包，版本需为 3.19.0 或更高
 - Redis 实例，例如由 `dapr init` 创建的本地 Redis 容器
@@ -25,9 +25,9 @@ npm install @dapr/dapr@3.19.0
 
 示例使用 `.mjs` 文件中的 JavaScript ES 模块。相同的 API 同样可在 TypeScript 中使用。
 
-## 配置状态存储
+## 配置 state store
 
-创建 `components` 目录，并将此组件保存为 `components\statestore.yaml`：
+创建 `components` 目录，并将此 component 保存为 `components\statestore.yaml`：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -44,9 +44,9 @@ spec:
       value: ""
 ```
 
-请根据你的 Redis 实例调整连接设置。有关身份验证和生产环境配置，请参阅 [Redis 组件参考]({{% ref setup-redis.md %}})。
+请根据你的 Redis 实例调整连接设置。有关身份验证和生产环境配置，请参阅 [Redis component 参考]({{% ref setup-redis.md %}})。
 
-组件的 `metadata.name`（即 `statestore`）是客户端调用中使用的存储名称。它既不是组件类型，也不是文件名。在多次运行之间保持相同的 Dapr 应用 ID，才能读取之前保存的状态；默认情况下，Dapr 会使用应用 ID 为键加上前缀。
+component 的 `metadata.name`（即 `statestore`）是客户端调用中使用的存储名称。它既不是 component 类型，也不是文件名。在多次运行之间保持相同的 Dapr 应用 ID，才能读取之前保存的状态；默认情况下，Dapr 会使用应用 ID 为键加上前缀。
 
 ## 保存、读取和删除状态
 
@@ -87,7 +87,7 @@ try {
 }
 ```
 
-使用 Dapr 边车启动应用：
+使用 Dapr sidecar 启动应用：
 
 ```sh
 dapr run --app-id state-example --dapr-http-port 3500 --dapr-grpc-port 50001 --resources-path .\components -- node app.mjs
@@ -151,7 +151,7 @@ if (updated.error) {
 }
 ```
 
-状态存储必须支持 ETag。在先写入（first-write）并发模式下，ETag 不匹配表示另一个写入者修改了该值。请根据应用的规则处理冲突，例如读取最新的值并重新计算更新。不要盲目重试过期的 ETag。
+state store 必须支持 ETag。在先写入（first-write）并发模式下，ETag 不匹配表示另一个写入者修改了该值。请根据应用的规则处理冲突，例如读取最新的值并重新计算更新。不要盲目重试过期的 ETag。
 
 对于条件删除，在任何一次成功更新之后，请读取**最新的** ETag：
 
@@ -176,7 +176,7 @@ HTTP 写入失败可能通过 `result.error` 返回，而 gRPC 失败会使 Prom
 
 ## 删除多个条目
 
-`deleteBulk` 接受仅包含键的条目，可选择性地提供 ETag、每个条目的元数据以及状态选项。它不需要值，也不会对值进行序列化：
+`deleteBulk` 接受仅包含键的条目，可选择性地提供 ETag、每个条目的 metadata 以及状态选项。它不需要值，也不会对值进行序列化：
 
 ```javascript
 const bulkDeleted = await client.state.deleteBulk(storeName, [
@@ -188,9 +188,9 @@ if (bulkDeleted.error) {
 }
 ```
 
-空数组会直接返回成功，而不会与边车通信。通过 HTTP 时，SDK 会逐个发出删除请求，并等待全部完成；通过 gRPC 时，则只发送一次批量删除 RPC。两者都不是原子操作，失败时可能只删除了部分条目。如需全有或全无的行为，请使用事务。
+空数组会直接返回成功，而不会与 sidecar 通信。通过 HTTP 时，SDK 会逐个发出删除请求，并等待全部完成；通过 gRPC 时，则只发送一次批量删除 RPC。两者都不是原子操作，失败时可能只删除了部分条目。如需全有或全无的行为，请使用事务。
 
-## 执行状态事务
+## 执行 state transaction
 
 在支持事务的存储中，使用 `transaction` 原子地执行多个 `upsert` 和 `delete` 操作：
 
@@ -212,7 +212,7 @@ await client.state.transaction(storeName, [
 
 本例使用上文配置的 `JsonSerializer`。如果没有显式指定序列化器，gRPC 事务实现需要已编码的字符串或字节，而不会像 `save` 那样对对象值进行序列化。
 
-可选的第三个参数是事务范围的元数据：
+可选的第三个参数是事务范围的 metadata：
 
 ```javascript
 await client.state.transaction(
@@ -227,11 +227,11 @@ await client.state.transaction(
 );
 ```
 
-元数据和事务的约束取决于组件。例如，某个存储可能要求所有操作使用相同的分区。在事务中使用每个操作的元数据或 ETag 之前，请参阅[客户端用法限制]({{% ref "js-state-management-client-usage.md#transactions" %}})。
+metadata 和事务的约束取决于 component。例如，某个存储可能要求所有操作使用相同的分区。在事务中使用每个操作的 metadata 或 ETag 之前，请参阅[客户端用法限制]({{% ref "js-state-management-client-usage.md#transactions" %}})。
 
 ## 设置生存时间
 
-对于支持 TTL 的存储，请将 `ttlInSeconds` 作为元数据传入。以下示例保存一个 60 秒后过期的条目：
+对于支持 TTL 的存储，请将 `ttlInSeconds` 作为 metadata 传入。以下示例保存一个 60 秒后过期的条目：
 
 ```javascript
 const expiring = await client.state.save(
@@ -244,9 +244,9 @@ if (expiring.error) {
 }
 ```
 
-也可以在各个保存条目上提供元数据。共享的保存元数据会覆盖同名的每个条目元数据键。有关组件支持情况和过期语义，请参阅[状态存储 TTL]({{% ref state-store-ttl.md %}})。
+也可以在各个保存条目上提供 metadata。共享的保存 metadata 会覆盖同名的每个条目 metadata 键。有关 component 支持情况和过期语义，请参阅[state store TTL]({{% ref state-store-ttl.md %}})。
 
 ## 后续步骤
 
-- [状态客户端用法]({{% ref js-state-management-client-usage.md %}})：选项、序列化、元数据、响应结构和错误。
-- [状态查询]({{% ref js-state-management-query.md %}})：在支持查询的存储中进行过滤、排序和分页。
+- [状态客户端用法]({{% ref js-state-management-client-usage.md %}})：选项、序列化、metadata、响应结构和错误。
+- [Query State]({{% ref js-state-management-query.md %}})：在支持查询的存储中进行过滤、排序和分页。

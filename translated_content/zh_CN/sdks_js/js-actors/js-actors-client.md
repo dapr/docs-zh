@@ -38,7 +38,7 @@ console.log(await counter.get());
 
 构建器使用类的运行时 `name` 作为 Actor 类型，并且不会在本地实例化该类。单独的客户端无需导入宿主实现：它可以使用具有相同运行时名称和方法形状的客户端契约类。或者，使用动态调用并传入注册时的确切类型名称。
 
-泛型接口只在编译时检查调用。SDK 会创建一个 JavaScript `Proxy`，将属性调用转发给边车；它不会校验远程契约，也不会在本地实例化 Actor。不要对代理本身使用 await，也不要把它当作本地数据对象；应对其方法调用使用 await。
+泛型接口只在编译时检查调用。SDK 会创建一个 JavaScript `Proxy`，将属性调用转发给 sidecar；它不会校验远程契约，也不会在本地实例化 Actor。不要对代理本身使用 await，也不要把它当作本地数据对象；应对其方法调用使用 await。
 
 ## 使用随机标识创建代理
 
@@ -53,7 +53,7 @@ console.log(await counter.add(1));
 
 ## 选择 HTTP 或 gRPC
 
-无论 Actor 宿主的 HTTP 应用协议如何，调用方都可以使用任一边车 API。若使用 gRPC，请使用边车的 gRPC 端口创建客户端：
+无论 Actor 宿主的 HTTP 应用协议如何，调用方都可以使用任一 sidecar API。若使用 gRPC，请使用 sidecar 的 gRPC 端口创建客户端：
 
 ```typescript
 const grpcClient = new DaprClient({
@@ -66,11 +66,11 @@ const counter = grpcBuilder.build(new ActorId("counter-1"));
 console.log(await counter.get());
 ```
 
-端口值请使用字符串。当边车要求 API 令牌认证时，配置 `daprApiToken` 或 `DAPR_API_TOKEN`。代理构建器会继承客户端解析后的选项。
+端口值请使用字符串。当 sidecar 要求 API 令牌认证时，配置 `daprApiToken` 或 `DAPR_API_TOKEN`。代理构建器会继承客户端解析后的选项。
 
 ## 访问较底层的 Actor API
 
-`DaprClient.actor` 只暴露 **`create()`**，而不暴露各个调用、状态和提醒方法。这些方法可通过构建器的 Actor 客户端获取：
+`DaprClient.actor` 只暴露 **`create()`**，而不暴露各个调用、状态和 reminder 方法。这些方法可通过构建器的 Actor 客户端获取：
 
 ```typescript
 const actors = builder.actorClient.actor;
@@ -89,16 +89,16 @@ console.log(result);
 | 方法 | 用途 |
 |------|------|
 | `invoke(type, id, method, body?)` | 调用指定的命名方法 |
-| `stateGet(type, id, key)`, `stateTransaction(type, id, operations)` | 读取 Actor 状态并执行状态事务 |
-| `registerActorTimer(type, id, name, timer)`, `unregisterActorTimer(type, id, name)` | 管理定时器 |
-| `registerActorReminder(type, id, name, reminder)`, `unregisterActorReminder(type, id, name)` | 管理单个提醒 |
-| `getActorReminder(type, id, name)` | 获取规范化的提醒配置 |
-| `listActorReminders(type, id?)` | 列出提醒，取决于协议与运行时支持 |
-| `unregisterActorRemindersByType(type, id?)` | 在 gRPC 上批量删除匹配的提醒 |
+| `stateGet(type, id, key)`, `stateTransaction(type, id, operations)` | 读取 Actor 状态并执行 state transaction |
+| `registerActorTimer(type, id, name, timer)`, `unregisterActorTimer(type, id, name)` | 管理 timer |
+| `registerActorReminder(type, id, name, reminder)`, `unregisterActorReminder(type, id, name)` | 管理单个 reminder |
+| `getActorReminder(type, id, name)` | 获取规范化的 reminder 配置 |
+| `listActorReminders(type, id?)` | 列出 reminder，取决于协议与运行时支持 |
+| `unregisterActorRemindersByType(type, id?)` | 在 gRPC 上批量删除匹配的 reminder |
 
-详细信息请参阅[管理 Actor 状态]({{% ref js-actors-state.md %}})和[使用定时器和提醒]({{% ref js-actors-timers-reminders.md %}})。
+详细信息请参阅[管理 Actor 状态]({{% ref js-actors-state.md %}})和[使用 timer 和 reminder]({{% ref js-actors-timers-reminders.md %}})。
 
-较底层接口还声明了 `getActors()`，但它不是可移植的发现 API：gRPC 从边车元数据返回活动 Actor 数量，而在本版本中 HTTP 实现并未指向有效的发现端点。如需本地注册信息，请使用 `server.actor.getRegisteredActors()`；如需边车元数据，请使用 `client.metadata.get()`。
+较底层接口还声明了 `getActors()`，但它不是可移植的发现 API：gRPC 从 sidecar metadata 返回活动 Actor 数量，而在本版本中 HTTP 实现并未指向有效的发现端点。如需本地注册信息，请使用 `server.actor.getRegisteredActors()`；如需 sidecar metadata，请使用 `client.metadata.get()`。
 
 ## 参数与序列化
 

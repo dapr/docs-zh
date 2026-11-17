@@ -3,15 +3,15 @@ type: docs
 title: "如何：使用 Dapr JavaScript SDK 索引和搜索文档"
 linkTitle: "操作指南：搜索文档"
 weight: 53050
-description: "了解如何配置搜索组件，并使用 Dapr JavaScript SDK 管理和查询文档"
+description: "了解如何配置 search component，并使用 Dapr JavaScript SDK 管理和查询文档"
 ---
 
-使用 `DaprClient.search` 通过 Dapr 搜索组件管理索引并搜索 JSON 文档。本指南使用 Meilisearch，涵盖创建索引、写入文档、全文搜索、过滤、排序、分页、检索和删除。所有示例均可通过 HTTP 或 gRPC 运行。
+使用 `DaprClient.search` 通过 Dapr search component 管理索引并搜索 JSON 文档。本指南使用 Meilisearch，涵盖创建索引、写入文档、全文搜索、过滤、排序、分页、检索和删除。所有示例均可通过 HTTP 或 gRPC 运行。
 
 ## 前提条件
 
 - [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 已初始化的 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})，且 Dapr 运行时版本为 1.19 或更高
+- 已初始化的 [Dapr environment]({{% ref install-dapr-selfhost.md %}})，且 Dapr runtime 版本为 1.19 或更高
 - [Node.js](https://nodejs.org/) 18 或更高版本
 - 用于在本地运行 Meilisearch 的 [Docker](https://docs.docker.com/get-docker/)
 - 版本为 3.19.0 或更高的 [`@dapr/dapr`](https://www.npmjs.com/package/@dapr/dapr) 包
@@ -51,10 +51,10 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-此配置在本地开发中直接使用明文的 API 密钥。生产环境的凭据请使用[机密存储引用]({{% ref component-secrets.md %}})。
+此配置在本地开发中直接使用明文的 API 密钥。生产环境的凭据请使用[secret store 引用]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-组件的 `metadata.name`（即 `mysearch`）是传递给每个客户端操作的存储名称，它既不是组件类型，也不是 YAML 文件名。有关设置和提供方限制，请参阅 [Meilisearch 组件参考]({{% ref "reference/components-reference/supported-search/meilisearch.md" %}})。
+component 的 `metadata.name`（即 `mysearch`）是传递给每个客户端操作的存储名称，它既不是 component 类型，也不是 YAML 文件名。有关设置和提供方限制，请参阅 [Meilisearch component 参考]({{% ref "reference/components-reference/supported-search/meilisearch.md" %}})。
 
 ## 创建索引并搜索文档
 
@@ -136,7 +136,7 @@ try {
 }
 ```
 
-使用 Dapr 边车启动应用，并从 `components` 目录加载组件：
+使用 Dapr sidecar 启动应用，并从 `components` 目录加载 component：
 
 ```sh
 dapr run --app-id search-example --dapr-http-port 3500 --dapr-grpc-port 50001 --resources-path .\components -- node app.mjs
@@ -146,7 +146,7 @@ dapr run --app-id search-example --dapr-http-port 3500 --dapr-grpc-port 50001 --
 
 示例会在搜索前等待索引完成，然后按价格升序分两页返回 `doc-1` 和 `doc-2`。Meilisearch 会用 `<em>` 标签高亮匹配内容。分数和总命中数估计值取决于提供方，请勿依赖某个具体的分数值。
 
-创建已存在的索引会以 `ALREADY_EXISTS` 失败，且不会更新其设置。在对同一 Meilisearch 实例重新运行本应用之前，请使用下文的 `deleteIndex` 删除示例索引，或选择一个新的索引名称。与内存存储不同，Meilisearch 可以在边车重启后保留文档。
+创建已存在的索引会以 `ALREADY_EXISTS` 失败，且不会更新其设置。在对同一 Meilisearch 实例重新运行本应用之前，请使用下文的 `deleteIndex` 删除示例索引，或选择一个新的索引名称。与内存存储不同，Meilisearch 可以在 sidecar 重启后保留文档。
 
 以下代码片段复用 `client`、`storeName`、`indexName` 和 `waitOptions`。请将它们添加到 `try` 块中，位于搜索循环之后、客户端停止之前。删除示例请最后运行。
 
@@ -160,7 +160,7 @@ const index = await client.search.getIndex(storeName, indexName);
 console.log(index.index, index.documentCount, index.properties);
 ```
 
-`documentCount` 是近似计数；如果提供方无法高效提供该值，则为 `0`。对于 Meilisearch，`properties` 包含 `primaryKey` 以及已配置的属性设置。Meilisearch 要求在创建索引时声明过滤和排序属性；组件会将 `id` 添加为可排序属性，作为分页的并列排序字段。
+`documentCount` 是近似计数；如果提供方无法高效提供该值，则为 `0`。对于 Meilisearch，`properties` 包含 `primaryKey` 以及已配置的属性设置。Meilisearch 要求在创建索引时声明过滤和排序属性；component 会将 `id` 添加为可排序属性，作为分页的并列排序字段。
 
 ## 检索与更新文档
 
@@ -191,9 +191,9 @@ if (updated.failedItems.length > 0) {
 }
 ```
 
-检索会按请求顺序返回找到的文档，并省略不存在的 ID。若未设置 `includeContent: true`，则只返回 ID 和已存储的元数据，`content` 为 undefined。索引操作使用按键 upsert：提交已存在的 ID 即可更新该文档。请提供完整的目标内容和元数据，不要假定存在部分更新操作。
+检索会按请求顺序返回找到的文档，并省略不存在的 ID。若未设置 `includeContent: true`，则只返回 ID 和已存储的 metadata，`content` 为 undefined。索引操作使用按键 upsert：提交已存在的 ID 即可更新该文档。请提供完整的目标内容和 metadata，不要假定存在部分更新操作。
 
-请将普通的 JSON 对象作为 `content` 传入；SDK 会负责序列化并处理传输编码，包括 HTTP 下的 base64 编码。不要自行对内容进行 base64 编码或字符串化。已存储的文档元数据是不透明的，既不能搜索，也不能过滤。需要搜索、过滤或排序的字段必须位于 `content` 中。
+请将普通的 JSON 对象作为 `content` 传入；SDK 会负责序列化并处理传输编码，包括 HTTP 下的 base64 编码。不要自行对内容进行 base64 编码或字符串化。已存储的文档 metadata 是不透明的，既不能搜索，也不能过滤。需要搜索、过滤或排序的字段必须位于 `content` 中。
 
 对于 Meilisearch，文档 ID 必须为 1 至 511 字节的 ASCII 字母、数字、连字符和下划线。内容中不得包含保留的顶层键 `id`、`daprMetadata`、`daprPayload`，或以 `_` 开头的键。无效内容会在 `failedItems` 中报告，而批次中的有效文档仍可正常索引。
 
@@ -264,4 +264,4 @@ await client.search.deleteIndex(storeName, indexName);
 
 ## 后续步骤
 
-请阅读[客户端使用指南]({{% ref js-search-client-usage.md %}})，了解完整的查询与结果结构、写入确认模式、取消和错误处理。有关运行时语义，请参阅[搜索 API 概述]({{% ref search-overview.md %}})和[搜索 API 参考]({{% ref search_api.md %}})。
+请阅读[客户端使用指南]({{% ref js-search-client-usage.md %}})，了解完整的查询与结果结构、写入确认模式、取消和错误处理。有关运行时语义，请参阅[Search API 概述]({{% ref search-overview.md %}})和[Search API 参考]({{% ref search_api.md %}})。

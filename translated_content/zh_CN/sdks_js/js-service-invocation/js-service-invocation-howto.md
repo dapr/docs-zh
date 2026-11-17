@@ -6,7 +6,7 @@ weight: 10
 description: "通过 HTTP 或 gRPC 客户端调用应用方法，并传递标头和查询参数"
 ---
 
-`DaprClient.invoker.invoke()` 会通过调用方的边车，把请求发送到目标应用。这些示例使用 `@dapr/dapr` 3.19.0 或更高版本。请按照[接收调用指南]({{% ref js-service-invocation-server.md %}})启动下文使用的 `invocation-service` 目标应用。
+`DaprClient.invoker.invoke()` 会通过调用方的 sidecar，把请求发送到目标应用。这些示例使用 `@dapr/dapr` 3.19.0 或更高版本。请按照[接收调用指南]({{% ref js-service-invocation-server.md %}})启动下文使用的 `invocation-service` 目标应用。
 
 ## 通过 HTTP 调用应用
 
@@ -41,13 +41,13 @@ main().catch((error) => {
 });
 ```
 
-在另一个终端中，使用其自身的边车运行调用方：
+在另一个终端中，使用其自身的 sidecar 运行调用方：
 
 ```sh
 dapr run --app-id invocation-caller --dapr-http-port 3501 --dapr-grpc-port 50002 -- node client.mjs
 ```
 
-调用方不需要 `--app-port`，因为它不接收回调。它的边车端口与目标服务的边车端口不同。
+调用方不需要 `--app-port`，因为它不接收回调。它的 sidecar 端口与目标服务的 sidecar 端口不同。
 
 ## 调用参数
 
@@ -110,9 +110,9 @@ const response = await client.invoker.invoke(
 
 对各个动态路径段使用 `encodeURIComponent()` 进行编码，对查询值使用 `URLSearchParams` 进行编码。SDK 会将 `methodName` 插入 HTTP 调用的 URL 中，但不会替你编码。
 
-HTTP 实现支持自定义标头。gRPC 实现不会将 `options.headers` 作为请求元数据转发。配置了序列化器时，它只会使用 `headers["Content-Type"]` 覆盖负载的内容类型。它也不会填充请求中单独的 gRPC HTTP 扩展查询字符串字段，因此不要在 gRPC 客户端中使用 HTTP 查询字符串示例。
+HTTP 实现支持自定义标头。gRPC 实现不会将 `options.headers` 作为请求 metadata 转发。配置了序列化器时，它只会使用 `headers["Content-Type"]` 覆盖负载的内容类型。它也不会填充请求中单独的 gRPC HTTP 扩展查询字符串字段，因此不要在 gRPC 客户端中使用 HTTP 查询字符串示例。
 
-## 通过 gRPC 边车端点调用
+## 通过 gRPC sidecar 端点调用
 
 将 `client.mjs` 中的客户端构造替换为：
 
@@ -126,13 +126,13 @@ const client = new DaprClient({
 });
 ```
 
-保留原示例中的 `HttpMethod` 导入和 `invoke()` 调用，但省略 HTTP 标头选项。调用方的启动命令保持不变：它同时暴露两个边车端点。接收方应用可以继续使用 HTTP。
+保留原示例中的 `HttpMethod` 导入和 `invoke()` 调用，但省略 HTTP 标头选项。调用方的启动命令保持不变：它同时暴露两个 sidecar 端点。接收方应用可以继续使用 HTTP。
 
 默认情况下，gRPC 客户端会将响应字节按 UTF-8 解码，并解析为 JSON。即使远程操作已经成功，空响应体或纯文本响应也会以 `COULD_NOT_PARSE_RESULT` 被拒绝。请让目标返回 JSON 值，或配置兼容的[序列化器]({{% ref "js-service-invocation-usage.md#serialization" %}})。
 
-## 跨命名空间调用
+## 跨 namespace 调用
 
-在 Dapr 的名称解析配置支持的情况下，使用其命名空间限定目标应用 ID：
+在 Dapr 的 name resolution 配置支持的情况下，使用其 namespace 限定目标应用 ID：
 
 ```javascript
 const response = await client.invoker.invoke(
@@ -140,9 +140,9 @@ const response = await client.invoker.invoke(
 );
 ```
 
-命名空间路由是运行时的能力，而不是单独的 SDK 选项。请参阅[跨命名空间的服务调用]({{% ref service-invocation-namespaces.md %}})。
+namespace 路由是运行时的能力，而不是单独的 SDK 选项。请参阅[跨 namespace 的 service invocation]({{% ref service-invocation-namespaces.md %}})。
 
-## 调用非 Dapr HTTP 端点
+## 调用 non-Dapr HTTP 端点
 
 使用 HTTP 客户端时，若运行时支持，同一 API 可以按名称或完整限定的 URL 指向 `HTTPEndpoint` 资源：
 
@@ -156,4 +156,4 @@ const urlEndpoint = await client.invoker.invoke(
 );
 ```
 
-这些是可供选择的示例：运行前请先配置 `external-orders`，或替换示例中的 URL。目标不需要 Dapr 边车。有关资源配置、身份验证和运行时要求，请参阅[调用非 Dapr 端点]({{% ref howto-invoke-non-dapr-endpoints.md %}})。
+这些是可供选择的示例：运行前请先配置 `external-orders`，或替换示例中的 URL。目标不需要 Dapr sidecar。有关资源配置、身份验证和运行时要求，请参阅[调用 non-Dapr endpoint]({{% ref howto-invoke-non-dapr-endpoints.md %}})。

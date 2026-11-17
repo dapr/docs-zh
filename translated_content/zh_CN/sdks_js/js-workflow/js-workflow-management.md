@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "使用 JavaScript SDK 管理工作流实例"
-linkTitle: "管理工作流实例"
+title: "使用 JavaScript SDK 管理 workflow instance"
+linkTitle: "管理 workflow instance"
 weight: 1100
-description: 使用 DaprWorkflowClient 调度、查看、控制、列出和重新运行工作流实例
+description: 使用 DaprWorkflowClient 调度、查看、控制、列出和重新运行 workflow instance
 ---
 
-请从应用或管理代码中使用 `DaprWorkflowClient`，不要在工作流生成器函数内部使用。本指南适用于 `@dapr/dapr` **3.19.0 或更高版本**以及运行时 **1.19 或更高版本**。
+请从应用或管理代码中使用 `DaprWorkflowClient`，不要在 workflow 生成器函数内部使用。本指南适用于 `@dapr/dapr` **3.19.0 或更高版本**以及运行时 **1.19 或更高版本**。
 
 ```javascript
 import { DaprWorkflowClient, WorkflowRuntimeStatus } from "@dapr/dapr";
@@ -17,11 +17,11 @@ const client = new DaprWorkflowClient({
 });
 ```
 
-后续代码片段复用 `client`。工作流名称必须已在目标工作进程上注册。应用关闭时调用 `await client.stop()`。
+后续代码片段复用 `client`。workflow 名称必须已在目标工作进程上注册。应用关闭时调用 `await client.stop()`。
 
 ## 选择管理客户端
 
-`DaprWorkflowClient` 与 `DaprClient.workflow` 是两个独立的对象，后者即[基础工作流 API]({{% ref "developing-applications/sdks/js/js-client/_index.md" %}}#workflow-api)。基础 API 支持通过 HTTP 或 gRPC 使用 `scheduleNewWorkflow`、`getWorkflowState`、`raiseEvent`、`pause`、`resume`、`terminate` 和 `purge`。其旧的 `start`、`get` 和 `raise` 名称是已弃用的别名。它返回带有 `properties` 的普通 `WorkflowGetResponseType`，而不是本文所述的 `WorkflowState`。
+`DaprWorkflowClient` 与 `DaprClient.workflow` 是两个独立的对象，后者即[basic workflow API]({{% ref "developing-applications/sdks/js/js-client/_index.md" %}}#workflow-api)。基础 API 支持通过 HTTP 或 gRPC 使用 `scheduleNewWorkflow`、`getWorkflowState`、`raiseEvent`、`pause`、`resume`、`terminate` 和 `purge`。其旧的 `start`、`get` 和 `raise` 名称是已弃用的别名。它返回带有 `properties` 的普通 `WorkflowGetResponseType`，而不是本文所述的 `WorkflowState`。
 
 需要持久的启动或完成等待、列出实例、获取历史、重新运行以及集成的负载引用处理时，请使用 `DaprWorkflowClient`。它的方法和选项与基础 API 并不通用：例如，它使用 `suspendWorkflow` 而不是 `pause`，并且 `getWorkflowState` 需要 `getInputsAndOutputs` 参数。
 
@@ -46,13 +46,13 @@ if (state.runtimeStatus === WorkflowRuntimeStatus.COMPLETED) {
 }
 ```
 
-位置参数依次为 `(workflow, input?, instanceId?, startAt?, signal?)`。`workflow` 可以是已注册的名称，也可以是函数；省略实例 ID 时会自动生成。`startAt` 是可选的绝对 `Date`。这里使用挂钟时间是安全的，因为这是客户端代码，而不是会被重放的工作流代码。
+位置参数依次为 `(workflow, input?, instanceId?, startAt?, signal?)`。`workflow` 可以是已注册的名称，也可以是函数；省略实例 ID 时会自动生成。`startAt` 是可选的绝对 `Date`。这里使用墙钟时间是安全的，因为这是客户端代码，而不是会被重放的 workflow 代码。
 
-两个等待方法都接受 `(instanceId, fetchPayloads = true, timeoutInSeconds = 60, signal?)`。等待超时或 RPC 失败会使 Promise 被拒绝。工作流到达失败或已终止状态时，等待可能返回一个状态而不抛出异常：应检查 `runtimeStatus`，而不能只看等待是否成功完成。
+两个等待方法都接受 `(instanceId, fetchPayloads = true, timeoutInSeconds = 60, signal?)`。等待超时或 RPC 失败会使 Promise 被拒绝。workflow 到达失败或已终止状态时，等待可能返回一个状态而不抛出异常：应检查 `runtimeStatus`，而不能只看等待是否成功完成。
 
 ## 查看状态与失败详情
 
-`await client.getWorkflowState(instanceId, true)` 返回一个 `WorkflowState` 快照；若实例不存在，则返回 `undefined`。只需要元数据时，传入 `false` 可省略输入和输出。
+`await client.getWorkflowState(instanceId, true)` 返回一个 `WorkflowState` 快照；若实例不存在，则返回 `undefined`。只需要 metadata 时，传入 `false` 可省略输入和输出。
 
 | 成员 | 含义 |
 | --- | --- |
@@ -62,15 +62,15 @@ if (state.runtimeStatus === WorkflowRuntimeStatus.COMPLETED) {
 | `getInput()`、`getOutput()`、`getCustomStatus()` | 使用客户端配置的序列化器反序列化；TypeScript 调用方可以提供泛型结果类型。 |
 | `serializedInput`、`serializedOutput`、`customStatus` | 序列化后的字符串，而不是已解析的对象。启用负载支持时，会在可能的情况下预先准备好已解析的字符串。 |
 | `workflowFailureDetails` | `getErrorType()`、`getErrorMessage()`、`getStackTrace()`、`isNonRetriable`，以及用于获取嵌套详情的 `getInnerFailure()`。`innerFailure` 暴露嵌套的原始 protobuf 值。 |
-| `getInputReference()`、`getOutputReference()`、`getCustomStatusReference()` | 原始的顶层二进制存储引用（如果存在）。参见[数据引用]({{% ref js-workflow-data-references.md %}}#read-client-results)。 |
+| `getInputReference()`、`getOutputReference()`、`getCustomStatusReference()` | 原始的顶层 Binary Store 引用（如果存在）。参见[数据引用]({{% ref js-workflow-data-references.md %}}#read-client-results)。 |
 
-类型化的 getter 不会校验应用的模式，也不会自动重建类实例。缺失的负载字段返回 `undefined`。二进制存储对象缺失或完整性校验失败属于错误，而不是“工作流未找到”。
+类型化的 getter 不会校验应用的模式，也不会自动重建类实例。缺失的负载字段返回 `undefined`。Binary Store 对象缺失或完整性校验失败属于错误，而不是“workflow 未找到”。
 
 ## 发送事件并控制执行
 
 | 方法 | 行为 |
 | --- | --- |
-| `raiseEvent(id, eventName, payload?, signal?)` | 将事件投递到工作流的持久事件等待点。 |
+| `raiseEvent(id, eventName, payload?, signal?)` | 将事件投递到 workflow 的持久事件等待点。 |
 | `suspendWorkflow(id, reason?, signal?)` | 挂起实例的执行。 |
 | `resumeWorkflow(id, reason?, signal?)` | 恢复已挂起的实例。 |
 | `terminateWorkflow(id, output?, signal?)` | 请求终止，可附带可选输出；不会执行应用的补偿逻辑。 |
@@ -84,7 +84,7 @@ await client.resumeWorkflow(instanceId, "Investigation complete");
 await client.raiseEvent(instanceId, "approval", { approved: true });
 ```
 
-不要把挂起或终止当作撤销活动副作用的手段。被取消的客户端请求也不会终止实例。清除历史**不会**删除二进制存储中的负载。
+不要把挂起或终止当作撤销 activity 副作用的手段。被取消的客户端请求也不会终止实例。清除历史**不会**删除Binary Store 中的负载。
 
 ### 取消客户端请求
 
@@ -100,7 +100,7 @@ try {
 }
 ```
 
-中止会停止该请求以及相关的负载 I/O（如果支持），但不会停止持久的工作流。请求在取消之前可能已经被运行时接受。列出、获取历史和重新运行在本版本中都不接受 `AbortSignal` 参数。
+中止会停止该请求以及相关的负载 I/O（如果支持），但不会停止持久的 workflow。请求在取消之前可能已经被运行时接受。列出、获取历史和重新运行在本版本中都不接受 `AbortSignal` 参数。
 
 ## 列出实例
 
@@ -141,11 +141,11 @@ const rerunId = await client.rerunWorkflowFromEvent(instanceId, eventId, {
 });
 ```
 
-`eventId` 是历史事件 ID，**不是**数组索引，并且必须是无符号 32 位整数。此操作会创建一个新实例，不会修改源实例。替换用的 `input` 作用于**该事件所指向的活动**，而不是原始工作流输入。
+`eventId` 是 history event ID，**不是**数组索引，并且必须是无符号 32 位整数。此操作会创建一个新实例，不会修改源实例。替换用的 `input` 作用于**该事件所指向的 activity**，而不是原始 workflow 输入。
 
-`newInstanceId` 是可选的，但不能为空。提供 `input` 时，`overwriteInput` 默认为 `true`；将其设为 `false` 可保留原始活动输入。运行时决定哪些历史和事件符合条件，并对实例不存在或事件无效的情况抛出错误。重新运行可能会重复副作用：请检查幂等性，并保留复制的历史中仍被引用的所有二进制对象。
+`newInstanceId` 是可选的，但不能为空。提供 `input` 时，`overwriteInput` 默认为 `true`；将其设为 `false` 可保留原始 activity 输入。运行时决定哪些历史和事件符合条件，并对实例不存在或事件无效的情况抛出错误。重新运行可能会重复副作用：请检查幂等性，并保留复制的历史中仍被引用的所有二进制对象。
 
 ## 后续步骤
 
-- [编写工作流]({{% ref js-workflow-authoring.md %}})
+- [编写 workflow]({{% ref js-workflow-authoring.md %}})
 - [保留和清理已存储的负载]({{% ref js-workflow-data-references.md %}}#retention-and-cleanup)

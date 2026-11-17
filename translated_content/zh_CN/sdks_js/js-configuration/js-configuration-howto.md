@@ -10,7 +10,7 @@ description: 使用 Dapr JavaScript SDK 获取应用设置，并订阅配置变�
 
 ## 前提条件
 
-- [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及已初始化的 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
+- [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及已初始化的 [Dapr environment]({{% ref install-dapr-selfhost.md %}})
 - [Node.js](https://nodejs.org/) 18 或更高版本
 - [`@dapr/dapr`](https://www.npmjs.com/package/@dapr/dapr) 包，版本 3.19.0 或更高
 - Docker，用于下面的 Redis 示例
@@ -32,7 +32,7 @@ npm install @dapr/dapr@3.19.0
 docker run --name js-config-redis -p 127.0.0.1:6380:6379 -d redis:7
 ```
 
-Redis 配置组件会在订阅开始时启用所需的键空间通知，因此无需额外的 Redis 标志。本示例未启用身份验证，并将 Redis 绑定到回环地址，仅用于本地开发。生产环境中，请按照 [Redis 配置存储参考]({{% ref redis-configuration-store.md %}}) 中的说明配置身份验证和 TLS。
+Redis 配置 component 会在订阅开始时启用所需的键空间通知，因此无需额外的 Redis 标志。本示例未启用身份验证，并将 Redis 绑定到回环地址，仅用于本地开发。生产环境中，请按照 [Redis 配置存储参考]({{% ref redis-configuration-store.md %}}) 中的说明配置身份验证和 TLS。
 
 在应用目录中创建 `components` 目录，并将以下内容保存为 `components\configstore.yaml`：
 
@@ -51,7 +51,7 @@ spec:
       value: ""
 ```
 
-组件的 `metadata.name`（即 `configstore`）是每个 SDK 方法所使用的存储名称。Redis 状态存储组件不是配置存储；组件类型必须为 `configuration.redis`。
+component 的 `metadata.name`（即 `configstore`）是每个 SDK 方法所使用的存储名称。Redis state store component 不是配置存储；component 类型必须为 `configuration.redis`。
 
 填充存储：
 
@@ -93,7 +93,7 @@ try {
 }
 ```
 
-使用 Dapr 边车运行它：
+使用 Dapr sidecar 运行它：
 
 ```sh
 dapr run --app-id js-config-reader --dapr-grpc-port 50001 --resources-path .\components -- node get-configuration.mjs
@@ -112,7 +112,7 @@ orderId2: 102 (version 1)
 const config = await client.configuration.get("configstore");
 ```
 
-空键列表会被发送给组件。能否返回全部键，以及包含哪些键，取决于存储。请显式检查所需的键，而不要假设每个请求的键都一定存在。
+空键列表会被发送给 component。能否返回全部键，以及包含哪些键，取决于存储。请显式检查所需的键，而不要假设每个请求的键都一定存在。
 
 ## 订阅配置变更
 
@@ -179,8 +179,8 @@ subscription = await client.configuration.subscribe(
 );
 ```
 
-全键订阅的行为（包括之后新增的键是否会被监听）取决于组件。每个订阅都有自己的句柄；关闭时必须停止每一个订阅。不需要 `DaprServer`、应用回调路由或 `--app-port`：更新会通过客户端的 gRPC 流到达。
+全键订阅的行为（包括之后新增的键是否会被监听）取决于 component。每个订阅都有自己的句柄；关闭时必须停止每一个订阅。不需要 `DaprServer`、应用回调路由或 `--app-port`：更新会通过客户端的 gRPC 流到达。
 
 ## 后续步骤
 
-阅读[客户端用法指南]({{% ref js-configuration-client-usage.md %}})，了解请求元数据、响应处理，以及重要的订阅失败和清理限制。
+阅读[客户端用法指南]({{% ref js-configuration-client-usage.md %}})，了解请求 metadata、响应处理，以及重要的订阅失败和清理限制。

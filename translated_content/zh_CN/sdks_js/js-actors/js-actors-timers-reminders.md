@@ -1,14 +1,14 @@
 ---
 type: docs
-title: "使用 JavaScript SDK 的 Actor 定时器与提醒"
-linkTitle: "定时器与提醒"
+title: "使用 JavaScript SDK 的 Actor timer 与 reminder"
+linkTitle: "timer 与 reminder"
 weight: 50000
-description: "调度 Actor 回调、查看提醒，并安全地批量移除提醒"
+description: "调度 Actor 回调、查看 reminder，并安全地批量移除 reminder"
 ---
 
-定时器在 Actor 激活期间安排工作。提醒是持久的，可以在 Actor 停用或故障转移后重新激活该 Actor。调度由 Dapr 运行；SDK 负责注册回调并将其分发给你的 Actor。这些示例面向 `@dapr/dapr` 3.19.0 或更高版本。
+timer 在 Actor 激活期间安排工作。reminder 是持久的，可以在 Actor 停用或故障转移后重新激活该 Actor。调度由 Dapr 运行；SDK 负责注册回调并将其分发给你的 Actor。这些示例面向 `@dapr/dapr` 3.19.0 或更高版本。
 
-有关运行时调度与重试语义，请参阅 [Actor 定时器与提醒]({{% ref actors-timers-reminders.md %}})。现代 Dapr 运行时将提醒持久化在 Scheduler 服务中，而不是 Actor 的内存字段里。
+有关运行时调度与重试语义，请参阅 [Actor timer 与 reminder]({{% ref actors-timers-reminders.md %}})。现代 Dapr runtime 将 reminder 持久化在 Scheduler service 中，而不是 Actor 的内存字段里。
 
 ## 在 Actor 内注册回调
 
@@ -82,9 +82,9 @@ await this.registerActorReminder(
 
 请让 TTL 足够长，以覆盖首次到期时间以及所需的任何重复次数。运行时会校验调度值。建议使用秒、分钟、小时等基于时间的时长：HTTP 注册实现会将 `Temporal` 字符串转换为 Go 风格的时长，且无法正确编码日历或天级别的时长字符串。这些辅助方法不接受绝对时间戳、cron 表达式或重复次数字符串。
 
-定时器回调使用你以 `callback` 提供的方法名。每个提醒都会调用 **`receiveReminder(data)`**。JavaScript 回调不会将提醒名称、到期时间或周期作为单独的参数接收。当多个提醒共享同一个回调时，请在数据中加入一个区分标记。继承而来的 `receiveReminder` 只会记录一条警告；请覆盖它以执行实际工作。
+timer 回调使用你以 `callback` 提供的方法名。每个 reminder 都会调用 **`receiveReminder(data)`**。JavaScript 回调不会将 reminder 名称、到期时间或周期作为单独的参数接收。当多个 reminder 共享同一个回调时，请在数据中加入一个区分标记。继承而来的 `receiveReminder` 只会记录一条警告；请覆盖它以执行实际工作。
 
-回调数据由内置的 buffer 序列化器解码。优先使用简单的字符串负载，或在回调中校验过的显式 JSON 序列化内容。不要假定任意对象和数组能在每一种定时器或提醒注册路径中原样往返；数组还会被分发器展开为位置参数。由于重试可能导致重复投递，请让持久化的回调处理保持幂等。
+回调数据由内置的 buffer 序列化器解码。优先使用简单的字符串负载，或在回调中校验过的显式 JSON 序列化内容。不要假定任意对象和数组能在每一种 timer 或 reminder 注册路径中原样往返；数组还会被分发器展开为位置参数。由于重试可能导致重复投递，请让持久化的回调处理保持幂等。
 
 ## 从客户端管理调度
 
@@ -102,7 +102,7 @@ const actorId = new ActorId("device-1");
 
 请在异步函数内运行此示例及后续的客户端代码片段。此示例假定 `ScheduledActor` 已在宿主上注册。`DaprClient.actor` 本身只暴露 `create()`；`client.actor.getActorReminder()` 之类的调用并不受支持。
 
-要通过 HTTP 注册提醒：
+要通过 HTTP 注册 reminder：
 
 ```typescript
 await actors.registerActorReminder("ScheduledActor", actorId, "follow-up", {
@@ -113,7 +113,7 @@ await actors.registerActorReminder("ScheduledActor", actorId, "follow-up", {
 });
 ```
 
-定时器注册使用相同的选项，外加一个必填的 `callback`：
+timer 注册使用相同的选项，外加一个必填的 `callback`：
 
 ```typescript
 await actors.registerActorTimer("ScheduledActor", actorId, "heartbeat", {
@@ -124,13 +124,13 @@ await actors.registerActorTimer("ScheduledActor", actorId, "heartbeat", {
 });
 ```
 
-从外部注册定时器前，请确保 Actor 已处于激活状态，并将定时器操作发送到拥有该 Actor 的边车。在 Actor 方法内注册定时器可以避免选错宿主。定时器会在停用时消失；如果应用需要它们，请在之后的激活中重新注册。
+从外部注册 timer 前，请确保 Actor 已处于激活状态，并将 timer 操作发送到拥有该 Actor 的 sidecar。在 Actor 方法内注册 timer 可以避免选错宿主。timer 会在停用时消失；如果应用需要它们，请在之后的激活中重新注册。
 
-HTTP 注册路径会以 JSON 形式发送 `data`。gRPC 提醒注册使用 `data.toString()`，而 gRPC 定时器注册要求数据可被 `Buffer.from` 接受；两者都不会对任意对象进行 JSON 序列化。不要依赖假值（falsy）的 gRPC 负载能够被正确传输。
+HTTP 注册路径会以 JSON 形式发送 `data`。gRPC reminder 注册使用 `data.toString()`，而 gRPC timer 注册要求数据可被 `Buffer.from` 接受；两者都不会对任意对象进行 JSON 序列化。不要依赖假值（falsy）的 gRPC 负载能够被正确传输。
 
-注册与读取在不同协议之间并不对称。运行时可能会把 gRPC 注册时发送的字节以 base64 编码的 JSON 字符串形式存储，而 SDK 的提醒查询会保留该字符串，不会自动解码。例如，以 `data: "hello"` 通过 gRPC 注册的提醒，读取时可能得到 `"aGVsbG8="`。在 gRPC 注册之前调用 `JSON.stringify`，本身并不能恢复 JSON 往返。对于 JSON 负载，即使查询走 gRPC，也应优先使用 HTTP 注册。如果必须通过 gRPC 注册，请与运行时及使用方明确并验证编码约定；不要猜测返回的任意字符串是否为 base64。
+注册与读取在不同协议之间并不对称。运行时可能会把 gRPC 注册时发送的字节以 base64 编码的 JSON 字符串形式存储，而 SDK 的 reminder 查询会保留该字符串，不会自动解码。例如，以 `data: "hello"` 通过 gRPC 注册的 reminder，读取时可能得到 `"aGVsbG8="`。在 gRPC 注册之前调用 `JSON.stringify`，本身并不能恢复 JSON 往返。对于 JSON 负载，即使查询走 gRPC，也应优先使用 HTTP 注册。如果必须通过 gRPC 注册，请与运行时及使用方明确并验证编码约定；不要猜测返回的任意字符串是否为 base64。
 
-## 获取提醒
+## 获取 reminder
 
 `getActorReminder` 同时支持 HTTP 和 gRPC：
 
@@ -148,14 +148,14 @@ console.log({
 
 - 包括亚秒级单位在内的 ISO 8601 和 Go 风格时长都会被规范化。以 `@every ` 开头的周期同样被接受。
 - 绝对的到期时间戳和过期时间戳会转换为相对于读取时刻的时长。`ttl` 是剩余生命周期，不一定等于最初注册时的 TTL。
-- 缺失或为空的时间字段保持为 `undefined`。部分由调度器支持的运行时即使对设置了过期时间的提醒也会省略 `ttl`。不要因为某个字段缺失，就认为没有配置过期时间。
+- 缺失或为空的时间字段保持为 `undefined`。部分由 Scheduler 支持的运行时即使对设置了过期时间的 reminder 也会省略 `ttl`。不要因为某个字段缺失，就认为没有配置过期时间。
 - cron 表达式或像 `R3/PT1M` 这样的重复次数周期无法用 `Temporal.Duration` 表示；读取会直接报错，而不是返回有损的调度信息。
 
-HTTP 读取会保留运行时返回的 JSON `data`。gRPC 读取会解包 protobuf 的 `BytesValue`，并将其字节解析为 JSON；不支持的封装或无效的 JSON 会使操作失败。读取不存在的提醒会报错，而不是返回空的配置。
+HTTP 读取会保留运行时返回的 JSON `data`。gRPC 读取会解包 protobuf 的 `BytesValue`，并将其字节解析为 JSON；不支持的封装或无效的 JSON 会使操作失败。读取不存在的 reminder 会报错，而不是返回空的配置。
 
-## 列出提醒
+## 列出 reminder
 
-查询单个 Actor 的提醒：
+查询单个 Actor 的 reminder：
 
 ```typescript
 import type { NamedActorReminderType } from "@dapr/dapr";
@@ -168,7 +168,7 @@ for (const reminder of reminders) {
 }
 ```
 
-类型导入请放在模块作用域中。`NamedActorReminderType` 包含 `name`、`actorType` 和原始字符串形式的 **`actorId`**，以及 `getActorReminder` 返回的规范化字段。它不会暴露 HTTP 的 `actorID` 拼写，也不会暴露嵌套的 protobuf 提醒。
+类型导入请放在模块作用域中。`NamedActorReminderType` 包含 `name`、`actorType` 和原始字符串形式的 **`actorId`**，以及 `getActorReminder` 返回的规范化字段。它不会暴露 HTTP 的 `actorID` 拼写，也不会暴露嵌套的 protobuf reminder。
 
 | 操作 | 运行时要求 |
 |-----------|---------------------|
@@ -184,7 +184,7 @@ const allReminders = await grpcActors.listActorReminders("ScheduledActor");
 
 这里的 `grpcActors` 按下一节所示进行配置。排序不做保证；成功但为空的结果为 `[]`。格式错误的条目、无法表示的时间值、不受支持的运行时 API 以及传输错误都会使列表操作失败，而不会返回部分或空的成功结果。
 
-## 注销提醒与定时器
+## 注销 reminder 与 timer
 
 单个注销在 HTTP 和 gRPC 上都可用：
 
@@ -193,7 +193,7 @@ await actors.unregisterActorReminder("ScheduledActor", actorId, "follow-up");
 await actors.unregisterActorTimer("ScheduledActor", actorId, "heartbeat");
 ```
 
-批量删除提醒需要 gRPC 和 Dapr 1.17 或更高版本。例如，配置一个单独的管理客户端：
+批量删除 reminder 需要 gRPC 和 Dapr 1.17 或更高版本。例如，配置一个单独的管理客户端：
 
 ```typescript
 import { CommunicationProtocolEnum } from "@dapr/dapr";
@@ -208,16 +208,16 @@ const grpcActors = new ActorProxyBuilder(ScheduledActor, grpcClient).actorClient
 await grpcActors.unregisterActorRemindersByType("ScheduledActor", actorId);
 ```
 
-请将该导入放在模块作用域中。传入 Actor ID 只会删除该精确实例的提醒，不影响其他实例和 Actor 类型。
+请将该导入放在模块作用域中。传入 Actor ID 只会删除该精确实例的 reminder，不影响其他实例和 Actor 类型。
 
 {{% alert title="类型级删除具有破坏性" color="warning" %}}
-省略 `unregisterActorRemindersByType("ScheduledActor")` 的第二个参数，会删除该边车应用作用域内该 Actor 类型**所有实例的全部提醒**。被删除的提醒无法通过此操作恢复。除非明确需要类型级删除，否则不要把用户未提供的 Actor ID 转为 `undefined`。
+省略 `unregisterActorRemindersByType("ScheduledActor")` 的第二个参数，会删除该 sidecar 应用作用域内该 Actor 类型**所有实例的全部 reminder**。被删除的 reminder 无法通过此操作恢复。除非明确需要类型级删除，否则不要把用户未提供的 Actor ID 转为 `undefined`。
 {{% /alert %}}
 
-HTTP 实现对批量删除会直接抛出 `HTTPNotSupportedError`，且不会发送请求。不存在自动回退到逐个提醒的 HTTP 删除机制。实例级和类型级的 gRPC 删除都返回 `Promise<void>`；RPC 错误会向上传播。
+HTTP 实现对批量删除会直接抛出 `HTTPNotSupportedError`，且不会发送请求。不存在自动回退到逐个 reminder 的 HTTP 删除机制。实例级和类型级的 gRPC 删除都返回 `Promise<void>`；RPC 错误会向上传播。
 
-本版本不提供定时器的获取与列出操作，也不提供提醒的 `overwrite` 和 `failurePolicy` 注册选项，即使运行时支持它们。若需使用这些运行时能力，请参阅 [Actors API 参考]({{% ref actors_api.md %}})，而不要在 SDK 调用中添加不受支持的属性。
+本版本不提供 timer 的获取与列出操作，也不提供 reminder 的 `overwrite` 和 `failurePolicy` 注册选项，即使运行时支持它们。若需使用这些运行时能力，请参阅 [Actors API 参考]({{% ref actors_api.md %}})，而不要在 SDK 调用中添加不受支持的属性。
 
-不要假定以已存在的提醒名称注册会替换其配置。仅允许创建的提醒注册机制会拒绝重复项，除非请求 `overwrite`，而这些 SDK 辅助方法无法表达该选项。因此，上面的 `start()` 示例并不是幂等的调度操作。若需要替换，请使用运行时 API，或先显式注销再重新创建提醒，并注意其中的间隔和重置后的调度。
+不要假定以已存在的 reminder 名称注册会替换其配置。仅允许创建的 reminder 注册机制会拒绝重复项，除非请求 `overwrite`，而这些 SDK 辅助方法无法表达该选项。因此，上面的 `start()` 示例并不是幂等的调度操作。若需要替换，请使用运行时 API，或先显式注销再重新创建 reminder，并注意其中的间隔和重置后的调度。
 
 管理操作完成后，请使用 `await client.stop()` 和 `await grpcClient.stop()` 停止由你的应用持有的客户端。

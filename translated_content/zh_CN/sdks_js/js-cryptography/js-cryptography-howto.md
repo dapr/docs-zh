@@ -3,7 +3,7 @@ type: docs
 title: "操作指南：使用 Dapr JavaScript SDK 加密和解密数据"
 linkTitle: "加密和解密数据"
 weight: 54050
-description: 配置加密组件，并使用 Dapr JavaScript SDK 加密和解密消息与文件
+description: 配置加密 component，并使用 Dapr JavaScript SDK 加密和解密消息与文件
 ---
 
 使用 `DaprClient.crypto` 可以在不向应用传递加密密钥的情况下加密和解密数据。本指南先使用本地密钥进行开发，然后介绍如何处理缓冲区和文件。
@@ -11,10 +11,10 @@ description: 配置加密组件，并使用 Dapr JavaScript SDK 加密和解密�
 ## 前提条件
 
 - [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 已初始化的 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})，且其运行时需支持 Alpha 阶段的加密 API
+- 已初始化的 [Dapr environment]({{% ref install-dapr-selfhost.md %}})，且其运行时需支持 alpha 的加密 API
 - [Node.js](https://nodejs.org/) 18 或更高版本；建议使用受支持的 LTS 发行版
 - [`@dapr/dapr`](https://www.npmjs.com/package/@dapr/dapr) 包，**版本 3.19.0 或更高**
-- 已配置的[加密组件]({{% ref supported-cryptography %}})，以及与所选密钥包装算法兼容的密钥
+- 已配置的[加密 component]({{% ref supported-cryptography %}})，以及与所选密钥包装算法兼容的密钥
 
 在应用目录中，如果尚未初始化 npm 项目，请先初始化，然后安装 SDK：
 
@@ -25,7 +25,7 @@ npm install @dapr/dapr@3.19.0
 
 示例使用 JavaScript ES 模块，并以 `.mjs` 文件运行，无需 TypeScript 编译器。同样的 API 也可以在 TypeScript 中使用。
 
-## 配置本地加密组件
+## 配置本地加密 component
 
 创建 `keys` 目录，并生成一个随机的 256 位对称密钥：
 
@@ -50,12 +50,12 @@ spec:
       value: '.\keys'
 ```
 
-路径会从边车的工作目录开始解析。请在应用目录中运行后面的命令；对于其他部署方式，请将路径设置为边车可访问的目录。
+路径会从 sidecar 的工作目录开始解析。请在应用目录中运行后面的命令；对于其他部署方式，请将路径设置为 sidecar 可访问的目录。
 
-组件名称 `crypto-local` 即客户端使用的 `componentName`。密钥名称 `symmetric256` 是密钥目录中的文件名。本示例将 256 位对称密钥与 `A256KW` 密钥包装算法配合使用。
+component 名称 `crypto-local` 即客户端使用的 `componentName`。密钥名称 `symmetric256` 是密钥目录中的文件名。本示例将 256 位对称密钥与 `A256KW` 密钥包装算法配合使用。
 
 {{% alert title="仅限本地开发" color="warning" %}}
-本地存储组件会让边车能够访问原始密钥材料。请限制对密钥目录的访问，并切勿把密钥提交到源代码管理中。在生产环境中，请考虑使用受支持的密钥保管库组件，并借助该提供方的工具来配置密钥。有关受支持的密钥格式，请参阅[本地存储组件参考]({{% ref "reference/components-reference/supported-cryptography/local-storage.md" %}})。
+local storage component 会让 sidecar 能够访问原始密钥材料。请限制对密钥目录的访问，并切勿把密钥提交到源代码管理中。在生产环境中，请考虑使用受支持的密钥保管库 component，并借助该提供方的工具来配置密钥。有关受支持的密钥格式，请参阅[local storage component 参考]({{% ref "reference/components-reference/supported-cryptography/local-storage.md" %}})。
 {{% /alert %}}
 
 ## 加密和解密消息
@@ -92,7 +92,7 @@ try {
 }
 ```
 
-使用加载了该组件的边车启动应用：
+使用加载了该 component 的 sidecar 启动应用：
 
 ```sh
 dapr run --app-id crypto-example --dapr-http-port 3500 --dapr-grpc-port 50001 --resources-path .\components -- node app.mjs
@@ -142,7 +142,7 @@ try {
 }
 ```
 
-使用相同的组件和端口运行：
+使用相同的 component 和端口运行：
 
 ```sh
 dapr run --app-id crypto-files-example --dapr-http-port 3500 --dapr-grpc-port 50001 --resources-path .\components -- node files.mjs
@@ -154,4 +154,4 @@ dapr run --app-id crypto-files-example --dapr-http-port 3500 --dapr-grpc-port 50
 
 ## 后续步骤
 
-请阅读[客户端使用指南]({{% ref js-cryptography-client-usage.md %}})，了解如何选择加密算法、控制嵌入的密钥引用、保留二进制密文以及处理错误。更多示例请参阅[加密快速入门]({{% ref cryptography-quickstart %}})。
+请阅读[客户端使用指南]({{% ref js-cryptography-client-usage.md %}})，了解如何选择加密算法、控制嵌入的密钥引用、保留二进制密文以及处理错误。更多示例请参阅[加密 Quickstart]({{% ref cryptography-quickstart %}})。

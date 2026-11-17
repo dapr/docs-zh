@@ -8,7 +8,7 @@ description: 用于开发 Dapr 应用的 JavaScript 客户端 SDK
 
 ## 简介
 
-Dapr 客户端允许你与 Dapr 边车通信，并访问其面向客户端的功能，例如发布事件、调用输出绑定、状态管理、机密管理等。
+Dapr 客户端允许你与 Dapr sidecar 通信，并访问其面向客户端的功能，例如发布事件、调用 output binding、State Management、secrets 管理等。
 
 对于大型语言模型 (LLM) 交互，请使用 `client.conversation.converse(request)`。[对话指南]({{% ref js-conversation %}}) 介绍了在 JavaScript SDK **3.19.0 或更高版本**中的设置、消息历史、结构化输出、缓存、Token 用量和工具调用。
 
@@ -45,7 +45,7 @@ const client = new DaprClient({ daprHost, daprPort, communicationProtocol: Commu
 
 ## 运行
 
-要运行这些示例，你可以使用两种协议与 Dapr 边车交互：HTTP（默认）或 gRPC。
+要运行这些示例，你可以使用两种协议与 Dapr sidecar 交互：HTTP（默认）或 gRPC。
 
 ### 使用 HTTP（默认）
 
@@ -81,9 +81,9 @@ npm run start:dapr-grpc
 
 ### 环境变量
 
-##### Dapr 边车端点
+##### Dapr sidecar 端点
 
-你可以使用 `DAPR_HTTP_ENDPOINT` 和 `DAPR_GRPC_ENDPOINT` 环境变量分别设置 Dapr 边车的 HTTP 和 gRPC 端点。设置这些变量后，构造函数的选项参数中无需再设置 `daprHost` 和 `daprPort`，客户端会自动从所提供的端点中解析出它们。
+你可以使用 `DAPR_HTTP_ENDPOINT` 和 `DAPR_GRPC_ENDPOINT` 环境变量分别设置 Dapr sidecar 的 HTTP 和 gRPC 端点。设置这些变量后，构造函数的选项参数中无需再设置 `daprHost` 和 `daprPort`，客户端会自动从所提供的端点中解析出它们。
 
 ```typescript
 import { DaprClient, CommunicationProtocolEnum } from "@dapr/dapr";
@@ -97,15 +97,15 @@ const client = new DaprClient({ communicationProtocol: CommunicationProtocolEnum
 
 如果设置了环境变量，同时又在构造函数中传入了 `daprHost` 和 `daprPort` 的值，则以后者为准，覆盖环境变量。
 
-##### Dapr API 令牌
+##### Dapr API Token
 
-你可以使用 `DAPR_API_TOKEN` 环境变量设置 Dapr API 令牌。设置该变量后，构造函数的选项参数中无需再设置 `daprApiToken`，客户端会自动获取它。
+你可以使用 `DAPR_API_TOKEN` 环境变量设置 Dapr API Token。设置该变量后，构造函数的选项参数中无需再设置 `daprApiToken`，客户端会自动获取它。
 
 ## 通用
 
 ### 增大请求体大小
 
-你可以通过 `DaprClient` 的选项，增大应用与边车通信时使用的请求体大小。
+你可以通过 `DaprClient` 的选项，增大应用与 sidecar 通信时使用的请求体大小。
 
 ```typescript
 import { DaprClient, CommunicationProtocolEnum } from "@dapr/dapr";
@@ -122,13 +122,13 @@ const client = new DaprClient({
 
 ### 代理请求
 
-在 JavaScript SDK 3.19.0 中，`client.proxy.create()` 对 HTTP 和 gRPC ConnectRPC 传输均不受支持，调用时会直接拒绝。请使用 `client.invoker.invoke()` 进行 Dapr 服务调用。
+在 JavaScript SDK 3.19.0 中，`client.proxy.create()` 对 HTTP 和 gRPC ConnectRPC 传输均不受支持，调用时会直接拒绝。请使用 `client.invoker.invoke()` 进行 Dapr service invocation。
 
-对于原生 protobuf 服务，请使用你生成的 gRPC 客户端，并通过 `dapr-app-id` 元数据连接到 Dapr 边车。参见[原生 gRPC 服务与流式传输]({{% ref "js-service-invocation-usage.md#native-grpc-services-and-streaming" %}})以及[运行时 gRPC 代理指南]({{% ref howto-invoke-services-grpc.md %}})。
+对于原生 protobuf 服务，请使用你生成的 gRPC 客户端，并通过 `dapr-app-id` 元数据连接到 Dapr sidecar。参见[原生 gRPC 服务与流式传输]({{% ref "js-service-invocation-usage.md#native-grpc-services-and-streaming" %}})以及[运行时 gRPC 代理指南]({{% ref howto-invoke-services-grpc.md %}})。
 
-## 构建块
+## building block
 
-JavaScript 客户端 SDK 允许你与所有 [Dapr 构建块]({{% ref building-blocks %}}) 交互，重点关注客户端到边车的功能。
+JavaScript 客户端 SDK 允许你与所有 [Dapr building block]({{% ref building-blocks %}}) 交互，重点关注客户端到 sidecar 的功能。
 
 ### 搜索 API
 
@@ -138,11 +138,11 @@ JavaScript 客户端 SDK 允许你与所有 [Dapr 构建块]({{% ref building-bl
 
 ### Jobs API
 
-使用 `client.jobs` 以 JavaScript SDK **3.19.0 或更高版本**调度、获取和删除作业。有关调度选项、负载、运行时兼容性和错误处理，请参阅[作业操作指南]({{% ref js-jobs-howto.md %}})和[客户端用法说明]({{% ref js-jobs-client-usage.md %}})。
+使用 `client.jobs` 以 JavaScript SDK **3.19.0 或更高版本**调度、获取和删除 job。有关调度选项、负载、运行时兼容性和错误处理，请参阅[job 操作指南]({{% ref js-jobs-howto.md %}})和[客户端用法说明]({{% ref js-jobs-client-usage.md %}})。
 
-### 服务调用 API
+### service invocation API
 
-对于 JavaScript SDK 3.19.0 或更高版本，请参阅[服务调用概述]({{% ref js-service-invocation %}})，了解 HTTP 和 gRPC 的功能。
+对于 JavaScript SDK 3.19.0 或更高版本，请参阅[service invocation 概述]({{% ref js-service-invocation %}})，了解 HTTP 和 gRPC 的功能。
 
 #### 调用服务
 
@@ -180,19 +180,19 @@ start().catch((e) => {
 
 有关可运行的客户端与服务器设置、其他动词、查询参数、命名空间以及非 Dapr 端点，请参阅[调用服务]({{% ref js-service-invocation-howto.md %}})。有关序列化和错误处理，请参阅[配置与用法]({{% ref js-service-invocation-usage.md %}})。自定义请求头由 HTTP 调用器转发，gRPC 调用器不会转发。
 
-### 状态管理 API
+### State Management API
 
-使用 `client.state` 通过 HTTP 或 gRPC 访问已配置的状态存储。[状态管理指南]({{% ref js-state-management %}})涵盖 JavaScript SDK 3.19.0 或更高版本，包括批量删除、ETag、状态选项、TTL、事务、序列化以及特定协议的错误。
+使用 `client.state` 通过 HTTP 或 gRPC 访问已配置的 state store。[State Management 指南]({{% ref js-state-management %}})涵盖 JavaScript SDK 3.19.0 或更高版本，包括批量删除、ETag、状态选项、TTL、事务、序列化以及特定协议的错误。
 
 #### 保存、获取和删除应用状态
 
-有关包含组件配置、保存/获取/删除、批量读取与删除、条件更新和事务的可运行示例，请参阅[操作指南：管理状态]({{% ref js-state-management-howto.md %}})。
+有关包含 component 配置、保存/获取/删除、批量读取与删除、条件更新和事务的可运行示例，请参阅[操作指南：管理状态]({{% ref js-state-management-howto.md %}})。
 
 HTTP 的 `save`、`delete` 和 `deleteBulk` 可能返回 `{ error }`，而不是拒绝 Promise。请检查该字段，同时处理 Promise 的拒绝；gRPC 的 RPC 失败会以拒绝 Promise 的形式返回。完整的方法与响应参考请参阅[状态客户端用法]({{% ref js-state-management-client-usage.md %}})。
 
-#### 状态查询 API
+#### Query State API
 
-alpha 版查询 API 支持在可查询的存储上通过 HTTP 和 gRPC 进行过滤、排序和分页。有关查询表达式、延续令牌和结果解码，请参阅[操作指南：状态查询]({{% ref js-state-management-query.md %}})。
+alpha 版 Query API 支持在可查询的存储上通过 HTTP 和 gRPC 进行过滤、排序和分页。有关查询表达式、延续令牌和结果解码，请参阅[操作指南：Query State]({{% ref js-state-management-query.md %}})。
 
 ### 发布订阅 API
 
@@ -229,13 +229,13 @@ start().catch((e) => {
 
 #### 流式消息订阅
 
-使用 gRPC 客户端时，`client.pubsub.subscribeStream()` 无需 `DaprServer` 或应用回调端口即可接收消息。请按照[流式订阅指南]({{% ref js-pubsub-streaming-howto.md %}})了解完整的工作进程示例、运行时要求、确认、取消以及故障监督。
+使用 gRPC 客户端时，`client.pubsub.subscribeStream()` 无需 `DaprServer` 或应用回调端口即可接收消息。请按照[streaming subscription 指南]({{% ref js-pubsub-streaming-howto.md %}})了解完整的工作进程示例、运行时要求、确认、取消以及故障监督。
 
-### 绑定 API
+### binding API
 
-#### 调用输出绑定
+#### 调用 output binding
 
-**输出绑定**
+**output binding**
 
 ```typescript
 import { DaprClient } from "@dapr/dapr";
@@ -259,11 +259,11 @@ start().catch((e) => {
 });
 ```
 
-> 有关输出绑定的完整指南，请参阅[操作指南：使用绑定]({{% ref howto-bindings.md %}})。
+> 有关 output binding 的完整指南，请参阅[操作指南：使用 binding]({{% ref howto-bindings.md %}})。
 
-### 机密 API
+### secrets API
 
-#### 获取机密
+#### 获取 secrets
 
 ```typescript
 import { DaprClient } from "@dapr/dapr";
@@ -290,13 +290,13 @@ start().catch((e) => {
 });
 ```
 
-对于 JavaScript SDK 3.19.0 或更高版本，请参阅[机密操作指南]({{% ref js-secrets-howto.md %}})获取可运行的示例，或阅读[机密客户端用法说明]({{% ref js-secrets-client-usage.md %}})，了解配置、TypeScript 响应校验和错误处理。
+对于 JavaScript SDK 3.19.0 或更高版本，请参阅[secrets 操作指南]({{% ref js-secrets-howto.md %}})获取可运行的示例，或阅读[secrets 客户端用法说明]({{% ref js-secrets-client-usage.md %}})，了解配置、TypeScript 响应校验和错误处理。
 
-在 3.19.0 中，HTTP `get` 接受以查询字符串形式传入的元数据，并保留多值机密的所有值。gRPC `get` 会忽略元数据，只返回第一个键值对。批量获取在两种协议下都会保留嵌套值，但两者都不提供批量元数据。
+在 3.19.0 中，HTTP `get` 接受以查询字符串形式传入的元数据，并保留多值 secrets 的所有值。gRPC `get` 会忽略元数据，只返回第一个键值对。批量获取在两种协议下都会保留嵌套值，但两者都不提供批量元数据。
 
-关于底层构建块，请参阅[操作指南：获取机密]({{% ref howto-secrets.md %}})。
+关于底层 building block，请参阅[操作指南：获取 secrets]({{% ref howto-secrets.md %}})。
 
-### 配置 API
+### Configuration API
 
 使用 `client.configuration` 读取应用设置并订阅其变更。JavaScript SDK 的所有配置方法都要求使用 **gRPC**，不支持 HTTP 客户端。
 
@@ -387,7 +387,7 @@ Subscribe received updates from config store:  {
 }
 ```
 
-要监听所有键，请使用 `subscribe(storeName, callback)`。要包含特定于存储的元数据，请使用 `subscribeWithMetadata(storeName, keys, metadata, callback)`。全部键的行为取决于组件。在依赖该订阅获取最新配置之前，请参阅[订阅生命周期与回调]({{% ref "js-configuration-client-usage.md#subscription-lifetime-and-callbacks" %}})。
+要监听所有键，请使用 `subscribe(storeName, callback)`。要包含特定于存储的元数据，请使用 `subscribeWithMetadata(storeName, keys, metadata, callback)`。全部键的行为取决于 component。在依赖该订阅获取最新配置之前，请参阅[订阅生命周期与回调]({{% ref "js-configuration-client-usage.md#subscription-lifetime-and-callbacks" %}})。
 
 ### 加密 API
 
@@ -426,7 +426,7 @@ start().catch((e) => {
 });
 ```
 
-本示例需要已配置的 `crypto-local` 组件和兼容的 `symmetric256` 密钥。完整的设置和文件流示例请参阅 [JavaScript 加密操作指南]({{% ref js-cryptography-howto.md %}})。有关加密算法、密钥引用、错误和运行时限制，请参阅[客户端用法说明]({{% ref js-cryptography-client-usage.md %}})。
+本示例需要已配置的 `crypto-local` component 和兼容的 `symmetric256` 密钥。完整的设置和文件流示例请参阅 [JavaScript 加密操作指南]({{% ref js-cryptography-howto.md %}})。有关加密算法、密钥引用、错误和运行时限制，请参阅[客户端用法说明]({{% ref js-cryptography-client-usage.md %}})。
 
 ### 分布式锁 API
 
@@ -477,13 +477,13 @@ start().catch((e) => {
 
 > 有关分布式锁的完整指南，请参阅[操作指南：使用分布式锁]({{% ref howto-use-distributed-lock.md %}})。
 
-### 工作流 API
+### workflow API
 
-`DaprClient.workflow` 通过 HTTP 或 gRPC 提供基本的工作流管理 API。对于 `@dapr/dapr` **3.19.0 或更高版本**，请使用 `scheduleNewWorkflow`、`getWorkflowState` 和 `raiseEvent`；较旧的 `start`、`get` 和 `raise` 名称是已弃用的别名。
+`DaprClient.workflow` 通过 HTTP 或 gRPC 提供基本的 workflow 管理 API。对于 `@dapr/dapr` **3.19.0 或更高版本**，请使用 `scheduleNewWorkflow`、`getWorkflowState` 和 `raiseEvent`；较旧的 `start`、`get` 和 `raise` 名称是已弃用的别名。
 
-如需编写工作进程，以及使用持久等待、列表、历史记录获取、重新运行和二进制存储中的负载引用，请参阅独立的[工作流 SDK 指南]({{% ref js-workflow-management.md %}})。`DaprWorkflowClient` 使用 gRPC，返回 `WorkflowState`，而不是下方基本 API 所示的响应对象。
+如需编写工作进程，以及使用持久等待、列表、历史记录获取、重新运行和 Binary Store 中的负载引用，请参阅独立的[workflow SDK 指南]({{% ref js-workflow-management.md %}})。`DaprWorkflowClient` 使用 gRPC，返回 `WorkflowState`，而不是下方基本 API 所示的响应对象。
 
-#### 工作流管理
+#### workflow 管理
 
 ```typescript
 import { DaprClient } from "@dapr/dapr";

@@ -6,7 +6,7 @@ weight: 52000
 description: "使用原始 Cron 表达式、描述符、时区以及 CronExpressionBuilder 来调度 Dapr Jobs"
 ---
 
-对于基于日历的作业（例如每个工作日 09:30 生成的报表），请使用 Cron 调度。JavaScript SDK 在 `JobOptions.schedule` 中可以直接接受原始的调度字符串或 `CronExpressionBuilder`。这些示例面向 **`@dapr/dapr` 3.19.0 或更高版本**。
+对于基于日历的 job（例如每个工作日 09:30 生成的报表），请使用 Cron 调度。JavaScript SDK 在 `JobOptions.schedule` 中可以直接接受原始的调度字符串或 `CronExpressionBuilder`。这些示例面向 **`@dapr/dapr` 3.19.0 或更高版本**。
 
 ## 提供调度字符串
 
@@ -38,7 +38,7 @@ await client.jobs.schedule("weekday-report", {
 | `@monthly` | 每月第一天的午夜。 |
 | `@yearly` 或 `@annually` | 每年 1 月 1 日午夜。 |
 
-若要创建一次性作业，请使用 `dueTime` 而不设置 `schedule`。调度字符串由运行时进行校验；SDK 不在本地解析它们。
+若要创建一次性 job，请使用 `dueTime` 而不设置 `schedule`。调度字符串由运行时进行校验；SDK 不在本地解析它们。
 
 ## 使用 CronExpressionBuilder
 
@@ -95,11 +95,11 @@ await client.jobs.schedule("weekday-report", {
 
 步长是 Cron 字段步长，而不是经过时间间隔。例如，`every("hour", 2)` 会选中一天中每隔一个小时的时刻；它并不表示注册后两小时。若需要经过时间间隔，请使用 `"@every 2h"`。
 
-`toString()` 可以脱离 Jobs 客户端单独使用。将构建器传给 `schedule` 时，取的是它当前的字符串值；之后修改构建器不会更新已存储的作业。若要更改已存储的调度，请使用 `overwrite: true` 重新调度。
+`toString()` 可以脱离 Jobs 客户端单独使用。将构建器传给 `schedule` 时，取的是它当前的字符串值；之后修改构建器不会更新已存储的 job。若要更改已存储的调度，请使用 `overwrite: true` 重新调度。
 
 ## 指定时区
 
-默认情况下，Dapr 会按 Scheduler 服务的本地时区计算 Cron 调度，而不一定是 Node.js 进程所在的时区。若希望获得可预测的挂钟时间调度，请显式指定 IANA 时区：
+默认情况下，Dapr 会按 Scheduler service 的本地时区计算 Cron 调度，而不一定是 Node.js 进程所在的时区。若希望获得可预测的墙钟时间调度，请显式指定 IANA 时区：
 
 ```javascript
 const schedule = new CronExpressionBuilder()
@@ -111,6 +111,6 @@ const schedule = new CronExpressionBuilder()
 
 构建器使用 Node.js 的 `Intl.DateTimeFormat` 校验时区。空字符串、包含空白字符或无法识别的名称都会被拒绝。之后再次调用 `withTimeZone` 会替换之前的时区。
 
-你也可以在原始字符串中直接传入运行时的时区前缀，例如 `"CRON_TZ=Europe/Rome 0 0 9 * * *"` 或 `"CRON_TZ=Europe/Rome @daily"`。若不希望受夏令时切换影响，请使用 `"UTC"`。使用地区时区时，Dapr 会在夏令时切换前后按本地挂钟时间计算调度。
+你也可以在原始字符串中直接传入运行时的时区前缀，例如 `"CRON_TZ=Europe/Rome 0 0 9 * * *"` 或 `"CRON_TZ=Europe/Rome @daily"`。若不希望受夏令时切换影响，请使用 `"UTC"`。使用地区时区时，Dapr 会在夏令时切换前后按本地墙钟时间计算调度。
 
 不要将时区前缀与 `@every` 组合使用：固定时长的间隔没有挂钟时区，运行时会拒绝这种组合。关于运行时调度语法，请参阅 [Jobs API 参考]({{% ref jobs_api.md %}})。

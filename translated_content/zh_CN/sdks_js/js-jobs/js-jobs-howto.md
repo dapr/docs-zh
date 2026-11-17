@@ -1,17 +1,17 @@
 ---
 type: docs
 title: "操作指南：使用 JavaScript SDK 编写和管理 Dapr Jobs"
-linkTitle: "操作指南：编写和管理作业"
+linkTitle: "操作指南：编写和管理 job"
 weight: 51000
-description: 了解如何使用 JavaScript 调度一次性和周期性作业并处理其回调
+description: 了解如何使用 JavaScript 调度一次性和周期性 job 并处理其回调
 ---
 
-下面我们注册一个端点来接收作业通知，然后在同一个应用中调度该作业。本指南使用 `DaprServer.jobs` 处理回调，并使用其嵌入式的 `DaprClient.jobs` 管理作业。无需另外安装单独的 Jobs 客户端包。
+下面我们注册一个端点来接收 job 通知，然后在同一个应用中调度该 job。本指南使用 `DaprServer.jobs` 处理回调，并使用其嵌入式的 `DaprClient.jobs` 管理 job。无需另外安装单独的 Jobs 客户端包。
 
 ## 先决条件
 
 - [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 已初始化的 [Dapr 环境]({{% ref install-dapr-selfhost.md %}}),其中 **Dapr 运行时为 1.16 或更高版本**,并且 [Scheduler 服务]({{% ref "concepts/dapr-services/scheduler.md" %}}) 正在运行
+- 已初始化的 [Dapr environment]({{% ref install-dapr-selfhost.md %}}),其中 **Dapr runtime 为 1.16 或更高版本**,并且 [Scheduler service]({{% ref "concepts/dapr-services/scheduler.md" %}}) 正在运行
 - [Node.js](https://nodejs.org/) 18 或更高版本
 - [`@dapr/dapr`](https://www.npmjs.com/package/@dapr/dapr) 包，**版本为 3.19.0 或更高**
 
@@ -24,7 +24,7 @@ npm install @dapr/dapr@3.19.0
 
 示例使用 `.mjs` 文件中的 JavaScript ES 模块，因此无需 TypeScript 编译器。同样的 API 也可用于 TypeScript。
 
-## 注册处理程序并调度周期性作业
+## 注册处理程序并调度周期性 job
 
 将以下内容保存为 `app.mjs`：
 
@@ -76,21 +76,21 @@ try {
 }
 ```
 
-使用以下命令启动应用和边车：
+使用以下命令启动应用和 sidecar：
 
 ```sh
 dapr run --app-id jobs-example --app-port 50002 --app-protocol grpc --dapr-grpc-port 50001 --dapr-http-port 3500 -- node app.mjs
 ```
 
-应用监听端口 `50002`；其客户端则将管理请求发送到端口 `50001` 上的边车。该作业每隔十秒触发一次，共触发三次。回调接收到的是负载本身，而不是作业信封或作业名称。如有需要，可在处理程序的闭包中捕获作业名称。
+应用监听端口 `50002`；其客户端则将管理请求发送到端口 `50001` 上的 sidecar。该 job 每隔十秒触发一次，共触发三次。回调接收到的是负载本身，而不是 job 信封或 job 名称。如有需要，可在处理程序的闭包中捕获 job 名称。
 
-调用 `server.start()` **之前**注册处理程序。在处理程序中等待所有工作完成；处理失败时抛出错误或拒绝其 Promise,以便 Dapr 应用该作业的失败策略。投递语义为至少一次，因此请让处理程序具备幂等性。
+调用 `server.start()` **之前**注册处理程序。在处理程序中等待所有工作完成；处理失败时抛出错误或拒绝其 Promise,以便 Dapr 应用该 job 的失败策略。投递语义为至少一次，因此请让处理程序具备幂等性。
 
-示例中特意使用了 `overwrite: true`，以便在同名作业仍然存在时可以重复运行。若不设置此选项，调度一个已存在的名称会失败。覆盖会替换已有的作业，包括其时间与重复设置；不要在每个副本启动时都盲目重置生产环境中的调度。
+示例中特意使用了 `overwrite: true`，以便在同名 job 仍然存在时可以重复运行。若不设置此选项，调度一个已存在的名称会失败。覆盖会替换已有的 job，包括其时间与重复设置；不要在每个副本启动时都盲目重置生产环境中的调度。
 
-作业归属于调度它的边车所在的应用 ID 和命名空间。回调会发送到该应用，而不是任意的目标应用。请在每个可能接收回调的副本上注册处理程序。处理程序中可以使用其他 Dapr API 来调用另一个服务或发布事件。
+job 归属于调度它的 sidecar 所在的应用 ID 和 namespace。回调会发送到该应用，而不是任意的目标应用。请在每个可能接收回调的副本上注册处理程序。处理程序中可以使用其他 Dapr API 来调用另一个服务或发布事件。
 
-停止 Node.js 服务器并不会删除存储在调度器中的作业。示例还显式停止了嵌入式客户端，因为 `server.stop()` 只会停止回调服务器。
+停止 Node.js 服务器并不会删除存储在 Scheduler 中的 job。示例还显式停止了嵌入式客户端，因为 `server.stop()` 只会停止回调服务器。
 
 ## 改用 HTTP
 
@@ -112,9 +112,9 @@ dapr run --app-id jobs-example --app-port 50002 --app-protocol http --dapr-grpc-
 
 SDK 会注册 HTTP 回调路由 `POST /job/:name`；你无需自行实现此路由。客户端与回调所使用的协议也可以不同，参见[协议指南]({{% ref js-jobs-client-usage.md %}})。
 
-## 调度一次性作业
+## 调度一次性 job
 
-对于一次性作业，提供 `dueTime` 而不提供 `schedule`：
+对于一次性 job，提供 `dueTime` 而不提供 `schedule`：
 
 ```javascript
 await server.client.jobs.schedule("send-notification", {
@@ -134,11 +134,11 @@ await server.client.jobs.schedule("send-notification-tomorrow", {
 });
 ```
 
-这些代码片段复用了示例中正在运行的 `server`。若要接收这些额外的作业，需在启动服务器之前为每个名称注册对应的 `server.jobs.listen(...)` 处理程序。其余的调度示例遵循相同的模式。
+这些代码片段复用了示例中正在运行的 `server`。若要接收这些额外的 job，需在启动服务器之前为每个名称注册对应的 `server.jobs.listen(...)` 处理程序。其余的调度示例遵循相同的模式。
 
-## 限制周期性作业的生命周期
+## 限制周期性 job 的生命周期
 
-将 `schedule` 与 `dueTime` 结合使用，可以延迟周期性作业生效的时间。使用 `repeats` 限制调度触发的次数，使用 `ttl` 设置过期时间，或两者同时使用：
+将 `schedule` 与 `dueTime` 结合使用，可以延迟周期性 job 生效的时间。使用 `repeats` 限制调度触发的次数，使用 `ttl` 设置过期时间，或两者同时使用：
 
 ```javascript
 await server.client.jobs.schedule("hourly-cleanup", {
@@ -149,7 +149,7 @@ await server.client.jobs.schedule("hourly-cleanup", {
 });
 ```
 
-省略 `repeats` 时，周期性作业会一直运行，直到过期或被删除。相对的 `dueTime` 和 `ttl` 值从作业创建时开始计算，而不是从上一次回调开始计算。可接受的时间格式参见[选项参考]({{% ref js-jobs-client-usage.md %}})。
+省略 `repeats` 时，周期性 job 会一直运行，直到过期或被删除。相对的 `dueTime` 和 `ttl` 值从 job 创建时开始计算，而不是从上一次回调开始计算。可接受的时间格式参见[选项参考]({{% ref js-jobs-client-usage.md %}})。
 
 若要基于日历进行调度，请使用六字段的 cron 字符串，或使用 [`CronExpressionBuilder`]({{% ref js-jobs-cron.md %}}):
 
@@ -160,7 +160,7 @@ await server.client.jobs.schedule("morning-report", {
 });
 ```
 
-## 获取或删除作业
+## 获取或删除 job
 
 按名称获取已存储的配置：
 
@@ -170,14 +170,14 @@ console.log(job.name, job.schedule, job.dueTime, job.ttl, job.repeats);
 console.log(job.data, job.failurePolicy);
 ```
 
-若要停止后续触发，请删除该作业：
+若要停止后续触发，请删除该 job：
 
 ```javascript
 await server.client.jobs.delete("hourly-cleanup");
 ```
 
-删除作业不会取消已在运行的回调工作，也不会注销应用中内存里的处理程序。若要修改已存储的作业，请使用其名称、替换后的选项以及 `overwrite: true` 调用 `schedule`。
+删除 job 不会取消已在运行的回调工作，也不会注销应用中内存里的处理程序。若要修改已存储的 job，请使用其名称、替换后的选项以及 `overwrite: true` 调用 `schedule`。
 
 ## 后续步骤
 
-阅读[客户端与回调用法指南]({{% ref js-jobs-client-usage.md %}}),了解负载、重试、校验和运行时兼容性等内容；或阅读[Cron 构建器指南]({{% ref js-jobs-cron.md %}}),了解链式调度的用法。
+阅读[客户端与回调用法指南]({{% ref js-jobs-client-usage.md %}}),了解负载、重试、校验和运行时兼容性等内容；或阅读[cron 构建器指南]({{% ref js-jobs-cron.md %}}),了解链式调度的用法。

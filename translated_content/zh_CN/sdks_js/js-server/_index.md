@@ -8,9 +8,9 @@ description: 用于开发 Dapr 应用程序的 JavaScript Server SDK
 
 ## 简介
 
-Dapr Server 允许你接收来自 Dapr 边车的通信，并访问其面向服务端的功能，例如：订阅事件、接收输入绑定以及更多功能。
+Dapr Server 允许你接收来自 Dapr sidecar 的通信，并访问其面向服务端的功能，例如：订阅事件、接收 input binding 以及更多功能。
 
-使用 JavaScript SDK **3.19.0 或更高版本**时，可通过 `server.jobs.listen(name, callback)` 注册定时作业的回调。可运行的示例请参阅[作业操作指南]({{% ref js-jobs-howto.md %}})，关于确认、重试和协议要求，请参阅[回调用法指南]({{% ref js-jobs-client-usage.md %}})。
+使用 JavaScript SDK **3.19.0 或更高版本**时，可通过 `server.jobs.listen(name, callback)` 注册定时 job 的回调。可运行的示例请参阅[job 操作指南]({{% ref js-jobs-howto.md %}})，关于确认、重试和协议要求，请参阅[回调用法指南]({{% ref js-jobs-client-usage.md %}})。
 
 ## 前置条件
 
@@ -31,8 +31,8 @@ npm i @dapr/dapr --save
 ```typescript
 import { DaprServer, CommunicationProtocolEnum } from "@dapr/dapr";
 
-const daprHost = "127.0.0.1"; // Dapr 边车主机
-const daprPort = "3500"; // 此示例服务器的 Dapr 边车端口
+const daprHost = "127.0.0.1"; // Dapr sidecar 主机
+const daprPort = "3500"; // 此示例服务器的 Dapr sidecar 端口
 const serverHost = "127.0.0.1"; // 此示例服务器的应用主机
 const serverPort = "50051"; // 此示例服务器的应用端口
 
@@ -61,7 +61,7 @@ const server = new DaprServer({
 
 ## 运行
 
-要运行这些示例，你可以使用两种不同的协议与 Dapr 边车交互：HTTP（默认）或 gRPC。
+要运行这些示例，你可以使用两种不同的协议与 Dapr sidecar 交互：HTTP（默认）或 gRPC。
 
 ### 使用 HTTP（内置 express webserver）
 
@@ -77,7 +77,7 @@ const server = new DaprServer({
   },
 });
 // 在服务器启动前初始化订阅等内容
-// Dapr 边车依赖这些内容
+// Dapr sidecar 依赖这些内容
 await server.start();
 ```
 
@@ -93,7 +93,7 @@ npm run start:dapr-http
 
 ### 使用 HTTP（自带 express webserver）
 
-除了使用 Dapr 边车内置的 Web 服务器与应用程序通信之外，你也可以使用自己的实例。当你在构建 REST API 后端并希望直接在其中集成 Dapr 时，这种方式很有帮助。
+除了使用 Dapr sidecar 内置的 Web 服务器与应用程序通信之外，你也可以使用自己的实例。当你在构建 REST API 后端并希望直接在其中集成 Dapr 时，这种方式很有帮助。
 
 注意，目前仅支持 [`express`](https://www.npmjs.com/package/express)。
 
@@ -119,7 +119,7 @@ const daprServer = new DaprServer({
       }
     });
 
-// 在服务器启动前初始化订阅，Dapr 边车会使用这些订阅。
+// 在服务器启动前初始化订阅，Dapr sidecar 会使用这些订阅。
 // 这也会初始化应用服务器本身（无需再调用 `app.listen`）。
 await daprServer.start();
 ```
@@ -148,7 +148,7 @@ const server = new DaprServer({
   },
 });
 // 在服务器启动前初始化订阅等内容
-// Dapr 边车依赖这些内容
+// Dapr sidecar 依赖这些内容
 await server.start();
 ```
 
@@ -162,13 +162,13 @@ npm run start:dapr-grpc
 
 > ℹ️ **注意：** 这里必须设置 `app-port`，因为服务器需要绑定到该端口。Dapr 会在完成启动前检查应用程序是否已绑定到此端口。
 
-## 构建块
+## building block
 
-JavaScript Server SDK 允许你与所有 [Dapr 构建块]({{% ref building-blocks %}}) 交互，重点是边车到应用程序的功能。
+JavaScript Server SDK 允许你与所有 [Dapr building block]({{% ref building-blocks %}}) 交互，重点是 sidecar 到应用程序的功能。
 
 ### Invocation API
 
-对于 JavaScript SDK 3.19.0 或更高版本，关于 HTTP 和 gRPC 的能力，请参阅[服务调用概述]({{% ref js-service-invocation %}})。
+对于 JavaScript SDK 3.19.0 或更高版本，关于 HTTP 和 gRPC 的能力，请参阅[service invocation 概述]({{% ref js-service-invocation %}})。
 
 #### 监听调用
 
@@ -176,8 +176,8 @@ JavaScript Server SDK 允许你与所有 [Dapr 构建块]({{% ref building-block
 import { DaprServer, HttpMethod } from "@dapr/dapr";
 import type { DaprInvokerCallbackContent } from "@dapr/dapr";
 
-const daprHost = "127.0.0.1"; // Dapr 边车主机
-const daprPort = "3500"; // 此示例服务器的 Dapr 边车端口
+const daprHost = "127.0.0.1"; // Dapr sidecar 主机
+const daprPort = "3500"; // 此示例服务器的 Dapr sidecar 端口
 const serverHost = "127.0.0.1"; // 此示例服务器的应用主机
 const serverPort = "50051"; // 此示例服务器的应用端口 "
 
@@ -216,11 +216,11 @@ start().catch((e) => {
 
 ### PubSub API
 
-对于 JavaScript SDK 3.19.0 或更高版本，请参阅[发布与订阅概述]({{% ref js-pubsub %}})以选择投递模式。由客户端发起的[流式订阅]({{% ref js-pubsub-streaming-howto.md %}})不需要 `DaprServer`。
+对于 JavaScript SDK 3.19.0 或更高版本，请参阅[发布与订阅概述]({{% ref js-pubsub %}})以选择投递模式。由客户端发起的[streaming subscription]({{% ref js-pubsub-streaming-howto.md %}})不需要 `DaprServer`。
 
 #### 订阅消息
 
-请在 `server.start()` 之前为每个组件/主题组合注册一次。本示例使用端口 `50002` 上的 HTTP 监听器：
+请在 `server.start()` 之前为每个 component/主题组合注册一次。本示例使用端口 `50002` 上的 HTTP 监听器：
 
 ```typescript
 import { DaprPubSubStatusEnum, DaprServer } from "@dapr/dapr";
@@ -250,7 +250,7 @@ start().catch((e) => {
 
 #### 使用 SUCCESS/RETRY/DROP 状态订阅
 
-请返回 `DaprPubSubStatusEnum` 的值，而不是响应对象。关于状态优先级、抛出的错误以及入站弹性策略，请参阅[确认与重试]({{% ref "js-pubsub-subscribe-howto.md#acknowledge-retry-or-drop" %}})。
+请返回 `DaprPubSubStatusEnum` 的值，而不是响应对象。关于状态优先级、抛出的错误以及入站 resiliency，请参阅[确认与重试]({{% ref "js-pubsub-subscribe-howto.md#acknowledge-retry-or-drop" %}})。
 
 #### 基于规则订阅消息
 
@@ -258,11 +258,11 @@ start().catch((e) => {
 
 #### 通配符订阅
 
-关于 MQTT 风格的 `#` 和 `+` 示例以及组件要求，请参阅[通配符主题]({{% ref "js-pubsub-subscribe-howto.md#wildcard-topics" %}})。
+关于 MQTT 风格的 `#` 和 `+` 示例以及 component 要求，请参阅[通配符主题]({{% ref "js-pubsub-subscribe-howto.md#wildcard-topics" %}})。
 
-#### 批量订阅消息
+#### Bulk Subscribe 消息
 
-`subscribeBulk()` 会逐条将条目投递给你的回调，并为每个条目生成确认。关于批处理选项和 HTTP 负载限制，请参阅[批量订阅]({{% ref "js-pubsub-subscribe-howto.md#bulk-subscriptions" %}})。
+`subscribeBulk()` 会逐条将条目投递给你的回调，并为每个条目生成确认。关于批处理选项和 HTTP 负载限制，请参阅[Bulk Subscribe]({{% ref "js-pubsub-subscribe-howto.md#bulk-subscriptions" %}})。
 
 #### 死信主题
 
@@ -270,7 +270,7 @@ start().catch((e) => {
 
 ### Bindings API
 
-#### 接收输入绑定
+#### 接收 input binding
 
 ```typescript
 import { DaprServer } from "@dapr/dapr";
@@ -305,11 +305,11 @@ start().catch((e) => {
 });
 ```
 
-> 有关输出绑定的完整指南，请参阅[操作指南：使用绑定]({{% ref howto-bindings.md %}})。
+> 有关 output binding 的完整指南，请参阅[操作指南：使用 binding]({{% ref howto-bindings.md %}})。
 
 ### Configuration API
 
-配置 API 是一个客户端侧的构建块，即使在同时运行 `DaprServer` 的应用程序中也是如此。请使用 gRPC `DaprClient` 读取配置或订阅更新。配置订阅通过客户端的 gRPC 流接收更新，不需要服务端回调路由。
+Configuration API 是一个客户端侧的 building block，即使在同时运行 `DaprServer` 的应用程序中也是如此。请使用 gRPC `DaprClient` 读取配置或订阅更新。配置订阅通过客户端的 gRPC 流接收更新，不需要服务端回调路由。
 
 #### 获取配置值
 

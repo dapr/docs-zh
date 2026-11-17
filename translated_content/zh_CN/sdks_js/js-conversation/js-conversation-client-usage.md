@@ -16,14 +16,14 @@ converse(request: ConversationRequestAlpha2): Promise<ConversationResponseAlpha2
 
 ## 运行时与提供商支持
 
-| 能力 | 最低 Dapr 运行时 |
+| 能力 | 最低 Dapr runtime |
 | ---------- | -------------------- |
 | Alpha2 消息、工具调用、temperature 和 PII 清理 | 1.16 |
 | `responseFormat`、`promptCacheRetention` 和 token 用量统计 | 1.17 |
 | 响应中的模型名称 | 1.18 |
 | `maxTokens` | 1.19 |
 
-功能是否可用还取决于对话组件和模型。SDK 选项不会让不受支持的提供商功能变为可用。请参阅 [对话 API 参考]({{% ref conversation_api.md %}})和你所用的 [组件参考]({{% ref supported-conversation %}})。
+功能是否可用还取决于 conversation component 和模型。SDK 选项不会让不受支持的提供商功能变为可用。请参阅 [conversation API 参考]({{% ref conversation_api.md %}})和你所用的 [component 参考]({{% ref supported-conversation %}})。
 
 ## 客户端配置与生命周期
 
@@ -40,9 +40,9 @@ const client = new DaprClient({
 });
 ```
 
-发送 HTTP 请求时，请将 `CommunicationProtocolEnum.HTTP` 与边车的 HTTP 端口一起使用。SDK 通过 HTTP 调用 `/v1.0-alpha2/conversation/{name}/converse`，通过 gRPC 调用 `ConverseAlpha2`。你传入的是普通的 JavaScript 对象，而不是 protobuf 消息或提供商原生的请求对象。
+发送 HTTP 请求时，请将 `CommunicationProtocolEnum.HTTP` 与 sidecar 的 HTTP 端口一起使用。SDK 通过 HTTP 调用 `/v1.0-alpha2/conversation/{name}/converse`，通过 gRPC 调用 `ConverseAlpha2`。你传入的是普通的 JavaScript 对象，而不是 protobuf 消息或提供商原生的请求对象。
 
-客户端还支持使用 `DAPR_HTTP_ENDPOINT` 和 `DAPR_GRPC_ENDPOINT` 配置端点。`DAPR_API_TOKEN` 用于向边车进行身份验证，它与组件上配置的提供商 API 密钥是分开的。共享的客户端选项请参阅 [JavaScript 客户端配置]({{% ref js-client %}})。
+客户端还支持使用 `DAPR_HTTP_ENDPOINT` 和 `DAPR_GRPC_ENDPOINT` 配置端点。`DAPR_API_TOKEN` 用于向 sidecar 进行身份验证，它与 component 上配置的提供商 API 密钥是分开的。共享的客户端选项请参阅 [JavaScript 客户端配置]({{% ref js-client %}})。
 
 ## 消息与对话历史
 
@@ -58,7 +58,7 @@ const client = new DaprClient({
 
 消息内容是 `{ text: string }` 对象的数组，而不是单个字符串。SDK 的对话消息类型仅支持文本，不支持图片或音频内容部分。
 
-以下示例复用已配置的 `client`，以及名为 `llm` 的大型语言模型 (LLM) 组件：
+以下示例复用已配置的 `client`，以及名为 `llm` 的大型语言模型 (LLM) component：
 
 ```javascript
 const messages = [
@@ -95,10 +95,10 @@ const followup = await client.conversation.converse({
 
 | 属性 | 说明 |
 | -------- | ----------- |
-| `name` | 必填，非空的组件名称。 |
+| `name` | 必填，非空的 component 名称。 |
 | `inputs` | 必填，非空的对话输入数组。 |
 | `contextId` | 可选的关联值。 |
-| `temperature` | 可选的有限数值，用于控制随机性。可接受的范围由组件和模型决定。显式设置的 `0` 会被保留。 |
+| `temperature` | 可选的有限数值，用于控制随机性。可接受的范围由 component 和模型决定。显式设置的 `0` 会被保留。 |
 | `scrubPii` | 可选布尔值，用于对响应文本启用 PII 混淆。输入文本需要单独设置 `inputs[].scrubPii`。 |
 | `metadata` | 可选的字符串到字符串的对话标签，不是提供商配置或凭据。 |
 | `tools`、`toolChoice` | 可选的函数定义和工具选择策略。请参阅[工具调用]({{% ref js-conversation-tools-howto.md %}})。 |
@@ -107,7 +107,7 @@ const followup = await client.conversation.converse({
 | `maxTokens` | 可选整数，范围为 `1` 到 `2147483647`，用于限制生成的补全 token 数。 |
 | `parameters` | 可选的 JSON 对象，由 Dapr 保留。它不是通用的提供商选项容器。SDK 会在内部对其值进行编码。 |
 
-### PII 清理与元数据
+### PII 清理与 metadata
 
 输入和输出的清理是两项独立的设置：
 
@@ -128,7 +128,7 @@ const response = await client.conversation.converse({
 });
 ```
 
-元数据最多支持 16 对键值，键最长 64 个字符，值最长 512 个字符。请将 API 密钥和组件连接设置保存在组件配置中，或保存在被引用的机密中。
+metadata 最多支持 16 对键值，键最长 64 个字符，值最长 512 个字符。请将 API 密钥和 component 连接设置保存在 component 配置中，或保存在被引用的 secrets 中。
 
 ### 结构化输出
 
@@ -194,11 +194,11 @@ const response = await client.conversation.converse({
 
 `promptCacheRetention` 必须是固定的非负时长。支持天、小时、分钟、秒和亚秒字段；不支持日历意义上的年、月和周。各字段必须是安全整数，且总时长必须能放入 protobuf 的时长范围内。不要传入毫秒数字，也不要用时长字符串代替 `Temporal.Duration`。
 
-保留时长是对组件或提供商发出的请求，不保证一定命中缓存，也不保证对话历史会被存储。提供商特定的缓存限制仍然适用。
+保留时长是对 component 或提供商发出的请求，不保证一定命中缓存，也不保证对话历史会被存储。提供商特定的缓存限制仍然适用。
 
-部分组件还会在其 YAML 元数据中暴露 `responseCacheTTL`，用于缓存完整响应。这属于组件配置，与 `promptCacheRetention` 相互独立；不要尝试通过请求的 `metadata` 来配置它。
+部分 component 还会在其 YAML metadata 中暴露 `responseCacheTTL`，用于缓存完整响应。这属于 component 配置，与 `promptCacheRetention` 相互独立；不要尝试通过请求的 `metadata` 来配置它。
 
-`maxTokens` 需要 Dapr 1.19 或更高版本，并在支持的情况下覆盖组件的 token 上限。应检查 `finishReason` 是否为 `"length"`，而不是把被截断的回答当作完整回答。
+`maxTokens` 需要 Dapr 1.19 或更高版本，并在支持的情况下覆盖 component 的 token 上限。应检查 `finishReason` 是否为 `"length"`，而不是把被截断的回答当作完整回答。
 
 ## 响应与 token 用量
 
@@ -219,14 +219,14 @@ for (const output of response.outputs) {
 }
 ```
 
-提示词 token 明细还包含 `audioTokens`。补全 token 明细包含 `acceptedPredictionTokens`、`rejectedPredictionTokens`、`audioTokens` 和 `reasoningTokens`。这些都是提供商报告的统计数据，并不代表 SDK 支持音频输入。用量对象和明细对象可能不存在；某些组件在提供商未返回用量时会返回零值计数。
+提示词 token 明细还包含 `audioTokens`。补全 token 明细包含 `acceptedPredictionTokens`、`rejectedPredictionTokens`、`audioTokens` 和 `reasoningTokens`。这些都是提供商报告的统计数据，并不代表 SDK 支持音频输入。用量对象和明细对象可能不存在；某些 component 在提供商未返回用量时会返回零值计数。
 
 token 计数和 choice 索引是 JavaScript 数字。SDK 会拒绝超出安全整数范围的值，而不是悄悄丢失精度。
 
 ## 错误与 API 限制
 
-`converse` 会在本地输入无效、边车错误、提供商失败或响应转换失败时拒绝其 Promise。无效的消息角色或内容以及无效的 JSON 对象会产生 `TypeError`；无效的数值限制和时长可能产生 `RangeError`。Schema 与参数（parameters）对象只能包含有限的 JSON 值，不能包含循环引用、`undefined`、`BigInt` 或类实例。
+`converse` 会在本地输入无效、sidecar 错误、提供商失败或响应转换失败时拒绝其 Promise。无效的消息角色或内容以及无效的 JSON 对象会产生 `TypeError`；无效的数值限制和时长可能产生 `RangeError`。Schema 与参数（parameters）对象只能包含有限的 JSON 值，不能包含循环引用、`undefined`、`BigInt` 或类实例。
 
 请在应用的错误边界处捕获错误，并进行报告或继续向上抛出。不要把失败的请求变成成功的空回答。提供商错误可能包括速率限制、无效的工具历史、不受支持的选项和身份验证失败；它们在 HTTP 和 gRPC 中的表示形式可能不同。
 
-该方法返回的是完整响应。它**不**提供流式补全、自动工具执行，也不提供按请求设置的 `AbortSignal`、超时或取消参数。如需设置边车到提供商之间的超时和重试，请配置 [Dapr 弹性策略]({{% ref resiliency-overview.md %}})。仅靠 JavaScript 的 `Promise.race` 超时并不会取消底层请求。
+该方法返回的是完整响应。它**不**提供流式补全、自动工具执行，也不提供按请求设置的 `AbortSignal`、超时或取消参数。如需设置 sidecar 到提供商之间的超时和重试，请配置 [Dapr resiliency]({{% ref resiliency-overview.md %}})。仅靠 JavaScript 的 `Promise.race` 超时并不会取消底层请求。

@@ -10,11 +10,11 @@ description: 使用 JavaScript 定义对话工具、校验函数参数，并将�
 
 ## 前提条件
 
-完成[对话设置指南]({{% ref js-conversation-howto.md %}})，使用 `@dapr/dapr` **3.19.0 或更高版本**、Dapr 运行时 **1.16 或更高版本**，以及支持工具调用的组件与模型。仅有 echo 组件并不足够。
+完成[对话设置指南]({{% ref js-conversation-howto.md %}})，使用 `@dapr/dapr` **3.19.0 或更高版本**、Dapr runtime **1.16 或更高版本**，以及支持工具调用的 component 与模型。仅有 echo component 并不足够。
 
 ## 定义工具并处理其结果
 
-以下示例使用设置指南中配置的 `llm` 组件。将其保存为 `tools.mjs`，并使用相同的 `dapr run` 命令运行，把其中的 `app.mjs` 替换为 `tools.mjs`。
+以下示例使用设置指南中配置的 `llm` component。将其保存为 `tools.mjs`，并使用相同的 `dapr run` 命令运行，把其中的 `app.mjs` 替换为 `tools.mjs`。
 
 ```javascript
 import { DaprClient } from "@dapr/dapr";
@@ -132,6 +132,6 @@ try {
 | `"required"` | 模型必须请求一个或多个工具。 |
 | 精确的函数名，例如 `"lookupProject"` | 请求调用该特定函数。 |
 
-所选的组件和模型必须支持该策略。指定的函数名必须与已声明的某个工具匹配；要求调用工具却不提供工具定义是无效的。
+所选的 component 和模型必须支持该策略。指定的函数名必须与已声明的某个工具匹配；要求调用工具却不提供工具定义是无效的。
 
 示例在第一次请求时强制调用指定的工具，在第二次请求时禁用工具，从而将交互限制为两次请求。如果你在重复的工具循环中使用 `"auto"`，请处理直接的文本响应，限制轮次数和调用次数，并把失败报告出来，而不是无限重试。

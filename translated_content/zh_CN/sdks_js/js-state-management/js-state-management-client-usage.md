@@ -6,7 +6,7 @@ weight: 53100
 description: JavaScript 状态客户端的配置、选项、序列化、响应结构以及协议相关的行为
 ---
 
-状态管理可通过 `DaprClient.state` 使用。本页描述 3.19.0 中的实现，以及在使用该包或后续兼容版本时需要注意的行为。
+State Management 可通过 `DaprClient.state` 使用。本页描述 3.19.0 中的实现，以及在使用该包或后续兼容版本时需要注意的行为。
 
 ## 客户端生命周期与配置
 
@@ -25,13 +25,13 @@ const client = new DaprClient({
 });
 ```
 
-若使用 HTTP，请使用 `CommunicationProtocolEnum.HTTP` 并指定边车的 HTTP 端口，通常为 `"3500"`。端口选项均为字符串。
+若使用 HTTP，请使用 `CommunicationProtocolEnum.HTTP` 并指定 sidecar 的 HTTP 端口，通常为 `"3500"`。端口选项均为字符串。
 
 若省略显式的主机和端口选项，客户端可以根据所选协议读取 `DAPR_HTTP_ENDPOINT` 或 `DAPR_GRPC_ENDPOINT`。否则，它会使用主机和端口选项，默认值为 `127.0.0.1`，端口则取自 `DAPR_HTTP_PORT` 或 `DAPR_GRPC_PORT`（通常分别为 `3500` 和 `50001`）。API 令牌默认取自 `DAPR_API_TOKEN`。
 
 ## 选择操作
 
-每个方法的第一个参数都是状态存储组件的名称。
+每个方法的第一个参数都是 state store component 的名称。
 
 | 方法 | 用途 | 成功时的结果 |
 |--------|---------|-------------------|
@@ -54,7 +54,7 @@ SDK 不提供单独的单项保存方法、`getWithETag` 方法、返回布尔�
 | `consistency` | `CONSISTENCY_UNSPECIFIED`、`CONSISTENCY_EVENTUAL`、`CONSISTENCY_STRONG` | 选择存储的默认一致性、最终一致性或强一致性。 |
 | `concurrency` | `CONCURRENCY_UNSPECIFIED`、`CONCURRENCY_FIRST_WRITE`、`CONCURRENCY_LAST_WRITE` | 选择存储的默认并发策略、借助 ETag 检测冲突写入，或使用最后写入者胜出的行为。 |
 
-以上均为对应枚举的成员。是否支持取决于状态存储。ETag 是不透明的版本字符串，请勿自行构造或递增。
+以上均为对应枚举的成员。是否支持取决于 state store。ETag 是不透明的版本字符串，请勿自行构造或递增。
 
 选项的放置位置因操作而异：
 
@@ -65,27 +65,27 @@ SDK 不提供单独的单项保存方法、`getWithETag` 方法、返回布尔�
 | `getBulk` | 最后一个参数为 `{ parallelism, metadata }`。没有 consistency 选项。 |
 | `delete` | 最后一个参数为 `{ concurrency, consistency, etag, metadata }`，字段均可省略。 |
 | `deleteBulk` | 每个项的 `options`、`etag` 和 `metadata`；最后一个参数只接受共享的 `metadata`。 |
-| `transaction` | 每个操作的 `request.options`；事务级别的元数据是第三个参数。参见下文的限制。 |
+| `transaction` | 每个操作的 `request.options`；事务级别的 metadata 是第三个参数。参见下文的限制。 |
 
 在 TypeScript 中为某个项提供 `options` 时，其 `IStateOptions` 类型要求同时提供 `concurrency` 和 `consistency`。若希望其中某一项使用存储的默认值，请使用对应的 `UNSPECIFIED` 枚举成员。
 
-## 元数据与 TTL
+## metadata 与 TTL
 
-请使用组件支持的字符串键值元数据，例如 `ttlInSeconds`、`partitionKey` 或 `contentType`。状态元数据并不是任意的 HTTP 头集合。
+请使用 component 支持的字符串键值 metadata，例如 `ttlInSeconds`、`partitionKey` 或 `contentType`。状态 metadata 并不是任意的 HTTP 头集合。
 
 |操作|HTTP 行为|gRPC 行为|
 |-----------|---------------|---------------|
-| `save` | 在请求正文中发送项的元数据，并以查询参数的形式发送共享元数据。 | 将共享元数据合并到每个项中，重复的键以共享元数据为准。 |
+| `save` | 在请求正文中发送项的 metadata，并以查询参数的形式发送共享 metadata。 | 将共享 metadata 合并到每个项中，重复的键以共享 metadata 为准。 |
 | `get` | 转发 `options.metadata`。 | 在当前实现中**不**转发 `options.metadata`。 |
 | `getBulk` | 转发 `options.metadata`。 | 转发 `options.metadata`。 |
 | `delete` | 转发 `options.metadata`。 | 在当前实现中**不**转发 `options.metadata`。 |
-| `deleteBulk` | 将共享元数据合并到项的元数据之上，然后在逐个删除请求中转发。 | 在一次批量删除 RPC 中，将共享元数据合并到项的元数据之上。 |
-| `transaction` | 转发事务级别的元数据以及每个请求的元数据。 | 转发事务级别的元数据，但不转发每个请求的元数据。 |
-| `query` | 没有单独的元数据参数。 | 没有单独的元数据参数。 |
+| `deleteBulk` | 将共享 metadata 合并到项的 metadata 之上，然后在逐个删除请求中转发。 | 在一次批量删除 RPC 中，将共享 metadata 合并到项的 metadata 之上。 |
+| `transaction` | 转发事务级别的 metadata 以及每个请求的 metadata。 | 转发事务级别的 metadata，但不转发每个请求的 metadata。 |
+| `query` | 没有单独的 metadata 参数。 | 没有单独的 metadata 参数。 |
 
-对于保存操作，共享元数据优先于项元数据中同名的键。TTL 值应放在元数据中，而不是状态选项中。参见 [状态存储 TTL]({{% ref state-store-ttl.md %}})。
+对于保存操作，共享 metadata 优先于项 metadata 中同名的键。TTL 值应放在 metadata 中，而不是状态选项中。参见 [state store TTL]({{% ref state-store-ttl.md %}})。
 
-如果某个组件需要依靠每个请求的元数据来定位条目，请不要假定单键读取和删除在不同协议下的行为完全一致。对于这类调用，请使用 HTTP；或在合适的情况下，为 `getBulk` 和 `deleteBulk` 附带元数据。
+如果某个 component 需要依靠每个请求的 metadata 来定位条目，请不要假定单键读取和删除在不同协议下的行为完全一致。对于这类调用，请使用 HTTP；或在合适的情况下，为 `getBulk` 和 `deleteBulk` 附带 metadata。
 
 ## 响应结构
 
@@ -93,7 +93,7 @@ SDK 不提供单独的单项保存方法、`getWithETag` 方法、返回布尔�
 
 `get` 返回反序列化后的值；若默认的 JSON 解析失败，则返回文本。它不会返回 HTTP 响应头或 gRPC 响应封装。在标准的无数据响应中，缺失的键会返回空字符串，而不是保证的 `undefined` 或 `null`。
 
-请勿用真值判断来区分缺失的键与合法存储的值（例如 `false`、`0` 或 `""`）。若应用需要明确的存在性检查，请存储一个文档封装，并结合组件的能力，使用批量读取来检查项和 ETag。
+请勿用真值判断来区分缺失的键与合法存储的值（例如 `false`、`0` 或 `""`）。若应用需要明确的存在性检查，请存储一个文档封装，并结合 component 的能力，使用批量读取来检查项和 ETag。
 
 ### 批量读取
 
@@ -115,18 +115,18 @@ SDK 不提供单独的单项保存方法、`getWithETag` 方法、返回布尔�
 
 `deleteBulk` 接受只读的项数组，项的结构与保存项相同，但**不包含**必需的 `value`。已有的键值数组同样可以接受；其中的值会被忽略，且不会调用序列化器。
 
-HTTP 会并发发送各个删除请求，并等待所有请求结束。它返回的是按**输入顺序**排列的第一个错误，而不一定是最先失败的请求。gRPC 只发送一次 `DeleteBulkState` RPC，RPC 失败时拒绝。空批次会直接返回 `{}`，而不会初始化边车连接。
+HTTP 会并发发送各个删除请求，并等待所有请求结束。它返回的是按**输入顺序**排列的第一个错误，而不一定是最先失败的请求。gRPC 只发送一次 `DeleteBulkState` RPC，RPC 失败时拒绝。空批次会直接返回 `{}`，而不会初始化 sidecar 连接。
 
 两种协议下，批量删除都不是原子操作。报告失败并不意味着没有任何键被删除，而且响应也不提供完整的逐键结果列表。若应用需要安全地重试，请核对部分完成的情况。
 
 ## 事务
 
-请使用 `upsert` 和 `delete` 作为操作名称。底层组件必须支持事务；`save` 和 `deleteBulk` 并不提供等效的原子性。
+请使用 `upsert` 和 `delete` 作为操作名称。底层 component 必须支持事务；`save` 和 `deleteBulk` 并不提供等效的原子性。
 
 当前实现中有以下重要差异：
 
 - 未显式配置序列化器时，gRPC 事务中的 upsert 会将传入的值直接交给 `Buffer.from`，而不会应用 `save` 的对象序列化。若事务中的值是对象，请配置 `JsonSerializer`；或为该协议提供适当编码的数据。
-- gRPC 不会转发各个 `request.metadata` 字段。若组件支持，请使用事务级别的元数据。
+- gRPC 不会转发各个 `request.metadata` 字段。若 component 支持，请使用事务级别的 metadata。
 - 事务请求类型将 `etag` 声明为 `{ value: string }`，但 gRPC 实现调用的是该对象的 `toString()`，而不是读取其 `value`。在本版本中，请勿依赖事务 ETag 来实现可移植的条件写入。若不需要多键的原子条件，请使用文档中记载的单项保存/删除模式；若必须使用条件事务，请先确认后续 SDK 是否已修复该问题。
 
 ## 序列化
@@ -150,11 +150,11 @@ const client = new DaprClient({
 });
 ```
 
-序列化器是**客户端级别**的设置，而不是每次状态调用的选项。对于状态操作，它会序列化保存的值和事务中 upsert 的值，并反序列化单个读取、批量读取和查询返回的值。它不会序列化键、ETag、元数据、删除操作的值或查询过滤表达式。
+序列化器是**客户端级别**的设置，而不是每次状态调用的选项。对于状态操作，它会序列化保存的值和事务中 upsert 的值，并反序列化单个读取、批量读取和查询返回的值。它不会序列化键、ETag、metadata、删除操作的值或查询过滤表达式。
 
-TypeScript 应用可以实现导出的 `IDaprSerializer` 接口，该接口包含同步的 `serialize<T>(value): string` 和 `deserialize<T>(data: string): T` 方法，以及可选的 `contentType`。若使用 JSON 媒体类型（默认的 `application/json`，或任何 `+json` 媒体类型），则必须生成有效的 JSON。非 JSON 序列化器的输出会以 JSON 字符串的形式存储在 Dapr 封装中；二进制格式请编码为文本，例如使用 base64。这并不会把状态管理变成流式文件 API。
+TypeScript 应用可以实现导出的 `IDaprSerializer` 接口，该接口包含同步的 `serialize<T>(value): string` 和 `deserialize<T>(data: string): T` 方法，以及可选的 `contentType`。若使用 JSON 媒体类型（默认的 `application/json`，或任何 `+json` 媒体类型），则必须生成有效的 JSON。非 JSON 序列化器的输出会以 JSON 字符串的形式存储在 Dapr 封装中；二进制格式请编码为文本，例如使用 base64。这并不会把 State Management 变成流式文件 API。
 
-序列化器的 `contentType` 控制的是 SDK 的编码方式；它不会自动添加状态组件的 `contentType` 元数据。若存储要求提供该元数据（例如存储可查询的 JSON 文档），请显式提供。
+序列化器的 `contentType` 控制的是 SDK 的编码方式；它不会自动添加状态 component 的 `contentType` metadata。若存储要求提供该 metadata（例如存储可查询的 JSON 文档），请显式提供。
 
 所有读取方和写入方都必须就存储的表示形式达成一致。选择使用 `JsonSerializer` 可能会改变现有字符串的行为，尤其是此前以未加引号的文本形式存储的 gRPC 值。迁移前，请测试旧数据以及跨协议的读取方。自定义序列化器还可能改变状态查询可用的文档字段。类型参数既不提供运行时的结构校验，也不会自动恢复类实例。
 
@@ -192,4 +192,4 @@ ETag 冲突是一种错误，而不是返回 `false`。读取或查询调用在�
 
 ## 取消
 
-本版本的状态方法**不**接受 `AbortSignal`、取消令牌或单次操作的截止时间。请勿把二进制存储客户端的 `signal` 选项复制到状态调用中。让 Promise 与定时器竞速并不会取消底层的状态请求。在合适的情况下，请使用运行时的[弹性策略]({{% ref resiliency-overview.md %}})来处理组件的超时和重试，并考虑操作本身的语义。
+本版本的状态方法**不**接受 `AbortSignal`、取消令牌或单次操作的截止时间。请勿把 Binary Store 客户端的 `signal` 选项复制到状态调用中。让 Promise 与 timer 竞速并不会取消底层的状态请求。在合适的情况下，请使用运行时的[resiliency]({{% ref resiliency-overview.md %}})来处理 component 的超时和重试，并考虑操作本身的语义。

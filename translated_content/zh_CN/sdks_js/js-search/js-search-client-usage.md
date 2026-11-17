@@ -6,7 +6,7 @@ weight: 53100
 description: 配置和使用 JavaScript 搜索客户端的核心指南
 ---
 
-搜索功能可通过 `DaprClient.search` 使用，需要 JavaScript SDK 3.19.0 或更高版本以及 Dapr 运行时 1.19 或更高版本。HTTP 和 gRPC 均使用 Alpha 阶段的搜索 API，并提供相同的方法和 JavaScript 结果结构。
+搜索功能可通过 `DaprClient.search` 使用，需要 JavaScript SDK 3.19.0 或更高版本以及 Dapr runtime 1.19 或更高版本。HTTP 和 gRPC 均使用 alpha 的 Search API，并提供相同的方法和 JavaScript 结果结构。
 
 ## 客户端生命周期与配置
 
@@ -25,11 +25,11 @@ const client = new DaprClient({
 });
 ```
 
-若使用 HTTP，请设置 `CommunicationProtocolEnum.HTTP`，并使用边车的 HTTP 端口（默认为 `"3500"`）。端口值为字符串。未显式提供主机和端口时，SDK 会根据所选协议使用 `DAPR_HTTP_ENDPOINT` 或 `DAPR_GRPC_ENDPOINT`；若未设置，则回退到主机和端口的默认值，以及 `DAPR_HTTP_PORT` 或 `DAPR_GRPC_PORT`。API 令牌默认取自 `DAPR_API_TOKEN`。请参阅[客户端配置]({{% ref "js-client#environment-variables" %}})。
+若使用 HTTP，请设置 `CommunicationProtocolEnum.HTTP`，并使用 sidecar 的 HTTP 端口（默认为 `"3500"`）。端口值为字符串。未显式提供主机和端口时，SDK 会根据所选协议使用 `DAPR_HTTP_ENDPOINT` 或 `DAPR_GRPC_ENDPOINT`；若未设置，则回退到主机和端口的默认值，以及 `DAPR_HTTP_PORT` 或 `DAPR_GRPC_PORT`。API 令牌默认取自 `DAPR_API_TOKEN`。请参阅[客户端配置]({{% ref "js-client#environment-variables" %}})。
 
 ## 选择操作
 
-`storeName` 是搜索组件的 `metadata.name`。除 `listIndexes` 外，所有方法还需要索引名称。可选的选项对象作为最后一个参数传入。
+`storeName` 是 search component 的 `metadata.name`。除 `listIndexes` 外，所有方法还需要索引名称。可选的选项对象作为最后一个参数传入。
 
 | 方法 | 结果 |
 |------|------|
@@ -44,7 +44,7 @@ const client = new DaprClient({
 
 TypeScript 应用可以从 `@dapr/dapr` 以类型形式导入 `IClientSearch`、`SearchOptions`、`IndexingOptions`、`SearchDocument`、`SearchIndex`、`SearchQuery`、`SearchResult`、`IndexAck` 和 `IndexDocumentsResult`。
 
-每个操作都接受 `SearchOptions`：`metadata?: Readonly<Record<string, string>>` 和 `signal?: AbortSignal`。这里的 metadata 是组件特定的**请求元数据**，与存储的文档元数据相互独立。例如，`createIndex` 会用它传递提供方特定的索引设置。SDK 负责将其放入 HTTP 请求体或查询字符串，或放入 gRPC 请求字段。
+每个操作都接受 `SearchOptions`：`metadata?: Readonly<Record<string, string>>` 和 `signal?: AbortSignal`。这里的 metadata 是 component 特定的**请求 metadata**，与存储的文档 metadata 相互独立。例如，`createIndex` 会用它传递提供方特定的索引设置。SDK 负责将其放入 HTTP 请求体或查询字符串，或放入 gRPC 请求字段。
 
 `indexDocuments` 和 `deleteDocuments` 接受 `IndexingOptions`，它在这些选项的基础上增加了写入确认控制。`getDocuments` 还接受 `includeContent?: boolean`。
 
@@ -52,7 +52,7 @@ TypeScript 应用可以从 `@dapr/dapr` 以类型形式导入 `IClientSearch`、
 
 `SearchDocument<T>` 包含 `id: string`、可选的 `content: T` 以及可选的字符串映射 `metadata`。内容在建立索引前必须能序列化为 JSON 对象。SDK 使用独立于应用自定义 `DaprClient` 序列化器的 JSON 序列化，将内容转换为 UTF-8 字节，并自动解码返回的内容。请勿将预先编码的 base64 或 JSON 文本作为内容传入。
 
-除非在 `getDocuments` 或搜索查询中设置 `includeContent: true`，否则返回的 `content` 为 undefined。存储的元数据缺省时默认为空对象。元数据会原样返回，且从不参与索引、搜索或过滤。
+除非在 `getDocuments` 或搜索查询中设置 `includeContent: true`，否则返回的 `content` 为 undefined。存储的 metadata 缺省时默认为空对象。metadata 会原样返回，且从不参与索引、搜索或过滤。
 
 泛型仅在编译时描述返回的内容，不会在运行时校验文档。未指定类型时，内容默认为 `unknown`。在 TypeScript 中，请为可复用的选项对象添加类型注解，以保留其字符串字面量类型：
 
@@ -103,7 +103,7 @@ for (const hit of result.hits) {
 | `onWaitTimeout: "continueAsync"` | 等待超时后返回 `"queued"`，并让提供方继续处理。需要提供方支持排队确认。 |
 | `onWaitTimeout: "failRequest"` | 等待超时后以 `DEADLINE_EXCEEDED` 拒绝请求。提供方的工作仍可能完成。 |
 
-未设置 `mode: "waitForCompletion"` 时，请勿提供 `waitTimeout` 或 `onWaitTimeout`。`waitTimeout` 应短于请求的截止时间。若配置了组件弹性策略超时，请按[搜索 API 概述]({{% ref "search-overview.md#write-acknowledgements" %}})中的说明，至少留出该超时时间 10% 且不少于 100 毫秒的余量。
+未设置 `mode: "waitForCompletion"` 时，请勿提供 `waitTimeout` 或 `onWaitTimeout`。`waitTimeout` 应短于请求的截止时间。若配置了 component resiliency 超时，请按[Search API 概述]({{% ref "search-overview.md#write-acknowledgements" %}})中的说明，至少留出该超时时间 10% 且不少于 100 毫秒的余量。
 
 `indexDocuments` 解析为 `{ ack, failedItems }`。即使 Promise 已解析且 `ack` 为 `"completed"`，也务必检查 `failedItems`。每个失败项包含 `id`、数字类型的 `errorCode`（规范的非 OK `google.rpc.Code`）、`errorMessage` 和 `details`。例如，内容不是对象时，可能产生错误码为 `3`（`INVALID_ARGUMENT`）的条目失败，而同一批次中的有效文档仍会被索引。
 
@@ -130,7 +130,7 @@ for (const hit of result.hits) {
 
 若同时省略 `text` 和 `native`，或完全省略查询，则匹配所有满足 `filter` 的文档。在过滤器中直接赋值的字段表示等值比较；同一对象中的条件之间为逻辑与（AND）关系。请参阅[可移植过滤语言]({{% ref "search-overview.md#filter-language" %}})。
 
-提供方的能力决定了支持的查询选项和字段限制。Meilisearch 要求在创建索引时声明可过滤和可排序的属性。原生查询语法因提供方而异，无法在不同组件之间移植。
+提供方的能力决定了支持的查询选项和字段限制。Meilisearch 要求在创建索引时声明可过滤和可排序的属性。原生查询语法因提供方而异，无法在不同 component 之间移植。
 
 ## 结果与分页
 
@@ -171,10 +171,10 @@ console.log(result.hits);
 
 - **HTTP：** 运行时失败为 JavaScript `Error` 实例，其 `message` 是一个 JSON 字符串，包含 `status`（HTTP 状态码）、`error`（状态文本）和 `error_msg`（运行时响应体）。传输、取消和本地校验失败的结构可能不同；不要假定每条错误消息都是 JSON。
 - **gRPC：** 运行时失败会保留 `@connectrpc/connect` 中的 `ConnectError` 代码，而不是 HTTP 状态码。
-- **无效参数：** 存储名、索引名或文档 ID 为空，存储名或索引名为 `.` 或 `..`，元数据值不是字符串，`text` 与 `native` 同时出现，或选项类型无效，都会在本地被拒绝。无效的 `topK` 值和非正数的等待时长会被拒绝；无效的 protobuf 时长语法同样会被拒绝。提供方特定的校验仍由运行时或组件完成。
+- **无效参数：** 存储名、索引名或文档 ID 为空，存储名或索引名为 `.` 或 `..`，metadata 值不是字符串，`text` 与 `native` 同时出现，或选项类型无效，都会在本地被拒绝。无效的 `topK` 值和非正数的等待时长会被拒绝；无效的 protobuf 时长语法同样会被拒绝。提供方特定的校验仍由运行时或 component 完成。
 
 创建已存在的索引会以 `ALREADY_EXISTS` 失败；存储或索引不存在以及不受支持的查询同样会被拒绝。`getDocuments` 中缺失的 ID 会被省略，删除不存在的文档 ID 不会报错。
 
 通过 HTTP 时，每个条目的 `details` 是 protobuf JSON 对象。通过 gRPC 时，每个 detail 表示为 `{ "@type": typeUrl, value: base64ProtobufBytes }`，因为可能无法获取提供方特定的 schema 来解码它。不要假定两种协议下的 detail 负载完全相同。
 
-运行时错误的语义请参阅[搜索 API 参考]({{% ref "search_api.md#errors" %}})，完整的配置与可运行示例请参阅[操作指南]({{% ref js-search-howto.md %}})。
+运行时错误的语义请参阅[Search API 参考]({{% ref "search_api.md#errors" %}})，完整的配置与可运行示例请参阅[操作指南]({{% ref js-search-howto.md %}})。

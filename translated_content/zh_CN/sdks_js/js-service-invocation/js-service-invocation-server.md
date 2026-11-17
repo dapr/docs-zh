@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作方法：使用 JavaScript SDK 接收服务调用"
+title: "操作方法：使用 JavaScript SDK 接收 service invocation"
 linkTitle: "接收调用"
 weight: 20
 description: "注册 HTTP 或 gRPC 调用处理程序，并理解回调请求与响应"
@@ -61,7 +61,7 @@ main().catch((error) => {
 });
 ```
 
-运行服务及其边车：
+运行服务及其 sidecar：
 
 ```sh
 dapr run --app-id invocation-service --app-port 3000 --app-protocol http --dapr-http-port 3500 --dapr-grpc-port 50001 -- node server.mjs
@@ -97,7 +97,7 @@ const server = new DaprServer({
 dapr run --app-id invocation-service --app-port 3000 --app-protocol grpc --dapr-http-port 3500 --dapr-grpc-port 50001 -- node server.mjs
 ```
 
-除非在 `clientOptions` 中另有指定，嵌入式客户端的协议与服务器协议保持一致。`serverPort` 是应用的监听端口，`clientOptions.daprPort` 是边车端点；两者不要互换。HTTP 调用方仍然可以调用这个 gRPC 回调服务。
+除非在 `clientOptions` 中另有指定，嵌入式客户端的协议与服务器协议保持一致。`serverPort` 是应用的监听端口，`clientOptions.daprPort` 是 sidecar 端点；两者不要互换。HTTP 调用方仍然可以调用这个 gRPC 回调服务。
 
 ## 理解回调请求
 
@@ -132,13 +132,13 @@ await server.invoker.listen("orders", async (request) => {
 await server.invoker.listen("version", async () => ({ version: "1.0" }));
 ```
 
-默认情况下，SDK 会对真值（truthy）的返回值进行 JSON 编码。不存在特殊的 `{ status, headers, body }` 响应包装格式：返回这样的对象时，这些属性会作为应用数据发送。回调 API 不提供 HTTP 响应对象，也不暴露 gRPC 响应元数据。
+默认情况下，SDK 会对真值（truthy）的返回值进行 JSON 编码。不存在特殊的 `{ status, headers, body }` 响应包装格式：返回这样的对象时，这些属性会作为应用数据发送。回调 API 不提供 HTTP 响应对象，也不暴露 gRPC 响应 metadata。
 
 在没有自定义序列化器的情况下，`undefined`、`null`、`false`、`0` 和 `""` 不会生成对应的 JSON 值。HTTP 处理程序会改为返回 `{"closed":true}`；gRPC 处理程序则不返回任何数据。默认的 gRPC 客户端无法解析这种空响应。建议返回对象，例如 `{ accepted: false }`。
 
 配置自定义序列化器后，除 `undefined` 之外的每个返回值都会被序列化，包括假值（falsy）。对于 `undefined`，HTTP 仍然返回闭包对象，gRPC 仍然不返回数据。参见[序列化指南]({{% ref "js-service-invocation-usage.md#serialization" %}})。
 
-抛出的处理程序错误会传递给底层的 HTTP 错误中间件或 gRPC 传输层；它们不会作为成功的应用响应对象返回。如果调用方需要特定的 HTTP 状态码、响应头或流式响应，请改用常规的 HTTP 框架路由。
+抛出的处理程序错误会传递给底层的 HTTP 错误 middleware 或 gRPC 传输层；它们不会作为成功的应用响应对象返回。如果调用方需要特定的 HTTP 状态码、响应头或流式响应，请改用常规的 HTTP 框架路由。
 
 ## 使用现有 HTTP 应用
 
@@ -165,4 +165,4 @@ const server = new DaprServer({
 await server.start();
 ```
 
-为此备选示例，请将 `express` 安装为应用依赖项，并使用上面的 HTTP 启动命令。`server.start()` 会启动监听器，因此不要再调用 `app.listen()`。SDK 会向所提供的应用添加中间件和路由，请避免路由名称冲突。请在应用自身的关闭逻辑中依次调用 `server.stop()` 和 `server.client.stop()`。
+为此备选示例，请将 `express` 安装为应用依赖项，并使用上面的 HTTP 启动命令。`server.start()` 会启动监听器，因此不要再调用 `app.listen()`。SDK 会向所提供的应用添加 middleware 和路由，请避免路由名称冲突。请在应用自身的关闭逻辑中依次调用 `server.stop()` 和 `server.client.stop()`。

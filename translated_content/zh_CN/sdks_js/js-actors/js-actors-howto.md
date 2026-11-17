@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用 JavaScript SDK 运行和使用虚拟 Actor"
+title: "操作指南：使用 JavaScript SDK 运行和使用 virtual Actor"
 linkTitle: "运行和使用 Actor"
 weight: 10000
 description: 创建 Actor 契约、托管有状态的 Actor，并从 Node.js 客户端调用它
@@ -11,7 +11,7 @@ description: 创建 Actor 契约、托管有状态的 Actor，并从 Node.js 客
 ## 前提条件
 
 - 受支持的 [Node.js LTS 版本](https://nodejs.org/en/)。
-- [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及[已初始化的本地 Dapr 环境]({{% ref install-dapr-selfhost.md %}})，其中包括 Redis 和放置服务（Placement）。使用由调度器支持的提醒时，还需要 Scheduler 服务。
+- [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及[已初始化的本地 Dapr environment]({{% ref install-dapr-selfhost.md %}})，其中包括 Redis 和 placement service（Placement）。使用由 Scheduler 支持的 reminder 时，还需要 Scheduler service。
 
 ## 步骤 1：准备项目
 
@@ -90,7 +90,7 @@ export class CounterActor extends AbstractActor implements CounterActorContract 
 
 运行时会在方法成功返回且后置钩子执行完成后，保存已跟踪的状态变更。你无需在每个方法中调用 `saveState()`。关于显式保存和失败处理，请参阅[管理 Actor 状态]({{% ref js-actors-state.md %}})。
 
-## 步骤 4：配置状态存储
+## 步骤 4：配置 state store
 
 创建 `components` 目录，并将以下内容保存为 `components\statestore.yaml`：
 
@@ -111,7 +111,7 @@ spec:
       value: "true"
 ```
 
-这里使用的是本地 Dapr 初始化所启动的 Redis。在生产环境中，请配置一个[支持 Actor 的状态存储]({{% ref supported-state-stores.md %}})，并确保其具备所需的事务支持。每个应用只能有一个组件被标记为 Actor 状态存储。
+这里使用的是本地 Dapr 初始化所启动的 Redis。在生产环境中，请配置一个[支持 Actor 的 state store]({{% ref supported-state-stores.md %}})，并确保其具备所需的事务支持。每个应用只能有一个 component 被标记为 Actor state store。
 
 ## 步骤 5：注册并启动宿主
 
@@ -145,13 +145,13 @@ main().catch((error: unknown) => {
 });
 ```
 
-启动应用及其边车：
+启动应用及其 sidecar：
 
 ```shell
 dapr run --app-id counter-service --app-port 3001 --app-protocol http --dapr-http-port 3500 --resources-path components -- npx tsx server.ts
 ```
 
-应用监听端口 `3001`，边车的 HTTP API 监听端口 `3500`。等待宿主报告 `CounterActor` 已注册。
+应用监听端口 `3001`，sidecar 的 HTTP API 监听端口 `3500`。等待宿主报告 `CounterActor` 已注册。
 
 ## 步骤 6：调用 Actor
 
@@ -187,7 +187,7 @@ main().catch((error: unknown) => {
 npx tsx client.ts
 ```
 
-对于新建的 Actor，两次调用都会输出 `{ value: 2 }`。再次运行客户端，会把同一个 Actor 递增到 `4`。本示例中客户端使用宿主的边车；独立的应用可以使用它自己的边车。
+对于新建的 Actor，两次调用都会输出 `{ value: 2 }`。再次运行客户端，会把同一个 Actor 递增到 `4`。本示例中客户端使用宿主的 sidecar；独立的应用可以使用它自己的 sidecar。
 
 Actor 的标识是 `CounterActor` 与 `counter-1` 的组合。创建代理不会激活 Actor；调用方法时才会激活它。
 
@@ -195,4 +195,4 @@ Actor 的标识是 `CounterActor` 与 `counter-1` 的组合。创建代理不会
 
 - [编写和托管 Actor]({{% ref js-actors-usage.md %}})
 - [调用 Actor]({{% ref js-actors-client.md %}})
-- [使用定时器和提醒]({{% ref js-actors-timers-reminders.md %}})
+- [使用 timer 和 reminder]({{% ref js-actors-timers-reminders.md %}})
