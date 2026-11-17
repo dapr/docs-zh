@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用锁"
+title: "How-To: Use a lock"
 linkTitle: "操作指南：使用锁"
 weight: 2000
 description: "了解如何使用分布式锁为资源提供独占访问"

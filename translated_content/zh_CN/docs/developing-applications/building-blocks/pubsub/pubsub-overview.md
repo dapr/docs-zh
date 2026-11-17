@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "pub/sub 概述"
+title: "Publish and subscribe overview"
 linkTitle: "概述"
 weight: 1000
 description: "pub/sub API building block 概述"
 ---
 
-pub/sub 使微服务能够使用消息进行通信，从而实现事件驱动架构。
+发布和订阅（pub/sub）使微服务能够使用消息进行通信，从而实现事件驱动架构。
 
 - 生产者（**发布者**）将消息写入输入通道并发送到主题，无需知道哪个应用程序会接收它们。
 - 消费者（**订阅者**）订阅主题并从输出通道接收消息，无需知道是哪个服务产生了这些消息。
@@ -95,7 +95,7 @@ Dapr sidecar 会动态重新加载已更改的声明式主题订阅，无需重�
 
 Dapr 提供了[基于内容的路由](https://www.enterpriseintegrationpatterns.com/ContentBasedRouter.html)模式。[pub/sub 路由]({{% ref howto-route-messages %}})是该模式的一种实现，允许开发者使用表达式，根据 [CloudEvents](https://cloudevents.io) 的内容将其路由到应用程序中不同的 URI/路径和事件处理程序。如果没有任何路由匹配，则使用可选的默认路由。当你的应用程序扩展到支持多个事件版本或特殊情况时，这一点非常有用。
 
-此功能同时适用于声明式和 programmatic subscription 方式。
+此功能同时适用于声明式和编程式订阅方式。
 
 更多关于消息路由的信息，请阅读 [Dapr pub/sub API 参考]({{% ref "pubsub_api#provide-routes-for-dapr-to-deliver-topic-events" %}})。
 
@@ -167,7 +167,7 @@ Dapr 支持在单个请求中发送和接收多条消息。在编写需要发送
 
 | Quickstart/教程 | 描述 |
 | ------------------- | ----------- |
-| [pub/sub Quickstart]({{% ref pubsub-quickstart %}}) | 使用 pub/sub API 发送和接收消息。 |
+| [pub/sub Quickstart]({{% ref pubsub-quickstart %}}) | 使用发布和订阅 API 发送和接收消息。 |
 | [pub/sub 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub) | 演示如何使用 Dapr 启用 pub/sub 应用程序。使用 Redis 作为 pub/sub component。 |
 
 ### 直接在应用程序中使用 pub/sub

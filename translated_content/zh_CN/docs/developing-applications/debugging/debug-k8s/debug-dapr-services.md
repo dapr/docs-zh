@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "在 Kubernetes 上调试 Dapr control plane"
+title: "Debug Dapr control plane on Kubernetes"
 linkTitle: "Dapr control plane"
 weight: 1000
 description: "如何在 Kubernetes 集群上调试 Dapr control plane"

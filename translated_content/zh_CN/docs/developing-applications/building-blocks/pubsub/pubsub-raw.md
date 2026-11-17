@@ -299,6 +299,6 @@ scopes:
 ## 后续步骤
 
 - 进一步了解[发布和订阅消息]({{% ref pubsub-overview %}})
-- [pub/sub component]({{% ref supported-pubsub %}})列表
+- [pub/sub components]({{% ref supported-pubsub %}})列表
 - 阅读 [API 参考文档]({{% ref pubsub_api %}})
 - 阅读关于如何[不使用 CloudEvents 消费 Kafka 消息](https://github.com/dapr/samples/pubsub-raw-payload)的 .NET 示例

@@ -1,20 +1,20 @@
 ---
 type: docs
-title: "操作指南：使用 output binding 与外部资源交互"
+title: "How-To: Use output bindings to interface with external resources"
 linkTitle: "操作指南：output binding"
 description: "通过 output binding 调用外部系统"
 weight: 300
 ---
 
 
-使用 output binding，你可以调用外部资源。调用请求中可以发送可选的有效负载和 metadata。
+使用 output binding，你可以调用外部资源。调用请求中可以发送可选的负载（payload）和 metadata。
 
 {{< diagram name="binding-output-kafka" width="65" >}}
 
 本指南以 Kafka binding 为例。你可以从[binding component 列表]({{% ref setup-bindings %}})中找到你需要的 binding 规范。在本指南中：
 
 1. 示例通过调用 `/binding` 端点，并传递 `checkout`（要调用的 binding 名称）来执行操作。
-1. 有效负载放入必需的 `data` 字段中，可以是任何可序列化为 JSON 的值。
+1. 负载放入必需的 `data` 字段中，可以是任何可序列化为 JSON 的值。
 1. `operation` 字段告诉 binding 需要执行什么操作。例如，[Kafka binding 支持 `create` 操作]({{% ref "kafka#binding-support" %}})。
    - 你可以查看[每个 output binding 支持的操作（特定于各 component）]({{% ref supported-bindings %}})。
 
@@ -30,7 +30,7 @@ weight: 300
 创建一个名为 `checkout` 的新 binding component。在 `metadata` 部分中，配置以下与 Kafka 相关的属性：
 
 - 你要向其发布消息的主题
-- 代理
+- broker
 
 创建 binding component 时，[指定 binding 的受支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。
 

@@ -3,48 +3,50 @@ type: docs
 title: "功能与概念"
 linkTitle: "功能与概念"
 weight: 2000
-description: "了解更多关于 Dapr 工作流的功能与概念"
+description: "了解更多关于 Dapr Workflow 的功能与概念"
 ---
 
-现在您已经对[工作流构建块]({{% ref workflow-overview.md %}})有了整体了解，让我们深入探讨 Dapr 工作流引擎和 SDK 提供的功能和概念。 Dapr 工作流公开了几个核心功能和概念，这些在所有支持的语言中都是通用的。
+现在您已经从高层了解了 [workflow building block]({{% ref workflow-overview.md %}})，让我们深入探讨 Dapr Workflow 引擎和 SDK 所包含的功能与概念。Dapr Workflow 公开了多项核心功能和概念，它们在所有受支持的语言中都是通用的。
 
 {{% alert title="注意" color="primary" %}}
-有关工作流状态管理方式的更多信息，请参阅[工作流架构指南]({{% ref workflow-architecture.md %}})。
+有关 workflow 状态如何管理的更多信息，请参阅 [workflow 架构指南]({{% ref workflow-architecture.md %}})。
 {{% /alert %}}
 
-## 工作流
+## Workflows
 
-Dapr 工作流是您编写的函数，用于定义要按特定顺序执行的一系列任务。
-Dapr 工作流引擎负责任务的调度和执行，包括管理失败和重试。
-如果托管工作流的应用程序扩展到多台机器上，工作流引擎会在多台机器之间对工作流及其任务的执行进行负载均衡。
+Dapr Workflows 是您编写的函数，用于定义一系列按特定顺序执行的任务。
+Dapr Workflow 引擎负责任务的调度和执行，包括管理失败与重试。
+如果托管 workflow 的应用扩展到多台机器上，workflow 引擎会在多台机器之间对 workflow 及其任务的执行进行负载均衡。
+您可以[配置并发限制]({{% ref "workflow-concurrency.md" %}})，以控制同时运行的 workflow 和 activities 数量，既可以按 per-sidecar 设置，也可以在所有副本之间全局设置。
 
-工作流可以调度多种不同类型的任务，包括：
-- [活动]({{% ref "workflow-features-concepts.md#workflow-activities" %}})：用于执行自定义逻辑
-- [持久化定时器]({{% ref "workflow-features-concepts.md#durable-timers" %}})：用于将工作流暂停任意时长
-- [子工作流]({{% ref "workflow-features-concepts.md#child-workflows" %}})：用于将较大的工作流拆分为较小的部分
-- [外部事件等待器]({{% ref "workflow-features-concepts.md#external-events" %}})：用于阻塞工作流直到收到外部事件信号。这些任务将在其对应章节中详细描述。
+workflow 可以调度多种不同类型的任务，包括：
+- [Activities]({{% ref "workflow-features-concepts.md#workflow-activities" %}})：用于执行自定义逻辑
+- [Durable timers]({{% ref "workflow-features-concepts.md#durable-timers" %}})：用于将 workflow 暂停任意时长
+- [Child workflows]({{% ref "workflow-features-concepts.md#child-workflows" %}})：用于将较大的 workflow 拆分为较小的部分
+- [Detached workflows]({{% ref "workflow-features-concepts.md#detached-workflows" %}})：用于派生独立运行的即发即忘（fire-and-forget）workflow，这些 workflow 各自独立运行
+- [External event waiters]({{% ref "workflow-features-concepts.md#external-events" %}})：用于阻塞 workflow，直到收到外部事件信号。这些任务将在其对应章节中有更详细的描述。
 
-## 工作流实例管理
+## Workflow Instance Management
 
-### 查询工作流状态
+### 查询 Workflow 状态
 
-您可以使用 CLI 查询工作流实例：
+您可以使用 CLI 查询 workflow instances：
 
 ```bash
-# 查找所有运行中的工作流
+# 查找所有运行中的 workflow
 dapr workflow list --app-id myapp --filter-status RUNNING
 
-# 按名称查找工作流
+# 按名称查找 workflow
 dapr workflow list --app-id myapp --filter-name OrderProcessing
 
-# 查找最近的工作流（过去 2 小时）
+# 查找最近的 workflow（过去 2 小时）
 dapr workflow list --app-id myapp --filter-max-age 2h
 
 # 获取详细的 JSON 输出
 dapr workflow list --app-id myapp --output json
 ```
 
-### 工作流历史
+### Workflow 历史
 
 查看完整的执行历史：
 
@@ -52,9 +54,9 @@ dapr workflow list --app-id myapp --output json
 dapr workflow history wf-12345 --app-id myapp --output json
 ```
 
-这将显示所有事件、活动和状态转换。
+这将显示所有事件、activities 和状态转换。
 
-## 外部事件
+## External Events
 
 ### 通过 CLI 触发事件
 
@@ -64,12 +66,12 @@ dapr workflow raise-event wf-12345/ApprovalReceived \
   --input '{"approved": true, "comments": "Approved by manager"}'
 ```
 
-## 工作流暂停与恢复
+## Workflow 暂停与恢复
 
 ### 使用 CLI
 
 ```bash
-# 暂停以进行手动干预
+# 暂停以进行人工干预
 dapr workflow suspend wf-12345 \
   --app-id myapp \
   --reason "Awaiting customer response"
@@ -80,149 +82,221 @@ dapr workflow resume wf-12345 \
   --reason "Customer responded"
 ```
 
-### 工作流标识
+### Workflow 标识
 
-每个您定义的工作流都有一个类型名称，而工作流的每次单独执行都需要一个唯一的_实例 ID_。工作流实例 ID 可以由您的应用程序代码生成，这在工作流对应于文档或作业等业务实体时非常有用；也可以是自动生成的 UUID。工作流的实例 ID 可用于调试，也可用于使用 [Workflow API]({{% ref workflow_api.md %}}) 管理工作流。
+您定义的每个 workflow 都有一个类型名称，而 workflow 的每次单独执行都需要一个唯一的 _实例 ID_。实例 ID 可以由您的应用代码生成，这在 workflow 对应文档或 job 等业务实体时很有用；也可以是自动生成的 UUID。workflow 的实例 ID 既可用于调试，也可用于通过 [Workflow APIs]({{% ref workflow_api.md %}}) 管理 workflow。
 
-任何给定时刻只能存在一个具有给定 ID 的工作流实例。但是，如果某个工作流实例完成或失败，其 ID 可以被新的工作流实例重用。但请注意，新的工作流实例将有效地替换配置的状态存储中的旧实例。
+在任意时刻，给定 ID 的 workflow instance 只能存在一个。若现有的 instance 及其创建的每个子 workflow（递归检查）尚未达到终态（`COMPLETED`、`FAILED` 或 `TERMINATED`），使用相同 ID 创建新的 workflow instance 就会报错。一旦整个 workflow 树都进入终态，使用相同 ID 创建新 instance 就会开始一次全新的执行，并替换 state store 中之前的执行记录。
 
-### 工作流重放
+SDK 的 workflow 客户端在实例 ID 属于一个正在运行的 instance 时，会收到 gRPC `AlreadyExists` 状态码（Java SDK 会抛出 `WorkflowInstanceAlreadyExistsException`）。因此，客户端可以使用固定的实例 ID 启动 workflow，将其作为幂等调用，并将 `AlreadyExists` 视为「已在运行」，无需解析错误消息。已完成实例的 ID 默认可以被重用。当 durabletask-go 客户端设置了 `api.WithEnforceUniqueInstanceID()`，或旧实例的子 workflow 尚未结束时，也会返回 `AlreadyExists`。[Workflow API]({{% ref "workflow_api.md#start-workflow-request" %}})（HTTP 和 gRPC `StartWorkflowBeta1`）仍保留其错误响应：HTTP `500`，错误码为 `ERR_START_WORKFLOW`。
 
-Dapr 工作流使用一种称为[事件溯源](https://learn.microsoft.com/azure/architecture/patterns/event-sourcing)的技术来维护其执行状态。工作流引擎不存储工作流的当前状态快照，而是管理一个仅追加的历史事件日志，记录描述工作流所执行的各种步骤。当使用工作流 SDK 时，这些历史事件会在工作流"等待"调度任务的结果时自动存储。
+#### 实例 ID 重用的影响
 
-当工作流"等待"调度任务时，它会从内存中卸载，直到任务完成。一旦任务完成，工作流引擎会调度工作流函数再次运行。第二次工作流函数执行称为_重放_。
+{{% alert title="建议" color="primary" %}}
+为每次 workflow 执行分配一个从未使用过的实例 ID。为已结束执行的 ID 启动新的执行，出于向后兼容仍然允许，但不推荐，新应用不应依赖此行为。
+{{% /alert %}}
 
-当工作流函数被重放时，它会从头开始运行。但是，当它遇到已经完成的任务时，工作流引擎不会再次调度该任务，而是：
+为新的 workflow 执行重用实例 ID，会带来全新 ID 所没有的以下代价：
 
-1. 将已完成任务的存储结果返回给工作流。
-1. 继续执行直到下一个"等待"点。
+- **旧执行会被替换。**新执行一创建，其历史、输出和失败详情就会被覆写到 state store 中。审计轨迹随之丢失，也无法再查询较早那次运行做了什么。
+- **每次重用都要对整个旧 workflow 树做冲突检查。**在接受创建请求之前，运行时必须确认旧 instance 及其创建的每个子 workflow（递归检查，且可能位于其他应用中）都已进入终态。仍在运行的子 workflow 会以冲突拒绝创建请求；在故障期间无法访问的子 workflow 则会以不可用拒绝创建请求。使用全新 ID 创建时不存在这种依赖，在相同条件下也能成功。
+- **发给旧执行的工作可能到达新执行。**事件、activity 结果和 reminder 都按实例 ID 路由，它们的存活时间可能超过产生它们的那次执行。Dapr 设有守卫（guard）机制，防止它们被应用到错误的执行上，但这仍比不重用实例 ID 更具风险。
+- **恢复与排障更加困难。**引擎的恢复路径以实例 ID 为键。当一个 ID 承载过多次执行时，运维人员在排查卡住的 instance 时，首先必须弄清 state store 中的状态、reminder 和日志分别属于哪次执行。
 
-这种"重放"行为会持续进行，直到工作流函数完成或以错误失败。
+推荐采用以下模式替代重用：
 
-使用这种重放技术，工作流能够从任何"等待"点恢复执行，就好像它从未从内存中卸载一样。甚至可以恢复前次运行中的局部变量值，而工作流引擎无需知道它们存储了什么数据。这种恢复状态的能力使 Dapr 工作流具有_持久性_和_容错性_。
+- **交由 Dapr 生成 ID**，或基于业务键加上唯一后缀派生 ID，例如 `order-1234-<uuid>` 或 `order-1234-attempt-3`。请将业务实体与当前实例 ID 的映射保存在您自己的 state store 中，或通过 workflow 的 custom status 对外提供，以便调用方找到正在运行的 instance。
+- **仅在对单次逻辑启动去重时使用固定 ID。**如果两个调用方可能竞争启动同一个逻辑 workflow，确定性的 ID 会让第二次创建在第一次仍在运行时以冲突失败，这正是预期的信号。不要用同一个 ID 运行一连串的执行。
+- **如果业务标识符必须作为实例 ID 且执行会重复出现**，请在启动下一次执行之前，使用 [purge API]({{% ref "workflow_api.md#purge-workflow-request" %}}) 或 [保留策略]({{% ref workflow-history-retention-policy.md %}}) purge 旧 instance，并在代码中将 purge 与创建视为一个事务。
+
+{{% alert title="重要" color="warning" %}}
+workflow 运行期间，或其上一次执行创建的任何子 workflow 仍在运行期间，实例 ID 都不能被重用。这包括那些被父 workflow 放弃的子 workflow（父 workflow 在未等待它们的情况下结束，或被非递归方式终止），否则旧执行中仍在运行的子 workflow 可能会把其结果送达新执行。创建请求会失败，错误信息会指出尚未终态的子 workflow：对 SDK 的 workflow 客户端返回 gRPC `AlreadyExists`，对 workflow HTTP API 则返回 HTTP `500` 与 `ERR_START_WORKFLOW`。
+
+要释放实例 ID，请使用 [purge API]({{% ref "workflow_api.md#purge-workflow-request" %}}) purge 该 workflow，或配置 [workflow 保留策略]({{% ref workflow-history-retention-policy.md %}})。
+
+此前部分 SDK 提供的实例 ID 重用策略选项（允许在 ID 冲突时执行 `IGNORE` 或 `TERMINATE` 等操作）已在 v1.18 中移除，仍保留该选项的 SDK 中也已标记为弃用。Dapr 1.18+ 运行时会完全忽略该选项。
+{{% /alert %}}
+
+### Workflow 重放
+
+Dapr Workflows 使用一种称为[事件溯源](https://learn.microsoft.com/azure/architecture/patterns/event-sourcing)的技术来维护其执行状态。workflow 引擎不会将 workflow 的当前状态存储为快照，而是管理一个只追加的历史事件日志，记录 workflow 所执行过的各个步骤。使用 workflow SDK 时，每当 workflow "等待"某个已调度任务的结果，这些历史事件都会被自动存储。
+
+当 workflow "等待"某个已调度的任务时，它会从内存中卸载，直到该任务完成。任务完成后，workflow 引擎会再次调度 workflow 函数运行。这第二次 workflow 函数执行称为 _重放_。
+
+workflow 函数被重放时，会从头开始运行。但当它遇到已经完成的任务时，workflow 引擎不会再次调度该任务，而是：
+
+1. 将已完成任务的已存储结果返回给 workflow。
+1. 继续执行，直到下一个"等待"点。
+
+这种"重放"行为会一直持续，直到 workflow 函数完成或因错误而失败。
+
+借助这种重放技术，workflow 能够从任意"等待"点恢复执行，仿佛它从未被从内存中卸载。即使是之前运行中的局部变量值也能被恢复，而 workflow 引擎无需知道它们存储了什么数据。这种恢复状态的能力使 Dapr Workflows 具有_持久性_和_容错性_。
 
 {{% alert title="注意" color="primary" %}}
-此处描述的工作流重放行为要求工作流函数代码具有_确定性_。确定性工作流函数在提供完全相同的输入时会执行完全相同的操作。[了解更多关于确定性工作流代码的限制。]({{% ref "workflow-features-concepts.md#workflow-determinism-and-code-restraints" %}})
+此处描述的 workflow 重放行为要求 workflow 函数代码具有_确定性_。确定性的 workflow 函数在输入完全相同时，会执行完全相同的操作。[了解更多关于确定性 workflow 代码的限制。]({{% ref "workflow-features-concepts.md#workflow-determinism-and-code-restraints" %}})
 {{% /alert %}}
 
 
-### 无限循环与永生工作流
+### 无限循环与 eternal workflows
 
-如[工作流重放]({{% ref "#workflow-replay" %}})章节所述，工作流维护其所有操作的只写事件溯源历史日志。为了避免资源失控使用，工作流必须限制其调度的操作数量。例如，确保您的工作流不会：
+正如 [workflow 重放]({{% ref "#workflow-replay" %}}) 一节所述，workflow 会为其所有操作维护一个只写的事件溯源历史日志。为避免资源失控，workflow 必须限制其调度的操作数量。例如，请确保您的 workflow 不会：
 
-- 在其实现中使用无限循环
+- 在实现中使用无限循环
 - 调度数千个任务。
 
-如果工作流可能需要调度大量任务，您可以使用以下两种技术来编写工作流：
+如果 workflow 可能需要调度极大量的任务，您可以使用以下两种技术来编写这类 workflow：
 
 1. **使用 _continue-as-new_ API**：
-    每个工作流 SDK 都暴露了一个 _continue-as-new_ API，工作流可以调用它来使用新的输入和历史重新启动自身。_continue-as-new_ API 特别适合实现"永生工作流"，如监控代理，否则将使用类似 `while (true)` 的构造来实现。使用 _continue-as-new_ 是保持工作流历史记录规模较小的好方法。
+    每个 workflow SDK 都提供了一个 _continue-as-new_ API，workflow 可以调用它，以新的输入和历史重新启动自身。_continue-as-new_ API 特别适合实现"eternal workflows"，例如监控代理，否则这类 workflow 就需要用类似 `while (true)` 的结构来实现。使用 _continue-as-new_ 是保持 workflow 历史记录规模较小的好方法。
 
-    > _continue-as-new_ API 会截断现有历史记录，用新的历史记录替换它。
+    {{% alert title="注意" color="primary" %}}
+Continue-as-new 会立即重启 workflow，并丢弃所有未完成任务的结果，包括已启动但未等待的 activities、timers 和子 workflow。
+    {{% /alert %}}
 
-1. **使用子工作流**：
-    每个工作流 SDK 都暴露了用于创建子工作流的 API。子工作流的行为与任何其他工作流一样，只是它由父工作流调度。子工作流具有：
+    > _continue-as-new_ API 会截断现有历史记录，并用新的历史记录替换它。
+
+1. **使用 child workflows**：
+    每个 workflow SDK 都提供了用于创建 child workflow 的 API。child workflow 的行为与其他 workflow 一样，只是它由父 workflow 调度。child workflow 具有：
     - 自己的历史记录
-    - 跨多台机器分发工作流函数执行的好处。
+    - 可将 workflow 函数的执行分布到多台机器上的优势。
 
-    如果工作流需要调度数千个或更多任务，建议将这些任务分布在子工作流中，以避免单个工作流的历史记录规模过大。
+    如果 workflow 需要调度数千个或更多任务，建议将这些任务分布到 child workflows 中，避免单个 workflow 的历史记录规模过大。
 
-### 更新工作流代码
+### 更新 workflow 代码
 
-由于工作流是长期运行且持久的，更新工作流代码必须非常小心。如[工作流确定性]({{% ref "#workflow-determinism-and-code-restraints" %}})限制章节所述，工作流代码必须具有确定性。如果系统中存在任何未完成的工作流实例，则对工作流代码的更新必须保持这种确定性。否则，对工作流代码的更新可能导致这些工作流下次执行时出现运行时故障。
+由于 workflow 是长期运行且持久的，更新 workflow 代码时必须格外小心。正如 [workflow 确定性]({{% ref "#workflow-determinism-and-code-restraints" %}}) 限制一节所述，workflow 代码必须具有确定性。如果系统中存在任何未完成的 workflow instance，对 workflow 代码的更新就必须保持这种确定性。否则，对 workflow 代码的更新可能导致这些 workflow 在下次执行时出现运行时故障。
 
 [查看已知限制]({{% ref "#limitations" %}})
 
-## 工作流活动
+## Workflow activities
 
-工作流活动是工作流中的基本工作单元，也是业务流程中被编排的任务。例如，您可能创建一个工作流来处理订单。任务可能涉及检查库存、向客户收费和创建发货。每个任务都是一个单独的活动。这些活动可以串行执行、并行执行或两者结合执行。
+Activities 是 workflow 中的基本工作单元，也是在业务流程中被编排的任务。例如，您可以创建一个 workflow 来处理订单。这些任务可能包括检查库存、向客户收费以及创建发货单。每个任务都是一个独立的 activity。这些 activities 可以串行执行、并行执行，或两者结合执行。
 
-与工作流不同，活动对您可以在其中执行的工作类型没有限制。活动经常用于发出网络调用或运行 CPU 密集型操作。活动也可以将数据返回给工作流。
+与 workflow 不同，activity 不限制您可以在其中执行的工作类型。Activity 常用于发起网络调用或运行 CPU 密集型操作。Activity 还可以将数据返回给 workflow。
 
-Dapr 工作流引擎保证每个被调用的活动作为工作流执行的一部分**至少执行一次**。由于活动只保证至少一次执行，建议尽可能将活动逻辑实现为幂等的。
+Dapr Workflow 引擎保证，每个被调用的 activity 在 workflow 执行过程中**至少执行一次**。由于 activities 只保证至少一次执行，建议尽可能将 activity 逻辑实现为幂等的。
 
-## 子工作流
+## Child workflows
 
-除了活动，工作流还可以将其他工作流调度为_子工作流_。子工作流有自己的实例 ID、历史记录和状态，独立于启动它的父工作流。
+除了 activities，workflow 还可以将其他 workflow 调度为 _child workflows_。child workflow 拥有自己的实例 ID、历史记录和状态，独立于启动它的父 workflow。
 
-子工作流有许多好处：
+child workflows 有许多优势：
 
-* 您可以将大型工作流拆分为一系列较小的子工作流，使代码更易于维护。
-* 您可以跨多个计算节点并发分发工作流逻辑，如果您的工作流逻辑需要协调大量任务，这将非常有用。
-* 您可以通过保持父工作流的历史记录较小来减少内存使用和 CPU 开销。
+* 您可以将大型 workflow 拆分为一系列较小的 child workflow，使代码更易于维护。
+* 您可以让 workflow 逻辑并发地分布在多个计算节点上，如果您的 workflow 逻辑需要协调大量任务，这一点尤其有用。
+* 通过让父 workflow 的历史记录更小，您可以降低内存使用和 CPU 开销。
 
-子工作流的返回值就是其输出。如果子工作流因异常失败，则该异常会像活动任务因异常失败一样被暴露到父工作流。子工作流也支持自动重试策略。
+child workflow 的返回值即其输出。如果 child workflow 因异常失败，该异常会像 activity 任务因异常失败时一样，被传递给父 workflow。child workflows 也支持自动重试策略。
 
-终止父工作流会终止由该工作流实例创建的所有子工作流。详见[终止工作流 API]({{% ref "workflow_api.md#terminate-workflow-request" %}})。
+终止父 workflow 会终止该 workflow instance 创建的所有 child workflows。更多信息请参阅 [terminate workflow API]({{% ref "workflow_api.md#terminate-workflow-request" %}})。
 
-## 持久化定时器
+## Detached workflows
 
-Dapr 工作流允许您为任意时间范围安排类似提醒的持久化延迟，包括分钟、天甚至数年。这些_持久化定时器_可以由工作流调度以实现简单延迟或为其他异步任务设置临时超时。更具体地说，持久化定时器可以设置为在特定日期触发或在指定持续时间后触发。持久化定时器的最大持续时间没有限制，它们在内部由内部 actor 提醒器支持。例如，跟踪某项服务 30 天免费订阅的工作流可以使用在创建工作流 30 天后触发的持久化定时器来实现。工作流在等待持久化定时器触发时可以安全地从内存中卸载。
+除了 [child workflows]({{% ref "#child-workflows" %}})，workflow 还可以将另一个 workflow 调度为 _detached workflow_：一个完全独立于调用方运行的即发即忘 instance。调用会同步返回新的实例 ID，调度方 workflow 会立即继续执行，而无需等待 detached workflow。与 child workflow 不同，它与调用方之间没有父子关联：detached workflow 的成功或失败不会回传给调用方，终止调用方也不会终止 detached workflow。
+
+关于与 child workflows 的对比、使用时机指导以及代码示例，请参阅 [Detached workflows]({{% ref workflow-detached.md %}})。
+
+## Durable timers
+
+Dapr Workflows 允许您为任意时间范围调度类似 reminder 的持久化延迟，包括几分钟、几天，甚至数年。这些 _durable timers_ 可由 workflow 调度，用于实现简单的延迟，或为其他异步任务设置临时超时。更具体地说，durable timer 可以设置为在某个特定日期触发，也可以在指定时长之后触发。durable timer 的最长时长没有限制，它们在内部由内部 actor reminders 支撑。例如，跟踪某项服务 30 天免费订阅的 workflow，可以使用在 workflow 创建 30 天后触发的 durable timer 来实现。workflow 在等待 durable timer 触发期间，可以被安全地从内存中卸载。
 
 {{% alert title="注意" color="primary" %}}
-工作流创作 SDK 中的一些 API 可能会在内部调度持久化定时器以实现内部超时行为。
+workflow 编写 SDK 中的某些 API 可能会在内部调度 durable timers，以实现内部超时行为。
 {{% /alert %}}
 
 ## 重试策略
 
-工作流支持针对活动和子工作流的持久化重试策略。工作流重试策略与 [Dapr 弹性策略]({{% ref "resiliency-overview.md" %}}) 在以下方面有所不同：
+workflow 支持针对 activities 和 child workflows 的持久化重试策略。workflow 重试策略与 [Dapr resiliency policies]({{% ref "resiliency-overview.md" %}}) 在以下方面有所不同：
 
-- 工作流重试策略由工作流作者在代码中配置，而 Dapr 弹性策略由应用程序操作员在 YAML 中配置。
-- 工作流重试策略是持久的，在应用程序重启后保持其状态，而 Dapr 弹性策略不是持久的，必须在应用程序重启后重新应用。
-- 工作流重试策略由活动和子工作流中未处理的错误/异常触发，而 Dapr 弹性策略由操作超时和连接故障触发。
+- workflow 重试策略由 workflow 作者在代码中配置，而 Dapr resiliency policies 由应用运维人员在 YAML 中配置。
+- workflow 重试策略是持久的，并且在应用重启后保持其状态，而 Dapr resiliency policies 不是持久的，应用重启后必须重新应用。
+- workflow 重试策略由 activities 和 child workflows 中未处理的错误或异常触发，而 Dapr resiliency policies 由操作超时和连接故障触发。
 
-重试在内部使用持久化定时器实现。这意味着工作流在等待重试触发时可以安全地从内存中卸载，从而节省系统资源。这也意味着重试之间的延迟可以任意长，包括分钟、小时甚至数天。
-
-{{% alert title="注意" color="primary" %}}
-重试策略执行的操作会保存到工作流的历史记录中。必须注意不要在工作流已经执行后更改重试策略的行为。否则，工作流在重放时可能会出现意外行为。请参阅有关[更新工作流代码]({{% ref "#updating-workflow-code" %}})的说明以获取更多信息。
-{{% /alert %}}
-
-可以同时使用工作流重试策略和 Dapr 弹性策略。例如，如果工作流活动使用 Dapr 客户端调用服务，则 Dapr 客户端使用配置好的弹性策略。详见[快速入门：服务间弹性]({{% ref "resiliency-serviceinvo-quickstart.md" %}})以获取更多信息和示例。但是，如果活动本身因任何原因失败，包括耗尽弹性策略的重试次数，则工作流的弹性策略会介入。
+重试在内部使用 durable timers 实现。这意味着 workflow 在等待重试触发期间可以被安全地从内存中卸载，从而节省系统资源。这也意味着重试之间的延迟可以任意长，包括几分钟、几小时，甚至几天。
 
 {{% alert title="注意" color="primary" %}}
-同时使用工作流重试策略和弹性策略可能导致意外行为。例如，如果工作流活动耗尽其配置的重试策略，工作流引擎仍会根据工作流重试策略重试该活动。这可能导致活动被重试的次数超出预期。
+重试策略执行的操作会保存到 workflow 的历史记录中。在 workflow 已经执行之后，必须注意不要更改重试策略的行为，否则 workflow 在重放时可能出现意外行为。更多信息请参阅关于[更新 workflow 代码]({{% ref "#updating-workflow-code" %}})的说明。
 {{% /alert %}}
 
-由于工作流重试策略是在代码中配置的，确切的开发者体验可能因工作流 SDK 版本而异。一般来说，工作流重试策略可以使用以下参数进行配置：
+也可以同时使用 workflow 重试策略和 Dapr resiliency policies。例如，如果 workflow activity 使用 Dapr 客户端调用某个服务，则 Dapr 客户端会使用已配置的 resiliency policy。更多信息及示例，请参阅 [Quickstart：Service-to-service resiliency]({{% ref "resiliency-serviceinvo-quickstart.md" %}})。但是，如果 activity 本身因任何原因失败（包括耗尽了 resiliency policy 的重试次数），则 workflow 的 resiliency policy 会介入。
+
+{{% alert title="注意" color="primary" %}}
+同时使用 workflow 重试策略和 resiliency policies 可能导致意外行为。例如，如果 workflow activity 耗尽了其配置的重试策略，workflow 引擎仍会根据 workflow 重试策略重试该 activity。这可能导致 activity 被重试的次数超出预期。
+{{% /alert %}}
+
+由于 workflow 重试策略在代码中配置，具体的开发体验可能因 workflow SDK 版本而异。一般来说，workflow 重试策略可通过以下参数进行配置：
 
 | 参数 | 描述 |
 | --- | --- |
-| **最大尝试次数** | 执行活动或子工作流的最大次数。如果设置为 0，则不会进行任何尝试。 |
-| **首次重试间隔** | 等待第一次重试的时间量。 |
-| **退避系数** | 用于确定退避增加速率的系数。例如，系数为 2 会使每次后续重试的等待时间翻倍。 |
-| **最大重试间隔** | 每次后续重试之前等待的最大时间量。如果设置为 0，则不会发生重试。 |
-| **重试超时** | 重试的全局超时时间，无论配置的最大尝试次数如何。此超时到期后，将不再尝试执行活动。 |
+| **最大尝试次数** | 执行 activity 或 child workflow 的最大次数。如果设置为 0，则不会进行任何尝试。 |
+| **首次重试间隔** | 等待第一次重试之前的时长。 |
+| **退避系数** | 用于确定退避时间增长速率的系数。例如，系数为 2 会使后续每次重试的等待时间翻倍。 |
+| **最大重试间隔** | 每次后续重试之前等待的最长时长。如果设置为 0，则不会发生任何重试。 |
+| **重试超时** | 重试的全局超时时间，与配置的最大尝试次数无关。此超时到期后，将不再执行 activity 的后续尝试。 |
 
-## 外部事件
+child workflow 的每次重试都是一个独立的 instance，拥有自己的实例 ID。自 Dapr 1.19 起，父 workflow 历史记录中重试尝试的 `ChildWorkflowInstanceCreated` 事件会记录第一次尝试的实例 ID（`retryParentInstanceInfo`）。读取父 workflow 历史的工具可以据此将同一次调用的各次尝试归为一组，而无需遍历它们之间的重试 timers。
 
-有时工作流需要等待由外部系统触发的事件。例如，审批工作流可能要求人工在工作流处理订单时明确批准订单请求（如果总成本超过某个阈值）。另一个例子是琐事游戏编排工作流，在等待所有参与者提交他们对琐事问题的答案时暂停。这些中途执行的输入称为_外部事件_。
+## External events
 
-外部事件具有_名称_和_有效载荷_，并被传递到单个工作流实例。工作流可以创建"等待外部事件"任务来订阅外部事件，并_等待_这些任务以阻塞执行直到收到事件。然后工作流可以读取这些事件的有效载荷，并决定下一步采取什么行动。外部事件可以串行或并行处理。外部事件可以由其他工作流或工作流代码触发。
+有时 workflow 需要等待由外部系统触发的事件。例如，若订单总额超过某个阈值，审批 workflow 可能要求人工在订单处理 workflow 中明确批准订单请求。另一个例子是问答游戏编排 workflow，它会暂停，直到所有参与者都提交了问题的答案。这些执行过程中的输入称为 _external events_。
 
-工作流也可以等待多个相同名称的外部事件信号，在这种情况下，它们会以先进先出（FIFO）的方式被分派到相应的工作流任务。如果工作流收到外部事件信号但尚未创建"等待外部事件"任务，该事件将被保存到工作流的历史记录中，并在工作流请求该事件后立即被消费。
+external events 具有_名称_和_负载_，并会被投递到单个 workflow instance。workflow 可以创建"_wait for external event_"任务来订阅 external events，并_等待_这些任务，以阻塞执行直到收到事件。随后，workflow 可以读取这些事件的负载，并决定接下来要采取的步骤。External events 可以串行或并行处理。External events 可以由其他 workflow 或 workflow 代码触发。
+
+workflow 也可以等待多个同名的 external event 信号，此时这些信号会以先进先出（FIFO）的方式派发给对应的 workflow 任务。如果 workflow 收到了 external event 信号，但尚未创建"wait for external event"任务，该事件会被保存到 workflow 的历史记录中，并在 workflow 请求该事件后立即被消费。
 
 了解更多关于[与外部系统交互]({{% ref "workflow-patterns.md#external-system-interaction" %}})的信息。
 
-## 清除
+## Workflow history propagation
 
-工作流状态可以从状态存储中清除，清除其所有历史记录并移除与特定工作流实例相关的所有元数据。清除功能用于已运行到 `COMPLETED`、`FAILED` 或 `TERMINATED` 状态的工作流。
+Workflow history propagation 使 workflow instance 能够回溯 workflow 或其他 workflow 已执行过的事件集合，并验证这些事件确实发生过。一些场景包括性能欺诈检查、合规关卡检查，或让长期运行的 AI 代理或 workflow 在多次调用之间保持上下文（multi-agent、multi-app workflow），从而判断代理或 workflow 声称已完成的事情是否真的属实。
 
-在 [workflow API 参考指南]({{% ref workflow_api.md %}}) 中了解更多。
+例如，如果您有一个 workflow 用于验证用户的信用检查，您可以使用 workflow history propagation 来验证该检查确实针对指定用户发生过。若再结合 workflow history signing，您还可以对此进行密码学层面的确认或证明。
+
+父 workflow 可以选择将其执行历史与下游的 child workflows、grandchild workflows 以及 activities 共享。提供两种作用域：
+
+- **Lineage**— 调用方的事件，外加完整的祖先链（保管链）
+- **Own history**— 仅包含调用方的事件（作为信任边界，不包含祖先谱系）
+
+接收方 workflow 或 activity 可通过 SDK 的 `GetPropagatedHistory()` API 读取其继承的历史，并验证上游发生了什么。
+
+关于详细信息、作用域对比和代码示例，请参阅 [Workflow history propagation]({{< ref workflow-history-propagation.md >}})。
+
+## Stateful workflow client
+
+workflow 在每个轮次都会从其历史记录重放，而该历史只会不断增长。为避免每次都发送完整历史，workflow SDK 会将已重放的历史保留在内存中，sidecar 只发送自上一轮次以来新增的事件。因此，每个轮次的负载不再随 workflow 的长度增长，这对长期运行的 workflow、监控模式（monitor pattern）以及大规模扇出 workflow 最为重要。
+
+该功能默认启用，无需任何配置或代码更改，并且绝不影响正确性：如果工作进程缓存的历史与 sidecar 的预期不一致，则会改为获取完整历史。
+
+了解更多关于 [stateful workflow client]({{< ref workflow-stateful-client.md >}}) 的信息。
+
+## Purging
+
+可以从 state store 中 purge workflow 状态，purge 其全部历史记录，并移除与特定 workflow instance 相关的所有 metadata。purge 能力适用于已运行至 `COMPLETED`、`FAILED` 或 `TERMINATED` 状态的 workflow。
+
+更多信息请参阅 [Workflow API 参考指南]({{% ref workflow_api.md %}})。
 
 ## 版本控制
 
-工作流代码是长期运行的，必须在更新期间保持确定性。有关修补和命名工作流版本控制的详细信息，请参阅[工作流版本控制]({{% ref workflow-versioning.md %}})。
+workflow 代码是长期运行的，在更新期间必须保持确定性。关于修补和 named workflow versioning 的详细信息，请参阅 [Workflow versioning]({{% ref workflow-versioning.md %}})。
 
-## 限制
+## Limitations
 
-### 工作流确定性与代码约束
+### 负载大小
 
-为了利用工作流重放技术，您的工作流代码需要具有确定性。为了使您的工作流代码具有确定性，您可能需要解决一些限制。
+单次 workflow 或 activity 派发受 sidecar 的 `--max-body-size` 设置限制（默认为 4 MiB）。如果 workflow 的 `PastEvents + NewEvents + PropagatedHistory` 将超过该上限的 95%，则该 workflow 会进入停滞状态，而不会中断派发流。指标会展示每个 workflow 和 activity 距离上限的接近程度，以便运维人员在停滞发生之前采取行动。详情与补救步骤请参阅 [Workflow 负载大小]({{% ref workflow-payload-size.md %}})。
 
-#### 工作流函数必须调用确定性 API
-生成随机数、随机 UUID 或获取当前日期的 API 是_非确定性的_。要解决此限制，您可以：
-- 在活动函数中使用这些 API，或
-- （推荐）使用 SDK 提供的内置等效 API。例如，每个创作 SDK 都提供了一种以确定性方式获取当前时间的 API。
+### 快速路径与并发限制
+
+当配置了由 Scheduler 强制执行的并发限制（`globalMaxConcurrentWorkflowInvocations`、`globalMaxConcurrentActivityInvocations`，或按名称设置的 `workflowConcurrencyLimits` 与 `activityConcurrencyLimits`）时，`WorkflowsFastPath` 预览功能会自动禁用，因为这些限制会控制每次 Scheduler job 的投递，而快速路径不借助 Scheduler jobs 驱动工作。per-sidecar 限制则是兼容的。请参阅 [Workflow 快速路径]({{% ref workflow-fast-path.md %}}) 和 [Workflow 并发限制]({{% ref workflow-concurrency.md %}})。
+
+### Workflow determinism and code restraints
+
+为了利用 workflow 重放技术，您的 workflow 代码需要具有确定性。为了让 workflow 代码具有确定性，您可能需要规避一些限制。
+
+#### Workflow 函数必须调用确定性 API
+生成随机数、随机 UUID 或获取当前日期的 API 是_非确定性的_。要规避此限制，您可以：
+- 在 activity 函数中使用这些 API，或
+- （推荐）使用 SDK 提供的内置等效 API。例如，每个编写 SDK 都提供了以确定性方式获取当前时间的 API。
 
 例如，不要这样做：
 
@@ -282,7 +356,7 @@ const currentTime = time.Now()
 // 这样做！！
 DateTime currentTime = context.CurrentUtcDateTime;
 Guid newIdentifier = context.NewGuid();
-string randomString = await context.CallActivityAsync<string>(nameof("GetRandomString")); //使用 "nameof" 以防止指定应用程序中不存在的活动名称
+string randomString = await context.CallActivityAsync<string>(nameof("GetRandomString")); //使用 "nameof" 以防止指定应用程序中不存在的 activity 名称
 ```
 
 {{% /tab %}}
@@ -319,10 +393,10 @@ const currentTime = ctx.CurrentUTCDateTime()
 {{< /tabpane >}}
 
 
-#### 工作流函数必须仅_间接_与外部状态交互。
-外部数据包括任何不存储在工作流状态中的数据。工作流不得与全局变量、环境变量、文件系统交互，或进行网络调用。
+#### Workflow 函数必须仅_间接_与外部状态交互。
+外部数据包括任何未存储在 workflow 状态中的数据。Workflows 不得与全局变量、环境变量、文件系统交互，也不得发起网络调用。
 
-相反，工作流应该使用工作流输入、活动任务和外部事件处理来_间接_地与外部状态交互。
+相反，workflow 应当通过 workflow 输入、activity 任务以及 external event 处理，_间接_地与外部状态交互。
 
 例如，不要这样做：
 
@@ -388,7 +462,7 @@ resp, err := http.Get("http://example.com/api/data")
 
 ```csharp
 // 这样做！！
-string configuration = workflowInput.Configuration; // 假设的工作流输入参数
+string configuration = workflowInput.Configuration; // 假设的 workflow 输入参数
 string data = await context.CallActivityAsync<string>(nameof("MakeHttpCall"), "https://example.com/api/data");
 ```
 
@@ -398,7 +472,7 @@ string data = await context.CallActivityAsync<string>(nameof("MakeHttpCall"), "h
 
 ```java
 // 这样做！！
-String configuration = ctx.getInput(InputType.class).getConfiguration(); // 假设的工作流输入参数
+String configuration = ctx.getInput(InputType.class).getConfiguration(); // 假设的 workflow 输入参数
 String data = ctx.callActivity(MakeHttpCall.class, "https://example.com/api/data", String.class).await();
 ```
 
@@ -408,7 +482,7 @@ String data = ctx.callActivity(MakeHttpCall.class, "https://example.com/api/data
 
 ```javascript
 // 这样做！！
-const configuration = workflowInput.getConfiguration(); // 假设的工作流输入参数
+const configuration = workflowInput.getConfiguration(); // 假设的 workflow 输入参数
 const data = yield ctx.callActivity(makeHttpCall, "https://example.com/api/data");
 ```
 
@@ -426,13 +500,12 @@ err := ctx.CallActivity(MakeHttpCallActivity, workflow.ActivityInput("https://ex
 {{% /tab %}}
 {{< /tabpane >}}
 
-
-#### 工作流函数必须仅在工作流调度线程上执行。
-每种语言 SDK 的实现都要求所有工作流函数操作在与调度函数的同一线程（goroutine 等）上操作。工作流函数必须永远不要：
+#### Workflow 函数必须仅在 workflow 派发线程上执行。
+每种语言的 SDK 实现都要求，所有 workflow 函数操作必须在该函数被调度所在的同一线程（goroutine 等）上执行。Workflow 函数绝不能：
 - 调度后台线程，或
-- 使用调度回调函数在另一个线程上运行的 API。
+- 使用会将回调函数调度到另一线程上运行的 API。
 
-违反此规则可能导致未定义的行为。任何后台处理都应委托给活动任务，活动任务可以串行或并发调度。
+违反此规则可能导致未定义的行为。任何后台处理都应改为委托给 activity 任务，activity 任务可以串行或并发调度。
 
 例如，不要这样做：
 
@@ -461,7 +534,7 @@ ctx.createTimer(Duration.ofSeconds(5)).await();
 
 {{% tab "JavaScript" %}}
 
-不要将 JavaScript 工作流声明为 `async`。Node.js 运行时不能保证异步函数是确定性的。
+不要将 JavaScript workflow 声明为 `async`。Node.js 运行时不能保证异步函数是确定性的。
 
 {{% /tab %}}
 
@@ -507,7 +580,7 @@ ctx.createTimer(Duration.ofSeconds(5)).await();
 
 {{% tab "JavaScript" %}}
 
-由于 Node.js 运行时不能保证异步函数是确定性的，请始终将 JavaScript 工作流声明为同步生成器函数。
+由于 Node.js 运行时不能保证异步函数是确定性的，请始终将 JavaScript workflow 声明为同步生成器函数。
 
 {{% /tab %}}
 
@@ -523,24 +596,26 @@ task.Await(nil)
 
 {{< /tabpane >}}
 
-### 更新工作流代码
-确保您对工作流代码的更新保持其确定性。以下是一些可能破坏工作流确定性的代码更新示例：
-- **更改工作流函数签名**：更改工作流或活动的名称、输入或输出被视为破坏性更改，必须避免。
-- **更改工作流任务的数量或顺序**：更改工作流任务的数量或顺序会导致工作流的历史记录与工作流代码不再匹配，并可能导致运行时错误或其他意外行为。
+### Updating workflow code
+请确保您对 workflow 代码的更新保持其确定性。以下是一些可能破坏 workflow 确定性的代码更新示例：
+- **更改 workflow 函数签名**：更改 workflow 或 activity 的名称、输入或输出，被视为重大变更（breaking change），必须避免。
+- **更改 workflow 任务的数量或顺序**：更改 workflow 任务的数量或顺序，会导致 workflow 的历史记录与 workflow 代码不再匹配，并可能引发运行时错误或其他意外行为。
 
-要解决这些约束，请使用版本控制指南中描述的工作流[版本控制]({{% ref workflow-versioning.md %}})概念来修补和引入新的命名工作流版本，以确定性地将更改合并到您的工作流中。
+要规避这些约束，请使用版本控制指南中描述的 workflow [versioning]({{% ref workflow-versioning.md %}}) 概念，通过添加补丁（patch）并引入新的 named workflow versions，以确定性的方式将更改纳入您的 workflow。
 
 ## 下一步
 
-{{< button text="工作流模式 >>" page="workflow-patterns.md" >}}
+{{< button text="workflow 模式 >>" page="workflow-patterns.md" >}}
 
 ## 相关链接
 
-- [使用快速入门试用 Dapr 工作流]({{% ref workflow-quickstart.md %}})
-- [工作流概述]({{% ref workflow-overview.md %}})
-- [工作流 API 参考]({{% ref workflow_api.md %}})
+- [使用 Quickstart 试用 Dapr Workflow]({{% ref workflow-quickstart.md %}})
+- [Workflow 概述]({{% ref workflow-overview.md %}})
+- [Workflow 快速路径]({{% ref workflow-fast-path.md %}})
+- [操作指南：应用 workflow access policies]({{% ref workflow-access-policy.md %}})
+- [Workflow API 参考]({{% ref workflow_api.md %}})
 - 试用以下示例：
-   - [Python](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
+   - [Python](https://github.com/dapr/python-sdk/tree/main/examples/workflow)
    - [JavaScript](https://github.com/dapr/js-sdk/tree/main/examples/workflow)
    - [.NET](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
    - [Java](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)

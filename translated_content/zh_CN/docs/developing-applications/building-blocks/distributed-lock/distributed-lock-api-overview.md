@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "分布式锁概述"
+title: "Distributed lock overview"
 linkTitle: "概述"
 weight: 1000
 description: "分布式锁 API building block 概述"

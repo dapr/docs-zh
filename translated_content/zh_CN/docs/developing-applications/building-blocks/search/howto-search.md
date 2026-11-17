@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "How-To: 索引和搜索文档"
+title: "How-To: Index and search documents"
 linkTitle: "How-To: 搜索文档"
 weight: 2000
 description: "了解如何使用 Search API 索引、查询和管理文档"
@@ -496,7 +496,7 @@ const ack = await client.search.deleteDocuments(storeName, indexName, ["doc-2"],
   onWaitTimeout: "continueAsync",
 });
 
-console.log(ack); // "completed", or "queued" if the wait timed out
+console.log(ack); // "completed"，如果等待超时则为 "queued"
 ```
 
 {{% /tab %}}

@@ -1,29 +1,29 @@
 ---
 type: docs
-title: 工作流模式
-linkTitle: 工作流模式
+title: Workflow 模式
+linkTitle: Workflow 模式
 weight: 3000
-description: "编写不同类型的工作流模式"
+description: "编写不同类型的 workflow 模式"
 ---
 
-Dapr 工作流简化了微服务架构中复杂的有状态协调需求。以下各节介绍了几种可以从 Dapr 工作流中受益的应用程序模式。
+Dapr Workflows 简化了微服务架构中复杂的有状态协调需求。以下各节介绍了几种可以从 Dapr Workflows 中受益的应用程序模式。
 
-## 任务链
+## Task chaining
 
-在任务链模式中，工作流中的多个步骤按顺序运行，一个步骤的输出可以作为下一步的输入传递。任务链工作流通常涉及创建需要对某些数据执行的操作序列，例如过滤、转换和规约。
+在 task chaining 模式中，workflow 中的多个步骤按顺序运行，一个步骤的输出可以作为下一步的输入传递。Task chaining workflow 通常涉及创建一系列需要对某些数据执行的操作，例如过滤、转换和规约。
 
-<img src="/images/workflow-overview/workflows-chaining.png" width=800 alt="显示任务链工作流模式如何工作的示意图">
+{{< diagram name="workflow-task-chaining" width="85" >}}
 
-在某些情况下，工作流的步骤可能需要跨多个微服务进行编排。为了提高可靠性和可扩展性，您可能还会使用队列来触发各个步骤。
+在某些情况下，workflow 的步骤可能需要跨多个微服务进行编排。为了提高可靠性和可扩展性，您还可能会使用队列来触发各个步骤。
 
-虽然该模式很简单，但在实现中隐藏了许多复杂性。例如：
+虽然该模式很简单，但其实现中隐藏着许多复杂性。例如：
 
-- 如果某个微服务在较长时间内不可用，会发生什么？
-- 失败的步骤是否可以自动重试？
-- 如果不能，如何方便之前已完成的步骤的回滚（如果适用）？
-- 抛开实现细节，是否有方法可视化工作流，以便其他工程师可以理解它的作用和工作原理？
+- 如果某个微服务长时间不可用，会发生什么？
+- 失败的步骤能否自动重试？
+- 如果不能，如何回滚之前已完成的步骤（如果适用）？
+- 抛开实现细节，能否将 workflow 可视化，以便其他工程师理解它的作用和工作原理？
 
-Dapr 工作流通过允许您使用您选择的编程语言将任务链模式简洁地实现为一个简单的函数来解决这些复杂性，如以下示例所示。
+Dapr Workflow 允许您使用所选编程语言，将 task chaining 模式简洁地实现为一个简单的函数，从而解决这些复杂性，如以下示例所示。
 
 {{< tabpane text=true >}}
 
@@ -46,28 +46,45 @@ def task_chain_workflow(ctx: wf.DaprWorkflowContext, wf_input: int):
 
 def step1(ctx, activity_input):
     print(f'Step 1: Received input: {activity_input}.')
-    # Do some work
+    # 在此添加步骤特定的逻辑（例如数据转换）
     return activity_input + 1
 
 
 def step2(ctx, activity_input):
     print(f'Step 2: Received input: {activity_input}.')
-    # Do some work
+    # 在此添加步骤特定的逻辑（例如数据转换）
     return activity_input * 2
 
 
 def step3(ctx, activity_input):
     print(f'Step 3: Received input: {activity_input}.')
-    # Do some work
+    # 在此添加步骤特定的逻辑（例如数据转换）
     return activity_input ^ 2
 
 
 def error_handler(ctx, error):
     print(f'Executing error handler: {error}.')
-    # Apply some compensating work
+    # 在此添加撤销部分更改的逻辑（例如释放库存）
 ```
 
-> **Note** 工作流重试策略将在 Python SDK 的未来版本中提供。
+要重试失败的 activity，请创建一个 `RetryPolicy`，并将其传入 `call_activity` 的 `retry_policy` 参数。Dapr 运行时会在重试间隔之后再次运行该 activity，直到达到最大尝试次数。
+
+```python
+from datetime import timedelta
+import dapr.ext.workflow as wf
+
+
+def task_chain_workflow(ctx: wf.DaprWorkflowContext, wf_input: int):
+    retry_policy = wf.RetryPolicy(
+        max_number_of_attempts=3,
+        first_retry_interval=timedelta(seconds=2),
+        backoff_coefficient=2.0,
+        max_retry_interval=timedelta(seconds=30),
+    )
+    result1 = yield ctx.call_activity(step1, input=wf_input, retry_policy=retry_policy)
+    result2 = yield ctx.call_activity(step2, input=result1, retry_policy=retry_policy)
+    return [result1, result2]
+```
 
 {{% /tab %}}
 
@@ -77,7 +94,7 @@ def error_handler(ctx, error):
 import { DaprWorkflowClient, WorkflowActivityContext, WorkflowContext, WorkflowRuntime, TWorkflow } from "@dapr/dapr";
 
 async function start() {
-  // Update the gRPC client and worker to use a local address and port
+  // 将 gRPC 客户端和工作进程更新为使用本地地址和端口
   const daprHost = "localhost";
   const daprPort = "50001";
   const workflowClient = new DaprWorkflowClient({
@@ -108,7 +125,7 @@ async function start() {
 
   workflowRuntime.registerWorkflow(sequence).registerActivity(hello);
 
-  // Wrap the worker startup in a try-catch block to handle any errors during startup
+  // 将工作进程启动包裹在 try-catch 块中，以处理启动期间的任何错误
   try {
     await workflowRuntime.start();
     console.log("Workflow runtime started successfully");
@@ -116,12 +133,12 @@ async function start() {
     console.error("Error starting workflow runtime:", error);
   }
 
-  // Schedule a new orchestration
+  // 调度新的编排
   try {
     const id = await workflowClient.scheduleNewWorkflow(sequence);
     console.log(`Orchestration scheduled with ID: ${id}`);
 
-    // Wait for orchestration completion
+    // 等待编排完成
     const state = await workflowClient.waitForWorkflowCompletion(id, undefined, 30);
 
     console.log(`Orchestration completed! Result: ${state?.serializedOutput}`);
@@ -132,14 +149,14 @@ async function start() {
   await workflowRuntime.stop();
   await workflowClient.stop();
 
-  // stop the dapr side car
+  // 停止 Dapr sidecar
   process.exit(0);
 }
 
 start().catch((e) => {
   console.error(e);
   process.exit(1);
- # Apply custom compensation logic
+  // 在此添加撤销部分更改的逻辑（例如退款）
 });
 ```
 
@@ -148,7 +165,7 @@ start().catch((e) => {
 {{% tab ".NET" %}}
 
 ```csharp
-// Expotential backoff retry policy that survives long outages
+// 能够经受长时间中断的指数退避重试策略
 var retryOptions = new WorkflowTaskOptions
 {
     RetryPolicy = new WorkflowRetryPolicy(
@@ -165,15 +182,15 @@ try
     var result3 = await context.CallActivityAsync<long[]>("Step3", result2, retryOptions);
     return string.Join(", ", result4);
 }
-catch (TaskFailedException) // Task failures are surfaced as TaskFailedException
+catch (TaskFailedException) // 任务失败以 TaskFailedException 的形式抛出
 {
-    // Retries expired - apply custom compensation logic
+    // 重试已耗尽，应用自定义补偿逻辑
     await context.CallActivityAsync<long[]>("MyCompensation", options: retryOptions);
     throw;
 }
 ```
 
-> **Note** 在上面的示例中，`"Step1"`、`"Step2"`、`"Step3"` 和 `"MyCompensation"` 表示工作流活动，这些是实际实现工作流步骤的代码中的函数。为简洁起见，这些活动的实现未包含在此示例中。
+> **Note** 在上面的示例中，`"Step1"`、`"Step2"`、`"Step3"` 和 `"MyCompensation"` 表示 workflow activity，即实际实现 workflow 步骤的函数。为简洁起见，这些 activity 的实现未包含在此示例中。
 
 {{% /tab %}}
 
@@ -201,7 +218,7 @@ public class ChainWorkflow extends Workflow {
         public Object run(WorkflowActivityContext ctx) {
             Logger logger = LoggerFactory.getLogger(Step1.class);
             logger.info("Starting Activity: " + ctx.getName());
-            // Do some work
+            // 在此添加步骤特定的逻辑（例如数据转换）
             return null;
         }
     }
@@ -212,7 +229,7 @@ public class ChainWorkflow extends Workflow {
         public Object run(WorkflowActivityContext ctx) {
             Logger logger = LoggerFactory.getLogger(Step2.class);
             logger.info("Starting Activity: " + ctx.getName());
-            // Do some work
+            // 在此添加步骤特定的逻辑（例如数据转换）
             return null;
         }
     }
@@ -223,7 +240,7 @@ public class ChainWorkflow extends Workflow {
         public Object run(WorkflowActivityContext ctx) {
             Logger logger = LoggerFactory.getLogger(Step3.class);
             logger.info("Starting Activity: " + ctx.getName());
-            // Do some work
+            // 在此添加步骤特定的逻辑（例如数据转换）
             return null;
         }
     }
@@ -283,37 +300,39 @@ func Step3(ctx workflow.ActivityContext) (any, error) {
 
 {{< /tabpane >}}
 
-如您所见，工作流被表示为您选择的编程语言中的一系列简单语句。这使得组织中的任何工程师都可以快速理解端到端流程，而无需一定理解端到端系统架构。
+如您所见，workflow 被表示为您所选编程语言中一系列简单的语句。这使得组织中的任何工程师都可以快速理解端到端的流程，而无需先理解端到端的系统架构。
 
-在幕后，Dapr 工作流运行时：
+在幕后，Dapr Workflow runtime 会：
 
-- 负责执行工作流并确保其运行完成。
+- 负责执行 workflow 并确保其运行至完成。
 - 自动保存进度。
-- 如果工作流进程因任何原因失败，会自动从最后完成的步骤恢复工作流。
-- 允许用目标编程语言自然地表达错误处理，使您可以轻松实现补偿逻辑。
-- 提供内置的重试配置原语，以简化为工作流中的各个步骤配置复杂重试策略的过程。
+- 如果 workflow 进程因任何原因失败，会自动从最后完成的步骤恢复 workflow。
+- 支持以目标编程语言自然地表达错误处理，让您可以轻松实现补偿逻辑。
+- 提供内置的重试配置原语，简化为 workflow 中各个步骤配置复杂重试策略的过程。
+
+要运行此模式，请在 [Python](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/python/task-chaining)、[.NET](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/csharp/task-chaining) 或 [Java](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/java/task-chaining) 中尝试 task chaining 教程。
 
 ## 扇出/扇入
 
-在扇出/扇入设计模式中，您跨多个工作器同时执行多个任务，等待它们完成，然后对结果执行某种聚合。
+在扇出/扇入设计模式中，您可以跨可能的多个工作进程同时执行多个任务，等待它们全部完成，然后对结果执行某种聚合。
 
-<img src="/images/workflow-overview/workflows-fanin-fanout.png" width=800 alt="显示扇出/扇入工作流模式如何工作的示意图">
+{{< diagram name="workflow-fan-out-fan-in" width="65" >}}
 
-除了[前面模式]({{% ref "workflow-patterns.md#task-chaining" %}})中提到的挑战之外，手动实现扇出/扇入模式时还有几个重要问题需要考虑：
+除了[前面的模式]({{% ref "workflow-patterns.md#task-chaining" %}})中提到的挑战之外，手动实现扇出/扇入模式时还需要考虑以下几个重要问题：
 
-- 您如何控制并行度？
-- 您如何知道何时触发后续聚合步骤？
-- 如果并行步骤的数量是动态的怎么办？
+- 如何控制并行度？
+- 如何知道何时触发后续的聚合步骤？
+- 如果并行步骤的数量是动态的，该怎么办？
 
-Dapr 工作流提供了一种将扇出/扇入模式表示为简单函数的方法，如以下示例所示：
+Dapr Workflow 提供了一种将扇出/扇入模式表示为简单函数的方法，如以下示例所示：
 
 ```bash
-# Start the workflow
+# 启动 workflow
 dapr workflow run DataProcessingWorkflow \
   --app-id processor \
   --input '{"items": ["item1", "item2", "item3"]}'
 
-# Monitor parallel execution
+# 监控并行执行
 dapr workflow history <instance-id> --app-id processor --output json
 ```
 
@@ -328,14 +347,14 @@ import dapr.ext.workflow as wf
 
 
 def batch_processing_workflow(ctx: wf.DaprWorkflowContext, wf_input: int):
-    # get a batch of N work items to process in parallel
+    # 获取一批 N 个待并行处理的工作项
     work_batch = yield ctx.call_activity(get_work_batch, input=wf_input)
 
-    # schedule N parallel tasks to process the work items and wait for all to complete
+    # 调度 N 个并行任务来处理这些工作项，并等待全部完成
     parallel_tasks = [ctx.call_activity(process_work_item, input=work_item) for work_item in work_batch]
     outputs = yield wf.when_all(parallel_tasks)
 
-    # aggregate the results and send them to another activity
+    # 汇总结果，并将其发送给另一个 activity
     total = sum(outputs)
     yield ctx.call_activity(process_results, input=total)
 
@@ -370,9 +389,9 @@ import {
   TWorkflow,
 } from "@dapr/dapr";
 
-// Wrap the entire code in an immediately-invoked async function
+// 将整个代码包裹在立即执行的异步函数中
 async function start() {
-  // Update the gRPC client and worker to use a local address and port
+  // 将 gRPC 客户端和工作进程更新为使用本地地址和端口
   const daprHost = "localhost";
   const daprPort = "50001";
   const workflowClient = new DaprWorkflowClient({
@@ -403,12 +422,12 @@ async function start() {
   async function processWorkItemActivity(context: WorkflowActivityContext, item: string): Promise<number> {
     console.log(`processing work item: ${item}`);
 
-    // Simulate some work that takes a variable amount of time
+    // 模拟耗时可变的工作
     const sleepTime = Math.random() * 5000;
     await sleep(sleepTime);
 
-    // Return a result for the given work item, which is also a random number in this case
-    // For more information about random numbers in workflow please check
+    // 返回该工作项的结果；这里的结果同样是一个随机数
+    // 有关 workflow 中随机数的更多信息，请参阅
     // https://learn.microsoft.com/azure/azure-functions/durable/durable-functions-code-constraints?tabpane=csharp#random-numbers
     return Math.floor(Math.random() * 11);
   }
@@ -428,7 +447,7 @@ async function start() {
   workflowRuntime.registerActivity(getWorkItemsActivity);
   workflowRuntime.registerActivity(processWorkItemActivity);
 
-  // Wrap the worker startup in a try-catch block to handle any errors during startup
+  // 将工作进程启动包裹在 try-catch 块中，以处理启动期间的任何错误
   try {
     await workflowRuntime.start();
     console.log("Worker started successfully");
@@ -436,12 +455,12 @@ async function start() {
     console.error("Error starting worker:", error);
   }
 
-  // Schedule a new orchestration
+  // 调度新的编排
   try {
     const id = await workflowClient.scheduleNewWorkflow(workflow);
     console.log(`Orchestration scheduled with ID: ${id}`);
 
-    // Wait for orchestration completion
+    // 等待编排完成
     const state = await workflowClient.waitForWorkflowCompletion(id, undefined, 30);
 
     console.log(`Orchestration completed! Result: ${state?.serializedOutput}`);
@@ -449,11 +468,11 @@ async function start() {
     console.error("Error scheduling or waiting for orchestration:", error);
   }
 
-  // stop worker and client
+  // 停止工作进程和客户端
   await workflowRuntime.stop();
   await workflowClient.stop();
 
-  // stop the dapr side car
+  // 停止 Dapr sidecar
   process.exit(0);
 }
 
@@ -468,10 +487,10 @@ start().catch((e) => {
 {{% tab ".NET" %}}
 
 ```csharp
-// Get a list of N work items to process in parallel.
+// 获取 N 个待并行处理的工作项列表。
 object[] workBatch = await context.CallActivityAsync<object[]>("GetWorkBatch", null);
 
-// Schedule the parallel tasks, but don't wait for them to complete yet.
+// 调度并行任务，但暂不等待它们完成。
 var parallelTasks = new List<Task<int>>(workBatch.Length);
 for (int i = 0; i < workBatch.Length; i++)
 {
@@ -479,10 +498,10 @@ for (int i = 0; i < workBatch.Length; i++)
     parallelTasks.Add(task);
 }
 
-// Everything is scheduled. Wait here until all parallel tasks have completed.
+// 所有任务均已调度。在此等待所有并行任务完成。
 await Task.WhenAll(parallelTasks);
 
-// Aggregate all N outputs and publish the result.
+// 汇总全部 N 个输出并发布结果。
 int sum = parallelTasks.Sum(t => t.Result);
 await context.CallActivityAsync("PostResults", sum);
 ```
@@ -496,15 +515,15 @@ public class FaninoutWorkflow extends Workflow {
     @Override
     public WorkflowStub create() {
         return ctx -> {
-            // Get a list of N work items to process in parallel.
+            // 获取 N 个待并行处理的工作项列表。
             Object[] workBatch = ctx.callActivity("GetWorkBatch", Object[].class).await();
-            // Schedule the parallel tasks, but don't wait for them to complete yet.
+            // 调度并行任务，但暂不等待它们完成。
             List<Task<Integer>> tasks = Arrays.stream(workBatch)
                     .map(workItem -> ctx.callActivity("ProcessWorkItem", workItem, int.class))
                     .collect(Collectors.toList());
-            // Everything is scheduled. Wait here until all parallel tasks have completed.
+            // 所有任务均已调度。在此等待所有并行任务完成。
             List<Integer> results = ctx.allOf(tasks).await();
-            // Aggregate all N outputs and publish the result.
+            // 汇总全部 N 个输出并发布结果。
             int sum = results.stream().mapToInt(Integer::intValue).sum();
             ctx.complete(sum);
         };
@@ -581,15 +600,15 @@ func ProcessResults(ctx workflow.ActivityContext) (any, error) {
 
 {{< /tabpane >}}
 
-此示例的关键要点是：
+此示例的关键要点如下：
 
-- 扇出/扇入模式可以使用普通编程构造表示为简单的函数
-- 并行任务的数量可以是静态的或动态的
-- 工作流本身能够聚合并行执行的结果
+- 扇出/扇入模式可以使用普通的编程构造表示为简单的函数
+- 并行任务的数量可以是静态的，也可以是动态的
+- workflow 本身能够聚合并行执行的结果
 
-此外，工作流的执行是持久的。如果一个工作流启动 100 个并行任务执行，并且在进程崩溃之前只完成了 40 个，工作流会自动重新启动，并且只安排剩余的 60 个任务。
+此外，workflow 的执行是持久的。如果一个 workflow 启动了 100 个并行任务执行，而只有 40 个在进程崩溃前完成，workflow 会自动重新启动，并且只调度剩余的 60 个任务。
 
-您可以进一步使用简单的特定语言构造来限制并发度。下面的示例代码说明了如何将扇出度限制为仅 5 个并发活动执行：
+您还可以进一步使用特定语言的简单构造来限制并发度。下面的示例代码说明了如何将扇出限制为最多 5 个并发的 activity 执行：
 
 {{< tabpane text=true >}}
 
@@ -597,8 +616,8 @@ func ProcessResults(ctx workflow.ActivityContext) (any, error) {
 
 ```csharp
 
-//Revisiting the earlier example...
-// Get a list of N work items to process in parallel.
+//沿用前面的示例。
+// 获取 N 个待并行处理的工作项列表。
 object[] workBatch = await context.CallActivityAsync<object[]>("GetWorkBatch", null);
 
 const int MaxParallelism = 5;
@@ -625,18 +644,18 @@ await context.CallActivityAsync("PostResults", sum);
 
 {{< /tabpane >}}
 
-您可以通过使用 `WorkflowContext` 上的以下扩展方法来并行处理工作流活动，同时对并发性设置上限：
+通过使用 `WorkflowContext` 上的以下扩展方法，您可以并行处理 activity，同时为并发数设置上限：
 
 {{< tabpane text=true >}}
 
 {{% tab header=".NET" %}}
 
 ```csharp
-//Revisiting the earlier example...
-// Get a list of work items to process
+//沿用前面的示例。
+// 获取要处理的工作项列表
 var workBatch = await context.CallActivityAsync<object[]>("GetWorkBatch", null);
 
-// Process deterministically in parallel with an upper cap of 5 activities at a time
+// 以确定性的方式并行处理，同时最多同时运行 5 个 activity
 var results = await context.ProcessInParallelAsync(workBatch, workItem => context.CallActivityAsync<int>("ProcessWorkItem", workItem), maxConcurrency: 5);
 
 var sum = results.Sum(t => t);
@@ -647,45 +666,47 @@ await context.CallActivityAsync("PostResults", sum);
 
 {{< /tabpane >}}
 
-以这种方式限制并发度对于限制对共享资源的争用非常有用。例如，如果活动需要调用具有自己并发限制的外部资源（如数据库或外部 API），确保不超过指定数量的活动同时调用该资源会很有用。
+以这种方式限制并发度，有助于限制对共享资源的争用。例如，如果 activity 需要调用具有自身并发限制的外部资源（如数据库或外部 API），那么确保同时调用该资源的 activity 数量不超过指定值会很有用。
+
+要运行此模式，请在 [Python](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/python/fan-out-fan-in)、[.NET](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/csharp/fan-out-fan-in) 或 [Java](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/java/fan-out-fan-in) 中尝试扇出/扇入教程。
 
 ## 异步 HTTP API
 
-异步 HTTP API 通常使用[异步请求-回复模式](https://learn.microsoft.com/azure/architecture/patterns/async-request-reply)来实现。传统实现此模式涉及以下内容：
+异步 HTTP API 通常使用[异步请求-回复模式](https://learn.microsoft.com/azure/architecture/patterns/async-request-reply)来实现。传统上，实现此模式涉及以下步骤：
 
 1. 客户端向 HTTP API 端点发送请求（_启动 API_）
-1. _启动 API_ 将消息写入后端队列，触发长时间运行操作的开始
-1. 在安排后端操作后，_启动 API_ 立即向客户端返回 HTTP 202 响应，其中包含可用于轮询状态的标识符
+1. _启动 API_ 将消息写入后端队列，以触发长时间运行操作的启动
+1. 在调度后端操作之后，_启动 API_ 立即向客户端返回 HTTP 202 响应，其中包含一个可用于轮询状态的标识符
 1. _状态 API_ 查询包含长时间运行操作状态的数据库
-1. 客户端重复轮询 _状态 API_，直到某个超时过期或收到"完成"响应
+1. 客户端反复轮询 _状态 API_，直到超时到期或收到“完成”响应
 
 端到端流程如下图所示。
 
-<img src="/images/workflow-overview/workflow-async-request-response.png" width=800 alt="显示异步请求-回复模式如何工作的示意图"/>
+{{< diagram name="workflow-async-http" width="80" >}}
 
-实现异步请求-回复模式的挑战在于它涉及使用多个 API 和状态存储。它还涉及正确实现协议，以便客户端知道如何自动轮询状态并了解操作何时完成。
+实现异步请求-回复模式的挑战在于，它涉及使用多个 API 和 state store。此外，还需要正确实现该协议，使客户端知道如何自动轮询状态，以及何时操作完成。
 
-Dapr 工作流 HTTP API 开箱即用地支持异步请求-回复模式，无需您编写任何代码或进行任何状态管理。
+Dapr workflow HTTP API 开箱即用地支持异步请求-回复模式，无需您编写任何代码或进行任何状态管理。
 
-以下 `curl` 命令说明了工作流 API 如何支持此模式。
+以下 `curl` 命令说明了 workflow API 如何支持此模式。
 
 ```bash
 curl -X POST http://localhost:3500/v1.0/workflows/dapr/OrderProcessingWorkflow/start?instanceID=12345678 -d '{"Name":"Paperclips","Quantity":1,"TotalCost":9.95}'
 ```
 
-前面的命令将产生以下响应 JSON：
+前面的命令将返回以下响应 JSON：
 
 ```json
 {"instanceID":"12345678"}
 ```
 
-然后，HTTP 客户端可以使用工作流实例 ID 构造状态查询 URL，并重复轮询它，直到在有效负载中看到"COMPLETE"、"FAILURE"或"TERMINATED"状态。
+然后，HTTP 客户端可以使用 workflow 实例 ID 构造状态查询 URL，并反复轮询它，直到在响应负载中看到“COMPLETE”、“FAILURE”或“TERMINATED”状态。
 
 ```bash
 curl http://localhost:3500/v1.0/workflows/dapr/12345678
 ```
 
-以下是正在进行中的工作流状态可能看起来像的示例。
+以下是进行中的 workflow 状态可能的样子。
 
 ```json
 {
@@ -701,9 +722,9 @@ curl http://localhost:3500/v1.0/workflows/dapr/12345678
 }
 ```
 
-从上一个示例中可以看出，工作流的运行时状态是 `RUNNING`，这让客户端知道应该继续轮询。
+从上一个示例可以看出，workflow 的运行时状态为 `RUNNING`，这告诉客户端应继续轮询。
 
-如果工作流已完成，状态可能如下所示。
+如果 workflow 已完成，状态可能如下所示。
 
 ```json
 {
@@ -720,24 +741,31 @@ curl http://localhost:3500/v1.0/workflows/dapr/12345678
 }
 ```
 
-从上一个示例中可以看出，工作流的运行时状态现在是 `COMPLETED`，这意味着客户端可以停止轮询更新。
+从上一个示例可以看出，workflow 的运行时状态现在为 `COMPLETED`，这意味着客户端可以停止轮询更新。
 
-## 监视器
+要运行此模式，请在 [Python](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/python/workflow-management)、[.NET](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/csharp/workflow-management) 或 [Java](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/java/workflow-management) 中尝试 workflow 管理教程，该教程会启动一个 workflow 并读取其状态。
 
-监视器模式是一个循环过程，通常：
+## 监控模式
 
-1. 检查系统状态
-1. 根据该状态采取某些操作 - 例如，发送通知
+监控模式（monitor pattern）是一个循环过程，通常会：
+
+1. 检查系统的状态
+1. 根据该状态采取某些操作，例如发送通知
 1. 休眠一段时间
 1. 重复
 
 下图大致说明了此模式。
 
-<img src="/images/workflow-overview/workflow-monitor-pattern.png" width=800 alt="显示监视器模式如何工作的示意图"/>
+{{< diagram workflow-monitor >}}
 
-根据业务需求，可能只有一个监视器，也可能有多个监视器，每个业务实体一个（例如，股票）。此外，根据情况，休眠的时间可能需要更改。这些要求使得使用基于 cron 的调度系统变得不切实际。
+根据业务需求，可能只有一个监控器，也可能为每个业务实体（例如一只股票）各设置一个监控器。此外，根据具体情况，休眠时间可能需要变化。这些要求使得基于 Cron 的调度系统变得不切实际。
 
-Dapr 工作流通过允许您实现_永久工作流_来原生支持此模式。无需编写无限 while 循环（[这是一种反模式]({{% ref "workflow-features-concepts.md#infinite-loops-and-eternal-workflows" %}})），Dapr 工作流公开了一个 _continue-as-new_ API，工作流作者可以使用它从头开始使用新输入重新启动工作流函数。
+Dapr Workflow 通过允许您实现 _eternal workflows_ 原生支持此模式。与编写无限的 while 循环（[这是一种反模式]({{% ref "workflow-features-concepts.md#infinite-loops-and-eternal-workflows" %}})）不同，Dapr Workflow 公开了一个 _continue-as-new_ API，workflow 作者可以使用它以新的输入从头重新启动 workflow 函数。
+
+{{% alert title="Note" color="primary" %}}
+Continue-as-new 会立即重新启动 workflow，并丢弃任何未完成任务的结果，包括已启动但尚未等待的 activity、timer 和 child workflow。
+{{% /alert %}}
+
 
 {{< tabpane text=true >}}
 
@@ -757,23 +785,23 @@ class JobStatus:
 
 
 def status_monitor_workflow(ctx: wf.DaprWorkflowContext, job: JobStatus):
-    # poll a status endpoint associated with this job
+    # 轮询与此作业关联的状态端点
     status = yield ctx.call_activity(check_status, input=job)
     if not ctx.is_replaying:
         print(f"Job '{job.job_id}' is {status}.")
 
     if status == "healthy":
         job.is_healthy = True
-        next_sleep_interval = 60  # check less frequently when healthy
+        next_sleep_interval = 60  # 健康时降低检查频率
     else:
         if job.is_healthy:
             job.is_healthy = False
             ctx.call_activity(send_alert, input=f"Job '{job.job_id}' is unhealthy!")
-        next_sleep_interval = 5  # check more frequently when unhealthy
+        next_sleep_interval = 5  # 不健康时提高检查频率
 
     yield ctx.create_timer(fire_at=ctx.current_utc_datetime + timedelta(minutes=next_sleep_interval))
 
-    # restart from the beginning with a new JobStatus input
+    # 以新的 JobStatus 输入从头重新启动
     ctx.continue_as_new(job)
 
 
@@ -794,20 +822,18 @@ const statusMonitorWorkflow: TWorkflow = async function* (ctx: WorkflowContext):
     let duration;
     const status = yield ctx.callActivity(checkStatusActivity);
     if (status === "healthy") {
-      // Check less frequently when in a healthy state
-      // set duration to 1 hour
+      // 处于健康状态时降低检查频率
       duration = 60 * 60;
     } else {
       yield ctx.callActivity(alertActivity, "job unhealthy");
-      // Check more frequently when in an unhealthy state
-      // set duration to 5 minutes
+      // 处于不健康状态时提高检查频率
       duration = 5 * 60;
     }
 
-    // Put the workflow to sleep until the determined time
+    // 让 workflow 休眠到确定的时间
     ctx.createTimer(duration);
 
-    // Restart from the beginning with the updated state
+    // 使用更新后的状态从头重新启动
     ctx.continueAsNew();
   };
 ```
@@ -826,7 +852,7 @@ public override async Task<object> RunAsync(WorkflowContext context, MyEntitySta
     {
         myEntityState.IsHealthy = true;
 
-        // Check less frequently when in a healthy state
+        // 处于健康状态时降低检查频率
         nextSleepInterval = TimeSpan.FromMinutes(60);
     }
     else
@@ -837,20 +863,20 @@ public override async Task<object> RunAsync(WorkflowContext context, MyEntitySta
             await context.CallActivityAsync("SendAlert", myEntityState);
         }
 
-        // Check more frequently when in an unhealthy state
+        // 处于不健康状态时提高检查频率
         nextSleepInterval = TimeSpan.FromMinutes(5);
     }
 
-    // Put the workflow to sleep until the determined time
+    // 让 workflow 休眠到确定的时间
     await context.CreateTimer(nextSleepInterval);
 
-    // Restart from the beginning with the updated state
+    // 使用更新后的状态从头重新启动
     context.ContinueAsNew(myEntityState);
     return null;
 }
 ```
 
-> 此示例假设您有一个预定义的 `MyEntityState` 类，其中包含布尔 `IsHealthy` 属性。
+> 此示例假设您已有一个预定义的 `MyEntityState` 类，其中包含布尔类型的 `IsHealthy` 属性。
 
 {{% /tab %}}
 
@@ -869,24 +895,24 @@ public class MonitorWorkflow extends Workflow {
       var isHealthy = status.getIsHealthy();
 
       if (isHealthy) {
-        // Check less frequently when in a healthy state
+        // 处于健康状态时降低检查频率
         nextSleepInterval = Duration.ofMinutes(60);
       } else {
 
         ctx.callActivity(DemoWorkflowAlertActivity.class.getName()).await();
 
-        // Check more frequently when in an unhealthy state
+        // 处于不健康状态时提高检查频率
         nextSleepInterval = Duration.ofMinutes(5);
       }
 
-      // Put the workflow to sleep until the determined time
+      // 让 workflow 休眠到确定的时间
       try {
         ctx.createTimer(nextSleepInterval);
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }
 
-      // Restart from the beginning with the updated state
+      // 使用更新后的状态从头重新启动
       ctx.continueAsNew();
     }
   }
@@ -949,31 +975,33 @@ func SendAlert(ctx workflow.ActivityContext) (any, error) {
 
 {{< /tabpane >}}
 
-实现监视器模式的工作流可以永远循环，也可以通过不调用 _continue-as-new_ 来优雅地终止自己。
+实现监控模式的 workflow 可以无限循环，也可以通过不调用 _continue-as-new_ 来优雅地终止自身。
 
 {{% alert title="Note" color="primary" %}}
-此模式也可以使用 actor 和提醒来实现。区别在于此工作流表示为单个函数，输入和状态存储在局部变量中。如果必要，工作流还可以以更强的可靠性保证执行一系列操作。
+此模式也可以使用 Actor 和 reminder 来实现。区别在于，此 workflow 被表示为单个函数，其输入和状态都存储在局部变量中。如有必要，workflow 还可以以更强的可靠性保证执行一系列操作。
 {{% /alert %}}
+
+要运行此模式，请在 [Python](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/python/monitor-pattern)、[.NET](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/csharp/monitor-pattern) 或 [Java](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/java/monitor-pattern) 中尝试监控模式教程。
 
 ## 外部系统交互
 
-在某些情况下，工作流可能需要暂停并等待外部系统执行某些操作。例如，工作流可能需要暂停并等待收到付款。在这种情况下，支付系统可能会在收到付款时向发布/订阅主题发布事件，并且该主题上的侦听器可以使用[引发事件工作流 API]({{% ref "howto-manage-workflow.md#raise-an-event" %}})向工作流引发事件。
+在某些情况下，workflow 可能需要暂停并等待外部系统执行某些操作。例如，workflow 可能需要暂停并等待收到付款。在这种情况下，支付系统可能会在收到付款时向 pub/sub 主题发布一个事件，而该主题上的监听器可以通过 [raise event workflow API]({{% ref "howto-manage-workflow.md#raise-an-event" %}}) 向 workflow 发送事件。
 
-另一个非常常见的场景是工作流需要暂停并等待人员，例如在批准采购订单时。Dapr 工作流通过[外部事件]({{% ref "workflow-features-concepts.md#external-events" %}})功能支持此事件模式。
+另一种非常常见的场景是 workflow 需要暂停并等待人工操作，例如审批采购订单。Dapr Workflow 通过 [external events]({{% ref "workflow-features-concepts.md#external-events" %}}) 功能支持此事件模式。
 
-以下是涉及人员的采购订单的工作流示例：
+以下是一个涉及人工参与的采购订单 workflow 示例：
 
-1. 收到采购订单时触发工作流。
-1. 工作流中的规则确定需要人员执行某些操作。例如，采购订单成本超过某个自动批准阈值。
-1. 工作流发送请求人员操作的通知。例如，它向指定的批准者发送包含批准链接的电子邮件。
-1. 工作流暂停并等待人员通过单击链接来批准或拒绝订单。
-1. 如果在指定时间内未收到批准，工作流将恢复并执行某些补偿逻辑，例如取消订单。
+1. 收到采购订单时触发 workflow。
+1. workflow 中的一条规则判定需要人工执行某些操作。例如，采购订单金额超过某个自动审批阈值。
+1. workflow 发送通知，请求人工操作。例如，它向指定的审批人发送包含审批链接的电子邮件。
+1. workflow 暂停，并等待人工通过点击链接批准或拒绝订单。
+1. 如果在指定时间内未收到审批，workflow 将恢复执行并进行某些补偿逻辑，例如取消订单。
 
 下图说明了此流程。
 
-<img src="/images/workflow-overview/workflow-human-interaction-pattern.png" width=800 alt="显示涉及人员的外部系统交互模式如何工作的示意图"/>
+{{< diagram name="workflow-external-system" width="85" >}}
 
-以下示例代码显示了如何使用 Dapr 工作流实现此模式。
+以下示例代码展示了如何使用 Dapr Workflow 实现此模式。
 
 {{< tabpane text=true >}}
 
@@ -1005,21 +1033,21 @@ class Approval:
 
 
 def purchase_order_workflow(ctx: wf.DaprWorkflowContext, order: Order):
-    # Orders under $1000 are auto-approved
+    # 金额低于 $1000 的订单自动批准
     if order.cost < 1000:
         return "Auto-approved"
 
-    # Orders of $1000 or more require manager approval
+    # 金额为 $1000 或以上的订单需要经理审批
     yield ctx.call_activity(send_approval_request, input=order)
 
-    # Approvals must be received within 24 hours or they will be canceled.
+    # 必须在 24 小时内收到审批，否则订单将被取消。
     approval_event = ctx.wait_for_external_event("approval_received")
     timeout_event = ctx.create_timer(timedelta(hours=24))
     winner = yield wf.when_any([approval_event, timeout_event])
     if winner == timeout_event:
         return "Cancelled"
 
-    # The order was approved
+    # 订单已获批准
     yield ctx.call_activity(place_order, input=order)
     approval_details = Approval.from_dict(approval_event.get_result())
     return f"Approved by '{approval_details.approver}'"
@@ -1048,7 +1076,7 @@ import {
 } from "@dapr/dapr";
 import * as readlineSync from "readline-sync";
 
-// Wrap the entire code in an immediately-invoked async function
+// 将整个代码包裹在立即执行的异步函数中
 async function start() {
   class Order {
     cost: number;
@@ -1065,7 +1093,7 @@ async function start() {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  // Update the gRPC client and worker to use a local address and port
+  // 将 gRPC 客户端和工作进程更新为使用本地地址和端口
   const daprHost = "localhost";
   const daprPort = "50001";
   const workflowClient = new DaprWorkflowClient({
@@ -1077,29 +1105,29 @@ async function start() {
     daprPort,
   });
 
-  // Activity function that sends an approval request to the manager
+  // 向经理发送审批请求的 activity 函数
   const sendApprovalRequest = async (_: WorkflowActivityContext, order: Order) => {
-    // Simulate some work that takes an amount of time
+    // 模拟耗时的工作
     await sleep(3000);
     console.log(`Sending approval request for order: ${order.product}`);
   };
 
-  // Activity function that places an order
+  // 下单的 activity 函数
   const placeOrder = async (_: WorkflowActivityContext, order: Order) => {
     console.log(`Placing order: ${order.product}`);
   };
 
-  // Orchestrator function that represents a purchase order workflow
+  // 表示采购订单 workflow 的编排器函数
   const purchaseOrderWorkflow: TWorkflow = async function* (ctx: WorkflowContext, order: Order): any {
-    // Orders under $1000 are auto-approved
+    // 低于 $1000 的订单自动批准
     if (order.cost < 1000) {
       return "Auto-approved";
     }
 
-    // Orders of $1000 or more require manager approval
+    // $1000 或以上的订单需要经理审批
     yield ctx.callActivity(sendApprovalRequest, order);
 
-    // Approvals must be received within 24 hours or they will be cancled.
+    // 必须在 24 小时内收到审批，否则订单将被取消。
     const tasks: Task<any>[] = [];
     const approvalEvent = ctx.waitForExternalEvent("approval_received");
     const timeoutEvent = ctx.createTimer(24 * 60 * 60);
@@ -1121,7 +1149,7 @@ async function start() {
     .registerActivity(sendApprovalRequest)
     .registerActivity(placeOrder);
 
-  // Wrap the worker startup in a try-catch block to handle any errors during startup
+  // 将工作进程启动包裹在 try-catch 块中，以处理启动期间的任何错误
   try {
     await workflowRuntime.start();
     console.log("Worker started successfully");
@@ -1129,7 +1157,7 @@ async function start() {
     console.error("Error starting worker:", error);
   }
 
-  // Schedule a new orchestration
+  // 调度新的编排
   try {
     const cost = readlineSync.questionInt("Cost of your order:");
     const approver = readlineSync.question("Approver of your order:");
@@ -1138,10 +1166,10 @@ async function start() {
     const id = await workflowClient.scheduleNewWorkflow(purchaseOrderWorkflow, order);
     console.log(`Orchestration scheduled with ID: ${id}`);
 
-    // prompt for approval asynchronously
+    // 异步提示审批
     promptForApproval(approver, workflowClient, id);
 
-    // Wait for orchestration completion
+    // 等待编排完成
     const state = await workflowClient.waitForWorkflowCompletion(id, undefined, timeout + 2);
 
     console.log(`Orchestration completed! Result: ${state?.serializedOutput}`);
@@ -1149,11 +1177,11 @@ async function start() {
     console.error("Error scheduling or waiting for orchestration:", error);
   }
 
-  // stop worker and client
+  // 停止工作进程和客户端
   await workflowRuntime.stop();
   await workflowClient.stop();
 
-  // stop the dapr side car
+  // 停止 Dapr sidecar
   process.exit(0);
 }
 
@@ -1179,41 +1207,41 @@ start().catch((e) => {
 ```csharp
 public override async Task<OrderResult> RunAsync(WorkflowContext context, OrderPayload order)
 {
-    // ...(other steps)...
+    // 初始业务逻辑（例如库存检查）
 
-    // Require orders over a certain threshold to be approved
+    // 要求超过特定阈值的订单需要审批
     if (order.TotalCost > OrderApprovalThreshold)
     {
         try
         {
-            // Request human approval for this order
+            // 为此订单请求人工审批
             await context.CallActivityAsync(nameof(RequestApprovalActivity), order);
 
-            // Pause and wait for a human to approve the order
+            // 暂停并等待人工批准此订单
             ApprovalResult approvalResult = await context.WaitForExternalEventAsync<ApprovalResult>(
                 eventName: "ManagerApproval",
                 timeout: TimeSpan.FromDays(3));
             if (approvalResult == ApprovalResult.Rejected)
             {
-                // The order was rejected, end the workflow here
+                // 订单被拒绝，在此结束 workflow
                 return new OrderResult(Processed: false);
             }
         }
         catch (TaskCanceledException)
         {
-            // An approval timeout results in automatic order cancellation
+            // 审批超时将自动取消订单
             return new OrderResult(Processed: false);
         }
     }
 
-    // ...(other steps)...
+    // 最终业务逻辑（例如发货确认）
 
-    // End the workflow with a success result
+    // 以成功结果结束 workflow
     return new OrderResult(Processed: true);
 }
 ```
 
-> **Note** 在上面的示例中，`RequestApprovalActivity` 是要调用的工作流活动的名称，而 `ApprovalResult` 是由工作流应用定义的枚举。为简洁起见，这些定义未包含在示例代码中。
+> **Note** 在上面的示例中，`RequestApprovalActivity` 是要调用的 workflow activity 的名称，`ApprovalResult` 是由 workflow 应用定义的枚举。为简洁起见，这些定义未包含在示例代码中。
 
 {{% /tab %}}
 
@@ -1224,27 +1252,27 @@ public class ExternalSystemInteractionWorkflow extends Workflow {
     @Override
     public WorkflowStub create() {
         return ctx -> {
-            // ...other steps...
+            // 初始业务逻辑（例如库存检查）
             Integer orderCost = ctx.getInput(int.class);
-            // Require orders over a certain threshold to be approved
+            // 要求超过特定阈值的订单需要审批
             if (orderCost > ORDER_APPROVAL_THRESHOLD) {
                 try {
-                    // Request human approval for this order
+                    // 为此订单请求人工审批
                     ctx.callActivity("RequestApprovalActivity", orderCost, Void.class).await();
-                    // Pause and wait for a human to approve the order
+                    // 暂停并等待人工批准此订单
                     boolean approved = ctx.waitForExternalEvent("ManagerApproval", Duration.ofDays(3), boolean.class).await();
                     if (!approved) {
-                        // The order was rejected, end the workflow here
+                        // 订单被拒绝，在此结束 workflow
                         ctx.complete("Process reject");
                     }
                 } catch (TaskCanceledException e) {
-                    // An approval timeout results in automatic order cancellation
+                    // 审批超时将自动取消订单
                     ctx.complete("Process cancel");
                 }
             }
-            // ...other steps...
+            // 最终业务逻辑（例如发货确认）
 
-            // End the workflow with a success result
+            // 以成功结果结束 workflow
             ctx.complete("Process approved");
         };
     }
@@ -1269,21 +1297,21 @@ func PurchaseOrderWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 	if err := ctx.GetInput(&order); err != nil {
 		return "", err
 	}
-	// Orders under $1000 are auto-approved
+	// 低于 $1000 的订单自动批准
 	if order.Cost < 1000 {
 		return "Auto-approved", nil
 	}
-	// Orders of $1000 or more require manager approval
+	// $1000 或以上的订单需要经理审批
 	if err := ctx.CallActivity(SendApprovalRequest, workflow.ActivityInput(order)).Await(nil); err != nil {
 		return "", err
 	}
-	// Approvals must be received within 24 hours or they will be cancelled
+	// 必须在 24 小时内收到审批，否则订单将被取消
 	var approval Approval
 	if err := ctx.WaitForExternalEvent("approval_received", time.Hour*24).Await(&approval); err != nil {
-		// Assuming that a timeout has taken place - in any case; an error.
+		// 假设已发生超时，无论如何都视为错误。
 		return "error/cancelled", err
 	}
-	// The order was approved
+	// 订单已获批准
 	if err := ctx.CallActivity(PlaceOrder, workflow.ActivityInput(order)).Await(nil); err != nil {
 		return "", err
 	}
@@ -1311,7 +1339,7 @@ func PlaceOrder(ctx workflow.ActivityContext) (any, error) {
 
 {{< /tabpane >}}
 
-向等待的工作流实例传递事件以恢复工作流执行的代码在工作流外部。可以使用[引发事件]({{% ref "howto-manage-workflow.md#raise-an-event" %}})工作流管理 API 将工作流事件传递给等待的工作流实例，如以下示例所示：
+向等待中的 workflow 实例传递事件以恢复其执行的代码位于 workflow 外部。可以使用 [raise event]({{% ref "howto-manage-workflow.md#raise-an-event" %}}) workflow 管理 API 将 workflow 事件传递给等待中的 workflow 实例，如以下示例所示：
 
 {{< tabpane text=true >}}
 
@@ -1346,7 +1374,7 @@ import { DaprClient } from "@dapr/dapr";
 {{% tab ".NET" %}}
 
 ```csharp
-// Raise the workflow event to the waiting workflow
+// 向等待中的 workflow 引发事件
 await daprClient.RaiseWorkflowEventAsync(
     instanceId: orderId,
     workflowComponent: "dapr",
@@ -1392,44 +1420,46 @@ func raiseEvent() {
 
 {{< /tabpane >}}
 
-外部事件不必直接由人员触发。它们也可以由其他系统触发。例如，工作流可能需要暂停并等待收到付款。在这种情况下，支付系统可能会在收到付款时向发布/订阅主题发布事件，并且该主题上的侦听器可以使用引发事件工作流 API 向工作流引发事件。
+外部事件不必由人工直接触发，也可以由其他系统触发。例如，workflow 可能需要暂停并等待收到付款。在这种情况下，支付系统可能会在收到付款时向 pub/sub 主题发布一个事件，而该主题上的监听器可以通过 raise event workflow API 向 workflow 发送事件。
+
+要运行此模式，请在 [Python](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/python/external-system-interaction)、[.NET](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/csharp/external-system-interaction) 或 [Java](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/java/external-system-interactions) 中尝试外部系统交互教程。
 
 ## 补偿
 
-补偿模式（也称为 Saga 模式）提供了一种在工作流中途失败时回滚或撤销已执行操作的机制。此模式对于跨越多个微服务且传统数据库事务不可行的长时间运行的工作流特别重要。
+补偿模式（也称为 Saga 模式）提供了一种机制，用于在 workflow 中途失败时回滚或撤销已执行的操作。此模式对于跨多个微服务、且传统数据库事务不可行的长时间运行的 workflow 尤为重要。
 
-在分布式微服务架构中，您通常需要跨多个服务协调操作。当这些操作无法包含在单个事务中时，补偿模式通过为工作流中的每个步骤定义补偿操作来提供一种保持一致性的方法。
+在分布式微服务架构中，您通常需要跨多个服务协调操作。当这些操作无法包含在单个事务中时，补偿模式通过为 workflow 中的每个步骤定义补偿操作，提供了一种保持一致性的方法。
 
 补偿模式解决了几个关键挑战：
 
-- **分布式事务管理**：当工作流跨越多个微服务时，每个微服务都有自己的数据存储，传统的 ACID 事务是不可能的。补偿模式通过确保操作要么全部成功完成，要么通过补偿全部撤销来提供事务一致性。
-- **部分故障恢复**：如果工作流在某些步骤成功完成后失败，补偿模式允许您优雅地撤销这些已完成的步骤。
-- **业务流程完整性**：确保业务流程可以在故障时正确回滚，从而保持业务操作的完整性。
-- **长时间运行的流程**：对于可能运行数小时、数天或更长时间的工作流，传统的锁定机制是不切实际的。补偿提供了一种在这些场景中处理故障的方法。
+- **分布式事务管理**：当 workflow 跨越多个微服务（每个微服务都有各自的数据存储）时，传统的 ACID 事务是不可能实现的。补偿模式通过确保操作要么全部成功完成，要么全部通过补偿撤销，提供事务一致性。
+- **部分故障恢复**：如果 workflow 在某些步骤已成功完成后失败，补偿模式可让您优雅地撤销这些已完成的步骤。
+- **业务流程完整性**：确保业务流程在发生故障时能够正确回滚，从而维护业务操作的完整性。
+- **长时间运行的流程**：对于可能运行数小时、数天甚至更久的 workflow，传统的锁定机制并不实用。补偿为这些场景中的故障处理提供了一种方法。
 
 补偿模式的常见用例包括：
 
-- **电子商务订单处理**：预留库存、处理付款和发货订单。如果发货失败，您需要释放库存并退还付款。
-- **金融交易**：在转账中，如果贷记目标账户失败，您需要回滚对源账户的借记。
-- **资源预配**：在跨多个提供程序预配云资源时，如果某个步骤失败，您需要清理所有以前预配的资源。
-- **多步骤业务流程**：任何涉及多个不可逆步骤的业务流程，这些步骤可能需要在后续失败时撤销。
+- **电子商务订单处理**：预留库存、处理付款并发货。如果发货失败，您需要释放库存并退还付款。
+- **金融交易**：在转账中，如果向目标账户入账失败，您需要回滚从源账户的扣款。
+- **资源预配**：在跨多个提供商预配云资源时，如果某个步骤失败，您需要清理之前已预配的所有资源。
+- **多步骤业务流程**：任何涉及多个不可逆步骤、且可能需要在后续失败时撤销的业务流程。
 
-Dapr 工作流提供对补偿模式的支持，允许您为每个步骤注册补偿活动，并在需要时以相反的顺序执行它们。
+Dapr Workflow 为补偿模式提供支持，允许您为每个步骤注册补偿 activity，并在需要时以相反的顺序执行它们。
 
-以下是电子商务流程的工作流示例：
+以下是一个电子商务流程的 workflow 示例：
 
-1. 收到订单时触发工作流。
-1. 在库存中为订单进行预留。
+1. 收到订单时触发 workflow。
+1. 在库存中为订单预留商品。
 1. 处理付款。
-1. 发货订单。
-1. 如果上述任何操作导致错误，则使用另一个操作进行补偿：
+1. 发货。
+1. 如果上述任何操作产生错误，则通过另一个操作进行补偿：
    - 取消发货。
    - 退还付款。
    - 释放库存预留。
 
 下图说明了此流程。
 
-<img src="/images/workflow-overview/workflows-compensation.png" width=600 alt="显示补偿模式的示意图。"/>
+{{< diagram name="workflow-compensation" width="75" >}}
 
 {{< tabpane text=true >}}
 
@@ -1446,17 +1476,17 @@ public class PaymentProcessingWorkflow implements Workflow {
             List<String> compensations = new ArrayList<>();
 
             try {
-                // Step 1: Reserve inventory
+                // 第 1 步：预留库存
                 String reservationId = ctx.callActivity(ReserveInventoryActivity.class.getName(), orderId, String.class).await();
                 ctx.getLogger().info("Inventory reserved: {}", reservationId);
                 compensations.add("ReleaseInventory");
 
-                // Step 2: Process payment
+                // 第 2 步：处理付款
                 String paymentId = ctx.callActivity(ProcessPaymentActivity.class.getName(), orderId, String.class).await();
                 ctx.getLogger().info("Payment processed: {}", paymentId);
                 compensations.add("RefundPayment");
 
-                // Step 3: Ship order
+                // 第 3 步：发货
                 String shipmentId = ctx.callActivity(ShipOrderActivity.class.getName(), orderId, String.class).await();
                 ctx.getLogger().info("Order shipped: {}", shipmentId);
                 compensations.add("CancelShipment");
@@ -1464,7 +1494,7 @@ public class PaymentProcessingWorkflow implements Workflow {
             } catch (TaskFailedException e) {
                 ctx.getLogger().error("Activity failed: {}", e.getMessage());
 
-                // Execute compensations in reverse order
+                // 按相反顺序执行补偿
                 Collections.reverse(compensations);
                 for (String compensation : compensations) {
                     try {
@@ -1500,7 +1530,7 @@ public class PaymentProcessingWorkflow implements Workflow {
                 ctx.complete("Order processing failed, compensation applied");
             }
 
-			// Step 4: Send confirmation
+			// 第 4 步：发送确认
 			ctx.callActivity(SendConfirmationActivity.class.getName(), orderId, Void.class).await();
             ctx.getLogger().info("Confirmation sent for order: {}", orderId);
 
@@ -1509,12 +1539,12 @@ public class PaymentProcessingWorkflow implements Workflow {
     }
 }
 
-// Example activities
+// 示例 activity
 class ReserveInventoryActivity implements WorkflowActivity {
     @Override
     public Object run(WorkflowActivityContext ctx) {
         String orderId = ctx.getInput(String.class);
-        // Logic to reserve inventory
+        // 预留库存的逻辑
         String reservationId = "reservation_" + orderId;
         System.out.println("Reserved inventory for order: " + orderId);
         return reservationId;
@@ -1525,7 +1555,7 @@ class ReleaseInventoryActivity implements WorkflowActivity {
     @Override
     public Object run(WorkflowActivityContext ctx) {
         String reservationId = ctx.getInput(String.class);
-        // Logic to release inventory reservation
+        // 释放库存预留的逻辑
         System.out.println("Released inventory reservation: " + reservationId);
         return "Released: " + reservationId;
     }
@@ -1535,7 +1565,7 @@ class ProcessPaymentActivity implements WorkflowActivity {
     @Override
     public Object run(WorkflowActivityContext ctx) {
         String orderId = ctx.getInput(String.class);
-        // Logic to process payment
+        // 处理付款的逻辑
         String paymentId = "payment_" + orderId;
         System.out.println("Processed payment for order: " + orderId);
         return paymentId;
@@ -1546,7 +1576,7 @@ class RefundPaymentActivity implements WorkflowActivity {
     @Override
     public Object run(WorkflowActivityContext ctx) {
         String paymentId = ctx.getInput(String.class);
-        // Logic to refund payment
+        // 退款的逻辑
         System.out.println("Refunded payment: " + paymentId);
         return "Refunded: " + paymentId;
     }
@@ -1556,7 +1586,7 @@ class ShipOrderActivity implements WorkflowActivity {
     @Override
     public Object run(WorkflowActivityContext ctx) {
         String orderId = ctx.getInput(String.class);
-        // Logic to ship order
+        // 发货的逻辑
         String shipmentId = "shipment_" + orderId;
         System.out.println("Shipped order: " + orderId);
         return shipmentId;
@@ -1567,7 +1597,7 @@ class CancelShipmentActivity implements WorkflowActivity {
     @Override
     public Object run(WorkflowActivityContext ctx) {
         String shipmentId = ctx.getInput(String.class);
-        // Logic to cancel shipment
+        // 取消发货的逻辑
         System.out.println("Canceled shipment: " + shipmentId);
         return "Canceled: " + shipmentId;
     }
@@ -1577,7 +1607,7 @@ class SendConfirmationActivity implements WorkflowActivity {
     @Override
     public Object run(WorkflowActivityContext ctx) {
         String orderId = ctx.getInput(String.class);
-        // Logic to send confirmation
+        // 发送确认的逻辑
         System.out.println("Sent confirmation for order: " + orderId);
         return null;
     }
@@ -1588,26 +1618,29 @@ class SendConfirmationActivity implements WorkflowActivity {
 
 {{< /tabpane >}}
 
-使用 Dapr 工作流补偿模式的主要好处包括：
+使用 Dapr Workflow 补偿模式的主要好处包括：
 
-- **补偿控制**：您可以完全控制何时以及如何执行补偿活动。
-- **灵活配置**：您可以实现自定义逻辑来确定要运行哪些补偿。
-- **错误处理**：根据您的特定业务需求处理补偿失败。
-- **简单实现**：无需额外的框架依赖 - 只需标准的工作流活动和异常处理。
+- **补偿控制**：您可以完全控制补偿 activity 何时以及如何执行。
+- **灵活配置**：您可以实现自定义逻辑，以确定要运行哪些补偿。
+- **错误处理**：根据您的具体业务需求处理补偿失败。
+- **简单实现**：无需额外的框架依赖，只需标准的 workflow activity 和异常处理。
 
-补偿模式确保您的分布式工作流可以保持一致性并从故障中优雅地恢复，使其成为构建可靠微服务架构的重要工具。
+补偿模式确保分布式 workflow 能够保持一致性，并从故障中优雅地恢复，使其成为构建可靠微服务架构的重要工具。
+
+要运行此模式，请在 [Python](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/python/resiliency-and-compensation)、[.NET](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/csharp/resiliency-and-compensation) 或 [Java](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/java/resiliency-and-compensation) 中尝试 resiliency and compensation 教程，该教程还展示了重试策略。
 
 ## 后续步骤
 
-{{< button text="工作流架构 >>" page="workflow-architecture.md" >}}
+{{< button text="workflow 架构 >>" page="workflow-architecture.md" >}}
 
 ## 相关链接
 
-- [使用快速入门试用 Dapr 工作流]({{% ref workflow-quickstart.md %}})
-- [工作流概述]({{% ref workflow-overview.md %}})
-- [工作流 API 参考]({{% ref workflow_api.md %}})
+- [使用快速入门试用 Dapr Workflows]({{% ref workflow-quickstart.md %}})
+- [workflow 概述]({{% ref workflow-overview.md %}})
+- [Workflow API 参考]({{% ref workflow_api.md %}})
+- 在 Quickstarts 仓库中运行 [workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)，其中为本页的每种模式提供了可运行的示例
 - 尝试以下示例：
-   - [Python](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
+   - [Python](https://github.com/dapr/python-sdk/tree/main/examples/workflow)
    - [JavaScript](https://github.com/dapr/js-sdk/tree/main/examples/workflow)
    - [.NET](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
    - [Java](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)

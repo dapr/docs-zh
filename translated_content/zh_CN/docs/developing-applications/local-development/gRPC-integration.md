@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：在 Dapr 应用中使用 gRPC 接口"
+title: "How to: Use the gRPC interface in your Dapr application"
 linkTitle: "gRPC 接口"
 weight: 400
 description: "在应用程序中使用 Dapr gRPC API"
@@ -10,9 +10,9 @@ Dapr 为本地调用实现了 HTTP 和 gRPC 两种 API。[gRPC](https://grpc.io/
 
 [在 Dapr SDK 文档中查看自动生成客户端的完整列表]({{% ref sdks %}})。
 
-Dapr 运行时实现了一个 [proto 服务](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/dapr.proto)，应用程序可以通过 gRPC 与其通信。
+Dapr runtime 实现了一个 [proto 服务](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/dapr.proto)，应用程序可以通过 gRPC 与其通信。
 
-除了通过 gRPC 调用 Dapr 外，Dapr 还支持作为代理进行 gRPC 服务间调用。[在 gRPC 服务调用操作指南中了解更多]({{% ref howto-invoke-services-grpc.md %}})。
+除了通过 gRPC 调用 Dapr 外，Dapr 还支持作为代理进行 gRPC 服务间调用。[在 gRPC service invocation 操作指南中了解更多]({{% ref howto-invoke-services-grpc.md %}})。
 
 本指南演示如何使用 Go SDK 应用程序配置并通过 gRPC 调用 Dapr。
 
@@ -20,7 +20,7 @@ Dapr 运行时实现了一个 [proto 服务](https://github.com/dapr/dapr/blob/m
 
 {{< tabpane text=true >}}
 <!--selfhosted-->
-{{% tab "Self-hosted" %}}
+{{% tab "自托管" %}}
 
 在自托管模式下运行时，使用 `--app-protocol` 标志告知 Dapr 使用 gRPC 与应用程序通信。
 
@@ -150,7 +150,7 @@ spec:
     }
     
     // 当远程服务通过 Dapr 调用应用程序时，会调用此方法
-    // 载荷包含一个用于标识方法的 Method、一组元数据属性和一个可选载荷
+    // 负载包含一个用于标识方法的 Method、一组 metadata 属性和一个可选的负载
     func (s *server) OnInvoke(ctx context.Context, in *commonv1pb.InvokeRequest) (*commonv1pb.InvokeResponse, error) {
     	var response string
     
@@ -175,15 +175,15 @@ spec:
     	}, nil
     }
     
-    // Dapr 将调用此方法以获取将调用应用程序的绑定列表。在此示例中，我们告知 Dapr
-    // 使用名为 storage 的绑定调用我们的应用程序
+    // Dapr 将调用此方法以获取将调用应用程序的 binding 列表。在此示例中，我们告知 Dapr
+    // 使用名为 storage 的 binding 调用我们的应用程序
     func (s *server) ListInputBindings(ctx context.Context, in *empty.Empty) (*pb.ListInputBindingsResponse, error) {
     	return &pb.ListInputBindingsResponse{
     		Bindings: []string{"storage"},
     	}, nil
     }
     
-    // 每当从已注册绑定触发新事件时，都会调用此方法。消息携带绑定名称、载荷和可选元数据
+    // 每当从已注册的 binding 触发新事件时，都会调用此方法。消息携带 binding 名称、负载和可选的 metadata
     func (s *server) OnBindingEvent(ctx context.Context, in *pb.BindingEventRequest) (*pb.BindingEventResponse, error) {
     	fmt.Println("Invoked from binding")
     	return &pb.BindingEventResponse{}, nil
@@ -213,7 +213,7 @@ spec:
     
     	fmt.Println("Client starting...")
     
-    	// 然后启动...
+    	// 然后启动……
     	if err := s.Serve(lis); err != nil {
     		log.Fatalf("failed to serve: %v", err)
     	}
@@ -226,7 +226,7 @@ spec:
 
 {{< tabpane text=true >}}
 <!--selfhosted-->
-{{% tab "Self-hosted" %}}
+{{% tab "自托管" %}}
 
 要在本地运行，请使用 Dapr CLI：
 
@@ -253,5 +253,5 @@ dapr run --app-id goapp --app-port 50001 --app-protocol grpc go run main.go
 使用 [protoc](https://developers.google.com/protocol-buffers/docs/downloads) 工具，你可以为其他语言（如 Ruby、C++、Rust 等）生成 Dapr 客户端。
 
  ## 相关主题
-- [服务调用构建块]({{% ref service-invocation %}})
-- [服务调用 API 规范]({{% ref service_invocation_api.md %}})
+- [Service invocation building block]({{% ref service-invocation %}})
+- [Service invocation API 规范]({{% ref service_invocation_api.md %}})

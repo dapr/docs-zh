@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "pluggable component 概述"
+title: "Pluggable components overview"
 linkTitle: "概述"
 weight: 1000
 description: "pluggable component 的解剖结构和支持的 component 类型概述"
 ---
 
-pluggable component 是指未包含在运行时中的 component，与随 `dapr init` 提供的 built-in component 不同。你可以配置 Dapr 使用 pluggable component；这些 component 利用 building block API，但注册方式与[内置 Dapr component](https://github.com/dapr/components-contrib)不同。
+pluggable component 是指未包含在运行时中的 component，与随 `dapr init` 提供的 built-in component 不同。你可以配置 Dapr 使用 pluggable component；这些 component 利用 building block API，但注册方式与 [built-in Dapr components](https://github.com/dapr/components-contrib) 不同。
 
 {{< diagram name="building-blocks-concept" width="75" >}}
 
@@ -19,7 +19,7 @@ Dapr 提供两种注册和创建 component 的方式：
 
 虽然两种注册方式都利用了 Dapr 的 building block API，但各自的实现过程不同。
 
-| component 详情 | [built-in component](https://github.com/dapr/components-contrib/blob/master/docs/developing-component.md) | pluggable component |
+| Component 详情 | [Built-in Component](https://github.com/dapr/components-contrib/blob/master/docs/developing-component.md) | Pluggable Components |
 | :--- | :--- | :--- |
 | **语言** | 只能用 Go 编写 | [可以用任何 gRPC 支持的语言编写](https://grpc.io/docs/what-is-grpc/introduction/#protocol-buffer-versions) |
 | **运行位置** | 作为 Dapr runtime 可执行文件的一部分 | 作为 Pod 中独立的进程或容器运行，与 Dapr 本身分开运行。 |
@@ -55,7 +55,7 @@ pluggable component 适用于以下场景：
 
 ## 将 pluggable component 投入运维
 
-built-in component 与 pluggable component 有一个共同点：两者都需要[component specification]({{% ref "components-concept.md#component-specification" %}})。built-in component 无需任何额外步骤即可使用：Dapr 会自动准备好使用它们。
+built-in component 与 pluggable component 有一个共同点：两者都需要 [component specification]({{% ref "components-concept.md#component-specification" %}})。built-in component 无需任何额外步骤即可使用：Dapr 会自动准备好使用它们。
 
 相比之下，pluggable component 在能与 Dapr 通信之前需要额外的步骤。你需要先运行 component，并促成 Dapr 与 component 之间的通信，才能启动注册过程。
 

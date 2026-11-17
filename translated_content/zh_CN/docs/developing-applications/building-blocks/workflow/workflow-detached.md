@@ -1,18 +1,18 @@
 ---
 type: docs
-title: "detached workflow"
-linkTitle: "detached workflow"
+title: "Detached workflows"
+linkTitle: "Detached workflows"
 weight: 2600
 description: "调度独立于调用方运行的即发即忘 workflow"
 ---
 
-除了[child workflow]({{% ref "#child-workflows" %}})之外，workflow 还可以把另一个 workflow 调度为 _detached workflow_。但在 _detached workflow_ 中，二者的关系是**即发即忘**（fire-and-forget）：调用方 workflow 请求运行时启动一个全新的、完全独立的 workflow instance，然后立即继续执行自身的逻辑，而无需等待该 detached workflow 完成。
+除了 [child workflows]({{% ref "#child-workflows" %}})之外，workflow 还可以把另一个 workflow 调度为 _detached workflow_。但在 _detached workflow_ 中，二者的关系是**即发即忘**（fire-and-forget）：调用方 workflow 请求运行时启动一个全新的、完全独立的 workflow instance，然后立即继续执行自身的逻辑，而无需等待该 detached workflow 完成。
 
 调度 detached workflow 时，调用会同步返回新的实例 ID。随后，detached workflow 会作为自己的顶层实例运行，拥有自己的实例 ID、历史记录和生命周期，与由客户端直接调度时完全相同。二者之间没有父子关联：detached workflow 的成功或失败不会回传给调用方，终止调用方也不会终止 detached workflow。
 
 这种引用关系是单向的。调用方 workflow 会在自己的历史记录中把这次派生记录为一个事件，因此它保存着所创建的分离实例的引用。然而，detached workflow 不持有指回调用方的引用：它没有父实例，行为与独立的顶层 workflow 一致。
 
-将派生记录在调用方的历史中，也是为了保证调用方 workflow 的确定性。与任何 workflow 动作一样，派生操作必须被记录在历史中，这样当 workflow[重放]({{% ref "workflow-features-concepts.md#workflow-replay" %}})时，运行时才知道 detached workflow 已经被创建，不会再次调度它。如果没有这条事件，重放时就无法判断 detached workflow 是否已经启动。
+将派生记录在调用方的历史中，也是为了保证调用方 workflow 的确定性。与任何 workflow 动作一样，派生操作必须被记录在历史中，这样当 workflow [重放]({{% ref "workflow-features-concepts.md#workflow-replay" %}})时，运行时才知道 detached workflow 已经被创建，不会再次调度它。如果没有这条事件，重放时就无法判断 detached workflow 是否已经启动。
 
 {{% alert title="注意" color="primary" %}}
 detached workflow 从 Dapr v1.19 起可用。目前 Go（Go SDK v1.16.0 及更高版本）和 .NET（.NET SDK 1.19 及更高版本）已提供 SDK 支持，其他 SDK 的支持即将推出。
@@ -20,7 +20,7 @@ detached workflow 从 Dapr v1.19 起可用。目前 Go（Go SDK v1.16.0 及更�
 
 ## detached workflow 与 child workflow 的比较
 
-| | child workflow | detached workflow |
+| | Child workflow | Detached workflow |
 | --- | --- | --- |
 | **与调用方的关系** | 与调用方的生命周期耦合 | 完全独立（即发即忘） |
 | **调用方行为** | 获得一个可等待的任务，通常会等待其完成 | 同步获得新实例 ID，并立即继续执行 |
@@ -28,7 +28,7 @@ detached workflow 从 Dapr v1.19 起可用。目前 Go（Go SDK v1.16.0 及更�
 | **父级终止** | 终止调用方会同时终止 child workflow | 终止调用方对 detached workflow 没有影响 |
 | **重试策略** | 支持 | 不适用，因为调用方不跟踪其结果 |
 
-如果你需要被调度 workflow 的结果、希望其失败能够向上传播，或希望它随父 workflow 一起终止，请改用[child workflow]({{% ref "workflow-features-concepts.md#child-workflows" %}})。
+如果你需要被调度 workflow 的结果、希望其失败能够向上传播，或希望它随父 workflow 一起终止，请改用 [child workflow]({{% ref "workflow-features-concepts.md#child-workflows" %}})。
 
 ## 何时使用 detached workflow
 
@@ -40,7 +40,7 @@ detached workflow 从 Dapr v1.19 起可用。目前 Go（Go SDK v1.16.0 及更�
 
 ## 调度 detached workflow
 
-以下示例展示了如何在 `ParentWorkflow` 中调度一个分离的 `AuditWorkflow`。与 child workflow 不同，这里没有需要等待的任务：调用会同步返回新实例 ID，调度 workflow 随即继续执行。调度 workflow 和 detached workflow 都必须像其他 workflow 一样注册到 worker 中。
+以下示例展示了如何在 `ParentWorkflow` 中调度一个分离的 `AuditWorkflow`。与 child workflow 不同，这里没有需要等待的任务：调用会同步返回新实例 ID，调度 workflow 随即继续执行。调度 workflow 和 detached workflow 都必须像其他 workflow 一样注册到工作进程中。
 
 {{< tabpane text=true >}}
 
@@ -61,7 +61,8 @@ func ParentWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 		return nil, err
 	}
 
-	// 父 workflow 不等待即继续执行。detached workflow 的成功或失败不会影响本 workflow。
+	// 父 workflow 不等待即继续执行。
+	// detached workflow 的成功或失败不会影响本 workflow。
 	return instanceID, nil
 }
 
@@ -84,7 +85,7 @@ func AuditWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 
 <!--dotnet-->
 
-`ScheduleNewDetachedWorkflowAsync` 接受 workflow 名称，以及可选的 `instanceId`、`input` 和 `startTime` 参数。省略 `instanceId` 时，SDK 会生成一个确定性的 GUID。.NET SDK 不接受 detached workflow 的应用 ID 或应用命名空间。
+`ScheduleNewDetachedWorkflowAsync` 接受 workflow 名称，以及可选的 `instanceId`、`input` 和 `startTime` 参数。省略 `instanceId` 时，SDK 会生成一个确定性的 GUID。.NET SDK 不接受 detached workflow 的 App ID 或应用命名空间。
 
 ```csharp
 // ParentWorkflow 调度一个 detached workflow，并立即继续执行，
@@ -124,8 +125,8 @@ public sealed class AuditWorkflow : Workflow<string, string>
 | **实例 ID** | detached workflow 的实例 ID。省略时，会生成形如 `<caller-instance-id>-<n>` 的确定性 ID。 |
 | **输入** | 传递给 detached workflow 的输入。 |
 | **开始时间** | 将 detached workflow 的启动推迟到指定时间。 |
-| **应用 ID** | 按目标应用 ID 在另一个应用上调度 detached workflow，需遵循[multi-application workflow]({{% ref workflow-multi-app.md %}})的规则。 |
-| **应用命名空间** | 目标应用的 Dapr 命名空间。必须与应用 ID 一起使用，并且依照多应用规则，必须与调用方的命名空间一致。 |
+| **App ID** | 按目标 App ID 在另一个应用上调度 detached workflow，需遵循 [multi-application workflow]({{% ref workflow-multi-app.md %}})的规则。 |
+| **应用命名空间** | 目标应用的 Dapr namespace。必须与 App ID 一起使用，并且依照多应用规则，必须与调用方的 namespace 一致。 |
 
 ## 相关链接
 

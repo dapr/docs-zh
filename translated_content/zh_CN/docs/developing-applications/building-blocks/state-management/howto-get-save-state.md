@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：保存和获取状态"
+title: "How-To: Save and get state"
 linkTitle: "操作指南：保存和获取状态"
 weight: 200
 description: "使用键值对持久化状态"
@@ -760,7 +760,7 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '{"keys":["
 
 ## 执行 state transaction
 
-{{% alert title="注意" color="primary" %}}
+{{% alert title="Note" color="primary" %}}
 state transaction 需要支持多项事务的 state store。完整列表请参阅[支持的 state store 页面]({{% ref supported-state-stores %}})。
 {{% /alert %}}
 

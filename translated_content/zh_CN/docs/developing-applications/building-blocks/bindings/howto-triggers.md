@@ -1,49 +1,49 @@
 ---
 type: docs
-title: "操作指南：使用输入绑定触发应用程序"
-linkTitle: "操作指南：输入绑定"
-description: "使用 Dapr 输入绑定来触发事件驱动应用程序"
+title: "操作指南：使用 input bindings 触发应用程序"
+linkTitle: "操作指南：Input bindings"
+description: "使用 Dapr input bindings 触发事件驱动应用程序"
 weight: 200
 ---
 
-使用输入绑定，当外部资源发生事件时，可以触发您的应用程序。外部资源可以是队列、消息管道、云服务、文件系统等。请求可以随附可选的 payload 和 metadata。
+通过 input bindings，当外部资源发生事件时，您可以触发您的应用程序。外部资源可以是队列、消息流水线、云服务、文件系统等。请求中可以附带可选的负载和 metadata。
 
-输入绑定非常适合事件驱动处理、数据管道，或通常用于响应事件并执行进一步处理。Dapr 输入绑定允许您：
+Input bindings 非常适合事件驱动处理、数据流水线，或通常用于响应事件并执行进一步处理。Dapr input bindings 允许您：
 
-- 接收事件而无需包含特定的 SDK 或库
-- 更换绑定而无需更改代码
-- 专注于业务逻辑而非事件资源实现
+- 无需包含特定的 SDK 或库即可接收事件
+- 无需更改代码即可替换 binding
+- 专注于业务逻辑，而不是事件资源的实现
 
-<img src="/images/howto-triggers/kafka-input-binding.png" width=1000 alt="Diagram showing bindings of example service">
+{{< diagram name="binding-input-kafka" width="55" >}}
 
-本指南以 Kafka 绑定为例。您可以从[绑定组件列表]({{% ref setup-bindings %}})中找到您首选的绑定规范。在本指南中：
+本指南以 Kafka binding 为例。您可以从 [binding 组件列表]({{% ref setup-bindings %}}) 中找到您偏好的 binding 规范。在本指南中：
 
-1. 示例使用 `checkout`（要调用的绑定名称）调用 `/binding` 端点。
-1. payload 放入必填的 `data` 字段中，可以是任何 JSON 可序列化的值。
-1. `operation` 字段告知绑定需要采取什么操作。例如，[Kafka 绑定支持 `create` 操作]({{% ref "kafka#binding-support" %}})。
-   - 您可以检查[每个输出绑定支持哪些操作（特定于每个组件）]({{% ref supported-bindings %}})。
+1. Dapr 代表您连接到外部资源，使用 binding 组件中的设置。例如，对于名为 `checkout` 的 Kafka binding，即它消费的 `topics` 以及它加入的 `consumerGroup`。
+1. 当事件到达时，Dapr 会在您的应用程序上调用一个以 binding 名称命名的 `POST` 端点（即 `/checkout`），并将事件负载作为请求体传递。
+1. `direction` 字段告诉 Dapr 该 binding 的运行方向。Input binding 会触发您的应用程序，因此将其设置为 `input`。
+   - 一个组件可以同时支持两个方向；请[指定 binding 支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})，以便 Dapr 知道该使用哪个方向。
 
-{{% alert title="注意" color="primary" %}}
- 如果您还没有尝试过，请先[尝试绑定快速入门]({{% ref bindings-quickstart %}})，快速了解如何使用绑定 API。
+{{% alert title="Note" color="primary" %}}
+ 如果您还没有尝试过，请先[尝试 bindings 快速入门]({{% ref bindings-quickstart %}})，快速了解如何使用 Bindings API。
 
 {{% /alert %}}
 
-## 创建绑定
+## 创建 binding
 
-创建一个 `binding.yaml` 文件并保存到应用程序目录中的 `components` 子文件夹。
+创建一个 `binding.yaml` 文件，并将其保存到应用程序目录下的 `components` 子文件夹中。
 
-创建一个名为 `checkout` 的新绑定组件。在 `metadata` 部分，配置以下与 Kafka 相关的属性：
+创建一个名为 `checkout` 的新 binding 组件。在 `metadata` 部分中，配置以下与 Kafka 相关的属性：
 
 - 您将向其发布消息的 topic
 - broker
 
-创建绑定组件时，[指定绑定支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。
+创建 binding 组件时，请[指定 binding 支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。
 
 {{< tabpane text=true >}}
 
-{{% tab "自托管 (CLI)" %}}
+{{% tab "自托管（CLI）" %}}
 
-在 `dapr run` 命令中使用 `--resources-path` 标志指向您的自定义资源目录。
+在 `dapr run` 命令中使用 `--resources-path` 标志，指向您的自定义资源目录。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -75,7 +75,7 @@ spec:
 
 {{% tab "Kubernetes" %}}
 
-要部署到 Kubernetes 集群，运行 `kubectl apply -f binding.yaml`。
+要部署到 Kubernetes 集群，请运行 `kubectl apply -f binding.yaml`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -107,11 +107,11 @@ spec:
 
 {{< /tabpane >}}
 
-## 监听传入事件（输入绑定）
+## 监听传入事件（input binding）
 
 配置您的应用程序以接收传入事件。如果您使用 HTTP，则需要：
-- 监听一个 `POST` 端点，端点名称为绑定名称，即 `binding.yaml` 文件中 `metadata.name` 指定的名称。
-- 验证您的应用程序允许 Dapr 对此端点进行 `OPTIONS` 请求。
+- 监听一个 `POST` 端点，端点名称为 binding 名称，即 `binding.yaml` 文件中 `metadata.name` 指定的名称。
+- 验证您的应用程序允许 Dapr 对此端点发出 `OPTIONS` 请求。此请求默认在 `3s` 后超时。如果您的应用程序在启动时响应较慢，请使用 `--app-binding-options-timeout` daprd 标志，或 Kubernetes 注解 `dapr.io/app-binding-options-timeout` 来增加超时时间。
 
 以下是利用 Dapr SDK 演示输入绑定的代码示例。
 
@@ -141,7 +141,7 @@ public sealed class CheckoutServiceController : ControllerBase
 }
 ```
 
-以下示例演示如何使用 minimal API 方式配置相同的输入绑定：
+以下示例演示如何使用最小 API（minimal API）方式配置相同的输入绑定：
 ```csharp
 app.MapPost("checkout", ([FromBody] int orderId) =>
 {
@@ -150,7 +150,7 @@ app.MapPost("checkout", ([FromBody] int orderId) =>
 });
 ```
 
-以下示例演示如何使用 minimal API 方式配置相同的输入绑定：
+以下示例演示如何使用最小 API（minimal API）方式配置相同的输入绑定：
 ```csharp
 app.MapPost("checkout", ([FromBody] int orderId) =>
 {
@@ -164,13 +164,13 @@ app.MapPost("checkout", ([FromBody] int orderId) =>
 {{% tab "Java" %}}
 
 ```java
-//dependencies
+//依赖项
 import org.springframework.web.bind.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 
-//code
+//代码
 @RestController
 @RequestMapping("/")
 public class CheckoutServiceController {
@@ -189,11 +189,11 @@ public class CheckoutServiceController {
 {{% tab "Python" %}}
 
 ```python
-#dependencies
+#依赖项
 import logging
 from dapr.ext.grpc import App, BindingRequest
 
-#code
+#代码
 app = App()
 
 @app.binding('checkout')
@@ -210,7 +210,7 @@ app.run(6002)
 {{% tab "Go" %}}
 
 ```go
-//dependencies
+//依赖项
 import (
 	"encoding/json"
 	"log"
@@ -218,7 +218,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-//code
+//代码
 func getCheckout(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	var orderId int
@@ -244,10 +244,10 @@ func main() {
 {{% tab "JavaScript" %}}
 
 ```javascript
-//dependencies 
+//依赖项 
 import { DaprServer, CommunicationProtocolEnum } from '@dapr/dapr'; 
 
-//code
+//代码
 const daprHost = "127.0.0.1"; 
 const serverHost = "127.0.0.1";
 const serverPort = "6002"; 
@@ -280,15 +280,15 @@ async function start() {
 
 ### 确认事件
 
-从您的 HTTP 处理程序返回 `200 OK` 响应，告知 Dapr 您已成功处理事件。
+从您的 HTTP 处理程序返回 `200 OK` 响应，告知 Dapr 您已成功处理该事件。
 
 ### 拒绝事件
 
-返回 `200 OK` 以外的任何响应，告知 Dapr 事件在您的应用程序中未正确处理，并计划重新传递该事件。例如，返回 `500 Error`。
+返回 `200 OK` 以外的任何响应，告知 Dapr 该事件未在您的应用程序中正确处理，并安排其重新传递（redelivery）。例如，返回 `500 Error`。
 
 ### 指定自定义路由
 
-默认情况下，传入事件将发送到与输入绑定名称对应的 HTTP 端点。您可以通过在 `binding.yaml` 中设置以下 metadata 属性来覆盖此设置：
+默认情况下，传入事件会被发送到与输入 binding 名称对应的 HTTP 端点。您可以在 `binding.yaml` 中设置以下 metadata 属性来覆盖此行为：
 
 ```yaml
 name: mybinding
@@ -301,11 +301,11 @@ spec:
 
 ### 事件传递保证
 
-事件传递保证由绑定实现控制。根据绑定实现的不同，事件传递可以是恰好一次或至少一次。
+事件传递保证由 binding 实现控制。根据 binding 实现的不同，事件传递可以是恰好一次或至少一次。
 
 ## 参考
 
-- [Bindings 构建块]({{% ref bindings %}})
+- [Bindings building block]({{% ref bindings %}})
 - [Bindings API]({{% ref bindings_api %}})
-- [组件概念]({{% ref components-concept %}})
-- [支持的绑定]({{% ref supported-bindings %}})
+- [Components 概念]({{% ref components-concept %}})
+- [支持的 bindings]({{% ref supported-bindings %}})

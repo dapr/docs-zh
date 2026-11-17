@@ -1,91 +1,93 @@
 ---
 type: docs
-title: "How-To：启用事务性 Outbox 模式"
-linkTitle: "How-To：启用事务性 Outbox 模式"
+title: "How-To：启用事务性发件箱模式"
+linkTitle: "How-To：启用事务性发件箱模式"
 weight: 400
-description: "在状态存储与发布订阅消息代理之间提交单个事务"
+description: "在 state store 与 pub/sub 消息代理之间提交单个事务"
 ---
 
-事务性 outbox 模式是一种众所周知的设计模式，用于发送与应用程序状态变更相关的通知。事务性 outbox 模式使用一个横跨数据库与消息代理的单一事务来投递通知。
+事务性发件箱模式是一种众所周知的设计模式，用于发送与应用程序状态变更相关的通知。事务性发件箱模式使用一个横跨数据库与消息代理的单一事务来投递通知。
 
-开发者在尝试自行实现此模式时面临着许多困难的技术挑战，通常需要编写容易出错的核心协调管理器，最多只能支持一两组数据库与消息代理的组合。
+开发者在尝试自行实现此模式时面临着许多困难的技术挑战，通常需要编写容易出错的中央协调管理器，且最多只能支持一两种数据库与消息代理的组合。
 
-例如，你可以使用 outbox 模式：
+例如，你可以使用发件箱模式来：
 1. 向账户数据库写入新的用户记录。
-1. 发送一条表示账户已成功创建的通知消息。
+1. 发送一条通知消息，告知账户已成功创建。
 
-借助 Dapr 的 outbox 支持，当调用 Dapr 的[事务 API]({{% ref "state_api.md#state-transactions" %}})创建或更新应用程序状态时，你可以通知订阅者。
+借助 Dapr 的 outbox 支持，当调用 Dapr 的[事务 API]({{% ref "state_api.md#state-transactions" %}})时，你可以在应用程序状态被创建或更新时通知订阅者。
 
-下图是从高层次概述 outbox 功能的工作原理：
+下图从高层次概述了 outbox 功能的工作原理：
 
-1) 服务 A 使用事务将状态保存/更新到状态存储。
-2) 在同一事务下向消息代理写入一条消息。当消息成功投递到消息代理后，事务完成，从而确保状态与消息作为一个整体完成事务。
-3) 消息代理将消息主题投递给任何订阅者 — 本例中为服务 B。
+1) 服务 A 使用事务将状态保存或更新到 state store。
+2) 在同一事务下向消息代理写入一条消息。当消息成功投递到消息代理后，事务完成，从而确保状态与消息作为一个整体完成事务提交。
+3) 消息代理将消息主题投递给任何订阅者，本例中为服务 B。
 
-<img src="/images/state-management-outbox.png" width=800 alt="Diagram showing the overview of outbox pattern">
+{{< diagram name="state-management-outbox" width="85" >}}
 
 ## Outbox 在底层的工作原理
 
 Dapr outbox 在两个流程中处理请求：用户请求流程与后台消息流程。二者共同确保状态与事件保持一致。
 
-<img src="/images/state-management-outbox-steps.png" width=800 alt="Diagram showing the steps of the outbox pattern">
+{{< diagram state-management-outbox-steps >}}
 
 交互顺序如下：
 
-1. 应用程序调用 Dapr 状态管理 API，以事务方式写入状态。  
+1. 应用程序调用 Dapr State Management API，使用事务方法以事务方式写入状态。  
    这是业务数据（例如订单或资料更新）提交进行持久化的入口点。
 
 2. Dapr 向一个内部 outbox 主题发布一条带有唯一事务 ID 的意向消息。  
    这条持久化记录确保在任何数据库提交发生之前，事件意向就已经存在。
 
-3. 状态与一个事务标记以原子方式写入同一个状态存储。  
+3. 状态与一个事务标记以原子方式写入同一个 state store。  
    业务数据与标记在同一事务中提交，防止部分写入。
 
 4. 事务提交后，应用程序收到成功响应。  
-   此时应用程序可以继续执行，已知状态已保存，事件意向得到保证。
+   此时应用程序可以继续执行，因为已知状态已保存，事件意向也得到保证。
 
 5. 后台订阅者读取意向消息。  
    当 outbox 启用时，Dapr 会启动消费者来处理内部 outbox 主题。
 
-6. 订阅者在状态存储中验证事务标记。  
+6. 订阅者在 state store 中验证事务标记。  
    此项检查确认数据库提交已成功，然后才会进行外部发布。
 
-7. 验证后的业务事件被发布到外部发布订阅主题。  
-   事件被发送到已配置的代理（Kafka、RabbitMQ 等），其他服务可以消费该事件。
+7. 验证通过的业务事件被发布到外部 pub/sub 主题。  
+   事件被发送到已配置的消息代理（Kafka、RabbitMQ 等），其他服务可以消费该事件。
 
-8. 标记从状态存储中清理（删除）。  
+8. 从 state store 中清理（删除）标记。  
    事件成功投递后，这可防止数据库无限制地增长。
 
 9. 消息被确认并从内部主题中移除  
-   如果发布或清理失败，Dapr 会重试，确保可靠的至少一次投递。
+   如果发布或清理失败，Dapr 会重试，从而确保可靠的至少一次投递。
   
 ## 要求
 
-1. outbox 功能需要 Dapr 支持的[事务型状态存储]({{% ref supported-state-stores %}})。  
-   [了解更多关于你可以使用的事务方法。]({{% ref "howto-get-save-state.md#perform-state-transactions" %}})
+1. outbox 功能需要 Dapr 支持的[事务型 state store]({{% ref supported-state-stores %}})。  
+   [了解更多关于可使用的事务方法的内容。]({{% ref "howto-get-save-state.md#perform-state-transactions" %}})
 
-2. 任何 Dapr 支持的[发布订阅代理]({{% ref supported-pubsub %}})均可与 outbox 功能一起使用。
+2. 任何 Dapr 支持的[pub/sub 消息代理]({{% ref supported-pubsub %}})均可与 outbox 功能一起使用。
 
    {{% alert title="注意" color="primary" %}}
    建议使用支持竞争消费者模式的消息代理（例如 [Apache Kafka]({{% ref setup-apache-kafka%}})），以降低重复事件的可能性。
    {{% /alert %}}
 
 3. 内部 outbox 主题  
-   当启用 outbox 时，Dapr 会使用以下命名约定创建一个内部主题：`{namespace}{appID}{topic}outbox`，其中：
+   启用 outbox 时，Dapr 会使用以下命名约定创建一个内部主题：`{namespace}{appID}{topic}outbox`，其中：
 
-   - `namespace`：Dapr 应用程序命名空间（如果已配置）
+   - `namespace`：Dapr 应用程序的 namespace（如果已配置）
    - `appID`：Dapr 应用程序标识符
    - `topic`：在 `outboxPublishTopic` 元数据中指定的值
 
-   通过这种方式，每个 outbox 主题在每个应用程序和外部主题范围内被唯一标识，防止多租户环境中的路由冲突。
+   这样，每个 outbox 主题都会在应用程序与外部主题的范围内被唯一标识，从而防止多租户环境中的路由冲突。
+
+   你可以通过设置 `outboxInternalTopic` 元数据字段来覆盖自动生成的名称。设置后，该值将作为完整的内部主题名称使用，不附加 namespace、appID 或后缀。
 
    {{% alert title="注意" color="primary" %}}
-   确保主题已提前创建，或者 Dapr 在启动时拥有足够的权限来创建该主题。
+   请确保主题已提前创建，或者 Dapr 在启动时拥有足够的权限来创建该主题。
    {{% /alert %}}
 
-## 启用 outbox 模式
+## 启用发件箱模式
 
-要启用 outbox 功能，请在状态存储组件上添加以下必填和可选字段：
+要启用 outbox 功能，请在 state store 组件上添加以下必填和可选字段：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -98,13 +100,15 @@ spec:
   metadata:
   - name: connectionString
     value: "<CONNECTION STRING>"
-  - name: outboxPublishPubsub # 必填
+  - name: outboxPublishPubsub # Required
     value: "mypubsub"
-  - name: outboxPublishTopic # 必填
+  - name: outboxPublishTopic # Required
     value: "newOrder"
-  - name: outboxPubsub # 可选
+  - name: outboxPubsub # Optional
     value: "myOutboxPubsub"
-  - name: outboxDiscardWhenMissingState #可选。默认为 false
+  - name: outboxInternalTopic # Optional
+    value: "myapp-neworder-outbox"
+  - name: outboxDiscardWhenMissingState #Optional. Defaults to false
     value: false
 ```
 
@@ -112,18 +116,19 @@ spec:
 
 | 名称                | 必填    | 默认值 | 描述                                            |
 | --------------------|-------------|---------------|------------------------------------------------------- |
-| outboxPublishPubsub | 是         | N/A           | 设置发布订阅组件的名称，用于在发布状态变更时投递通知
-| outboxPublishTopic  | 是         | N/A           | 设置在用 `outboxPublishPubsub` 配置的发布订阅上接收状态变更的主题。消息正文将是针对 `insert` 或 `update` 操作的状态事务项
-| outboxPubsub        | 否         | `outboxPublishPubsub`           | 设置 Dapr 用于协调状态与发布订阅事务的发布订阅组件。如果未设置，则使用用 `outboxPublishPubsub` 配置的发布订阅组件。如果你想将用于发送通知状态变更的发布订阅组件与用于协调事务的组件分开，此设置会很有用
-| outboxDiscardWhenMissingState  | 否         | `false`           | 通过将 `outboxDiscardWhenMissingState` 设置为 `true`，如果 Dapr 无法在数据库中找到状态，它将丢弃该事务并且不再重试。如果状态存储数据在 Dapr 能够投递消息之前因任何原因被删除，并且你希望 Dapr 从发布订阅中删除这些项并停止重试以获取状态，则此设置会很有用
+| outboxPublishPubsub | 是         | N/A           | 设置在发布状态变更时用于投递通知的 pub/sub 组件名称
+| outboxPublishTopic  | 是         | N/A           | 设置在 `outboxPublishPubsub` 所配置的 pub/sub 上接收状态变更的主题。消息正文将是针对 `insert` 或 `update` 操作的状态事务项
+| outboxPubsub        | 否         | `outboxPublishPubsub`           | 设置 Dapr 用于协调状态与 pub/sub 事务的 pub/sub 组件。如果未设置，则使用 `outboxPublishPubsub` 所配置的 pub/sub 组件。如果你希望将用于发送通知状态变更的 pub/sub 组件与用于协调事务的组件分开，此设置会很有用
+| outboxInternalTopic | 否         | 自动生成           | 设置内部 outbox 主题名称。设置后，该值将作为完整的主题名称使用，不附加 namespace、appID 或后缀。为空时，使用默认命名约定 `{namespace}{appID}{topic}outbox`
+| outboxDiscardWhenMissingState  | 否         | `false`           | 将 `outboxDiscardWhenMissingState` 设置为 `true` 后，如果 Dapr 无法在数据库中找到状态，它将丢弃该事务且不再重试。如果在 Dapr 能够投递消息之前，state store 中的数据因任何原因被删除，并且你希望 Dapr 从 pub/sub 中丢弃这些项且停止重试获取状态，则此设置会很有用
 
 ## 其他配置
 
-### 在同一个状态存储上组合使用 outbox 与非 outbox 消息
+### 在同一个 state store 上组合使用 outbox 与非 outbox 消息
 
-如果你希望使用同一个状态存储来发送 outbox 与非 outbox 消息，只需定义两个连接到同一个状态存储的状态存储组件，其中一个启用 outbox 功能，另一个不启用。
+如果你希望使用同一个 state store 来发送 outbox 与非 outbox 消息，只需定义两个连接到同一 state store 的组件，其中一个启用 outbox 功能，另一个不启用。
 
-#### 不带 outbox 的 MySQL 状态存储
+#### 不带 outbox 的 MySQL state store
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -138,7 +143,7 @@ spec:
     value: "<CONNECTION STRING>"
 ```
 
-#### 带 outbox 的 MySQL 状态存储
+#### 带 outbox 的 MySQL state store
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -151,21 +156,21 @@ spec:
   metadata:
   - name: connectionString
     value: "<CONNECTION STRING>"
-  - name: outboxPublishPubsub # 必填
+  - name: outboxPublishPubsub # Required
     value: "mypubsub"
-  - name: outboxPublishTopic # 必填
+  - name: outboxPublishTopic # Required
     value: "newOrder"
 ```
 
-### 定制 outbox 模式消息
+### 定制发件箱模式消息
 
-你可以通过设置另一个事务来覆盖发布到发布订阅代理的 outbox 模式消息，该事务不会被保存到数据库，并且被明确标记为投影（projection）。该事务会添加一个名为 `outbox.projection` 的元数据键，其值设置为 `true`。当添加到在事务中保存的状态数组时，写入状态时会忽略此负载，并将该数据用作发送到上游订阅者的负载。
+你可以通过设置另一个事务来覆盖发布到 pub/sub 消息代理的发件箱模式消息。该事务不会保存到数据库，并被明确标记为投影（projection）。该事务会添加一个名为 `outbox.projection` 的元数据键，其值设置为 `true`。当它被添加到事务中保存的状态数组时，写入状态时会忽略此负载，并将该数据用作发送给上游订阅者的负载。
 
-若要正确使用，状态存储上的操作与消息投影之间的 `key` 值必须匹配。如果键不匹配，整个事务将失败。
+要正确使用，state store 上的操作与消息投影之间的 `key` 值必须匹配。如果键不匹配，整个事务将失败。
 
-如果你为同一个键启用了两个或更多 `outbox.projection` 状态项，则使用第一个定义的项，忽略其他项。
+如果对同一个键定义了两个或更多启用 `outbox.projection` 的状态项，则使用第一个定义的项，其余项被忽略。
 
-[了解更多关于默认与自定义 CloudEvent 消息。]({{% ref pubsub-cloudevents.md %}})
+[了解更多关于默认与自定义 CloudEvent 消息的内容。]({{% ref pubsub-cloudevents.md %}})
 
 {{< tabpane text=true >}}
 
@@ -199,8 +204,8 @@ async def main():
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，不会向消息代理写入消息。
-- 第二个操作值被发布到已配置的发布订阅主题。   
+- 第一个操作被写入 state store，不会向消息代理写入消息。
+- 第二个操作的值被发布到已配置的 pub/sub 主题。   
 
 {{% /tab %}}
 
@@ -253,8 +258,8 @@ main().catch(err => {
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，不会向消息代理写入消息。
-- 第二个操作值被发布到已配置的发布订阅主题。   
+- 第一个操作被写入 state store，不会向消息代理写入消息。
+- 第二个操作的值被发布到已配置的 pub/sub 主题。   
 
 
 {{% /tab %}}
@@ -304,8 +309,8 @@ public class Program
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，不会向消息代理写入消息。
-- 第二个操作值被发布到已配置的发布订阅主题。    
+- 第一个操作被写入 state store，不会向消息代理写入消息。
+- 第二个操作的值被发布到已配置的 pub/sub 主题。    
 
 {{% /tab %}}
 
@@ -354,7 +359,7 @@ public class Main {
             ops.add(op1);
             ops.add(op2);
 
-            // 配置事务请求，设置状态存储
+            // 配置事务请求并设置 state store
             ExecuteStateTransactionRequest transactionRequest = new ExecuteStateTransactionRequest(DAPR_STORE_NAME);
             
             transactionRequest.setOperations(ops);
@@ -370,8 +375,8 @@ public class Main {
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，不会向消息代理写入消息。
-- 第二个操作值被发布到已配置的发布订阅主题。   
+- 第一个操作被写入 state store，不会向消息代理写入消息。
+- 第二个操作的值被发布到已配置的 pub/sub 主题。   
 
 
 {{% /tab %}}
@@ -409,8 +414,8 @@ err := testClient.ExecuteStateTransaction(ctx, store, meta, ops)
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，不会向消息代理写入消息。
-- 第二个操作值被发布到已配置的发布订阅主题。   
+- 第一个操作被写入 state store，不会向消息代理写入消息。
+- 第二个操作的值被发布到已配置的 pub/sub 主题。   
 
 {{% /tab %}}
 
@@ -454,8 +459,8 @@ curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
 ```
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
-- 第一个操作被写入状态存储，不会向消息代理写入消息。
-- 第二个操作值被发布到已配置的发布订阅主题。   
+- 第一个操作被写入 state store，不会向消息代理写入消息。
+- 第二个操作的值被发布到已配置的 pub/sub 主题。   
 
 {{% /tab %}}
 
@@ -463,7 +468,7 @@ curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
 
 ### 覆盖 Dapr 生成的 CloudEvent 字段
 
-你可以使用自定义 CloudEvent 元数据来覆盖已发布的 outbox 事件上的 [Dapr 生成的 CloudEvent 字段]({{% ref "pubsub-cloudevents.md#dapr-generated-cloudevents-example" %}})。
+你可以使用自定义 CloudEvent 元数据，覆盖已发布的 outbox 事件上的 [Dapr 生成的 CloudEvent 字段]({{% ref "pubsub-cloudevents.md#dapr-generated-cloudevents-example" %}})。
 
 {{< tabpane text=true >}}
 
@@ -559,7 +564,7 @@ public class StateOperationExample
     {
         var daprClient = new DaprClientBuilder().Build();
 
-        // 将值 "2" 定义为字符串并将其序列化为字节数组
+        // 将值 "2" 定义为字符串并序列化为字节数组
         var value = "2";
         var valueBytes = JsonSerializer.SerializeToUtf8Bytes(value);
 
@@ -685,7 +690,7 @@ func main() {
 	}
 	ops = append(ops, op1)
 
-	// 事务的元数据（如果有）
+	// 事务的元数据（如有）
 	meta := map[string]string{}
 
 	// 执行状态事务
@@ -732,13 +737,13 @@ curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
 
 
 {{% alert title="注意" color="primary" %}}
-`data` CloudEvent 字段保留仅供 Dapr 使用，不可自定义。
+`data` CloudEvent 字段保留供 Dapr 内部使用，不可自定义。
 
 {{% /alert %}}
 
 ## 演示
 
-观看 [此视频以了解 outbox 模式的概述](https://youtu.be/rTovKpG0rhY?t=1338)：
+观看 [此视频以了解发件箱模式的概述](https://youtu.be/rTovKpG0rhY?t=1338)：
 
 {{< youtube id=rTovKpG0rhY start=1338 >}}
 

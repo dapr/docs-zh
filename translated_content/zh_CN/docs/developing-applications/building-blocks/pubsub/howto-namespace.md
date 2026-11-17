@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "如何操作：设置 pub/sub 命名空间消费者组"
+title: "How to: Set up pub/sub namespace consumer groups"
 linkTitle: "如何操作：命名空间消费者组"
 weight: 5000
 description: "了解如何在 component 中使用基于 metadata 的命名空间消费者组"
@@ -62,7 +62,7 @@ spec:
 只需在 component metadata 中包含 `"{namespace}"` 消费者组构造即可。你无需在 metadata 中编写 namespace。Dapr 会识别其运行所在的 namespace，并为你补全 namespace 的值，就像运行时注入的动态 metadata 值一样。
 
 {{% alert title="重要：namespace 如何体现在消息代理上" color="warning" %}}
-当 `{namespace}` 出现在 pub/sub component metadata 的任何位置时，Dapr 会对**整个 component**进行 namespace 限定，而不仅仅是 `consumerID` 字段。在每次发布和订阅时，Kubernetes namespace 都会同时作为前缀加在**主题**和**订阅 / 消费者组**上。
+当 `{namespace}` 出现在 pub/sub component metadata 的任何位置时，Dapr 会对**整个 component** 进行 namespace 限定，而不仅仅是 `consumerID` 字段。在每次发布和订阅时，Kubernetes namespace 都会同时作为前缀加在**主题**和**订阅 / 消费者组**上。
 
 例如，namespace 为 `team-a`、逻辑主题为 `order` 时，在消息代理上创建的实体为：
 - 主题：`team-aorder`

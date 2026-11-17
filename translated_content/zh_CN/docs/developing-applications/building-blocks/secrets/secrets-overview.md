@@ -1,9 +1,9 @@
 ---
 type: docs
-title: "Secrets Management 概览"
+title: "Secrets management overview"
 linkTitle: "概览"
 weight: 1000
-description: "Secrets Management API building block 概览"
+description: "Secrets management API building block 概述"
 ---
 
 应用程序通常使用专用的 secret store 来保存敏感信息。例如，你使用存储在 secret store（如 [AWS Secrets Manager、Azure Key Vault、Hashicorp Vault 等]({{% ref supported-secret-stores %}})）中的连接字符串、密钥、令牌和其他应用级 secrets，来对数据库、服务和外部系统进行身份验证。
@@ -56,7 +56,7 @@ Secrets Management API building block 为你的应用程序带来了多项功能
 
 在上面的示例中，应用程序代码无需更改即可获取相同的 secret。Dapr 通过 Secrets Management building block API 使用 secret management component。
 
-通过我们的 Quickstart 或教程之一[试用 secrets API]({{% ref "#试用-secrets-management" %}})。
+通过我们的 Quickstart 或教程之一[试用 secrets API]({{% ref "#try-out-secrets-management" %}})。
 
 ### 在 Dapr component 中引用 secret store
 
@@ -79,7 +79,7 @@ Secrets Management API building block 为你的应用程序带来了多项功能
 | Quickstart/教程 | 描述 |
 | ------------------- | ----------- |
 | [Secrets Management Quickstart]({{% ref secrets-quickstart %}}) | 使用 Secrets Management API，从已配置的 secret store 中在应用代码里检索 secrets。 |
-| [secret store 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/secretstore) | 演示如何使用 Dapr secrets API 访问 secret store。 |
+| [Secret Store 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/secretstore) | 演示如何使用 Dapr secrets API 访问 secret store。 |
 
 ### 直接在你的应用中开始管理 secrets
 

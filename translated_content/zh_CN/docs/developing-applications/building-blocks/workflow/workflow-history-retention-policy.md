@@ -3,26 +3,48 @@ type: docs
 title: 历史保留策略
 linkTitle: 历史保留策略
 weight: 8000
-description: "定义保留策略以管理工作流状态历史记录"
+description: "定义保留策略以管理 workflow 状态历史记录"
 ---
 
-Dapr 工作流状态存储在[执行器状态存储]{{ %ref workflow-architecture.md#state-store-usage %}}中。
-默认情况下，Dapr Workflows 会无限期保留工作流状态变更的完整历史记录。
-这意味着历史工作流可以随时被查询和检查。
-运行大量工作流或生成大量状态变更历史记录可能导致存储使用量增加，最终可能填满状态存储磁盘空间。
+Dapr workflow 状态存储在 [actor state store]({{% ref "workflow-architecture.md#state-store-usage" %}}) 中。
+默认情况下，Dapr Workflows 会无限期保留 workflow 状态变更的完整历史记录。
+这意味着历史 workflow 可以随时被查询和检查。
+运行大量 workflow，或 workflow 生成大量状态变更历史记录，可能会导致存储用量增加，最终可能耗尽状态存储的磁盘空间。
 
-为帮助管理存储使用，Dapr Workflows 支持配置历史保留策略。
-该保留策略定义了工作流状态变更历史在被删除前保留多长时间。
-工作流只有在达到**终态**（`Completed`、`Failed` 或 `Terminated`）后才有资格被删除。
-每个工作流**终态**都可以设置自定义的保留时长，也可以为未明确配置的终态设置默认保留时长。
-时长定义为 [Go duration string](https://pkg.go.dev/time#ParseDuration)（例如，`72h` 表示 72 小时，`30m` 表示 30 分钟）。
+为帮助管理存储用量，Dapr Workflows 支持配置历史保留策略。
+保留策略定义了在删除之前保留 workflow 状态变更历史的时长。
+只有达到**终态**（`Completed`、`Failed` 或 `Terminated`）的 workflow 才有资格被删除。
+每个 workflow **终态**都可以设置自定义的保留时长，也可以为未明确配置的终态设置默认保留时长。
+时长以 [Go duration string](https://pkg.go.dev/time#ParseDuration) 的形式定义（例如，`72h` 表示 72 小时，`30m` 表示 30 分钟）。
 
-为 `Completed` 工作流配置较短的保留时长可能很有用，同时为 `Failed` 和 `Terminated` 工作流保留较长时间以便进行调查。
+{{% alert title="注意" color="primary" %}}
+为 `Completed` workflow 配置较短的保留时长，同时为 `Failed` 和 `Terminated` workflow 保留较长时间以便排查问题，这种做法可能很有用。
+{{% /alert %}}
 
-以下示例配置设置了每个终态。
-这里设置的 `anyTerminal` 属性不会生效，因为所有终态都已明确配置，但它包含在此处作为参考。
+{{% alert title="重要" color="warning" %}}
+添加或修改保留策略时，该策略只对在其产生效果之后**新近达到**已配置终态的 workflow 生效。它**不会**追溯清理已经处于终态的 workflow。
 
-有关如何将配置应用到 Dapr 应用程序的更多信息，请参阅 [Dapr 配置文档]({{% ref configuration-overview.md %}})。
+要追溯清除现有的终态 workflow，请使用 Dapr CLI：
+
+```bash
+# 清除所有早于指定时长的终态 workflow
+dapr workflow purge --app-id <app-id> --all-older-than <duration>
+
+# 仅清除早于指定时长且具有特定状态的 workflow
+dapr workflow purge --app-id <app-id> --all-older-than <duration> --all-filter-status COMPLETED
+dapr workflow purge --app-id <app-id> --all-older-than <duration> --all-filter-status FAILED
+dapr workflow purge --app-id <app-id> --all-older-than <duration> --all-filter-status TERMINATED
+```
+
+清除 workflow 时，请确保为同一 `app-id` 运行了 workflow client，以便 workflow 状态机能够正确推进。在 workflow 实例可能仍处于活动状态时，请避免使用 `--force` 选项，因为这可能会破坏 workflow 状态机。
+
+有关 purge 命令及其他注意事项的更多详情，请参阅 [How to: Manage workflows]({{% ref howto-manage-workflow.md %}})。
+{{% /alert %}}
+
+下面的示例配置设置了每个终态。
+这里设置的 `anyTerminal` 属性不会产生效果，因为所有终态都已明确配置，但仍将其包含在此处作为参考。
+
+有关如何将配置应用到 Dapr 应用程序的更多信息，请参阅 [Dapr Configuration 文档]({{% ref configuration-overview.md %}})。
 
 ```
 kind: Configuration
@@ -39,11 +61,11 @@ spec:
 
 ## 相关链接
 
-- [使用快速入门体验 Dapr Workflows]({{% ref workflow-quickstart.md %}})
-- [工作流概述]({{% ref workflow-overview.md %}})
-- [工作流 API 参考]({{% ref workflow_api.md %}})
+- [使用 Quickstart 体验 Dapr Workflows]({{% ref workflow-quickstart.md %}})
+- [workflow 概述]({{% ref workflow-overview.md %}})
+- [Workflow API 参考]({{% ref workflow_api.md %}})
 - 尝试以下示例：
-   - [Python](https://github.com/dapr/python-sdk/tree/master/examples/demo_workflow)
+   - [Python](https://github.com/dapr/python-sdk/tree/main/examples/workflow)
    - [JavaScript](https://github.com/dapr/js-sdk/tree/main/examples/workflow)
    - [.NET](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
    - [Java](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)

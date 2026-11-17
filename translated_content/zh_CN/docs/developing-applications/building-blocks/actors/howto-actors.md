@@ -1,9 +1,9 @@
 ---
 type: docs
-title: "如何：通过脚本与 virtual Actor 交互"
-linkTitle: "如何：与 virtual Actor 交互"
+title: "How-to: Interact with virtual actors using scripting"
+linkTitle: "How-To：与 virtual Actor 交互"
 weight: 70
-description: 调用 Actor 方法进行 State Management
+description: 调用 Actor 方法以进行 State Management
 ---
 
 学习如何通过调用 HTTP/gRPC 端点来使用 virtual Actor。
@@ -18,10 +18,10 @@ POST/GET/PUT/DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/meth
 
 在请求正文中提供 Actor 方法的数据。请求的响应（即来自 Actor 方法调用的数据）位于响应正文中。
 
-有关更多详细信息，请参阅 [Actor API 规范]({{% ref "actors_api#invoke-actor-method" %}})。
+有关更多详细信息，请参阅 [Actors API 规范]({{% ref "actors_api#invoke-actor-method" %}})。
 
 {{% alert title="注意" color="primary" %}}
-或者，你可以使用 [Dapr SDK 来使用 Actor]({{% ref "developing-applications/sdks/#sdk-languages" %}})。
+或者，你也可以使用 [Dapr SDK 来使用 Actor]({{% ref "developing-applications/sdks/#sdk-languages" %}})。
 {{% /alert %}}
 
 ## 使用 Actor 保存状态
@@ -43,5 +43,5 @@ POST/GET/PUT/DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/meth
 ## 相关链接
 
 - 参阅 [Dapr SDK 文档和示例]({{% ref "developing-applications/sdks/_index.md#sdk-languages" %}})。
-- [Actor API 参考]({{% ref actors_api %}})
+- [Actors API 参考]({{% ref actors_api %}})
 - [Actor 概述]({{% ref actors-overview %}})
