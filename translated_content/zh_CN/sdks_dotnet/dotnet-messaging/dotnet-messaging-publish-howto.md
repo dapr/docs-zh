@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用 Dapr Messaging .NET SDK 发布事件"
+title: "How to: Publish events with the Dapr Messaging .NET SDK"
 linkTitle: "发布事件"
 weight: 60000
 description: "了解如何使用 Dapr.Messaging 中的 IDaprPublishSubscribeClient 发布 JSON 事件、CloudEvents、原始负载和批量事件"

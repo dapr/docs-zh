@@ -1,9 +1,9 @@
 ---
 type: docs
-title: "在 .NET SDK 中动态调用 Actor"
+title: "Dynamic actor invocation in the .NET SDK"
 linkTitle: "动态调用"
 weight: 145000
-description: "无需编译期契约，通过类型、ID 与方法调用 Actor，适用于网关、工具和跨语言调用方"
+description: "无需编译期契约，通过类型、ID 与方法调用 Actor，适用于 gateway、工具和跨语言调用方"
 ---
 
 大多数应用代码通过强类型代理调用 Actor，这需要在编译期拥有 Actor 的契约接口。动态调用则是另一条路径：无需编译期契约，只需用 Actor 的类型名、ID 和方法名，连同序列化后的负载即可调用 Actor。它本身就是 Actor 协议，而不是 .NET 的编写功能，因此它是一种与语言无关的 Actor 调用方式，与 SDK 的其他部分有明显不同。
@@ -38,7 +38,7 @@ public interface IDynamicActorClient
 }
 ```
 
-下面是一个小型网关示例，它列出自己托管的内容，并转发调用：
+下面是一个小型 gateway 示例，它列出自己托管的内容，并转发调用：
 
 ```csharp
 public sealed class ActorGateway(IActorRegistry registry, IDynamicActorClient client)
@@ -70,11 +70,11 @@ public sealed class ActorGateway(IActorRegistry registry, IDynamicActorClient cl
 
 ## 投递契约依然适用
 
-动态调用不会改变投递语义，因为投递语义是调用路径的属性，而与你如何发起调用无关。动态调用的方法是至少一次（at-least-once）语义：运行时已拉取但无法确认的调用会被重试，因此 Actor 方法必须能够安全地重复执行。强类型路径、reminder 和订阅投递受同一契约约束。如果你通过网关暴露动态调用，其背后的 Actor 仍需要幂等的处理程序。
+动态调用不会改变投递语义，因为投递语义是调用路径的属性，而与你如何发起调用无关。动态调用的方法是至少一次（at-least-once）语义：运行时已拉取但无法确认的调用会被重试，因此 Actor 方法必须能够安全地重复执行。强类型路径、reminder 和 subscription 投递受同一契约约束。如果你通过 gateway 暴露动态调用，其背后的 Actor 仍需要幂等的处理程序。
 
 ## 适用场景
 
-- 网关或 API 层，用于转发调用编译期未引用的 Actor。
+- gateway 或 API 层，用于转发调用编译期未引用的 Actor。
 - 管理或运维工具，按类型和方法通用地调用 Actor。
 - 跨语言调用方，此时按定义就不存在编译期的 .NET 契约。
 - 从注册表中发现可调用 Actor 并发起调用的代理（agent），它只是该接口的众多使用方之一。
@@ -83,7 +83,7 @@ public sealed class ActorGateway(IActorRegistry registry, IDynamicActorClient cl
 
 ## 测试
 
-动态调用可以像强类型调用一样在内存测试运行时中驱动，因此无需 sidecar 即可测试网关或通用路由器。
+动态调用可以像强类型调用一样在内存测试运行时中驱动，因此无需 sidecar 即可测试 gateway 或通用路由器。
 
 ```csharp
 // IDynamicActorClient 和 IActorRegistry 从运行时的服务提供程序中解析，
@@ -116,14 +116,14 @@ public async Task Registry_exposes_hosted_types_and_their_signatures()
 }
 ```
 
-第一个测试无需基础设施即可端到端验证转发路径；第二个测试则验证发现功能返回的签名，正是网关或代理进行路由所依据的内容。完整的运行时请参见[测试]({{< ref dotnet-actorsnext-testing.md >}})。
+第一个测试无需基础设施即可端到端验证转发路径；第二个测试则验证发现功能返回的签名，正是 gateway 或代理进行路由所依据的内容。完整的运行时请参见[测试]({{< ref dotnet-actorsnext-testing.md >}})。
 
 ## 需要注意的边界
 
 - 没有编译期的签名检查。方法名错误或 `argsJson` 格式不正确会在运行时失败，而不是在构建时失败，这正是缺少契约所付出的代价。
 - 契约漂移不会被自动发现。由于调用方在编译期没有对目标的引用，目标 Actor 方法签名的变更不会导致调用方构建失败，而是会以运行时失败的形式暴露，或者更糟，表现为悄无声息的负载不匹配。请在团队之间以线下方式协调契约变更；若目标是你自己托管的 Actor，则应使用注册表描述符上的 `ContractVersion` 主动检测漂移，而不是依赖编译器。
 - 投递契约依然适用。与任何调用一样，动态调用的方法也是至少一次语义，因此目标处理程序必须可安全重复执行；通过动态方式调用并不能豁免这一要求（参见[投递保证]({{< ref "dotnet-actorsnext-howto.md#delivery-guarantees-you-must-design-for" >}})）。
-- 负载的安全性取决于你的校验。接受外部传入的类型、方法和 JSON 的网关或代理，必须在调用前完成校验与授权；动态调用是一种通用能力，内置并没有允许列表。
+- 负载的安全性取决于你的校验。接受外部传入的类型、方法和 JSON 的 gateway 或代理（agent），必须在调用前完成校验与授权；动态调用是一种通用能力，内置并没有允许列表。
 - 应用错误以原始负载的形式返回，而不是重建的 CLR 异常（参见上文的结果模型）。
 - 发现是本地的。`IActorRegistry` 列出的是本应用托管的类型；调用其他地方托管的类型，依据的是你已掌握的契约，而不是发现。
 

@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "第 4 部分：批量订阅"
+title: "Part 4: Bulk subscriptions"
 linkTitle: "第 4 部分：批量订阅"
 weight: 160400
 description: "为高吞吐量的 pub/sub 消费者配置有界的批量投递"
@@ -65,4 +65,4 @@ dotnet test examples\Messaging\04-BulkSubscribe\BulkSubscribe.Example04.Tests\Bu
 ## 下一步
 
 - [第 5 部分：gRPC AppCallback 推送]({{< ref dotnet-messaging-tutorial-appcallback.md >}})
-- [Dapr 消息传递配置与使用指南]({{< ref dotnet-messaging-pubsub-usage.md >}})
+- [Dapr Messaging 配置与使用指南]({{< ref dotnet-messaging-pubsub-usage.md >}})

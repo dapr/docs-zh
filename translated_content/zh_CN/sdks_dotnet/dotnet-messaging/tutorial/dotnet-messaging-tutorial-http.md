@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "第 6 部分：HTTP 推送订阅"
+title: "Part 6: HTTP push subscriptions"
 linkTitle: "第 6 部分：HTTP 订阅"
 weight: 160600
 description: "公开生成的 HTTP 订阅发现端点与自定义事件路由"
@@ -63,5 +63,5 @@ dotnet test examples\Messaging\06-HttpSubscription\HttpSubscription.Example06.Te
 
 ## 下一步
 
-- [第 7 部分：动态 streaming subscription]({{< ref dotnet-messaging-tutorial-dynamic.md >}})
-- [Dapr 消息传递配置与使用指南]({{< ref dotnet-messaging-pubsub-usage.md >}})
+- [第 7 部分：动态 streaming subscriptions]({{< ref dotnet-messaging-tutorial-dynamic.md >}})
+- [Dapr Messaging 配置与使用指南]({{< ref dotnet-messaging-pubsub-usage.md >}})

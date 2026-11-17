@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "DaprDistributedLockClient 用法"
+title: "DaprDistributedLockClient usage"
 linkTitle: "DaprDistributedLockClient 用法"
 weight: 69050
 description: 使用 DaprDistributedLockClient 的重要提示与建议
@@ -24,7 +24,7 @@ description: 使用 DaprDistributedLockClient 的重要提示与建议
 
 ```csharp
 var daprDistributedLockClient = new DaprDistributedLockBuilder()
-    .UseDaprApiToken("abc123") // 可选:指定用于向其他 Dapr sidecar 进行身份验证的 API 令牌
+    .UseDaprApiToken("abc123") // 可选：指定用于向其他 Dapr sidecar 进行身份验证的 API 令牌
     .Build();
 ```
 
@@ -73,7 +73,7 @@ var daprDistributedLockClient = new DaprDistributedLockBuilder()
 ```cs
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDaprDistributedLock(); //注册 `DaprDistributedLockClient`,使其可在需要时被注入
+builder.Services.AddDaprDistributedLock(); // 注册 `DaprDistributedLockClient`，使其可在需要时被注入
 var app = builder.Build();
 ```
 
@@ -83,9 +83,9 @@ var app = builder.Build();
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDaprDistributedLock((_, daprDistributedLockBuilder) => {
-   //设置 API 令牌
+   // 设置 API 令牌
    daprDistributedLockBuilder.UseDaprApiToken("abc123");
-   //指定非标准的 HTTP 端点
+   // 指定非标准的 HTTP 端点
    daprDistributedLockBuilder.UseHttpEndpoint("http://dapr.my-company.com");
 });
 
@@ -97,15 +97,15 @@ var app = builder.Build();
 ```cs
 var builder = WebApplication.CreateBuilder(args);
 
-//注册一个虚构的服务,用于从某处获取机密
+// 注册一个虚构的服务，用于从某处获取 secret
 builder.Services.AddSingleton<SecretService>();
 
 builder.Services.AddDaprDistributedLock((serviceProvider, daprDistributedLockBuilder) => {
-    //从服务提供程序中获取 SecretService 实例
+    // 从服务提供程序中获取 SecretService 实例
     var secretService = serviceProvider.GetRequiredService<SecretService>();
     var daprApiToken = secretService.GetSecret("DaprApiToken").Value;
 
-    //配置 DaprDistributedLockBuilder
+    // 配置 DaprDistributedLockBuilder
     daprDistributedLockBuilder.UseDaprApiToken(daprApiToken);
 });
 

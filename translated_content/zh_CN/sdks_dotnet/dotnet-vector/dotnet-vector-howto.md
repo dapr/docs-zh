@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：在 Dapr .NET SDK 中存储和查询向量"
+title: "How to: Store and query vectors with the Dapr .NET SDK"
 linkTitle: "操作指南：查询向量"
 weight: 55050
 description: "创建集合、存储类型化的向量记录、查询嵌入向量，并处理批量结果，使用 Dapr.Vector"

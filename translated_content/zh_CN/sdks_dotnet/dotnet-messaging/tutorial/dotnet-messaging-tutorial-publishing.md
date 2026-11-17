@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "第 1 部分：使用 Dapr.Messaging 发布事件"
+title: "Part 1: Publish events with Dapr.Messaging"
 linkTitle: "第 1 部分：发布"
 weight: 160100
 description: "使用 IDaprPublishSubscribeClient 发布有类型、批量、带丰富 metadata 以及原始格式的事件"
@@ -100,5 +100,5 @@ dotnet test examples\Messaging\01-Publishing\Publishing.Example01.Tests\Publishi
 
 ## 下一步
 
-- [第 2 部分：声明式 streaming subscription]({{< ref dotnet-messaging-tutorial-streaming.md >}})
+- [第 2 部分：声明式 streaming subscriptions]({{< ref dotnet-messaging-tutorial-streaming.md >}})
 - [发布事件操作指南]({{< ref dotnet-messaging-publish-howto.md >}})

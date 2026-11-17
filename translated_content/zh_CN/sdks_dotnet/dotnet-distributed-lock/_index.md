@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Dapr 分布式锁 .NET SDK"
+title: "Dapr Distributed Lock .NET SDK"
 linkTitle: "分布式锁"
 weight: 240000
 description: "Dapr 分布式锁 building block 的 .NET 概述"

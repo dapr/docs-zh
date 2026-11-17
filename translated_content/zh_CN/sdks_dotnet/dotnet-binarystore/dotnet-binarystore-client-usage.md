@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "DaprBinaryStoreClient 用法"
+title: "DaprBinaryStoreClient usage"
 linkTitle: "DaprBinaryStoreClient 用法"
 weight: 53100
 description: 配置与使用 DaprBinaryStoreClient 的必备指南
@@ -66,15 +66,15 @@ builder.Services.AddDaprBinaryStoreClient((sp, clientBuilder) =>
 
 ## 流式传输与内存使用
 
-对于大文件，请使用 `SetBinaryFileAsync` 和 `GetBinaryFileAsync` 的 `Stream` 重载。上传默认使用 32 KiB 的分块大小；上传时可指定 `chunkSize` 进行调整，且须保证其大于零。`GetBinaryFileChunksAsync` 返回一个由运行时选定分块的异步序列。
+对于大文件，请使用 `SetBinaryFileAsync` 和 `GetBinaryFileAsync` 的 `Stream` 重载。上传默认使用 32 KiB 的块大小；上传时可指定 `chunkSize` 进行调整，且须保证其大于零。`GetBinaryFileChunksAsync` 返回一个由运行时选定的块组成的异步序列。
 
 对于已经在内存中的小文件，`SetBinaryFileAsync` 的 `ReadOnlyMemory<byte>` 重载和 `GetBinaryFileBytesAsync` 使用起来很方便。`GetBinaryFileBytesAsync` 会将完整的下载内容缓冲到一个字节数组中。
 
-调用方负责管理这些流。下载会从目标流的当前位置开始写入，不会回绕或截断该位置；上传会从源流的当前位置开始读取。分块枚举是惰性的，运行时错误可能在枚举过程中抛出。失败的下载可能会在目标中留下部分字节，你的应用不得将其视为完整文件。
+调用方负责管理这些流。下载会从目标流的当前位置开始写入，不会回绕或截断该位置；上传会从源流的当前位置开始读取。块枚举是惰性的，运行时错误可能在枚举过程中抛出。失败的下载可能会在目标中留下部分字节，你的应用不得将其视为完整文件。
 
 ## 取消操作
 
-所有异步操作都接受 `CancellationToken`。请将该令牌传递给上传、下载、分块枚举和删除操作，以便在调用方不再需要结果时取消操作：
+所有异步操作都接受 `CancellationToken`。请将该令牌传递给上传、下载、块枚举和删除操作，以便在调用方不再需要结果时取消操作：
 
 ```csharp
 await client.SetBinaryFileAsync(
@@ -84,7 +84,7 @@ await client.SetBinaryFileAsync(
     cancellationToken: cancellationToken);
 ```
 
-取消时会抛出 `OperationCanceledException`。对于分块枚举，请将令牌传递给 `GetBinaryFileChunksAsync`：
+取消时会抛出 `OperationCanceledException`。对于块枚举，请将令牌传递给 `GetBinaryFileChunksAsync`：
 
 ```csharp
 await foreach (var chunk in client.GetBinaryFileChunksAsync(
@@ -98,4 +98,4 @@ await foreach (var chunk in client.GetBinaryFileChunksAsync(
 
 ## 错误处理
 
-当 Dapr runtime 报告失败时，客户端会抛出 `DaprException`。例如，不存在的文件无法被获取或删除；如果同名文件已存在，未指定 `overwrite: true` 的上传会失败。请检查 `InnerException` 以获取运行时的详细信息。无效的客户端参数（例如空的存储名称或文件名，或非正数的上传分块大小）会导致标准的参数异常。
+当 Dapr runtime 报告失败时，客户端会抛出 `DaprException`。例如，不存在的文件无法被获取或删除；如果同名文件已存在，未指定 `overwrite: true` 的上传会失败。请检查 `InnerException` 以获取运行时的详细信息。无效的客户端参数（例如空的存储名称或文件名，或非正数的上传块大小）会导致标准的参数异常。

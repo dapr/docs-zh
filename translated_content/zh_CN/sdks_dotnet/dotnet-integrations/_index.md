@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "使用 Dapr .NET SDK 开发应用程序"
+title: "Developing applications with the Dapr .NET SDK"
 linkTitle: "部署集成"
 weight: 300000
 description: Dapr .NET SDK 的部署集成
@@ -16,7 +16,7 @@ description: Dapr .NET SDK 的部署集成
 - 每个服务对应的 Dapr sidecar
 - Dapr component 和配置 manifest
 - 额外的依赖项，如 state store
-- 可选：用于 Actor 的 Dapr placement service（Placement）
+- 可选：用于 Actor 的 Dapr placement service
 
 本文档假设你正在构建生产应用，并希望建立可重复且稳健的开发实践。此处的指导是通用的，适用于任何使用 Dapr 的 .NET 服务器应用（包括 Actor）。
 

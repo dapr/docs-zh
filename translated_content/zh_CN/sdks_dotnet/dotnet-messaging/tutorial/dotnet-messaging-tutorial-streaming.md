@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "第 2 部分：声明式 streaming subscription"
+title: "Part 2: Declarative streaming subscriptions"
 linkTitle: "第 2 部分：streaming subscription"
 weight: 160200
 description: "通过应用发起的流式 gRPC 连接消费 pub/sub 事件"

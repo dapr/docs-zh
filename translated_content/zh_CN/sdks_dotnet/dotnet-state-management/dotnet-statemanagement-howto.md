@@ -1,22 +1,23 @@
 ---
 type: docs
-title: "操作指南：使用 Dapr State Management .NET SDK 管理状态"
+title: "How to: Manage state with the Dapr State Management .NET SDK"
 linkTitle: "操作指南：管理状态"
 weight: 53050
 description: 学习如何使用 Dapr State Management .NET SDK 保存、读取、删除和查询状态
 ---
 
-下面演示如何使用 `Dapr.StateManagement` 包管理状态。以下演示使用[此处提供的示例项目](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement)，内容涵盖通过源生成器获得的 typed state store 客户端、用于批量操作和事务的直接客户端用法，以及使用 ETag 实现的乐观并发控制。在本指南中，你将：
+下面演示如何使用 `Dapr.StateManagement` 包管理状态。我们将使用
+[此处提供的示例项目](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement)进行以下演示，内容涵盖通过源生成器获得的 typed state store 客户端、用于批量操作和事务的直接客户端用法，以及使用 ETag 实现的乐观并发控制。在本指南中，你将：
 
 - 部署一个 .NET 应用（[StateManagementExample](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement/StateManagementExample)）
 - 使用 Dapr .NET State Management SDK 保存、读取和删除状态条目
 - 使用 ETag 实现乐观并发控制
 - 执行批量操作与 state transaction
-- 使用源生成器创建强类型的、按存储划分范围的接口
+- 使用源生成器创建强类型的、按 store 划分范围的接口
 
 在 .NET 示例项目中：
 
-- 主文件 [`Program.cs`](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement/StateManagementExample/Program.cs) 同时包含两种用法（强类型存储与直接客户端）。
+- 主文件 [`Program.cs`](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement/StateManagementExample/Program.cs) 同时包含两种用法（typed state store 与直接客户端）。
 - [`IWidgetStore.cs`](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement/StateManagementExample/IWidgetStore.cs) 文件演示了 typed state store 接口。
 
 ## 前提条件
@@ -28,7 +29,7 @@ description: 学习如何使用 Dapr State Management .NET SDK 保存、读取�
 ## 设置环境
 
 {{% alert title=".NET 框架支持" color="warning" %}}
-请注意，.NET 8 和 .NET 9 将于 2026 年十一月结束支持。二者的支持将在 Dapr v1.20 中移除；只有 .NET 10 和 .NET 11 将支持至 2027 年底。
+请注意，.NET 8 和 .NET 9 将于 2026 年 11 月结束支持。二者的支持将在 Dapr v1.20 中移除；只有 .NET 10 和 .NET 11 将支持至 2027 年底。
 {{% /alert %}}
 
 克隆 [.NET SDK 仓库](https://github.com/dapr/dotnet-sdk)。
@@ -61,7 +62,7 @@ dapr run --app-id statemanagement-example --dapr-grpc-port 50001 -- dotnet run
 
 ## 注册客户端
 
-这些示例面向 `Dapr.StateManagement` `1.19.0` 或更高版本。为了使用客户端、注册与序列化，请导入 `Dapr.StateManagement`、`Dapr.StateManagement.Extensions` 和 `System.Text.Json`。状态选项与操作模型位于 `Dapr.StateManagement` 中。
+这些示例面向 `Dapr.StateManagement` `1.19.0` 或更高版本。请导入 `Dapr.StateManagement`、`Dapr.StateManagement.Extensions` 和 `System.Text.Json`，以使用客户端、注册与序列化功能。状态选项与操作模型位于 `Dapr.StateManagement` 中。
 
 `DaprStateManagementClient` 通过 `IServiceCollection` 上的扩展方法 `AddDaprStateManagementClient()` 注册。该方法返回一个 `IDaprStateManagementBuilder`，可用它进一步注册由源生成器生成的 typed state store 客户端。
 
@@ -220,7 +221,7 @@ await client.DeleteBulkStateAsync("statestore", new List<BulkDeleteStateItem>
 
 ## state transaction
 
-在单个事务中原子地执行多个 upsert 与 delete 操作。并非所有 state store 都支持事务，请查阅 [Dapr 文档](https://docs.dapr.io/reference/components-reference/supported-state-stores/)，确认你所用的存储。
+在单个事务中原子地执行多个 upsert 与 delete 操作。并非所有 state store 都支持事务，请查阅 [Dapr 文档](https://docs.dapr.io/reference/components-reference/supported-state-stores/)，确认你所用的具体 store。
 
 ```csharp
 await client.ExecuteStateTransactionAsync("statestore", new List<StateTransactionRequest>
@@ -289,7 +290,7 @@ var loaded = await client.GetStateAsync<Widget>("statestore", "my-widget", metad
 
 ## 使用源生成器访问 typed state store
 
-为了获得更简洁、更易维护且更易测试的写法，请使用源生成器创建绑定到特定 state store 的强类型接口。这样就不必在代码各处重复书写存储名称字符串。
+为了获得更简洁、更易维护且更易测试的写法，请使用源生成器创建绑定到特定 state store 的强类型接口。这样就不必在代码各处重复书写 store 名称字符串。
 
 ### 第 1 步：定义接口
 
@@ -303,10 +304,10 @@ public partial interface IWidgetStore : IDaprStateStoreClient;
 ```
 
 编译时，源生成器会生成以下内容：
-1. 一个 sealed internal 实现类，它把所有 `IDaprStateStoreClient` 调用转发给 `DaprStateManagementClient`，并预先填入存储名称 `"statestore"`。
+1. 一个 sealed internal 实现类，它把所有 `IDaprStateStoreClient` 调用转发给 `DaprStateManagementClient`，并预先填入 store 名称 `"statestore"`。
 2. 一个位于 `IDaprStateManagementBuilder` 上的 DI 注册扩展方法，名为 `WithWidgetStore()`（接口名开头的 `I` 会被去掉）。
 
-### 第 2 步：注册强类型存储
+### 第 2 步：注册 typed state store
 
 将生成的扩展方法链式接在 `AddDaprStateManagementClient()` 之后：
 
@@ -344,7 +345,7 @@ public class WidgetService(IWidgetStore store)
 }
 ```
 
-### 注册多个强类型存储
+### 注册多个 typed state store
 
 你可以为不同的 Dapr state store component 定义多个接口，并将它们全部注册：
 
@@ -379,9 +380,9 @@ mockClient
 var service = new WidgetService(mockClient.Object);
 ```
 
-### 使用强类型存储客户端进行测试
+### 使用 typed state store 客户端进行测试
 
-由于强类型存储实现了 `IDaprStateStoreClient`，可以直接模拟该接口：
+由于 typed state store 实现了 `IDaprStateStoreClient`，可以直接模拟该接口：
 
 ```csharp
 var mockStore = new Mock<IWidgetStore>();

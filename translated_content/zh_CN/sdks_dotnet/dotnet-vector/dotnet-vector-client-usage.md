@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Dapr 向量客户端"
+title: "Dapr Vector client"
 linkTitle: "向量客户端"
 weight: 55100
 description: 配置 DaprVectorClient、解读相似度分数、处理批量结果，并生成类型化的集合客户端
@@ -94,7 +94,7 @@ var query = new VectorQuery
 };
 ```
 
-过滤器针对的是记录 metadata，而不是负载属性。metadata 和过滤器都必须是 JSON 对象。限制条件请参阅[component specification]({{% ref supported-vector %}})，过滤语言请参阅[过滤语言]({{% ref "vector-overview.md#filter-language" %}})。
+过滤器针对的是记录 metadata，而不是负载属性。metadata 和过滤器都必须是 JSON 对象。限制条件请参阅[component specifications]({{% ref supported-vector %}})，过滤语言请参阅[过滤语言]({{% ref "vector-overview.md#filter-language" %}})。
 
 ## 负载序列化
 

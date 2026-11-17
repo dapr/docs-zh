@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "如何：使用 Dapr Messaging .NET SDK 编写订阅并处理主题消息"
+title: "How to: Author subscriptions and handle topic messages with the Dapr Messaging .NET SDK"
 linkTitle: "订阅主题"
 weight: 61000
 description: "了解如何编写主题处理程序、配置流式、编程式和 HTTP 投递模式，并使用 Dapr.Messaging 接入无反射分发器"

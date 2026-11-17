@@ -1,14 +1,14 @@
 ---
 type: docs
-title: "Dapr .NET SDK 中的 Dapr Actors (Next)"
+title: "Dapr Actors (Next) in the .NET SDK"
 linkTitle: "Actors (Next)"
 weight: 80000
 description: "面向 .NET 的现代化 Dapr Actors 实现概述（Dapr.Actors.Next）"
 ---
 
-`Dapr.Actors.Next` 是 .NET 中 Dapr Actors building block 的重新实现。原有的 `Dapr.Actors` 包已经服役很长时间，早于现代 Dapr .NET SDK 所依赖的许多机制，因此本包将 Actor 体验更新到与之匹配：它通过 Dapr 1.18 引入的双向 gRPC 流与运行时通信，从 Actor 路径中移除了反射，并使 Actor 与 SDK 其他部分使用的依赖注入、选项、序列化和源生成器模式保持一致。
+`Dapr.Actors.Next` 是 .NET 中 Dapr Actors building block 的重新实现。原有的 `Dapr.Actors` 包已经服役很长时间，早于现代 Dapr .NET SDK 所依赖的许多机制，因此本包将 Actor 体验更新到与之匹配：它通过 Dapr 1.18 引入的双向 gRPC 流与运行时通信，从 Actor 路径中移除了反射，并使 Actor 与 SDK 其他部分所用的依赖注入、选项、序列化和源生成器模式保持一致。
 
-Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID 寻址，并支持重入、timer、reminder 和代理。`Dapr.Actors.Next` 是一个独立的包系列，与 `Dapr.Actors` 不具备 API 兼容性，但与 Dapr runtime 在协议层面完全兼容。因此采用它无需对运行时做任何改动，唯一的要求是 Dapr runtime 为 v1.18 或更高版本。
+Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID 寻址，并具备重入、timer、reminder 和代理功能。`Dapr.Actors.Next` 是一个独立的包系列，与 `Dapr.Actors` 不具备 API 兼容性，但与 Dapr runtime 在协议层面完全兼容。因此采用它无需对运行时做任何改动，唯一的要求是 Dapr runtime 为 v1.18 或更高版本。
 
 {{% alert title="运行时要求与连接" color="primary" %}}
 `Dapr.Actors.Next` 要求 Dapr runtime v1.18.0 或更高版本。它通过持久的、由应用发起的 `SubscribeActorEvents` gRPC 流托管 Actor，因此 Actor 回调经由该流到达，而不是作为入站 HTTP 请求发送到已映射的 Actor 处理程序端点，而后者正是 `Dapr.Actors` 所要求的方式。应用仍需暴露其 gRPC 服务器端口，运行时用它进行前置条件检查；变化的是 Actor 回调的投递方式，而不是应用是否运行 gRPC 服务器。
@@ -27,7 +27,7 @@ Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID �
 这次重写源于两个核心理念：
 
 1) 第一个是 SDK 与运行时的交互方式。Actor 回调（invoke、reminder、timer 和 deactivate）现在通过长期存活的双向 gRPC 流到达，而不再是对已托管 Actor 端点的逐次请求。这降低了每次调用的开销，也无需映射入站的 Actor 处理程序。这与 Dapr 在 pub/sub 订阅和 workflow 派发中已采用的流式模式一致。
-2) 第二个是 SDK 现在在连接的你这一侧（无论是构建时还是运行时）本地完成的工作量，以使 Actor 代码更易于编写且更安全。源生成器取代了基于反射的代理与派发机制，这既消除了运行时开销，也使 Native AOT 成为可能。序列化迁移到与 State Management 和 workflow 相同的可插拔 `IDaprSerializer`。状态迁移、状态机编程模型、由 pub/sub 驱动的 Actor，以及确定性的内存测试运行时，均已内置提供。其目标是让你能够直接使用现代 Dapr .NET SDK 的其他部分来构建高性能的 Actor 应用，而不必遵循一套独立的 Actor 专属约定。
+2) 第二个是 SDK 现在在该连接的你这一侧（无论是构建时还是运行时）本地完成的工作量，以使 Actor 代码更易于编写且更安全。源生成器取代了基于反射的代理与派发机制，这既消除了运行时开销，也使 Native AOT 成为可能。序列化迁移到与 State Management 和 workflow 相同的可插拔 `IDaprSerializer`。状态迁移、状态机编程模型、由 pub/sub 驱动的 Actor，以及确定性的内存测试运行时，均已内置提供。其目标是让你能够直接使用现代 Dapr .NET SDK 的其他部分来构建高性能的 Actor 应用，而不必遵循一套独立的 Actor 专属约定。
 
 ## 源生成器与编译期检查
 
@@ -39,7 +39,7 @@ Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID �
 
 | 关注点 | `Dapr.Actors`（原版） | `Dapr.Actors.Next` |
 | --- |------------------------------------------------------------------------------------| --- |
-| 运行时连接 | 运行时按每次调用进入的入站 Actor 处理程序端点 | 通过出站的持久 `SubscribeActorEvents` 流接收 Actor 回调；无需映射 Actor 端点（应用的 gRPC 服务器端口仍然保留） |
+| 运行时连接 | 运行时每次调用时访问的入站 Actor 处理程序端点 | 通过出站的持久 `SubscribeActorEvents` 流接收 Actor 回调；无需映射 Actor 端点（应用的 gRPC 服务器端口仍然保留） |
 | 代理与派发 | 反射（`DispatchProxy`、运行时 IL） | 源生成；热路径上无反射 |
 | Native AOT 与裁剪 | 不支持 | 支持；运行时包可安全地进行裁剪与 AOT |
 | 可空引用类型 | 部分支持 | 在公共接口范围内全面启用 |
@@ -61,7 +61,7 @@ Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID �
 
 ### 可空性与现代化
 
-公共接口已标注可空引用类型，因此编译器能够区分可能不返回值的 Actor 方法与总是返回结果的方法，并在构建时而非调用时标出这种差异。结合源生成的代理与序列化，这消除了一类只能在运行时才暴露的、基于反射的 SDK 所存在的错误。
+公共接口已标注可空引用类型，因此编译器能够区分可能不返回值的 Actor 方法与总是返回结果的方法，并在构建时而非调用时标出这种差异。结合源生成的代理与序列化，这消除了基于反射的 SDK 只能在运行时才暴露的一类错误。
 
 这种现代化是实质性的，而非表面上的。移除反射使 Native AOT 成为可能，并降低启动与内存开销。选项模式取代了自定义配置。真正的按激活划分的 DI 作用域意味着 Actor 的依赖项与 Actor 本身在同一生命周期内被解析和释放。单一的可插拔序列化器使 Actor、State Management 和 workflow 以相同的方式序列化。
 

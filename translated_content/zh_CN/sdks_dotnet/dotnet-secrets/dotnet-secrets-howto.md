@@ -1,12 +1,14 @@
 ---
 type: docs
-title: "操作指南：使用 Dapr Secrets Management .NET SDK 管理 secrets"
+title: "How to: Manage secrets with the Dapr Secrets Management .NET SDK"
 linkTitle: "操作指南：管理 secrets"
 weight: 52050
 description: 了解如何使用 Dapr Secrets Management .NET SDK 获取和管理 secrets
 ---
 
-本文将介绍如何使用 `Dapr.SecretsManagement` 包从 Dapr secret store 中获取 secrets。下面的演示使用[此处提供的示例项目](https://github.com/dapr/dotnet-sdk/tree/master/examples/SecretManagement)，涵盖直接获取单个 secrets、批量获取 secrets，以及通过所包含的源生成器实现的强类型访问。在本指南中，你将：
+让我们一步步了解如何使用 `Dapr.SecretsManagement` 包从 Dapr secret store 中获取 secrets。下面的演示使用
+[此处提供的示例项目](https://github.com/dapr/dotnet-sdk/tree/master/examples/SecretManagement)，涵盖直接获取单个 secrets、批量获取 secrets，
+以及通过所包含的源生成器实现的强类型访问。在本指南中，你将：
 
 - 部署一个 .NET Web API 应用（[SecretManagementSample](https://github.com/dapr/dotnet-sdk/tree/master/examples/SecretManagement/SecretManagementSample)）
 - 使用 Dapr .NET Secrets Management SDK 获取单个 secrets 和批量 secrets
@@ -28,7 +30,7 @@ description: 了解如何使用 Dapr Secrets Management .NET SDK 获取和管理
 ## 设置环境
 
 {{% alert title=".NET 框架支持" color="warning" %}}
-请注意，.NET 8 和 .NET 9 将于 2026 年十一月结束支持。这两个版本都将在 Dapr v1.20 中停止支持；到 2027 年底前，仅支持 .NET 10 和 .NET 11。
+请注意，.NET 8 和 .NET 9 将于 2026 年十一月结束支持。这两个版本都将在 Dapr v1.20 中停止支持；到 2027 年底前，仅 .NET 10 和 .NET 11 受支持。
 {{% /alert %}}
 
 克隆 [.NET SDK 仓库](https://github.com/dapr/dotnet-sdk)。
@@ -73,7 +75,7 @@ var app = builder.Build();
 
 为客户端导入 `Dapr.SecretsManagement`，为注册导入 `Dapr.SecretsManagement.Extensions`。
 
-你可能需要为客户端提供一些配置选项，这些选项需要在每次调用 sidecar 时都带上，例如 Dapr API Token，或非标准的 HTTP 或 gRPC 端点。为此，可以使用注册方法的一个重载，它允许配置 `DaprSecretsManagementClientBuilder` 实例：
+你可能需要为客户端提供一些配置选项，例如每次调用 sidecar 时都需要携带的 Dapr API Token，或非标准的 HTTP 或 gRPC 端点。为此，可以使用注册方法的一个重载，它允许配置 `DaprSecretsManagementClientBuilder` 实例：
 
 ```cs
 var builder = WebApplication.CreateBuilder(args);
@@ -87,7 +89,7 @@ builder.Services.AddDaprSecretsManagementClient((_, daprSecretsClientBuilder) =>
 var app = builder.Build();
 ```
 
-不过，你想注入的值也可能需要从其他来源获取，而该来源本身也已注册为依赖项。还有一个重载可以把 `IServiceProvider` 注入到配置方法中。在下面的示例中，我们注册了一个虚构的单例，它可以从某处获取配置值，并将其传入 `AddDaprSecretsManagementClient` 的配置方法，以便在此处从其他地方获取 Dapr API Token 用于注册：
+不过，要注入的值也可能需要从其他来源获取，而该来源本身已注册为依赖项。还有一个重载可以将 `IServiceProvider` 注入到配置方法中。在下面的示例中，我们注册了一个虚构的单例，它能够从某处获取配置值，并将其传入 `AddDaprSecretsManagementClient` 的配置方法，以便从其他地方获取 Dapr API Token 用于注册：
 
 ```cs
 var builder = WebApplication.CreateBuilder(args);
@@ -107,7 +109,7 @@ var app = builder.Build();
 
 ## 使用 IConfiguration 配置 Dapr Secrets Management 客户端
 
-你也可以使用已注册的 `IConfiguration` 来配置 Dapr Secrets Management 客户端，而无需像上一节那样通过 `DaprSecretsManagementClientBuilder` 显式指定每一项覆盖值。具体做法是：通过依赖注入提供的 `IConfiguration` 中填入相应的值，`AddDaprSecretsManagementClient()` 注册时会自动使用这些值来替代默认值。
+你也可以使用已注册的 `IConfiguration` 来配置 Dapr Secrets Management 客户端，而无需像上一节那样通过 `DaprSecretsManagementClientBuilder` 显式指定每一项覆盖值。具体做法是：通过依赖注入提供一个包含这些值的 `IConfiguration`，`AddDaprSecretsManagementClient()` 注册时会自动使用这些值替代各自的默认值。
 
 首先，在配置中填入这些值。可以通过以下几种不同的方式完成，如下所示。
 
@@ -127,14 +129,14 @@ var configuration = new ConfigurationBuilder()
     .Build();
 
 builder.Configuration.AddConfiguration(configuration);
-builder.Services.AddDaprSecretsManagementClient(); //此处会自动从 IConfiguration 中填充 HTTP 和 gRPC 端点以及 API 令牌的值
+builder.Services.AddDaprSecretsManagementClient(); //此处会自动从 IConfiguration 中填充 HTTP 和 gRPC 端点以及 API Token 的值
 ```
 
 ### 通过环境变量配置
 
 应用设置可以从应用程序可用的环境变量中读取。
 
-以下环境变量将用于填充注册 Dapr Secrets Management 客户端时所用的 HTTP 端点和 API 令牌。
+以下环境变量将用于填充注册 Dapr Secrets Management 客户端时所用的 HTTP 端点和 API Token。
 
 | 键 | 值 |
 | --- | --- |
@@ -148,7 +150,7 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddDaprSecretsManagementClient();
 ```
 
-Dapr Secrets Management 客户端将配置为使用 HTTP 端点 `http://localhost:54321`，并在所有出站请求中携带值为 `abc123` 的 API 令牌请求头。
+Dapr Secrets Management 客户端将配置为使用 HTTP 端点 `http://localhost:54321`，并在所有出站请求中携带值为 `abc123` 的 API Token 请求头。
 
 ## 获取单个 secrets
 
@@ -183,7 +185,7 @@ app.MapGet("/secrets/{storeName}", async (
 });
 ```
 
-返回结果是嵌套的 `IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>`。外层键为 secrets 名称；内层字典包含一个或多个键值对，表示该 secrets 的数据。
+返回结果是嵌套的 `IReadOnlyDictionary<string, IReadOnlyDictionary<string, string>>`。外层键为 secret 名称；内层字典包含一个或多个键值对，表示该 secret 的数据。
 
 ## 传递 metadata
 
@@ -200,11 +202,11 @@ var secret = await secretsClient.GetSecretAsync("my-vault", "db-password", metad
 
 ## 使用源生成器实现强类型 secrets
 
-`Dapr.SecretsManagement` 包包含一个增量源生成器，它可以通过简单的接口定义生成对 secret store 的强类型访问。这样就无需在整个代码库中到处传递存储名称和键字符串。
+`Dapr.SecretsManagement` 包包含一个增量源生成器，它通过简单的接口定义，即可生成对 secret store 的强类型访问。这样就无需在整个代码库中到处传递存储名称和键字符串。
 
 ### 定义强类型 secret store 接口
 
-创建一个标注了 `[SecretStore]` 特性的 `partial interface`，并在该特性中指定 Dapr secret store component 的名称。每个属性对应一个 secrets 键。
+创建一个标注了 `[SecretStore]` 特性的 `partial interface`，并在该特性中指定 Dapr secret store component 的名称。每个属性对应一个 secret 键。
 
 ```cs
 using Dapr.SecretsManagement.Abstractions;
@@ -215,15 +217,15 @@ public partial interface IMyVaultSecrets
     [Secret("db-connection-string")]
     string DatabaseConnection { get; }
 
-    string ApiKey { get; } // 使用属性名 "ApiKey" 作为 secrets 键
+    string ApiKey { get; } // 使用属性名 "ApiKey" 作为 secret 键
 }
 ```
 
-`[Secret]` 特性是可选的。应用该特性时，会将 secrets 键覆盖为指定的值；省略时，则使用属性名作为 secrets 键。
+`[Secret]` 特性是可选的。应用该特性时，会将 secret 键覆盖为指定的值；省略时，则使用属性名作为 secret 键。
 
 ### 注册强类型 secret store
 
-源生成器会生成一个依赖注入（DI）注册扩展方法，其名称与你的接口相对应（例如 `AddMyVaultSecrets()`）。将它链接在 `AddDaprSecretsManagementClient()` 之后即可：
+源生成器会生成一个依赖注入（DI）注册扩展方法，其名称与你的接口相对应（例如 `AddMyVaultSecrets()`）。将它串接在 `AddDaprSecretsManagementClient()` 之后即可：
 
 ```cs
 var builder = WebApplication.CreateBuilder(args);
@@ -240,13 +242,13 @@ var app = builder.Build();
 
 1. 接口的具体实现类，它基于 `DaprSecretsManagementClient.GetBulkSecretAsync` 实现。
 2. 一个 `IHostedService`，在应用启动时预加载所有已映射的 secrets。
-3. 在 `IDaprSecretsManagementBuilder` 上定义的强类型依赖注入注册扩展方法。
+3. 一个在 `IDaprSecretsManagementBuilder` 上定义的强类型依赖注入注册扩展方法。
 
 由于 secrets 在启动时批量加载，属性是同步的，宿主启动后即可立即使用，调用方无需处理异步流程。
 
 ### 使用强类型 secrets
 
-完成注册后，即可通过标准依赖注入在任何地方注入该接口：
+完成注册后，即可通过标准依赖注入，在任何地方注入该接口：
 
 ```cs
 app.MapGet("/do-something", (IMyVaultSecrets secrets, IOtherSvc svc) =>
@@ -260,7 +262,7 @@ app.MapGet("/do-something", (IMyVaultSecrets secrets, IOtherSvc svc) =>
 
 ### 使用直接 API 进行单元测试
 
-`DaprSecretsManagementClient` 是抽象类，但没有无参构造函数。创建测试替身时，需要提供其 gRPC 客户端和 HTTP 客户端构造依赖项。或者，也可以把直接访问隔离在应用自己定义的接口之后。对于大多数使用方测试而言，下面这种生成的属性接口是更简单的切入点。
+`DaprSecretsManagementClient` 是抽象类，但没有无参构造函数。创建测试替身时，需要提供其 gRPC 客户端和 HTTP 客户端的构造依赖项。或者，也可以把直接访问隔离在应用自有的接口之后。对于大多数使用方的测试而言，下面这种生成的属性接口是更简单的切入点。
 
 ### 使用源生成器进行单元测试
 
@@ -274,4 +276,4 @@ mockSecrets.Setup(s => s.ApiKey).Returns("my-api-key");
 
 ### 集成测试
 
-对于集成测试，请通过 `AddDaprSecretsManagementClient()` 进行注册，并将构建器配置为指向真实或测试用的 sidecar。生成的 `IHostedService` 会使用真实客户端在启动时预加载 secrets，从而测试完整的端到端流程。
+对于集成测试，请通过 `AddDaprSecretsManagementClient()` 进行注册，并将构建器配置为指向真实或测试用的 sidecar。生成的 `IHostedService` 会在启动时使用真实客户端预加载 secrets，从而测试完整的端到端流程。

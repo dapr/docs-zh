@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "DaprStateManagementClient 用法"
+title: "DaprStateManagementClient usage"
 linkTitle: "DaprStateManagementClient 用法"
 weight: 53100
 description: 使用 DaprStateManagementClient 的必备提示与建议
@@ -26,7 +26,7 @@ description: 使用 DaprStateManagementClient 的必备提示与建议
 |------|------|
 | `UseGrpcEndpoint(string)` | 为 Dapr sidecar 设置 gRPC 端点。 |
 | `UseHttpEndpoint(string)` | 为 Dapr sidecar 设置 HTTP 端点。 |
-| `UseJsonSerializationOptions(JsonSerializerOptions)` | 配置自定义 JSON 序列化选项。 |
+| `UseJsonSerializationOptions(JsonSerializerOptions)` | 配置自定义 JSON 序列化器选项。 |
 | `UseDaprApiToken(string)` | 设置用于对 Dapr sidecar 进行身份验证的 API 令牌。 |
 | `UseGrpcChannelOptions(GrpcChannelOptions)` | 提供自定义的 gRPC 通道选项。 |
 | `UseTimeout(TimeSpan)` | 配置 HTTP 请求超时。 |

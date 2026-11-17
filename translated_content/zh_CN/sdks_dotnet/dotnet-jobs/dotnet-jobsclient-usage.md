@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "DaprJobsClient 使用"
+title: "DaprJobsClient usage"
 linkTitle: "DaprJobsClient 使用"
 weight: 59000
 description: 使用 DaprJobsClient 的基本技巧和建议
@@ -99,7 +99,7 @@ var app = builder.Build();
 ```cs
 var builder = WebApplication.CreateBuilder(args);
 
-// 注册一个从某处获取机密的虚构服务
+// 注册一个从某处获取 secrets 的虚构服务
 builder.Services.AddSingleton<SecretService>();
 
 builder.Services.AddDaprJobsClient((serviceProvider, daprJobsClientBuilder) => {
@@ -142,9 +142,10 @@ await daprJobsClient.ScheduleJobWithPayloadAsync(
 - 一个 `string`，其中填充了 `jobName`，用于提供被调用 job 的名称
 - 一个 `ReadOnlyMemory<byte>`，其中填充了 job 注册时最初提供的字节
 
-反序列化时，请使用与调度时相同的格式。对于 JSON，请使用 `JsonSerializer.Deserialize<T>(jobPayload.Span, options)` 并配合相匹配的序列化选项；对于 UTF-8 文本，请使用 `Encoding.UTF8.GetString`。客户端不会推断负载的类型或编码。
+反序列化时，请使用与调度时相同的格式。对于 JSON，请使用 `JsonSerializer.Deserialize<T>(jobPayload.Span, options)` 并配合相匹配的序列化器选项；对于 UTF-8 文本，请使用 `Encoding.UTF8.GetString`。客户端不会推断负载的类型或编码。
 
 要将字节反序列化为字符串，可以使用以下辅助方法：
+
 ```cs
 var payloadAsString = Encoding.UTF8.GetString(jobPayload.Span); // 如果成功，将返回包含该值的字符串
 ```

@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作方法：使用 Dapr Binary Store .NET SDK 管理二进制文件"
+title: "How to: Manage binary files with the Dapr Binary Store .NET SDK"
 linkTitle: "操作方法：管理二进制文件"
 weight: 53050
 description: 学习如何使用 Dapr Binary Store .NET SDK 存储、检索、流式传输和删除二进制文件
@@ -20,7 +20,7 @@ description: 学习如何使用 Dapr Binary Store .NET SDK 存储、检索、流
 - [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)、[.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)、[.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) 或 [.NET 11](https://dotnet.microsoft.com/download/dotnet/11.0)
 - Dapr runtime 1.19 或更高版本
 - [Dapr.BinaryStore](https://www.nuget.org/packages/Dapr.BinaryStore) NuGet 包
-- 在 Dapr 中配置好的[Binary Store]({{% ref "developing-applications/building-blocks/binarystore/_index.md" %}}) component
+- 在 Dapr 中配置好的 [binary store]({{% ref "developing-applications/building-blocks/binarystore/_index.md" %}}) component
 
 {{% alert title=".NET 框架支持" color="warning" %}}
 请注意，.NET 8 和 .NET 9 将于 2026 年 11 月结束支持。两者的支持都将在 Dapr v1.20 中取消；只有 .NET 10 和 .NET 11 会支持到 2027 年底。
@@ -69,7 +69,7 @@ builder.Services.AddDaprBinaryStoreClient();
 var app = builder.Build();
 ```
 
-在应用的项目目录中启动应用，并加载 `components` 中的 in-memory component，同时启动其 Dapr sidecar：
+在应用的项目目录中启动应用及其 Dapr sidecar，并加载 `components` 中的 in-memory component：
 
 ```sh
 dapr run --app-id binary-store-example --resources-path .\components -- dotnet run
@@ -86,7 +86,7 @@ builder.Services.AddDaprBinaryStoreClient((sp, clientBuilder) =>
 
 ## 上传和下载文件
 
-获取已注册的客户端，并传入 Binary Store component 名称、文件名和流。示例使用上面配置的 `filestore` component。运行示例前，请将一个不超过 4 MiB 的 `report.pdf` 文件放到应用的工作目录中。在 `var app = builder.Build();` 之后添加以下代码，并把所需的 `using` 指令放在文件顶部（`Program.cs` 中）。
+获取已注册的客户端，并传入 Binary Store component 名称、文件名和流。示例使用上面配置的 `filestore` component。运行示例前，请将一个不超过 4 MiB 的 `report.pdf` 文件放到应用的工作目录中。在 `var app = builder.Build();` 之后添加以下代码，并把所需的 `using` 指令放在 `Program.cs` 文件顶部。
 
 ```csharp
 using Dapr.BinaryStore;

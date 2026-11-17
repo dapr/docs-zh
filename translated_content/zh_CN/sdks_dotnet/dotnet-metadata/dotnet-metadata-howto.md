@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用 .NET SDK 获取 Dapr runtime metadata"
+title: "How to: Retrieve Dapr runtime metadata with the .NET SDK"
 linkTitle: "操作指南：获取运行时 metadata"
 weight: 54010
 description: "了解如何使用 Dapr Metadata .NET SDK 获取 Dapr runtime metadata"

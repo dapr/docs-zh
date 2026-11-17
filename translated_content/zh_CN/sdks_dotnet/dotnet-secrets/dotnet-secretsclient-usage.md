@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "DaprSecretsManagementClient 用法"
+title: "DaprSecretsManagementClient usage"
 linkTitle: "DaprSecretsManagementClient 用法"
 weight: 52900
 description: 使用 DaprSecretsManagementClient 的必备技巧与建议
@@ -24,26 +24,26 @@ description: 使用 DaprSecretsManagementClient 的必备技巧与建议
 
 ```cs
 var daprSecretsClient = new DaprSecretsManagementClientBuilder()
-    .UseDaprApiToken("abc123") // 指定用于向其他 Dapr sidecar进行身份验证的 API 令牌
+    .UseDaprApiToken("abc123") // 指定用于向其他 Dapr sidecar 进行身份验证的 API 令牌
     .Build();
 ```
 
 `DaprSecretsManagementClientBuilder` 包含以下设置项：
 
-- Dapr sidecar的 HTTP 端点
-- Dapr sidecar的 gRPC 端点
+- Dapr sidecar 的 HTTP 端点
+- Dapr sidecar 的 gRPC 端点
 - 用于配置 JSON 序列化的 `JsonSerializerOptions` 对象
 - 用于配置 gRPC 的 `GrpcChannelOptions` 对象
-- 用于向 sidecar进行请求身份验证的 API 令牌
+- 用于向 sidecar 进行请求身份验证的 API 令牌
 - 用于创建 SDK 所用 `HttpClient` 实例的工厂方法
-- `HttpClient` 实例向 sidecar发送请求时使用的超时时间
+- `HttpClient` 实例向 sidecar 发送请求时使用的超时时间
 
 SDK 会读取以下环境变量来配置默认值：
 
-- `DAPR_HTTP_ENDPOINT`：用于查找 Dapr sidecar的 HTTP 端点，示例：`https://dapr-api.mycompany.com`
-- `DAPR_GRPC_ENDPOINT`：用于查找 Dapr sidecar的 gRPC 端点，示例：`https://dapr-grpc-api.mycompany.com`
-- `DAPR_HTTP_PORT`：如果未设置 `DAPR_HTTP_ENDPOINT`，则使用此变量查找 Dapr sidecar的本地 HTTP 端点
-- `DAPR_GRPC_PORT`：如果未设置 `DAPR_GRPC_ENDPOINT`，则使用此变量查找 Dapr sidecar的本地 gRPC 端点
+- `DAPR_HTTP_ENDPOINT`：用于查找 Dapr sidecar 的 HTTP 端点，示例：`https://dapr-api.mycompany.com`
+- `DAPR_GRPC_ENDPOINT`：用于查找 Dapr sidecar 的 gRPC 端点，示例：`https://dapr-grpc-api.mycompany.com`
+- `DAPR_HTTP_PORT`：如果未设置 `DAPR_HTTP_ENDPOINT`，则使用此变量查找 Dapr sidecar 的本地 HTTP 端点
+- `DAPR_GRPC_PORT`：如果未设置 `DAPR_GRPC_ENDPOINT`，则使用此变量查找 Dapr sidecar 的本地 gRPC 端点
 - `DAPR_API_TOKEN`：用于设置 API 令牌
 
 ### 配置 gRPC 通道选项
@@ -143,7 +143,7 @@ builder.Services.AddDaprSecretsManagementClient()
 
 每次调用都会注册该强类型接口、其具体实现，以及一个在启动时预加载 secrets 的 `IHostedService`。
 
-这是启动时的快照，而不是 secret rotation 订阅。不要在宿主启动之前解析生成的接口：其加载器会在加载完成前拒绝访问。当读取属性时，如果映射的键不存在，则会抛出 `KeyNotFoundException`。
+这是启动时的快照，而不是 secret rotation 订阅。不要在宿主启动之前解析生成的接口：其加载器会在加载完成前拒绝访问。读取属性时，如果映射的键不存在，则会抛出 `KeyNotFoundException`。
 
 生成器会将批量检索返回的**内层字典键**展平到其属性查找中。因此，对于多值 secrets，`[Secret("...")]` 必须指定所需的内层值键，而不一定是外层 secrets 名称。不同 secrets 中重复的内层键会在展平后的快照中发生冲突；当需要保留外层/内层的层级关系时，请改用直接 API。
 
@@ -161,7 +161,7 @@ builder.Services.AddDaprSecretsManagementClient()
 
 ## 错误处理
 
-`DaprSecretsManagementClient` 的方法在与 Dapr sidecar通信时遇到问题，会抛出 `DaprException`。如果参数值非法，则会抛出相应的标准异常（例如 `ArgumentNullException` 或 `ArgumentException`），并附带出错参数的名称。当操作通过 `CancellationToken` 被取消时，会抛出 `OperationCanceledException`。
+`DaprSecretsManagementClient` 的方法在与 Dapr sidecar 通信时遇到问题，会抛出 `DaprException`。如果参数值非法，则会抛出相应的标准异常（例如 `ArgumentNullException` 或 `ArgumentException`），并附带出错参数的名称。当操作通过 `CancellationToken` 被取消时，会抛出 `OperationCanceledException`。
 
 最常见的失败情况与以下方面有关：
 

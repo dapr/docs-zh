@@ -1,9 +1,9 @@
 ---
 type: docs
-title: ".NET SDK 中的 workflow versioning"
+title: "Workflow versioning in the .NET SDK"
 linkTitle: "workflow versioning"
 weight: 2500
-description: 了解如何在 Dapr .NET SDK 中使用基于补丁和 name-based workflow versioning
+description: 了解如何在 Dapr .NET SDK 中使用基于补丁和基于名称的 workflow versioning
 ---
 
 ## 概述

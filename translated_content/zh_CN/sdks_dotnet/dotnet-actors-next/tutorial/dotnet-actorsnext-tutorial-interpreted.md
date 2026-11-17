@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "第 5 部分：运行时定义的状态机"
+title: "Part 5: Runtime-defined state machines"
 linkTitle: "5. 运行时定义"
 weight: 165000
 description: "以数据形式在运行时提供、上线前经过验证并被动态驱动的状态机"

@@ -1,6 +1,6 @@
 ---
 type: docs
-title: ".NET SDK 中的 state machine Actor"
+title: "State machine actors in the .NET SDK"
 linkTitle: "state machine Actor"
 weight: 130000
 description: "使用 StateMachineActor 将长期存活的响应式实体编写为状态机，并对其进行确定性测试"
@@ -76,7 +76,7 @@ public sealed class AuctionActor(ActorActivationContext context, IActorTimerSche
         sm.In(AuctionState.Sold)
           .OnEntry(StartFulfillment)                                     // 开始履约（见下文）
           .Ignore<Bid>();                                                // 迟到的出价被丢弃，不报错
-        
+
         sm.OnUnhandled(ctx => throw new InvalidActorEventException(ctx.State, ctx.Event));
     }
 
@@ -105,7 +105,7 @@ public sealed class AuctionActor(ActorActivationContext context, IActorTimerSche
 
 ### 方法调用即事件
 
-Actor 接口上的命令方法会把它的负载具体化为进入状态机的一个事件；方法的返回值就是所匹配处理器的 Reply 结果。只读取 `CurrentState` 或 `Data` 的查询方法会绕过状态机。这使得 state machine Actor 仍然是普通的 Dapr Actor：代理、注册表、动态调用和 Subscription streams 都可以原样工作。
+Actor 接口上的命令方法会把它的负载具体化为进入状态机的一个事件；方法的返回值就是所匹配处理器的 Reply 结果。只读取 `CurrentState` 或 `Data` 的查询方法会绕过状态机。这使得 state machine Actor 仍然是普通的 Dapr Actor：代理、注册表、动态调用和 subscription streams 都可以原样工作。
 
 ### 驱动定时转换
 

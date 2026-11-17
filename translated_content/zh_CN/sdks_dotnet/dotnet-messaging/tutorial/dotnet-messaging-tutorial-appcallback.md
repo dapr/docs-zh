@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "第 5 部分：gRPC AppCallback 推送订阅"
+title: "Part 5: gRPC AppCallback push subscriptions"
 linkTitle: "第 5 部分：AppCallback 推送"
 weight: 160500
 description: "通过 sidecar 发起的 gRPC AppCallback 调用接收 pub/sub 事件"

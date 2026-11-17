@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "第 1 部分：购物车，现代基线"
+title: "Part 1: The cart, the modern baseline"
 linkTitle: "1. 购物车"
 weight: 161000
 description: "你已经熟悉的 Actor，去掉了繁琐的样板代码，以及不再需要 sidecar 的 timer 测试"

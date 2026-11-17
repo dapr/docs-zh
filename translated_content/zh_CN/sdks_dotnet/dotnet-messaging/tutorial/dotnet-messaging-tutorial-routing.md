@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "第 3 部分：基于内容的路由与死信主题"
+title: "Part 3: Content-based routing and dead-letter topics"
 linkTitle: "第 3 部分：路由与死信"
 weight: 160300
 description: "使用 CEL 表达式路由消息，并通过死信主题处理被拒绝的消息"

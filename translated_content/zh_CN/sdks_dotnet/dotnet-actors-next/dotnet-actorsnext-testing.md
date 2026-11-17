@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "在 .NET SDK 中测试 Actor"
+title: "Testing actors in the .NET SDK"
 linkTitle: "测试"
 weight: 150000
 description: "借助内存运行时、xUnit v3 和 Coyote，确定性地测试 Actor 的并发、timer、reminder 与故障"
 ---
 
-测试是 `Dapr.Actors.Next` 最突出的能力。Actor 中最难处理的部分——包括重入、调用进行中 timer 到期、重复或乱序投递，以及状态写入过程中发生的故障——通常只有在运行中的 sidecar 并依赖真实时钟时才能触发，实际上难以测试。本 SDK 将非确定性的三个来源（传输、调度和时间）隔离在抽象之后，从而让这些场景变得确定、快速且可复现；同一份 Actor 代码既可以运行在真实运行时上，也可以运行在内存测试运行时上。
+测试是 `Dapr.Actors.Next` 最突出的能力。Actor 中最难处理的部分，包括重入、调用进行中 timer 到期、重复或乱序投递，以及状态写入过程中发生的故障，通常只有在运行中的 sidecar 并依赖真实时钟时才能触发，因而实际上难以测试。本 SDK 将非确定性的三个来源（传输、调度和时间）隔离在抽象之后，使这些场景变得确定、快速且可复现；同一份 Actor 代码既可以运行在真实运行时上，也可以运行在内存测试运行时上。
 
 本页介绍开发阶段可用的功能、如何使用 xUnit v3 编写测试、如何添加 Coyote 进行更深入的探索，以及如何针对真实 sidecar 运行集成测试。
 
@@ -20,13 +20,13 @@ description: "借助内存运行时、xUnit v3 和 Coyote，确定性地测试 A
 
 ## 开发阶段可用的功能
 
-`ActorTestRuntime` 提供一个受控 Scheduler，它基于种子探索不同 Actor ID 之间整个轮次的执行顺序，以及单个调用链内的重入。策略包括带种子的随机游走和基于优先级的策略。同一 Actor ID 的独立轮次永不重叠：运行时持有 Actor 锁，并且每个 ID 同一时间最多只投递一个非重入回调。`StepAsync` 启动一个可运行的轮次；`RunToIdle` 则持续驱动已调度的工作，直到不再有可运行或进行中的轮次。
+`ActorTestRuntime` 提供一个受控 Scheduler，它基于种子探索不同 Actor ID 之间整个轮次的执行顺序，以及单个调用链内的重入。策略包括带种子的随机游走和基于优先级的策略。同一 Actor ID 的独立轮次永不重叠：运行时持有 Actor 锁，且每个 ID 同一时间最多只投递一个非重入回调。`StepAsync` 启动一个可运行的轮次；`RunToIdle` 持续驱动已调度的工作，直到不再有可运行或进行中的轮次。
 
 运行时还通过 `TimeProvider` 提供虚拟时间，提供生产环境所用的进程内 timer/reminder 适配器，并支持检视已持久化的状态和调度记录。[远程调用模拟](#跨远程边界测试重入)可以在不传播环境执行上下文的情况下检查调用链。[状态写入暂停](#暂停状态写入并与停用竞争)让你可以在已知的持久化边界上挂起一个轮次，同时测试相互竞争的工作。[故障注入](#故障注入)覆盖状态写入、迁移和调用；回调流故障还需要一个装饰后的传输层和正在运行的流管理器。对于 state machine Actor，[结构分析](#状态机的结构分析)可以检测状态转换表中的缺陷。
 
 无需 sidecar、state store 或 Docker 即可完成以上全部操作。
 
-一组分析器确保 Actor 处于受控 Scheduler 能够穷举探索的模型之内。它们会标记逃逸出 Scheduler 的工作，例如 `Task.Run`（`DAPR1411`）、阻塞调用（`DAPR1412`）、使用了 `TimeProvider` 之外的墙钟时间（`DAPR1413`），以及未设种子的非确定性来源，例如 `Guid.NewGuid()` 或 `Random`（`DAPR1414`）。保持这些分析器无告警，正是让内存中的探索做到完备而非尽力而为的关键；参见[诊断参考]({{< ref "dotnet-actorsnext-howto.md#analyzers-and-diagnostics" >}})。
+一组分析器确保 Actor 处于受控 Scheduler 能够穷举探索的模型之内。它们会标记逃逸出 Scheduler 的工作，例如 `Task.Run`（`DAPR1411`）、阻塞调用（`DAPR1412`）、使用墙钟时间而非 `TimeProvider`（`DAPR1413`），以及未设种子的非确定性来源，例如 `Guid.NewGuid()` 或 `Random`（`DAPR1414`）。保持这些分析器无告警，正是让内存中的探索做到完备而非尽力而为的关键；参见[诊断参考]({{< ref "dotnet-actorsnext-howto.md#analyzers-and-diagnostics" >}})。
 
 ## 使用 xUnit v3 测试
 
@@ -65,7 +65,7 @@ public class CartActorTests
 }
 ```
 
-先发起每个调用，再推进 Scheduler，之后再等待其结果。在 `RunToIdle` 之前等待一个已排队的调用，可能让测试无限期地等待下去。当测试有意暂停某个轮次时，请改用 `StepAsync`：只要该轮次仍处于暂停状态，`RunToIdle` 就无法结束。
+先发起每个调用，再推进 Scheduler，之后再等待其结果。在 `RunToIdle` 之前等待一个已排队的调用，可能会让测试无限期等待。若测试有意暂停某个轮次，请改用 `StepAsync`：只要该轮次仍处于暂停状态，`RunToIdle` 就无法结束。
 
 {{% alert title="CreateActor 始终需要 Actor 类型名" color="primary" %}}
 `CreateActor<TActor>(actorId, actorType)` 需要传入 Actor 类型名；不存在能从 `TActor` 推断类型名的重载。请传入该 Actor 宿主时所用的名称：即其 `[DaprActor]` 名称（或类型名回退值），或你注册它时使用的别名（参见[以自定义名称注册 Actor]({{< ref "dotnet-actorsnext-howto.md#registering-an-actor-under-a-custom-name" >}})）。要求传入名称，也能在一个接口对应多个 Actor 类型时消除歧义。
@@ -75,10 +75,10 @@ var queue = rt.CreateActor<IQueueActor>(ActorId.Create("q1"), actorType: "Orders
 ```
 {{% /alert %}}
 
-由于别名往往来自配置，而且通常会保留独立的 Debug 和 Release（或其他环境）配置档，因此请在测试中从宿主所用的同一来源解析别名，或使用一个共享常量，而不要硬编码字面量。如果宿主从配置中读取 `QUEUE_ACTOR_TYPE_NAME`，那么硬编码 `"OrdersQueue"` 的测试可能在某个配置档中恰好匹配，而在另一个配置档中却悄悄地指向默认名称或另一个名称。按与宿主相同的方式读取名称，可以让测试与其运行时所用的配置档保持一致。
+由于别名往往来自配置，而且通常会保留独立的 Debug 和 Release（或其他环境）配置档，因此请在测试中从宿主所用的同一来源解析别名，或使用一个共享常量，而不要硬编码字面量。如果宿主从配置中读取 `QUEUE_ACTOR_TYPE_NAME`，那么硬编码 `"OrdersQueue"` 的测试可能在某个配置档中恰好匹配，而在另一个配置档中却悄悄地指向默认名称或另一个名称。按与宿主相同的方式读取名称，可以让测试与其运行时所用的配置保持一致。
 
 ```csharp
-// 与宿主使用相同的方式解析别名，使测试跟随当前生效的配置档。
+// 与宿主使用相同的方式解析别名，使测试跟随当前生效的配置。
 var actorType = configuration.GetValue("QUEUE_ACTOR_TYPE_NAME", "QueueActor");
 var queue = rt.CreateActor<IQueueActor>(ActorId.Create("q1"), actorType);
 ```
@@ -115,7 +115,7 @@ public async Task Abandoned_cart_reminder_fires_after_thirty_minutes()
     await rt.RunToIdle();
     await add;
 
-    rt.Time.Advance(TimeSpan.FromMinutes(30));    // 放行已注册的 abandon-cart 提醒
+    rt.Time.Advance(TimeSpan.FromMinutes(30));    // 放行已注册的 abandon-cart reminder
     await rt.RunToIdle();
 
     var summary = cart.GetSummary();

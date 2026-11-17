@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "为 .NET SDK 做贡献"
+title: "Contributing to the .NET SDK"
 linkTitle: ".NET SDK"
 weight: 3000
 description: 为 Dapr .NET SDK 做贡献的指南

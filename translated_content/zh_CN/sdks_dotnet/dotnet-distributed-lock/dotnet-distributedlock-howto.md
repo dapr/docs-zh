@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：在 .NET SDK 中创建和使用 Dapr 分布式锁"
+title: "How to: Create and use Dapr Distributed Lock in the .NET SDK"
 linkTitle: "操作指南：使用分布式锁客户端"
 weight: 61050
 description: 了解如何使用 .NET SDK 创建和使用 Dapr 分布式锁客户端
@@ -76,7 +76,7 @@ var daprDistributedLockClient = new DaprDistributedLockBuilder()
 | ----------- | ----------- |
 | [SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples) | 克隆 SDK 仓库，尝试一些示例并开始使用。 |
 
-## building block
+## Building Blocks
 
 .NET SDK 的这一部分允许你与分布式锁 API 交互，以加锁和解锁，从而在分布式应用程序中管理资源的独占性。
 

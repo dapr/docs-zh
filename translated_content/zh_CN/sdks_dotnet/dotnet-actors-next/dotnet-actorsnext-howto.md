@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用 .NET SDK 编写、注册和调用 Actor"
+title: "How to: Author, register, and call actors with the .NET SDK"
 linkTitle: "编写和注册 Actor"
 weight: 110000
 description: "定义 Actor，由源生成器自动完成连接，并通过 Dapr.Actors.Next 调用它们"
@@ -233,12 +233,12 @@ builder.Services.AddDaprActors(options =>
 });
 ```
 
-关键的区别在于托管与调用。调用 Actor 使用源生成的代理，该代理通过 `IActorProxyFactory`（或静态的 `ActorProxy.Create<T>()` 门面）获得，不依赖注册；只要引用了该契约，它以及 `IDynamicActorClient` 就能工作。注册则决定本应用是否托管某个类型：公布它、接收其回调并构造实例。关闭 `EnableAutoActorRegistration` 后，应用仍然可以调用 Actor，但不会自动托管任何 Actor，这就是双模式应用中的网关部分。
+关键的区别在于托管与调用。调用 Actor 使用源生成的代理，该代理通过 `IActorProxyFactory`（或静态的 `ActorProxy.Create<T>()` 门面）获得，不依赖注册；只要引用了该契约，它以及 `IDynamicActorClient` 就能工作。注册则决定本应用是否托管某个类型：公布它、接收其回调并构造实例。关闭 `EnableAutoActorRegistration` 后，应用仍然可以调用 Actor，但不会自动托管任何 Actor，这就是双模式应用中的 gateway 部分。
 
-同一个应用在一种模式下作为网关运行，在另一种模式下托管 Actor 时，只需安装一次 `Dapr.Actors.Next`（两种模式都需要代理功能），再按模式进行选择：
+同一个应用在一种模式下作为 gateway 运行，在另一种模式下托管 Actor 时，只需安装一次 `Dapr.Actors.Next`（两种模式都需要代理功能），再按模式进行选择：
 
 ```csharp
-// 网关模式：将调用转发给托管在其他地方的 Actor；本应用不托管任何 Actor。
+// gateway 模式：将调用转发给托管在其他地方的 Actor；本应用不托管任何 Actor。
 builder.Services.AddDaprActors(options =>
 {
     options.EnableAutoActorRegistration = false;
@@ -249,7 +249,7 @@ builder.Services.AddDaprActors(options =>
 builder.Services.AddDaprActors();   // 默认值：两者均开启
 ```
 
-在网关模式下，不会为托管而向运行时打开任何流，因为没有类型被公布；应用只保留调用所需的基础设施。
+在 gateway 模式下，不会为托管而向运行时打开任何流，因为没有类型被公布；应用只保留调用所需的基础设施。
 
 ### 使用自定义名称注册 Actor
 
@@ -325,7 +325,7 @@ public sealed class CartActor(ActorActivationContext context, IPricingClient pri
 
 ## 生命周期钩子
 
-重写按 Actor 的生命周期钩子，以执行初始化和清理。这些钩子在 Actor 自身的轮次上运行，并与横切的过滤器管道相互独立。
+重写按 Actor 的生命周期钩子，以执行初始化和清理。这些钩子在 Actor 自身的轮次上运行，并与横切的过滤器流水线相互独立。
 
 ```csharp
 [DaprActor]
@@ -345,7 +345,7 @@ public sealed class CartActor(ActorActivationContext context) : Actor, ICartActo
 
 ## 横切的轮次过滤器
 
-`IActorTurnFilter` 会将每个 Actor 轮次（跨越所有 Actor 类型）包装为围绕调用的 middleware 管道。它只适用于一小类工作，大多数应用都不需要它。
+`IActorTurnFilter` 会将每个 Actor 轮次（跨越所有 Actor 类型）包装为围绕调用的 middleware 流水线。它只适用于一小类工作，大多数应用都不需要它。
 
 只将轮次过滤器用于基础设施性质而非业务行为的关注点，并且这些关注点必须统一应用于多个 Actor 类型：例如在任何轮次运行前强制要求存在租户或认证头，或为每个轮次丰富追踪和指标。这些内容否则就需要被复制到每个 Actor 中，它们确实属于任何单个 Actor 之外。
 
@@ -355,7 +355,7 @@ public sealed class CartActor(ActorActivationContext context) : Actor, ICartActo
 - 它会把行为从 Actor 中移走。你无法仅通过阅读单个 Actor 就理解一个轮次做了什么，因为部分行为位于 Actor 从未提及的过滤器中。
 - 多个过滤器之间的执行顺序会成为一个微妙的全局问题，容易出错且难以察觉。
 - 过滤器中的业务逻辑比同样的逻辑放在 Actor 中更难发现，也更难测试；后者可以直接用测试运行时驱动。
-- 轮次管道本身还执行框架工作，例如上下文恢复和轮次结束时的状态保存。过滤器中繁重或易失败的逻辑与这些工作共享生命周期，可能危及轮次的完整性。
+- 轮次流水线本身还执行框架工作，例如上下文恢复和轮次结束时的状态保存。过滤器中繁重或易失败的逻辑与这些工作共享生命周期，可能危及轮次的完整性。
 
 对于只属于某一个 Actor 的关注点，请改用该 Actor 的生命周期钩子（`OnPreActorMethodAsync`、`OnPostActorMethodAsync`、`OnActivateAsync`、`OnDeactivateAsync`）；它们在 Actor 上可以被发现，并且可以单独测试。对于被多个 Actor 共享的行为，更推荐通过注入服务将其组合进 Actor，而不是拦截它们的轮次。
 
@@ -546,7 +546,7 @@ reminder 在被确认之前可能会被重新投递，这取决于其运行时�
 
 调用 Actor 涉及两个相互独立的问题：编译时已知什么（这决定使用强类型代理还是动态客户端），以及从哪里调用（客户端，还是另一个 Actor）。无论哪种情况，Actor 类型名都是运行时用于 placement 的寻址键，并且序列化始终走同一条 `IDaprSerializer` 路径。
 
-当你在编译时即可获得 Actor 的契约接口时，应使用强类型代理，这也是应用代码中的常见情况。它提供编译时的签名检查和编辑器补全。当 Actor 类型或方法存在于其他应用中，或在运行时才为人所知时（例如在网关或调用未引用的 Actor 的工具中），应使用动态客户端。
+当你在编译时即可获得 Actor 的契约接口时，应使用强类型代理，这也是应用代码中的常见情况。它提供编译时的签名检查和编辑器补全。当 Actor 类型或方法存在于其他应用中，或在运行时才为人所知时（例如在 gateway 或调用未引用的 Actor 的工具中），应使用动态客户端。
 
 {{% alert title="没有远程处理代理与非远程处理代理之分，也没有 DataContract" color="warning" %}}
 如果你是从 `Dapr.Actors` 迁移过来，请注意，这里的强类型代理并不是旧的远程处理客户端。这里不存在远程处理与非远程处理之分，你选择的调用形式也不会改变序列化方式。每一次调用，无论是强类型的还是动态的，都通过 `IDaprSerializer` 进行序列化（默认为 System.Text.Json）。除非你提供自定义的 `IDaprSerializer`，否则不支持 DataContract。选择代理还是动态客户端，只取决于你在编译时是否拥有该契约；从运行时的角度看，两者可以互换。
@@ -618,7 +618,7 @@ public sealed class CartActor(ActorActivationContext context, IActorProxyFactory
 ```csharp
 // 无论 "CartActor" 托管在本应用还是其他应用中，调用方式相同：
 var cart = proxies.Create<ICartActor>(ActorId.Create(userId), "CartActor");
-await cart.AddItem(item);   // 放置机制会将调用路由到 "CartActor" 所在的位置
+await cart.AddItem(item);   // placement 会将调用路由到 "CartActor" 所在的位置
 ```
 
 真正使跨应用边界得以工作的，仅仅是你如何共享契约：
@@ -635,7 +635,7 @@ Actor 类型名是持久地址的一部分；状态和 placement 都以它为键
 
 ### 动态调用
 
-较少见的情况是在完全没有编译时契约的情况下进行调用。当 Actor 类型或方法在运行时才为人所知时，例如在网关、管理工具、跨语言的调用方或智能体中，请通过 `IDynamicActorClient` 进行调用，并通过 `IActorRegistry` 在运行时发现可被调用的内容，而不是使用强类型代理。这是一项独立的、与语言无关的能力，有其专门的页面：参见[动态调用]({{< ref dotnet-actorsnext-dynamic.md >}})。
+较少见的情况是在完全没有编译时契约的情况下进行调用。当 Actor 类型或方法在运行时才为人所知时，例如在 gateway、管理工具、跨语言的调用方或代理中，请通过 `IDynamicActorClient` 进行调用，并通过 `IActorRegistry` 在运行时发现可被调用的内容，而不是使用强类型代理。这是一项独立的、与语言无关的能力，有其专门的页面：参见[动态调用]({{< ref dotnet-actorsnext-dynamic.md >}})。
 
 ## 分析器与诊断
 
@@ -646,7 +646,7 @@ Actor 类型名是持久地址的一部分；状态和 placement 都以它为键
 | `DAPR1410` | 状态形状变更导致已发布状态的反序列化失败 | 兼容性 | 警告 |
 | `DAPR1411` | 工作脱离了 Actor Scheduler，例如 `Task.Run` | 并发 | 警告 |
 | `DAPR1412` | Actor 轮次内的阻塞调用 | 并发 | 警告 |
-| `DAPR1413` | 读取挂钟时间，而不是使用注入的 `TimeProvider` | 确定性 | 警告 |
+| `DAPR1413` | 读取墙钟时间，而不是使用注入的 `TimeProvider` | 确定性 | 警告 |
 | `DAPR1414` | 未设种子的非确定性来源，例如 `Guid.NewGuid()` 或 `Random` | 确定性 | 警告 |
 | `DAPR1415` | 状态迁移的目标不可达，因为没有升级器迁移到它 | 兼容性 | 警告 |
 | `DAPR1416` | `IActorTurnFilter` 中的业务逻辑 | 设计 | 信息 |
@@ -669,7 +669,7 @@ Actor 类型名是持久地址的一部分；状态和 placement 都以它为键
 
 - 只添加 `AddDaprActors()`，其余交给生成器完成；如果你使用 `DaprStateManagementClient` 等 building block 客户端，请单独注册它们。
 - 将 Actor 状态保存在 `State` 中，字段保持不可变，并让注入的服务保持无状态。
-- 在编译时即可获得契约时，通过 `IActorProxyFactory` 使用强类型代理；仅在网关和确实需要延迟绑定的工具中使用 `IDynamicActorClient`。
+- 在编译时即可获得契约时，通过 `IActorProxyFactory` 使用强类型代理；仅在 gateway 和确实需要延迟绑定的工具中使用 `IDynamicActorClient`。
 - 选定 Actor 类型名后就不要再更改。
 - 将 `[DaprActor]` 标注在实现类上，并让契约派生自 `IActor`；不要手写代理或注册代码。
 
