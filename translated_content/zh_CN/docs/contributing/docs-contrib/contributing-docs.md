@@ -24,7 +24,7 @@ Dapr 文档处理分支的方式与大多数代码仓库不同。它不使用 `m
 
 一般来说，所有文档更新都应指向 [Dapr 最新发布的文档分支](https://github.com/dapr/docs)。最新发布是默认分支 [https://github.com/dapr/docs]。例如，如果你要修复拼写错误、添加注释或澄清某个观点，请将你的更改提交到默认的 Dapr 分支。
 
-对于适用于候选版本或预发布版本文档的任何文档更改，请将你的更改指向该特定分支。例如，如果你要记录即将对某个组件或运行时进行的更改，请将你的更改提交到预发布分支。
+对于适用于候选版本或预发布版本文档的任何文档更改，请将你的更改指向该特定分支。例如，如果你要记录即将对某个 component 或运行时进行的更改，请将你的更改提交到预发布分支。
 
 ## 风格和语气
 
@@ -41,16 +41,16 @@ Dapr 文档处理分支的方式与大多数代码仓库不同。它不使用 `m
 
 ## 图表和图像
 
-图表和图像是文档页面的宝贵视觉辅助工具。使用 [Dapr 图表模板库](https://github.com/dapr/docs/tree/v1.14/daprdocs/static/presentations) 中的图表风格和图标。
+图表和图像是文档页面的宝贵视觉辅助工具。使用 [Dapr Diagrams template deck](https://github.com/dapr/docs/tree/v1.14/daprdocs/static/presentations) 中的图表风格和图标。
 
 部分图表是由代码生成的，而不是在模板库中绘制的。如果你要添加或修改其中某个图表，请参阅下方的 [生成的图表](#生成的图表)。
 
 为文档创建图表的流程：
 
-1. 下载 [Dapr 图表模板库](https://github.com/dapr/docs/tree/v1.14/daprdocs/static/presentations)，使用其中的图标和颜色。
+1. 下载 [Dapr Diagrams template deck](https://github.com/dapr/docs/tree/v1.14/daprdocs/static/presentations)，使用其中的图标和颜色。
 1. 添加新幻灯片并创建你的图表。
 1. 将图表截取为高分辨率 PNG 文件，保存到 [images 文件夹](https://github.com/dapr/docs/tree/v1.14/daprdocs/static/images)。
-1. 使用概念或构建块的命名约定为 PNG 文件命名，以便它们归为一组。
+1. 使用概念或 building block 的命名约定为 PNG 文件命名，以便它们归为一组。
   - 例如：`service-invocation-overview.png`。
   - 有关使用 shortcode 调用图像的更多信息，请参阅下方的 [图像指南](#图像)。
 1. 使用 HTML `<image>` 标签将图表添加到文档的相应部分。
@@ -60,9 +60,9 @@ Dapr 文档处理分支的方式与大多数代码仓库不同。它不使用 `m
 
 有些图表并不是图片，而是生成的 SVG 场景：一个小型 JavaScript 文件描述绘图内容，构建步骤将其渲染出来，页面再把结果内联进来。生成的图表使用站点自身的主题令牌着色，因此会跟随浅色和深色模式切换；其中的文字是真正的文本，可以被选中、搜索，也能被屏幕阅读器朗读；对它的修改会以差异（diff）的形式审阅，而不是替换一张截图。
 
-**请遵循图表技能**：每当你添加或修改这类图表时，请阅读 [`skills/vector-2d-diagrams/SKILL.md`](https://github.com/dapr/docs/blob/v1.19/skills/vector-2d-diagrams/SKILL.md)。该文件是这些绘图的设计系统，涵盖画布、颜色与线条规则、形状词汇、标签和箭头的放置位置、品牌标识的来源与授权、无障碍规则、工作流程，以及一份已踩过的坑的清单。你可以自己阅读它，也可以让你的编码代理阅读它。依照它绘制的图表会彼此相似，这正是设立它的意义所在。
+**请遵循图表技能**：每当你添加或修改这类图表时，请阅读 [`skills/vector-2d-diagrams/SKILL.md`](https://github.com/dapr/docs/blob/v1.19/skills/vector-2d-diagrams/SKILL.md)。该文件是这些绘图的设计系统，涵盖画布、颜色与线条规则、形状词汇、标签和箭头的放置位置、品牌标识的来源与授权、无障碍规则、workflow，以及一份已踩过的坑的清单。你可以自己阅读它，也可以让你的编码代理阅读它。依照它绘制的图表会彼此相似，这正是设立它的意义所在。
 
-工作流程简述如下：
+workflow 简述如下：
 
 1. 在 `diagrams/scenes/<name>.mjs` 中编写场景，并在 `diagrams/scenes/index.mjs` 中注册它。
 1. 运行 `npm run export:diagrams`。它会把内联的绘图写入 `daprdocs/assets/diagrams/<name>.svg`，并把独立副本写入 `daprdocs/static/diagrams/<name>.svg`。然后运行 `npm run export:pngs`，它会把独立副本渲染为 `daprdocs/static/diagrams/<name>.png`，这是页面上“下载 PNG”按钮所对应的文件。三者都要提交。这两个步骤并不相同：SVG 导出只是普通的 Node 脚本，而 PNG 步骤需要驱动浏览器，因此必须先安装 Chromium（`npx playwright install
@@ -109,9 +109,9 @@ Dapr 文档处理分支的方式与大多数代码仓库不同。它不使用 `m
 
 | 主题类型 | 它是什么？ |
 | ---------- | ----------- |
-| [概念]({{% ref "concept-template" %}}) | 回答“这能帮我解决什么问题？”避免重复 API 或组件规范；提供更多细节。 |
-| [快速入门]({{% ref "quickstart-template" %}}) | 提供“五分钟让你惊艳”的体验。快速引导读者了解某个功能或 API 及其在受控示例中的工作方式。 |
-| [操作指南]({{% ref "howto-template" %}}) | 提供详细、实用的分步指南，介绍 Dapr 的某项功能或技术。鼓励读者尝试自己的场景，而不是快速入门中提供的受控场景。 |
+| [概念]({{% ref "concept-template" %}}) | 回答“这能帮我解决什么问题？”避免重复 API 或 component 规范；提供更多细节。 |
+| [Quickstart]({{% ref "quickstart-template" %}}) | 提供“五分钟让你惊艳”的体验。快速引导读者了解某个功能或 API 及其在受控示例中的工作方式。 |
+| [操作指南]({{% ref "howto-template" %}}) | 提供详细、实用的分步指南，介绍 Dapr 的某项功能或技术。鼓励读者尝试自己的场景，而不是 Quickstart 中提供的受控场景。 |
 
 ## docs.dapr.io 的要求
 

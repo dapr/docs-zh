@@ -8,7 +8,7 @@ aliases:
   - /zh-hans/developing-applications/dapr-agents/dapr-agents-executors
 ---
 
-一个**代理执行器**（agent executor）让 `DurableAgent` 把整个推理循环交给外部的代理运行时，例如 [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview)。Dapr Agents 仍然负责循环之外的部分：持久化的工作流、通过发布订阅或 HTTP 触发、状态、人工审批、流式输出和追踪。
+一个**代理执行器**（agent executor）让 `DurableAgent` 把整个推理循环交给外部的代理运行时，例如 [Claude Agent SDK](https://docs.claude.com/en/api/agent-sdk/overview)。Dapr Agents 仍然负责循环之外的部分：持久化的 workflow、通过 pub/sub 或 HTTP 触发、状态、人工审批、流式输出和追踪。
 
 ## 执行器与大型语言模型 (LLM) 客户端
 
@@ -18,7 +18,7 @@ aliases:
 |---|---|---|
 | 基类 | `ChatClientBase` | `AgentExecutorBase` |
 | 作用 | 对一组消息返回一次补全结果 | 运行一整个代理轮次：推理、调用工具，并循环直到得出答案 |
-| 循环由谁掌控 | `DurableAgent`，每次 LLM 调用和每次工具调用各对应一个工作流活动 | 执行器，在单个 `run_executor` 工作流活动内部完成 |
+| 循环由谁掌控 | `DurableAgent`，每次 LLM 调用和每次工具调用各对应一个 workflow activity | 执行器，在单个 `run_executor` workflow activity 内部完成 |
 | 对话状态由谁掌控 | Dapr Agents 的记忆 | 执行器的会话，由 `session_id` 标识 |
 | 示例 | `DaprChatClient`、`OpenAIChatClient`、`AnthropicChatClient` | `EchoAgentExecutor`、`ClaudeAgentExecutor` |
 
@@ -26,7 +26,7 @@ aliases:
 
 ## 执行器的运行方式
 
-当带有执行器的 `DurableAgent` 被触发时，其工作流会调用一个活动 `run_executor`。该活动调用 `executor.run(task, session_id=..., context=...)`，并读取其产生的 `AgentEvent` 值流：
+当带有执行器的 `DurableAgent` 被触发时，其 workflow 会调用一个 activity `run_executor`。该 activity 调用 `executor.run(task, session_id=..., context=...)`，并读取其产生的 `AgentEvent` 值流：
 
 | 事件类型 | 内容 | `DurableAgent` 的处理方式 |
 |---|---|---|
@@ -34,12 +34,12 @@ aliases:
 | `message` | 一条完整的助手消息 | 将其添加到代理的消息历史中 |
 | `tool_call` | `{id, name, arguments}` | 记录到工具历史中 |
 | `tool_result` | `{tool_call_id, result}` | 将结果记录到匹配的调用上 |
-| `session` | 来自执行器的检查点 | 保存工作流状态，包括 `session_id` |
+| `session` | 来自执行器的检查点 | 保存 workflow 状态，包括 `session_id` |
 | `complete` | 最终的助手消息 | 结束运行，并将该消息作为结果返回 |
 | `error` | 错误消息 | 以 `AgentError` 使运行失败 |
 | `paused` | 等待审批的工具调用 | 发起人工审批，然后恢复运行（参见[人工审批](#工具调用的人工审批)） |
 
-流总是恰好以一个 `complete`、`error` 或 `paused` 事件结束。`session_id` 保存在工作流条目上，因此被重试的活动会延续同一个会话。
+流总是恰好以一个 `complete`、`error` 或 `paused` 事件结束。`session_id` 保存在 workflow 条目上，因此被重试的 activity 会延续同一个会话。
 
 事件类型和辅助函数位于 `dapr_agents.agents.executors` 中，同时也从 `dapr_agents` 导出：
 
@@ -172,7 +172,7 @@ async def main() -> None:
 
 在 `ClaudeAgentExecutorConfig` 中显式设置的值优先于代理的值。配置中设置的工具和钩子会与代理的工具和钩子一同使用；若配置中已有同名工具，则跳过该工具。代理的工具会在每次运行时重新绑定，因此之后加载的工具也会包含在内。
 
-以代理作为工具和 Dapr `MCPServer` 工具通常从工作流主体中调度子工作流。对于执行器，它们则在 `run_executor` 活动内部运行：该活动通过工作流客户端启动同样的子工作流并等待其完成。被重试的活动会附加到更早一次尝试所启动的子工作流上。位于其他 Dapr 应用（`target_app_id`）中的代理以及 `ask_user` 不会提供给执行器。其他会在另一个应用中启动子工作流的工具（例如来自 `make_mcp_gateway_via_child_workflow_tool` 的工具）在被调用时会向 Claude 返回错误，因为工作流客户端只能在代理自己的应用中启动工作流。
+以代理作为工具和 Dapr `MCPServer` 工具通常从 workflow 主体中调度 child workflow。对于执行器，它们则在 `run_executor` activity 内部运行：该 activity 通过 Workflow Client 启动同样的 child workflow 并等待其完成。被重试的 activity 会附加到更早一次尝试所启动的 child workflow 上。位于其他 Dapr 应用（`target_app_id`）中的代理以及 `ask_user` 不会提供给执行器。其他会在另一个应用中启动 child workflow 的工具（例如来自 `make_mcp_gateway_via_child_workflow_tool` 的工具）在被调用时会向 Claude 返回错误，因为 Workflow Client 只能在代理自己的应用中启动 workflow。
 
 ### 配置
 
@@ -227,13 +227,13 @@ config = ClaudeAgentExecutorConfig(
 )
 ```
 
-这两类工具都在 `run_executor` 活动内部、与执行器位于同一进程中运行。它们不会被调度为独立的工作流活动。参见[限制](#限制)。
+这两类工具都在 `run_executor` activity 内部、与执行器位于同一进程中运行。它们不会被调度为独立的 workflow activity。参见[限制](#限制)。
 
 ### 持久化会话
 
-Claude CLI 会将每个会话的转录写入本地磁盘。当 Pod 重启，或被重试的活动在另一个 Pod 上运行时，这些转录就会丢失。若要保留会话，请设置 `session_store`。随后 SDK 会在其中保存转录的副本；当会话在没有本地文件的主机上恢复时，SDK 会从存储中重建转录。
+Claude CLI 会将每个会话的转录写入本地磁盘。当 Pod 重启，或被重试的 activity 在另一个 Pod 上运行时，这些转录就会丢失。若要保留会话，请设置 `session_store`。随后 SDK 会在其中保存转录的副本；当会话在没有本地文件的主机上恢复时，SDK 会从存储中重建转录。
 
-`DaprSessionStore` 是由 [Dapr 状态存储]({{% ref state-management-overview.md %}}) 支持的会话存储：
+`DaprSessionStore` 是由 [Dapr state store]({{% ref state-management-overview.md %}}) 支持的会话存储：
 
 ```python
 from dapr_agents import (
@@ -257,15 +257,15 @@ executor = ClaudeAgentExecutor(
 )
 ```
 
-如果你没有设置 `session_store`，`DurableAgent` 会在代理的工作流状态存储（`AgentStateConfig.store`）上挂载一个 `DaprSessionStore`。执行器接受任何实现了 SDK `SessionStore` 协议的对象，因此你也可以使用自己的存储。
+如果你没有设置 `session_store`，`DurableAgent` 会在代理的 workflow state store（`AgentStateConfig.store`）上挂载一个 `DaprSessionStore`。执行器接受任何实现了 SDK `SessionStore` 协议的对象，因此你也可以使用自己的存储。
 
 `DaprSessionStore` 存储会话的方式：
 
-- 每个会话有一个小的清单文档和一个分块文档列表。每个分块最多容纳 `max_chunk_bytes`（默认 256 KiB）。请确保该值低于状态存储的值大小上限。当最后一个分块不足一半满时，下一次追加会将其与新条目一起重写，因此分块数量随转录大小增长，而不是随追加次数增长。
+- 每个会话有一个小的 manifest 文档和一个分块文档列表。每个分块最多容纳 `max_chunk_bytes`（默认 256 KiB）。请确保该值低于 state store 的值大小上限。当最后一个分块不足一半满时，下一次追加会将其与新条目一起重写，因此分块数量随转录大小增长，而不是随追加次数增长。
 - 追加操作通过 ETag（首次写入）并发控制提交，因此读取方永远看不到追加了一半的内容。若提交报告错误，但实际已到达存储（例如回复丢失），存储会识别出来并保留该次追加。重复发送的条目会根据其 `uuid` 被跳过。
-- 每次追加都会重写清单。它最多保存 `dedupe_window` 个条目 uuid（每个约 40 字节，默认约 10 KB），外加每个分块的一个 ID。
+- 每次追加都会重写 manifest。它最多保存 `dedupe_window` 个条目 uuid（每个约 40 字节，默认约 10 KB），外加每个分块的一个 ID。
 - 转录按写入顺序加载。与追加发生竞争的读取会重试，而不是失败。
-- 存储需要使用支持 ETag 的状态存储：即首次写入（不带 ETag）在键已存在时会失败。已在 Redis（`state.redis`）和 PostgreSQL（`state.postgresql` v2）上验证；使用其他存储前请先确认。`ttl_in_seconds` 还需要状态存储支持 TTL。
+- 存储需要使用支持 ETag 的 state store：即首次写入（不带 ETag）在键已存在时会失败。已在 Redis（`state.redis`）和 PostgreSQL（`state.postgresql` v2）上验证；使用其他存储前请先确认。`ttl_in_seconds` 还需要 state store 支持 TTL。
 - 不支持 `continue_conversation`（在不指定名称的情况下恢复最近的会话），因为存储不保留按项目的索引。
 
 | `DaprSessionStoreConfig` 字段 | 默认值 | 描述 |
@@ -273,8 +273,8 @@ executor = ClaudeAgentExecutor(
 | `key_prefix` | `"claude-session:"` | 存储写入的每个键的前缀 |
 | `max_chunk_bytes` | `262144` | 一个分块文档序列化后的最大大小 |
 | `dedupe_window` | `256` | 每个会话记住的最近条目 uuid 数量，用于跳过重复项 |
-| `max_commit_attempts` | `10` | 写入方发生冲突时提交清单的尝试次数 |
-| `ttl_in_seconds` | `None` | 滑动 TTL：会话在最后一次追加之后经过这么多秒过期。分块的 TTL 为其两倍，并且在早于该 TTL 时被重写，因此它们永远不会早于列出它们的清单过期 |
+| `max_commit_attempts` | `10` | 写入方发生冲突时提交 manifest 的尝试次数 |
+| `ttl_in_seconds` | `None` | 滑动 TTL：会话在最后一次追加之后经过这么多秒过期。分块的 TTL 为其两倍，并且在早于该 TTL 时被重写，因此它们永远不会早于列出它们的 manifest 过期 |
 | `project_key` | `None` | 每个键的作用域，替代 SDK 的项目键（由 CLI 的 `cwd` 派生）。`DurableAgent` 会将其设置为代理名称，因此无论主机使用哪个工作目录，都能找到会话 |
 
 {{% alert title="会话与 cwd" color="primary" %}}
@@ -355,9 +355,9 @@ agent = DurableAgent(
 审批的工作方式：
 
 1. Claude 调用 `transfer_money`。钩子返回 `RequireApproval`，因此执行器推迟该调用，工具不会运行。本次运行以 `paused` 事件结束，该事件包含 `tool_call_id`、工具名称、参数、审批详情以及工具的 `source`。
-2. 工作流保存其状态，并通过 `AgentApprovalConfig` 中设置的通道请求审批：通过发布订阅发送 `ApprovalRequiredEvent`，或使用 `runner.serve()` 下的 `/hitl/approvals` 端点。这与由 LLM 驱动的代理的流程相同。随后工作流会持久地等待响应或超时。等待期间无需有任何进程保持运行。
-3. 收到决定后，工作流会以相同的 `session_id` 再次调用 `run_executor`，并将决定放在 `context["tool_decisions"]` 下。决定中记录了审批人所看到参数的哈希值；若实际运行时的参数与之不同，该调用会被拒绝。执行器会从会话存储中恢复 Claude 会话，该会话可能在另一个 Pod 上恢复。同一个工具调用会再次经过钩子，并根据决定被允许或拒绝，随后 Claude 继续原来的任务。若调用被拒绝，则会告知 Claude 该调用已被阻止：原因取自审批人的 `ApprovalResponseEvent` 中的 `reason`；若没有原因或审批已超时，则为 "approval was not granted or timed out"。
-4. 恢复后的运行可能再次暂停，例如 Claude 发起了另一个需要审批的调用。工作流会重复第 2 步和第 3 步，直到运行完成或失败，最多进行 `max_approval_rounds` 轮审批（`AgentExecutionConfig`，默认等于 `max_iterations`）。此后，下一个暂停的调用会在不询问任何人的情况下被拒绝，并告知 Claude 已达到审批次数上限。若 Claude 仍请求审批，工作流会以一条说明已达到审批次数上限的消息结束。以上述方式留下的暂停调用，或在等待期间被终止的工作流留下的暂停调用，会在同一会话的下一次运行开始时（即在发送新任务之前）被拒绝。
+2. workflow 保存其状态，并通过 `AgentApprovalConfig` 中设置的通道请求审批：通过 pub/sub 发送 `ApprovalRequiredEvent`，或使用 `runner.serve()` 下的 `/hitl/approvals` 端点。这与由 LLM 驱动的代理的流程相同。随后 workflow 会持久地等待响应或超时。等待期间无需有任何进程保持运行。
+3. 收到决定后，workflow 会以相同的 `session_id` 再次调用 `run_executor`，并将决定放在 `context["tool_decisions"]` 下。决定中记录了审批人所看到参数的哈希值；若实际运行时的参数与之不同，该调用会被拒绝。执行器会从会话存储中恢复 Claude 会话，该会话可能在另一个 Pod 上恢复。同一个工具调用会再次经过钩子，并根据决定被允许或拒绝，随后 Claude 继续原来的任务。若调用被拒绝，则会告知 Claude 该调用已被阻止：原因取自审批人的 `ApprovalResponseEvent` 中的 `reason`；若没有原因或审批已超时，则为 "approval was not granted or timed out"。
+4. 恢复后的运行可能再次暂停，例如 Claude 发起了另一个需要审批的调用。workflow 会重复第 2 步和第 3 步，直到运行完成或失败，最多进行 `max_approval_rounds` 轮审批（`AgentExecutionConfig`，默认等于 `max_iterations`）。此后，下一个暂停的调用会在不询问任何人的情况下被拒绝，并告知 Claude 已达到审批次数上限。若 Claude 仍请求审批，workflow 会以一条说明已达到审批次数上限的消息结束。以上述方式留下的暂停调用，或在等待期间被终止的 workflow 留下的暂停调用，会在同一会话的下一次运行开始时（即在发送新任务之前）被拒绝。
 
 `ApprovalRequiredEvent` 携带执行器所报告的工具 `source`：Dapr Agents 工具为工具自身的 `source`，来自 `mcp_servers` 的工具为 `"mcp"`，内置工具为 `"claude"`。
 
@@ -396,15 +396,15 @@ async def run_with_approval(executor, task: str) -> AgentEvent:
 
 ### 可观测性
 
-执行器的运行与由 LLM 驱动的代理一样，通过 Dapr Agents 的 OpenTelemetry 插桩进行追踪。每个 `run_executor` 活动都会获得一个 `invoke_agent {agent}` 跨度，并且执行器每报告一次工具调用，就会有一个 `execute_tool {tool}` 子跨度。跨度携带 OpenInference 和 GenAI 属性：代理名称、`session.id`、令牌用量、模型，以及 `executor.cost_usd`、`executor.session_total_cost_usd`、`executor.num_turns` 和 `executor.stop_reason`。出错时会设置 `error.type`。等待审批的工具调用会以 `tool.completed=false` 结束其跨度。
+执行器的运行与由 LLM 驱动的代理一样，通过 Dapr Agents 的 OpenTelemetry 插桩进行追踪。每个 `run_executor` activity 都会获得一个 `invoke_agent {agent}` 跨度，并且执行器每报告一次工具调用，就会有一个 `execute_tool {tool}` 子跨度。跨度携带 OpenInference 和 GenAI 属性：代理名称、`session.id`、令牌用量、模型，以及 `executor.cost_usd`、`executor.session_total_cost_usd`、`executor.num_turns` 和 `executor.stop_reason`。出错时会设置 `error.type`。等待审批的工具调用会以 `tool.completed=false` 结束其跨度。
 
-`DurableAgent` 还会将每次运行的用量保存在工作流状态中，即工作流条目的 `executor_usage` 列表中（每个已完成或已暂停的运行对应一条记录）。
+`DurableAgent` 还会将每次运行的用量保存在 workflow 状态中，即 workflow 条目的 `executor_usage` 列表中（每个已完成或已暂停的运行对应一条记录）。
 
 最后的 `complete` 或 `paused` 事件也会在其 `metadata` 中报告本次运行的花费：
 
 | 键 | 描述 |
 |---|---|
-| `cost_usd` | 本次运行的花费：会话的当前总计减去运行开始时的总计。开始时的总计从会话存储中读取，因此只有设置了 `session_store`（在带状态存储的 `DurableAgent` 下总是如此）时，这才是仅本次运行的花费。若没有会话存储，恢复后的运行会在此报告会话总计 |
+| `cost_usd` | 本次运行的花费：会话的当前总计减去运行开始时的总计。开始时的总计从会话存储中读取，因此只有设置了 `session_store`（在带 state store 的 `DurableAgent` 下总是如此）时，这才是仅本次运行的花费。若没有会话存储，恢复后的运行会在此报告会话总计 |
 | `session_total_cost_usd` | 会话的总花费，涵盖所有运行和恢复 |
 | `usage` | SDK 为本次运行报告的令牌用量 |
 | `model_usage` | 每个模型的用量 |
@@ -419,9 +419,9 @@ async def run_with_approval(executor, task: str) -> AgentEvent:
 
 ## 限制
 
-- **工具在一个活动中运行。**执行器、它的工具以及它的 MCP 调用都在同一个 `run_executor` 活动内运行。Dapr Workflow 不会为每次工具调用设置检查点，活动的重试策略适用于整个运行，而不是每个工具。
-- **至少一次执行。**与任何工作流活动一样，`run_executor` 可能会运行不止一次，例如在一次运行期间 Pod 发生故障时。此时工具可能会再次运行。被重试的尝试会恢复失败尝试所保存的会话，并再次发送任务，因此 Claude 会看到两次任务。对于有副作用的工具，请使其具备[幂等性]({{% ref "workflow-features-concepts.md#workflow-activities" %}})，或将其置于审批之后。若一次在恢复后被重试的运行已经结束，则不会再次启动任务：执行器会从已保存的转录中返回最终答案。若先前的尝试在已批准的工具运行之后、Claude 作答之前停止，则重试会从工具结果处继续该会话。对于每次尝试都会重复出现的失败（例如达到 `max_turns` 或 `max_budget_usd`、提示词过长或身份验证错误），工作流会立即失败，而不是重试。
-- **长时间运行会使活动保持打开。**一次 Claude 运行可能需要数分钟。设置活动的重试和超时策略时应考虑这一点。等待审批不会使活动保持打开。
+- **工具在一个 activity 中运行。**执行器、它的工具以及它的 MCP 调用都在同一个 `run_executor` activity 内运行。Dapr Workflow 不会为每次工具调用设置检查点，activity 的重试策略适用于整个运行，而不是每个工具。
+- **至少一次执行。**与任何 workflow activity 一样，`run_executor` 可能会运行不止一次，例如在一次运行期间 Pod 发生故障时。此时工具可能会再次运行。被重试的尝试会恢复失败尝试所保存的会话，并再次发送任务，因此 Claude 会看到两次任务。对于有副作用的工具，请使其具备[幂等性]({{% ref "workflow-features-concepts.md#workflow-activities" %}})，或将其置于审批之后。若一次在恢复后被重试的运行已经结束，则不会再次启动任务：执行器会从已保存的转录中返回最终答案。若先前的尝试在已批准的工具运行之后、Claude 作答之前停止，则重试会从工具结果处继续该会话。对于每次尝试都会重复出现的失败（例如达到 `max_turns` 或 `max_budget_usd`、提示词过长或身份验证错误），workflow 会立即失败，而不是重试。
+- **长时间运行会使 activity 保持打开。**一次 Claude 运行可能需要数分钟。设置 activity 的重试和超时策略时应考虑这一点。等待审批不会使 activity 保持打开。
 - **安装包大小与平台。**SDK 的 wheel 包含 Claude Code CLI（约 100 MB），并且没有适用于 musl Linux 的 wheel。参见[安装](#安装)。
 - **每次恢复时选项必须相同。**恢复的会话必须使用相同的工具、MCP 服务器、钩子和权限模式。若会话恢复时，被推迟的工具已不存在，则运行失败。
 

@@ -2,21 +2,21 @@
 type: docs
 title: "AMQP 1.0"
 linkTitle: "AMQP 1.0"
-description: "AMQP 1.0 pub/sub 组件的详细文档，可与 Apache ActiveMQ Artemis 和 Solace PubSub+ 等代理配合使用"
+description: "AMQP 1.0 pub/sub component 的详细文档，可与 Apache ActiveMQ Artemis 和 Solace PubSub+ 等代理配合使用"
 aliases:
   - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-solace-amqp/"
   - "/zh-hans/reference/components-reference/supported-pubsub/setup-solace-amqp/"
 ---
 
-该组件使用 AMQP 1.0 协议。已在 [Apache ActiveMQ Artemis](https://activemq.apache.org/components/artemis/) 和 [Solace PubSub+](https://solace.com/products/event-broker/software/) 上验证。
+该 component 使用 AMQP 1.0 协议。已在 [Apache ActiveMQ Artemis](https://activemq.apache.org/components/artemis/) 和 [Solace PubSub+](https://solace.com/products/event-broker/software/) 上验证。
 
 {{% alert title="AMQP 1.0，而非 AMQP 0-9-1" color="primary" %}}
-AMQP 1.0 和 AMQP 0-9-1 是不同的协议。如果使用 RabbitMQ，请改用 [RabbitMQ 组件]({{% ref setup-rabbitmq.md %}})，它使用 AMQP 0-9-1 协议。
+AMQP 1.0 和 AMQP 0-9-1 是不同的协议。如果使用 RabbitMQ，请改用 [RabbitMQ component]({{% ref setup-rabbitmq.md %}})，它使用 AMQP 0-9-1 协议。
 {{% /alert %}}
 
-## 组件格式
+## component 格式
 
-要设置 AMQP pub/sub，请创建类型为 `pubsub.amqp` 的组件。请参阅[pub/sub 代理组件文件]({{% ref setup-pubsub.md %}})，了解 ConsumerID 是如何自动生成的。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})，了解如何创建和应用 pub/sub 配置。
+要设置 AMQP pub/sub，请创建类型为 `pubsub.amqp` 的 component。请参阅[pub/sub 代理 component 文件]({{% ref setup-pubsub.md %}})，了解 ConsumerID 是如何自动生成的。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})，了解如何创建和应用 pub/sub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -39,7 +39,7 @@ spec:
 上述示例将 secrets 以明文字符串的形式使用。建议按[此处]({{% ref component-secrets.md %}})所述，为 secrets 使用 secret store。
 {{% /alert %}}
 
-## 规格元数据字段
+## 规格 metadata 字段
 
 | 字段               | 必需 | 详细信息 | 示例 |
 |--------------------|:--------:|---------|---------|
@@ -52,11 +52,11 @@ spec:
 | clientKey | N | 用于双向 TLS 的 PEM 格式 TLS 客户端密钥。必须与 `clientCert` 一起使用，并且需要 `amqps://` 方案。可以是 `secretKeyRef`，以使用 secrets 引用。 | `"-----BEGIN RSA PRIVATE KEY-----\n<base64-encoded PKCS8>\n-----END RSA PRIVATE KEY-----"`
 | topicAddressPrefix | N | 添加到主题 AMQP 地址前的前缀，用于不带前缀的主题名以及名为 `topic:<name>` 的主题。默认无前缀，即按名称寻址主题。参见[主题与队列的寻址](#主题与队列的寻址)。 | `multicast://`
 | queueAddressPrefix | N | 添加到队列 AMQP 地址前的前缀，用于名为 `queue:<name>` 的主题。默认无前缀，即按名称寻址队列。参见[主题与队列的寻址](#主题与队列的寻址)。 | `anycast://`
-| containerID | N | 承载命名订阅的连接所使用的 AMQP 容器 ID。代理通过容器 ID 和订阅名称来识别命名订阅。默认值为 Dapr 为每个 pub/sub 组件分配的消费者 ID：即应用 ID；如果组件设置了 `consumerID`，则使用该值（参见[pub/sub 代理组件文件]({{% ref setup-pubsub.md %}})）。因此，默认情况下，应用的所有副本共享同一个容器 ID。请勿将 `containerID` 或 `consumerID` 设置为按副本区分的值，例如 `{podName}` 或 `{uuid}` 的[标记]({{% ref component-schema.md %}})：否则每个副本都会获得各自的订阅，并各自收到每条消息的一份副本。参见[命名、持久与共享订阅](#命名持久与共享订阅)。 | `orders-service`
+| containerID | N | 承载命名订阅的连接所使用的 AMQP 容器 ID。代理通过容器 ID 和订阅名称来识别命名订阅。默认值为 Dapr 为每个 pub/sub component 分配的消费者 ID：即应用 ID；如果 component 设置了 `consumerID`，则使用该值（参见[pub/sub 代理 component 文件]({{% ref setup-pubsub.md %}})）。因此，默认情况下，应用的所有副本共享同一个容器 ID。请勿将 `containerID` 或 `consumerID` 设置为按副本区分的值，例如 `{podName}` 或 `{uuid}` 的[标记]({{% ref component-schema.md %}})：否则每个副本都会获得各自的订阅，并各自收到每条消息的一份副本。参见[命名、持久与共享订阅](#命名持久与共享订阅)。 | `orders-service`
 | durableMessages | N | 将每条已发布的消息标记为持久化，使代理在重启后仍保留该消息。除非显式指定，否则 AMQP 1.0 消息不是持久化的。默认值为 `false`。 | `true`
-| applicationPropertiesFromMetadata | N | 将每个发布请求的元数据复制到消息中，以便代理端过滤器据此进行匹配。默认值为 `false`。参见[按消息属性过滤](#按消息属性过滤)。 | `true`
+| applicationPropertiesFromMetadata | N | 将每个发布请求的 metadata 复制到消息中，以便代理端过滤器据此进行匹配。默认值为 `false`。参见[按消息属性过滤](#按消息属性过滤)。 | `true`
 | backOffPolicy | N | 代理连接断开后，重新打开订阅时各次尝试之间使用的重试策略。可选 `constant` 或 `exponential`。默认值为 `constant`。 | `"constant"`
-| backOffDuration | N | 当 `backOffPolicy` 为 `constant` 时，重新打开订阅各次尝试之间的延迟。默认值为 `5s`。只要订阅存在，组件就会一直重试，因此该值设置的是重试节奏，而非上限。 | `1s`
+| backOffDuration | N | 当 `backOffPolicy` 为 `constant` 时，重新打开订阅各次尝试之间的延迟。默认值为 `5s`。只要订阅存在，component 就会一直重试，因此该值设置的是重试节奏，而非上限。 | `1s`
 | backOffInitialInterval | N | 当 `backOffPolicy` 为 `exponential` 时，首次尝试之间的延迟。默认值为 `500ms`。 | `100ms`
 | backOffMaxInterval | N | 当 `backOffPolicy` 为 `exponential` 时，各次尝试之间的最长延迟。默认值为 `60s`。 | `30s`
 
@@ -65,7 +65,7 @@ spec:
 要配置使用 TLS 的通信：
 
 1. 确保代理已配置为支持证书。对于 ActiveMQ Artemis 的双向 TLS，请在 acceptor 上设置 `sslEnabled=true;needClientAuth=true`，以便拒绝没有可信证书的客户端。
-1. 在组件配置中提供 `caCert`、`clientCert` 和 `clientKey` 元数据。
+1. 在 component 配置中提供 `caCert`、`clientCert` 和 `clientKey` metadata。
 
 例如：
 
@@ -129,7 +129,7 @@ auth:
 
 ## 主题与队列的寻址
 
-该组件会将 Dapr 主题名转换为 AMQP 地址。`topicAddressPrefix` 和 `queueAddressPrefix` 控制这一转换，二者默认均不添加前缀。因此，开箱即用时，AMQP 地址就是 Dapr 主题名本身，不作任何改变：
+该 component 会将 Dapr 主题名转换为 AMQP 地址。`topicAddressPrefix` 和 `queueAddressPrefix` 控制这一转换，二者默认均不添加前缀。因此，开箱即用时，AMQP 地址就是 Dapr 主题名本身，不作任何改变：
 
 | Dapr 主题名 | 使用默认前缀时的 AMQP 地址 |
 |-----------------|------------------------------------------|
@@ -142,18 +142,18 @@ Dapr 主题名可以带有 `queue:` 或 `topic:` 方案。该方案决定应用�
 
 在未配置前缀的情况下，`queue:orders` 与 `orders` 会解析为同一地址，因此方案不产生任何效果，路由类型由代理为该地址解析得出。
 
-要让 `queue:` 选择队列，请将两个前缀都设置为代理所使用的值。参见[使用命名空间区分目标的代理](#使用命名空间区分目标的代理)。
+要让 `queue:` 选择队列，请将两个前缀都设置为代理所使用的值。参见[使用 namespace 区分目标的代理](#使用-namespace-区分目标的代理)。
 {{% /alert %}}
 
 已以某个已配置前缀开头的主题名，将原样用作 AMQP 地址。
 
-## 使用命名空间区分目标的代理
+## 使用 namespace 区分目标的代理
 
 部分代理通过地址上的前缀来选择路由类型。请将 `topicAddressPrefix` 和 `queueAddressPrefix` 设置为该代理所使用的前缀，此后 `queue:` 和 `topic:` 方案即可选择路由类型。
 
 ### Apache ActiveMQ Artemis
 
-Artemis 的 acceptor 接受 `anycastPrefix` 和 `multicastPrefix` 设置。如果 acceptor 配置为 `anycastPrefix=anycast://;multicastPrefix=multicast://`，请让组件的配置与之保持一致。请使用 acceptor 中定义的任何前缀；`queue://` 和 `topic://` 也很常见：
+Artemis 的 acceptor 接受 `anycastPrefix` 和 `multicastPrefix` 设置。如果 acceptor 配置为 `anycastPrefix=anycast://;multicastPrefix=multicast://`，请让 component 的配置与之保持一致。请使用 acceptor 中定义的任何前缀；`queue://` 和 `topic://` 也很常见：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -198,7 +198,7 @@ spec:
 
 应用的每个副本都从同一队列消费，关闭订阅也绝不会删除该队列。请在应用启动前创建队列：Artemis 自动创建的队列会受 `auto-delete-queues` 约束。
 
-此示例使用默认的地址前缀，即空前缀。如果设置了 `topicAddressPrefix`，组件会将其加在主题名之前，因此链路会建立在 `<prefix>orders::billing` 上。
+此示例使用默认的地址前缀，即空前缀。如果设置了 `topicAddressPrefix`，component 会将其加在主题名之前，因此链路会建立在 `<prefix>orders::billing` 上。
 
 ### Solace PubSub+
 
@@ -212,23 +212,23 @@ Solace 以 `topic://<name>` 寻址主题，以 `queue://<name>` 寻址队列：
 ```
 
 {{% alert title="与非 Dapr 客户端互通" color="primary" %}}
-前缀会为地址划分命名空间。使用 `topic://orders` 的 Dapr 发布者，与订阅 `orders` 的非 Dapr 客户端位于两个不同的地址上，二者永远不会交换消息。请确保同一目标上的所有客户端都使用相同的地址。
+前缀会为地址划分 namespace。使用 `topic://orders` 的 Dapr 发布者，与订阅 `orders` 的非 Dapr 客户端位于两个不同的地址上，二者永远不会交换消息。请确保同一目标上的所有客户端都使用相同的地址。
 {{% /alert %}}
 
 ## 命名、持久与共享订阅
 
 {{% alert title="Dapr 1.19 或更高版本" color="primary" %}}
-`subscriptionName`、`durable`、`shared` 和 `selector` 订阅键，以及 `containerID`、`durableMessages` 和 `applicationPropertiesFromMetadata` 组件键，需要 Dapr 1.19 或更高版本。
+`subscriptionName`、`durable`、`shared` 和 `selector` 订阅键，以及 `containerID`、`durableMessages` 和 `applicationPropertiesFromMetadata` component 键，需要 Dapr 1.19 或更高版本。
 {{% /alert %}}
 
 默认情况下，每个订阅都使用代理的默认设置进行连接。在多播地址上，这通常是临时订阅：应用的每个副本都会获得每条消息各自的一份副本，并且应用停机期间发布的消息会丢失。
 
-订阅可以在其自身的元数据中设置下列键。它们使用标准的 AMQP 1.0 机制，因此适用于任何支持持久订阅、`shared` 能力和 JMS 选择器过滤器的代理。已在 ActiveMQ Artemis 上验证。关于 Artemis 如何应用这些键，请参见 [ActiveMQ Artemis 上的命名订阅](#activemq-artemis-上的命名订阅)；关于其他代理，请参见[其他代理](#其他代理)。
+订阅可以在其自身的 metadata 中设置下列键。它们使用标准的 AMQP 1.0 机制，因此适用于任何支持持久订阅、`shared` 能力和 JMS 选择器过滤器的代理。已在 ActiveMQ Artemis 上验证。关于 Artemis 如何应用这些键，请参见 [ActiveMQ Artemis 上的命名订阅](#activemq-artemis-上的命名订阅)；关于其他代理，请参见[其他代理](#其他代理)。
 
 | 字段 | 详细信息 | 示例 |
 |-------|---------|---------|
-| subscriptionName | 订阅名称，作为 AMQP 链路名发送。与 `containerID` 一起在代理上标识该订阅。`durable` 和 `shared` 需要此项。不得包含 `\|`，且在同一组件的订阅之间必须唯一。不允许用于队列（`queue:<name>`），因为队列没有可命名的订阅。 | `billing`
-| durable | 要求代理在没有消费者连接时保留该订阅及其所持有的消息。组件发送的是永不过期的持久源。默认值为 `false`。 | `true`
+| subscriptionName | 订阅名称，作为 AMQP 链路名发送。与 `containerID` 一起在代理上标识该订阅。`durable` 和 `shared` 需要此项。不得包含 `\|`，且在同一 component 的订阅之间必须唯一。不允许用于队列（`queue:<name>`），因为队列没有可命名的订阅。 | `billing`
+| durable | 要求代理在没有消费者连接时保留该订阅及其所持有的消息。component 发送的是永不过期的持久源。默认值为 `false`。 | `true`
 | shared | 请求共享订阅，使用 `shared` 源能力。使用相同 `subscriptionName` 的每个副本将共同消费同一订阅，使每条消息只被一个副本接收。默认值为 `false`。 | `true`
 | selector | JMS 选择器，以 `apache.org:selector-filter:string` 过滤器的形式发送，由代理应用于该订阅。不匹配的消息永远不会进入该订阅。如果代理在附加时未包含该过滤器，订阅将失败。可以在不设置 `subscriptionName` 的情况下设置。 | `eventType = 'invoice'`
 | allowSelectorChange | 允许代理在更改选择器时重新创建持久订阅，并丢弃其当前持有的消息。设置为 `false`（默认值）时，代理拒绝重新创建订阅并返回错误。 | `true`
@@ -257,16 +257,16 @@ spec:
 无论使用哪种代理，都请牢记以下几点：
 
 - **副本。** 当应用有多个副本时，请设置 `shared`。对于非共享的持久订阅，代理可能只允许一个消费者连接。
-- **同一主题上的多个订阅。** 对于每个 pub/sub 组件和主题，Dapr 只保留一个声明式或编程式订阅。若要在同一主题上保存多个命名订阅，请为每个订阅定义一个组件，如[下面的示例](#同一主题上的多个订阅)所示，或使用[流式订阅]({{% ref "subscription-methods.md#streaming-subscriptions" %}})。
-- **更改选择器。** 代理可能会将更改后的选择器视为新订阅，并丢弃旧订阅所持有的消息。在没有消费者连接时，此过程不会报错，也不会有任何报告。当有消费者连接时（例如在滚动升级期间），代理会拒绝更改后的选择器并记录错误，除非设置了 `allowSelectorChange`；设置后，组件会持续重试，代理则会在旧消费者断开后重新创建订阅。如果未设置 `allowSelectorChange` 且错误已被记录，则没有任何副本消费该订阅，并且使用新选择器重启会丢弃其中的消息。必须恢复原选择器才能继续消费。若要更改选择器，请更新 `subscriptionName`，并在旧订阅排空后将其删除。
+- **同一主题上的多个订阅。** 对于每个 pub/sub component 和主题，Dapr 只保留一个声明式或 programmatic subscription。若要在同一主题上保存多个命名订阅，请为每个订阅定义一个 component，如[下面的示例](#同一主题上的多个订阅)所示，或使用[streaming subscription]({{% ref "subscription-methods.md#streaming-subscriptions" %}})。
+- **更改选择器。** 代理可能会将更改后的选择器视为新订阅，并丢弃旧订阅所持有的消息。在没有消费者连接时，此过程不会报错，也不会有任何报告。当有消费者连接时（例如在滚动升级期间），代理会拒绝更改后的选择器并记录错误，除非设置了 `allowSelectorChange`；设置后，component 会持续重试，代理则会在旧消费者断开后重新创建订阅。如果未设置 `allowSelectorChange` 且错误已被记录，则没有任何副本消费该订阅，并且使用新选择器重启会丢弃其中的消息。必须恢复原选择器才能继续消费。若要更改选择器，请更新 `subscriptionName`，并在旧订阅排空后将其删除。
 - **删除订阅。** 即使从应用中移除了订阅，Dapr 也绝不会删除持久订阅。请在代理上将其删除。
-- **代理重启。** 持久订阅只保留持久化的消息。请在发布组件上设置 `durableMessages`，或从其他客户端发布持久化消息。JMS 客户端默认发布持久化消息。
+- **代理重启。** 持久订阅只保留持久化的消息。请在发布 component 上设置 `durableMessages`，或从其他客户端发布持久化消息。JMS 客户端默认发布持久化消息。
 - **权限。** 代理用户需要具备创建持久订阅和从中消费的权限。使用 `anonymous: "true"` 时没有用户名：请将权限授予代理为该连接映射的角色，例如客户端证书所对应的角色。
 - **连接。** 每个命名订阅都使用各自独立的连接，使容器 ID 保持不变，并且停止订阅时绝不会删除它。
 
 ### 同一主题上的多个订阅
 
-Dapr 为每个 pub/sub 组件和主题映射一个声明式或编程式订阅。因此，要在主题 `orders` 上设置两个各自带有选择器的命名订阅，需要在同一代理上配置两个 Dapr 组件：
+Dapr 为每个 pub/sub component 和主题映射一个声明式或 programmatic subscription。因此，要在主题 `orders` 上设置两个各自带有选择器的命名订阅，需要在同一代理上配置两个 Dapr component：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -300,7 +300,7 @@ spec:
       value: 'artemis'
 ```
 
-随后，每个组件分别由一个订阅引用：
+随后，每个 component 分别由一个订阅引用：
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -334,7 +334,7 @@ spec:
     selector: "eventType = 'login'"
 ```
 
-两个组件使用相同的容器 ID（默认为应用 ID），并通过订阅名称将两个订阅区分开。
+两个 component 使用相同的容器 ID（默认为应用 ID），并通过订阅名称将两个订阅区分开。
 
 ### ActiveMQ Artemis 上的命名订阅
 
@@ -352,11 +352,11 @@ spec:
 
 ### 其他代理
 
-这些键尚未在其他代理上验证，包括 Solace PubSub+。不支持 `shared` 能力的代理可能会拒绝第二个副本，或者为其提供每条消息的一份副本。如果代理忽略选择器过滤器，组件会使该订阅失败，因为代理没有返回该过滤器。
+这些键尚未在其他代理上验证，包括 Solace PubSub+。不支持 `shared` 能力的代理可能会拒绝第二个副本，或者为其提供每条消息的一份副本。如果代理忽略选择器过滤器，component 会使该订阅失败，因为代理没有返回该过滤器。
 
 ## 按消息属性过滤
 
-代理端过滤器（例如选择器）会根据消息属性进行匹配。默认情况下，Dapr 发布的消息不携带应用属性。在发布组件上将 `applicationPropertiesFromMetadata` 设置为 `true`，即可将每个发布请求的元数据复制到消息中：
+代理端过滤器（例如选择器）会根据消息属性进行匹配。默认情况下，Dapr 发布的消息不携带应用属性。在发布 component 上将 `applicationPropertiesFromMetadata` 设置为 `true`，即可将每个发布请求的 metadata 复制到消息中：
 
 - `subject` 键设置 AMQP subject。
 - 其他每个键都会成为一个值为字符串的应用属性。
@@ -364,7 +364,7 @@ spec:
 
 这些都是标准的 AMQP 1.0 消息属性，因此任何代理或客户端都可以读取。选择器语法取决于代理。关于 ActiveMQ Artemis，请参见 [ActiveMQ Artemis 上的命名订阅](#activemq-artemis-上的命名订阅)。
 
-该映射只朝一个方向工作：组件不会将收到的消息的应用属性传递给应用。
+该映射只朝一个方向工作：component 不会将收到的消息的应用属性传递给应用。
 
 例如，以下发布请求会到达上文的 `billing` 订阅：
 
@@ -379,15 +379,15 @@ curl -X POST "http://localhost:3500/v1.0/publish/artemis/orders?metadata.eventTy
 处理程序返回错误的消息，会以 `modified` 状态及 `delivery-failed` 返回给代理。代理会重新投递该消息并计入此次尝试，
 因此代理自身的 `redelivery-delay` 和 `max-delivery-attempts` 设置会生效，始终失败的消息最终会到达死信地址。
 
-重新投递的节奏和尝试次数上限是代理设置，而非组件设置。在 ActiveMQ Artemis 中，它们位于 `address-settings` 中；请确保在该处配置了死信地址和 `max-delivery-attempts`。
+重新投递的节奏和尝试次数上限是代理设置，而非 component 设置。在 ActiveMQ Artemis 中，它们位于 `address-settings` 中；请确保在该处配置了死信地址和 `max-delivery-attempts`。
 
 ## 从 `pubsub.solace.amqp` 迁移
 
 {{% alert title="兼容性名称" color="primary" %}}
-`pubsub.solace.amqp` 是此组件的早期名称。该名称仍保持注册，现有的该类型组件继续使用其 `topic://` 和 `queue://` 默认值。新建组件请使用 `pubsub.amqp`。
+`pubsub.solace.amqp` 是此 component 的早期名称。该名称仍保持注册，现有的该类型 component 继续使用其 `topic://` 和 `queue://` 默认值。新建 component 请使用 `pubsub.amqp`。
 {{% /alert %}}
 
-`pubsub.amqp` 默认不应用任何地址前缀，而 `pubsub.solace.amqp` 则应用 Solace 约定。若要迁移 Solace 组件且不改变其使用的地址，请更改类型，并显式设置两个前缀：
+`pubsub.amqp` 默认不应用任何地址前缀，而 `pubsub.solace.amqp` 则应用 Solace 约定。若要迁移 Solace component 且不改变其使用的地址，请更改类型，并显式设置两个前缀：
 
 ```yaml
 spec:
@@ -400,7 +400,7 @@ spec:
       value: 'queue://'
 ```
 
-组件中的其他内容保持不变。
+component 中的其他内容保持不变。
 
 ## 创建代理
 
@@ -434,6 +434,6 @@ docker run -d -p 8080:8080 -p 55554:55555 -p 8008:8008 -p 1883:1883 -p 8000:8000
 
 ## 相关链接
 
-- [Dapr 组件的基本结构]({{% ref component-schema %}})
-- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})，了解如何配置 pub/sub 组件
-- [pub/sub 构建块]({{% ref pubsub %}})
+- [Dapr component 的基本结构]({{% ref component-schema %}})
+- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})，了解如何配置 pub/sub component
+- [pub/sub building block]({{% ref pubsub %}})

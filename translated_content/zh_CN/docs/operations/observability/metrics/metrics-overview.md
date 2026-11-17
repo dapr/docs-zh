@@ -10,7 +10,7 @@ description: "启用或禁用 Dapr 指标"
 
 ## Prometheus 端点
 
-Dapr 边车暴露了一个兼容 [Prometheus](https://prometheus.io/) 的指标端点，您可以对其进行抓取，以更深入地了解 Dapr 的运行状态。
+Dapr sidecar 暴露了一个兼容 [Prometheus](https://prometheus.io/) 的指标端点，您可以对其进行抓取，以更深入地了解 Dapr 的运行状态。
 
 ## 使用 CLI 配置指标
 
@@ -20,7 +20,7 @@ Dapr 边车暴露了一个兼容 [Prometheus](https://prometheus.io/) 的指标�
 
 ## 在 Kubernetes 中配置指标
 
-您还可以通过在应用程序部署上设置 `dapr.io/enable-metrics: "false"` 注解来为特定应用程序启用或禁用指标导出器。在禁用指标导出器的情况下，Dapr 边车不会打开指标监听端口，仅在内存中记录指标。要完全停止记录指标，请使用 [Configuration 资源](#使用应用程序配置配置指标)将其禁用。
+您还可以通过在应用程序部署上设置 `dapr.io/enable-metrics: "false"` 注解来为特定应用程序启用或禁用指标导出器。在禁用指标导出器的情况下，Dapr sidecar 不会打开指标监听端口，仅在内存中记录指标。要完全停止记录指标，请使用 [Configuration 资源](#使用应用程序配置配置指标)将其禁用。
 
 以下 Kubernetes 部署示例展示了如何显式启用指标，并将端口指定为 "9090"。
 
@@ -57,7 +57,7 @@ spec:
 
 ## 使用应用程序配置配置指标
 
-您还可以通过应用程序配置启用指标。要默认禁用 Dapr 边车中的指标收集，请将 `spec.metrics.enabled` 设置为 `false`。
+您还可以通过应用程序配置启用指标。要默认禁用 Dapr sidecar 中的指标收集，请将 `spec.metrics.enabled` 设置为 `false`。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -283,15 +283,15 @@ spec:
         latencyDistributionBuckets: [10, 25, 40, 50, 70, 100, 150, 200, 500, 1000, 5000]
 ```
 
-### 自定义工作流延迟存储桶
+### 自定义 workflow 延迟存储桶
 
-工作流和活动的*执行*延迟（即工作流或活动运行至完成所需的时间）通常比服务、gRPC、HTTP 或组件请求延迟的范围宽得多。工作流可能在几毫秒内完成，也可能运行数小时，因此最高仅到 100 秒的默认延迟存储桶，可能无法提供有用的粒度。
+workflow 和 activity 的*执行*延迟（即 workflow 或 activity 运行至完成所需的时间）通常比服务、gRPC、HTTP 或 component 请求延迟的范围宽得多。workflow 可能在几毫秒内完成，也可能运行数小时，因此最高仅到 100 秒的默认延迟存储桶，可能无法提供有用的粒度。
 
-使用 `spec.metrics.workflow.latencyDistributionBuckets` 字段，可以专门为工作流和活动执行延迟直方图（`dapr_runtime_workflow_execution_latency` 和 `dapr_runtime_workflow_activity_execution_latency`）设置存储桶。该字段是可选的覆盖项：未设置时，这些直方图使用与 `spec.metrics.latencyDistributionBuckets` 相同的存储桶。只有执行延迟会受到影响；工作流和活动的操作延迟以及调度延迟仍使用共享存储桶。
+使用 `spec.metrics.workflow.latencyDistributionBuckets` 字段，可以专门为 workflow 和 activity 执行延迟直方图（`dapr_runtime_workflow_execution_latency` 和 `dapr_runtime_workflow_activity_execution_latency`）设置存储桶。该字段是可选的覆盖项：未设置时，这些直方图使用与 `spec.metrics.latencyDistributionBuckets` 相同的存储桶。只有执行延迟会受到影响；workflow 和 activity 的操作延迟以及调度延迟仍使用共享存储桶。
 
-由于这些直方图以毫秒记录，而工作流的持续时间用秒或分钟表示更为自然，因此您可以将 `spec.metrics.workflow.latencyDistributionUnits` 设置为存储桶所用的单位，即 Go 持续时间字符串（例如 `1s`）。默认值为 `1ms`（毫秒）。构建直方图时，存储桶会被换算为毫秒。
+由于这些直方图以毫秒记录，而 workflow 的持续时间用秒或分钟表示更为自然，因此您可以将 `spec.metrics.workflow.latencyDistributionUnits` 设置为存储桶所用的单位，即 Go 持续时间字符串（例如 `1s`）。默认值为 `1ms`（毫秒）。构建直方图时，存储桶会被换算为毫秒。
 
-以下 Configuration 规范示例以秒为单位为工作流和活动执行延迟设置存储桶，范围从 1 秒到 1 小时：
+以下 Configuration 规范示例以秒为单位为 workflow 和 activity 执行延迟设置存储桶，范围从 1 秒到 1 小时：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -306,13 +306,13 @@ spec:
             latencyDistributionUnits: 1s
 ```
 
-### 工作流快速路径指标
+### workflow 快速路径指标
 
-启用 [`WorkflowsFastPath` 预览功能]({{% ref "workflow-fast-path.md" %}})后，边车还会额外暴露 `dapr_runtime_workflow_local_wake_count`、`dapr_runtime_workflow_local_wake_drive_latency`、`dapr_runtime_workflow_local_activity_count`、`dapr_runtime_workflow_local_activity_drive_latency`、`dapr_runtime_workflow_completions_fold_count`、`dapr_runtime_workflow_completions_fold_wait_latency` 和 `dapr_runtime_workflow_lock_wait`。驱动延迟和等待延迟直方图使用共享的 `spec.metrics.latencyDistributionBuckets`，而不是上面的工作流执行存储桶。请参阅[快速路径指标表和建议告警]({{% ref "workflow-fast-path.md#metrics" %}})。
+启用 [`WorkflowsFastPath` 预览功能]({{% ref "workflow-fast-path.md" %}})后，sidecar 还会额外暴露 `dapr_runtime_workflow_local_wake_count`、`dapr_runtime_workflow_local_wake_drive_latency`、`dapr_runtime_workflow_local_activity_count`、`dapr_runtime_workflow_local_activity_drive_latency`、`dapr_runtime_workflow_completions_fold_count`、`dapr_runtime_workflow_completions_fold_wait_latency` 和 `dapr_runtime_workflow_lock_wait`。驱动延迟和等待延迟直方图使用共享的 `spec.metrics.latencyDistributionBuckets`，而不是上面的 workflow 执行存储桶。请参阅[快速路径指标表和建议告警]({{% ref "workflow-fast-path.md#metrics" %}})。
 
 ## 使用正则表达式转换指标
 
-您可以为 Dapr 边车暴露的每个指标设置正则表达式，以"转换"其标签值。[查看所有 Dapr 指标的列表](https://github.com/dapr/dapr/blob/master/docs/development/dapr-metrics.md)。
+您可以为 Dapr sidecar 暴露的每个指标设置正则表达式，以"转换"其标签值。[查看所有 Dapr 指标的列表](https://github.com/dapr/dapr/blob/master/docs/development/dapr-metrics.md)。
 
 规则的名称必须与要转换的指标名称相匹配。以下示例展示了如何为指标 `dapr_runtime_service_invocation_req_sent_total` 中的标签 `method` 应用正则表达式：
 

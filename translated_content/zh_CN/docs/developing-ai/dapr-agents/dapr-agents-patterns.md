@@ -14,22 +14,22 @@ Dapr Agents 简化了代理系统的实现，从简单的增强型大型语言�
 
 代理系统使用反思、工具使用、规划和多代理协作等设计模式，以取得比单次提示交互更好的结果。与其把"代理"看作二元分类，不如把系统看作具有不同程度代理性的连续谱，这样更有用。
 
-这一范围从只提示模型一次的简单工作流，到能够以更高自主性执行多个迭代步骤的复杂系统。有两种基本的架构方法：
+这一范围从只提示模型一次的简单 workflow，到能够以更高自主性执行多个迭代步骤的复杂系统。有两种基本的架构方法：
 
-* **工作流**：通过预定义代码路径编排 LLM 和工具的系统（更具规范性）
+* **workflow**：通过预定义代码路径编排 LLM 和工具的系统（更具规范性）
 * **代理**：LLM 动态引导自身流程和工具使用的系统（更具自主性）
 
-一端是可预测的工作流，具有明确定义的决策路径和确定性结果；另一端是能够动态制定自身策略的 AI 代理。虽然完全自主的代理看似吸引人，但对于定义明确的任务，工作流通常能提供更好的可预测性和一致性。这与企业对可靠性和可维护性的要求相符。
+一端是可预测的 workflow，具有明确定义的决策路径和确定性结果；另一端是能够动态制定自身策略的 AI 代理。虽然完全自主的代理看似吸引人，但对于定义明确的任务，workflow 通常能提供更好的可预测性和一致性。这与企业对可靠性和可维护性的要求相符。
 
 {{< diagram agents-patterns-overview >}}
 
-本文档中的模式从增强型 LLM 开始，然后介绍能够提供可预测性和控制力的基于工作流的方法，最后转向更具自主性的模式。每种模式都针对特定的使用场景，并在确定性结果与自主性之间提供不同的权衡。
+本文档中的模式从增强型 LLM 开始，然后介绍能够提供可预测性和控制力的基于 workflow 的方法，最后转向更具自主性的模式。每种模式都针对特定的使用场景，并在确定性结果与自主性之间提供不同的权衡。
 
 本文中的大多数模式都可以与[钩子系统]({{< ref dapr-agents-hooks.md >}})结合使用。钩子系统是 `DurableAgent` 上的一组小型回调，可以让你记录、改写、缓存或阻止单个工具调用和 LLM 调用，而无需修改代理主体。人在回路正是通过钩子实现的（参见下文的[人在回路](#人在回路)一节），它们同样适用于其他任何模式。
 
 ## 增强型 LLM
 
-增强型 LLM 模式是任何代理系统的基础构建块。它通过记忆和工具等外部能力增强语言模型，为 AI 驱动的应用提供基础而强大的支撑。
+增强型 LLM 模式是任何代理系统的基础 building block。它通过记忆和工具等外部能力增强语言模型，为 AI 驱动的应用提供基础而强大的支撑。
 
 {{< diagram name="agents-augmented-llm" width="60" >}}
 
@@ -68,7 +68,7 @@ Dapr Agents 自动处理：
 - **记忆持久化** - 代理管理对话记忆
 - **工具集成** - `@tool` 装饰器负责输入验证、类型转换和输出格式化
 
-任何代理系统的基础构建块都是增强型 LLM——一种通过记忆、工具和检索等外部能力增强的语言模型。在 Dapr Agents 中，它由 `DurableAgent` 类表示。虽然简单的 `Agent` 类也存在，但**自 v1.0.0-rc.1 起已弃用**；`DurableAgent` 是所有新开发推荐的选择。增强型 LLM 能力本身通常不足以应对复杂的企业场景，因此它们通常会与工作流编排结合使用，为多步骤流程提供结构、可靠性和协调。
+任何代理系统的基础 building block 都是增强型 LLM——一种通过记忆、工具和检索等外部能力增强的语言模型。在 Dapr Agents 中，它由 `DurableAgent` 类表示。虽然简单的 `Agent` 类也存在，但**自 v1.0.0-rc.1 起已弃用**；`DurableAgent` 是所有新开发推荐的选择。增强型 LLM 能力本身通常不足以应对复杂的企业场景，因此它们通常会与 workflow 编排结合使用，为多步骤流程提供结构、可靠性和协调。
 
 ## 提示链
 
@@ -79,7 +79,7 @@ Dapr Agents 自动处理：
 **使用场景：**
 - 内容生成（先创建大纲，然后扩展，再进行审核）
 - 多阶段分析（将复杂分析分解为顺序步骤）
-- 质量保证工作流（在处理步骤之间添加验证）
+- 质量保证 workflow（在处理步骤之间添加验证）
 
 **使用 Dapr Agents 实现：**
 
@@ -109,9 +109,9 @@ def travel_planning_workflow(ctx: DaprWorkflowContext, user_input: str):
 - **基于代理的任务**（无工具）
 - **基于代理的任务**（有工具）
 
-Dapr Agents 的工作流编排提供：
-- **代码即工作流** - 以对开发者友好的方式定义任务
-- **工作流持久化** - 长时间运行的链式任务在进程重启后依然存在
+Dapr Agents 的 workflow 编排提供：
+- **代码即 workflow** - 以对开发者友好的方式定义任务
+- **workflow 持久化** - 长时间运行的链式任务在进程重启后依然存在
 - **混合执行** - 轻松混合使用提示、代理调用以及配备工具的代理
 
 ## 路由
@@ -216,7 +216,7 @@ def travel_planning_workflow(ctx: DaprWorkflowContext, input_params: dict):
 使用 Dapr 进行并行化的好处包括：
 - **简化的并发** - 处理并行任务的复杂编排
 - **自动同步** - 等待所有并行任务完成
-- **工作流持久性** - 整个并行过程都是持久且可恢复的
+- **workflow 持久性** - 整个并行过程都是持久且可恢复的
 
 ## 编排器-工作者
 
@@ -224,7 +224,7 @@ def travel_planning_workflow(ctx: DaprWorkflowContext, input_params: dict):
 
 {{< diagram agents-orchestrator-workers >}}
 
-与之前工作流预先定义的模式不同，编排器会根据具体输入动态确定工作流。
+与之前 workflow 预先定义的模式不同，编排器会根据具体输入动态确定 workflow。
 
 **使用场景：**
 - 跨越多个文件的软件开发任务
@@ -343,9 +343,9 @@ def evaluator_optimizer_travel_planner(ctx: DaprWorkflowContext, input_params: d
 
 ## 人在回路
 
-有些代理操作的影响过大，不宜完全交由模型决定。人在回路（Human-in-the-Loop，HITL）模式会在特定的工具调用（或其他高风险步骤）上暂停代理，并等待人工批准或拒绝后再继续。由于等待发生在 Dapr 工作流内部，暂停时长可以是几秒、几小时或几天——人工响应后，工作流会从暂停处恢复。
+有些代理操作的影响过大，不宜完全交由模型决定。人在回路（Human-in-the-Loop，HITL）模式会在特定的工具调用（或其他高风险步骤）上暂停代理，并等待人工批准或拒绝后再继续。由于等待发生在 Dapr workflow 内部，暂停时长可以是几秒、几小时或几天——人工响应后，workflow 会从暂停处恢复。
 
-在 Dapr Agents 中，此模式通过**钩子系统**实现：在 `DurableAgent` 上注册 `before_tool_call` 钩子，并为需要人工确认的步骤返回 `RequireApproval(...)`。框架会将审批请求事件发布到你配置的投递通道（HTTP、Dapr pub/sub 或工作流事件），通过 `wait_for_external_event` 挂起工作流，并在收到批准或拒绝的响应后恢复执行；若超时，则自动拒绝。
+在 Dapr Agents 中，此模式通过**钩子系统**实现：在 `DurableAgent` 上注册 `before_tool_call` 钩子，并为需要人工确认的步骤返回 `RequireApproval(...)`。框架会将审批请求事件发布到你配置的投递通道（HTTP、Dapr pub/sub 或 workflow 事件），通过 `wait_for_external_event` 挂起 workflow，并在收到批准或拒绝的响应后恢复执行；若超时，则自动拒绝。
 
 **使用场景：**
 - 批准破坏性操作（删除数据、删除表、超过阈值的退款）
@@ -387,24 +387,24 @@ agent = DurableAgent(
 ```
 
 使用 Dapr 实现此模式的好处包括：
-- **持久化暂停** - 工作流在等待期间可以承受崩溃与重启；审批结果持久化在 state store 中
-- **可选的投递通道** - 可以通过 HTTP（`GET /hitl/approvals`、`POST /hitl/approvals/{id}/respond`）、Dapr pub/sub 或直接的工作流事件进行审批
-- **超时保护** - 若人工长时间未响应，待处理的请求会自动拒绝，因此工作流不会永久挂起
+- **持久化暂停** - workflow 在等待期间可以承受崩溃与重启；审批结果持久化在 state store 中
+- **可选的投递通道** - 可以通过 HTTP（`GET /hitl/approvals`、`POST /hitl/approvals/{id}/respond`）、Dapr pub/sub 或直接的 workflow 事件进行审批
+- **超时保护** - 若人工长时间未响应，待处理的请求会自动拒绝，因此 workflow 不会永久挂起
 - **可与其他模式组合** - 人在回路是一个钩子决策，因此可以干净地叠加在上述任何模式之上
 
 有关完整的钩子 API（包括其他决策 `Skip`、`Mutate`、`Deny` 以及 LLM 级别的钩子），请参阅[钩子与人在回路]({{< ref dapr-agents-hooks.md >}})。
 
-## 持久化代理
+## Durable Agent
 
-在代理谱系的另一端，持久化代理模式代表了一种从基于工作流方法的转变。它不再使用预定义的步骤，而是由一个自主代理根据对目标的理解，自行规划步骤并执行。
+在代理谱系的另一端，Durable Agent 模式代表了一种从基于 workflow 方法的转变。它不再使用预定义的步骤，而是由一个自主代理根据对目标的理解，自行规划步骤并执行。
 
-企业应用通常需要超越内存能力的持久执行和可靠性。Dapr 的 `DurableAgent` 类帮助你借助工作流的可靠性实现自主代理，因为这些代理在幕后由 Dapr 工作流支持。`DurableAgent` 通过为代理执行增加持久性，扩展了基础的 `Agent` 类。
+企业应用通常需要超越内存能力的持久执行和可靠性。Dapr 的 `DurableAgent` 类帮助你借助 workflow 的可靠性实现自主代理，因为这些代理在幕后由 Dapr workflow 支持。`DurableAgent` 通过为代理执行增加持久性，扩展了基础的 `Agent` 类。
 
 {{< diagram name="agents-stateful-llm" width="60" >}}
 
-此模式不仅仅持久化消息历史——它会为每次交互动态创建带有持久化活动的工作流，其中 LLM 调用和工具执行都可靠地存储在 Dapr 的 state store 中。这使其非常适合对可靠性和持久性要求极高的环境。
+此模式不仅仅持久化消息历史——它会为每次交互动态创建带有持久化活动的 workflow，其中 LLM 调用和工具执行都可靠地存储在 Dapr 的 state store 中。这使其非常适合对可靠性和持久性要求极高的环境。
 
-持久化代理还支持"无头代理"（headless agents）方式，即无需直接用户交互即可运行的自主系统。Dapr 的持久化代理暴露 REST 和 pub/sub API，因此非常适合由其他应用或外部事件触发的长时间运行操作。
+Durable Agent 还支持"无头代理"（headless agents）方式，即无需直接用户交互即可运行的自主系统。Dapr 的 Durable Agent 暴露 REST 和 pub/sub API，因此非常适合由其他应用或 external event 触发的长时间运行操作。
 
 **使用场景：**
 - 可能需要数分钟甚至数天才能完成的长时间运行任务
@@ -476,15 +476,15 @@ async def main():
 asyncio.run(main())
 ```
 
-该实现遵循 Dapr 的边车架构模型，所有基础设施相关的问题均由 Dapr 运行时处理：
+该实现遵循 Dapr 的 sidecar 架构模型，所有基础设施相关的问题均由 Dapr runtime 处理：
 - **持久化记忆** - 代理状态存储在 Dapr 的 state store 中，进程崩溃后依然存在
-- **工作流编排** - 所有代理交互都通过 Dapr 的工作流系统进行管理
+- **workflow 编排** - 所有代理交互都通过 Dapr 的 workflow 系统进行管理
 - **服务暴露** - `AgentRunner.serve()` 暴露 REST 端点（例如 `POST /agent/run`），用于调度代理的 `@workflow_entry`
 - **pub/sub 输入/输出** - `AgentRunner.subscribe()` 扫描代理中的 `@message_router` 方法，并通过模式验证将配置的主题连接起来
 
-持久化代理实现了"无头代理"的概念，即在没有直接用户交互的情况下运行的自主系统。根据场景，你可以：
+Durable Agent 实现了"无头代理"的概念，即在没有直接用户交互的情况下运行的自主系统。根据场景，你可以：
 
-1. **以编程方式运行**持久化工作流（如上所示的 `runner.run`）
+1. **以编程方式运行**持久化 workflow（如上所示的 `runner.run`）
 2. **订阅**代理到主题，使其他服务能够通过 pub/sub 触发它（`runner.subscribe`）
 3. **以服务形式暴露**代理，将其部署在 FastAPI 应用之后，并提供内置的 `/run` 与状态端点（`runner.serve`）
 
@@ -492,15 +492,15 @@ asyncio.run(main())
 
 ### 重试策略
 
-持久化代理支持 Dapr 工作流的 `RetryPolicy`，即其 `WorkflowRetryPolicy`：
+Durable Agent 支持 Dapr workflow 的 `RetryPolicy`，即其 `WorkflowRetryPolicy`：
 
-- `max_attempts`：工作流操作的最大重试次数。默认值为 1（不重试）。可通过设置 `DAPR_API_MAX_RETRIES` 环境变量覆盖默认值。
+- `max_attempts`：workflow 操作的最大重试次数。默认值为 1（不重试）。可通过设置 `DAPR_API_MAX_RETRIES` 环境变量覆盖默认值。
 - `initial_backoff_seconds`：初始退避时长（秒）。默认值为 5 秒。
 - `max_backoff_seconds`：最大退避时长（秒）。默认值为 30 秒。
 - `backoff_multiplier`：指数退避的乘数。默认值为 1.5。
 - `retry_timeout`：所有重试的总超时时间（秒）。
 
-所有字段都是可选的。可以在实例化持久化代理时传入：
+所有字段都是可选的。可以在实例化 Durable Agent 时传入：
 
 ```python
 from dapr_agents.agents.configs import WorkflowRetryPolicy
@@ -520,7 +520,7 @@ travel_planner = DurableAgent(
 
 ## 选择正确的模式
 
-从简单的代理工作流到完全自主的代理，这一路径代表了将 LLM 集成到应用程序中的一系列不同方法。不同的使用场景需要不同程度的代理性与控制力：
+从简单的代理 workflow 到完全自主的代理，这一路径代表了将 LLM 集成到应用程序中的一系列不同方法。不同的使用场景需要不同程度的代理性与控制力：
 
 - **从更简单的模式开始**，如增强型 LLM 和提示链，适用于可预测性至关重要的明确定义任务
 - **随着需求增长逐步转向更复杂的模式**，如并行化和编排器-工作者

@@ -1,15 +1,15 @@
 ---
 type: docs
-title: "Azure Blob Storage 绑定规范"
+title: "Azure Blob Storage binding 规范"
 linkTitle: "Azure Blob Storage"
-description: "Azure Blob Storage 绑定组件的详细文档"
+description: "Azure Blob Storage binding component 的详细文档"
 aliases:
   - "/zh-hans/operations/components/setup-bindings/supported-bindings/blobstorage/"
 ---
 
-## 组件格式
+## component 格式
 
-若要设置 Azure Blob Storage 绑定，请创建类型为 `bindings.azure.blobstorage` 的组件。有关如何创建和应用绑定配置，请参阅[此指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
+若要设置 Azure Blob Storage binding，请创建类型为 `bindings.azure.blobstorage` 的 component。有关如何创建和应用 binding 配置，请参阅[此指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
 
 
 ```yaml
@@ -37,12 +37,12 @@ spec:
 #   value: <bool>
 ```
 {{% alert title="Warning" color="warning" %}}
-上述示例以纯文本字符串形式使用机密。建议按[此处]({{% ref component-secrets.md %}})所述，使用机密存储来管理机密。
+上述示例以纯文本字符串形式使用 secrets。建议按[此处]({{% ref component-secrets.md %}})所述，使用 secret store 来管理 secrets。
 {{% /alert %}}
 
 ## 规范元数据字段
 
-| 字段              | 必填 | 绑定支持 | 详情 | 示例 |
+| 字段              | 必填 | binding 支持 | 详情 | 示例 |
 |--------------------|:--------:|--------|---------|---------|
 | `accountName` | Y | Input/Output | Azure Storage 账户名称 | `"myexmapleaccount"` |
 | `accountKey` | Y* | Input/Output | Azure Storage 账户访问密钥。仅在不使用 Microsoft Entra ID 身份验证时需要。 | `"access-key"` |
@@ -51,15 +51,15 @@ spec:
 | `decodeBase64` | N | Output | 在保存到 Blob Storage 之前对 base64 文件内容进行解码的配置（用于保存包含二进制内容的文件）。默认为 `false` | `true`、`false` |
 | `getBlobRetryCount` | N | Output | 指定从 RetryReader 读取时最多发出的 HTTP GET 请求次数。默认为 `10` | `1`、`2` |
 | `publicAccessLevel` | N | Output | 指定容器中的数据是否可以公开访问以及访问级别（仅在容器由 Dapr 创建时使用）。默认为 `none` | `blob`、`container`、`none` |
-| `disableEntityManagement` | N | Output | 用于禁用实体管理的配置。设置为 `true` 时，绑定将跳过创建指定存储容器的尝试。在使用最小 Azure AD 权限时，此项很有用。默认为 `false` | `true`、`false` |
+| `disableEntityManagement` | N | Output | 用于禁用实体管理的配置。设置为 `true` 时，binding 将跳过创建指定存储容器的尝试。在使用最小 Azure AD 权限时，此项很有用。默认为 `false` | `true`、`false` |
 
 ### Microsoft Entra ID 身份验证
 
-Azure Blob Storage 绑定组件支持使用所有 Microsoft Entra ID 机制进行身份验证。有关更多信息，以及根据所选 Microsoft Entra ID 身份验证机制需要提供的组件元数据字段，请参阅[对 Azure 进行身份验证的文档]({{% ref authenticating-azure.md %}})。
+Azure Blob Storage binding component 支持使用所有 Microsoft Entra ID 机制进行身份验证。有关更多信息，以及根据所选 Microsoft Entra ID 身份验证机制需要提供的 component 元数据字段，请参阅[对 Azure 进行身份验证的文档]({{% ref authenticating-azure.md %}})。
 
-## 绑定支持
+## binding 支持
 
-此组件支持**输出绑定**，包含以下操作：
+此 component 支持**output binding**，包含以下操作：
 
 - `create`：[创建 blob](#创建-blob)
 - `get`：[获取 blob](#获取-blob)
@@ -70,13 +70,13 @@ Azure Blob Storage 绑定组件支持使用所有 Microsoft Entra ID 机制进�
 - `bulkCreate`：[批量创建 blob](#批量创建-blob)
 - `bulkDelete`：[批量删除 blob](#批量删除-blob)
 
-Blob storage 组件的**输入绑定**通过 [Azure Event Grid]({{% ref eventgrid.md %}}) 触发并推送事件。 
+Blob storage component 的**input binding**通过 [Azure Event Grid]({{% ref eventgrid.md %}}) 触发并推送事件。 
  
 有关更多设置和信息，请参阅[响应 Blob storage 事件](https://learn.microsoft.com/azure/storage/blobs/storage-blob-event-overview)指南。
 
 ### 创建 blob
 
-要执行创建 blob 操作，请使用 `POST` 方法调用 Azure Blob Storage 绑定，并使用以下 JSON 请求体：
+要执行创建 blob 操作，请使用 `POST` 方法调用 Azure Blob Storage binding，并使用以下 JSON 请求体：
 
 > 注意：默认情况下会生成随机 UUID。有关使用元数据设置名称的支持，请参阅下文
 
@@ -132,7 +132,7 @@ Blob storage 组件的**输入绑定**通过 [Azure Event Grid]({{% ref eventgri
 
 ##### 将文件保存到 blob
 
-要上传文件，请将其编码为 Base64，并告知绑定需要进行反序列化：
+要上传文件，请将其编码为 Base64，并告知 binding 需要进行反序列化：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -177,7 +177,7 @@ spec:
 若要在创建 blob 时生成预签名 SAS URL，请在 `create` 请求中添加 `signTTL` 元数据键。该 SAS URL 可提供对 blob 的临时只读访问。
 `signTTL` 的有效值为 [Go duration strings](https://pkg.go.dev/time#ParseDuration)（例如 `"15m"`、`"1h"`、`"24h"`）。
 
-> **注意：** 此功能要求绑定使用账户密钥或连接字符串进行配置。生成 SAS URL 时不支持 Microsoft Entra ID 身份验证。
+> **注意：** 此功能要求 binding 使用账户密钥或连接字符串进行配置。生成 SAS URL 时不支持 Microsoft Entra ID 身份验证。
 
 {{< tabpane text=true >}}
 
@@ -213,7 +213,7 @@ spec:
 
 ### 获取 blob
 
-要执行获取 blob 操作，请使用 `POST` 方法调用 Azure Blob Storage 绑定，并使用以下 JSON 请求体：
+要执行获取 blob 操作，请使用 `POST` 方法调用 Azure Blob Storage binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -259,7 +259,7 @@ spec:
 
 ### 删除 blob
 
-要执行删除 blob 操作，请使用 `POST` 方法调用 Azure Blob Storage 绑定，并使用以下 JSON 请求体：
+要执行删除 blob 操作，请使用 `POST` 方法调用 Azure Blob Storage binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -342,7 +342,7 @@ spec:
 
 ### 列出 blob
 
-要执行列出 blob 操作，请使用 `POST` 方法调用 Azure Blob Storage 绑定，并使用以下 JSON 请求体：
+要执行列出 blob 操作，请使用 `POST` 方法调用 Azure Blob Storage binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -381,7 +381,7 @@ data 参数为：
 `Metadata.marker: 2!108!MDAwMDM1IWZpbGUtMDgtMDctMjAyMS0wOS0zOC0zNC04NjctMTEudHh0ITAwMDAyOCE5OTk5LTEyLTMxVDIzOjU5OjU5Ljk5OTk5OTlaIQ--`
 `Metadata.number: 10`
 
-- `marker` - 可在后续调用中用于请求下一组列表项的下一个 marker。请参阅绑定输入的 data 属性上的 marker 说明。
+- `marker` - 可在后续调用中用于请求下一组列表项的下一个 marker。请参阅 input binding 的 data 属性上的 marker 说明。
 - `number` - 找到的 blob 数量
 
 blob 列表将以以下形式的 JSON 数组返回：
@@ -440,9 +440,9 @@ blob 列表将以以下形式的 JSON 数组返回：
 
 ### 预签名 blob
 
-要为现有 blob 生成预签名 SAS URL，请使用 `POST` 方法调用 Azure Blob Storage 绑定，并使用以下 JSON 请求体。该 SAS URL 可在无需身份验证的情况下提供对 blob 的临时只读访问。
+要为现有 blob 生成预签名 SAS URL，请使用 `POST` 方法调用 Azure Blob Storage binding，并使用以下 JSON 请求体。该 SAS URL 可在无需身份验证的情况下提供对 blob 的临时只读访问。
 
-> **注意：** 此操作要求绑定使用账户密钥或连接字符串进行配置。生成 SAS URL 时不支持 Microsoft Entra ID 身份验证。
+> **注意：** 此操作要求 binding 使用账户密钥或连接字符串进行配置。生成 SAS URL 时不支持 Microsoft Entra ID 身份验证。
 
 ```json
 {
@@ -490,7 +490,7 @@ The response body contains the following JSON:
 
 ### 批量获取 blob
 
-要执行批量获取操作，请使用 `POST` 方法调用 Azure Blob Storage 绑定，并使用以下 JSON 请求体。blob 可以检索到本地文件（流式模式），也可以在响应中以内联方式返回（内联模式）。
+要执行批量获取操作，请使用 `POST` 方法调用 Azure Blob Storage binding，并使用以下 JSON 请求体。blob 可以检索到本地文件（流式模式），也可以在响应中以内联方式返回（内联模式）。
 
 #### 流式模式（写入文件）
 
@@ -633,7 +633,7 @@ The response body contains the following JSON:
 
 ### 批量创建 blob
 
-要执行批量创建操作，请使用 `POST` 方法调用 Azure Blob Storage 绑定，并使用以下 JSON 请求体。blob 可以从本地文件上传，也可以从内联数据上传。
+要执行批量创建操作，请使用 `POST` 方法调用 Azure Blob Storage binding，并使用以下 JSON 请求体。blob 可以从本地文件上传，也可以从内联数据上传。
 
 #### 从文件创建
 
@@ -674,7 +674,7 @@ The response body contains the following JSON:
 - `concurrency` -（可选）最大并行上传数。默认为 `10`
 
 {{% alert title="Note" color="primary" %}}
-启用组件配置中的 `decodeBase64` 时，内联 `data` 和基于文件的 `sourcePath` 内容都会在上传前进行 base64 解码。这意味着当 `decodeBase64` 为 `true` 时，`sourcePath` 应指向 base64 编码的文件。当 `decodeBase64` 为 `false`（默认值）时，内容将原样上传。
+启用 component 配置中的 `decodeBase64` 时，内联 `data` 和基于文件的 `sourcePath` 内容都会在上传前进行 base64 解码。这意味着当 `decodeBase64` 为 `true` 时，`sourcePath` 应指向 base64 编码的文件。当 `decodeBase64` 为 `false`（默认值）时，内容将原样上传。
 {{% /alert %}}
 
 #### 示例
@@ -747,7 +747,7 @@ The response body contains the following JSON:
 
 ### 批量删除 blob
 
-要执行批量删除操作，请使用 `POST` 方法调用 Azure Blob Storage 绑定，并使用以下 JSON 请求体：
+要执行批量删除操作，请使用 `POST` 方法调用 Azure Blob Storage binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -849,9 +849,9 @@ The response body contains the following JSON:
 
 ## 元数据信息
 
-默认情况下，Azure Blob Storage 输出绑定会自动生成 UUID 作为 blob 文件名，并且不会为其分配任何系统或自定义元数据。可以通过消息的元数据属性进行配置（均为可选）。
+默认情况下，Azure Blob Storage output binding 会自动生成 UUID 作为 blob 文件名，并且不会为其分配任何系统或自定义元数据。可以通过消息的元数据属性进行配置（均为可选）。
 
-向 Azure Blob Storage 输出绑定发布的应用程序应发送以下格式的消息：
+向 Azure Blob Storage output binding 发布的应用程序应发送以下格式的消息：
 
 ```json
 {
@@ -872,8 +872,8 @@ The response body contains the following JSON:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [绑定构建块]({{% ref bindings %}})
-- [操作指南：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
-- [操作指南：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
-- [绑定 API 参考]({{% ref bindings_api.md %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
+- [binding building block]({{% ref bindings %}})
+- [操作指南：使用 input binding 触发应用程序]({{% ref howto-triggers.md %}})
+- [操作指南：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
+- [binding API 参考]({{% ref bindings_api.md %}})

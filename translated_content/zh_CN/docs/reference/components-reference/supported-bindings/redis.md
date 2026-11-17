@@ -2,14 +2,14 @@
 type: docs
 title: "Redis binding 规范"
 linkTitle: "Redis"
-description: "Redis binding 组件的详细文档"
+description: "Redis binding component 的详细文档"
 aliases:
   - "/zh-hans/operations/components/setup-bindings/supported-bindings/redis/"
 ---
 
-## 组件格式
+## component 格式
 
-要设置 Redis binding，请创建一个类型为 `bindings.redis` 的组件。有关如何创建和应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
+要设置 Redis binding，请创建一个类型为 `bindings.redis` 的 component。有关如何创建和应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -36,7 +36,7 @@ spec:
 上面的示例将 secrets 以明文字符串的形式使用。建议按[此处]({{% ref component-secrets.md %}})所述，将 secrets 保存在 secret store 中。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段 | 必需 | binding 支持 | 详细说明 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
@@ -44,7 +44,7 @@ spec:
 | `redisPassword` | N | 输出 | Redis 密码 | `"password"` |
 | `redisUsername` | N | 输出 | Redis 主机的用户名。默认为空。请确保 Redis 服务器版本为 6 或以上，并已正确创建 ACL 规则。 | `"username"` |
 | `useEntraID` | N | 输出 | 为 Azure Cache for Redis 实现 EntraID 支持。启用前需要：<ul><li>`redisHost` 名称必须以 `"server:port"` 的形式指定</li><li>必须启用 TLS</li></ul> 详细了解此设置，请参阅 [创建 Redis 实例 > Azure Cache for Redis]({{% ref "#创建-redis-实例" %}}) | `"true"`, `"false"` |
-| `useOIDC` | N | 输出 | 使用 `private_key_jwt` 客户端身份验证方法（RFC 7523）的 OpenID Connect 进行身份验证。从身份提供方获取的 OAuth2 访问令牌会被用作 Redis `AUTH` 命令的密码，并在过期前自动刷新。不得与 `redisPassword` 或 `useEntraID` 同时使用。此组件支持 [Redis state store 文档]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}})中记录的全部 `oidc*` 元数据字段 | `"true"`, `"false"` |
+| `useOIDC` | N | 输出 | 使用 `private_key_jwt` 客户端身份验证方法（RFC 7523）的 OpenID Connect 进行身份验证。从身份提供方获取的 OAuth2 访问令牌会被用作 Redis `AUTH` 命令的密码，并在过期前自动刷新。不得与 `redisPassword` 或 `useEntraID` 同时使用。此 component 支持 [Redis state store 文档]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}})中记录的全部 `oidc*` metadata 字段 | `"true"`, `"false"` |
 | `enableTLS` | N | 输出 | 如果 Redis 实例支持使用公共证书的 TLS，可以配置为启用或禁用 TLS。默认为 `"false"` | `"true"`, `"false"` |
 | `insecureSkipTLSVerify` | N | 输出 | 当 `enableTLS` 为 `"true"` 时，跳过 TLS 证书验证。仅用于测试。默认为 `"false"` | `"true"`, `"false"` |
 | `clientCert`        | N | 输出        | 客户端证书的内容，用于需要客户端证书的 Redis 实例。必须与 `clientKey` 一起使用，且 `enableTLS` 必须设为 true。建议按[此处]({{% ref component-secrets.md %}})所述使用 secret store | `"----BEGIN CERTIFICATE-----\nMIIC..."` |
@@ -72,7 +72,7 @@ spec:
 
 ## binding 支持
 
-此组件支持以下操作的 **output binding**：
+此 component 支持以下操作的 **output binding**：
 
 - `create`
 - `get`
@@ -167,7 +167,7 @@ spec:
 
 ## 支持的服务器和版本
 
-Dapr 的 Redis binding 组件已针对以下 Redis 和 Valkey 版本进行测试：
+Dapr 的 Redis binding component 已针对以下 Redis 和 Valkey 版本进行测试：
 
 | 服务器 | 版本 |
 |--------|----------|
@@ -181,7 +181,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、运行在本地开发机�
 {{< tabpane text=true >}}
 
 {{% tab "自托管" %}}
-Dapr CLI 会自动为你创建并设置一个 Redis Streams 实例。运行 `dapr init` 时，Redis 实例会通过 Docker 安装，组件文件也会创建在默认目录中（Mac/Linux 上为 `$HOME/.dapr/components` 目录，Windows 上为 `%USERPROFILE%\.dapr\components`）。
+Dapr CLI 会自动为你创建并设置一个 Redis Streams 实例。运行 `dapr init` 时，Redis 实例会通过 Docker 安装，component 文件也会创建在默认目录中（Mac/Linux 上为 `$HOME/.dapr/components` 目录，Windows 上为 `%USERPROFILE%\.dapr\components`）。
 {{% /tab %}}
 
 {{% tab "Kubernetes" %}}
@@ -232,7 +232,7 @@ Dapr CLI 会自动为你创建并设置一个 Redis Streams 实例。运行 `dap
 
 1. 将主机名和密钥添加到 Dapr 可应用到集群的 `redis.yaml` 文件中。
    - 如果你运行的是示例，请将主机名和密钥添加到提供的 `redis.yaml` 中。
-   - 如果你从头创建项目，请按照[组件格式](#组件格式)一节的说明创建 `redis.yaml` 文件。
+   - 如果你从头创建项目，请按照[component 格式](#component-格式)一节的说明创建 `redis.yaml` 文件。
 
 1. 将 `redisHost` 键设为 `[上一步中的主机名]:6379`，并将 `redisPassword` 键设为你之前保存的密钥。
 
@@ -283,7 +283,7 @@ Dapr CLI 在自托管模式下，会作为 `dapr init` 命令的一部分自动�
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [binding 构建块]({{% ref bindings %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
+- [binding building block]({{% ref bindings %}})
 - [如何操作：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
 - [binding API 参考]({{% ref bindings_api.md %}})

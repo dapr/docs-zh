@@ -2,7 +2,7 @@
 type: docs
 title: "Azure 身份验证"
 linkTitle: "概述"
-description: "如何使用 Microsoft Entra ID 和/或托管标识对 Azure 组件进行身份验证"
+description: "如何使用 Microsoft Entra ID 和/或托管标识对 Azure component 进行身份验证"
 aliases:
   - "/zh-hans/operations/components/setup-secret-store/supported-secret-stores/azure-keyvault-managed-identity/"
   - "/zh-hans/reference/components-reference/supported-secret-stores/azure-keyvault-managed-identity/"
@@ -18,7 +18,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 
 应用程序可以通过以下几种方式向 Microsoft Entra ID 进行身份验证，并获取访问令牌，以便向 Azure 服务发出请求：
 
- - [工作负载身份联合]({{< ref howto-wif.md >}}) - 推荐的方式，用于配置 Microsoft Entra ID 租户以信任外部身份提供方。这包括来自 Kubernetes 或 AKS 集群的服务账号。[了解有关工作负载身份联合的更多信息](https://learn.microsoft.com/entra/workload-id/workload-identities-overview)。
+ - [工作负载身份联合]({{< ref howto-wif.md >}}) - 推荐的方式，用于配置 Microsoft Entra ID 租户以信任外部身份提供方。这包括来自 Kubernetes 或 AKS 集群的 service account。[了解有关工作负载身份联合的更多信息](https://learn.microsoft.com/entra/workload-id/workload-identities-overview)。
  - [系统分配和用户分配的托管标识]({{< ref howto-mi.md >}}) - 粒度不如工作负载身份联合细，但保留了其中的部分优势。[了解有关系统分配和用户分配托管标识的更多信息](https://learn.microsoft.com/azure/aks/use-managed-identity)。
  - [客户端 ID 和密钥]({{ < ref howto-aad.md >}}) - 不推荐，因为它要求你在应用程序级别维护并关联凭据。
  - Pod 标识 - [已弃用的方法，用于在 Pod 级别对运行在 Kubernetes 上的应用程序进行身份验证](https://learn.microsoft.com/azure/aks/use-azure-ad-pod-identity)。不应再使用。
@@ -37,7 +37,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 - 减少可以访问凭据的人员数量
 - 简化运维工作，在使用多个环境时尤其明显
 
-虽然部分 Dapr Azure 组件也提供其他身份验证方式，例如基于“共享密钥”或“访问令牌”的方式，但只要可能，你都应该尝试使用 Microsoft Entra ID 对 Dapr 组件进行身份验证。这样做有许多好处，包括：
+虽然部分 Dapr Azure component 也提供其他身份验证方式，例如基于“共享密钥”或“访问令牌”的方式，但只要可能，你都应该尝试使用 Microsoft Entra ID 对 Dapr component 进行身份验证。这样做有许多好处，包括：
 
 - [基于角色的访问控制](#基于角色的访问控制)
 - [审核](#审核)
@@ -59,7 +59,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 
 ## 其他 Azure 环境的支持
 
-默认情况下，Dapr 组件配置为与“公有云”中的 Azure 资源交互。如果你的应用程序部署在其他云环境中，例如 Azure 中国或 Azure 政府云（“主权云”），你可以为受支持的组件启用相应配置，方法是将 `azureEnvironment` 元数据属性设置为以下受支持的值之一：
+默认情况下，Dapr component 配置为与“公有云”中的 Azure 资源交互。如果你的应用程序部署在其他云环境中，例如 Azure 中国或 Azure 政府云（“主权云”），你可以为受支持的 component 启用相应配置，方法是将 `azureEnvironment` metadata 属性设置为以下受支持的值之一：
 
 - Azure 公有云（默认）：`"AzurePublicCloud"`
 - Azure 中国：`"AzureChinaCloud"`
@@ -67,13 +67,13 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 
 > 对主权云的支持处于实验阶段。
 
-## 凭据元数据字段
+## 凭据 metadata 字段
 
-要使用 Microsoft Entra ID 进行身份验证，你需要将以下凭据作为值，添加到你的 [Dapr 组件](#在-dapr-组件中的示例用法)的元数据中。
+要使用 Microsoft Entra ID 进行身份验证，你需要将以下凭据作为值，添加到你的 [Dapr component](#在-dapr-component-中的示例用法)的 metadata 中。
 
-### 元数据选项
+### metadata 选项
 
-根据你向 Dapr 服务传递凭据的方式，可以使用多种元数据选项。
+根据你向 Dapr 服务传递凭据的方式，可以使用多种 metadata 选项。
 
 - [使用客户端凭据](#使用客户端凭据进行身份验证)
 - [使用证书](#使用证书进行身份验证)
@@ -81,7 +81,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 - [在 AKS 上使用工作负载身份](#在-aks-上使用工作负载身份进行身份验证)
 - [使用 Azure CLI 凭据（仅用于开发）](#使用-azure-cli-凭据进行身份验证仅限开发)
 
-你还可以使用 `azureAuthMethods` 元数据字段，[控制 Dapr 尝试的身份验证方法及其顺序](#指定要使用的身份验证方法)。
+你还可以使用 `azureAuthMethods` metadata 字段，[控制 Dapr 尝试的身份验证方法及其顺序](#指定要使用的身份验证方法)。
 
 #### 使用客户端凭据进行身份验证
 
@@ -115,7 +115,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 
 #### 在 AKS 上使用工作负载身份进行身份验证
 
-在 Azure Kubernetes Service（AKS）上运行时，你可以使用工作负载身份对组件进行身份验证。关于为你的 Kubernetes 资源[启用工作负载身份](https://learn.microsoft.com/azure/aks/workload-identity-overview)，请参阅 Azure AKS 文档。
+在 Azure Kubernetes Service（AKS）上运行时，你可以使用工作负载身份对 component 进行身份验证。关于为你的 Kubernetes 资源[启用工作负载身份](https://learn.microsoft.com/azure/aks/workload-identity-overview)，请参阅 Azure AKS 文档。
 
 #### 使用联合标识凭据进行身份验证
 
@@ -154,7 +154,7 @@ oidc:
 /jwks.json
 ```
 
-你还需要提供 Dapr 运行时配置，以请求受众为 `api://AzureADTokenExchange` 的 JWT 令牌。在独立模式下运行时，可以使用参数 `--sentry-request-jwt-audiences=api://AzureADTokenExchange` 进行设置。在 Kubernetes 中运行时，可以为应用程序的 Kubernetes 清单添加注解 `"dapr.io/sentry-request-jwt-audiences": "api://AzureADTokenExchange"` 进行设置。这可确保 Sentry 服务签发具有正确受众的 JWT 令牌，而这是 Microsoft Entra ID 验证该令牌所必需的。
+你还需要提供 Dapr runtime 配置，以请求受众为 `api://AzureADTokenExchange` 的 JWT 令牌。在独立模式下运行时，可以使用参数 `--sentry-request-jwt-audiences=api://AzureADTokenExchange` 进行设置。在 Kubernetes 中运行时，可以为应用程序的 Kubernetes manifest 添加注解 `"dapr.io/sentry-request-jwt-audiences": "api://AzureADTokenExchange"` 进行设置。这可确保 Sentry 服务签发具有正确受众的 JWT 令牌，而这是 Microsoft Entra ID 验证该令牌所必需的。
 
 为使 Microsoft Entra ID 能够访问 OIDC 端点，你必须将它们暴露在公网地址上。你还必须确保提供这些端点的域名，与配置 Dapr Sentry 时提供的签发者一致。
 
@@ -183,13 +183,13 @@ az ad app federated-credential create --id $APP_ID --parameters ./creds.json
 az role assignment create --assignee-object-id $APP_ID --assignee-principal-type ServicePrincipal --role "Storage Blob Data Owner" --scope "/subscriptions/$SUBSCRIPTION/resourceGroups/$GROUP/providers/Microsoft.Storage/storageAccounts/$ACCOUNT_NAME"
 ```
 
-要配置 Dapr 组件使用联合凭据访问 Azure 资源，首先需要获取你的 `clientId` 和 `tenantId`：
+要配置 Dapr component 使用联合凭据访问 Azure 资源，首先需要获取你的 `clientId` 和 `tenantId`：
 ```shell
 CLIENT_ID=$(az ad app show --id $APP_ID --query appId --output tsv)
 TENANT_ID=$(az account show --query tenantId --output tsv)
 ```
 
-然后，你可以创建 Azure Dapr 组件，只需提供以下值：
+然后，你可以创建 Azure Dapr component，只需提供以下值：
 ```yaml
 apiVersion: dapr.io/v1alpha1
 kind: Component
@@ -210,7 +210,7 @@ spec:
     value: $CONTAINER_NAME
 ```
 
-Dapr 运行时使用这些详细信息向 Microsoft Entra ID 进行身份验证，并使用 Dapr Sentry 签发的 JWT 令牌交换访问令牌，以访问 Azure 资源。
+Dapr runtime 使用这些详细信息向 Microsoft Entra ID 进行身份验证，并使用 Dapr Sentry 签发的 JWT 令牌交换访问令牌，以访问 Azure 资源。
 
 #### 使用 Azure CLI 凭据进行身份验证（仅限开发）
 
@@ -221,13 +221,13 @@ Dapr 运行时使用这些详细信息向 Microsoft Entra ID 进行身份验证�
 - 已[安装 Azure CLI](https://learn.microsoft.com/cli/azure/install-azure-cli)
 - 已成功使用 `az login` 命令完成身份验证
 
-当 Dapr 运行在存在 Azure CLI 可用凭据的主机上时，如果未配置其他身份验证方法，组件可以自动使用这些凭据进行身份验证。
+当 Dapr 运行在存在 Azure CLI 可用凭据的主机上时，如果未配置其他身份验证方法，component 可以自动使用这些凭据进行身份验证。
 
-使用此身份验证方法无需设置任何元数据选项。
+使用此身份验证方法无需设置任何 metadata 选项。
 
 ### 指定要使用的身份验证方法
 
-默认情况下，Dapr Azure 组件会按固定顺序尝试每种受支持的身份验证方法，并使用第一个成功的方法：
+默认情况下，Dapr Azure component 会按固定顺序尝试每种受支持的身份验证方法，并使用第一个成功的方法：
 
 1. 客户端凭据（客户端 ID、client secret 和租户 ID）
 1. 客户端证书
@@ -236,7 +236,7 @@ Dapr 运行时使用这些详细信息向 Microsoft Entra ID 进行身份验证�
 1. 托管标识（MI）
 1. Azure CLI
 
-可以使用可选的 `azureAuthMethods` 元数据字段覆盖此行为，例如将 Dapr 限制为某一种特定的身份验证方法，或更改尝试各方法的顺序。
+可以使用可选的 `azureAuthMethods` metadata 字段覆盖此行为，例如将 Dapr 限制为某一种特定的身份验证方法，或更改尝试各方法的顺序。
 
 | 字段 | 必需 | 详细信息 | 示例 |
 |-------|----------|---------|---------|
@@ -254,7 +254,7 @@ Dapr 运行时使用这些详细信息向 Microsoft Entra ID 进行身份验证�
 | `commandlineinterface` | `cli` | [Azure CLI（仅用于开发）](#使用-azure-cli-凭据进行身份验证仅限开发) |
 | `none` | | 完全禁用 Microsoft Entra ID 身份验证 |
 
-例如，要让 Service Bus 组件仅使用托管标识进行身份验证，并跳过所有其他方法：
+例如，要让 Service Bus component 仅使用托管标识进行身份验证，并跳过所有其他方法：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -275,15 +275,15 @@ spec:
     value: "managedidentity"
 ```
 
-### 在 Dapr 组件中的示例用法
+### 在 Dapr component 中的示例用法
 
-在此示例中，你将设置一个使用 Microsoft Entra ID 进行身份验证的 Azure 密钥保管库 secret store 组件。
+在此示例中，你将设置一个使用 Microsoft Entra ID 进行身份验证的 Azure 密钥保管库 secret store component。
 
 {{< tabpane text=true >}}
 
 {{% tab "自托管" %}}
 
-要使用**client secret**，请在组件目录中创建名为 `azurekeyvault.yaml` 的文件，并填入上述设置过程中获得的详细信息：
+要使用**client secret**，请在 component 目录中创建名为 `azurekeyvault.yaml` 的文件，并填入上述设置过程中获得的详细信息：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -343,9 +343,9 @@ spec:
     - `[your_k8s_secret_name]` 是 Kubernetes secret store 中的 secrets 名称
     - `[your_k8s_secret_key]` 是 Kubernetes secret store 中的 secrets 键
 
-1. 创建 `azurekeyvault.yaml` 组件文件。
+1. 创建 `azurekeyvault.yaml` component 文件。
 
-    组件 YAML 通过 `auth` 属性引用 Kubernetes secret store，`secretKeyRef` 则指向存储在 Kubernetes secret store 中的 client secret。
+    component YAML 通过 `auth` 属性引用 Kubernetes secret store，`secretKeyRef` 则指向存储在 Kubernetes secret store 中的 client secret。
 
     ```yaml
     apiVersion: dapr.io/v1alpha1
@@ -371,7 +371,7 @@ spec:
       secretStore: kubernetes
     ```
 
-1. 应用 `azurekeyvault.yaml` 组件：
+1. 应用 `azurekeyvault.yaml` component：
 
     ```bash
     kubectl apply -f azurekeyvault.yaml
@@ -389,9 +389,9 @@ spec:
     - `[your_k8s_secret_name]` 是 Kubernetes secret store 中的 secrets 名称
     - `[your_k8s_secret_key]` 是 Kubernetes secret store 中的 secrets 键
 
-1. 创建 `azurekeyvault.yaml` 组件文件。
+1. 创建 `azurekeyvault.yaml` component 文件。
 
-    组件 YAML 通过 `auth` 属性引用 Kubernetes secret store，`secretKeyRef` 则指向存储在 Kubernetes secret store 中的证书。
+    component YAML 通过 `auth` 属性引用 Kubernetes secret store，`secretKeyRef` 则指向存储在 Kubernetes secret store 中的证书。
 
     ```yaml
     apiVersion: dapr.io/v1alpha1
@@ -417,7 +417,7 @@ spec:
       secretStore: kubernetes
     ```
 
-1. 应用 `azurekeyvault.yaml` 组件：
+1. 应用 `azurekeyvault.yaml` component：
 
     ```bash
     kubectl apply -f azurekeyvault.yaml
@@ -435,7 +435,7 @@ spec:
 
 - [Microsoft Entra ID 应用凭据：Azure CLI 参考](https://docs.microsoft.com/cli/azure/ad/app/credential)
 - [Azure 托管服务标识（MSI）概述](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
-- [secrets 构建块]({{% ref secrets %}})
+- [secrets building block]({{% ref secrets %}})
 - [操作指南：检索 secrets]({{% ref "howto-secrets.md" %}})
-- [操作指南：在 Dapr 组件中引用 secrets]({{% ref component-secrets.md %}})
+- [操作指南：在 Dapr component 中引用 secrets]({{% ref component-secrets.md %}})
 - [secrets API 参考]({{% ref secrets_api.md %}})

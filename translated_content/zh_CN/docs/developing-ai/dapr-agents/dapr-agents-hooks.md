@@ -47,7 +47,7 @@ from dapr_agents.hooks import (
 | `step_name` | 工具函数名（例如 `"DeleteOldData"`），或 LLM 调用时的字面值 `"llm"` |
 | `step_kind` | `"tool"` 或 `"llm"` |
 | `source`    | 来源标识：`"local"`、`"mcp"`、`"openapi"`，或代理自身 LLM 调用时的 `"agent"` |
-| `payload`   | 对工具而言，是 LLM 生成的参数字典；对 LLM 调用而言，是传给 `llm.generate(...)` 的关键字参数字典，其中最常用的是 `messages`。对于 `after_llm_call`，它还可以携带 `response_metadata`（参见[读取响应元数据](#读取响应元数据)） |
+| `payload`   | 对工具而言，是 LLM 生成的参数字典；对 LLM 调用而言，是传给 `llm.generate(...)` 的关键字参数字典，其中最常用的是 `messages`。对于 `after_llm_call`，它还可以携带 `response_metadata`（参见[读取响应 metadata](#读取响应-metadata)） |
 | `tool_call_id` | LLM 为本次工具调用分配的 ID（LLM 级钩子中为空） |
 
 为方便使用并获得类型检查器支持，框架还导出了两个带类型的子类：
@@ -69,7 +69,7 @@ from dapr_agents.hooks import (
 | `Mutate(payload=...)` | 改写该步骤的输入（工具参数或 LLM 关键字参数）；对于 `after_*` 钩子，则改写助手消息字典 | 所有插槽 |
 | `Skip(result=...)` | 完全跳过该步骤，并以 `result` 作为输出返回 | `before_tool_call`、`before_llm_call` |
 | `Deny(reason=...)` | 阻止该步骤；框架会合成一条拒绝消息 | `before_tool_call`、`before_llm_call` |
-| `RequireApproval(timeout_seconds=..., instructions=...)` | 暂停工作流，等待人工批准或拒绝 | 仅 `before_tool_call` —— **不支持**用于 `before_llm_call`（参见下文[确定性速查表](#确定性速查表)） |
+| `RequireApproval(timeout_seconds=..., instructions=...)` | 暂停 workflow，等待人工批准或拒绝 | 仅 `before_tool_call` —— **不支持**用于 `before_llm_call`（参见下文[确定性速查表](#确定性速查表)） |
 
 `Mutate` 的语义因插槽而异：对于 `before_tool_call` 和 `after_llm_call`，它**替换**原有内容（工具参数和助手消息都是自包含的）；对于 `before_llm_call`，它进行**浅合并**，因此仅返回 `Mutate(payload={"messages": ...})` 的钩子不会丢失原始 generate 关键字参数中的 `tools`、`response_format` 和 `tool_choice`。
 
@@ -101,7 +101,7 @@ agent = DurableAgent(
 
 ## 工具钩子
 
-`before_tool_call` 在**工作流主体**中、每次工具派发之前触发。它必须是确定性的，因为工作流主体正是 Dapr Workflow 在故障恢复时重放的部分；钩子中的任何随机性或外部 I/O 都会导致重放结果产生分歧。（非确定性的*副作用*没有问题，它们发生在工具自身的活动中，那是被记录的边界。）
+`before_tool_call` 在**workflow 主体**中、每次工具派发之前触发。它必须是确定性的，因为 workflow 主体正是 Dapr Workflow 在故障恢复时重放的部分；钩子中的任何随机性或外部 I/O 都会导致重放结果产生分歧。（非确定性的*副作用*没有问题，它们发生在工具自身的 activity 中，那是被记录的边界。）
 
 `after_tool_call` 是保留的 API 接口：`Hooks` 数据类中为向前兼容而保留了该插槽，但代理运行时目前尚未派发它。在本版本中，在该插槽注册回调不会产生任何效果。
 
@@ -145,7 +145,7 @@ def block_admin(ctx: ToolHookContext) -> HookDecision:
 
 ## 使用 `RequireApproval` 的人在回路
 
-对于需要人在回路的工具调用，请从 `before_tool_call` 钩子中返回 `RequireApproval(...)`。工作流会在 `wait_for_external_event` 处暂停，审批事件会发布到已配置的投递通道；待人工批准或拒绝（或超时自动拒绝）后，工作流恢复执行。
+对于需要人在回路的工具调用，请从 `before_tool_call` 钩子中返回 `RequireApproval(...)`。workflow 会在 `wait_for_external_event` 处暂停，审批事件会发布到已配置的投递通道；待人工批准或拒绝（或超时自动拒绝）后，workflow 恢复执行。
 
 ```python
 def approve_deletions(ctx: ToolHookContext) -> HookDecision:
@@ -196,11 +196,11 @@ agent = DurableAgent(
 
 - `durable_agent_hitl.py` — 通过自动挂载的 `/hitl/approvals` 端点进行 HTTP 轮询
 - `hitl_pubsub.py` — 通过 Dapr pub/sub 与外部订阅服务往返通信
-- `hitl_wf_event.py` — 直接投递工作流事件
+- `hitl_wf_event.py` — 直接投递 workflow 事件
 
 ## LLM 钩子
 
-LLM 钩子在 **`call_llm` 活动**内部触发。该活动正是持久性边界，它使得网页搜索等非确定性操作在工作流重放时依然安全。活动的输出会被工作流记录；重放时会复用已记录的助手消息，而不会重新执行钩子。
+LLM 钩子在 **`call_llm` activity**内部触发。该 activity 正是持久性边界，它使得网页搜索等非确定性操作在 workflow 重放时依然安全。activity 的输出会被 workflow 记录；重放时会复用已记录的助手消息，而不会重新执行钩子。
 
 `before_llm_call` 支持 `Proceed`、`Mutate`、`Skip` 和 `Deny`：
 
@@ -213,7 +213,7 @@ LLM 钩子在 **`call_llm` 活动**内部触发。该活动正是持久性边界
 
 `after_llm_call` 支持通过 `Mutate(payload=<新的 assistant_message 字典>)` 在最终助手消息持久化之前对其进行改写。`Skip`、`Deny` 和 `RequireApproval` 在后置路径上不起作用，因为 LLM 已经产生了输出。
 
-`after_llm_call` 钩子接收两个参数：`LLMHookContext` 和助手消息字典的副本。`ctx.payload` 保存本次调用的 `generate` 关键字参数（经过任何 `before_llm_call` 的 `Mutate` 之后），并且在可用时包含 `response_metadata` 键，其中是提供方返回的响应元数据（参见[读取响应元数据](#读取响应元数据)）。
+`after_llm_call` 钩子接收两个参数：`LLMHookContext` 和助手消息字典的副本。`ctx.payload` 保存本次调用的 `generate` 关键字参数（经过任何 `before_llm_call` 的 `Mutate` 之后），并且在可用时包含 `response_metadata` 键，其中是提供方返回的响应 metadata（参见[读取响应 metadata](#读取响应-metadata)）。
 
 ### 模式：通过钩子实现 RAG
 
@@ -284,7 +284,7 @@ agent = DurableAgent(
 )
 ```
 
-这样，每次 LLM 调用都会获得最新的网页上下文，无论模型自己是否会调用工具。由于钩子运行在 `call_llm` 活动内部，即使经历工作流重放，Tavily 请求也只会在**每个轮次**中发生一次——Dapr Workflow 记录的是活动的输出，而不是钩子的中间状态。
+这样，每次 LLM 调用都会获得最新的网页上下文，无论模型自己是否会调用工具。由于钩子运行在 `call_llm` activity 内部，即使经历 workflow 重放，Tavily 请求也只会在**每个轮次**中发生一次——Dapr Workflow 记录的是 activity 的输出，而不是钩子的中间状态。
 
 ### 改写响应
 
@@ -301,9 +301,9 @@ agent = DurableAgent(
 )
 ```
 
-### 读取响应元数据
+### 读取响应 metadata
 
-`ctx.payload["response_metadata"]` 暴露了 LLM 客户端附加在响应上的元数据，因此 `after_llm_call` 钩子无需包装 LLM 客户端，即可进行逐次调用的统计，例如跟踪 token 用量。它是 `LLMChatResponse.metadata` 字典的副本。其中的键取决于具体客户端：
+`ctx.payload["response_metadata"]` 暴露了 LLM 客户端附加在响应上的 metadata，因此 `after_llm_call` 钩子无需包装 LLM 客户端，即可进行逐次调用的统计，例如跟踪 token 用量。它是 `LLMChatResponse.metadata` 字典的副本。其中的键取决于具体客户端：
 
 | 键 | 说明 |
 |-----|-------------|
@@ -313,12 +313,12 @@ agent = DurableAgent(
 | `usage` | 提供方报告的 token 用量。字段名遵循各提供方的约定：OpenAI 风格的客户端（包括 `DaprChatClient`）报告 `prompt_tokens`、`completion_tokens` 和 `total_tokens`；`AnthropicChatClient` 报告 `input_tokens` 和 `output_tokens`，并在存在时附带提示缓存计数器。当提供方未报告时，`usage` 可能为 `None` 或空字典。 |
 | 提供方特有字段 | 例如 OpenAI 风格客户端的 `object` 和 `created`，或 `AnthropicChatClient` 的 `stop_reason`、`stop_sequence` 和 `raw_content` |
 
-当 payload 中没有可读取元数据的 `LLMChatResponse` 时，`response_metadata` 键**不存在**，常见情况包括：
+当 payload 中没有可读取 metadata 的 `LLMChatResponse` 时，`response_metadata` 键**不存在**，常见情况包括：
 
 - 调用使用了结构化输出（`response_format`），因此客户端返回的是经过验证的 Pydantic 模型。
-- 响应以流式方式返回（分块迭代器）。流式元数据改为随流式分块一起传递。若流式请求回退为常规响应（Dapr 客户端在某些情况下会这样做），则仍会携带 `response_metadata`。
+- 响应以流式方式返回（分块迭代器）。流式 metadata 改为随流式分块一起传递。若流式请求回退为常规响应（Dapr 客户端在某些情况下会这样做），则仍会携带 `response_metadata`。
 - `before_llm_call` 钩子返回了 `Skip` 或 `Deny`，因此从未调用 LLM。
-- 客户端返回的响应元数据为空。
+- 客户端返回的响应 metadata 为空。
 
 请始终使用 `.get(...)` 读取该键，以免钩子在上述情况下失败。这个键不会影响已持久化的助手消息，也不会影响发回模型的聊天历史。
 
@@ -374,10 +374,10 @@ agent = DurableAgent(
 
 | 插槽 | 运行位置 | 确定性规则 | `RequireApproval` |
 |------|---------------|------------------|---------------------|
-| `before_tool_call` | 工作流主体 | 钩子代码必须是确定性的；*工具*在其自身的活动中运行，其中的非确定性会被记录 | 支持 |
-| `before_llm_call`、`after_llm_call` | `call_llm` 活动 | 钩子代码可以执行非确定性工作（网页搜索、随机数）；活动边界会记录助手消息 | 不支持 |
+| `before_tool_call` | workflow 主体 | 钩子代码必须是确定性的；*工具*在其自身的 activity 中运行，其中的非确定性会被记录 | 支持 |
+| `before_llm_call`、`after_llm_call` | `call_llm` activity | 钩子代码可以执行非确定性工作（网页搜索、随机数）；activity 边界会记录助手消息 | 不支持 |
 
-`RequireApproval` 不能用于 LLM 钩子，原因在于：审批要求工作流主体让出控制权，等待 `wait_for_external_event`，而这只有在确定性代码中才行得通。若把 LLM 钩子移回工作流主体，就会阻碍最有用的模式（网页上下文增强），因此我们选择了相反的取舍。若要在 LLM 路径上实现人在回路，请对封装了依赖 LLM 操作的工具调用进行把关，并在那里应用 `RequireApproval`。
+`RequireApproval` 不能用于 LLM 钩子，原因在于：审批要求 workflow 主体让出控制权，等待 `wait_for_external_event`，而这只有在确定性代码中才行得通。若把 LLM 钩子移回 workflow 主体，就会阻碍最有用的模式（网页上下文增强），因此我们选择了相反的取舍。若要在 LLM 路径上实现人在回路，请对封装了依赖 LLM 操作的工具调用进行把关，并在那里应用 `RequireApproval`。
 
 ## 延伸阅读
 

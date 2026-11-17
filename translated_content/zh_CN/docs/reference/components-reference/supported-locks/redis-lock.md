@@ -2,12 +2,12 @@
 type: docs
 title: "Redis"
 linkTitle: "Redis"
-description: Redis 锁组件的详细信息
+description: Redis lock component 的详细信息
 ---
 
-## 组件格式
+## component 格式
 
-要设置 Redis 锁，请创建一个类型为 `lock.redis` 的组件。有关如何创建锁，请参阅[本指南]({{% ref "howto-use-distributed-lock" %}})。
+要设置 Redis 锁，请创建一个类型为 `lock.redis` 的 component。有关如何创建锁，请参阅[本指南]({{% ref "howto-use-distributed-lock" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -76,7 +76,7 @@ spec:
 上面的示例将 secrets 以纯文本字符串的形式使用。建议按[此处]({{% ref component-secrets.md %}})所述，使用 secret store 来管理 secrets。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段                  | 必填 | 详情                                                                                                                                                                                                                                                                                                              | 示例                                                            |
 |-----------------------|:--------:|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------|
@@ -84,7 +84,7 @@ spec:
 | redisPassword         |    N     | Redis 主机的密码。无默认值。可以为 `secretKeyRef`，以使用 secrets 引用                                                                                                                                                                                                                              | `""`, `"KeFg23!"`                                               |
 | redisUsername         |    N     | Redis 主机的用户名。默认为空。请确保 Redis 服务器版本为 6 或更高，并已正确创建 ACL 规则。                                                                                                                                                                               | `""`, `"default"`                                               |
 | useEntraID            |    N     | 为 Azure Cache for Redis 实现 EntraID 支持。启用此功能前：<ul><li>必须以 `"server:port"` 的形式指定 `redisHost` 名称</li><li>必须启用 TLS</li></ul> 在[创建 Redis 实例 > Azure Cache for Redis]({{% ref "#设置-redis" %}})下了解有关此设置的更多信息 | `"true"`, `"false"`                                             |
-| useOIDC               |    N     | 使用 OpenID Connect 与 `private_key_jwt` 客户端身份验证方法（RFC 7523）进行身份验证。从身份提供方获取的 OAuth2 访问令牌会被用作 Redis `AUTH` 命令的密码，并在过期前自动刷新。不得与 `redisPassword` 或 `useEntraID` 同时使用。该组件支持[Redis state store 文档]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}})中记录的全部 `oidc*` 元数据字段。 | `"true"`, `"false"`                                             |
+| useOIDC               |    N     | 使用 OpenID Connect 与 `private_key_jwt` 客户端身份验证方法（RFC 7523）进行身份验证。从身份提供方获取的 OAuth2 访问令牌会被用作 Redis `AUTH` 命令的密码，并在过期前自动刷新。不得与 `redisPassword` 或 `useEntraID` 同时使用。该 component 支持[Redis state store 文档]({{% ref "setup-redis.md#oidc-private_key_jwt-authentication" %}})中记录的全部 `oidc*` metadata 字段。 | `"true"`, `"false"`                                             |
 | enableTLS             |    N     | 如果 Redis 实例支持使用公共证书的 TLS，可以配置为启用或禁用。默认为 `"false"`                                                                                                                                                                                   | `"true"`, `"false"`                                             |
 | insecureSkipTLSVerify |    N     | 当 `enableTLS` 为 `"true"` 时跳过 TLS 证书验证。仅用于测试。默认为 `"false"`                                                                                                                                                                                                       | `"true"`, `"false"`                                             |
 | maxRetries            |    N     | 放弃前的最大重试次数。默认为 `3`                                                                                                                                                                                                                                                       | `5`, `10`                                                       |
@@ -111,7 +111,7 @@ spec:
 
 ## 支持的服务器与版本
 
-Dapr 的 Redis 锁组件已针对以下 Redis 和 Valkey 版本进行过测试：
+Dapr 的 Redis lock component 已针对以下 Redis 和 Valkey 版本进行过测试：
 
 | 服务器 | 版本 |
 |--------|----------|
@@ -138,7 +138,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
     ```
 
 2. 运行 `kubectl get pods`，查看现在集群中运行的 Redis 容器。
-3. 在你的 [redis.yaml](#组件格式) 文件中，将 `redis-master:6379` 添加为 `redisHost`。例如：
+3. 在你的 [redis.yaml](#component-格式) 文件中，将 `redis-master:6379` 添加为 `redisHost`。例如：
     ```yaml
         metadata:
         - name: redisHost
@@ -149,7 +149,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
     - **Linux/MacOS**：运行 `kubectl get secret --namespace default redis -o jsonpath="{.data.redis-password}" | base64 --decode`，并复制输出的密码。
 
-    将该密码添加为 [redis.yaml](#组件格式) 文件中的 `redisPassword` 值。例如：
+    将该密码添加为 [redis.yaml](#component-格式) 文件中的 `redisPassword` 值。例如：
     ```yaml
         metadata:
         - name: redisPassword
@@ -174,7 +174,7 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 
 1. 将密钥和主机名添加到 Dapr 可应用于集群的 `redis.yaml` 文件中。
    - 如果你在运行示例，请将主机和密钥添加到提供的 `redis.yaml` 中。
-   - 如果你从零开始创建项目，请按照[组件格式部分](#组件格式)的说明创建 `redis.yaml` 文件。
+   - 如果你从零开始创建项目，请按照[component 格式部分](#component-格式)的说明创建 `redis.yaml` 文件。
 
 1. 将 `redisHost` 键设置为 `[上一步中的主机名]:6379`，并将 `redisPassword` 键设置为你之前保存的密钥。
 
@@ -211,5 +211,5 @@ Dapr 可以使用任何 Redis 实例：容器化的、在本地开发机器上�
 {{% /alert %}}
 
 ## 相关链接
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [分布式锁构建块]({{% ref distributed-lock-api-overview %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
+- [分布式锁 building block]({{% ref distributed-lock-api-overview %}})

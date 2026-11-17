@@ -2,17 +2,17 @@
 type: docs
 title: "Kafka binding 规范"
 linkTitle: "Kafka"
-description: "Kafka binding 组件的详细文档"
+description: "Kafka binding component 的详细文档"
 aliases:
   - "/zh-hans/operations/components/setup-bindings/supported-bindings/kafka/"
 ---
 
-## 组件格式
+## component 格式
 
-要设置 Kafka binding，请创建一个类型为 `bindings.kafka` 的组件。有关如何创建和应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。有关使用 `secretKeyRef` 的详细信息，请参阅[如何在组件中引用 secrets]({{% ref component-secrets.md %}})指南。
+要设置 Kafka binding，请创建一个类型为 `bindings.kafka` 的 component。有关如何创建和应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。有关使用 `secretKeyRef` 的详细信息，请参阅[如何在 component 中引用 secrets]({{% ref component-secrets.md %}})指南。
 
-所有组件元数据字段值都可以携带[模板化元数据值]({{% ref "component-schema.md#templated-metadata-values" %}})，这些值会在 Dapr 边车启动时解析。
-例如，你可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同的命名空间中使用相同的主题和相同的 `appId`，如[本文]({{% ref "howto-namespace.md#with-namespace-consumer-groups"%}})中所述。
+所有 component metadata 字段值都可以携带[模板化 metadata 值]({{% ref "component-schema.md#templated-metadata-values" %}})，这些值会在 Dapr sidecar 启动时解析。
+例如，你可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同的 namespace 中使用相同的主题和相同的 `appId`，如[本文]({{% ref "howto-namespace.md#with-namespace-consumer-groups"%}})中所述。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -67,7 +67,7 @@ spec:
     value: false
 ```
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段 | 必需 | binding 支持 | 详细说明 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
@@ -75,7 +75,7 @@ spec:
 | `brokers` | Y | 输入/输出 | 以逗号分隔的 Kafka broker 字符串。 | `"localhost:9092,dapr-kafka.myapp.svc.cluster.local:9093"` |
 | `clientID`            | N | 输入/输出 | 随每个请求发送到 Kafka broker 的用户自定义字符串，用于日志记录、调试和审计。 | `"my-dapr-app"` |
 | `consumerGroup` | N | 输入 | 用于监听的 Kafka 消费者组。发布到某个主题的每条记录，都会被投递给订阅该主题的每个消费者组中的一个消费者。 | `"group1"` |
-| `consumeRetryEnabled` | N | 输入/输出 | 设为 `"true"` 以启用消费重试。在 Kafka binding 组件中默认为 `false`。 | `"true"`, `"false"` |
+| `consumeRetryEnabled` | N | 输入/输出 | 设为 `"true"` 以启用消费重试。在 Kafka binding component 中默认为 `false`。 | `"true"`, `"false"` |
 | `publishTopic` | Y | 输出 | 要发布到的主题。 | `"mytopic"` |
 | `authRequired` | N | *已弃用* | 启用与 Kafka broker 之间的 [SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) 身份验证。 | `"true"`, `"false"` |
 | `authType`            | Y | 输入/输出 | 配置或禁用身份验证。支持的值：`none`、`password`、`mtls`、`oidc` 或 `oidc_private_key_jwt` | `"password"`, `"none"` |
@@ -101,7 +101,7 @@ spec:
 | `schemaRegistryAPISecret` | N | 使用 Schema Registry Avro 序列化/反序列化时。Schema Registry 凭证 API Secret。 | `ABCDEFGMEADFF` |
 | `schemaCachingEnabled` | N | 使用 Schema Registry Avro 序列化/反序列化时。启用 schema 缓存。默认为 `true` | `true` |
 | `schemaLatestVersionCacheTTL` | N | 使用 Schema Registry Avro 序列化/反序列化时。使用可用的最新 schema 发布消息时，schema 缓存的 TTL。默认为 5 分钟 | `5m` |
-| `clientConnectionTopicMetadataRefreshInterval` | N | 输入/输出 | 客户端连接与 broker 之间刷新主题元数据的间隔，以 Go duration 表示。默认为 `9m`。 | `"4m"` |
+| `clientConnectionTopicMetadataRefreshInterval` | N | 输入/输出 | 客户端连接与 broker 之间刷新主题 metadata 的间隔，以 Go duration 表示。默认为 `9m`。 | `"4m"` |
 | `clientConnectionKeepAliveInterval` | N | 输入/输出 | 客户端连接与 broker 保持存活的最长时间（以 Go duration 表示），超过后关闭连接。零值（默认）表示无限期保持连接。 | `"4m"` |
 | `consumerFetchDefault` | N | 输入/输出 | 每次请求从 broker 获取的默认消息字节数。默认为 `"1048576"` 字节。 | `"2097152"` |
 | `heartbeatInterval` | N | 输入 | 向消费者协调器发送心跳的间隔。该值至多应设为 `sessionTimeout` 值的 1/3。默认为 `"3s"`。 | `"5s"` |
@@ -110,32 +110,32 @@ spec:
 | `dialTimeout` | N | 输入/输出 | 等待与 broker 建立初始 TCP 连接的最长时间。它限制了在无法连接的集群上 `Init()` 的阻塞时长。默认为 `"30s"`。 | `"10s"` |
 | `readTimeout` | N | 输入/输出 | 等待 broker 响应的最长时间。默认为 `"30s"`。 | `"10s"` |
 | `writeTimeout` | N | 输入/输出 | 等待请求发送到 broker 的最长时间。默认为 `"30s"`。 | `"10s"` |
-| `metadataTimeout` | N | 输入/输出 | 元数据刷新操作的单次请求超时。为 `"0"`（默认）时，Sarama 会根据 Net 超时与重试次数计算实际超时。 | `"5s"` |
+| `metadataTimeout` | N | 输入/输出 | metadata 刷新操作的单次请求超时。为 `"0"`（默认）时，Sarama 会根据 Net 超时与重试次数计算实际超时。 | `"5s"` |
 | `producerRequiredAcks` | N | 输出 | 生产请求被视为成功前所需的 broker 确认数。可接受的值：`"all"`（所有同步副本，持久性最高）、`"local"`（仅分区 leader）、`"none"`（不需要确认）。默认为 `"all"`。 | `"local"` |
 | `producerRetryMax` | N | 输出 | 放弃之前重试发送消息的最大次数。默认为 `5`。 | `3` |
 | `producerTransactionsEnabled` | N | 输出 | 设为 `"true"` 时，每次发布都会包装在使用幂等生产者的 Kafka 事务中：中止的发布对使用 `read_committed` 读取的消费者永远不可见。需要 `producerRequiredAcks: "all"`、`producerRetryMax` >= 1 以及 Kafka 0.11 或更高版本。事务会使发布串行执行并增加 broker 往返，从而降低发布吞吐量。默认为 `"false"` | `"true"`, `"false"` |
 | `transactionalIdPrefix` | N | 输出 | 当 `producerTransactionsEnabled` 为 `"true"` 时，生产者 `transactional.id` 的前缀。会追加每个实例各自随机的后缀，使扩容后的副本永远不会互相使对方的事务失效。默认依次取 `clientID`、`consumerGroup`，最后为 `"dapr"`。 | `"my-app"` |
-| `transactionTimeout` | N | 输出 | 当 `producerTransactionsEnabled` 为 `"true"` 时，向 broker 请求的事务超时时间，以 Go duration 表示。不得超过 broker 的 `transaction.max.timeout.ms`（默认为 15 分钟）：broker 在生产者初始化时会拒绝更大的值；而该生产者是在组件初始化时构建的，因此组件会启动失败。默认为 `"60s"` | `"90s"` |
+| `transactionTimeout` | N | 输出 | 当 `producerTransactionsEnabled` 为 `"true"` 时，向 broker 请求的事务超时时间，以 Go duration 表示。不得超过 broker 的 `transaction.max.timeout.ms`（默认为 15 分钟）：broker 在生产者初始化时会拒绝更大的值；而该生产者是在 component 初始化时构建的，因此 component 会启动失败。默认为 `"60s"` | `"90s"` |
 | `consumerIsolationLevel` | N | 输入 | 消费者的隔离级别。`"read_uncommitted"`（默认）会投递所有记录；`"read_committed"` 会隐藏属于未提交或已中止 Kafka 事务的记录，且需要 Kafka 0.11 或更高版本。 | `"read_committed"` |
 
 #### 注意
-使用 Azure EventHubs with Kafka 时，元数据 `version` 必须设为 `1.0.0`。
+使用 Azure EventHubs with Kafka 时，metadata `version` 必须设为 `1.0.0`。
 
 {{% alert title="消费者事务仅适用于 pubsub" color="info" %}}
-Kafka binding 不支持 `consumerTransactionsEnabled`，将其设为 `"true"` 会在初始化时失败。精确一次的"消费-转换-生产"要求交付的事务令牌通过同一个组件实例回传，而 binding 模型（input binding 与 output binding 是各自独立的实例）无法提供这一点。请改用 [Kafka pub/sub 组件]({{% ref setup-apache-kafka.md %}})。
+Kafka binding 不支持 `consumerTransactionsEnabled`，将其设为 `"true"` 会在初始化时失败。精确一次的"消费-转换-生产"要求交付的事务令牌通过同一个 component 实例回传，而 binding 模型（input binding 与 output binding 是各自独立的实例）无法提供这一点。请改用 [Kafka pub/sub component]({{% ref setup-apache-kafka.md %}})。
 {{% /alert %}}
 
 ## binding 支持
 
-此组件同时支持**输入和输出** binding 接口。
+此 component 同时支持**输入和输出** binding 接口。
 
-此组件支持以下操作的 **output binding**：
+此 component 支持以下操作的 **output binding**：
 
 - `create`
 
 ## 身份验证
 
-Kafka 支持多种身份验证方案，Dapr 支持其中几种：SASL 密码、mTLS、OIDC/OAuth2。[了解 Kafka binding 与 Kafka pub/sub 组件共用的 Kafka 身份验证方法]({{% ref "setup-apache-kafka.md#authentication" %}})。
+Kafka 支持多种身份验证方案，Dapr 支持其中几种：SASL 密码、mTLS、OIDC/OAuth2。[了解 Kafka binding 与 Kafka pub/sub component 共用的 Kafka 身份验证方法]({{% ref "setup-apache-kafka.md#authentication" %}})。
 
 ## 指定分区键
 
@@ -165,8 +165,8 @@ curl -X POST http://localhost:3500/v1.0/bindings/myKafka \
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [binding 构建块]({{% ref bindings %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
+- [binding building block]({{% ref bindings %}})
 - [如何操作：使用 input binding 触发应用]({{% ref howto-triggers.md %}})
 - [如何操作：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
 - [binding API 参考]({{% ref bindings_api.md %}})

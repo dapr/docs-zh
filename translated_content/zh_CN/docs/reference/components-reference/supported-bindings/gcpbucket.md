@@ -2,14 +2,14 @@
 type: docs
 title: "GCP Storage Bucket binding 规范"
 linkTitle: "GCP Storage Bucket"
-description: "GCP Storage Bucket binding 组件的详细文档"
+description: "GCP Storage Bucket binding component 的详细文档"
 aliases:
   - "/zh-hans/operations/components/setup-bindings/supported-bindings/gcpbucket/"
 ---
 
-## 组件格式
+## component 格式
 
-要设置 GCP Storage Bucket binding，请创建类型为 `bindings.gcp.bucket` 的组件。有关如何创建和应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
+要设置 GCP Storage Bucket binding，请创建类型为 `bindings.gcp.bucket` 的 component。有关如何创建和应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
 
 
 ```yaml
@@ -55,36 +55,36 @@ spec:
 上述示例将 secrets 作为纯文本字符串使用。建议使用 secret store 来保存 secrets，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
-## 规范元数据字段
+## 规范 metadata 字段
 
 | 字段              | 必需 | binding 支持 |  详细说明 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
 | `bucket` | Y | 输出 | bucket 名称 | `"mybucket"` |
 | `project_id`     | Y | 输出 | GCP 项目 ID | `projectId` |
 | `type` | N | 输出 | GCP 凭据类型 | `"service_account"` |
-| `private_key_id` | N | 输出 | 如果使用显式凭据，此字段应包含服务账号 JSON 文档中的 `private_key_id` 字段 | `"privateKeyId"` |
-| `private_key`    | N | 输出 | 如果使用显式凭据，此字段应包含服务账号 JSON 中的 `private_key` 字段。替换为 x509 证书 | `12345-12345` |
-| `client_email`   | N | 输出 | 如果使用显式凭据，此字段应包含服务账号 JSON 中的 `client_email` 字段  | `"client@email.com"` |
-| `client_id`      | N |  输出 | 如果使用显式凭据，此字段应包含服务账号 JSON 中的 `client_id` 字段 | `0123456789-0123456789` |
-| `auth_uri`       | N | 输出 | 如果使用显式凭据，此字段应包含服务账号 JSON 中的 `auth_uri` 字段 | `https://accounts.google.com/o/oauth2/auth` |
-| `token_uri`      | N | 输出 | 如果使用显式凭据，此字段应包含服务账号 JSON 中的 `token_uri` 字段 | `https://oauth2.googleapis.com/token`|
-| `auth_provider_x509_cert_url` | N | 输出 | 如果使用显式凭据，此字段应包含服务账号 JSON 中的 `auth_provider_x509_cert_url` 字段 | `https://www.googleapis.com/oauth2/v1/certs`|
-| `client_x509_cert_url` | N | 输出 | 如果使用显式凭据，此字段应包含服务账号 JSON 中的 `client_x509_cert_url` 字段 | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com`|
+| `private_key_id` | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 文档中的 `private_key_id` 字段 | `"privateKeyId"` |
+| `private_key`    | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 中的 `private_key` 字段。替换为 x509 证书 | `12345-12345` |
+| `client_email`   | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 中的 `client_email` 字段  | `"client@email.com"` |
+| `client_id`      | N |  输出 | 如果使用显式凭据，此字段应包含 service account JSON 中的 `client_id` 字段 | `0123456789-0123456789` |
+| `auth_uri`       | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 中的 `auth_uri` 字段 | `https://accounts.google.com/o/oauth2/auth` |
+| `token_uri`      | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 中的 `token_uri` 字段 | `https://oauth2.googleapis.com/token`|
+| `auth_provider_x509_cert_url` | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 中的 `auth_provider_x509_cert_url` 字段 | `https://www.googleapis.com/oauth2/v1/certs`|
+| `client_x509_cert_url` | N | 输出 | 如果使用显式凭据，此字段应包含 service account JSON 中的 `client_x509_cert_url` 字段 | `https://www.googleapis.com/robot/v1/metadata/x509/<PROJECT_NAME>.iam.gserviceaccount.com`|
 | `decodeBase64` | N | 输出 | 在保存到 bucket 存储之前解码 base64 文件内容的配置（用于保存二进制内容的文件）。`true` 是唯一允许的肯定值，其他肯定变体如 `"True", "1"` 不可接受。默认为 `false` | `true`, `false` |
 | `encodeBase64` | N | 输出 | 在返回内容之前编码 base64 文件内容的配置（用于打开二进制内容的文件）。`true` 是唯一允许的肯定值，其他肯定变体如 `"True", "1"` 不可接受。默认为 `false` | `true`, `false` |
 | `contentType` | N | 输出 | 为 bucket 中创建的对象设置的 MIME 类型。如果未指定，GCP 会尝试自动检测内容类型。 | `"text/csv"`, `"application/json"`, `"image/png"` |
-| `signTTL` | N | 输出 | `sign` 操作生成的签名 URL 的有效期（TTL）。接受任何 Go 时长字符串（例如 `"15m"`、`"1h"`）。可在每个请求的元数据中覆盖。 | `"15m"`, `"1h"` |
+| `signTTL` | N | 输出 | `sign` 操作生成的签名 URL 的有效期（TTL）。接受任何 Go 时长字符串（例如 `"15m"`、`"1h"`）。可在每个请求的 metadata 中覆盖。 | `"15m"`, `"1h"` |
 
 ## GCP 凭据
 
-由于 GCP Storage Bucket 组件使用 GCP Go 客户端库，默认情况下它使用 **Application Default Credentials** 进行身份验证。这在 [Authenticate to GCP Cloud services using client libraries](https://cloud.google.com/docs/authentication/client-libraries) 指南中有进一步说明。
+由于 GCP Storage Bucket component 使用 GCP Go 客户端库，默认情况下它使用 **Application Default Credentials** 进行身份验证。这在 [Authenticate to GCP Cloud services using client libraries](https://cloud.google.com/docs/authentication/client-libraries) 指南中有进一步说明。
 此外，请参阅如何[设置 Application Default Credentials](https://cloud.google.com/docs/authentication/provide-credentials-adc)。
 
-> **注意：** `name` 元数据键为向后兼容而保留，会被映射到 `key`。新应用应使用 `key`。
+> **注意：** `name` metadata 键为向后兼容而保留，会被映射到 `key`。新应用应使用 `key`。
 
 ## binding 支持
 
-此组件支持以下操作的**output binding**：
+此 component 支持以下操作的**output binding**：
 
 - `create` : [创建文件](#创建文件)
 - `get` : [获取对象](#获取对象)
@@ -101,7 +101,7 @@ spec:
 
 要执行 create 操作，请使用 `POST` 方法调用 GCP Storage Bucket binding，并提供以下 JSON 请求体：
 
-> 注意：默认情况下会生成一个随机 UUID。关于使用元数据设置名称，请参见下文。
+> 注意：默认情况下会生成一个随机 UUID。关于使用 metadata 设置名称，请参见下文。
 
 ```json
 {
@@ -109,7 +109,7 @@ spec:
   "data": "YOUR_CONTENT"
 }
 ```
-元数据参数包括：
+metadata 参数包括：
 - `key` - （可选）对象的名称
 - `decodeBase64` - （可选）在保存到存储之前解码 base64 文件内容的配置
 - `contentType` - （可选）正在创建的对象的 MIME 类型
@@ -220,7 +220,7 @@ spec:
 }
 ```
 
-元数据参数包括：
+metadata 参数包括：
 
 - `key` - 对象的名称
 - `encodeBase64` - （可选）在返回内容之前编码 base64 文件内容的配置。
@@ -259,7 +259,7 @@ spec:
 }
 ```
 
-元数据参数包括：
+metadata 参数包括：
 
 - `encodeBase64` - （可选）在返回所有文件的内容之前编码 base64 文件内容的配置
 
@@ -314,7 +314,7 @@ spec:
 数组中的每个对象包含：
 - `name`：文件名
 - `data`：文件内容
-- `attrs`：来自 GCP Storage 的对象属性，包括创建时间、大小、内容类型等元数据
+- `attrs`：来自 GCP Storage 的对象属性，包括创建时间、大小、内容类型等 metadata
 
 ### 删除对象
 
@@ -329,7 +329,7 @@ spec:
 }
 ```
 
-元数据参数包括：
+metadata 参数包括：
 
 - `key` - 对象的名称
 
@@ -438,18 +438,18 @@ spec:
 }
 ```
 
-元数据参数包括：
+metadata 参数包括：
 
 - `key` - 源对象的名称（必需）
 
 数据参数包括：
 
-- `destinationBucket` - （可选）目标 bucket 的名称。省略时默认为组件配置的 `bucket`。
+- `destinationBucket` - （可选）目标 bucket 的名称。省略时默认为 component 配置的 `bucket`。
 - `destinationKey` - （可选）目标对象的键（名称）。省略时默认为源 `key`。
 
 > **注意：** `destinationBucket` 和 `destinationKey` 至少须提供一个，两者都省略会导致错误。
 
-复制操作在服务器端完成，并保留对象的内容类型、元数据和 ACL。
+复制操作在服务器端完成，并保留对象的内容类型、metadata 和 ACL。
 
 #### 示例
 
@@ -492,18 +492,18 @@ spec:
 }
 ```
 
-元数据参数包括：
+metadata 参数包括：
 
 - `key` - 源对象的名称（必需）
 
 数据参数包括：
 
-- `destinationBucket` - （可选）目标 bucket 的名称。省略时默认为组件配置的 `bucket`。
+- `destinationBucket` - （可选）目标 bucket 的名称。省略时默认为 component 配置的 `bucket`。
 - `destinationKey` - （可选）目标对象的键（名称）。省略时默认为源 `key`。
 
 > **注意：** `destinationBucket` 和 `destinationKey` 至少须提供一个，两者都省略会导致错误。
 
-移动操作在服务器端先复制对象，然后删除源对象。内容类型、元数据和 ACL 会被保留。
+移动操作在服务器端先复制对象，然后删除源对象。内容类型、metadata 和 ACL 会被保留。
 
 #### 示例
 
@@ -545,7 +545,7 @@ spec:
 }
 ```
 
-元数据参数包括：
+metadata 参数包括：
 
 - `key` - 对象的当前名称（必需）
 
@@ -567,10 +567,10 @@ spec:
 }
 ```
 
-元数据参数包括：
+metadata 参数包括：
 
 - `key` - 对象的名称（必需）
-- `signTTL` - （可选）签名 URL 的有效期。接受任何 Go 时长字符串（例如 `"15m"`、`"1h"`）。未指定时默认为组件配置的 `signTTL`。
+- `signTTL` - （可选）签名 URL 的有效期。接受任何 Go 时长字符串（例如 `"15m"`、`"1h"`）。未指定时默认为 component 配置的 `signTTL`。
 
 #### 响应
 
@@ -584,8 +584,8 @@ spec:
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [binding 构建块]({{% ref bindings %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
+- [binding building block]({{% ref bindings %}})
 - [操作方法：使用 input binding 触发应用程序]({{% ref howto-triggers.md %}})
 - [操作方法：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
 - [binding API 参考]({{% ref bindings_api.md %}})

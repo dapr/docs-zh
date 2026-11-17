@@ -1,13 +1,13 @@
 ---
 type: docs
-title: "Zeebe command 绑定规范"
+title: "Zeebe command binding 规范"
 linkTitle: "Zeebe command"
-description: "Zeebe command 绑定组件的详细文档"
+description: "Zeebe command binding component 的详细文档"
 ---
 
-## 组件格式
+## component 格式
 
-要设置 Zeebe command 绑定，请创建类型为 `bindings.zeebe.command` 的组件。请参阅[此指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
+要设置 Zeebe command binding，请创建类型为 `bindings.zeebe.command` 的 component。请参阅[此指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用 binding 配置。
 
 请参阅[此处](https://docs.camunda.io/docs/components/zeebe/zeebe-overview/)获取 Zeebe 文档。
 
@@ -44,7 +44,7 @@ spec:
 
 ## 规范元数据字段
 
-| 字段                   | 必填 | 绑定支持 |  详情 | 示例 |
+| 字段                   | 必填 | binding 支持 |  详情 | 示例 |
 |-------------------------|:--------:|------------|-----|---------|
 | `gatewayAddr`             | Y | 输出 | Zeebe gateway 地址 | `"localhost:26500"` |
 | `gatewayKeepAlive`        | N | 输出 | 设置向 gateway 发送保活消息的频率。默认为 45 秒 | `"45s"` |
@@ -62,12 +62,12 @@ OAuth 是可选的。如果设置了任何 OAuth 元数据字段，则以下字�
 ### OAuth 缓存路径说明
 
 - `clientConfigPath` 指向 Zeebe 客户端使用的 OAuth 凭据缓存文件。
-- Dapr 边车必须对该文件路径具有写权限。
+- Dapr sidecar 必须对该文件路径具有写权限。
 - 若要在重启之间保留缓存的凭据，请使用持久化的挂载路径。
 
-## 绑定支持
+## binding 支持
 
-此组件支持以下操作的**输出绑定**：
+此 component 支持以下操作的 **output binding**：
 
 - `topology`
 - `deploy-process`
@@ -83,19 +83,19 @@ OAuth 是可选的。如果设置了任何 OAuth 元数据字段，则以下字�
 - `update-job-retries`
 - `throw-error`
 
-### 输出绑定
+### output binding
 
-Zeebe 在底层使用 gRPC，作为本绑定所使用的 Zeebe 客户端的基础。更多信息请参阅 [gRPC API 参考](https://docs.camunda.io/docs/apis-clients/grpc/)。
+Zeebe 在底层使用 gRPC，作为本 binding 所使用的 Zeebe 客户端的基础。更多信息请参阅 [gRPC API 参考](https://docs.camunda.io/docs/apis-clients/grpc/)。
 
 {{% alert title="时长格式" color="primary" %}}
-Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符串（例如 `"30s"`、`"5m"`、`"1h30m"`）指定。不支持 ISO-8601 时长（例如 `"PT1M"`），使用此类值会导致时长解析错误。
+Zeebe command binding 所有操作中的时长字段都必须以 Go 时长字符串（例如 `"30s"`、`"5m"`、`"1h30m"`）指定。不支持 ISO-8601 时长（例如 `"PT1M"`），使用此类值会导致时长解析错误。
 {{% /alert %}}
 
 #### topology
 
 `topology` 操作获取 gateway 所属集群的当前拓扑结构。
 
-要执行 `topology` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `topology` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -106,7 +106,7 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 ##### 响应
 
-绑定返回以下 JSON 响应：
+binding 返回以下 JSON 响应：
 
 ```json
 {
@@ -157,7 +157,7 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 `deploy-resource` 操作向 Zeebe 部署单个资源。资源可以是流程（BPMN），也可以是决策和决策需求（DMN）。
 
-要执行 `deploy-resource` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `deploy-resource` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -175,7 +175,7 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 ##### 响应
 
-绑定返回以下 JSON 响应：
+binding 返回以下 JSON 响应：
 
 {{< tabpane text=true >}}
 
@@ -272,7 +272,7 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 更多信息请访问[官方文档](https://docs.camunda.io/docs/components/concepts/process-instance-creation/)。
 
-要执行 `create-instance` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `create-instance` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 {{< tabpane text=true >}}
 
@@ -348,7 +348,7 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 ##### 响应
 
-绑定返回以下 JSON 响应：
+binding 返回以下 JSON 响应：
 
 ```json
 {
@@ -372,7 +372,7 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 `cancel-instance` 操作取消正在运行的流程实例。
 
-要执行 `cancel-instance` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `cancel-instance` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -389,13 +389,13 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 ##### 响应
 
-绑定不返回响应正文。
+binding 不返回响应正文。
 
 #### set-variables
 
 `set-variables` 操作为元素实例（例如流程实例、流元素实例）创建或更新变量。
 
-要执行 `set-variables` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `set-variables` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -419,7 +419,7 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 ##### 响应
 
-绑定返回以下 JSON 响应：
+binding 返回以下 JSON 响应：
 
 ```json
 {
@@ -435,7 +435,7 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 `resolve-incident` 操作解决一个事件（incident）。
 
-要执行 `resolve-incident` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `resolve-incident` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -452,13 +452,13 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 ##### 响应
 
-绑定不返回响应正文。
+binding 不返回响应正文。
 
 #### publish-message
 
 `publish-message` 操作发布单个消息。消息会发布到根据其关联键计算出的特定分区。
 
-要执行 `publish-message` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `publish-message` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -486,7 +486,7 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 ##### 响应
 
-绑定返回以下 JSON 响应：
+binding 返回以下 JSON 响应：
 
 ```json
 {
@@ -500,9 +500,9 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 #### activate-jobs
 
-`activate-jobs` 操作以轮询方式遍历所有已知分区，激活至多达到请求最大数量的作业，并在作业被激活时将其流式返回给客户端。
+`activate-jobs` 操作以轮询方式遍历所有已知分区，激活至多达到请求最大数量的 job，并在 job 被激活时将其流式返回给客户端。
 
-要执行 `activate-jobs` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `activate-jobs` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -524,16 +524,16 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 数据参数如下：
 
-- `jobType` - 作业类型，在 BPMN 流程中定义（例如 `<zeebe:taskDefinition type="fetch-products" />`）
-- `maxJobsToActivate` - 此请求最多激活的作业数
-- `timeout` - （可选，默认：5 分钟）此调用返回的作业在超时之前不会被其他调用激活。必须为 Go 时长字符串（例如 `"5m"`、`"30s"`、`"1h30m"`）
-- `workerName` - （可选，默认：`default`）激活作业的工作程序名称，主要用于日志记录
-- `fetchVariables` - （可选）要作为作业变量获取的变量列表；若为空，则返回激活时作业所在作用域的所有可见变量
-- `requestTimeout` - （可选）请求会在至少激活一个作业时完成，或在 `requestTimeout` 到期后完成。必须为 Go 时长字符串（例如 `"30s"`、`"5m"`、`"1h30m"`）。若 `requestTimeout` 为 `"0"`，则使用默认超时。若 `requestTimeout` 为负的时长（例如 `"-1s"`），则禁用长轮询，请求会立即完成，即使没有激活任何作业
+- `jobType` - job 类型，在 BPMN 流程中定义（例如 `<zeebe:taskDefinition type="fetch-products" />`）
+- `maxJobsToActivate` - 此请求最多激活的 job 数
+- `timeout` - （可选，默认：5 分钟）此调用返回的 job 在超时之前不会被其他调用激活。必须为 Go 时长字符串（例如 `"5m"`、`"30s"`、`"1h30m"`）
+- `workerName` - （可选，默认：`default`）激活 job 的工作程序名称，主要用于日志记录
+- `fetchVariables` - （可选）要作为 job 变量获取的变量列表；若为空，则返回激活时 job 所在作用域的所有可见变量
+- `requestTimeout` - （可选）请求会在至少激活一个 job 时完成，或在 `requestTimeout` 到期后完成。必须为 Go 时长字符串（例如 `"30s"`、`"5m"`、`"1h30m"`）。若 `requestTimeout` 为 `"0"`，则使用默认超时。若 `requestTimeout` 为负的时长（例如 `"-1s"`），则禁用长轮询，请求会立即完成，即使没有激活任何 job
 
 ##### 响应
 
-绑定返回以下 JSON 响应：
+binding 返回以下 JSON 响应：
 
 ```json
 [
@@ -557,25 +557,25 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 响应值如下：
 
-- `key` - 作业的唯一标识符
-- `type` - 作业类型（应与请求的类型一致）
-- `processInstanceKey` - 作业所属的流程实例键
-- `bpmnProcessId` - 作业所属流程定义的 BPMN 流程 ID
-- `processDefinitionVersion` - 作业所属流程定义的版本
-- `processDefinitionKey` - 作业所属流程定义的键
+- `key` - job 的唯一标识符
+- `type` - job 类型（应与请求的类型一致）
+- `processInstanceKey` - job 所属的流程实例键
+- `bpmnProcessId` - job 所属流程定义的 BPMN 流程 ID
+- `processDefinitionVersion` - job 所属流程定义的版本
+- `processDefinitionKey` - job 所属流程定义的键
 - `elementId` - 关联的任务元素 ID
 - `elementInstanceKey` - 标识关联任务的唯一键，在流程实例作用域内唯一
 - `customHeaders` - 建模时定义的一组自定义标头；以序列化的 JSON 文档形式返回
-- `worker` - 激活此作业的工作程序名称
-- `retries` - 此作业剩余的重试次数（应始终为正数）
-- `deadline` - 作业可以再次被激活的时间，以 UNIX 纪元时间戳形式发送
+- `worker` - 激活此 job 的工作程序名称
+- `retries` - 此 job 剩余的重试次数（应始终为正数）
+- `deadline` - job 可以再次被激活的时间，以 UNIX 纪元时间戳形式发送
 - `variables` - 在激活时计算得出，由任务作用域内的所有可见变量组成；以序列化的 JSON 文档形式返回
 
 #### complete-job
 
-`complete-job` 操作使用给定的载荷完成一个作业，从而完成关联的服务任务。
+`complete-job` 操作使用给定的载荷完成一个 job，从而完成关联的服务任务。
 
-要执行 `complete-job` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `complete-job` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -593,18 +593,18 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 数据参数如下：
 
-- `jobKey` - 唯一的作业标识符，从 activate-jobs 响应中获得
+- `jobKey` - 唯一的 job 标识符，从 activate-jobs 响应中获得
 - `variables` - （可选）表示当前任务作用域中变量的 JSON 文档
 
 ##### 响应
 
-绑定不返回响应正文。
+binding 不返回响应正文。
 
 #### fail-job
 
-`fail-job` 操作将作业标记为失败。如果 retries 参数为正数，则作业会立即可再次被激活，工作程序可以再次尝试处理它。但如果为零或负数，则会引发一个事件（incident），并以给定的 errorMessage 作为标记，并且在该事件解决之前，作业无法被激活。
+`fail-job` 操作将 job 标记为失败。如果 retries 参数为正数，则 job 会立即可再次被激活，工作程序可以再次尝试处理它。但如果为零或负数，则会引发一个事件（incident），并以给定的 errorMessage 作为标记，并且在该事件解决之前，job 无法被激活。
 
-要执行 `fail-job` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `fail-job` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -625,21 +625,21 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 数据参数如下：
 
-- `jobKey` - 唯一的作业标识符，在激活作业时获得
-- `retries` - 作业应剩余的重试次数
-- `errorMessage` - （可选）描述作业失败原因的消息。当作业耗尽重试次数并引发事件时，这一消息尤其有用，因为它可以帮助解释事件被引发的原因
+- `jobKey` - 唯一的 job 标识符，在激活 job 时获得
+- `retries` - job 应剩余的重试次数
+- `errorMessage` - （可选）描述 job 失败原因的消息。当 job 耗尽重试次数并引发事件时，这一消息尤其有用，因为它可以帮助解释事件被引发的原因
 - `retryBackOff` - （可选）下一次重试之前的退避时长。必须为 Go 时长字符串（例如 `"30s"`、`"5m"`、`"1h30m"`）
-- `variables` - （可选）JSON 文档，用于在作业所关联任务的本地作用域中实例化变量；它必须是 JSON 对象，因为变量以键值方式映射。例如，{ "a": 1, "b": 2 } 会创建两个变量，分别命名为 "a" 和 "b"，并带有对应的值。[{ "a": 1, "b": 2 }] 则不是有效参数，因为 JSON 文档的根是数组而不是对象。
+- `variables` - （可选）JSON 文档，用于在 job 所关联任务的本地作用域中实例化变量；它必须是 JSON 对象，因为变量以键值方式映射。例如，{ "a": 1, "b": 2 } 会创建两个变量，分别命名为 "a" 和 "b"，并带有对应的值。[{ "a": 1, "b": 2 }] 则不是有效参数，因为 JSON 文档的根是数组而不是对象。
 
 ##### 响应
 
-绑定不返回响应正文。
+binding 不返回响应正文。
 
 #### update-job-retries
 
-`update-job-retries` 操作更新作业剩余的重试次数。这对于已耗尽重试次数的作业最为有用，前提是底层问题已经解决。
+`update-job-retries` 操作更新 job 剩余的重试次数。这对于已耗尽重试次数的 job 最为有用，前提是底层问题已经解决。
 
-要执行 `update-job-retries` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `update-job-retries` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -653,18 +653,18 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 数据参数如下：
 
-- `jobKey` - 唯一的作业标识符，通过 activate-jobs 操作获得
-- `retries` - 作业新的重试次数；必须为正数
+- `jobKey` - 唯一的 job 标识符，通过 activate-jobs 操作获得
+- `retries` - job 新的重试次数；必须为正数
 
 ##### 响应
 
-绑定不返回响应正文。
+binding 不返回响应正文。
 
 #### throw-error
 
-`throw-error` 操作抛出一个错误，表示在处理作业时发生了业务错误。错误由错误代码标识，并由流程中具有相同错误代码的错误捕获事件处理。
+`throw-error` 操作抛出一个错误，表示在处理 job 时发生了业务错误。错误由错误代码标识，并由流程中具有相同错误代码的错误捕获事件处理。
 
-要执行 `throw-error` 操作，请使用 `POST` 方法调用 Zeebe command 绑定，并使用以下 JSON 请求体：
+要执行 `throw-error` 操作，请使用 `POST` 方法调用 Zeebe command binding，并使用以下 JSON 请求体：
 
 ```json
 {
@@ -684,19 +684,19 @@ Zeebe command 绑定所有操作中的时长字段都必须以 Go 时长字符�
 
 数据参数如下：
 
-- `jobKey` - 唯一的作业标识符，在激活作业时获得
+- `jobKey` - 唯一的 job 标识符，在激活 job 时获得
 - `errorCode` - 将与错误捕获事件匹配的错误代码
 - `errorMessage` - （可选）提供额外上下文的错误消息
-- `variables` - （可选）JSON 文档，用于在作业所关联任务的本地作用域中实例化变量；它必须是 JSON 对象，因为变量以键值方式映射。例如，{ "a": 1, "b": 2 } 会创建两个变量，分别命名为 "a" 和 "b"，并带有对应的值。[{ "a": 1, "b": 2 }] 则不是有效参数，因为 JSON 文档的根是数组而不是对象。
+- `variables` - （可选）JSON 文档，用于在 job 所关联任务的本地作用域中实例化变量；它必须是 JSON 对象，因为变量以键值方式映射。例如，{ "a": 1, "b": 2 } 会创建两个变量，分别命名为 "a" 和 "b"，并带有对应的值。[{ "a": 1, "b": 2 }] 则不是有效参数，因为 JSON 文档的根是数组而不是对象。
 
 ##### 响应
 
-绑定不返回响应正文。
+binding 不返回响应正文。
 
 ## 相关链接
 
-- [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [绑定构建块]({{% ref bindings %}})
-- [如何：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
-- [如何：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
-- [绑定 API 参考]({{% ref bindings_api.md %}})
+- [Dapr component 的基本架构]({{% ref component-schema %}})
+- [binding building block]({{% ref bindings %}})
+- [如何：使用 input binding 触发应用程序]({{% ref howto-triggers.md %}})
+- [如何：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
+- [binding API 参考]({{% ref bindings_api.md %}})

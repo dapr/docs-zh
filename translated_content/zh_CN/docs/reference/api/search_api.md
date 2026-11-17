@@ -1,16 +1,16 @@
 ---
 type: docs
-title: "搜索 API 参考"
-linkTitle: "搜索 API"
-description: "搜索 API 的详细文档"
+title: "Search API 参考"
+linkTitle: "Search API"
+description: "Search API 的详细文档"
 weight: 1250
 ---
 
-{{% alert title="Alpha 阶段" color="primary" %}}
-搜索 API 目前处于 [Alpha 阶段]({{% ref "certification-lifecycle.md#certification-levels" %}})。
+{{% alert title="alpha" color="primary" %}}
+Search API 目前处于 [alpha]({{% ref "certification-lifecycle.md#certification-levels" %}})。
 {{% /alert %}}
 
-Dapr 提供了一组 API，用于管理索引，并在词法（全文）搜索引擎中索引、检索、删除和查询文档。有关概念与功能的概述，请参阅[搜索 API 概述]({{% ref search-overview %}})。
+Dapr 提供了一组 API，用于管理索引，并在词法（全文）搜索引擎中索引、检索、删除和查询文档。有关概念与功能的概述，请参阅[Search API 概述]({{% ref search-overview %}})。
 
 所有 HTTP 请求和响应正文都使用[搜索 protobuf 定义](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/search.proto)的 JSON 映射：
 
@@ -22,7 +22,7 @@ Dapr 提供了一组 API，用于管理索引，并在词法（全文）搜索�
 - 响应包含取默认值的字段，例如 `"documentCount": "0"`、`"score": 0`，或空的 `failedItems` 数组。声明为 `optional` 的字段在未设置时省略，例如最后一页上的 `continuationToken`，以及 search store 无法提供时的 `totalHits`。
 - 请求中未知的字段会被忽略。
 
-没有请求正文的路由（获取索引、列出索引和删除索引）通过查询参数 `metadata.<key>=<value>` 传递组件特定的元数据。
+没有请求正文的路由（获取索引、列出索引和删除索引）通过查询参数 `metadata.<key>=<value>` 传递 component 特定的 metadata。
 
 ## 创建索引
 
@@ -37,14 +37,14 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>
 | 参数 | 说明 |
 | --------- | ----------- |
 | `daprPort` | Dapr 端口 |
-| `storeName` | 搜索组件的名称。[查看所有可用的搜索组件。]({{% ref supported-search %}}) |
+| `storeName` | search component 的名称。[查看所有可用的 search component。]({{% ref supported-search %}}) |
 | `index` | 要创建的索引名称 |
 
 ### 请求正文
 
 | 字段 | 说明 |
 | ----- | ----------- |
-| `metadata` | 组件特定的索引设置，例如声明为可过滤或可排序的属性。可选 |
+| `metadata` | component 特定的索引设置，例如声明为可过滤或可排序的属性。可选 |
 
 ### HTTP 响应代码
 
@@ -82,14 +82,14 @@ GET http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>
 | 参数 | 说明 |
 | --------- | ----------- |
 | `daprPort` | Dapr 端口 |
-| `storeName` | 搜索组件的名称 |
+| `storeName` | search component 的名称 |
 | `index` | 索引的名称 |
 
 ### 查询参数
 
 | 参数 | 说明 |
 | --------- | ----------- |
-| `metadata.<key>` | 组件特定的请求元数据。可选 |
+| `metadata.<key>` | component 特定的请求 metadata。可选 |
 
 ### 响应内容
 
@@ -97,7 +97,7 @@ GET http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>
 | ----- | ----------- |
 | `index` | 索引的名称 |
 | `documentCount` | 索引中文档数量的近似值。无法高效提供此值的 search store 返回 `0` |
-| `properties` | 组件特定的索引属性 |
+| `properties` | component 特定的索引属性 |
 
 ### HTTP 响应代码
 
@@ -138,13 +138,13 @@ GET http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes
 | 参数 | 说明 |
 | --------- | ----------- |
 | `daprPort` | Dapr 端口 |
-| `storeName` | 搜索组件的名称 |
+| `storeName` | search component 的名称 |
 
 ### 查询参数
 
 | 参数 | 说明 |
 | --------- | ----------- |
-| `metadata.<key>` | 组件特定的请求元数据。可选 |
+| `metadata.<key>` | component 特定的请求 metadata。可选 |
 
 ### 响应内容
 
@@ -185,14 +185,14 @@ DELETE http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index
 | 参数 | 说明 |
 | --------- | ----------- |
 | `daprPort` | Dapr 端口 |
-| `storeName` | 搜索组件的名称 |
+| `storeName` | search component 的名称 |
 | `index` | 要删除的索引名称 |
 
 ### 查询参数
 
 | 参数 | 说明 |
 | --------- | ----------- |
-| `metadata.<key>` | 组件特定的请求元数据。可选 |
+| `metadata.<key>` | component 特定的请求 metadata。可选 |
 
 ### HTTP 响应代码
 
@@ -202,7 +202,7 @@ DELETE http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index
 | `404` | 未找到 search store 或索引 |
 | `500` | search store 未配置或请求失败 |
 
-当[弹性策略]({{% ref resiliency-overview %}})的重试策略重试删除操作，且之后某次尝试发现索引已不存在时，删除视为成功，因为较早的尝试很可能已经将其删除。第一次尝试返回的 `NOT_FOUND` 则原样返回。
+当[resiliency]({{% ref resiliency-overview %}})的重试策略重试删除操作，且之后某次尝试发现索引已不存在时，删除视为成功，因为较早的尝试很可能已经将其删除。第一次尝试返回的 `NOT_FOUND` 则原样返回。
 
 ### 示例
 
@@ -223,7 +223,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | 参数 | 说明 |
 | --------- | ----------- |
 | `daprPort` | Dapr 端口 |
-| `storeName` | 搜索组件的名称 |
+| `storeName` | search component 的名称 |
 | `index` | 索引的名称 |
 
 ### 请求正文
@@ -232,7 +232,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | ----- | ----------- |
 | `documents` | 要索引的[文档](#文档)。每个文档必须具有非空的 `id`，且在同一请求中唯一。必填 |
 | `options` | 控制请求何时返回的[索引选项](#索引选项)。可选 |
-| `metadata` | 组件特定的请求元数据。可选 |
+| `metadata` | component 特定的请求 metadata。可选 |
 
 #### 文档
 
@@ -240,7 +240,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | ----- | ----------- |
 | `id` | 调用方提供的文档标识符，在索引内唯一。必填 |
 | `content` | Base64 编码的 UTF-8 JSON 对象。字段级请求选项（`searchFields`、`returnFields`、`highlightFields`、`sort` 和 `filter`）作用于其顶层键和使用点号表示的嵌套键。内容不是 JSON 对象的文档会在 `failedItems` 中以 `INVALID_ARGUMENT` 报告，且不会发送到 search store |
-| `metadata` | 与文档一起存储并原样返回的不透明字符串键/值对。元数据不会被索引、不可过滤，也不能被字段级请求选项寻址。可选 |
+| `metadata` | 与文档一起存储并原样返回的不透明字符串键/值对。metadata 不会被索引、不可过滤，也不能被字段级请求选项寻址。可选 |
 
 #### 索引选项
 
@@ -249,8 +249,8 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | 字段 | 说明 |
 | ----- | ----------- |
 | `mode` | 请求何时返回。取值之一：<ul><li>`INDEXING_MODE_RETURN_ON_ACCEPTANCE`：search store 持久接受写入并转入后台处理后返回。API 不会公开任何最终结果。</li><li>`INDEXING_MODE_WAIT_FOR_COMPLETION`：等待最终结果，最长等待 `waitTimeout`。</li><li>`INDEXING_MODE_UNSPECIFIED`（默认）：与 `INDEXING_MODE_RETURN_ON_ACCEPTANCE` 相同。</li></ul> |
-| `waitTimeout` | 等待写入完成的时长，例如 `"10s"`。在 `INDEXING_MODE_WAIT_FOR_COMPLETION` 下必填且必须为正数，在其他模式下不得设置。当请求有截止时间时，`waitTimeout` 必须短于剩余时间。当存储配置了[弹性策略]({{% ref resiliency-overview %}})的超时策略时，`waitTimeout` 还必须比该超时至少短其十分之一，且不少于 100ms。例如，超时策略为 `10s` 时，`waitTimeout` 最多为 `9s` |
-| `onWaitTimeout` | `waitTimeout` 到期时的处理方式。在 `INDEXING_MODE_WAIT_FOR_COMPLETION` 下必填，在其他模式下不得设置。取值之一：<ul><li>`INDEXING_WAIT_TIMEOUT_ACTION_CONTINUE_ASYNC`：返回 `INDEX_ACK_QUEUED`，并让排队中的写入继续执行。没有排队确认的 search store 会以 `INVALID_ARGUMENT` 拒绝此选项。</li><li>`INDEXING_WAIT_TIMEOUT_ACTION_FAIL_REQUEST`：请求以 `DEADLINE_EXCEEDED` 失败。弹性策略中的重试策略不会重试该请求，且不保证 search store 会取消该写入。</li></ul> |
+| `waitTimeout` | 等待写入完成的时长，例如 `"10s"`。在 `INDEXING_MODE_WAIT_FOR_COMPLETION` 下必填且必须为正数，在其他模式下不得设置。当请求有截止时间时，`waitTimeout` 必须短于剩余时间。当存储配置了[resiliency]({{% ref resiliency-overview %}})的超时策略时，`waitTimeout` 还必须比该超时至少短其十分之一，且不少于 100ms。例如，超时策略为 `10s` 时，`waitTimeout` 最多为 `9s` |
+| `onWaitTimeout` | `waitTimeout` 到期时的处理方式。在 `INDEXING_MODE_WAIT_FOR_COMPLETION` 下必填，在其他模式下不得设置。取值之一：<ul><li>`INDEXING_WAIT_TIMEOUT_ACTION_CONTINUE_ASYNC`：返回 `INDEX_ACK_QUEUED`，并让排队中的写入继续执行。没有排队确认的 search store 会以 `INVALID_ARGUMENT` 拒绝此选项。</li><li>`INDEXING_WAIT_TIMEOUT_ACTION_FAIL_REQUEST`：请求以 `DEADLINE_EXCEEDED` 失败。resiliency 中的重试策略不会重试该请求，且不保证 search store 会取消该写入。</li></ul> |
 
 违反这些规则的索引选项会在写入到达存储之前被拒绝，返回 `INVALID_ARGUMENT`、`ERR_SEARCH_INVALID_REQUEST` 错误代码（向量 API 为 `ERR_VECTOR_INVALID_REQUEST`），以及 `options` 或 `options.wait_timeout` 上的 `google.rpc.BadRequest` 字段违规信息。
 
@@ -329,7 +329,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | 参数 | 说明 |
 | --------- | ----------- |
 | `daprPort` | Dapr 端口 |
-| `storeName` | 搜索组件的名称 |
+| `storeName` | search component 的名称 |
 | `index` | 索引的名称 |
 
 ### 请求正文
@@ -338,7 +338,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | ----- | ----------- |
 | `ids` | 要获取的文档的 ID。必填 |
 | `includeContent` | 是否返回文档的 `content`。为 `false`（默认）时，仅返回 `id` 和 `metadata`。可选 |
-| `metadata` | 组件特定的请求元数据。可选 |
+| `metadata` | component 特定的请求 metadata。可选 |
 
 ### 响应内容
 
@@ -391,7 +391,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | 参数 | 说明 |
 | --------- | ----------- |
 | `daprPort` | Dapr 端口 |
-| `storeName` | 搜索组件的名称 |
+| `storeName` | search component 的名称 |
 | `index` | 索引的名称 |
 
 ### 请求正文
@@ -400,7 +400,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | ----- | ----------- |
 | `ids` | 要删除的文档的 ID。必填 |
 | `options` | 控制请求何时返回的[索引选项](#索引选项)。可选 |
-| `metadata` | 组件特定的请求元数据。可选 |
+| `metadata` | component 特定的请求 metadata。可选 |
 
 ### 响应内容
 
@@ -447,7 +447,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | 参数 | 说明 |
 | --------- | ----------- |
 | `daprPort` | Dapr 端口 |
-| `storeName` | 搜索组件的名称 |
+| `storeName` | search component 的名称 |
 | `index` | 索引的名称 |
 
 ### 请求正文
@@ -455,16 +455,16 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 | 字段 | 说明 |
 | ----- | ----------- |
 | `query` | [搜索查询](#搜索查询)。省略时，索引中的每个文档都会匹配。可选 |
-| `metadata` | 组件特定的请求元数据。可选 |
+| `metadata` | component 特定的请求 metadata。可选 |
 
 #### 搜索查询
 
 | 字段 | 说明 |
 | ----- | ----------- |
 | `text` | 全文查询。`text` 与 `native` 最多只能设置其中一个 |
-| `native` | 提供方原生查询，为 JSON 对象，会原样传递给 search store。支持的格式参见[组件参考]({{% ref supported-search %}})。`text` 与 `native` 最多只能设置其中一个 |
+| `native` | 提供方原生查询，为 JSON 对象，会原样传递给 search store。支持的格式参见[component 参考]({{% ref supported-search %}})。`text` 与 `native` 最多只能设置其中一个 |
 | `filter` | 使用可移植的[过滤语言](#过滤语言)编写的过滤器。可选 |
-| `topK` | 本页返回的最大命中数。为 `0` 或省略时，使用组件默认值。可选 |
+| `topK` | 本页返回的最大命中数。为 `0` 或省略时，使用 component 默认值。可选 |
 | `continuationToken` | 上一页返回的令牌。第一页时省略。可选 |
 | `searchFields` | 将全文查询限制在这些内容字段中。可选 |
 | `returnFields` | 仅在每个命中结果中返回这些内容字段。可选 |
@@ -476,7 +476,7 @@ POST http://localhost:<daprPort>/v1.0-alpha1/search/<storeName>/indexes/<index>/
 
 #### 过滤语言
 
-过滤器是 JSON 对象，搜索组件会把它转换为各自的原生查询语言。字段路径指向文档内容的键，嵌套键使用点号表示法，例如 `customer.region`。直接设为某个值的字段表示等值匹配，同一对象中的多个条件以逻辑与（AND）组合。
+过滤器是 JSON 对象，search component 会把它转换为各自的原生查询语言。字段路径指向文档内容的键，嵌套键使用点号表示法，例如 `customer.region`。直接设为某个值的字段表示等值匹配，同一对象中的多个条件以逻辑与（AND）组合。
 
 | 类型 | 运算符 |
 | ---- | --------- |
@@ -557,7 +557,7 @@ curl -X POST http://localhost:3500/v1.0-alpha1/search/mysearch/indexes/articles/
 
 ## 错误
 
-Dapr 运行时自身检测到的错误（例如 search store 不存在或请求无效）会以标准 Dapr 错误格式返回，错误代码如下：
+Dapr runtime 自身检测到的错误（例如 search store 不存在或请求无效）会以标准 Dapr 错误格式返回，错误代码如下：
 
 | 错误代码 | HTTP 状态 | gRPC 代码 | 说明 |
 | ---------- | ----------- | --------- | ----------- |
@@ -607,9 +607,9 @@ search store 返回的错误（例如索引不存在）会原样传递其标准 
 
 没有 gRPC 状态的 search store 错误会报告为 `INTERNAL`。
 
-### 弹性策略
+### resiliency
 
-search store 调用在该存储的[弹性策略]({{% ref resiliency-overview %}})下运行：
+search store 调用在该存储的[resiliency]({{% ref resiliency-overview %}})下运行：
 
 - 重试策略可以通过 `matching.gRPCStatusCodes` 匹配 search store 的标准 gRPC 代码。
 - 策略超时返回为 `DEADLINE_EXCEEDED`，被取消的请求返回为 `CANCELLED`，断路器打开时返回为 `UNAVAILABLE`。
@@ -627,7 +627,7 @@ search store 调用在该存储的[弹性策略]({{% ref resiliency-overview %}}
 
 ## gRPC API
 
-搜索 API 也可以通过 gRPC 使用，位于 [Dapr 运行时 protos](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/search.proto) 中的 `Dapr` 服务：
+Search API 也可以通过 gRPC 使用，位于 [Dapr runtime protos](https://github.com/dapr/dapr/blob/master/dapr/proto/runtime/v1/search.proto) 中的 `Dapr` 服务：
 
 | RPC | 说明 |
 | --- | ----------- |
@@ -644,6 +644,6 @@ search store 调用在该存储的[弹性策略]({{% ref resiliency-overview %}}
 
 ## 后续步骤
 
-- [搜索 API 概述]({{% ref search-overview %}})
+- [Search API 概述]({{% ref search-overview %}})
 - [操作指南：索引和搜索文档]({{% ref howto-search %}})
-- [搜索组件规范]({{% ref supported-search %}})
+- [search component 规范]({{% ref supported-search %}})

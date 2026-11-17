@@ -6,7 +6,7 @@ weight: 100
 description: "Dapr 配置概述"
 ---
 
-Dapr 配置是设置和策略，使您能够更改单个 Dapr 应用程序的行为，或 Dapr 控制平面系统服务的全局行为。
+Dapr 配置是设置和策略，使您能够更改单个 Dapr 应用程序的行为，或 Dapr control plane 系统服务的全局行为。
 
 [更多信息，请阅读配置概念。]({{% ref configuration-concept.md %}})
 
@@ -21,7 +21,7 @@ Dapr 配置是设置和策略，使您能够更改单个 Dapr 应用程序的行
  <!-- Self hosted -->
 {{% tab "自托管" %}}
 
-在自托管模式下，Dapr 配置是一个[配置文件]({{% ref configuration-schema.md %}})，例如 `config.yaml`。默认情况下，Dapr 边车会在默认的 Dapr 文件夹中查找运行时配置：
+在自托管模式下，Dapr 配置是一个[配置文件]({{% ref configuration-schema.md %}})，例如 `config.yaml`。默认情况下，Dapr sidecar 会在默认的 Dapr 文件夹中查找运行时配置：
 - Linux/MacOs：`$HOME/.dapr/config.yaml`
 - Windows：`%USERPROFILE%\.dapr\config.yaml`
 
@@ -44,7 +44,7 @@ kubectl apply -f myappconfig.yaml
 dapr configurations -k
 ```
 
-Dapr 边车可以通过 `dapr.io/config` 注解应用特定的配置。例如：
+Dapr sidecar 可以通过 `dapr.io/config` 注解应用特定的配置。例如：
 
 ```yml
   annotations:
@@ -54,7 +54,7 @@ Dapr 边车可以通过 `dapr.io/config` 注解应用特定的配置。例如：
     dapr.io/config: "myappconfig"
 ```
 
-> **注意：**[查看所有 Kubernetes 注解]({{% ref "arguments-annotations-overview.md" %}})，了解边车注入器系统服务激活时可用于配置 Dapr 边车的注解。
+> **注意：**[查看所有 Kubernetes 注解]({{% ref "arguments-annotations-overview.md" %}})，了解 sidecar injector 系统服务激活时可用于配置 Dapr sidecar 的注解。
 
 {{% /tab %}}
 
@@ -67,15 +67,15 @@ Dapr 边车可以通过 `dapr.io/config` 注解应用特定的配置。例如：
 - [追踪](#追踪)
 - [指标](#指标)
 - [日志记录](#日志记录)
-- [中间件](#中间件)
-- [名称解析](#名称解析组件)
-- [工作流](#工作流)
+- [middleware](#middleware)
+- [name resolution](#name-resolution-component)
+- [workflow](#workflow)
 - [限定 secret store 访问范围](#限定-secret-store-访问范围)
-- [构建块 API 的访问控制允许列表](#构建块-api-的访问控制允许列表)
-- [服务调用 API 的访问控制允许列表](#服务调用-api-的访问控制允许列表)
-- [禁止使用某些组件类型](#禁止使用某些组件类型)
+- [building block API 的访问控制允许列表](#building-block-api-的访问控制允许列表)
+- [service invocation API 的访问控制允许列表](#service-invocation-api-的访问控制允许列表)
+- [禁止使用某些 component 类型](#禁止使用某些-component-类型)
 - [启用预览功能](#启用预览功能)
-- [边车配置示例](#边车配置示例)
+- [sidecar 配置示例](#sidecar-配置示例)
 - [使用 SIGHUP 重新加载配置](#使用-sighup-重新加载配置)
 - [热重载](#热重载)
 
@@ -123,7 +123,7 @@ tracing:
 
 ##### `otel`
 
-也可以通过环境变量配置 OpenTelemetry (`otel`) 端点。存在 `OTEL_EXPORTER_OTLP_ENDPOINT` 环境变量即会为边车启用追踪。
+也可以通过环境变量配置 OpenTelemetry (`otel`) 端点。存在 `OTEL_EXPORTER_OTLP_ENDPOINT` 环境变量即会为 sidecar 启用追踪。
 
 | 环境变量 | 描述 |
 |----------------------|-------------|
@@ -174,7 +174,7 @@ metrics:
 | `enabled` | boolean | 设置为 true（默认值）时，启用指标收集和指标端点。
 | `rules` | array | 用于过滤指标的命名规则。每条规则包含一组用于过滤的 `labels`，以及一个应用于指标路径的 `regex` 表达式。
 | `latencyDistributionBuckets` | array | 延迟指标直方图的延迟分布桶数组，单位为毫秒。
-| `workflow.latencyDistributionBuckets` | array | 可选，用于覆盖工作流和活动执行延迟直方图所用的延迟分布桶。未设置时，这些直方图使用与 `latencyDistributionBuckets` 相同的桶。仅工作流和活动执行延迟会受影响；操作和调度延迟仍使用共享的桶。
+| `workflow.latencyDistributionBuckets` | array | 可选，用于覆盖 workflow 和 activity 执行延迟直方图所用的延迟分布桶。未设置时，这些直方图使用与 `latencyDistributionBuckets` 相同的桶。仅 workflow 和 activity 执行延迟会受影响；操作和调度延迟仍使用共享的桶。
 | `workflow.latencyDistributionUnits` | duration | `workflow.latencyDistributionBuckets` 的值所用的单位，为 Go 时长字符串（例如 `1ms` 或 `1s`）。默认为 `1ms`（毫秒）。桶会换算为毫秒，即直方图记录时所用的单位。
 | `http.increasedCardinality` | boolean | 设置为 `true`（默认值）时，在 Dapr HTTP 服务器中，每个请求路径都会创建一个新的指标“桶”。当请求的端点很多时（例如与 RESTful API 交互时），这可能导致问题，包括内存消耗过高。<br> 为缓解 HTTP 服务器使用[高基数指标]({{% ref "metrics-overview.md#high-cardinality-metrics" %}})时的高内存占用和出口成本，您应将 `metrics.http.increasedCardinality` 属性设置为 `false`。
 | `http.pathMatching` | array | 用于路径匹配的路径数组，允许用户定义匹配路径以管理基数。
@@ -182,7 +182,7 @@ metrics:
 
 为进一步管理基数，路径匹配允许您根据定义的模式匹配指定路径，从而减少唯一指标路径的数量，进而控制指标基数。此功能对于具有动态 URL 的应用程序尤其有用，可确保指标保持有意义且易于管理，而不会消耗过多内存。
 
-使用规则，您可以为 Dapr 边车公开的每个指标设置正则表达式。例如：
+使用规则，您可以为 Dapr sidecar 公开的每个指标设置正则表达式。例如：
 
 ```yml
 metrics:
@@ -221,9 +221,9 @@ logging:
 
 更多信息，请参阅[日志记录文档]({{% ref "logs.md" %}})。
 
-#### 中间件
+#### middleware
 
-中间件配置用于设置命名的 HTTP 管道中间件处理程序。`Configuration` 规范下的 `httpPipeline` 和 `appHttpPipeline` 部分包含以下属性：
+middleware 配置用于设置命名的 HTTP 管道 middleware 处理程序。`Configuration` 规范下的 `httpPipeline` 和 `appHttpPipeline` 部分包含以下属性：
 
 ```yml
 httpPipeline: # 用于传入的 HTTP 调用
@@ -244,14 +244,14 @@ appHttpPipeline: # 用于传出的 HTTP 调用
 
 | 属性 | 类型   | 描述 |
 |----------|--------|-------------|
-| `name`     | string | 中间件组件的名称
-| `type`     | string | 中间件组件的类型
+| `name`     | string | middleware component 的名称
+| `type`     | string | middleware component 的类型
 
-更多信息，请参阅[中间件管道]({{% ref "middleware.md" %}})。
+更多信息，请参阅[middleware 管道]({{% ref "middleware.md" %}})。
 
-#### 名称解析组件
+#### name resolution component
 
-您可以在配置文件中设置要使用的名称解析组件。例如，要将 `spec.nameResolution.component` 属性设置为 `"sqlite"`，请像下面这样在 `spec.nameResolution.configuration` 字典中传入配置选项。
+您可以在配置文件中设置要使用的 name resolution component。例如，要将 `spec.nameResolution.component` 属性设置为 `"sqlite"`，请像下面这样在 `spec.nameResolution.configuration` 字典中传入配置选项。
 
 这是一个配置资源的基本示例：
 
@@ -269,39 +269,39 @@ spec:
 ```
 
 更多信息，请参阅：
-- [名称解析组件文档]({{% ref supported-name-resolution %}})，获取更多示例。
-- [配置文件文档]({{% ref configuration-schema.md %}})，了解如何为每个组件配置名称解析。
+- [name resolution component 文档]({{% ref supported-name-resolution %}})，获取更多示例。
+- [配置文件文档]({{% ref configuration-schema.md %}})，了解如何为每个 component 配置 name resolution。
 
-#### 工作流
+#### workflow
 
-`workflow` 部分包含用于配置[工作流]({{% ref "workflow-overview.md" %}})的属性。有关这些设置如何相互作用的详细指导，请参阅[工作流并发限制]({{% ref "workflow-concurrency.md" %}})。
+`workflow` 部分包含用于配置[workflow]({{% ref "workflow-overview.md" %}})的属性。有关这些设置如何相互作用的详细指导，请参阅[workflow 并发限制]({{% ref "workflow-concurrency.md" %}})。
 
 | 属性 | 类型 | 描述 |
 |------------------|--------|-----|
-| `maxConcurrentWorkflowInvocations` | int32 | 每个 Dapr 边车允许的最大并发工作流执行数。默认为无限制。 |
-| `maxConcurrentActivityInvocations` | int32 | 每个 Dapr 边车允许的最大并发活动执行数。默认为无限制。 |
-| `globalMaxConcurrentWorkflowInvocations` | int32 | 所有副本中允许的最大并发工作流执行数，由调度器强制执行。默认为无限制。 |
-| `globalMaxConcurrentActivityInvocations` | int32 | 所有副本中允许的最大并发活动执行数，由调度器强制执行。默认为无限制。 |
-| `workflowConcurrencyLimits` | array | 按工作流名称设置的、跨所有副本的并发限制。每个条目包含 `name`（字符串）和 `maxConcurrent`（int32）。 |
-| `activityConcurrencyLimits` | array | 按活动名称设置的、跨所有副本的并发限制。每个条目包含 `name`（字符串）和 `maxConcurrent`（int32）。 |
+| `maxConcurrentWorkflowInvocations` | int32 | 每个 Dapr sidecar 允许的最大并发 workflow 执行数。默认为无限制。 |
+| `maxConcurrentActivityInvocations` | int32 | 每个 Dapr sidecar 允许的最大并发 activity 执行数。默认为无限制。 |
+| `globalMaxConcurrentWorkflowInvocations` | int32 | 所有副本中允许的最大并发 workflow 执行数，由 Scheduler 强制执行。默认为无限制。 |
+| `globalMaxConcurrentActivityInvocations` | int32 | 所有副本中允许的最大并发 activity 执行数，由 Scheduler 强制执行。默认为无限制。 |
+| `workflowConcurrencyLimits` | array | 按 workflow 名称设置的、跨所有副本的并发限制。每个条目包含 `name`（字符串）和 `maxConcurrent`（int32）。 |
+| `activityConcurrencyLimits` | array | 按 activity 名称设置的、跨所有副本的并发限制。每个条目包含 `name`（字符串）和 `maxConcurrent`（int32）。 |
 
 #### 限定 secret store 访问范围
 
 有关如何将 secrets 限定到应用程序的信息和示例，请参阅[限定 secrets 范围]({{% ref "secret-scope.md" %}})指南。
 
-#### 构建块 API 的访问控制允许列表
+#### building block API 的访问控制允许列表
 
-有关如何在构建块 API 列表上设置访问控制允许列表 (ACL) 的信息和示例，请参阅[在 Dapr 边车上选择性启用 Dapr API]({{% ref "api-allowlist.md" %}})指南。
+有关如何在 building block API 列表上设置访问控制允许列表 (ACL) 的信息和示例，请参阅[在 Dapr sidecar 上选择性启用 Dapr API]({{% ref "api-allowlist.md" %}})指南。
 
-#### 服务调用 API 的访问控制允许列表
+#### service invocation API 的访问控制允许列表
 
-有关如何使用服务调用 API 通过 ACL 设置允许列表的信息和示例，请参阅[服务调用的允许列表]({{% ref "invoke-allowlist.md" %}})指南。
+有关如何使用 service invocation API 通过 ACL 设置允许列表的信息和示例，请参阅[service invocation 的允许列表]({{% ref "invoke-allowlist.md" %}})指南。
 
-#### 禁止使用某些组件类型
+#### 禁止使用某些 component 类型
 
-使用 `Configuration` 规范中的 `components.deny` 属性，您可以指定一个拒绝列表，列出无法初始化的组件类型。
+使用 `Configuration` 规范中的 `components.deny` 属性，您可以指定一个拒绝列表，列出无法初始化的 component 类型。
 
-例如，以下配置禁止初始化类型为 `bindings.smtp` 和 `secretstores.local.file` 的组件：
+例如，以下配置禁止初始化类型为 `bindings.smtp` 和 `secretstores.local.file` 的 component：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -315,14 +315,14 @@ spec:
       - secretstores.local.file
 ```
 
-可选地，您可以通过在组件名称末尾添加版本来指定要禁止的版本。例如，`state.in-memory/v1` 会禁止初始化类型为 `state.in-memory` 且版本为 `v1` 的组件，但不会禁用该组件的 `v2` 版本（假设存在）。
+可选地，您可以通过在 component 名称末尾添加版本来指定要禁止的版本。例如，`state.in-memory/v1` 会禁止初始化类型为 `state.in-memory` 且版本为 `v1` 的 component，但不会禁用该 component 的 `v2` 版本（假设存在）。
 
 {{% alert title="注意" color="primary" %}}
- 当您将组件类型 `secretstores.kubernetes` 添加到拒绝列表时，Dapr 会禁止创建 _其他_ `secretstores.kubernetes` 类型的组件。
+ 当您将 component 类型 `secretstores.kubernetes` 添加到拒绝列表时，Dapr 会禁止创建 _其他_ `secretstores.kubernetes` 类型的 component。
 
  但是，它不会禁用内置的 Kubernetes secret store，该存储：
  - 由 Dapr 自动创建
- - 用于存储组件规范中指定的 secrets
+ - 用于存储 component 规范中指定的 secrets
 
  如果要禁用内置的 Kubernetes secret store，则需要使用 `dapr.io/disable-builtin-k8s-secret-store` [注解]({{% ref arguments-annotations-overview.md %}})。
 {{% /alert %}} 
@@ -333,9 +333,9 @@ spec:
 
 启用预览功能可以为开发和测试解锁新的能力，因为这些功能在运行时正式可用（GA）之前仍需要更多时间。
 
-### 边车配置示例
+### sidecar 配置示例
 
-以下 YAML 展示了一个可应用于应用程序 Dapr 边车的配置文件示例。
+以下 YAML 展示了一个可应用于应用程序 Dapr sidecar 的配置文件示例。
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -392,7 +392,7 @@ spec:
 
 #### 使用 SIGHUP 重新加载配置
 
-在 POSIX 兼容系统（Linux、macOS）上，您可以向 `daprd` 发送 `SIGHUP` 信号，无需完全重启进程即可重新加载 Dapr 边车配置。`daprd` 收到 `SIGHUP` 后，会优雅地关闭内部运行时，并使用当前配置文件在进程内重新初始化。这样，您就可以应用对[追踪](#追踪)、[指标](#指标)和[日志记录](#日志记录)等配置的更改，而无需完整重启进程。
+在 POSIX 兼容系统（Linux、macOS）上，您可以向 `daprd` 发送 `SIGHUP` 信号，无需完全重启进程即可重新加载 Dapr sidecar 配置。`daprd` 收到 `SIGHUP` 后，会优雅地关闭内部运行时，并使用当前配置文件在进程内重新初始化。这样，您就可以应用对[追踪](#追踪)、[指标](#指标)和[日志记录](#日志记录)等配置的更改，而无需完整重启进程。
 
 要发送 `SIGHUP` 信号：
 
@@ -405,22 +405,22 @@ pkill -HUP daprd
 ```
 
 {{% alert title="注意" color="primary" %}}
-在 SIGHUP 重新加载期间，由于运行时正在重新初始化，Dapr 边车会短暂不可用。在重新加载之前，边车会继续优雅地关闭现有连接。
+在 SIGHUP 重新加载期间，由于运行时正在重新初始化，Dapr sidecar 会短暂不可用。在重新加载之前，sidecar 会继续优雅地关闭现有连接。
 {{% /alert %}}
 
 {{% alert title="注意" color="primary" %}}
 基于 SIGHUP 的重新加载仅适用于 POSIX 兼容系统（Linux、macOS）。在 Windows 上，需要完全重启 `daprd` 才能应用配置更改。
 {{% /alert %}}
 
-## 控制平面配置
+## control plane 配置
 
-安装了一个名为 `daprsystem` 的配置文件，用于为 Dapr 控制平面系统服务应用全局设置。
+安装了一个名为 `daprsystem` 的配置文件，用于为 Dapr control plane 系统服务应用全局设置。
 
 > **这仅在将 Dapr 部署到 Kubernetes 时设置。**
 
-### 控制平面配置设置
+### control plane 配置设置
 
-Dapr 控制平面配置包含以下部分：
+Dapr control plane 配置包含以下部分：
 
 - [`mtls`](#mtls双向-tls)，用于 mTLS（双向 TLS）
 
@@ -434,12 +434,12 @@ Dapr 控制平面配置包含以下部分：
 | `allowedClockSkew` | string | 检查 TLS 证书过期时允许的容差，用于兼容时钟偏差。格式遵循 [Go 的 time.ParseDuration](https://pkg.go.dev/time#ParseDuration) 所用的格式。默认为 `15m`（15 分钟）。
 | `workloadCertTTL`  | string | Dapr 颁发的 TLS 证书的有效期。格式遵循 [Go 的 time.ParseDuration](https://pkg.go.dev/time#ParseDuration) 所用的格式。默认为 `24h`（24 小时）。
 | `sentryAddress`  | string | 用于连接 Sentry 服务器的主机名和端口地址。 |
-| `controlPlaneTrustDomain` | string | 控制平面的信任域。用于验证到控制平面服务的连接。 |
+| `controlPlaneTrustDomain` | string | control plane 的信任域。用于验证到 control plane 服务的连接。 |
 | `tokenValidators` | array | 用于验证证书请求的其他 Sentry 令牌验证器。 |
 
 更多信息，请参阅 [mTLS 操作指南]({{% ref "mtls.md" %}})和[安全概念]({{% ref "security-concept.md" %}})。
 
-### 控制平面配置示例
+### control plane 配置示例
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -456,7 +456,7 @@ spec:
 
 ## 热重载
 
-对 Configuration 资源的更改会被自动检测，并触发 Dapr 边车的优雅重启以应用新配置。如需退出此行为，请在 [Dapr 应用程序配置]({{% ref "configuration-overview.md" %}})中禁用 `HotReload` 功能。
+对 Configuration 资源的更改会被自动检测，并触发 Dapr sidecar 的优雅重启以应用新配置。如需退出此行为，请在 [Dapr 应用程序配置]({{% ref "configuration-overview.md" %}})中禁用 `HotReload` 功能。
 
 更多信息，请参阅[更新资源]({{% ref "component-updates.md" %}})。
 
