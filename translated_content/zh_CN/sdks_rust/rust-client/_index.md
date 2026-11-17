@@ -99,7 +99,7 @@ client
 
 ### 发布消息
 
-要将数据发布到主题，Dapr 客户端提供了一个简单的方法：
+要将数据发布到 topic，Dapr 客户端提供了一个简单的方法：
 
 ```rust
 let pubsub_name = "pubsub-name".to_string();
