@@ -8,8 +8,8 @@ description: "安装 Dapr CLI，作为运行 Dapr 相关任务的主要工具"
 
 您将使用 Dapr CLI 作为各种 Dapr 相关任务的主要工具。您可以使用它来：
 
-- 使用 Dapr 边车运行应用程序。
-- 查看边车日志。
+- 使用 Dapr sidecar 运行应用程序。
+- 查看 sidecar 日志。
 - 列出运行中的服务。
 
 Dapr CLI 同时支持 [自托管]({{% ref self-hosted %}}) 和 [Kubernetes]({{% ref Kubernetes %}}) 环境。

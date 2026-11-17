@@ -8,7 +8,7 @@ aliases:
   - "/zh-hans/developing-applications/building-blocks/actors/actors-background"
 ---
 
-既然你已经从高层次了解了 [Actor 构建块]({{% ref "actors-overview" %}})，现在让我们深入探讨 Dapr 中 Actor 所包含的功能和概念。
+既然你已经从高层次了解了 [Actor building block]({{% ref "actors-overview" %}})，现在让我们深入探讨 Dapr 中 Actor 所包含的功能和概念。
 
 ## Actor 生命周期
 
@@ -20,7 +20,7 @@ Dapr Actor 是虚拟的，这意味着它们的生命周期与其内存中的表
 
 Dapr 运行时用于判断 Actor 是否可以被垃圾回收的空闲超时和扫描间隔是可配置的。当 Dapr 运行时调用 Actor 服务以获取支持的 Actor 类型时，可以传递此信息。
 
-由于虚拟 Actor 模型的特点，这种虚拟 Actor 生命周期抽象存在一些注意事项；实际上，Dapr Actors 的实现有时会偏离该模型。
+由于 virtual Actor 模型的特点，这种 virtual Actor 生命周期抽象存在一些注意事项；实际上，Dapr Actors 的实现有时会偏离该模型。
 
 首次向某个 Actor ID 发送消息时，该 Actor 会被自动激活（这会构造一个 Actor 对象）。一段时间后，该 Actor 对象会被垃圾回收。之后再次使用该 Actor ID 时，会构造一个新的 Actor 对象。Actor 的状态比对象的生命周期更长，因为状态存储在为 Dapr 运行时配置的状态提供程序中。
 
@@ -34,7 +34,7 @@ Actor 分布在 Actor 服务的各个实例中，而这些实例又分布在集�
 
 Dapr Actor 运行时通过 Actor `Placement` 服务为你管理分布方案和键范围设置。当创建服务的新实例时：
 
-1. 边车调用 Actor 服务，以检索已注册的 Actor 类型和配置设置。
+1. sidecar 调用 Actor 服务，以检索已注册的 Actor 类型和配置设置。
 1. 相应的 Dapr 运行时注册其可以创建的 Actor 类型。
 1. `Placement` 服务计算给定 Actor 类型在所有实例中的分区。
 
@@ -52,7 +52,7 @@ Dapr Actor 运行时通过 Actor `Placement` 服务为你管理分布方案和�
 - 由于 Actor 是随机放置的，因此应当预期 Actor 操作总是需要网络通信，包括方法调用数据的序列化和反序列化，从而带来延迟和开销。
 
 {{% alert title="注意" color="primary" %}}
- 注意：Dapr Actor Placement 服务仅用于 Actor 放置，因此如果你的服务没有使用 Dapr Actor，则不需要它。Placement 服务可以在所有[托管环境]({{% ref hosting %}})中运行，包括自托管和 Kubernetes 模式。在自托管和 Kubernetes 两种模式下，Actor 放置也可以由 [Scheduler 服务]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})提供，而不必使用独立的 Placement 服务。这对应用程序和边车而言是透明的。
+ 注意：Dapr Actor Placement 服务仅用于 Actor 放置，因此如果你的服务没有使用 Dapr Actor，则不需要它。Placement 服务可以在所有[托管环境]({{% ref hosting %}})中运行，包括自托管和 Kubernetes 模式。在自托管和 Kubernetes 两种模式下，Actor 放置也可以由 [Scheduler service]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})提供，而不必使用独立的 Placement 服务。这对应用程序和 sidecar 而言是透明的。
 {{% /alert %}}
 
 ## Actor 通信
@@ -101,4 +101,4 @@ Dapr Actor 运行时通过在轮次开始时获取每个 Actor 的锁、并在�
 
 - [Actors API 参考]({{% ref actors_api %}})
 - [Actors 概述]({{% ref actors-overview %}})
-- [操作指南：在 Dapr 中使用虚拟 Actor]({{% ref howto-actors %}})
+- [操作指南：在 Dapr 中使用 virtual Actor]({{% ref howto-actors %}})

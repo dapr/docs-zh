@@ -51,15 +51,15 @@ SDK 和 CLI 的版本控制遵循 `MAJOR.MINOR.PATCH` 格式。当 SDK 中存在
 SDK 中的示例和示例代码与该仓库一起进行版本控制。
 
 ## 组件
-组件在 components-contrib 仓库中实现，遵循 `MAJOR` 版本控制方案。组件的版本遵守主版本（vX），补丁和非重大变更会添加到最新的主版本中。当组件接口中存在不向后兼容的更改时，版本会递增，例如，更改状态存储接口中的现有方法。
+组件在 components-contrib 仓库中实现，遵循 `MAJOR` 版本控制方案。组件的版本遵守主版本（vX），补丁和非重大变更会添加到最新的主版本中。当组件接口中存在不向后兼容的更改时，版本会递增，例如，更改 state store 接口中的现有方法。
 
 [components-contrib](https://github.com/dapr/components-contrib/) 仓库发布版本是其内部所有组件的统一版本。也就是说，components-contrib 仓库发布版本由其中所有组件的 schema 组成。如果没有组件更改，Dapr 的新版本并不意味着 components-contrib 有新发布版本。
 
 注意：组件具有生产使用生命周期状态：Alpha、Beta 和 Stable。这些状态与其版本控制无关。受支持组件的表格显示了它们的版本和状态。
-* [状态存储组件]({{% ref supported-state-stores.md %}})列表
-* [发布订阅组件]({{% ref supported-pubsub.md %}})列表
-* [绑定组件]({{% ref supported-bindings.md %}})列表
-* [机密存储组件]({{% ref supported-secret-stores.md %}})列表
+* [state store 组件]({{% ref supported-state-stores.md %}})列表
+* [pub/sub 组件]({{% ref supported-pubsub.md %}})列表
+* [binding 组件]({{% ref supported-bindings.md %}})列表
+* [secret store 组件]({{% ref supported-secret-stores.md %}})列表
 * [配置存储组件]({{% ref supported-configuration-stores.md %}})列表
 * [锁组件]({{% ref supported-locks.md %}})列表
 * [加密组件]({{% ref supported-cryptography.md %}})列表

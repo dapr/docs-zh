@@ -188,7 +188,7 @@ POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<instanc
 
 ## 清除工作流请求
 
-使用工作流的实例 ID 从状态存储中清除工作流状态。
+使用工作流的实例 ID 从 state store 中清除工作流状态。
 
 ```
 POST http://localhost:<daprPort>/v1.0/workflows/<workflowComponentName>/<instanceId>/purge

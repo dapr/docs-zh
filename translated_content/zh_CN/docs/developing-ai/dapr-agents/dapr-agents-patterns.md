@@ -345,7 +345,7 @@ def evaluator_optimizer_travel_planner(ctx: DaprWorkflowContext, input_params: d
 
 有些代理操作的影响过大，不宜完全交由模型决定。人在回路（Human-in-the-Loop，HITL）模式会在特定的工具调用（或其他高风险步骤）上暂停代理，并等待人工批准或拒绝后再继续。由于等待发生在 Dapr 工作流内部，暂停时长可以是几秒、几小时或几天——人工响应后，工作流会从暂停处恢复。
 
-在 Dapr Agents 中，此模式通过**钩子系统**实现：在 `DurableAgent` 上注册 `before_tool_call` 钩子，并为需要人工确认的步骤返回 `RequireApproval(...)`。框架会将审批请求事件发布到你配置的投递通道（HTTP、Dapr 发布订阅或工作流事件），通过 `wait_for_external_event` 挂起工作流，并在收到批准或拒绝的响应后恢复执行；若超时，则自动拒绝。
+在 Dapr Agents 中，此模式通过**钩子系统**实现：在 `DurableAgent` 上注册 `before_tool_call` 钩子，并为需要人工确认的步骤返回 `RequireApproval(...)`。框架会将审批请求事件发布到你配置的投递通道（HTTP、Dapr pub/sub 或工作流事件），通过 `wait_for_external_event` 挂起工作流，并在收到批准或拒绝的响应后恢复执行；若超时，则自动拒绝。
 
 **使用场景：**
 - 批准破坏性操作（删除数据、删除表、超过阈值的退款）
@@ -387,8 +387,8 @@ agent = DurableAgent(
 ```
 
 使用 Dapr 实现此模式的好处包括：
-- **持久化暂停** - 工作流在等待期间可以承受崩溃与重启；审批结果持久化在状态存储中
-- **可选的投递通道** - 可以通过 HTTP（`GET /hitl/approvals`、`POST /hitl/approvals/{id}/respond`）、Dapr 发布订阅或直接的工作流事件进行审批
+- **持久化暂停** - 工作流在等待期间可以承受崩溃与重启；审批结果持久化在 state store 中
+- **可选的投递通道** - 可以通过 HTTP（`GET /hitl/approvals`、`POST /hitl/approvals/{id}/respond`）、Dapr pub/sub 或直接的工作流事件进行审批
 - **超时保护** - 若人工长时间未响应，待处理的请求会自动拒绝，因此工作流不会永久挂起
 - **可与其他模式组合** - 人在回路是一个钩子决策，因此可以干净地叠加在上述任何模式之上
 
@@ -402,9 +402,9 @@ agent = DurableAgent(
 
 {{< diagram name="agents-stateful-llm" width="60" >}}
 
-此模式不仅仅持久化消息历史——它会为每次交互动态创建带有持久化活动的工作流，其中 LLM 调用和工具执行都可靠地存储在 Dapr 的状态存储中。这使其非常适合对可靠性和持久性要求极高的环境。
+此模式不仅仅持久化消息历史——它会为每次交互动态创建带有持久化活动的工作流，其中 LLM 调用和工具执行都可靠地存储在 Dapr 的 state store 中。这使其非常适合对可靠性和持久性要求极高的环境。
 
-持久化代理还支持"无头代理"（headless agents）方式，即无需直接用户交互即可运行的自主系统。Dapr 的持久化代理暴露 REST 和发布订阅 API，因此非常适合由其他应用或外部事件触发的长时间运行操作。
+持久化代理还支持"无头代理"（headless agents）方式，即无需直接用户交互即可运行的自主系统。Dapr 的持久化代理暴露 REST 和 pub/sub API，因此非常适合由其他应用或外部事件触发的长时间运行操作。
 
 **使用场景：**
 - 可能需要数分钟甚至数天才能完成的长时间运行任务
@@ -477,15 +477,15 @@ asyncio.run(main())
 ```
 
 该实现遵循 Dapr 的边车架构模型，所有基础设施相关的问题均由 Dapr 运行时处理：
-- **持久化记忆** - 代理状态存储在 Dapr 的状态存储中，进程崩溃后依然存在
+- **持久化记忆** - 代理状态存储在 Dapr 的 state store 中，进程崩溃后依然存在
 - **工作流编排** - 所有代理交互都通过 Dapr 的工作流系统进行管理
 - **服务暴露** - `AgentRunner.serve()` 暴露 REST 端点（例如 `POST /agent/run`），用于调度代理的 `@workflow_entry`
-- **发布订阅输入/输出** - `AgentRunner.subscribe()` 扫描代理中的 `@message_router` 方法，并通过模式验证将配置的主题连接起来
+- **pub/sub 输入/输出** - `AgentRunner.subscribe()` 扫描代理中的 `@message_router` 方法，并通过模式验证将配置的主题连接起来
 
 持久化代理实现了"无头代理"的概念，即在没有直接用户交互的情况下运行的自主系统。根据场景，你可以：
 
 1. **以编程方式运行**持久化工作流（如上所示的 `runner.run`）
-2. **订阅**代理到主题，使其他服务能够通过发布订阅触发它（`runner.subscribe`）
+2. **订阅**代理到主题，使其他服务能够通过 pub/sub 触发它（`runner.subscribe`）
 3. **以服务形式暴露**代理，将其部署在 FastAPI 应用之后，并提供内置的 `/run` 与状态端点（`runner.serve`）
 
 这些选项使异步处理请求变得简单，并能无缝集成到更大的分布式系统中。

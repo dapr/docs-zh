@@ -1,28 +1,28 @@
 ---
 type: docs
-title: "快速入门：Jobs"
+title: "Quickstart：Jobs"
 linkTitle: Jobs
 weight: 80
-description: 开始使用 Dapr Jobs 构建块
+description: 开始使用 Dapr jobs building block
 ---
 
-让我们来看看 [Dapr Jobs 构建块]({{% ref jobs-overview %}})，它可以在特定时间或按间隔调度并运行作业。在本快速入门中，您将使用 Dapr 的 Job API 调度、获取和删除一个作业。
+让我们来看看 [Dapr jobs building block]({{% ref jobs-overview %}})，它可以在特定时间或按间隔调度并运行作业。在本 Quickstart 中，您将使用 Dapr 的 Job API 调度、获取和删除一个作业。
 
-您可以通过以下任一方式尝试此 Jobs 快速入门：
+您可以通过以下任一方式尝试此 Jobs Quickstart：
 
 - [使用 Multi-App Run 模板文件同时运行此示例中的所有应用程序]({{% ref "#run-using-multi-app-run" %}})，或
 - [一次运行一个应用程序]({{% ref "#run-one-job-application-at-a-time" %}})
 
 ## 使用 Multi-App Run 运行
 
-在继续快速入门之前，请选择您首选的特定语言 Dapr SDK。目前，您可以使用 Go SDK 来试验 Jobs API。
+在继续 Quickstart 之前，请选择您首选的特定语言 Dapr SDK。目前，您可以使用 Go SDK 来试验 Jobs API。
 
 {{< tabpane text=true >}}
 
  <!-- Go -->
 {{% tab "Go" %}}
 
-本快速入门包含两个应用程序：
+本 Quickstart 包含两个应用程序：
 
 - **`job-scheduler.go`：** 调度、检索和删除作业。
 - **`job-service.go`：** 处理已调度的作业。
@@ -117,10 +117,10 @@ dapr stop -f .
 
 当您在安装 Dapr 期间运行 `dapr init` 时：
 
-- `dapr_scheduler` 控制平面与其他 Dapr 服务一起启动。
+- `dapr_scheduler` control plane 与其他 Dapr 服务一起启动。
 - [`dapr.yaml` Multi-App Run 模板文件]({{% ref "#dapryaml-multi-app-run-template-file" %}}) 在 `.dapr/components` 目录中生成。
 
-在本快速入门中运行 `dapr run -f .` 会同时启动 `job-scheduler` 和 `job-service`。在终端输出中，您可以看到以下作业被调度、检索和删除。
+在本 Quickstart 中运行 `dapr run -f .` 会同时启动 `job-scheduler` 和 `job-service`。在终端输出中，您可以看到以下作业被调度、检索和删除。
 
 - `R2-D2` 作业正在被调度。
 - `C-3PO` 作业正在被调度。
@@ -133,7 +133,7 @@ dapr stop -f .
 
 #### `dapr.yaml` Multi-App Run 模板文件
 
-使用 `dapr run -f .` 运行 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}}) 会启动项目中的所有应用程序。在本快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 `dapr run -f .` 运行 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}}) 会启动项目中的所有应用程序。在本 Quickstart 中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -152,7 +152,7 @@ apps:
 
 #### `job-service` 应用程序
 
-`job-service` 应用程序创建服务调用处理程序来管理作业的生命周期（`scheduleJob`、`getJob` 和 `deleteJob`）。
+`job-service` 应用程序创建用于 service invocation 的调用处理程序来管理作业的生命周期（`scheduleJob`、`getJob` 和 `deleteJob`）。
 
 ```go
 if err := server.AddServiceInvocationHandler("scheduleJob", scheduleJob); err != nil {
@@ -437,7 +437,7 @@ func delete(droidJob DroidJob) error {
  <!-- Go -->
 {{% tab "Go" %}}
 
-本快速入门包含两个应用程序：
+本 Quickstart 包含两个应用程序：
 
 - **`job-scheduler.go`：** 调度、检索和删除作业。
 - **`job-service.go`：** 处理已调度的作业。
@@ -529,15 +529,15 @@ dapr run --app-id job-scheduler-sdk --app-port 6300 -- go run .
 
 ## 告诉我们您的想法！
 
-我们正在不断努力改进快速入门示例，并重视您的反馈。您是否觉得此快速入门有帮助？您有改进建议吗？
+我们正在不断努力改进 Quickstart 示例，并重视您的反馈。您是否觉得此 Quickstart 有帮助？您有改进建议吗？
 
 欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享您的想法。
 
 ## 后续步骤
 
-- 此快速入门的 HTTP 示例：
+- 此 Quickstart 的 HTTP 示例：
   - [Go](https://github.com/dapr/quickstarts/tree/master/jobs/go/http)
-- 了解有关 [Jobs 构建块]({{% ref jobs-overview %}}) 的更多信息
-- 了解有关 [Scheduler 控制平面]({{% ref scheduler %}}) 的更多信息
+- 了解有关 [jobs building block]({{% ref jobs-overview %}}) 的更多信息
+- 了解有关 [scheduler control plane]({{% ref scheduler %}}) 的更多信息
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

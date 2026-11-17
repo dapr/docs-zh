@@ -2,7 +2,7 @@
 type: docs
 title: "AMQP 1.0"
 linkTitle: "AMQP 1.0"
-description: "AMQP 1.0 发布订阅组件的详细文档，可与 Apache ActiveMQ Artemis 和 Solace PubSub+ 等代理配合使用"
+description: "AMQP 1.0 pub/sub 组件的详细文档，可与 Apache ActiveMQ Artemis 和 Solace PubSub+ 等代理配合使用"
 aliases:
   - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-solace-amqp/"
   - "/zh-hans/reference/components-reference/supported-pubsub/setup-solace-amqp/"
@@ -16,7 +16,7 @@ AMQP 1.0 和 AMQP 0-9-1 是不同的协议。如果使用 RabbitMQ，请改用 [
 
 ## 组件格式
 
-要设置 AMQP 发布订阅，请创建类型为 `pubsub.amqp` 的组件。请参阅[发布订阅代理组件文件]({{% ref setup-pubsub.md %}})，了解 ConsumerID 是如何自动生成的。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})，了解如何创建和应用发布订阅配置。
+要设置 AMQP pub/sub，请创建类型为 `pubsub.amqp` 的组件。请参阅[pub/sub 代理组件文件]({{% ref setup-pubsub.md %}})，了解 ConsumerID 是如何自动生成的。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})，了解如何创建和应用 pub/sub 配置。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -36,23 +36,23 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例将机密以明文字符串的形式使用。建议按[此处]({{% ref component-secrets.md %}})所述，为机密使用机密存储。
+上述示例将 secrets 以明文字符串的形式使用。建议按[此处]({{% ref component-secrets.md %}})所述，为 secrets 使用 secret store。
 {{% /alert %}}
 
 ## 规格元数据字段
 
 | 字段               | 必需 | 详细信息 | 示例 |
 |--------------------|:--------:|---------|---------|
-| url    | Y  | AMQP 代理的地址。可以是 `secretKeyRef`，以使用机密引用。<br> 非 TLS 通信请使用 **`amqp://`** URI 方案。<br> TLS 通信请使用 **`amqps://`** URI 方案。 | `"amqp://host.domain[:port]"`
+| url    | Y  | AMQP 代理的地址。可以是 `secretKeyRef`，以使用 secrets 引用。<br> 非 TLS 通信请使用 **`amqp://`** URI 方案。<br> TLS 通信请使用 **`amqps://`** URI 方案。 | `"amqp://host.domain[:port]"`
 | username | N | 连接代理所用的用户名。除非 `anonymous` 为 `true`，否则为必填项。 | `default`
 | password | N | 连接代理所用的密码。除非 `anonymous` 为 `true`，否则为必填项。 | `default`
 | anonymous | N | 跳过 SASL 用户名/密码身份验证（SASL ANONYMOUS）。在 `amqps://` 上与 `clientCert` 和 `clientKey` 配合使用，即可仅通过客户端证书进行身份验证（双向 TLS）。代理上必须允许此方式。 | `true`
 | caCert | N | 用于验证服务器 TLS 证书的 PEM 格式证书颁发机构（CA）证书。仅当代理证书不是由公共信任的 CA 签发时才需要。需要使用 `amqps://` 方案。 | `"-----BEGIN CERTIFICATE-----\n<base64-encoded DER>\n-----END CERTIFICATE-----"`
 | clientCert  | N | 用于双向 TLS 的 PEM 格式 TLS 客户端证书。必须与 `clientKey` 一起使用，并且需要 `amqps://` 方案。 | `"-----BEGIN CERTIFICATE-----\n<base64-encoded DER>\n-----END CERTIFICATE-----"`
-| clientKey | N | 用于双向 TLS 的 PEM 格式 TLS 客户端密钥。必须与 `clientCert` 一起使用，并且需要 `amqps://` 方案。可以是 `secretKeyRef`，以使用机密引用。 | `"-----BEGIN RSA PRIVATE KEY-----\n<base64-encoded PKCS8>\n-----END RSA PRIVATE KEY-----"`
+| clientKey | N | 用于双向 TLS 的 PEM 格式 TLS 客户端密钥。必须与 `clientCert` 一起使用，并且需要 `amqps://` 方案。可以是 `secretKeyRef`，以使用 secrets 引用。 | `"-----BEGIN RSA PRIVATE KEY-----\n<base64-encoded PKCS8>\n-----END RSA PRIVATE KEY-----"`
 | topicAddressPrefix | N | 添加到主题 AMQP 地址前的前缀，用于不带前缀的主题名以及名为 `topic:<name>` 的主题。默认无前缀，即按名称寻址主题。参见[主题与队列的寻址](#主题与队列的寻址)。 | `multicast://`
 | queueAddressPrefix | N | 添加到队列 AMQP 地址前的前缀，用于名为 `queue:<name>` 的主题。默认无前缀，即按名称寻址队列。参见[主题与队列的寻址](#主题与队列的寻址)。 | `anycast://`
-| containerID | N | 承载命名订阅的连接所使用的 AMQP 容器 ID。代理通过容器 ID 和订阅名称来识别命名订阅。默认值为 Dapr 为每个发布订阅组件分配的消费者 ID：即应用 ID；如果组件设置了 `consumerID`，则使用该值（参见[发布订阅代理组件文件]({{% ref setup-pubsub.md %}})）。因此，默认情况下，应用的所有副本共享同一个容器 ID。请勿将 `containerID` 或 `consumerID` 设置为按副本区分的值，例如 `{podName}` 或 `{uuid}` 的[标记]({{% ref component-schema.md %}})：否则每个副本都会获得各自的订阅，并各自收到每条消息的一份副本。参见[命名、持久与共享订阅](#命名持久与共享订阅)。 | `orders-service`
+| containerID | N | 承载命名订阅的连接所使用的 AMQP 容器 ID。代理通过容器 ID 和订阅名称来识别命名订阅。默认值为 Dapr 为每个 pub/sub 组件分配的消费者 ID：即应用 ID；如果组件设置了 `consumerID`，则使用该值（参见[pub/sub 代理组件文件]({{% ref setup-pubsub.md %}})）。因此，默认情况下，应用的所有副本共享同一个容器 ID。请勿将 `containerID` 或 `consumerID` 设置为按副本区分的值，例如 `{podName}` 或 `{uuid}` 的[标记]({{% ref component-schema.md %}})：否则每个副本都会获得各自的订阅，并各自收到每条消息的一份副本。参见[命名、持久与共享订阅](#命名持久与共享订阅)。 | `orders-service`
 | durableMessages | N | 将每条已发布的消息标记为持久化，使代理在重启后仍保留该消息。除非显式指定，否则 AMQP 1.0 消息不是持久化的。默认值为 `false`。 | `true`
 | applicationPropertiesFromMetadata | N | 将每个发布请求的元数据复制到消息中，以便代理端过滤器据此进行匹配。默认值为 `false`。参见[按消息属性过滤](#按消息属性过滤)。 | `true`
 | backOffPolicy | N | 代理连接断开后，重新打开订阅时各次尝试之间使用的重试策略。可选 `constant` 或 `exponential`。默认值为 `constant`。 | `"constant"`
@@ -96,7 +96,7 @@ auth:
   secretStore: <SECRET_STORE_NAME>
 ```
 
-> 虽然 `caCert` 和 `clientCert` 的值可能并非机密，但为方便起见，也可以从 Dapr 机密存储中引用它们。
+> 虽然 `caCert` 和 `clientCert` 的值可能并非 secrets，但为方便起见，也可以从 Dapr secret store 中引用它们。
 
 要仅通过客户端证书进行身份验证（双向 TLS），请将 `anonymous` 设置为 `true`，并省略 `username` 和 `password`：
 
@@ -257,7 +257,7 @@ spec:
 无论使用哪种代理，都请牢记以下几点：
 
 - **副本。** 当应用有多个副本时，请设置 `shared`。对于非共享的持久订阅，代理可能只允许一个消费者连接。
-- **同一主题上的多个订阅。** 对于每个发布订阅组件和主题，Dapr 只保留一个声明式或编程式订阅。若要在同一主题上保存多个命名订阅，请为每个订阅定义一个组件，如[下面的示例](#同一主题上的多个订阅)所示，或使用[流式订阅]({{% ref "subscription-methods.md#streaming-subscriptions" %}})。
+- **同一主题上的多个订阅。** 对于每个 pub/sub 组件和主题，Dapr 只保留一个声明式或编程式订阅。若要在同一主题上保存多个命名订阅，请为每个订阅定义一个组件，如[下面的示例](#同一主题上的多个订阅)所示，或使用[流式订阅]({{% ref "subscription-methods.md#streaming-subscriptions" %}})。
 - **更改选择器。** 代理可能会将更改后的选择器视为新订阅，并丢弃旧订阅所持有的消息。在没有消费者连接时，此过程不会报错，也不会有任何报告。当有消费者连接时（例如在滚动升级期间），代理会拒绝更改后的选择器并记录错误，除非设置了 `allowSelectorChange`；设置后，组件会持续重试，代理则会在旧消费者断开后重新创建订阅。如果未设置 `allowSelectorChange` 且错误已被记录，则没有任何副本消费该订阅，并且使用新选择器重启会丢弃其中的消息。必须恢复原选择器才能继续消费。若要更改选择器，请更新 `subscriptionName`，并在旧订阅排空后将其删除。
 - **删除订阅。** 即使从应用中移除了订阅，Dapr 也绝不会删除持久订阅。请在代理上将其删除。
 - **代理重启。** 持久订阅只保留持久化的消息。请在发布组件上设置 `durableMessages`，或从其他客户端发布持久化消息。JMS 客户端默认发布持久化消息。
@@ -266,7 +266,7 @@ spec:
 
 ### 同一主题上的多个订阅
 
-Dapr 为每个发布订阅组件和主题映射一个声明式或编程式订阅。因此，要在主题 `orders` 上设置两个各自带有选择器的命名订阅，需要在同一代理上配置两个 Dapr 组件：
+Dapr 为每个 pub/sub 组件和主题映射一个声明式或编程式订阅。因此，要在主题 `orders` 上设置两个各自带有选择器的命名订阅，需要在同一代理上配置两个 Dapr 组件：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -435,5 +435,5 @@ docker run -d -p 8080:8080 -p 55554:55555 -p 8008:8008 -p 1883:1883 -p 8000:8000
 ## 相关链接
 
 - [Dapr 组件的基本结构]({{% ref component-schema %}})
-- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})，了解如何配置发布订阅组件
-- [发布订阅构建块]({{% ref pubsub %}})
+- 阅读[本指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})，了解如何配置 pub/sub 组件
+- [pub/sub 构建块]({{% ref pubsub %}})

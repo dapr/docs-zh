@@ -3,35 +3,35 @@ type: docs
 title: "使用 Dapr API"
 linkTitle: "使用 Dapr API"
 weight: 30
-description: "运行 Dapr 边车并试用状态管理 API"
+description: "运行 Dapr sidecar 并试用 State Management API"
 ---
 
-在本指南中，你将通过运行边车并直接调用状态管理 API 来模拟一个应用程序。
+在本指南中，你将通过运行 sidecar 并直接调用 State Management API 来模拟一个应用程序。
 使用 Dapr CLI 运行 Dapr 后，你将：
 
 - 保存一个状态对象。
 - 读取/获取该状态对象。
 - 删除该状态对象。
 
-[在概念文档中详细了解状态构建块及其工作原理]({{% ref state-management %}})。
+[在概念文档中详细了解状态 building block 及其工作原理]({{% ref state-management %}})。
 
 ### 前置条件
 
 - [安装 Dapr CLI]({{% ref install-dapr-cli.md %}})。
 - [运行 `dapr init`]({{% ref install-dapr-selfhost.md%}})。
 
-### 步骤 1：运行 Dapr 边车
+### 步骤 1：运行 Dapr sidecar
 
-[`dapr run`]({{% ref dapr-run.md %}}) 命令通常会运行你的应用程序和 Dapr 边车。在本例中，
-它只运行边车，因为你要直接与状态管理 API 交互。
+[`dapr run`]({{% ref dapr-run.md %}}) 命令通常会运行你的应用程序和 Dapr sidecar。在本例中，
+它只运行 sidecar，因为你要直接与 State Management API 交互。
 
-启动一个 Dapr 边车，为名为 `myapp` 的空应用程序监听端口 3500：
+启动一个 Dapr sidecar，为名为 `myapp` 的空应用程序监听端口 3500：
 
 ```bash
 dapr run --app-id myapp --dapr-http-port 3500
 ```
 
-由于上述命令未定义自定义组件文件夹，Dapr 会使用 [`dapr init` 流程]({{% ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" %}})期间创建的默认组件定义。
+由于上述命令未定义自定义 component 文件夹，Dapr 会使用 [`dapr init` 流程]({{% ref "install-dapr-selfhost.md#step-5-verify-components-directory-has-been-initialized" %}})期间创建的默认 component 定义。
 
 ### 步骤 2：保存状态
 
@@ -71,7 +71,7 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '[{ "key": 
 
 ### 步骤 3：获取状态
 
-使用键 `name` 通过状态管理 API 检索刚刚存储的状态对象。在同一终端窗口中运行以下命令：
+使用键 `name` 通过 State Management API 检索刚刚存储的状态对象。在同一终端窗口中运行以下命令：
 
 {{< tabpane text=true >}}
 
@@ -156,4 +156,4 @@ Invoke-RestMethod -Method Delete -ContentType 'application/json' -Uri 'http://lo
 
 {{< /tabpane >}}
 
-{{< button text="下一步：Dapr 快速入门 >>" page="getting-started/quickstarts.md" >}}
+{{< button text="下一步：Dapr Quickstart >>" page="getting-started/quickstarts.md" >}}

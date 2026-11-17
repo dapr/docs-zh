@@ -6,7 +6,7 @@ weight: 2000
 description: "了解如何加密和解密文件"
 ---
 
-现在你已经阅读了 [Cryptography 作为 Dapr 构建块]({{% ref cryptography-overview %}})，让我们通过 SDK 来演练如何使用 cryptography API。
+现在你已经阅读了 [Cryptography 作为 Dapr building block]({{% ref cryptography-overview %}})，让我们通过 SDK 来演练如何使用 cryptography API。
 
 {{% alert title="注意" color="primary" %}}
 Dapr cryptography 目前处于 Alpha 阶段。
@@ -32,9 +32,9 @@ def encrypt_decrypt_string(dapr: DaprClient):
     resp = dapr.encrypt(
         data=message.encode(),
         options=EncryptOptions(
-            # cryptography 组件的名称（必需）
+            # cryptography component 的名称（必需）
             component_name=CRYPTO_COMPONENT_NAME,
-            # 存储在 cryptography 组件中的密钥（必需）
+            # 存储在 cryptography component 中的密钥（必需）
             key_name=RSA_KEY_NAME,
             # 用于包装密钥的算法，必须由上面命名的密钥支持。
             # 可选项包括："RSA"、"AES"
@@ -55,14 +55,14 @@ def encrypt_decrypt_string(dapr: DaprClient):
 
 使用 **`@dapr/dapr` 3.19.0 或更高版本**时，`client.crypto` 同时支持 HTTP 和 gRPC。你可以加密缓冲区或 UTF-8 字符串中的数据。对于大载荷和生产环境中的流式处理，建议优先使用 gRPC，因为 Dapr 会在读取完请求之前缓冲 HTTP 的 cryptography 输出。
 
-安装、组件和密钥设置、客户端配置以及可运行的示例，请参阅 [JavaScript Cryptography 操作指南]({{% ref js-cryptography-howto.md %}})。
+安装、component 和密钥设置、客户端配置以及可运行的示例，请参阅 [JavaScript Cryptography 操作指南]({{% ref js-cryptography-howto.md %}})。
 
 ```js
 // 传递数据（缓冲区或字符串）时，`encrypt` 返回包含加密消息的 Buffer
 const ciphertext = await client.crypto.encrypt(plaintext, {
-    // Dapr 组件的名称（必需）
+    // Dapr component 的名称（必需）
     componentName: "mycryptocomponent",
-    // 存储在组件中的密钥名称（必需）
+    // 存储在 component 中的密钥名称（必需）
     keyName: "mykey",
     // 用于包装密钥的算法，必须由上面命名的密钥支持。
     // 可选项包括："RSA"、"AES"
@@ -77,9 +77,9 @@ const ciphertext = await client.crypto.encrypt(plaintext, {
 await pipeline(
     fs.createReadStream("plaintext.txt"),
     await client.crypto.encrypt({
-        // Dapr 组件的名称（必需）
+        // Dapr component 的名称（必需）
         componentName: "mycryptocomponent",
-        // 存储在组件中的密钥名称（必需）
+        // 存储在 component 中的密钥名称（必需）
         keyName: "mykey",
         // 用于包装密钥的算法，必须由上面命名的密钥支持。
         // 可选项包括："RSA"、"AES"
@@ -99,7 +99,7 @@ await pipeline(
 ```csharp
 using var client = new DaprClientBuilder().Build();
 
-const string componentName = "azurekeyvault"; // 更改此项以匹配你的 cryptography 组件
+const string componentName = "azurekeyvault"; // 更改此项以匹配你的 cryptography component
 const string keyName = "myKey"; // 更改此项以匹配你的加密存储中的密钥名称
 
 const string plainText = "This is the value we're going to encrypt today";
@@ -119,9 +119,9 @@ var encryptedBytesResult = await client.EncryptAsync(componentName, plaintextByt
 
 ```go
 out, err := sdkClient.Encrypt(context.Background(), rf, dapr.EncryptOptions{
-	// Dapr 组件的名称（必需）
+	// Dapr component 的名称（必需）
 	ComponentName: "mycryptocomponent",
-	// 存储在组件中的密钥名称（必需）
+	// 存储在 component 中的密钥名称（必需）
 	KeyName:       "mykey",
 	// 用于包装密钥的算法，必须由上面命名的密钥支持。
 	// 可选项包括："RSA"、"AES"
@@ -213,9 +213,9 @@ def encrypt_decrypt_string(dapr: DaprClient):
     resp = dapr.decrypt(
         data=encrypt_bytes,
         options=DecryptOptions(
-            # cryptography 组件的名称（必需）
+            # cryptography component 的名称（必需）
             component_name=CRYPTO_COMPONENT_NAME,
-            # 存储在 cryptography 组件中的密钥（必需）
+            # 存储在 cryptography component 中的密钥（必需）
             key_name=RSA_KEY_NAME,
         ),
     )
@@ -270,7 +270,7 @@ public async Task<string> DecryptBytesAsync(byte[] encryptedBytes)
 {
   using var client = new DaprClientBuilder().Build();
 
-  const string componentName = "azurekeyvault"; // 更改此项以匹配你的 cryptography 组件
+  const string componentName = "azurekeyvault"; // 更改此项以匹配你的 cryptography component
   const string keyName = "myKey"; // 更改此项以匹配你的加密存储中的密钥名称
 
   var decryptedBytes = await client.DecryptAsync(componentName, encryptedBytes, keyName);
@@ -291,7 +291,7 @@ public async Task<string> DecryptBytesAsync(byte[] encryptedBytes)
 
 ```go
 out, err := sdkClient.Decrypt(context.Background(), rf, dapr.EncryptOptions{
-	// 唯一必需的选项是组件名称
+	// 唯一必需的选项是 component 名称
 	ComponentName: "mycryptocomponent",
 })
 ```
@@ -301,4 +301,4 @@ out, err := sdkClient.Decrypt(context.Background(), rf, dapr.EncryptOptions{
 {{< /tabpane >}}
 
 ## 后续步骤
-[Cryptography 组件规范]({{% ref supported-cryptography %}})
+[Cryptography component 规范]({{% ref supported-cryptography %}})

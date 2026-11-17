@@ -46,12 +46,12 @@ Dapr 提供分布式系统构建块，让你能够以标准化的方式构建微
 |----------------|-------------|
 | [**工作流**]({{% ref "workflow-overview" %}}) | Dapr 的持久执行引擎，用于定义跨越多个微服务的长时间运行、持久化的流程或数据流，保证每个步骤在发生故障时仍能运行至完成。工作流 API 可以与其他 Dapr 构建块组合使用，且工作流历史可以被加密签名并验证。
 | [**服务调用**]({{% ref "service-invocation-overview" %}})  | 具备弹性的服务间调用，可对远程服务进行方法调用（包括重试），无论这些服务位于受支持托管环境中的哪个位置。
-| [**发布订阅**]({{% ref "pubsub-overview" %}}) | 服务之间的事件发布与主题订阅，使事件驱动架构能够简化水平扩展，并对故障具备弹性。Dapr 提供至少一次的消息投递保证、消息 TTL、消费者组等其他高级功能。
-| [**状态管理**]({{% ref "state-management-overview" %}}) | 借助用于存储和查询键值对的状态管理，你可以在无状态服务之外，轻松编写长时间运行、高可用的有状态服务。状态存储是可插拔的，示例包括 AWS DynamoDB、Azure Cosmos DB、Azure SQL Server、GCP Firebase、PostgreSQL 或 Redis 等。
-| [**二进制存储**]({{% ref "binarystore-overview" %}}) | 二进制存储 API 使你能够存储、检索和删除过大而无法放入状态存储的文件。文件内容在你的应用与已配置的存储之间以流的方式传输，而不是作为 JSON 值缓冲在 Dapr 边车中。
-| [**资源绑定**]({{% ref "bindings-overview" %}}) | 带触发器的资源绑定进一步构建在事件驱动架构之上，通过接收和发送来自数据库、队列、文件系统等任何外部源的事件，实现扩展性与弹性。
+| [**pub/sub**]({{% ref "pubsub-overview" %}}) | 服务之间的事件发布与主题订阅，使事件驱动架构能够简化水平扩展，并对故障具备弹性。Dapr 提供至少一次的消息投递保证、消息 TTL、消费者组等其他高级功能。
+| [**状态管理**]({{% ref "state-management-overview" %}}) | 借助用于存储和查询键值对的状态管理，你可以在无状态服务之外，轻松编写长时间运行、高可用的有状态服务。state store 是可插拔的，示例包括 AWS DynamoDB、Azure Cosmos DB、Azure SQL Server、GCP Firebase、PostgreSQL 或 Redis 等。
+| [**Binary Store**]({{% ref "binarystore-overview" %}}) | Binary Store API 使你能够存储、检索和删除过大而无法放入 state store 的文件。文件内容在你的应用与已配置的存储之间以流的方式传输，而不是作为 JSON 值缓冲在 Dapr 边车中。
+| [**Resource bindings**]({{% ref "bindings-overview" %}}) | 带触发器的 Resource bindings 进一步构建在事件驱动架构之上，通过接收和发送来自数据库、队列、文件系统等任何外部源的事件，实现扩展性与弹性。
 | [**Actor**]({{% ref "actors-overview" %}}) | 一种面向有状态和无状态对象的模式，通过方法与状态的封装，让并发变得简单。Dapr 在其 Actor 运行时中提供了许多能力，包括并发、状态，以及 Actor 激活与停用的生命周期管理，还有用于唤醒 Actor 的定时器和提醒。
-| [**机密**]({{% ref "secrets-overview" %}}) | 机密管理 API 与公有云和本地机密存储集成，以便在应用代码中获取所需的机密。
+| [**secrets**]({{% ref "secrets-overview" %}}) | Secrets Management API 与公有云和本地 secret store 集成，以便在应用代码中获取所需的 secrets。
 | [**配置**]({{% ref "configuration-api-overview" %}})  | 配置 API 使你能够从配置存储中检索应用配置项，并订阅其变化。
 | [**分布式锁**]({{% ref "distributed-lock-api-overview" %}})  | 分布式锁 API 使你的应用能够为任意资源获取锁，从而获得对该资源的独占访问权，直到应用释放锁或租约超时为止。
 | [**加密**]({{% ref "cryptography-overview" %}}) | 加密 API 在密钥保管库等安全基础设施之上提供了一层抽象。它包含的 API 允许你执行加解密等密码学操作，而无需将密钥暴露给你的应用。
@@ -84,7 +84,7 @@ Dapr 可以托管在多种环境中，包括：
 
 ### 自托管本地开发
 
-在[自托管模式]({{% ref self-hosted-overview %}})下，Dapr 作为独立的边车进程运行，你的服务代码可以通过 HTTP 或 gRPC 调用它。每个正在运行的服务都有一个 Dapr 运行时进程（即边车），配置为使用状态存储、发布订阅、绑定组件以及其他构建块。
+在[自托管模式]({{% ref self-hosted-overview %}})下，Dapr 作为独立的边车进程运行，你的服务代码可以通过 HTTP 或 gRPC 调用它。每个正在运行的服务都有一个 Dapr 运行时进程（即边车），配置为使用 state store、pub/sub、binding 组件以及其他构建块。
 
 你可以使用 [Dapr CLI](https://github.com/dapr/cli#launch-dapr-and-your-app) 在本地机器上运行启用了 Dapr 的应用。在下图中，Dapr 的本地开发环境通过 CLI 的 `init` 命令进行配置。你可以通过[入门示例]({{% ref getting-started %}})进行尝试。
 
@@ -140,7 +140,7 @@ Dapr 可以在任何开发者框架中使用。以下是一些已与 Dapr 集成
 
 | 语言 | 框架 | 说明 |
 |----------|------------|-------------|
-| [.NET]({{% ref dotnet %}}) | [ASP.NET Core](https://github.com/dapr/dotnet-sdk/tree/master/examples/AspNetCore) | 提供有状态的路由控制器，用于响应来自其他服务的发布订阅事件。也可以利用 [ASP.NET Core gRPC 服务](https://docs.microsoft.com/aspnet/core/grpc/)。
+| [.NET]({{% ref dotnet %}}) | [ASP.NET Core](https://github.com/dapr/dotnet-sdk/tree/master/examples/AspNetCore) | 提供有状态的路由控制器，用于响应来自其他服务的 pub/sub 事件。也可以利用 [ASP.NET Core gRPC 服务](https://docs.microsoft.com/aspnet/core/grpc/)。
 | [Java]({{% ref java %}}) | [Spring Boot](https://spring.io/) | 使用 Dapr API 构建 Spring Boot 应用
 | [Python]({{% ref python %}}) | [Flask]({{% ref python-flask %}}) | 使用 Dapr API 构建 Flask 应用
 | [JavaScript](https://github.com/dapr/js-sdk) | [Express](https://expressjs.com/) | 使用 Dapr API 构建 Express 应用

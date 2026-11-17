@@ -1,21 +1,21 @@
 ---
 type: docs
-title: "快速入门：Actors"
+title: "Quickstart：Actors"
 linkTitle: "Actors"
 weight: 76
-description: "开始使用 Dapr 的 Actors 构建块"
+description: "开始使用 Dapr 的 Actors building block"
 ---
 
-让我们来看看 Dapr 的 [Actors 构建块]({{% ref actors %}})。在此快速入门中，你将运行一个智能设备微服务和一个简单的控制台客户端，以演示 Dapr Actors 中的有状态对象模式。  
+让我们来看看 Dapr 的 [Actors building block]({{% ref actors %}})。在此 Quickstart 中，你将运行一个智能设备微服务和一个简单的控制台客户端，以演示 Dapr Actors 中的有状态对象模式。  
 
-目前，你可以使用 .NET SDK 体验此 actors 快速入门。
+目前，你可以使用 .NET SDK 体验此 actors Quickstart。
 
 {{< tabpane text=true >}}
 
  <!-- .NET -->
 {{% tab ".NET" %}}
 
-作为 .NET actors 快速入门的简要概述：
+作为 .NET actors Quickstart 的简要概述：
 
 1. 使用 `SmartDevice.Service` 微服务，你托管：
    - 两个 `SmokeDetectorActor` 烟雾报警对象
@@ -54,7 +54,7 @@ cd actors/csharp/sdk/service
 dotnet build
 ```
 
-运行 `SmartDevice.Service`，它将启动服务本身和 Dapr 边车：
+运行 `SmartDevice.Service`，它将启动服务本身和 Dapr sidecar：
 
 ```bash
 dapr run --app-id actorservice --app-port 5001 --dapr-http-port 3500 --resources-path ../../../resources -- dotnet run --urls=http://localhost:5001/
@@ -204,7 +204,7 @@ dapr run --app-id actorclient -- dotnet run
             await proxySmartDevice.SoundAlarm();
         }
 
-        // 注册一个每 15 秒刷新并清除警报状态的提醒
+        // 注册一个每 15 秒刷新并清除警报状态的 reminder
         await this.RegisterReminderAsync("AlarmRefreshReminder", null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
     }
     ```
@@ -227,10 +227,10 @@ dapr run --app-id actorclient -- dotnet run
    Console.WriteLine($"Device 2 state: {storedDeviceData2}");
    ```
 
-1. `ControllerActor` 还会使用 `RegisterReminderAsync` 创建一个持久提醒，在 15 秒后调用 `ClearAlarm`。
+1. `ControllerActor` 还会使用 `RegisterReminderAsync` 创建一个持久 reminder，在 15 秒后调用 `ClearAlarm`。
 
    ```csharp
-   // 注册一个每 15 秒刷新并清除警报状态的提醒
+   // 注册一个每 15 秒刷新并清除警报状态的 reminder
    await this.RegisterReminderAsync("AlarmRefreshReminder", null, TimeSpan.FromSeconds(15), TimeSpan.FromSeconds(15));
    ```
 
@@ -248,16 +248,16 @@ dapr run --app-id actorclient -- dotnet run
 
 ## 使用 Dapr Dev Dashboard 检查 Actors
 
-在运行服务应用和客户端应用期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看已注册的 `SmokeDetectorActor` 和 `ControllerActor` 类型，以及每种类型的活跃 actor 数量。在 **State** 页面上选择 **Show internal keys** 后，仪表板还会显示存储在 state store 中的 actor 状态，因此你可以观察警报触发和提醒清除时每个设备状态的变化。
+在运行服务应用和客户端应用期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看已注册的 `SmokeDetectorActor` 和 `ControllerActor` 类型，以及每种类型的活跃 actor 数量。在 **State** 页面上选择 **Show internal keys** 后，仪表板还会显示存储在 state store 中的 actor 状态，因此你可以观察警报触发和 reminder 清除时每个设备状态的变化。
 
 ## 告诉我们你的想法！
 
-我们正在不断努力改进我们的快速入门示例，并重视你的反馈。你觉得这个快速入门有帮助吗？你有改进建议吗？
+我们正在不断努力改进我们的 Quickstart 示例，并重视你的反馈。你觉得这个 Quickstart 有帮助吗？你有改进建议吗？
 
 加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord) 参与讨论。
 
 ## 后续步骤
 
-了解有关 [Actor 构建块]({{% ref actors %}}) 的更多信息
+了解有关 [Actor building block]({{% ref actors %}}) 的更多信息
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

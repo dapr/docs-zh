@@ -7,19 +7,19 @@ description: "了解如何存储嵌入向量，并使用向量 API 运行相似�
 ---
 
 {{% alert title="Alpha" color="primary" %}}
-向量 API 目前处于 [Alpha 阶段]({{% ref "certification-lifecycle#certification-levels" %}})。
+向量 API 目前处于 [alpha]({{% ref "certification-lifecycle#certification-levels" %}})。
 {{% /alert %}}
 
 让我们开始使用 [向量 API]({{% ref vector-overview %}})。在本指南中，你将学习如何：
 
-- 设置 Meilisearch 向量组件。
+- 设置 Meilisearch 向量 component。
 - 创建集合。
-- 插入或更新带有向量、元数据和负载的记录。
-- 使用元数据过滤器和分数阈值运行相似性查询。
+- 插入或更新带有向量、metadata 和负载的记录。
+- 使用 metadata 过滤器和分数阈值运行相似性查询。
 - 在一个批次中运行多个查询。
 - 按 ID 检索和删除记录。
 
-本指南中的示例使用 `curl` 调用 Dapr HTTP API，并使用 4 维向量以便于阅读。在实际应用中，向量来自嵌入模型，通常具有数百或数千个维度。HTTP API 使用 [protobuf 消息的 JSON 映射](https://protobuf.dev/programming-guides/json/)：字段名为 camelCase，64 位整数为字符串，字节则使用 base64 编码。响应中会包含值为零值的字段，并省略未设置的可选字段。如需查看使用类型化负载、元数据过滤器和批量查询的 .NET 示例，请参阅 [向量 .NET SDK 指南]({{% ref dotnet-vector-howto.md %}})，其适用于 SDK 1.19.0 或更高版本。
+本指南中的示例使用 `curl` 调用 Dapr HTTP API，并使用 4 维向量以便于阅读。在实际应用中，向量来自嵌入模型，通常具有数百或数千个维度。HTTP API 使用 [protobuf 消息的 JSON 映射](https://protobuf.dev/programming-guides/json/)：字段名为 camelCase，64 位整数为字符串，字节则使用 base64 编码。响应中会包含值为零值的字段，并省略未设置的可选字段。如需查看使用类型化负载、metadata 过滤器和批量查询的 .NET 示例，请参阅 [向量 .NET SDK 指南]({{% ref dotnet-vector-howto.md %}})，其适用于 SDK 1.19.0 或更高版本。
 
 ## 前提条件
 
@@ -36,9 +36,9 @@ docker run -d --name meilisearch -p 7700:7700 \
   getmeili/meilisearch:v1.43
 ```
 
-## 设置向量组件
+## 设置向量 component
 
-在你的组件目录（例如 `./components`）中创建名为 `vector.yaml` 的文件：
+在你的 component 目录（例如 `./components`）中创建名为 `vector.yaml` 的文件：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -59,11 +59,11 @@ spec:
 上面的示例将 secrets 作为明文字符串直接使用。建议使用 secret store 来保存这些 secrets，具体方法见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-有关所有受支持的向量组件，请参阅[向量组件规范]({{% ref supported-vector %}})。
+有关所有受支持的向量 component，请参阅[向量 component 规范]({{% ref supported-vector %}})。
 
-## 运行 Dapr 边车
+## 运行 Dapr sidecar
 
-启动一个加载该组件的 Dapr 边车：
+启动一个加载该 component 的 Dapr sidecar：
 
 ```bash
 dapr run --app-id vector-app --dapr-http-port 3500 --resources-path ./components
@@ -297,10 +297,10 @@ curl -X POST http://localhost:3500/v1.0-alpha1/vector/myvectors/collections/cars
 curl -X DELETE http://localhost:3500/v1.0-alpha1/vector/myvectors/collections/cars
 ```
 
-没有请求体的请求（获取、列出和删除集合）通过 `metadata.<key>=<value>` 查询参数传递请求元数据。
+没有请求体的请求（获取、列出和删除集合）通过 `metadata.<key>=<value>` 查询参数传递请求 metadata。
 
 ## 后续步骤
 
 - [向量 API 参考]({{% ref vector_api %}})
-- [向量组件规范]({{% ref supported-vector %}})
-- [对话 API 概述]({{% ref conversation-overview %}})
+- [向量 component 规范]({{% ref supported-vector %}})
+- [conversation API 概述]({{% ref conversation-overview %}})

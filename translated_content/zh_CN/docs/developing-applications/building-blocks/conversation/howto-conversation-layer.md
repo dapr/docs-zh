@@ -1,28 +1,28 @@
 ---
 type: docs
-title: "How-To: 使用对话 API 与 LLM 对话"
+title: "How-To: 使用 conversation API 与 LLM 对话"
 linkTitle: "How-To: 对话"
 weight: 2000
 description: "了解如何抽象化与大语言模型交互的复杂性"
 ---
 
 {{% alert title="Alpha" color="primary" %}}
-对话 API 目前处于 [alpha]({{% ref "certification-lifecycle#certification-levels" %}}) 状态。
+conversation API 目前处于 [alpha]({{% ref "certification-lifecycle#certification-levels" %}}) 状态。
 {{% /alert %}}
 
-让我们开始使用[对话 API]({{% ref conversation-overview %}})。在本指南中，你将学习如何：
+让我们开始使用[conversation API]({{% ref conversation-overview %}})。在本指南中，你将学习如何：
 
-- 设置一个可与对话 API 配合使用的可用 Dapr 组件（echo）。
+- 设置一个可与 conversation API 配合使用的可用 Dapr component（echo）。
 - 将对话客户端添加到你的应用程序。
 - 使用 `dapr run` 运行连接。
 
-## 设置对话组件
+## 设置 conversation component
 
 创建一个名为 `conversation.yaml` 的新配置文件，并保存到应用程序目录下的 components 或 config 子文件夹中。
 
-选择你的[首选对话组件规范]({{% ref supported-conversation %}})用于 `conversation.yaml` 文件。
+选择你的[首选 conversation component 规范]({{% ref supported-conversation %}})用于 `conversation.yaml` 文件。
 
-对于此场景，我们使用简单的 echo 组件。
+对于此场景，我们使用简单的 echo component。
 
 ```yml
 apiVersion: dapr.io/v1alpha1
@@ -34,11 +34,11 @@ spec:
   version: v1
 ```
 
-### 使用 OpenAI 组件
+### 使用 OpenAI component
 
-要与真实的大型语言模型 (LLM) 交互，请使用其他[支持的对话组件]({{% ref "supported-conversation" %}})，包括 OpenAI、Hugging Face、Anthropic、DeepSeek 等。
+要与真实的大型语言模型 (LLM) 交互，请使用其他[支持的 conversation components]({{% ref "supported-conversation" %}})，包括 OpenAI、Hugging Face、Anthropic、DeepSeek 等。
 
-例如，要将 `echo` 模拟组件替换为 `OpenAI` 组件，请用以下内容替换 `conversation.yaml` 文件。你需要将 API 密钥复制到组件文件中。
+例如，要将 `echo` 模拟 component 替换为 `OpenAI` component，请用以下内容替换 `conversation.yaml` 文件。你需要将 API 密钥复制到 component 文件中。
 
 ```
 apiVersion: dapr.io/v1alpha1
@@ -116,7 +116,7 @@ public class Conversation {
 
             ConversationInput daprConversationInput = new ConversationInput(prompt);
 
-            // 组件名称是 conversation.yaml 文件 metadata 块中提供的名称。
+            // component 名称是 conversation.yaml 文件 metadata 块中提供的名称。
             Mono<ConversationResponse> responseMono = client.converse(new ConversationRequest("echo",
                     List.of(daprConversationInput))
                     .setContextId("contextId")
@@ -165,7 +165,7 @@ with DaprClient() as d:
 <!-- JavaScript -->
 {{% tab "JavaScript" %}}
 
-使用 `@dapr/dapr` **3.19.0 或更高版本**，并搭配 Dapr 运行时 **1.16 或更高版本**。安装该包后，将此示例保存为 `app.mjs`：
+使用 `@dapr/dapr` **3.19.0 或更高版本**，并搭配 Dapr runtime **1.16 或更高版本**。安装该包后，将此示例保存为 `app.mjs`：
 
 ```sh
 npm install @dapr/dapr@3.19.0
@@ -365,7 +365,7 @@ dapr run --app-id=conversation --resources-path ./config --dapr-grpc-port 3500 -
 
 ## 高级功能
 
-对话 API 支持以下功能：
+conversation API 支持以下功能：
 
 1. **提示缓存：** 允许开发者在 Dapr 中缓存提示，从而获得更快的响应时间，并降低将提示插入 LLM 提供商缓存时的出口成本。
 
@@ -373,11 +373,11 @@ dapr run --app-id=conversation --resources-path ./config --dapr-grpc-port 3500 -
 
 1. **工具调用：** 允许 LLM 与外部函数和 API 进行交互。
 
-要了解如何启用这些功能，请参阅[对话 API 参考指南]({{% ref conversation_api %}})。
+要了解如何启用这些功能，请参阅[conversation API 参考指南]({{% ref conversation_api %}})。
 
-## Dapr SDK 仓库中的对话 API 示例
+## Dapr SDK 仓库中的 conversation API 示例
 
-在受支持的 SDK 仓库中，通过其中提供的完整示例体验对话 API。
+在受支持的 SDK 仓库中，通过其中提供的完整示例体验 conversation API。
 
 
 {{< tabpane text=true >}}
@@ -430,6 +430,6 @@ dapr run --app-id=conversation --resources-path ./config --dapr-grpc-port 3500 -
 
 ## 下一步
 
-- [对话快速入门]({{% ref conversation-quickstart %}})
-- [对话 API 参考指南]({{% ref conversation_api %}})
-- [可用的对话组件]({{% ref supported-conversation %}})
+- [对话 Quickstart]({{% ref conversation-quickstart %}})
+- [conversation API 参考指南]({{% ref conversation_api %}})
+- [可用的 conversation components]({{% ref supported-conversation %}})

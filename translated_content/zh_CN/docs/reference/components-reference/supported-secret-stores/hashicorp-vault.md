@@ -2,14 +2,14 @@
 type: docs
 title: "HashiCorp Vault"
 linkTitle: "HashiCorp Vault"
-description: HashiCorp Vault 机密存储组件的详细信息
+description: HashiCorp Vault secret store 组件的详细信息
 aliases:
   - "/zh-hans/operations/components/setup-secret-store/supported-secret-stores/hashicorp-vault/"
 ---
 
 ## 创建 Vault 组件
 
-要设置 HashiCorp Vault 机密存储，需要创建一个类型为 `secretstores.hashicorp.vault` 的组件。请参阅[此指南]({{% ref "setup-secret-store.md#apply-the-configuration" %}})了解如何创建和应用机密存储配置。请参阅[引用机密]({{% ref component-secrets.md %}})指南，了解如何检索机密并在 Dapr 组件中使用它。
+要设置 HashiCorp Vault secret store，需要创建一个类型为 `secretstores.hashicorp.vault` 的组件。请参阅[此指南]({{% ref "setup-secret-store.md#apply-the-configuration" %}})了解如何创建和应用 secret store 配置。请参阅[引用 secrets]({{% ref component-secrets.md %}})指南，了解如何检索 secrets 并在 Dapr 组件中使用它。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -48,7 +48,7 @@ spec:
     value: "map"
 ```
 {{% alert title="Warning" color="warning" %}}
-上述示例将机密用作纯文本字符串。建议使用本地机密存储，例如 [Kubernetes 机密存储]({{% ref kubernetes-secret-store.md %}}) 或 [本地文件]({{% ref file-secret-store.md %}}) 来引导安全的机密存储。
+上述示例将 secrets 用作纯文本字符串。建议使用本地 secret store，例如 [Kubernetes secret store]({{% ref kubernetes-secret-store.md %}}) 或 [本地文件]({{% ref file-secret-store.md %}}) 来引导安全的 secret store。
 {{% /alert %}}
 
 ## Kubernetes 认证
@@ -93,7 +93,7 @@ vault auth enable kubernetes
 vault write auth/kubernetes/config \
   kubernetes_host="https://kubernetes.default.svc:443"
 
-# 为应用所需的机密授予访问权限的策略。
+# 为应用所需的 secrets 授予访问权限的策略。
 vault policy write dapr-app - <<EOF
 path "secret/data/dapr/*" {
   capabilities = ["read"]
@@ -132,15 +132,15 @@ vault write auth/kubernetes/role/dapr-app \
 | vaultKVPrefix | N | Vault 中的前缀。默认值为 `"dapr"` | `"dapr"`, `"myprefix"` |
 | vaultKVUsePrefix | N | 如果为 false，则 vaultKVPrefix 会被强制为空。如果未提供该值或设置为 true，则在访问 Vault 时使用 vaultKVPrefix。若要使用存储的 BulkGetSecret 方法，需要将其设置为 false。  | `"true"`, `"false"` |
 | enginePath | N | Vault 中的[引擎](https://www.vaultproject.io/api-docs/secret/kv/kv-v2)路径。默认值为 `"secret"` | `"kv"`, `"any"` |
-| vaultValueType | N | Vault 值类型。`map` 表示将值解析为 `map[string]string`，`text` 表示将值作为字符串使用。'map' 会设置 `multipleKeyValuesPerSecret` 行为。`text` 使 Vault 表现为具有名称/值语义的机密存储。默认值为 `"map"` | `"map"`, `"text"` |
+| vaultValueType | N | Vault 值类型。`map` 表示将值解析为 `map[string]string`，`text` 表示将值作为字符串使用。'map' 会设置 `multipleKeyValuesPerSecret` 行为。`text` 使 Vault 表现为具有名称/值语义的 secret store。默认值为 `"map"` | `"map"`, `"text"` |
 
 ## 可选的请求元数据属性
 
-可以为 Hashicorp Vault 机密存储组件提供以下[可选查询参数]({{% ref "secrets_api#query-parameters" %}})：
+可以为 Hashicorp Vault secret store 组件提供以下[可选查询参数]({{% ref "secrets_api#query-parameters" %}})：
 
 查询参数 | 描述
 --------- | -----------
-`metadata.version_id` | 给定机密的版本。
+`metadata.version_id` | 给定 secrets 的版本。
 
 ## 设置 Hashicorp Vault 实例
 
@@ -157,20 +157,20 @@ vault write auth/kubernetes/role/dapr-app \
 {{< /tabpane >}}
 
 
-## 每个机密的多个键值
+## 每个 secrets 的多个键值
 
-HashiCorp Vault 支持在一个机密中存储多个键值。虽然这种行为最终取决于由 `enginePath` 配置的底层[机密引擎](https://www.vaultproject.io/docs/secrets#secrets-engines)，但它可能会改变你在 Vault 中存储和检索键的方式。例如，在一个机密中存储多个键值，正是 `secret` 引擎（即由 `enginePath` 字段配置的默认引擎）所提供的行为。
+HashiCorp Vault 支持在一个 secrets 中存储多个键值。虽然这种行为最终取决于由 `enginePath` 配置的底层[secrets 引擎](https://www.vaultproject.io/docs/secrets#secrets-engines)，但它可能会改变你在 Vault 中存储和检索键的方式。例如，在一个 secrets 中存储多个键值，正是 `secret` 引擎（即由 `enginePath` 字段配置的默认引擎）所提供的行为。
 
-检索机密时，会返回一个 JSON 负载，其中以键名作为字段名，并附带各自的值。
+检索 secrets 时，会返回一个 JSON 负载，其中以键名作为字段名，并附带各自的值。
 
-假设你按如下方式在 Vault 中添加一个机密：
+假设你按如下方式在 Vault 中添加一个 secrets：
 
 ```shell
 vault kv put secret/dapr/mysecret firstKey=aValue secondKey=anotherValue thirdKey=yetAnotherDistinctValue
 ```
 
-在上述示例中，机密名为 `mysecret`，其下包含 3 个键值。
-请注意，该机密是在 `dapr` 前缀下创建的，因为这是 `vaultKVPrefix` 标志的默认值。
+在上述示例中，secrets 名为 `mysecret`，其下包含 3 个键值。
+请注意，该 secrets 是在 `dapr` 前缀下创建的，因为这是 `vaultKVPrefix` 标志的默认值。
 从 Dapr 检索它将得到以下输出：
 
 ```shell
@@ -185,7 +185,7 @@ $ curl http://localhost:3501/v1.0/secrets/my-hashicorp-vault/mysecret
 }
 ```
 
-请注意，结果中不会重复机密的名称（`mysecret`）。
+请注意，结果中不会重复 secrets 的名称（`mysecret`）。
 
 ## TLS 服务器验证
 
@@ -215,14 +215,14 @@ spec:
           -----END CERTIFICATE-----
 ```
 
-## 机密轮换
+## secret rotation
 
-通过[机密 API]({{% ref secrets_api.md %}})检索的机密会在每次请求时从 Vault 读取，因此调用该 API 的应用始终会获得机密的当前版本。
+通过[secrets API]({{% ref secrets_api.md %}})检索的 secrets 会在每次请求时从 Vault 读取，因此调用该 API 的应用始终会获得 secrets 的当前版本。
 
-但是，在组件定义中通过 `secretKeyRef` 引用、且 `auth.secretStore` 指向 Vault 机密存储的机密，只会在组件初始化时解析。在 Vault 中轮换机密并不会触发组件重新加载，组件会一直使用旧值，直到 Dapr 边车重启或组件清单被修改为止。更多详情请阅读[更新已引用的机密]({{% ref "component-secrets.md#updating-referenced-secrets" %}})。
+但是，在组件定义中通过 `secretKeyRef` 引用、且 `auth.secretStore` 指向 Vault secret store 的 secrets，只会在组件初始化时解析。在 Vault 中轮换 secrets 并不会触发组件重新加载，组件会一直使用旧值，直到 Dapr 边车重启或组件清单被修改为止。更多详情请阅读[更新已引用的 secrets]({{% ref "component-secrets.md#updating-referenced-secrets" %}})。
 
 ## 相关链接
-- [机密构建块]({{% ref secrets %}})
-- [操作方法：检索机密]({{% ref "howto-secrets.md" %}})
-- [操作方法：在 Dapr 组件中引用机密]({{% ref component-secrets.md %}})
-- [机密 API 参考]({{% ref secrets_api.md %}})
+- [secrets 构建块]({{% ref secrets %}})
+- [操作方法：检索 secrets]({{% ref "howto-secrets.md" %}})
+- [操作方法：在 Dapr 组件中引用 secrets]({{% ref component-secrets.md %}})
+- [secrets API 参考]({{% ref secrets_api.md %}})

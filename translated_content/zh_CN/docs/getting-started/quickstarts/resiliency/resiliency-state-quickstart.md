@@ -1,20 +1,20 @@
 ---
 type: docs
-title: "快速入门：服务到组件的弹性"
+title: "Quickstart：服务到组件的弹性"
 linkTitle: "弹性：服务到组件"
 weight: 110
 description: "通过状态管理 API 快速上手 Dapr 的弹性能力"
 ---
 
-通过模拟系统故障来观察 Dapr 的弹性能力。在本快速入门中，你将：
+通过模拟系统故障来观察 Dapr 的弹性能力。在本 Quickstart 中，你将：
 
 - 运行一个微服务应用程序，该应用程序通过 Dapr 的状态管理 API 持续持久化和检索状态。 
-- 通过模拟系统故障来触发弹性策略。 
+- 通过模拟系统故障来触发 resiliency 策略。 
 - 故障解决后，微服务应用程序将恢复运行。 
 
 <img src="/images/resiliency-quickstart-svc-component.png" width="1000" alt="显示应用于 Dapr API 的弹性的图表">
 
-在继续快速入门之前，请选择你偏好的特定语言的 Dapr SDK。
+在继续 Quickstart 之前，请选择你偏好的特定语言的 Dapr SDK。
 
 {{< tabpane text=true >}}
  <!-- Python -->
@@ -53,7 +53,7 @@ uv sync
 
 ### 第 2 步：运行应用程序
 
-运行 `order-processor` 服务以及 Dapr 边车。Dapr 边车随后会加载位于资源目录中的弹性规范：
+运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的弹性规范：
 
 
    ```yaml
@@ -224,7 +224,7 @@ npm install
 
 ### 第 2 步：运行应用程序 
 
-运行 `order-processor` 服务以及 Dapr 边车。Dapr 边车随后会加载位于资源目录中的弹性规范：
+运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的弹性规范：
 
 
    ```yaml
@@ -394,7 +394,7 @@ dotnet build
 
 ### 第 2 步：运行应用程序
 
-运行 `order-processor` 服务以及 Dapr 边车。Dapr 边车随后会加载位于资源目录中的弹性规范：
+运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的弹性规范：
 
    ```yaml
    apiVersion: dapr.io/v1alpha1
@@ -565,7 +565,7 @@ mvn clean install
 
 ### 第 2 步：运行应用程序
 
-运行 `order-processor` 服务以及 Dapr 边车。Dapr 边车随后会加载位于资源目录中的弹性规范：
+运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的弹性规范：
 
    ```yaml
    apiVersion: dapr.io/v1alpha1
@@ -733,7 +733,7 @@ go build .
 
 ### 第 2 步：运行应用程序
 
-运行 `order-processor` 服务以及 Dapr 边车。Dapr 边车随后会加载位于资源目录中的弹性规范：
+运行 `order-processor` 服务以及 Dapr sidecar。Dapr sidecar 随后会加载位于资源目录中的弹性规范：
 
    ```yaml
    apiVersion: dapr.io/v1alpha1
@@ -868,17 +868,17 @@ INFO[0036] Recovered processing operation component[statestore] output.
 
 {{< /tabpane >}}
 
-## 使用 Dapr Dev Dashboard 构建你自己的弹性策略
+## 使用 Dapr Dev Dashboard 构建你自己的 resiliency 策略
 
-[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 内置了弹性策略构建器。无需手动编写 `resiliency.yaml` 文件，你可以使用界面中的向导来定义超时、重试和熔断器，并将它们应用到你的应用、组件和 Actor。你可以尝试重新创建本快速入门中的 `myresiliency` 策略，或者尝试不同的重试和熔断器设置，然后重新运行故障场景。
+[Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 内置了 resiliency builder。无需手动编写 `resiliency.yaml` 文件，你可以使用界面中的向导来定义超时、重试和熔断器，并将它们应用到你的应用、组件和 Actor。你可以尝试重新创建本 Quickstart 中的 `myresiliency` 策略，或者尝试不同的重试和熔断器设置，然后重新运行故障场景。
 
 ## 告诉我们你的想法！
-我们会持续改进快速入门示例，并重视你的反馈。你觉得这个快速入门有帮助吗？你对改进有什么建议？
+我们会持续改进 Quickstart 示例，并重视你的反馈。你觉得这个 Quickstart 有帮助吗？你对改进有什么建议？
 
 欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的想法。
 
 ## 后续步骤
 
-进一步了解[弹性特性]({{% ref resiliency-overview %}})及其如何与 Dapr 的构建块 API 协同工作。
+进一步了解[弹性特性]({{% ref resiliency-overview %}})及其如何与 Dapr 的 building block API 协同工作。
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

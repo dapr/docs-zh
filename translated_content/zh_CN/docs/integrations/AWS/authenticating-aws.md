@@ -19,8 +19,8 @@ aliases:
 
 ### 身份验证配置文件
 
-#### 访问密钥 ID 和秘密访问密钥
-使用静态的访问密钥 ID 和秘密访问密钥凭证，可以通过组件元数据字段指定，也可以通过[默认 AWS 配置](https://docs.aws.amazon.com/sdkref/latest/guide/creds-config-files.html)指定。
+#### 访问密钥 ID 和 Secret Access Key
+使用静态的访问密钥 ID 和 Secret Access Key 凭证，可以通过组件元数据字段指定，也可以通过[默认 AWS 配置](https://docs.aws.amazon.com/sdkref/latest/guide/creds-config-files.html)指定。
 
 {{% alert title="重要" color="warning" %}}
 在以下场景中，建议优先通过默认 AWS 配置加载凭证：
@@ -32,7 +32,7 @@ aliases:
 | --------- | ----------- | ----------- | ----------- |
 | `region` | 是 | 要连接的 AWS 区域。 | "us-east-1" |
 | `accessKey` | 否 | AWS 访问密钥 ID。将在 Dapr v1.17 中变为必填。 | "AKIAIOSFODNN7EXAMPLE" |
-| `secretKey` | 否 | AWS 秘密访问密钥，与 `accessKey` 一起使用。将在 Dapr v1.17 中变为必填。 | "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" |
+| `secretKey` | 否 | AWS Secret Access Key，与 `accessKey` 一起使用。将在 Dapr v1.17 中变为必填。 | "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" |
 | `sessionToken` | 否 | AWS 会话令牌，与 `accessKey` 和 `secretKey` 一起使用。对于 IAM 用户密钥通常不需要。 | |
 
 #### 承担 IAM 角色
@@ -81,7 +81,7 @@ aliases:
 
 如果在 AWS EKS 上运行，你可以[将 IAM 角色关联到 Kubernetes 服务账号](https://docs.aws.amazon.com/eks/latest/userguide/create-service-account-iam-policy-and-role.html)，供你的 Pod 使用。
 
-以上方案解决的是同一个问题：它们让 Dapr 运行时进程（或边车）能够动态获取凭证，从而无需显式提供凭证。这带来了多项好处，例如自动化的密钥轮换，以及无需自行管理机密。
+以上方案解决的是同一个问题：它们让 Dapr 运行时进程（或边车）能够动态获取凭证，从而无需显式提供凭证。这带来了多项好处，例如自动化的密钥轮换，以及无需自行管理 secrets。
 
 Kiam 和 Kube2IAM 都通过拦截对[实例元数据服务](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-service.html)的调用来工作。
 

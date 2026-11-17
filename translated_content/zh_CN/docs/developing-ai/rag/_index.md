@@ -32,7 +32,7 @@ Dapr Python SDK 的 `dapr.ext.rag` 扩展通过 `DurableRAGPipeline` 解决了�
 | 嵌入器 | OpenAI、Azure OpenAI |
 | 向量存储 | PostgreSQL + pgvector、Pinecone、Azure AI Search |
 
-摄取也可以随文档变化自动触发：S3 或 Azure Blob 事件通过 Dapr 发布订阅流入带去抖（debounced）的协调运行，而无需在每次添加或更新文档时手动调用重新摄取接口。
+摄取也可以随文档变化自动触发：S3 或 Azure Blob 事件通过 Dapr pub/sub 流入带去抖（debounced）的协调运行，而无需在每次添加或更新文档时手动调用重新摄取接口。
 
 ## 开始使用
 
@@ -85,7 +85,7 @@ matches = resolver.query("What is the remote work policy?", top_k=5)
 
 ## 事件驱动的摄取
 
-无需手动调用 `pipeline.start()`，变更通知即可自动触发摄取：S3 Event Notification 或 Azure Event Grid/Service Bus 事件通过 Dapr 发布订阅到达，按事件 ID 去重，并在一个短暂的去抖窗口吸收一连串相关变更后，为受影响的前缀启动一次协调运行。判断哪些内容需要建立索引，仍以真实数据源的发现结果为准；事件只决定*何时*去检查。每个提供方完整、可运行的订阅者示例，请参阅 Python SDK 仓库中的[示例发布订阅触发器](https://github.com/dapr/python-sdk/tree/main/examples/rag)。
+无需手动调用 `pipeline.start()`，变更通知即可自动触发摄取：S3 Event Notification 或 Azure Event Grid/Service Bus 事件通过 Dapr pub/sub 到达，按事件 ID 去重，并在一个短暂的去抖窗口吸收一连串相关变更后，为受影响的前缀启动一次协调运行。判断哪些内容需要建立索引，仍以真实数据源的发现结果为准；事件只决定*何时*去检查。每个提供方完整、可运行的订阅者示例，请参阅 Python SDK 仓库中的[示例 pub/sub 触发器](https://github.com/dapr/python-sdk/tree/main/examples/rag)。
 
 ## 了解更多
 

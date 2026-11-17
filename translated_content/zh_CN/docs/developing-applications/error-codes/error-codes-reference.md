@@ -71,10 +71,10 @@ weight: 20
 | `ERR_STATE_BULK_GET`                    |                                         | 批量获取状态时出错                        |
 | `ERR_NOT_SUPPORTED_STATE_OPERATION`     |                                         | 事务中不支持该操作                        |
 | `ERR_STATE_QUERY`                       | `DAPR_STATE_QUERY_FAILED`               | 查询状态时出错                            |
-| `ERR_STATE_STORE_NOT_FOUND`             | `DAPR_STATE_NOT_FOUND`                  | 未找到状态存储                            |
-| `ERR_STATE_STORE_NOT_CONFIGURED`        | `DAPR_STATE_NOT_CONFIGURED`             | 状态存储未配置                            |
-| `ERR_STATE_STORE_NOT_SUPPORTED`         | `DAPR_STATE_TRANSACTIONS_NOT_SUPPORTED` | 状态存储不支持事务                        |
-| `ERR_STATE_STORE_NOT_SUPPORTED`         | `DAPR_STATE_QUERYING_NOT_SUPPORTED`     | 状态存储不支持查询                        |
+| `ERR_STATE_STORE_NOT_FOUND`             | `DAPR_STATE_NOT_FOUND`                  | 未找到 state store                            |
+| `ERR_STATE_STORE_NOT_CONFIGURED`        | `DAPR_STATE_NOT_CONFIGURED`             | state store 未配置                            |
+| `ERR_STATE_STORE_NOT_SUPPORTED`         | `DAPR_STATE_TRANSACTIONS_NOT_SUPPORTED` | state store 不支持事务                        |
+| `ERR_STATE_STORE_NOT_SUPPORTED`         | `DAPR_STATE_QUERYING_NOT_SUPPORTED`     | state store 不支持查询                        |
 | `ERR_STATE_STORE_TOO_MANY_TRANSACTIONS` | `DAPR_STATE_TOO_MANY_TRANSACTIONS`      | 单个事务中的操作数过多                    |
 | `ERR_MALFORMED_REQUEST`                 | `DAPR_STATE_ILLEGAL_KEY`                | 键无效                                    |
 
@@ -100,17 +100,17 @@ weight: 20
 | `ERR_CRYPTO_PROVIDERS_NOT_CONFIGURED` |           | 密码学提供程序未配置            |
 
 
-### 机密 API
+### secrets API
 
 | HTTP Code                          | gRPC Code | Description                 |
 | ---------------------------------- | --------- | --------------------------- |
-| `ERR_SECRET_GET`                   |           | 获取机密时出错              |
-| `ERR_SECRET_STORE_NOT_FOUND`       |           | 未找到机密存储              |
-| `ERR_SECRET_STORES_NOT_CONFIGURED` |           | 机密存储未配置              |
+| `ERR_SECRET_GET`                   |           | 获取 secrets 时出错              |
+| `ERR_SECRET_STORE_NOT_FOUND`       |           | 未找到 secret store              |
+| `ERR_SECRET_STORES_NOT_CONFIGURED` |           | secret store 未配置              |
 | `ERR_PERMISSION_DENIED`            |           | 策略拒绝权限                |
 
 
-### 发布订阅和消息错误
+### pub/sub 和消息错误
 
 | HTTP Code                     | gRPC Code                              | Description                            |
 | ----------------------------- | -------------------------------------- | -------------------------------------- |
@@ -164,19 +164,19 @@ weight: 20
 | `ERR_DIRECT_INVOKE` |           | 调用服务时出错         |
 
 
-### 绑定 API
+### binding API
 
 | HTTP Code                   | gRPC Code | Description                   |
 | --------------------------- | --------- | ----------------------------- |
-| `ERR_INVOKE_OUTPUT_BINDING` |           | 调用输出绑定时出错            |
+| `ERR_INVOKE_OUTPUT_BINDING` |           | 调用 output binding 时出错            |
 
 
 ### 分布式锁 API
 
 | HTTP Code                       | gRPC Code | Description               |
 | ------------------------------- | --------- | ------------------------- |
-| `ERR_LOCK_STORE_NOT_CONFIGURED` |           | 锁存储未配置              |
-| `ERR_LOCK_STORE_NOT_FOUND`      |           | 未找到锁存储              |
+| `ERR_LOCK_STORE_NOT_CONFIGURED` |           | lock store 未配置              |
+| `ERR_LOCK_STORE_NOT_FOUND`      |           | 未找到 lock store              |
 | `ERR_TRY_LOCK`                  |           | 获取锁时出错              |
 | `ERR_UNLOCK`                    |           | 释放锁时出错              |
 

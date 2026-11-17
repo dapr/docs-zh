@@ -1,21 +1,21 @@
 ---
 type: docs
-title: "快速入门：输入与输出 binding"
+title: "Quickstart：输入与输出 binding"
 linkTitle: "binding"
 weight: 75
-description: "开始使用 Dapr 的 binding 构建块"
+description: "开始使用 Dapr 的 binding building block"
 ---
 
-让我们来看看 Dapr 的[binding 构建块]({{% ref bindings %}})。借助 binding，你可以：
+让我们来看看 Dapr 的[binding building block]({{% ref bindings %}})。借助 binding，你可以：
 
 - 由外部系统传入的事件触发你的应用程序。
 - 与外部系统进行交互。
 
-在本快速入门中，你将使用输入 [Cron]({{% ref cron %}}) binding，安排一个每 10 秒运行一次的批处理脚本。该脚本处理一个 JSON 文件，并通过 [PostgreSQL]({{% ref postgresql %}}) Dapr binding 将数据输出到 SQL 数据库中。 
+在本 Quickstart 中，你将使用输入 [Cron]({{% ref cron %}}) binding，安排一个每 10 秒运行一次的批处理脚本。该脚本处理一个 JSON 文件，并通过 [PostgreSQL]({{% ref postgresql %}}) Dapr binding 将数据输出到 SQL 数据库中。 
 
 <img src="/images/bindings-quickstart/bindings-quickstart.png" width=800 style="padding-bottom:15px;">
 
-在继续快速入门之前，请先选择你偏好的特定语言 Dapr SDK。
+在继续 Quickstart 之前，请先选择你偏好的特定语言 Dapr SDK。
 
 {{< tabpane text=true >}}
  <!-- Python -->
@@ -42,7 +42,7 @@ git clone --depth 1 https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：在本地 Docker 容器中运行 PostgreSQL
 
-在你的计算机上，以本地 Docker 容器的方式运行 [PostgreSQL 实例](https://www.postgresql.org/)。快速入门示例中包含一个 Docker Compose 文件，可用于在本地自定义、构建、运行并初始化带有默认 `orders` 表的 `postgres` 容器。
+在你的计算机上，以本地 Docker 容器的方式运行 [PostgreSQL 实例](https://www.postgresql.org/)。Quickstart 示例中包含一个 Docker Compose 文件，可用于在本地自定义、构建、运行并初始化带有默认 `orders` 表的 `postgres` 容器。
 
 在终端窗口中，从 Quickstarts 克隆目录的根目录进入 `bindings/db` 目录。
 
@@ -69,7 +69,7 @@ CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS       
 55305d1d378b   postgres   "docker-entrypoint.s…"   3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   postgres
 ```
 
-### 步骤 3：安排 Cron 作业并写入数据库
+### 步骤 3：安排 Cron job 并写入数据库
 
 在新的终端窗口中，进入 SDK 目录。
 
@@ -83,14 +83,14 @@ cd bindings/python/sdk/batch
 uv sync
 ```
 
-使用 Dapr 边车运行 `batch-sdk` 服务。
+使用 Dapr sidecar 运行 `batch-sdk` 服务。
 
 ```bash
 dapr run --app-id batch-sdk --app-port 50051 --resources-path ../../../components -- uv run python app.py
 ```
 
 
-`process_batch` 函数中的代码每 10 秒执行一次（在 `components` 目录中的 [`binding-cron.yaml`]({{% ref "#componentsbinding-cronyaml-组件文件" %}}) 中定义）。binding 触发器会在你的应用程序中查找由 Dapr 边车通过 HTTP POST 调用的路由。
+`process_batch` 函数中的代码每 10 秒执行一次（在 `components` 目录中的 [`binding-cron.yaml`]({{% ref "#componentsbinding-cronyaml-component-文件" %}}) 中定义）。binding 触发器会在你的应用程序中查找由 Dapr sidecar 通过 HTTP POST 调用的路由。
 
 ```python
 # 由 Dapr input binding 触发
@@ -98,7 +98,7 @@ dapr run --app-id batch-sdk --app-port 50051 --resources-path ../../../component
 def process_batch():
 ```
 
-`batch-sdk` 服务使用 [`binding-postgresql.yaml`]({{% ref "#componentbinding-postgresyaml-component-file" %}}) 组件中定义的 PostgreSQL output binding，将 `OrderId`、`Customer` 和 `Price` 记录插入 `orders` 表中。 
+`batch-sdk` 服务使用 [`binding-postgresql.yaml`]({{% ref "#componentbinding-postgresyaml-component-file" %}}) component 中定义的 PostgreSQL output binding，将 `OrderId`、`Customer` 和 `Price` 记录插入 `orders` 表中。 
 
 ```python
 with DaprClient() as d:
@@ -120,7 +120,7 @@ with DaprClient() as d:
         raise SystemExit(e)
 ```
 
-### 步骤 4：查看作业的输出
+### 步骤 4：查看 job 的输出
 
 注意，如上所述，代码会将 `OrderId`、`Customer` 和 `Price` 作为负载调用 output binding。
 
@@ -168,14 +168,14 @@ select * from orders;
        3 | Tony James |  35.56
 ```
 
-#### `components\binding-cron.yaml` 组件文件
+#### `components\binding-cron.yaml` component 文件
 
-当你执行 `dapr run` 命令并指定组件路径时，Dapr 边车会：
+当你执行 `dapr run` 命令并指定 component 路径时，Dapr sidecar 会：
 
-- 启动 Cron [binding 构建块]({{% ref bindings %}})
+- 启动 Cron [binding building block]({{% ref bindings %}})
 - 每 10 秒调用一次 binding 端点（`batch`）
 
-本快速入门包含的 Cron `binding-cron.yaml` 文件内容如下：
+本 Quickstart 包含的 Cron `binding-cron.yaml` 文件内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -195,16 +195,16 @@ spec:
 
 **注意：** `binding-cron.yaml` 的 `metadata` 部分包含一个 [Cron 表达式]({{% ref cron %}})，用于指定 binding 的调用频率。
 
-#### `component\binding-postgresql.yaml` 组件文件
+#### `component\binding-postgresql.yaml` component 文件
 
-当你执行 `dapr run` 命令并指定组件路径时，Dapr 边车会：
+当你执行 `dapr run` 命令并指定 component 路径时，Dapr sidecar 会：
 
-- 启动 PostgreSQL [binding 构建块]({{% ref postgresql %}})
+- 启动 PostgreSQL [binding building block]({{% ref postgresql %}})
 - 使用 `binding-postgresql.yaml` 文件中指定的设置连接到 PostgreSQL
 
-借助 `binding-postgresql.yaml` 组件，你无需修改代码即可轻松替换后端数据库[binding]({{% ref supported-bindings %}})。
+借助 `binding-postgresql.yaml` component，你无需修改代码即可轻松替换后端数据库[binding]({{% ref supported-bindings %}})。
 
-本快速入门包含的 PostgreSQL `binding-postgresql.yaml` 文件内容如下：
+本 Quickstart 包含的 PostgreSQL `binding-postgresql.yaml` 文件内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -225,7 +225,7 @@ spec:
 在 YAML 文件中：
 
 - `spec/type` 指定此 binding 使用 PostgreSQL。
-- `spec/metadata` 定义组件所使用的 PostgreSQL 实例的连接信息。
+- `spec/metadata` 定义 component 所使用的 PostgreSQL 实例的连接信息。
 
 {{% /tab %}}
 
@@ -252,7 +252,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：在本地 Docker 容器中运行 PostgreSQL
 
-在你的计算机上，以本地 Docker 容器的方式运行 [PostgreSQL 实例](https://www.postgresql.org/)。快速入门示例中包含一个 Docker Compose 文件，可用于在本地自定义、构建、运行并初始化带有默认 `orders` 表的 `postgres` 容器。
+在你的计算机上，以本地 Docker 容器的方式运行 [PostgreSQL 实例](https://www.postgresql.org/)。Quickstart 示例中包含一个 Docker Compose 文件，可用于在本地自定义、构建、运行并初始化带有默认 `orders` 表的 `postgres` 容器。
 
 在终端窗口中，从 Quickstarts 克隆目录的根目录进入 `bindings/db` 目录。
 
@@ -279,7 +279,7 @@ CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS       
 55305d1d378b   postgres   "docker-entrypoint.s…"   3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   postgres
 ```
 
-### 步骤 3：安排 Cron 作业并写入数据库
+### 步骤 3：安排 Cron job 并写入数据库
 
 在新的终端窗口中，进入 SDK 目录。
 
@@ -293,13 +293,13 @@ cd bindings/javascript/sdk/batch
 npm install
 ```
 
-使用 Dapr 边车运行 `batch-sdk` 服务。
+使用 Dapr sidecar 运行 `batch-sdk` 服务。
 
 ```bash
 dapr run --app-id batch-sdk --app-port 5002 --dapr-http-port 3500 --resources-path ../../../components -- node index.js 
 ```
 
-`process_batch` 函数中的代码每 10 秒执行一次（在 `components` 目录中的 [`binding-cron.yaml`]({{% ref "#componentsbinding-cronyaml-组件文件" %}}) 中定义）。binding 触发器会在你的应用程序中查找由 Dapr 边车通过 HTTP POST 调用的路由。
+`process_batch` 函数中的代码每 10 秒执行一次（在 `components` 目录中的 [`binding-cron.yaml`]({{% ref "#componentsbinding-cronyaml-component-文件" %}}) 中定义）。binding 触发器会在你的应用程序中查找由 Dapr sidecar 通过 HTTP POST 调用的路由。
 
 ```javascript
 async function start() {
@@ -308,7 +308,7 @@ async function start() {
 }
 ```
 
-`batch-sdk` 服务使用 [`binding-postgresql.yaml`]({{% ref "##componentsbinding-postgresyaml-component-file" %}}) 组件中定义的 PostgreSQL output binding，将 `OrderId`、`Customer` 和 `Price` 记录插入 `orders` 表中。 
+`batch-sdk` 服务使用 [`binding-postgresql.yaml`]({{% ref "##componentsbinding-postgresyaml-component-file" %}}) component 中定义的 PostgreSQL output binding，将 `OrderId`、`Customer` 和 `Price` 记录插入 `orders` 表中。 
 
 ```javascript
 async function processBatch(){
@@ -327,7 +327,7 @@ async function processBatch(){
 }
 ```
 
-### 步骤 4：查看作业的输出
+### 步骤 4：查看 job 的输出
 
 注意，如上所述，代码会将 `OrderId`、`Customer` 和 `Price` 作为负载调用 output binding。
 
@@ -374,14 +374,14 @@ select * from orders;
        3 | Tony James |  35.56
 ```
 
-#### `components\binding-cron.yaml` 组件文件
+#### `components\binding-cron.yaml` component 文件
 
-当你执行 `dapr run` 命令并指定组件路径时，Dapr 边车会：
+当你执行 `dapr run` 命令并指定 component 路径时，Dapr sidecar 会：
 
-- 启动 Cron [binding 构建块]({{% ref bindings %}})
+- 启动 Cron [binding building block]({{% ref bindings %}})
 - 每 10 秒调用一次 binding 端点（`batch`）
 
-本快速入门包含的 Cron `binding-cron.yaml` 文件内容如下：
+本 Quickstart 包含的 Cron `binding-cron.yaml` 文件内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -401,16 +401,16 @@ spec:
 
 **注意：** `binding-cron.yaml` 的 `metadata` 部分包含一个 [Cron 表达式]({{% ref cron %}})，用于指定 binding 的调用频率。
 
-#### `component\binding-postgresql.yaml` 组件文件
+#### `component\binding-postgresql.yaml` component 文件
 
-当你执行 `dapr run` 命令并指定组件路径时，Dapr 边车会：
+当你执行 `dapr run` 命令并指定 component 路径时，Dapr sidecar 会：
 
-- 启动 PostgreSQL [binding 构建块]({{% ref postgresql %}})
+- 启动 PostgreSQL [binding building block]({{% ref postgresql %}})
 - 使用 `binding-postgresql.yaml` 文件中指定的设置连接到 PostgreSQL
 
-借助 `binding-postgresql.yaml` 组件，你无需修改代码即可轻松替换后端数据库[binding]({{% ref supported-bindings %}})。
+借助 `binding-postgresql.yaml` component，你无需修改代码即可轻松替换后端数据库[binding]({{% ref supported-bindings %}})。
 
-本快速入门包含的 PostgreSQL `binding-postgresql.yaml` 文件内容如下：
+本 Quickstart 包含的 PostgreSQL `binding-postgresql.yaml` 文件内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -431,7 +431,7 @@ spec:
 在 YAML 文件中：
 
 - `spec/type` 指定此 binding 使用 PostgreSQL。
-- `spec/metadata` 定义组件所使用的 PostgreSQL 实例的连接信息。
+- `spec/metadata` 定义 component 所使用的 PostgreSQL 实例的连接信息。
 
 {{% /tab %}}
 
@@ -460,7 +460,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：在本地 Docker 容器中运行 PostgreSQL
 
-在你的计算机上，以本地 Docker 容器的方式运行 [PostgreSQL 实例](https://www.postgresql.org/)。快速入门示例中包含一个 Docker Compose 文件，可用于在本地自定义、构建、运行并初始化带有默认 `orders` 表的 `postgres` 容器。
+在你的计算机上，以本地 Docker 容器的方式运行 [PostgreSQL 实例](https://www.postgresql.org/)。Quickstart 示例中包含一个 Docker Compose 文件，可用于在本地自定义、构建、运行并初始化带有默认 `orders` 表的 `postgres` 容器。
 
 在终端窗口中，从 Quickstarts 克隆目录的根目录进入 `bindings/db` 目录。
 
@@ -487,7 +487,7 @@ CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS       
 55305d1d378b   postgres   "docker-entrypoint.s…"   3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   postgres
 ```
 
-### 步骤 3：安排 Cron 作业并写入数据库
+### 步骤 3：安排 Cron job 并写入数据库
 
 在新的终端窗口中，进入 SDK 目录。
 
@@ -502,13 +502,13 @@ dotnet restore
 dotnet build batch.csproj
 ```
 
-使用 Dapr 边车运行 `batch-sdk` 服务。
+使用 Dapr sidecar 运行 `batch-sdk` 服务。
 
 ```bash
 dapr run --app-id batch-sdk --app-port 7002 --resources-path ../../../components -- dotnet run
 ```
 
-`process_batch` 函数中的代码每 10 秒执行一次（在 `components` 目录中的 [`binding-cron.yaml`]({{% ref "#componentsbinding-cronyaml-组件文件" %}}) 中定义）。binding 触发器会在你的应用程序中查找由 Dapr 边车通过 HTTP POST 调用的路由。
+`process_batch` 函数中的代码每 10 秒执行一次（在 `components` 目录中的 [`binding-cron.yaml`]({{% ref "#componentsbinding-cronyaml-component-文件" %}}) 中定义）。binding 触发器会在你的应用程序中查找由 Dapr sidecar 通过 HTTP POST 调用的路由。
 
 ```csharp
 app.MapPost("/" + cronBindingName, async () => {
@@ -516,7 +516,7 @@ app.MapPost("/" + cronBindingName, async () => {
 });
 ```
 
-`batch-sdk` 服务使用 [`binding-postgresql.yaml`]({{% ref "#componentbinding-postgresyaml-component-file" %}}) 组件中定义的 PostgreSQL output binding，将 `OrderId`、`Customer` 和 `Price` 记录插入 `orders` 表中。 
+`batch-sdk` 服务使用 [`binding-postgresql.yaml`]({{% ref "#componentbinding-postgresyaml-component-file" %}}) component 中定义的 PostgreSQL output binding，将 `OrderId`、`Customer` 和 `Price` 记录插入 `orders` 表中。 
 
 ```csharp
 // ...
@@ -536,7 +536,7 @@ foreach(Order ord in ordersArray?.orders ?? new Order[] {}){
 await client.InvokeBindingAsync(bindingName: sqlBindingName, operation: "exec", data: "", metadata: command);
 ```
 
-### 步骤 4：查看作业的输出
+### 步骤 4：查看 job 的输出
 
 注意，如上所述，代码会将 `OrderId`、`Customer` 和 `Price` 作为负载调用 output binding。
 
@@ -584,14 +584,14 @@ select * from orders;
        3 | Tony James |  35.56
 ```
 
-#### `components\binding-cron.yaml` 组件文件
+#### `components\binding-cron.yaml` component 文件
 
-当你执行 `dapr run` 命令并指定组件路径时，Dapr 边车会：
+当你执行 `dapr run` 命令并指定 component 路径时，Dapr sidecar 会：
 
-- 启动 Cron [binding 构建块]({{% ref bindings %}})
+- 启动 Cron [binding building block]({{% ref bindings %}})
 - 每 10 秒调用一次 binding 端点（`batch`）
 
-本快速入门包含的 Cron `binding-cron.yaml` 文件内容如下：
+本 Quickstart 包含的 Cron `binding-cron.yaml` 文件内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -611,16 +611,16 @@ spec:
 
 **注意：** `binding-cron.yaml` 的 `metadata` 部分包含一个 [Cron 表达式]({{% ref cron %}})，用于指定 binding 的调用频率。
 
-#### `component\binding-postgresql.yaml` 组件文件
+#### `component\binding-postgresql.yaml` component 文件
 
-当你执行 `dapr run` 命令并指定组件路径时，Dapr 边车会：
+当你执行 `dapr run` 命令并指定 component 路径时，Dapr sidecar 会：
 
-- 启动 PostgreSQL [binding 构建块]({{% ref postgresql %}})
+- 启动 PostgreSQL [binding building block]({{% ref postgresql %}})
 - 使用 `binding-postgresql.yaml` 文件中指定的设置连接到 PostgreSQL
 
-借助 `binding-postgresql.yaml` 组件，你无需修改代码即可轻松替换后端数据库[binding]({{% ref supported-bindings %}})。
+借助 `binding-postgresql.yaml` component，你无需修改代码即可轻松替换后端数据库[binding]({{% ref supported-bindings %}})。
 
-本快速入门包含的 PostgreSQL `binding-postgresql.yaml` 文件内容如下：
+本 Quickstart 包含的 PostgreSQL `binding-postgresql.yaml` 文件内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -641,7 +641,7 @@ spec:
 在 YAML 文件中：
 
 - `spec/type` 指定此 binding 使用 PostgreSQL。
-- `spec/metadata` 定义组件所使用的 PostgreSQL 实例的连接信息。
+- `spec/metadata` 定义 component 所使用的 PostgreSQL 实例的连接信息。
 
 {{% /tab %}}
 
@@ -671,7 +671,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：在本地 Docker 容器中运行 PostgreSQL
 
-在你的计算机上，以本地 Docker 容器的方式运行 [PostgreSQL 实例](https://www.postgresql.org/)。快速入门示例中包含一个 Docker Compose 文件，可用于在本地自定义、构建、运行并初始化带有默认 `orders` 表的 `postgres` 容器。
+在你的计算机上，以本地 Docker 容器的方式运行 [PostgreSQL 实例](https://www.postgresql.org/)。Quickstart 示例中包含一个 Docker Compose 文件，可用于在本地自定义、构建、运行并初始化带有默认 `orders` 表的 `postgres` 容器。
 
 在终端窗口中，从 Quickstarts 克隆目录的根目录进入 `bindings/db` 目录。
 
@@ -698,7 +698,7 @@ CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS       
 55305d1d378b   postgres   "docker-entrypoint.s…"   3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   postgres
 ```
 
-### 步骤 3：安排 Cron 作业并写入数据库
+### 步骤 3：安排 Cron job 并写入数据库
 
 在新的终端窗口中，进入 SDK 目录。
 
@@ -712,20 +712,20 @@ cd bindings/java/sdk/batch
 mvn clean install
 ```
 
-使用 Dapr 边车运行 `batch-sdk` 服务。
+使用 Dapr sidecar 运行 `batch-sdk` 服务。
 
 ```bash
 dapr run --app-id batch-sdk --app-port 8080 --resources-path ../../../components -- java -jar target/BatchProcessingService-0.0.1-SNAPSHOT.jar
 ```
 
-`process_batch` 函数中的代码每 10 秒执行一次（在 `components` 目录中的 [`binding-cron.yaml`]({{% ref "#componentsbinding-cronyaml-组件文件" %}}) 中定义）。binding 触发器会在你的应用程序中查找由 Dapr 边车通过 HTTP POST 调用的路由。
+`process_batch` 函数中的代码每 10 秒执行一次（在 `components` 目录中的 [`binding-cron.yaml`]({{% ref "#componentsbinding-cronyaml-component-文件" %}}) 中定义）。binding 触发器会在你的应用程序中查找由 Dapr sidecar 通过 HTTP POST 调用的路由。
 
 ```java
 @PostMapping(path = cronBindingPath, consumes = MediaType.ALL_VALUE)
 public ResponseEntity<String> processBatch() throws IOException, Exception
 ```
 
-`batch-sdk` 服务使用 [`binding-postgresql.yaml`]({{% ref "#componentbinding-postgresyaml-component-file" %}}) 组件中定义的 PostgreSQL output binding，将 `OrderId`、`Customer` 和 `Price` 记录插入 `orders` 表中。 
+`batch-sdk` 服务使用 [`binding-postgresql.yaml`]({{% ref "#componentbinding-postgresyaml-component-file" %}}) component 中定义的 PostgreSQL output binding，将 `OrderId`、`Customer` 和 `Price` 记录插入 `orders` 表中。 
 
 ```java
 try (DaprClient client = new DaprClientBuilder().build()) {
@@ -750,7 +750,7 @@ try (DaprClient client = new DaprClientBuilder().build()) {
 }
 ```
 
-### 步骤 4：查看作业的输出
+### 步骤 4：查看 job 的输出
 
 注意，如上所述，代码会将 `OrderId`、`Customer` 和 `Price` 作为负载调用 output binding。
 
@@ -798,14 +798,14 @@ select * from orders;
        3 | Tony James |  35.56
 ```
 
-#### `components\binding-cron.yaml` 组件文件
+#### `components\binding-cron.yaml` component 文件
 
-当你执行 `dapr run` 命令并指定组件路径时，Dapr 边车会：
+当你执行 `dapr run` 命令并指定 component 路径时，Dapr sidecar 会：
 
-- 启动 Cron [binding 构建块]({{% ref bindings %}})
+- 启动 Cron [binding building block]({{% ref bindings %}})
 - 每 10 秒调用一次 binding 端点（`batch`）
 
-本快速入门包含的 Cron `binding-cron.yaml` 文件内容如下：
+本 Quickstart 包含的 Cron `binding-cron.yaml` 文件内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -825,16 +825,16 @@ spec:
 
 **注意：** `binding-cron.yaml` 的 `metadata` 部分包含一个 [Cron 表达式]({{% ref cron %}})，用于指定 binding 的调用频率。
 
-#### `component\binding-postgresql.yaml` 组件文件
+#### `component\binding-postgresql.yaml` component 文件
 
-当你执行 `dapr run` 命令并指定组件路径时，Dapr 边车会：
+当你执行 `dapr run` 命令并指定 component 路径时，Dapr sidecar 会：
 
-- 启动 PostgreSQL [binding 构建块]({{% ref postgresql %}})
+- 启动 PostgreSQL [binding building block]({{% ref postgresql %}})
 - 使用 `binding-postgresql.yaml` 文件中指定的设置连接到 PostgreSQL
 
-借助 `binding-postgresql.yaml` 组件，你无需修改代码即可轻松替换后端数据库[binding]({{% ref supported-bindings %}})。
+借助 `binding-postgresql.yaml` component，你无需修改代码即可轻松替换后端数据库[binding]({{% ref supported-bindings %}})。
 
-本快速入门包含的 PostgreSQL `binding-postgresql.yaml` 文件内容如下：
+本 Quickstart 包含的 PostgreSQL `binding-postgresql.yaml` 文件内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -855,7 +855,7 @@ spec:
 在 YAML 文件中：
 
 - `spec/type` 指定此 binding 使用 PostgreSQL。
-- `spec/metadata` 定义组件所使用的 PostgreSQL 实例的连接信息。
+- `spec/metadata` 定义 component 所使用的 PostgreSQL 实例的连接信息。
 
 {{% /tab %}}
 
@@ -882,7 +882,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：在本地 Docker 容器中运行 PostgreSQL
 
-在你的计算机上，以本地 Docker 容器的方式运行 [PostgreSQL 实例](https://www.postgresql.org/)。快速入门示例中包含一个 Docker Compose 文件，可用于在本地自定义、构建、运行并初始化带有默认 `orders` 表的 `postgres` 容器。
+在你的计算机上，以本地 Docker 容器的方式运行 [PostgreSQL 实例](https://www.postgresql.org/)。Quickstart 示例中包含一个 Docker Compose 文件，可用于在本地自定义、构建、运行并初始化带有默认 `orders` 表的 `postgres` 容器。
 
 在终端窗口中，从 Quickstarts 克隆目录的根目录进入 `bindings/db` 目录。
 
@@ -909,7 +909,7 @@ CONTAINER ID   IMAGE      COMMAND                  CREATED         STATUS       
 55305d1d378b   postgres   "docker-entrypoint.s…"   3 seconds ago   Up 2 seconds   0.0.0.0:5432->5432/tcp   postgres
 ```
 
-### 步骤 3：安排 Cron 作业并写入数据库
+### 步骤 3：安排 Cron job 并写入数据库
 
 在新的终端窗口中，进入 SDK 目录。
 
@@ -923,20 +923,20 @@ cd bindings/go/sdk/batch
 go build .
 ```
 
-使用 Dapr 边车运行 `batch-sdk` 服务。
+使用 Dapr sidecar 运行 `batch-sdk` 服务。
 
 ```bash
 dapr run --app-id batch-sdk --app-port 6002 --dapr-http-port 3502 --dapr-grpc-port 60002 --resources-path ../../../components -- go run .
 ```
 
-`process_batch` 函数中的代码每 10 秒执行一次（在 `components` 目录中的 [`binding-cron.yaml`]({{% ref "#componentsbinding-cronyaml-组件文件" %}}) 中定义）。binding 触发器会在你的应用程序中查找由 Dapr 边车通过 HTTP POST 调用的路由。
+`process_batch` 函数中的代码每 10 秒执行一次（在 `components` 目录中的 [`binding-cron.yaml`]({{% ref "#componentsbinding-cronyaml-component-文件" %}}) 中定义）。binding 触发器会在你的应用程序中查找由 Dapr sidecar 通过 HTTP POST 调用的路由。
 
 ```go
 // 由 Dapr input binding 触发
 r.HandleFunc("/"+cronBindingName, processBatch).Methods("POST")
 ```
 
-`batch-sdk` 服务使用 [`binding-postgresql.yaml`]({{% ref "#componentbinding-postgresyaml-component-file" %}}) 组件中定义的 PostgreSQL output binding，将 `OrderId`、`Customer` 和 `Price` 记录插入 `orders` 表中。
+`batch-sdk` 服务使用 [`binding-postgresql.yaml`]({{% ref "#componentbinding-postgresyaml-component-file" %}}) component 中定义的 PostgreSQL output binding，将 `OrderId`、`Customer` 和 `Price` 记录插入 `orders` 表中。
 
 ```go
 func sqlOutput(order Order) (err error) {
@@ -967,7 +967,7 @@ func sqlOutput(order Order) (err error) {
 }
 ```
 
-### 步骤 4：查看作业的输出
+### 步骤 4：查看 job 的输出
 
 注意，如上所述，代码会将 `OrderId`、`Customer` 和 `Price` 作为负载调用 output binding。
 
@@ -1014,14 +1014,14 @@ select * from orders;
        3 | Tony James |  35.56
 ```
 
-#### `components\binding-cron.yaml` 组件文件
+#### `components\binding-cron.yaml` component 文件
 
-当你执行 `dapr run` 命令并指定组件路径时，Dapr 边车会：
+当你执行 `dapr run` 命令并指定 component 路径时，Dapr sidecar 会：
 
-- 启动 Cron [binding 构建块]({{% ref bindings %}})
+- 启动 Cron [binding building block]({{% ref bindings %}})
 - 每 10 秒调用一次 binding 端点（`batch`）
 
-本快速入门包含的 Cron `binding-cron.yaml` 文件内容如下：
+本 Quickstart 包含的 Cron `binding-cron.yaml` 文件内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -1041,16 +1041,16 @@ spec:
 
 **注意：** `binding-cron.yaml` 的 `metadata` 部分包含一个 [Cron 表达式]({{% ref cron %}})，用于指定 binding 的调用频率。
 
-#### `component\binding-postgresql.yaml` 组件文件
+#### `component\binding-postgresql.yaml` component 文件
 
-当你执行 `dapr run` 命令并指定组件路径时，Dapr 边车会：
+当你执行 `dapr run` 命令并指定 component 路径时，Dapr sidecar 会：
 
-- 启动 PostgreSQL [binding 构建块]({{% ref postgresql %}})
+- 启动 PostgreSQL [binding building block]({{% ref postgresql %}})
 - 使用 `binding-postgresql.yaml` 文件中指定的设置连接到 PostgreSQL
 
-借助 `binding-postgresql.yaml` 组件，你无需修改代码即可轻松替换后端数据库[binding]({{% ref supported-bindings %}})。
+借助 `binding-postgresql.yaml` component，你无需修改代码即可轻松替换后端数据库[binding]({{% ref supported-bindings %}})。
 
-本快速入门包含的 PostgreSQL `binding-postgresql.yaml` 文件内容如下：
+本 Quickstart 包含的 PostgreSQL `binding-postgresql.yaml` 文件内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -1071,7 +1071,7 @@ spec:
 在 YAML 文件中：
 
 - `spec/type` 指定此 binding 使用 PostgreSQL。
-- `spec/metadata` 定义组件所使用的 PostgreSQL 实例的连接信息。
+- `spec/metadata` 定义 component 所使用的 PostgreSQL 实例的连接信息。
 
 {{% /tab %}}
 
@@ -1079,7 +1079,7 @@ spec:
 
 ## 告诉我们你的想法！
 
-我们在持续改进快速入门示例，非常重视你的反馈。这个快速入门对你有帮助吗？你对改进有什么建议？
+我们在持续改进 Quickstart 示例，非常重视你的反馈。这个 Quickstart 对你有帮助吗？你对改进有什么建议？
 
 欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的看法。
 
@@ -1091,6 +1091,6 @@ spec:
   - [.NET](https://github.com/dapr/quickstarts/tree/master/bindings/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/bindings/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/bindings/go/http)
-- 进一步了解[binding 构建块]({{% ref bindings %}})
+- 进一步了解[binding building block]({{% ref bindings %}})
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

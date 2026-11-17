@@ -3,7 +3,7 @@ type: docs
 title: "分布式锁概述"
 linkTitle: "概述"
 weight: 1000
-description: "分布式锁 API 构建块概述"
+description: "分布式锁 API building block 概述"
 ---
 
 ## 简介
@@ -18,7 +18,7 @@ description: "分布式锁 API 构建块概述"
 
 例如，在竞争消费者模式中，应用程序的多个实例访问一个队列。你可以决定在应用程序运行其业务逻辑时锁定该队列。
 
-在下图中，同一应用程序 `App1` 的两个实例使用 [Redis 锁组件]({{% ref redis-lock %}}) 对共享资源进行加锁。
+在下图中，同一应用程序 `App1` 的两个实例使用 [Redis lock component]({{% ref redis-lock %}}) 对共享资源进行加锁。
 
 - 第一个应用实例获取命名锁并获得独占访问权限。
 - 第二个应用实例无法获取锁，因此不允许访问资源，直到锁被释放。锁的释放方式有以下两种：

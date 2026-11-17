@@ -1,24 +1,24 @@
 ---
 type: docs
-title: "快速入门：服务调用"
-linkTitle: "服务调用"
+title: "Quickstart：service invocation"
+linkTitle: "service invocation"
 weight: 71
-description: "开始使用 Dapr 的服务调用构建块"
+description: "开始使用 Dapr 的 service invocation building block"
 ---
 
-借助 [Dapr 的服务调用构建块](https://docs.dapr.io/developing-applications/building-blocks/service-invocation)，你的应用程序可以与其他应用程序进行可靠且安全的通信。
+借助 [Dapr 的 service invocation building block](https://docs.dapr.io/developing-applications/building-blocks/service-invocation)，你的应用程序可以与其他应用程序进行可靠且安全的通信。
 
-<img src="/images/serviceinvocation-quickstart/service-invocation-overview.png" width=800 alt="展示服务调用步骤的示意图" style="padding-bottom:25px;">
+<img src="/images/serviceinvocation-quickstart/service-invocation-overview.png" width=800 alt="展示 service invocation 步骤的示意图" style="padding-bottom:25px;">
 
-Dapr 提供了多种服务调用方法，你可以根据场景选择。在本快速入门中，你将让 checkout 服务通过 order-processor 服务中的 HTTP 代理调用一个方法，并通过以下任一方式运行：
+Dapr 提供了多种 service invocation 方法，你可以根据场景选择。在本 Quickstart 中，你将让 checkout 服务通过 order-processor 服务中的 HTTP 代理调用一个方法，并通过以下任一方式运行：
 - [使用 Multi-App Run 模板文件同时运行本示例中的所有应用程序]({{% ref "#使用-multi-app-run-运行" %}})，或
 - [一次运行一个应用程序]({{% ref "#一次运行一个应用" %}})
 
-在[服务调用概述文章]({{% ref service-invocation-overview %}})中，你可以进一步了解 Dapr 的服务调用方法。
+在[service invocation 概述文章]({{% ref service-invocation-overview %}})中，你可以进一步了解 Dapr 的 service invocation 方法。
 
 ## 使用 Multi-App Run 运行
 
-在继续快速入门之前，请先选择你偏好的语言。
+在继续 Quickstart 之前，请先选择你偏好的语言。
 
 {{< tabpane text=true >}}
  <!-- Python -->
@@ -43,7 +43,7 @@ Dapr 提供了多种服务调用方法，你可以根据场景选择。在本快
 git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
-在快速入门克隆目录的根目录下，进入快速入门目录。
+在 Quickstart 克隆目录的根目录下，进入 Quickstart 目录。
 
 ```bash
 cd service_invocation/python/http
@@ -57,7 +57,7 @@ uv sync --all-packages
 
 ### 步骤 3：运行 `order-processor` 和 `checkout` 服务
 
-使用以下命令，同时运行下列服务及其各自的 Dapr 边车：
+使用以下命令，同时运行下列服务及其各自的 Dapr sidecar：
 - `order-processor` 服务
 - `checkout` 服务
 
@@ -113,11 +113,11 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本快速入门中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
+在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
 
 ##### `dapr.yaml` Multi-App Run 模板文件
 
-使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}})并执行 `dapr run -f .`，即可启动项目中的所有应用程序。在本快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}})并执行 `dapr run -f .`，即可启动项目中的所有应用程序。在本 Quickstart 中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -149,7 +149,7 @@ app.run(port=8001)
 
 #### `checkout` 服务
 
-在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的服务调用。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用服务调用。
+在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的 service invocation。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用 service invocation。
 
 ```python
 headers = {'dapr-app-id': 'order-processor'}
@@ -184,7 +184,7 @@ result = requests.post(
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在快速入门克隆目录的根目录下，进入快速入门目录。
+在 Quickstart 克隆目录的根目录下，进入 Quickstart 目录。
 
 ```bash
 cd service_invocation/javascript/http
@@ -202,7 +202,7 @@ cd ..
 
 ### 步骤 3：运行 `order-processor` 和 `checkout` 服务
 
-使用以下命令，同时运行下列服务及其各自的 Dapr 边车：
+使用以下命令，同时运行下列服务及其各自的 Dapr sidecar：
 - `order-processor` 服务
 - `checkout` 服务
 
@@ -258,11 +258,11 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本快速入门中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
+在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
 
 ##### `dapr.yaml` Multi-App Run 模板文件
 
-使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}})并执行 `dapr run -f .`，即可启动项目中的所有应用程序。在本快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}})并执行 `dapr run -f .`，即可启动项目中的所有应用程序。在本 Quickstart 中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -289,7 +289,7 @@ app.post('/orders', (req, res) => {
 
 ##### `checkout` 服务
 
-在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的服务调用。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用服务调用。
+在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的 service invocation。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用 service invocation。
 
 ```javascript
 let axiosConfig = {
@@ -326,7 +326,7 @@ console.log("Order passed: " + res.config.data);
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在快速入门克隆目录的根目录下，进入快速入门目录。
+在 Quickstart 克隆目录的根目录下，进入 Quickstart 目录。
 
 ```bash
 cd service_invocation/csharp/http
@@ -346,7 +346,7 @@ cd ..
 
 ### 步骤 3：运行 `order-processor` 和 `checkout` 服务
 
-使用以下命令，同时运行下列服务及其各自的 Dapr 边车：
+使用以下命令，同时运行下列服务及其各自的 Dapr sidecar：
 - `order-processor` 服务
 - `checkout` 服务
 
@@ -402,11 +402,11 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本快速入门中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
+在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
 
 ##### `dapr.yaml` Multi-App Run 模板文件
 
-使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}})并执行 `dapr run -f .`，即可启动项目中的所有应用程序。在本快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}})并执行 `dapr run -f .`，即可启动项目中的所有应用程序。在本 Quickstart 中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -434,7 +434,7 @@ app.MapPost("/orders", (Order order) =>
 
 ##### `checkout` 服务
 
-在 `checkout` 服务的 Program.cs 文件中，你会发现无需改写应用代码即可使用 Dapr 的服务调用。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用服务调用。
+在 `checkout` 服务的 Program.cs 文件中，你会发现无需改写应用代码即可使用 Dapr 的 service invocation。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用 service invocation。
 
 ```csharp
 var client = DaprClient.CreateInvokeHttpClient(appId: "order-processor");
@@ -470,7 +470,7 @@ Console.WriteLine("Order passed: " + order);
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在快速入门克隆目录的根目录下，进入快速入门目录。
+在 Quickstart 克隆目录的根目录下，进入 Quickstart 目录。
 
 ```bash
 cd service_invocation/java/http
@@ -488,7 +488,7 @@ cd ..
 
 ### 步骤 3：运行 `order-processor` 和 `checkout` 服务
 
-使用以下命令，同时运行下列服务及其各自的 Dapr 边车：
+使用以下命令，同时运行下列服务及其各自的 Dapr sidecar：
 - `order-processor` 服务
 - `checkout` 服务
 
@@ -544,11 +544,11 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本快速入门中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
+在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
 
 ##### `dapr.yaml` Multi-App Run 模板文件
 
-使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}})并执行 `dapr run -f .`，即可启动项目中的所有应用程序。在本快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}})并执行 `dapr run -f .`，即可启动项目中的所有应用程序。在本 Quickstart 中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -575,7 +575,7 @@ public String processOrders(@RequestBody Order body) {
 
 ##### `checkout` 服务
 
-在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的服务调用。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用服务调用。
+在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的 service invocation。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用 service invocation。
 
 ```java
 .header("Content-Type", "application/json")
@@ -609,7 +609,7 @@ System.out.println("Order passed: "+ orderId)
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-在快速入门克隆目录的根目录下，进入快速入门目录。
+在 Quickstart 克隆目录的根目录下，进入 Quickstart 目录。
 
 ```bash
 cd service_invocation/go/http
@@ -627,7 +627,7 @@ cd ..
 
 ### 步骤 3：运行 `order-processor` 和 `checkout` 服务
 
-使用以下命令，同时运行下列服务及其各自的 Dapr 边车：
+使用以下命令，同时运行下列服务及其各自的 Dapr sidecar：
 - `order-processor` 服务
 - `checkout` 服务
 
@@ -683,11 +683,11 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本快速入门中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
+在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
 
 ##### `dapr.yaml` Multi-App Run 模板文件
 
-使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}})并执行 `dapr run -f .`，即可启动项目中的所有应用程序。在本快速入门中，`dapr.yaml` 文件包含以下内容：
+使用 [Multi-App Run 模板文件]({{% ref multi-app-dapr-run %}})并执行 `dapr run -f .`，即可启动项目中的所有应用程序。在本 Quickstart 中，`dapr.yaml` 文件包含以下内容：
 
 ```yml
 version: 1
@@ -717,7 +717,7 @@ func getOrder(w http.ResponseWriter, r *http.Request) {
 
 ##### `checkout` 服务
 
-在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的服务调用。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用服务调用。
+在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的 service invocation。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用 service invocation。
 
 ```go
 req.Header.Add("dapr-app-id", "order-processor")
@@ -731,7 +731,7 @@ response, err := client.Do(req)
 
 ## 一次运行一个应用
 
-在继续快速入门之前，请先选择你偏好的语言。
+在继续 Quickstart 之前，请先选择你偏好的语言。
 
 {{< tabpane text=true >}}
  <!-- Python -->
@@ -758,7 +758,7 @@ git clone --depth 1 https://github.com/dapr/quickstarts.git
 
 ### 步骤 3：运行 `order-processor` 服务
 
-在一个终端窗口中，从快速入门克隆目录的根目录进入 `order-processor` 目录。
+在一个终端窗口中，从 Quickstart 克隆目录的根目录进入 `order-processor` 目录。
 
 ```bash
 cd service_invocation/python/http/order-processor
@@ -770,7 +770,7 @@ cd service_invocation/python/http/order-processor
 uv sync --all-packages
 ```
 
-使用 Dapr 边车运行 `order-processor` 服务。
+使用 Dapr sidecar 运行 `order-processor` 服务。
 
 ```bash
 dapr run --app-port 8001 --app-id order-processor --app-protocol http --dapr-http-port 3501 -- uv run python app.py
@@ -791,7 +791,7 @@ app.run(port=8001)
 
 ### 步骤 4：运行 `checkout` 服务
 
-在一个新的终端窗口中，从快速入门克隆目录的根目录进入 `checkout` 目录。
+在一个新的终端窗口中，从 Quickstart 克隆目录的根目录进入 `checkout` 目录。
 
 ```bash
 cd service_invocation/python/http/checkout
@@ -803,14 +803,14 @@ cd service_invocation/python/http/checkout
 uv sync --all-packages
 ```
 
-使用 Dapr 边车运行 `checkout` 服务。
+使用 Dapr sidecar 运行 `checkout` 服务。
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- uv run python app.py
 ```
 
 
-在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的服务调用。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用服务调用。
+在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的 service invocation。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用 service invocation。
 
 ```python
 headers = {'dapr-app-id': 'order-processor'}
@@ -824,7 +824,7 @@ result = requests.post(
 
 ### 步骤 5：使用 Multi-App Run
 
-你可以使用 [Multi-App Run 模板]({{% ref multi-app-dapr-run %}})运行本快速入门中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用分别执行两条 `dapr run` 命令，只需运行以下命令：
+你可以使用 [Multi-App Run 模板]({{% ref multi-app-dapr-run %}})运行本 Quickstart 中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用分别执行两条 `dapr run` 命令，只需运行以下命令：
 
 ```sh
 dapr run -f .
@@ -836,9 +836,9 @@ dapr run -f .
 dapr stop -f .
 ```
 
-### 步骤 6：查看服务调用的输出
+### 步骤 6：查看 service invocation 的输出
 
-Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，边车编程模型鼓励每个应用程序与其自身的 Dapr 实例通信。随后，各个 Dapr 实例会相互发现并通信。
+Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，sidecar 编程模型鼓励每个应用程序与其自身的 Dapr 实例通信。随后，各个 Dapr 实例会相互发现并通信。
 
 `checkout` 服务的输出：
 
@@ -895,7 +895,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 3：运行 `order-processor` 服务
 
-在一个终端窗口中，从快速入门克隆目录的根目录进入 `order-processor` 目录。
+在一个终端窗口中，从 Quickstart 克隆目录的根目录进入 `order-processor` 目录。
 
 ```bash
 cd service_invocation/javascript/http/order-processor
@@ -907,7 +907,7 @@ cd service_invocation/javascript/http/order-processor
 npm install
 ```
 
-使用 Dapr 边车运行 `order-processor` 服务。
+使用 Dapr sidecar 运行 `order-processor` 服务。
 
 ```bash
 dapr run --app-port 5001 --app-id order-processor --app-protocol http --dapr-http-port 3501 -- npm start
@@ -922,7 +922,7 @@ app.post('/orders', (req, res) => {
 
 ### 步骤 4：运行 `checkout` 服务
 
-在一个新的终端窗口中，从快速入门克隆目录的根目录进入 `checkout` 目录。
+在一个新的终端窗口中，从 Quickstart 克隆目录的根目录进入 `checkout` 目录。
 
 ```bash
 cd service_invocation/javascript/http/checkout
@@ -934,13 +934,13 @@ cd service_invocation/javascript/http/checkout
 npm install
 ```
 
-使用 Dapr 边车运行 `checkout` 服务。
+使用 Dapr sidecar 运行 `checkout` 服务。
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- npm start
 ```
 
-在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的服务调用。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用服务调用。
+在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的 service invocation。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用 service invocation。
 
 ```javascript
 let axiosConfig = {
@@ -954,7 +954,7 @@ console.log("Order passed: " + res.config.data);
 
 ### 步骤 5：使用 Multi-App Run
 
-你可以使用 [Multi-App Run 模板]({{% ref multi-app-dapr-run %}})运行本快速入门中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用分别执行两条 `dapr run` 命令，只需运行以下命令：
+你可以使用 [Multi-App Run 模板]({{% ref multi-app-dapr-run %}})运行本 Quickstart 中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用分别执行两条 `dapr run` 命令，只需运行以下命令：
 
 ```sh
 dapr run -f .
@@ -966,9 +966,9 @@ dapr run -f .
 dapr stop -f .
 ```
 
-### 步骤 6：查看服务调用的输出
+### 步骤 6：查看 service invocation 的输出
 
-Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，边车编程模型鼓励每个应用程序与其自身的 Dapr 实例通信。随后，各个 Dapr 实例会相互发现并通信。
+Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，sidecar 编程模型鼓励每个应用程序与其自身的 Dapr 实例通信。随后，各个 Dapr 实例会相互发现并通信。
 
 `checkout` 服务的输出：
 
@@ -1025,7 +1025,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 3：运行 `order-processor` 服务
 
-在一个终端窗口中，从快速入门克隆目录的根目录进入 `order-processor` 目录。
+在一个终端窗口中，从 Quickstart 克隆目录的根目录进入 `order-processor` 目录。
 
 ```bash
 cd service_invocation/csharp/http/order-processor
@@ -1038,7 +1038,7 @@ dotnet restore
 dotnet build
 ```
 
-使用 Dapr 边车运行 `order-processor` 服务。
+使用 Dapr sidecar 运行 `order-processor` 服务。
 
 ```bash
 dapr run --app-port 7001 --app-id order-processor --app-protocol http --dapr-http-port 3501 -- dotnet run
@@ -1056,7 +1056,7 @@ app.MapPost("/orders", (Order order) =>
 
 ### 步骤 4：运行 `checkout` 服务
 
-在一个新的终端窗口中，从快速入门克隆目录的根目录进入 `checkout` 目录。
+在一个新的终端窗口中，从 Quickstart 克隆目录的根目录进入 `checkout` 目录。
 
 ```bash
 cd service_invocation/csharp/http/checkout
@@ -1069,13 +1069,13 @@ dotnet restore
 dotnet build
 ```
 
-使用 Dapr 边车运行 `checkout` 服务。
+使用 Dapr sidecar 运行 `checkout` 服务。
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- dotnet run
 ```
 
-在 `checkout` 服务的 Program.cs 文件中，你会发现无需改写应用代码即可使用 Dapr 的服务调用。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用服务调用。
+在 `checkout` 服务的 Program.cs 文件中，你会发现无需改写应用代码即可使用 Dapr 的 service invocation。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用 service invocation。
 
 ```csharp
 var client = DaprClient.CreateInvokeHttpClient(appId: "order-processor");
@@ -1087,7 +1087,7 @@ Console.WriteLine("Order passed: " + order);
 
 ### 步骤 5：使用 Multi-App Run
 
-你可以使用 [Multi-App Run 模板]({{% ref multi-app-dapr-run %}})运行本快速入门中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用分别执行两条 `dapr run` 命令，只需运行以下命令：
+你可以使用 [Multi-App Run 模板]({{% ref multi-app-dapr-run %}})运行本 Quickstart 中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用分别执行两条 `dapr run` 命令，只需运行以下命令：
 
 ```sh
 dapr run -f .
@@ -1099,9 +1099,9 @@ dapr run -f .
 dapr stop -f .
 ```
 
-### 步骤 6：查看服务调用的输出
+### 步骤 6：查看 service invocation 的输出
 
-Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，边车编程模型鼓励每个应用程序与其自身的 Dapr 实例通信。随后，各个 Dapr 实例会相互发现并通信。
+Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，sidecar 编程模型鼓励每个应用程序与其自身的 Dapr 实例通信。随后，各个 Dapr 实例会相互发现并通信。
 
 `checkout` 服务的输出：
 
@@ -1161,7 +1161,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 3：运行 `order-processor` 服务
 
-在一个终端窗口中，从快速入门克隆目录的根目录进入 `order-processor` 目录。
+在一个终端窗口中，从 Quickstart 克隆目录的根目录进入 `order-processor` 目录。
 
 ```bash
 cd service_invocation/java/http/order-processor
@@ -1173,7 +1173,7 @@ cd service_invocation/java/http/order-processor
 mvn clean install
 ```
 
-使用 Dapr 边车运行 `order-processor` 服务。
+使用 Dapr sidecar 运行 `order-processor` 服务。
 
 ```bash
 dapr run --app-id order-processor --app-port 9001 --app-protocol http --dapr-http-port 3501 -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
@@ -1188,7 +1188,7 @@ public String processOrders(@RequestBody Order body) {
 
 ### 步骤 4：运行 `checkout` 服务
 
-在一个新的终端窗口中，从快速入门克隆目录的根目录进入 `checkout` 目录。
+在一个新的终端窗口中，从 Quickstart 克隆目录的根目录进入 `checkout` 目录。
 
 ```bash
 cd service_invocation/java/http/checkout
@@ -1200,13 +1200,13 @@ cd service_invocation/java/http/checkout
 mvn clean install
 ```
 
-使用 Dapr 边车运行 `checkout` 服务。
+使用 Dapr sidecar 运行 `checkout` 服务。
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- java -jar target/CheckoutService-0.0.1-SNAPSHOT.jar
 ```
 
-在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的服务调用。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用服务调用。
+在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的 service invocation。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用 service invocation。
 
 ```java
 .header("Content-Type", "application/json")
@@ -1218,7 +1218,7 @@ System.out.println("Order passed: "+ orderId)
 
 ### 步骤 5：使用 Multi-App Run
 
-你可以使用 [Multi-App Run 模板]({{% ref multi-app-dapr-run %}})运行本快速入门中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用分别执行两条 `dapr run` 命令，只需运行以下命令：
+你可以使用 [Multi-App Run 模板]({{% ref multi-app-dapr-run %}})运行本 Quickstart 中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用分别执行两条 `dapr run` 命令，只需运行以下命令：
 
 ```sh
 dapr run -f .
@@ -1230,9 +1230,9 @@ dapr run -f .
 dapr stop -f .
 ```
 
-### 步骤 6：查看服务调用的输出
+### 步骤 6：查看 service invocation 的输出
 
-Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，边车编程模型鼓励每个应用程序与其自身的 Dapr 实例通信。随后，各个 Dapr 实例会相互发现并通信。
+Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，sidecar 编程模型鼓励每个应用程序与其自身的 Dapr 实例通信。随后，各个 Dapr 实例会相互发现并通信。
 
 `checkout` 服务的输出：
 
@@ -1290,7 +1290,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 3：运行 `order-processor` 服务
 
-在一个终端窗口中，从快速入门克隆目录的根目录进入 `order-processor` 目录。
+在一个终端窗口中，从 Quickstart 克隆目录的根目录进入 `order-processor` 目录。
 
 ```bash
 cd service_invocation/go/http/order-processor
@@ -1302,7 +1302,7 @@ cd service_invocation/go/http/order-processor
 go build .
 ```
 
-使用 Dapr 边车运行 `order-processor` 服务。
+使用 Dapr sidecar 运行 `order-processor` 服务。
 
 ```bash
 dapr run --app-port 6006 --app-id order-processor --app-protocol http --dapr-http-port 3501 -- go run .
@@ -1322,7 +1322,7 @@ func getOrder(w http.ResponseWriter, r *http.Request) {
 
 ### 步骤 4：运行 `checkout` 服务
 
-在一个新的终端窗口中，从快速入门克隆目录的根目录进入 `checkout` 目录。
+在一个新的终端窗口中，从 Quickstart 克隆目录的根目录进入 `checkout` 目录。
 
 ```bash
 cd service_invocation/go/http/checkout
@@ -1334,13 +1334,13 @@ cd service_invocation/go/http/checkout
 go build .
 ```
 
-使用 Dapr 边车运行 `checkout` 服务。
+使用 Dapr sidecar 运行 `checkout` 服务。
 
 ```bash
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 -- go run .
 ```
 
-在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的服务调用。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用服务调用。
+在 `checkout` 服务中，你会发现无需改写应用代码即可使用 Dapr 的 service invocation。只需添加 `dapr-app-id` 请求头（它指定了目标服务的 ID），即可启用 service invocation。
 
 ```go
 req.Header.Add("dapr-app-id", "order-processor")
@@ -1350,7 +1350,7 @@ response, err := client.Do(req)
 
 ### 步骤 5：使用 Multi-App Run
 
-你可以使用 [Multi-App Run 模板]({{% ref multi-app-dapr-run %}})运行本快速入门中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用分别执行两条 `dapr run` 命令，只需运行以下命令：
+你可以使用 [Multi-App Run 模板]({{% ref multi-app-dapr-run %}})运行本 Quickstart 中的 Dapr 应用程序。无需为 `order-processor` 和 `checkout` 应用分别执行两条 `dapr run` 命令，只需运行以下命令：
 
 ```sh
 dapr run -f .
@@ -1362,9 +1362,9 @@ dapr run -f .
 dapr stop -f .
 ```
 
-### 步骤 6：查看服务调用的输出
+### 步骤 6：查看 service invocation 的输出
 
-Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，边车编程模型鼓励每个应用程序与其自身的 Dapr 实例通信。随后，各个 Dapr 实例会相互发现并通信。
+Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，sidecar 编程模型鼓励每个应用程序与其自身的 Dapr 实例通信。随后，各个 Dapr 实例会相互发现并通信。
 
 `checkout` 服务的输出：
 
@@ -1403,17 +1403,17 @@ Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，边车编
 
 ## 使用 Dapr Dev Dashboard 检查应用
 
-快速入门运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看 `checkout` 和 `order-processor` 应用的健康状况、端口和进程 ID，确认两者均已注册到 Dapr。该仪表板还会实时显示每个应用及其边车的日志，方便你同时跟踪调用双方的请求。
+Quickstart 运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看 `checkout` 和 `order-processor` 应用的健康状况、端口和进程 ID，确认两者均已注册到 Dapr。该仪表板还会实时显示每个应用及其 sidecar 的日志，方便你同时跟踪调用双方的请求。
 
 ## 告诉我们你的想法！
-我们在持续改进快速入门示例，非常重视你的反馈。这个快速入门对你有帮助吗？你对改进有什么建议？
+我们在持续改进 Quickstart 示例，非常重视你的反馈。这个 Quickstart 对你有帮助吗？你对改进有什么建议？
 
 欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的看法。
 
 ## 后续步骤
 
-- 进一步了解[服务调用构建块]({{% ref service-invocation-overview %}})
-- 进一步了解如何通过以下方式调用 Dapr 的服务调用：
+- 进一步了解[service invocation building block]({{% ref service-invocation-overview %}})
+- 进一步了解如何通过以下方式调用 Dapr 的 service invocation：
     - [HTTP]({{% ref howto-invoke-discover-services %}})，或
     - [gRPC]({{% ref howto-invoke-services-grpc %}})
 

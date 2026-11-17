@@ -1,15 +1,15 @@
 ---
 type: docs
-title: "Kafka 绑定规范"
+title: "Kafka binding 规范"
 linkTitle: "Kafka"
-description: "Kafka 绑定组件的详细文档"
+description: "Kafka binding 组件的详细文档"
 aliases:
   - "/zh-hans/operations/components/setup-bindings/supported-bindings/kafka/"
 ---
 
 ## 组件格式
 
-要设置 Kafka 绑定，请创建一个类型为 `bindings.kafka` 的组件。有关如何创建和应用绑定配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。有关使用 `secretKeyRef` 的详细信息，请参阅[如何在组件中引用机密]({{% ref component-secrets.md %}})指南。
+要设置 Kafka binding，请创建一个类型为 `bindings.kafka` 的组件。有关如何创建和应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。有关使用 `secretKeyRef` 的详细信息，请参阅[如何在组件中引用 secrets]({{% ref component-secrets.md %}})指南。
 
 所有组件元数据字段值都可以携带[模板化元数据值]({{% ref "component-schema.md#templated-metadata-values" %}})，这些值会在 Dapr 边车启动时解析。
 例如，你可以选择使用 `{namespace}` 作为 `consumerGroup`，以便在不同的命名空间中使用相同的主题和相同的 `appId`，如[本文]({{% ref "howto-namespace.md#with-namespace-consumer-groups"%}})中所述。
@@ -23,13 +23,13 @@ spec:
   type: bindings.kafka
   version: v1
   metadata:
-  - name: topics # 可选。用于输入绑定。
+  - name: topics # 可选。用于 input binding。
     value: "topic1,topic2"
   - name: brokers # 必需。
     value: "localhost:9092,localhost:9093"
-  - name: consumerGroup # 可选。用于输入绑定。
+  - name: consumerGroup # 可选。用于 input binding。
     value: "group1"
-  - name: publishTopic # 可选。用于输出绑定。
+  - name: publishTopic # 可选。用于 output binding。
     value: "topic3"
   - name: authRequired # 必需。
     value: "true"
@@ -41,7 +41,7 @@ spec:
       key: "saslPasswordSecret"
   - name: saslMechanism
     value: "SHA-512"
-  - name: initialOffset # 可选。用于输入绑定。
+  - name: initialOffset # 可选。用于 input binding。
     value: "newest"
   - name: maxMessageBytes # 可选。
     value: "1024"
@@ -69,18 +69,18 @@ spec:
 
 ## 规范元数据字段
 
-| 字段 | 必需 | 绑定支持 | 详细说明 | 示例 |
+| 字段 | 必需 | binding 支持 | 详细说明 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
 | `topics` | N | 输入 | 以逗号分隔的主题字符串。 | `"mytopic1,topic2"` |
 | `brokers` | Y | 输入/输出 | 以逗号分隔的 Kafka broker 字符串。 | `"localhost:9092,dapr-kafka.myapp.svc.cluster.local:9093"` |
 | `clientID`            | N | 输入/输出 | 随每个请求发送到 Kafka broker 的用户自定义字符串，用于日志记录、调试和审计。 | `"my-dapr-app"` |
 | `consumerGroup` | N | 输入 | 用于监听的 Kafka 消费者组。发布到某个主题的每条记录，都会被投递给订阅该主题的每个消费者组中的一个消费者。 | `"group1"` |
-| `consumeRetryEnabled` | N | 输入/输出 | 设为 `"true"` 以启用消费重试。在 Kafka 绑定组件中默认为 `false`。 | `"true"`, `"false"` |
+| `consumeRetryEnabled` | N | 输入/输出 | 设为 `"true"` 以启用消费重试。在 Kafka binding 组件中默认为 `false`。 | `"true"`, `"false"` |
 | `publishTopic` | Y | 输出 | 要发布到的主题。 | `"mytopic"` |
 | `authRequired` | N | *已弃用* | 启用与 Kafka broker 之间的 [SASL](https://en.wikipedia.org/wiki/Simple_Authentication_and_Security_Layer) 身份验证。 | `"true"`, `"false"` |
 | `authType`            | Y | 输入/输出 | 配置或禁用身份验证。支持的值：`none`、`password`、`mtls`、`oidc` 或 `oidc_private_key_jwt` | `"password"`, `"none"` |
 | `saslUsername` | N | 输入/输出 | 用于身份验证的 SASL 用户名。仅当 `authRequired` 设为 `"true"` 时需要。 | `"adminuser"` |
-| `saslPassword` | N | 输入/输出 | 用于身份验证的 SASL 密码。可以是 `secretKeyRef`，以使用[机密引用]({{% ref component-secrets.md %}})。仅当 `authRequired` 设为 `"true"` 时需要。 | `""`, `"KeFg23!"` |
+| `saslPassword` | N | 输入/输出 | 用于身份验证的 SASL 密码。可以是 `secretKeyRef`，以使用[secrets 引用]({{% ref component-secrets.md %}})。仅当 `authRequired` 设为 `"true"` 时需要。 | `""`, `"KeFg23!"` |
 | `saslMechanism` | N | 输入/输出 | 要使用的 SASL 身份验证机制。仅当 `authtype` 设为 `"password"` 时需要。若未提供，则默认为 `PLAINTEXT`，这可能会导致某些服务（例如 Amazon Managed Service for Kafka）无法正常工作。 | `"SHA-512", "SHA-256", "PLAINTEXT"` |
 | `initialOffset`   | N | 输入 | 若之前没有已提交的偏移量，则使用的初始偏移量。应为 "newest" 或 "oldest"。默认为 "newest"。 | `"oldest"` |
 | `maxMessageBytes` | N | 输入/输出 | 单条 Kafka 消息允许的最大字节数。默认为 1024。 | `"2048"` |
@@ -88,13 +88,13 @@ spec:
 | `oidcClientID` | N | 输入/输出 | 在身份提供方中预先配置的 OAuth2 客户端 ID。当 `authType` 设为 `oidc` 或 `oidc_private_key_jwt` 时必需 | `"dapr-kafka"` |
 | `oidcClientSecret` | N | 输入/输出 | 在身份提供方中预先配置的 OAuth2 客户端密钥：当 `authType` 设为 `oidc` 时必需 | `"KeFg23!"` |
 | `oidcScopes` | N | 输入/输出 | 请求访问令牌时使用的、以逗号分隔的 OAuth2/OIDC 范围列表。当 `authType` 设为 `oidc` 或 `oidc_private_key_jwt` 时推荐设置。默认为 `"openid"` | `"openid,kafka-prod"` |
-| `oidcClientAssertionCert` | N | 输入/输出 | 用于身份验证的 OAuth2 客户端断言证书。当 `authType` 设为 `oidc_private_key_jwt` 时必需。可以是 `secretKeyRef`，以使用机密引用 | `"-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"` |
-| `oidcClientAssertionKey` | N | 输入/输出 | 用于身份验证的 OAuth2 客户端断言密钥。当 `authType` 设为 `oidc_private_key_jwt` 时必需。可以是 `secretKeyRef`，以使用机密引用 | `"-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"` |
+| `oidcClientAssertionCert` | N | 输入/输出 | 用于身份验证的 OAuth2 客户端断言证书。当 `authType` 设为 `oidc_private_key_jwt` 时必需。可以是 `secretKeyRef`，以使用 secrets 引用 | `"-----BEGIN CERTIFICATE-----\n...\n-----END CERTIFICATE-----"` |
+| `oidcClientAssertionKey` | N | 输入/输出 | 用于身份验证的 OAuth2 客户端断言密钥。当 `authType` 设为 `oidc_private_key_jwt` 时必需。可以是 `secretKeyRef`，以使用 secrets 引用 | `"-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----"` |
 | `oidcResource` | N | 输入/输出 | 请求访问令牌时使用的 OAuth2 资源。当 `authType` 设为 `oidc_private_key_jwt` 时推荐设置。 | `"api://kafka"` |
 | `oidcAudience` | N | 输入/输出 | 请求访问令牌时使用的 OAuth2 受众。当 `authType` 设为 `oidc_private_key_jwt` 时推荐设置。 | `"http://<idp-host>/realms/local"` |
 | `oidcKid` | N | 输入/输出 | 请求访问令牌时使用的 OAuth2 密钥 ID（kid）。当 `authType` 设为 `oidc_private_key_jwt` 时推荐设置。 | `"1234567890"` |
 | `version` | N | 输入/输出 | Kafka 集群版本。默认为 2.0.0。注意，对于 EventHubs with Kafka，此项必须设为 `1.0.0`。 | `"1.0.0"` |
-| `direction` | N | 输入/输出 | 绑定的方向。 | `"input"`, `"output"`, `"input, output"` |
+| `direction` | N | 输入/输出 | binding 的方向。 | `"input"`, `"output"`, `"input, output"` |
 | `oidcExtensions` | N | 输入/输出 | 包含 JSON 编码字典的字符串，表示请求访问令牌时使用的 OAuth2/OIDC 扩展 | `{"cluster":"kafka","poolid":"kafkapool"}` |
 | `schemaRegistryURL` | N | 使用 Schema Registry Avro 序列化/反序列化时必需。Schema Registry URL。 | `http://localhost:8081` |
 | `schemaRegistryAPIKey` | N | 使用 Schema Registry Avro 序列化/反序列化时。Schema Registry 凭证 API Key。 | `XYAXXAZ` |
@@ -122,24 +122,24 @@ spec:
 使用 Azure EventHubs with Kafka 时，元数据 `version` 必须设为 `1.0.0`。
 
 {{% alert title="消费者事务仅适用于 pubsub" color="info" %}}
-Kafka 绑定不支持 `consumerTransactionsEnabled`，将其设为 `"true"` 会在初始化时失败。精确一次的"消费-转换-生产"要求交付的事务令牌通过同一个组件实例回传，而绑定模型（输入绑定与输出绑定是各自独立的实例）无法提供这一点。请改用 [Kafka 发布订阅组件]({{% ref setup-apache-kafka.md %}})。
+Kafka binding 不支持 `consumerTransactionsEnabled`，将其设为 `"true"` 会在初始化时失败。精确一次的"消费-转换-生产"要求交付的事务令牌通过同一个组件实例回传，而 binding 模型（input binding 与 output binding 是各自独立的实例）无法提供这一点。请改用 [Kafka pub/sub 组件]({{% ref setup-apache-kafka.md %}})。
 {{% /alert %}}
 
-## 绑定支持
+## binding 支持
 
-此组件同时支持**输入和输出**绑定接口。
+此组件同时支持**输入和输出** binding 接口。
 
-此组件支持以下操作的**输出绑定**：
+此组件支持以下操作的 **output binding**：
 
 - `create`
 
 ## 身份验证
 
-Kafka 支持多种身份验证方案，Dapr 支持其中几种：SASL 密码、mTLS、OIDC/OAuth2。[了解 Kafka 绑定与 Kafka 发布订阅组件共用的 Kafka 身份验证方法]({{% ref "setup-apache-kafka.md#authentication" %}})。
+Kafka 支持多种身份验证方案，Dapr 支持其中几种：SASL 密码、mTLS、OIDC/OAuth2。[了解 Kafka binding 与 Kafka pub/sub 组件共用的 Kafka 身份验证方法]({{% ref "setup-apache-kafka.md#authentication" %}})。
 
 ## 指定分区键
 
-调用 Kafka 绑定时，可以通过请求正文中的 `metadata` 部分提供可选的分区键。
+调用 Kafka binding 时，可以通过请求正文中的 `metadata` 部分提供可选的分区键。
 
 字段名为 `partitionKey`。
 
@@ -166,7 +166,7 @@ curl -X POST http://localhost:3500/v1.0/bindings/myKafka \
 ## 相关链接
 
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [绑定构建块]({{% ref bindings %}})
-- [如何操作：使用输入绑定触发应用]({{% ref howto-triggers.md %}})
-- [如何操作：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
-- [绑定 API 参考]({{% ref bindings_api.md %}})
+- [binding 构建块]({{% ref bindings %}})
+- [如何操作：使用 input binding 触发应用]({{% ref howto-triggers.md %}})
+- [如何操作：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
+- [binding API 参考]({{% ref bindings_api.md %}})

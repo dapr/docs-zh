@@ -2,7 +2,7 @@
 type: docs
 title: "Azure Service Bus 主题"
 linkTitle: "Azure Service Bus 主题"
-description: "Azure Service Bus 主题发布订阅组件的详细文档"
+description: "Azure Service Bus 主题 pub/sub 组件的详细文档"
 aliases:
   - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-azure-servicebus-topics/"
   - "/zh-hans/operations/components/setup-pubsub/supported-pubsub/setup-azure-servicebus/"
@@ -10,10 +10,10 @@ aliases:
 
 ## 组件格式
 
-要设置 Azure Service Bus 主题发布订阅，请创建类型为 `pubsub.azure.servicebus.topics` 的组件。请参阅[发布订阅代理组件文件]({{% ref setup-pubsub.md %}})以了解 ConsumerID 是如何自动生成的。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用发布订阅配置。
+要设置 Azure Service Bus 主题 pub/sub，请创建类型为 `pubsub.azure.servicebus.topics` 的组件。请参阅[pub/sub 代理组件文件]({{% ref setup-pubsub.md %}})以了解 ConsumerID 是如何自动生成的。阅读[如何：发布和订阅指南]({{% ref "howto-publish-subscribe.md#step-1-setup-the-pubsub-component" %}})以了解如何创建和应用 pub/sub 配置。
 
 > 此组件使用 Azure Service Bus 上的主题；有关[主题和队列](https://learn.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions)之间的差异，请参阅官方文档。  
-> 若要使用队列，请参阅 [Azure Service Bus 队列发布订阅组件]({{% ref "setup-azure-servicebus-queues" %}})。
+> 若要使用队列，请参阅 [Azure Service Bus 队列 pub/sub 组件]({{% ref "setup-azure-servicebus-queues" %}})。
 
 ### 连接字符串身份验证
 
@@ -66,7 +66,7 @@ spec:
 > __注意：__ 上述设置在使用此组件的所有主题之间共享。
 
 {{% alert title="警告" color="warning" %}}
-上述示例以纯文本字符串的形式填写机密。建议按照[此处]({{% ref component-secrets.md %}})的描述，使用机密存储来管理这些机密。
+上述示例以纯文本字符串的形式填写 secrets。建议按照[此处]({{% ref component-secrets.md %}})的描述，使用 secret store 来管理这些 secrets。
 {{% /alert %}}
 
 ## 规范元数据字段
@@ -94,7 +94,7 @@ spec:
 
 ### Microsoft Entra ID 身份验证
 
-Azure Service Bus 主题发布订阅组件支持使用所有 Microsoft Entra ID 机制进行身份验证，包括托管标识。有关详细信息，以及根据所选 Microsoft Entra ID 身份验证机制需要提供的相关组件元数据字段，请参阅[Azure 身份验证文档]({{% ref authenticating-azure.md %}})。
+Azure Service Bus 主题 pub/sub 组件支持使用所有 Microsoft Entra ID 机制进行身份验证，包括托管标识。有关详细信息，以及根据所选 Microsoft Entra ID 身份验证机制需要提供的相关组件元数据字段，请参阅[Azure 身份验证文档]({{% ref authenticating-azure.md %}})。
 
 #### 配置示例
 
@@ -175,5 +175,5 @@ Azure Service Bus 消息使用额外的上下文元数据扩展了 Dapr 消息�
 ## 相关链接
 
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [发布订阅构建块]({{% ref pubsub %}})
-- 阅读本[指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})以获取有关配置发布订阅组件的说明
+- [pub/sub 构建块]({{% ref pubsub %}})
+- 阅读本[指南]({{% ref "howto-publish-subscribe.md#step-2-publish-a-topic" %}})以获取有关配置 pub/sub 组件的说明

@@ -110,7 +110,7 @@ spec:
 | logging            | N        | 配置 Dapr 运行时中的日志记录方式。 | [了解更多关于 `logging` 配置的信息。]({{% ref "configuration-overview.md#logging" %}})  |
 | metrics            | N        | 为应用启用或禁用指标。 | [了解更多关于 `metrics` 配置的信息。]({{% ref "configuration-overview.md#metrics" %}}) |
 | nameResolution     | N        | 服务调用构建块的名称解析配置规范。 | [了解各组件的 `nameResolution` 配置信息。]({{% ref supported-name-resolution.md %}}) |
-| secrets            | N        | 限制 Dapr 应用可以访问的机密。  | [了解更多关于 `secrets` 配置的信息。]({{% ref secret-scope.md %}}) |
+| secrets            | N        | 限制 Dapr 应用可以访问的 secrets。  | [了解更多关于 `secrets` 配置的信息。]({{% ref secret-scope.md %}}) |
 | tracing            | N        | 为应用启用追踪。 | [了解更多关于 `tracing` 配置的信息。]({{% ref "configuration-overview.md#tracing" %}}) |
 
 

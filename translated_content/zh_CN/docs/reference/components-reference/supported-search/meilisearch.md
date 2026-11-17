@@ -7,7 +7,7 @@ description: Meilisearch 搜索组件的详细信息
 
 ## 组件格式
 
-要设置 Meilisearch 搜索存储，请创建一个类型为 `search.meilisearch` 的组件。关于如何创建并应用搜索存储配置，请参阅[本指南]({{% ref "howto-search.md#set-up-the-search-component" %}})。
+要设置 Meilisearch search store，请创建一个类型为 `search.meilisearch` 的组件。关于如何创建并应用 search store 配置，请参阅[本指南]({{% ref "howto-search.md#set-up-the-search-component" %}})。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -27,7 +27,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上面的示例将机密用作明文字符串。建议将机密保存在机密存储中，具体做法见[此处]({{% ref component-secrets.md %}})。
+上面的示例将 secrets 用作明文字符串。建议将 secrets 保存在 secret store 中，具体做法见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段

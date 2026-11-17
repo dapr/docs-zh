@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 268,
-  "updatedAt": "2026-11-16T23:07:40.989Z",
+  "version": 288,
+  "updatedAt": "2026-11-17T01:58:54.028Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -1274,6 +1274,780 @@
       "note": "Google Cloud 产品名称,保留英文。",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "Azure Container Registry",
+      "note": "产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure Kubernetes Service",
+      "note": "产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Sentry",
+      "note": "Dapr 证书颁发与身份服务名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "OpenAI Agents SDK",
+      "note": "框架/SDK 名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Aspire",
+      "note": "Microsoft Aspire 产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "SQLite",
+      "note": "数据库产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "MongoDB",
+      "note": "数据库产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Actor",
+      "note": "Dapr Actor 构建块概念，译文保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Python MCP SDK",
+      "note": "MCP 官方 Python SDK 名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Amazon Elastic Kubernetes Service",
+      "note": "AWS 托管 Kubernetes 产品名，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "activity",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "activity Actor",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "activity reminder",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Actor App-Initiated Streams",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Actor placement",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Actor runtime",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Actor State TTL",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "AKS Dapr extension",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "alpha",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "app channel",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "basic workflow API",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "building block",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "built-in component",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Bulk Publish",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Bulk Subscribe",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "child workflow",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "component",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "component builder",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Component Certification Lifecycle",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "component specification",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Configuration API",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Configuration building block",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "continue as new",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "control plane",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Conversation Alpha2 API",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "conversation API",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "conversation building block",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "conversation component",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Cross-cutting APIs",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "cryptography building block",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "custom status",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Dapr API Token",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Dapr Diagrams template deck",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Dapr environment",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Dapr Installer Bundle",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Dapr Presentation Decks",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Dapr runtime",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "declarative subscription",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "detached workflow",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Durable Agent",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "durable timer",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "external event",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "feature gate",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "health probe",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "history event",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "history propagation",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "history signing",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Horizontal Pod Autoscaler",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "in-memory component",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "interpreted Actor",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "job",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "jobs building block",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "kube api server",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Kubernetes Auth Method",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "local storage component",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "manifest",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "metadata",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "middleware",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "multi-app workflow",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "multi-application workflow",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "name-based workflow versioning",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "name resolution",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "named workflow versioning",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "namespace",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "node affinity",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "non-Dapr endpoint",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "per-sidecar limit",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "placement",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "placement service",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "pluggable component",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "programmatic subscription",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "propagated history",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "propagation scope",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Query API",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Query State",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Quickstart",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "raise event",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "rate limit middleware",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Redis lock component",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "reminder",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "resiliency",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "resiliency builder",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Scheduler",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "scheduler control plane",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Scheduler control plane service",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "scheduler placement",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Scheduler service",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Search API",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "search component",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "service account",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "service invocation",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "sidecar",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "sidecar injector",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "state machine Actor",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "State Management",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "state manager",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "state transaction",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "stateful workflow",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "storage class",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "streaming subscription",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Subscription streams",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "timer",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "topic scoping",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "virtual Actor",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "workflow",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "workflow access policy",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Workflow Client",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Workflow data references",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "workflow instance",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "workflow registry",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "workflow runtime",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "workflow versioning",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Workflows Clustered Deployment",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Workflows Durable Activity Results",
+      "note": "2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "human",
+      "locked": true
+    },
+    {
+      "term": "Open Telemetry Collector",
+      "note": "OpenTelemetry 收集器产品名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Ollama",
+      "note": "本地模型运行框架名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr SDK",
+      "note": "Dapr 官方 SDK 产品名称,保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Etcd",
+      "note": "Scheduler 服务内嵌的数据库产品名，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "durabletask-go",
+      "note": "Go 语言的 durabletask 客户端库名称，保留原文",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
@@ -1380,9 +2154,11 @@
     {
       "id": "activity",
       "source": "activity",
-      "target": "活动",
-      "alt": [],
-      "note": "Dapr 工作流中的活动（activity）的译法。",
+      "target": "activity",
+      "alt": [
+        "活动"
+      ],
+      "note": "Dapr 工作流中的活动（activity）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1398,11 +2174,35 @@
       "conflicts": []
     },
     {
+      "id": "activity-actor",
+      "source": "activity actor",
+      "target": "activity Actor",
+      "alt": [
+        "活动 Actor"
+      ],
+      "note": "执行工作流活动（activity）的 Actor 实例；保留 Actor 英文。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-state-and-history.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-state-and-history.md",
+        "run": "20261116-2249"
+      },
+      "conflicts": []
+    },
+    {
       "id": "activity-reminder",
       "source": "activity reminder",
-      "target": "活动提醒",
-      "alt": [],
-      "note": "Dapr Scheduler 中 activity reminder 的译法，由“活动”与“提醒”的术语组合而来。",
+      "target": "activity reminder",
+      "alt": [
+        "活动提醒"
+      ],
+      "note": "Dapr Scheduler 中 activity reminder 的译法，由“活动”与“提醒”的术语组合而来。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1420,9 +2220,11 @@
     {
       "id": "actor-app-initiated-streams",
       "source": "Actor App-Initiated Streams",
-      "target": "Actor 应用发起的流",
-      "alt": [],
-      "note": "Actor 应用发起的流式传输能力名称",
+      "target": "Actor App-Initiated Streams",
+      "alt": [
+        "Actor 应用发起的流"
+      ],
+      "note": "Actor 应用发起的流式传输能力名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1440,9 +2242,11 @@
     {
       "id": "actor-placement",
       "source": "actor placement",
-      "target": "Actor 放置",
-      "alt": [],
-      "note": "Dapr Actor 放置机制（--scheduler-placement 说明）的译法。",
+      "target": "Actor placement",
+      "alt": [
+        "Actor 放置"
+      ],
+      "note": "Dapr Actor 放置机制（--scheduler-placement 说明）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1460,9 +2264,11 @@
     {
       "id": "actor-runtime",
       "source": "Actor runtime",
-      "target": "Actor 运行时",
-      "alt": [],
-      "note": "Dapr Actor 运行时（actor runtime）的译法。",
+      "target": "Actor runtime",
+      "alt": [
+        "Actor 运行时"
+      ],
+      "note": "Dapr Actor 运行时（actor runtime）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1480,9 +2286,11 @@
     {
       "id": "actor-state-ttl",
       "source": "Actor State TTL",
-      "target": "Actor 状态 TTL",
-      "alt": [],
-      "note": "预览功能名称",
+      "target": "Actor State TTL",
+      "alt": [
+        "Actor 状态 TTL"
+      ],
+      "note": "预览功能名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1502,7 +2310,7 @@
       "source": "actors",
       "target": "Actor",
       "alt": [],
-      "note": "Dapr 构建块名称，保留英文 Actor。",
+      "note": "Dapr 构建块名称，保留英文 Actor。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1620,9 +2428,11 @@
     {
       "id": "aks-dapr-extension",
       "source": "AKS Dapr extension",
-      "target": "AKS Dapr 扩展",
-      "alt": [],
-      "note": "Azure Kubernetes Service 上的 Dapr 扩展产品名称，正文与标题统一用此译法。",
+      "target": "AKS Dapr extension",
+      "alt": [
+        "AKS Dapr 扩展"
+      ],
+      "note": "Azure Kubernetes Service 上的 Dapr 扩展产品名称，正文与标题统一用此译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1660,9 +2470,11 @@
     {
       "id": "alpha",
       "source": "alpha",
-      "target": "Alpha 阶段",
-      "alt": [],
-      "note": "Dapr API 生命周期阶段名称，用于链接文字 [alpha]（组件认证生命周期页面）",
+      "target": "alpha",
+      "alt": [
+        "Alpha 阶段"
+      ],
+      "note": "Dapr API 生命周期阶段名称，用于链接文字 [alpha]（组件认证生命周期页面） 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1740,9 +2552,11 @@
     {
       "id": "app-channel",
       "source": "app channel",
-      "target": "应用通道",
-      "alt": [],
-      "note": "Dapr app channel（应用通道），与 app-protocol 配置对应。",
+      "target": "app channel",
+      "alt": [
+        "应用通道"
+      ],
+      "note": "Dapr app channel（应用通道），与 app-protocol 配置对应。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1754,6 +2568,26 @@
       "lastSeen": {
         "doc": "docs/operations/resiliency/health-checks/app-health.md",
         "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "app-health-check",
+      "source": "app health check",
+      "target": "应用健康检查",
+      "alt": [],
+      "note": "Dapr 应用健康检查功能名称",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/resiliency/health-checks/app-health.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/resiliency/health-checks/app-health.md",
+        "run": "20261116-2249"
       },
       "conflicts": []
     },
@@ -1774,6 +2608,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/actors/actors-app-initiated-streams.md",
         "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "app-namespace",
+      "source": "app namespace",
+      "target": "应用命名空间",
+      "alt": [],
+      "note": "多应用工作流选项表中的 app namespace 选项;与 namespace 人工裁决(保留英文)可能冲突,请主控裁决后再入术语表",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-detached.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-detached.md",
+        "run": "20261117-0133"
       },
       "conflicts": []
     },
@@ -1820,9 +2674,11 @@
     {
       "id": "basic-workflow-api",
       "source": "basic workflow API",
-      "target": "基础工作流 API",
-      "alt": [],
-      "note": "DaprClient.workflow 提供的基础工作流 API 的名称，与 DaprWorkflowClient 区分。",
+      "target": "basic workflow API",
+      "alt": [
+        "基础工作流 API"
+      ],
+      "note": "DaprClient.workflow 提供的基础工作流 API 的名称，与 DaprWorkflowClient 区分。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1964,9 +2820,11 @@
     {
       "id": "building-block",
       "source": "building block",
-      "target": "构建块",
-      "alt": [],
-      "note": "对应 Dapr 核心能力分类。",
+      "target": "building block",
+      "alt": [
+        "构建块"
+      ],
+      "note": "对应 Dapr 核心能力分类。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -1984,9 +2842,11 @@
     {
       "id": "built-in-component",
       "source": "built-in component",
-      "target": "内置组件",
-      "alt": [],
-      "note": "Dapr 内置组件（随运行时提供）的译法，与可插拔组件相对",
+      "target": "built-in component",
+      "alt": [
+        "内置组件"
+      ],
+      "note": "Dapr 内置组件（随运行时提供）的译法，与可插拔组件相对 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2004,9 +2864,11 @@
     {
       "id": "bulk-publish",
       "source": "Bulk Publish",
-      "target": "批量发布",
-      "alt": [],
-      "note": "批量发布 API 的译法。",
+      "target": "Bulk Publish",
+      "alt": [
+        "批量发布"
+      ],
+      "note": "批量发布 API 的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2024,9 +2886,11 @@
     {
       "id": "bulk-subscribe",
       "source": "Bulk Subscribe",
-      "target": "批量订阅",
-      "alt": [],
-      "note": "批量订阅 API 的译法。",
+      "target": "Bulk Subscribe",
+      "alt": [
+        "批量订阅"
+      ],
+      "note": "批量订阅 API 的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2184,9 +3048,11 @@
     {
       "id": "child-workflow",
       "source": "child workflow",
-      "target": "子工作流",
-      "alt": [],
-      "note": "Dapr 工作流中由父工作流调度的工作流实例。",
+      "target": "child workflow",
+      "alt": [
+        "子工作流"
+      ],
+      "note": "Dapr 工作流中由父工作流调度的工作流实例。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2386,9 +3252,11 @@
     {
       "id": "component",
       "source": "component",
-      "target": "组件",
-      "alt": [],
-      "note": "Dapr 组件文件（component YAML）的译法。",
+      "target": "component",
+      "alt": [
+        "组件"
+      ],
+      "note": "Dapr 组件文件（component YAML）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2406,9 +3274,11 @@
     {
       "id": "component-builder",
       "source": "component builder",
-      "target": "组件构建器",
-      "alt": [],
-      "note": "Dapr Dev Dashboard 中创建组件文件的功能名称。",
+      "target": "component builder",
+      "alt": [
+        "组件构建器"
+      ],
+      "note": "Dapr Dev Dashboard 中创建组件文件的功能名称。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2426,9 +3296,11 @@
     {
       "id": "component-certification-lifecycle",
       "source": "Component Certification Lifecycle",
-      "target": "组件认证生命周期",
-      "alt": [],
-      "note": "Dapr 组件认证生命周期（Dapr Component Certification Lifecycle）的译法，用于链接文字",
+      "target": "Component Certification Lifecycle",
+      "alt": [
+        "组件认证生命周期"
+      ],
+      "note": "Dapr 组件认证生命周期（Dapr Component Certification Lifecycle）的译法，用于链接文字 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2446,9 +3318,11 @@
     {
       "id": "component-specification",
       "source": "component specification",
-      "target": "组件规范",
-      "alt": [],
-      "note": "Dapr 组件规范（component specification）的译法",
+      "target": "component specification",
+      "alt": [
+        "组件规范"
+      ],
+      "note": "Dapr 组件规范（component specification）的译法 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2528,9 +3402,11 @@
     {
       "id": "configuration-api",
       "source": "Configuration API",
-      "target": "配置 API",
-      "alt": [],
-      "note": "Dapr 配置 API 的译名，文中多次出现。",
+      "target": "Configuration API",
+      "alt": [
+        "配置 API"
+      ],
+      "note": "Dapr 配置 API 的译名，文中多次出现。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2548,9 +3424,11 @@
     {
       "id": "configuration-building-block",
       "source": "Configuration building block",
-      "target": "配置构建块",
-      "alt": [],
-      "note": "Dapr 构建块名称，由“building block → 构建块”组合而来。",
+      "target": "Configuration building block",
+      "alt": [
+        "配置构建块"
+      ],
+      "note": "Dapr 构建块名称，由“building block → 构建块”组合而来。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2646,6 +3524,26 @@
       "conflicts": []
     },
     {
+      "id": "consumer-id",
+      "source": "consumer ID",
+      "target": "消费者 ID",
+      "alt": [],
+      "note": "pub/sub 消费者组的标识（consumerID 元数据字段所对应的概念名）,本文用于 consumerID 说明。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-pubsub/setup-azure-servicebus-topics.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-pubsub/setup-azure-servicebus-topics.md",
+        "run": "20261116-2249"
+      },
+      "conflicts": []
+    },
+    {
       "id": "content-addressed",
       "source": "content-addressed",
       "target": "内容寻址",
@@ -2728,9 +3626,11 @@
     {
       "id": "continue-as-new",
       "source": "continue as new",
-      "target": "继续作为新",
-      "alt": [],
-      "note": "工作流的“继续作为新”操作：清除历史并以新输入重新启动工作流。",
+      "target": "continue as new",
+      "alt": [
+        "继续作为新"
+      ],
+      "note": "工作流的“继续作为新”操作：清除历史并以新输入重新启动工作流。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2748,9 +3648,11 @@
     {
       "id": "control-plane",
       "source": "control plane",
-      "target": "控制平面",
-      "alt": [],
-      "note": "Dapr 控制平面组件的通用译法。",
+      "target": "control plane",
+      "alt": [
+        "控制平面"
+      ],
+      "note": "Dapr 控制平面组件的通用译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2788,9 +3690,11 @@
     {
       "id": "conversation-alpha2-api",
       "source": "Conversation Alpha2 API",
-      "target": "对话 Alpha2 API",
-      "alt": [],
-      "note": "对话 API Alpha2 版本的名称，全文一致使用。",
+      "target": "Conversation Alpha2 API",
+      "alt": [
+        "对话 Alpha2 API"
+      ],
+      "note": "对话 API Alpha2 版本的名称，全文一致使用。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2808,9 +3712,11 @@
     {
       "id": "conversation-api",
       "source": "conversation API",
-      "target": "对话 API",
-      "alt": [],
-      "note": "Dapr 对话 API（conversation API）的产品名称译法，全文一致使用。",
+      "target": "conversation API",
+      "alt": [
+        "对话 API"
+      ],
+      "note": "Dapr 对话 API（conversation API）的产品名称译法，全文一致使用。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2828,9 +3734,11 @@
     {
       "id": "conversation-building-block",
       "source": "conversation building block",
-      "target": "对话构建块",
-      "alt": [],
-      "note": "Dapr 对话构建块名称，与 building block 的译法一致",
+      "target": "conversation building block",
+      "alt": [
+        "对话构建块"
+      ],
+      "note": "Dapr 对话构建块名称，与 building block 的译法一致 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2848,9 +3756,11 @@
     {
       "id": "conversation-component",
       "source": "conversation component",
-      "target": "对话组件",
-      "alt": [],
-      "note": "Dapr 对话 API 中由 ConversationOptions 指定的后端组件（conversation component）的译法。",
+      "target": "conversation component",
+      "alt": [
+        "对话组件"
+      ],
+      "note": "Dapr 对话 API 中由 ConversationOptions 指定的后端组件（conversation component）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2908,9 +3818,11 @@
     {
       "id": "cross-cutting-apis",
       "source": "Cross-cutting APIs",
-      "target": "横切 API",
-      "alt": [],
-      "note": "Dapr 横切 API 栏目名称",
+      "target": "Cross-cutting APIs",
+      "alt": [
+        "横切 API"
+      ],
+      "note": "Dapr 横切 API 栏目名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2968,9 +3880,11 @@
     {
       "id": "cryptography-building-block",
       "source": "cryptography building block",
-      "target": "密码学构建块",
-      "alt": [],
-      "note": "Dapr 构建块名称，对应 building block 术语。",
+      "target": "cryptography building block",
+      "alt": [
+        "密码学构建块"
+      ],
+      "note": "Dapr 构建块名称，对应 building block 术语。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2988,9 +3902,11 @@
     {
       "id": "custom-status",
       "source": "custom status",
-      "target": "自定义状态",
-      "alt": [],
-      "note": "工作流的自定义状态（SetCustomStatus / ReadCustomStatusAs），用于向客户端暴露进度。",
+      "target": "custom status",
+      "alt": [
+        "自定义状态"
+      ],
+      "note": "工作流的自定义状态（SetCustomStatus / ReadCustomStatusAs），用于向客户端暴露进度。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3008,9 +3924,11 @@
     {
       "id": "dapr-api-token",
       "source": "Dapr API Token",
-      "target": "Dapr API 令牌",
-      "alt": [],
-      "note": "Dapr 的 API 令牌认证功能名称，出现在环境变量一节的标题中。",
+      "target": "Dapr API Token",
+      "alt": [
+        "Dapr API 令牌"
+      ],
+      "note": "Dapr 的 API 令牌认证功能名称，出现在环境变量一节的标题中。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3028,9 +3946,11 @@
     {
       "id": "dapr-diagrams-template-deck",
       "source": "Dapr Diagrams template deck",
-      "target": "Dapr 图表模板库",
-      "alt": [],
-      "note": "Dapr 图表模板幻灯片（template deck）的译名。",
+      "target": "Dapr Diagrams template deck",
+      "alt": [
+        "Dapr 图表模板库"
+      ],
+      "note": "Dapr 图表模板幻灯片（template deck）的译名。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3048,9 +3968,11 @@
     {
       "id": "dapr-environment",
       "source": "Dapr environment",
-      "target": "Dapr 环境",
-      "alt": [],
-      "note": "已通过 dapr init 初始化的 Dapr 本地环境的译法。",
+      "target": "Dapr environment",
+      "alt": [
+        "Dapr 环境"
+      ],
+      "note": "已通过 dapr init 初始化的 Dapr 本地环境的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3068,9 +3990,11 @@
     {
       "id": "dapr-installer-bundle",
       "source": "Dapr Installer Bundle",
-      "target": "Dapr 安装程序包",
-      "alt": [],
-      "note": "Dapr 官方安装程序包（installer bundle）的译法，沿用旧译。",
+      "target": "Dapr Installer Bundle",
+      "alt": [
+        "Dapr 安装程序包"
+      ],
+      "note": "Dapr 官方安装程序包（installer bundle）的译法，沿用旧译。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3108,9 +4032,11 @@
     {
       "id": "dapr-presentation-decks",
       "source": "Dapr Presentation Decks",
-      "target": "Dapr 演示文稿套件",
-      "alt": [],
-      "note": "Dapr 官方演示文稿下载包的名称",
+      "target": "Dapr Presentation Decks",
+      "alt": [
+        "Dapr 演示文稿套件"
+      ],
+      "note": "Dapr 官方演示文稿下载包的名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3128,9 +4054,11 @@
     {
       "id": "dapr-runtime",
       "source": "Dapr runtime",
-      "target": "Dapr 运行时",
-      "alt": [],
-      "note": "Dapr 运行时的译法，文中用于标注所需的运行时版本。",
+      "target": "Dapr runtime",
+      "alt": [
+        "Dapr 运行时"
+      ],
+      "note": "Dapr 运行时的译法，文中用于标注所需的运行时版本。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3248,9 +4176,11 @@
     {
       "id": "declarative-subscription",
       "source": "declarative subscription",
-      "target": "声明式订阅",
-      "alt": [],
-      "note": "Dapr 声明式订阅（declarative subscription）方式的译法。",
+      "target": "declarative subscription",
+      "alt": [
+        "声明式订阅"
+      ],
+      "note": "Dapr 声明式订阅（declarative subscription）方式的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3348,9 +4278,11 @@
     {
       "id": "detached-workflow",
       "source": "detached workflow",
-      "target": "分离工作流",
-      "alt": [],
-      "note": "即发即忘（fire-and-forget）的独立工作流实例。",
+      "target": "detached workflow",
+      "alt": [
+        "分离工作流"
+      ],
+      "note": "即发即忘（fire-and-forget）的独立工作流实例。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3472,11 +4404,33 @@
       "conflicts": []
     },
     {
+      "id": "document-mapping",
+      "source": "Document mapping",
+      "target": "文档映射",
+      "alt": [],
+      "note": "组件中文档 id、content、metadata 的映射规则，文内小节标题与链接使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2249"
+      },
+      "conflicts": []
+    },
+    {
       "id": "durable-agent",
       "source": "Durable Agent",
-      "target": "持久化代理",
-      "alt": [],
-      "note": "DurableAgent 对应的模式名称",
+      "target": "Durable Agent",
+      "alt": [
+        "持久化代理"
+      ],
+      "note": "DurableAgent 对应的模式名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3574,9 +4528,11 @@
     {
       "id": "durable-timer",
       "source": "durable timer",
-      "target": "持久化定时器",
-      "alt": [],
-      "note": "由工作流运行时持久化的定时器，用于工作流中的持久化延迟。",
+      "target": "durable timer",
+      "alt": [
+        "持久化定时器"
+      ],
+      "note": "由工作流运行时持久化的定时器，用于工作流中的持久化延迟。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3812,6 +4768,26 @@
       "conflicts": []
     },
     {
+      "id": "execution-claim",
+      "source": "execution claim",
+      "target": "执行认领",
+      "alt": [],
+      "note": "WorkflowsFastPath 下活动 Actor 的执行认领记录（execution-claim），用于放置变更时的所有权判定。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-state-and-history.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-state-and-history.md",
+        "run": "20261116-2249"
+      },
+      "conflicts": []
+    },
+    {
       "id": "execution-claim-record",
       "source": "execution claim record",
       "target": "执行认领记录",
@@ -3894,9 +4870,11 @@
     {
       "id": "external-event",
       "source": "external event",
-      "target": "外部事件",
-      "alt": [],
-      "note": "event.raised 所匹配的外部事件名称",
+      "target": "external event",
+      "alt": [
+        "外部事件"
+      ],
+      "note": "event.raised 所匹配的外部事件名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4054,9 +5032,11 @@
     {
       "id": "feature-gate",
       "source": "feature gate",
-      "target": "特性门控",
-      "alt": [],
-      "note": "Dapr 功能开关（feature gate）的译法，如 WorkflowsRemoteActivityReminder 特性门控。",
+      "target": "feature gate",
+      "alt": [
+        "特性门控"
+      ],
+      "note": "Dapr 功能开关（feature gate）的译法，如 WorkflowsRemoteActivityReminder 特性门控。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4148,6 +5128,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/service-invocation/howto-invoke-non-dapr-endpoints.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "full-text-search",
+      "source": "Full-text search",
+      "target": "全文搜索",
+      "alt": [],
+      "note": "Meilisearch 搜索组件的功能名称，功能表格中使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2249"
       },
       "conflicts": []
     },
@@ -4334,9 +5334,11 @@
     {
       "id": "health-probe",
       "source": "health probe",
-      "target": "健康探测",
-      "alt": [],
-      "note": "Dapr 健康探测（health probe）的译法。",
+      "target": "health probe",
+      "alt": [
+        "健康探测"
+      ],
+      "note": "Dapr 健康探测（health probe）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4414,9 +5416,11 @@
     {
       "id": "history-event",
       "source": "history event",
-      "target": "历史事件",
-      "alt": [],
-      "note": "工作流执行历史（history）中的事件。",
+      "target": "history event",
+      "alt": [
+        "历史事件"
+      ],
+      "note": "工作流执行历史（history）中的事件。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4454,9 +5458,11 @@
     {
       "id": "history-propagation",
       "source": "history propagation",
-      "target": "历史传播",
-      "alt": [],
-      "note": "父工作流与子工作流/活动共享执行历史、用于验证的功能。",
+      "target": "history propagation",
+      "alt": [
+        "历史传播"
+      ],
+      "note": "父工作流与子工作流/活动共享执行历史、用于验证的功能。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4474,9 +5480,11 @@
     {
       "id": "history-signing",
       "source": "history signing",
-      "target": "历史签名",
-      "alt": [],
-      "note": "对工作流历史事件进行加密签名并验证的功能。",
+      "target": "history signing",
+      "alt": [
+        "历史签名"
+      ],
+      "note": "对工作流历史事件进行加密签名并验证的功能。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4534,9 +5542,11 @@
     {
       "id": "horizontal-pod-autoscaler",
       "source": "Horizontal Pod Autoscaler",
-      "target": "水平 Pod 自动扩缩器",
-      "alt": [],
-      "note": "Kubernetes HPA 的译法，缩写 HPA 保留。",
+      "target": "Horizontal Pod Autoscaler",
+      "alt": [
+        "水平 Pod 自动扩缩器"
+      ],
+      "note": "Kubernetes HPA 的译法，缩写 HPA 保留。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4716,9 +5726,11 @@
     {
       "id": "in-memory-component",
       "source": "in-memory component",
-      "target": "in-memory 组件",
-      "alt": [],
-      "note": "search.in-memory 搜索组件类型，文中用于链接文字。",
+      "target": "in-memory component",
+      "alt": [
+        "in-memory 组件"
+      ],
+      "note": "search.in-memory 搜索组件类型，文中用于链接文字。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4938,9 +5950,11 @@
     {
       "id": "interpreted-actor",
       "source": "interpreted actor",
-      "target": "解释型 Actor",
-      "alt": [],
-      "note": "运行时以数据定义状态机的 Actor，标题与正文中的译法。",
+      "target": "interpreted Actor",
+      "alt": [
+        "解释型 Actor"
+      ],
+      "note": "运行时以数据定义状态机的 Actor，标题与正文中的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5018,9 +6032,11 @@
     {
       "id": "job",
       "source": "job",
-      "target": "作业",
-      "alt": [],
-      "note": "Dapr Jobs 语境下的 job，沿用旧译“作业”。",
+      "target": "job",
+      "alt": [
+        "作业"
+      ],
+      "note": "Dapr Jobs 语境下的 job，沿用旧译“作业”。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5038,9 +6054,11 @@
     {
       "id": "jobs-building-block",
       "source": "jobs building block",
-      "target": "Jobs 构建块",
-      "alt": [],
-      "note": "Dapr 构建块名称，与 Jobs 构建块页面保持一致。",
+      "target": "jobs building block",
+      "alt": [
+        "Jobs 构建块"
+      ],
+      "note": "Dapr 构建块名称，与 Jobs 构建块页面保持一致。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5098,9 +6116,11 @@
     {
       "id": "kube-api-server",
       "source": "kube api server",
-      "target": "kube api 服务器",
-      "alt": [],
-      "note": "Kubernetes API 服务器的非正式写法 kube api server，保留 kube api 前缀。",
+      "target": "kube api server",
+      "alt": [
+        "kube api 服务器"
+      ],
+      "note": "Kubernetes API 服务器的非正式写法 kube api server，保留 kube api 前缀。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5118,9 +6138,11 @@
     {
       "id": "kubernetes-auth-method",
       "source": "Kubernetes Auth Method",
-      "target": "Kubernetes 认证方法",
-      "alt": [],
-      "note": "Vault 的 Kubernetes 认证方法名称。",
+      "target": "Kubernetes Auth Method",
+      "alt": [
+        "Kubernetes 认证方法"
+      ],
+      "note": "Vault 的 Kubernetes 认证方法名称。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5282,9 +6304,11 @@
     {
       "id": "local-storage-component",
       "source": "local storage component",
-      "target": "本地存储组件",
-      "alt": [],
-      "note": "Dapr 的 crypto.dapr.localstorage 组件，本篇多次引用。",
+      "target": "local storage component",
+      "alt": [
+        "本地存储组件"
+      ],
+      "note": "Dapr 的 crypto.dapr.localstorage 组件，本篇多次引用。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5390,23 +6414,25 @@
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
-      "occurrences": 1,
+      "occurrences": 2,
       "firstSeen": {
         "doc": "docs/reference/components-reference/supported-configuration-stores/azure-appconfig-configuration-store.md",
         "run": "20261116-1934"
       },
       "lastSeen": {
-        "doc": "docs/reference/components-reference/supported-configuration-stores/azure-appconfig-configuration-store.md",
-        "run": "20261116-1934"
+        "doc": "docs/reference/components-reference/supported-pubsub/setup-azure-servicebus-topics.md",
+        "run": "20261116-2249"
       },
       "conflicts": []
     },
     {
       "id": "manifest",
       "source": "manifest",
-      "target": "清单",
-      "alt": [],
-      "note": "Dapr 组件清单（component manifest）的译法，如“组件清单版本”。",
+      "target": "manifest",
+      "alt": [
+        "清单"
+      ],
+      "note": "Dapr 组件清单（component manifest）的译法，如“组件清单版本”。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5458,6 +6484,26 @@
       "lastSeen": {
         "doc": "docs/developing-ai/mcp/dapr-mcp-server/dapr-mcp-server-getting-started.md",
         "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "mcp-server",
+      "source": "MCP server",
+      "target": "MCP 服务器",
+      "alt": [],
+      "note": "MCP 协议中的服务器角色，本文多次出现",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 2,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-authentication.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-security.md",
+        "run": "20261116-2249"
       },
       "conflicts": []
     },
@@ -5544,9 +6590,11 @@
     {
       "id": "metadata",
       "source": "metadata",
-      "target": "元数据",
-      "alt": [],
-      "note": "记录的可过滤结构化元数据（metadata）。",
+      "target": "metadata",
+      "alt": [
+        "元数据"
+      ],
+      "note": "记录的可过滤结构化元数据（metadata）。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5564,9 +6612,11 @@
     {
       "id": "middleware",
       "source": "middleware",
-      "target": "中间件",
-      "alt": [],
-      "note": "Dapr 中间件（HTTP middleware、middleware pipeline）的译法，与现有译文一致",
+      "target": "middleware",
+      "alt": [
+        "中间件"
+      ],
+      "note": "Dapr 中间件（HTTP middleware、middleware pipeline）的译法，与现有译文一致 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5622,11 +6672,33 @@
       "conflicts": []
     },
     {
+      "id": "monitor-pattern",
+      "source": "Monitor pattern",
+      "target": "监控模式",
+      "alt": [],
+      "note": "Dapr 工作流模式名称，译文括注原文",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-stateful-client.md",
+        "run": "20261117-0133"
+      },
+      "conflicts": []
+    },
+    {
       "id": "multi-app-workflow",
       "source": "multi-app workflow",
-      "target": "多应用工作流",
-      "alt": [],
-      "note": "跨多个 Dapr 应用运行的工作流场景，本篇链接标题与正文一致使用。",
+      "target": "multi-app workflow",
+      "alt": [
+        "多应用工作流"
+      ],
+      "note": "跨多个 Dapr 应用运行的工作流场景，本篇链接标题与正文一致使用。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5644,9 +6716,11 @@
     {
       "id": "multi-application-workflow",
       "source": "multi-application workflow",
-      "target": "多应用程序工作流",
-      "alt": [],
-      "note": "跨多个应用程序编排的工作流，沿用旧译法。",
+      "target": "multi-application workflow",
+      "alt": [
+        "多应用程序工作流"
+      ],
+      "note": "跨多个应用程序编排的工作流，沿用旧译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5724,9 +6798,11 @@
     {
       "id": "name-based-workflow-versioning",
       "source": "name-based workflow versioning",
-      "target": "基于名称的工作流版本控制",
-      "alt": [],
-      "note": "工作流版本控制功能名称",
+      "target": "name-based workflow versioning",
+      "alt": [
+        "基于名称的工作流版本控制"
+      ],
+      "note": "工作流版本控制功能名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5744,9 +6820,11 @@
     {
       "id": "name-resolution",
       "source": "name resolution",
-      "target": "名称解析",
-      "alt": [],
-      "note": "服务调用构建块的名称解析（nameResolution）的译法，沿用现有译文",
+      "target": "name resolution",
+      "alt": [
+        "名称解析"
+      ],
+      "note": "服务调用构建块的名称解析（nameResolution）的译法，沿用现有译文 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5804,9 +6882,11 @@
     {
       "id": "named-workflow-versioning",
       "source": "named workflow versioning",
-      "target": "命名工作流版本控制",
-      "alt": [],
-      "note": "命名工作流版本控制（.NET 应用的工作流版本功能）。",
+      "target": "named workflow versioning",
+      "alt": [
+        "命名工作流版本控制"
+      ],
+      "note": "命名工作流版本控制（.NET 应用的工作流版本功能）。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5824,9 +6904,11 @@
     {
       "id": "namespace",
       "source": "namespace",
-      "target": "命名空间",
-      "alt": [],
-      "note": "Kubernetes 命名空间；工作流限定在单个命名空间内",
+      "target": "namespace",
+      "alt": [
+        "命名空间"
+      ],
+      "note": "Kubernetes 命名空间；工作流限定在单个命名空间内 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5884,9 +6966,11 @@
     {
       "id": "node-affinity",
       "source": "node affinity",
-      "target": "节点亲和性",
-      "alt": [],
-      "note": "Kubernetes 调度概念的译法，首次出现处附英文原文。",
+      "target": "node affinity",
+      "alt": [
+        "节点亲和性"
+      ],
+      "note": "Kubernetes 调度概念的译法，首次出现处附英文原文。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5904,9 +6988,11 @@
     {
       "id": "non-dapr-endpoint",
       "source": "non-Dapr endpoint",
-      "target": "非 Dapr 端点",
-      "alt": [],
-      "note": "不运行 Dapr 边车、可经服务调用 API 访问的 HTTP 目标（HTTPEndpoint 资源）。",
+      "target": "non-Dapr endpoint",
+      "alt": [
+        "非 Dapr 端点"
+      ],
+      "note": "不运行 Dapr 边车、可经服务调用 API 访问的 HTTP 目标（HTTPEndpoint 资源）。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6082,6 +7168,26 @@
       "conflicts": []
     },
     {
+      "id": "outbound-health-endpoint",
+      "source": "Outbound health endpoint",
+      "target": "出站健康端点",
+      "alt": [],
+      "note": "Dapr 边车的 v1.0/healthz/outbound 端点，与 v1.0/healthz 端点相对；本篇标题为“出站健康端点”。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/operations/resiliency/health-checks/sidecar-health.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/operations/resiliency/health-checks/sidecar-health.md",
+        "run": "20261116-2249"
+      },
+      "conflicts": []
+    },
+    {
       "id": "outbox-pattern",
       "source": "outbox pattern",
       "target": "发件箱模式",
@@ -6226,9 +7332,11 @@
     {
       "id": "per-sidecar-limit",
       "source": "per-sidecar limit",
-      "target": "每边车限制",
-      "alt": [],
-      "note": "按单个边车范围生效的并发限制。",
+      "target": "per-sidecar limit",
+      "alt": [
+        "每边车限制"
+      ],
+      "note": "按单个边车范围生效的并发限制。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6304,11 +7412,33 @@
       "conflicts": []
     },
     {
+      "id": "pipeline",
+      "source": "pipeline",
+      "target": "流水线",
+      "alt": [],
+      "note": "Dapr 中间件流水线（httpPipeline / appHttpPipeline）的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-authentication.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-ai/mcp/mcp-authentication.md",
+        "run": "20261116-2249"
+      },
+      "conflicts": []
+    },
+    {
       "id": "placement",
       "source": "placement",
-      "target": "放置",
-      "alt": [],
-      "note": "Actor 放置（placement）：运行时决定 Actor 所在位置的机制；作为通用概念译作“放置”，与保留英文的 Dapr Placement 服务名区分",
+      "target": "placement",
+      "alt": [
+        "放置"
+      ],
+      "note": "Actor 放置（placement）：运行时决定 Actor 所在位置的机制；作为通用概念译作“放置”，与保留英文的 Dapr Placement 服务名区分 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6326,9 +7456,11 @@
     {
       "id": "placement-service",
       "source": "placement service",
-      "target": "放置服务",
-      "alt": [],
-      "note": "Dapr 放置服务（placement service）的译法。",
+      "target": "placement service",
+      "alt": [
+        "放置服务"
+      ],
+      "note": "Dapr 放置服务（placement service）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6346,9 +7478,11 @@
     {
       "id": "pluggable-component",
       "source": "pluggable component",
-      "target": "可插拔组件",
-      "alt": [],
-      "note": "与 pluggable-components 目录语义保持一致。",
+      "target": "pluggable component",
+      "alt": [
+        "可插拔组件"
+      ],
+      "note": "与 pluggable-components 目录语义保持一致。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6486,9 +7620,11 @@
     {
       "id": "programmatic-subscription",
       "source": "programmatic subscription",
-      "target": "编程式订阅",
-      "alt": [],
-      "note": "Dapr 三种订阅类型之一，需要代码中的端点。",
+      "target": "programmatic subscription",
+      "alt": [
+        "编程式订阅"
+      ],
+      "note": "Dapr 三种订阅类型之一，需要代码中的端点。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6586,9 +7722,11 @@
     {
       "id": "propagated-history",
       "source": "propagated history",
-      "target": "传播历史",
-      "alt": [],
-      "note": "父工作流传播给调用方的执行历史，requires 规则据此匹配",
+      "target": "propagated history",
+      "alt": [
+        "传播历史"
+      ],
+      "note": "父工作流传播给调用方的执行历史，requires 规则据此匹配 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6606,9 +7744,11 @@
     {
       "id": "propagation-scope",
       "source": "propagation scope",
-      "target": "传播范围",
-      "alt": [],
-      "note": "父工作流选择的传播范围，取值为 LINEAGE 或 OWN_HISTORY。",
+      "target": "propagation scope",
+      "alt": [
+        "传播范围"
+      ],
+      "note": "父工作流选择的传播范围，取值为 LINEAGE 或 OWN_HISTORY。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6688,9 +7828,11 @@
     {
       "id": "query-api",
       "source": "Query API",
-      "target": "查询 API",
-      "alt": [],
-      "note": "Redis 状态存储的查询 API（Query API），与状态查询 API 相关",
+      "target": "Query API",
+      "alt": [
+        "查询 API"
+      ],
+      "note": "Redis 状态存储的查询 API（Query API），与状态查询 API 相关 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6708,9 +7850,11 @@
     {
       "id": "query-state",
       "source": "Query State",
-      "target": "状态查询",
-      "alt": [],
-      "note": "Query State API 的译法",
+      "target": "Query State",
+      "alt": [
+        "状态查询"
+      ],
+      "note": "Query State API 的译法 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6748,9 +7892,11 @@
     {
       "id": "quickstart",
       "source": "Quickstart",
-      "target": "快速入门",
-      "alt": [],
-      "note": "Dapr 文档的快速入门栏目名称。",
+      "target": "Quickstart",
+      "alt": [
+        "快速入门"
+      ],
+      "note": "Dapr 文档的快速入门栏目名称。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6788,9 +7934,11 @@
     {
       "id": "raise-event",
       "source": "raise event",
-      "target": "触发事件",
-      "alt": [],
-      "note": "Dapr 工作流 API 中 raise event 操作的译法（标题与正文）。",
+      "target": "raise event",
+      "alt": [
+        "触发事件"
+      ],
+      "note": "Dapr 工作流 API 中 raise event 操作的译法（标题与正文）。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6828,9 +7976,11 @@
     {
       "id": "rate-limit-middleware",
       "source": "rate limit middleware",
-      "target": "速率限制中间件",
-      "alt": [],
-      "note": "Dapr 速率限制中间件（middleware.http.ratelimit）的译法，与旧译文一致。",
+      "target": "rate limit middleware",
+      "alt": [
+        "速率限制中间件"
+      ],
+      "note": "Dapr 速率限制中间件（middleware.http.ratelimit）的译法，与旧译文一致。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6948,9 +8098,11 @@
     {
       "id": "redis-lock-component",
       "source": "Redis lock component",
-      "target": "Redis 锁组件",
-      "alt": [],
-      "note": "Redis 锁组件的名称",
+      "target": "Redis lock component",
+      "alt": [
+        "Redis 锁组件"
+      ],
+      "note": "Redis 锁组件的名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7048,9 +8200,11 @@
     {
       "id": "reminder",
       "source": "reminder",
-      "target": "提醒",
-      "alt": [],
-      "note": "Dapr actor 提醒（reminder）的译法。",
+      "target": "reminder",
+      "alt": [
+        "提醒"
+      ],
+      "note": "Dapr actor 提醒（reminder）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7148,9 +8302,11 @@
     {
       "id": "resiliency",
       "source": "resiliency",
-      "target": "弹性策略",
-      "alt": [],
-      "note": "Dapr 弹性策略资源（Resiliency）的译名。",
+      "target": "resiliency",
+      "alt": [
+        "弹性策略"
+      ],
+      "note": "Dapr 弹性策略资源（Resiliency）的译名。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7168,9 +8324,11 @@
     {
       "id": "resiliency-builder",
       "source": "resiliency builder",
-      "target": "弹性构建器",
-      "alt": [],
-      "note": "Dapr Dev Dashboard 中用于生成弹性策略的构建向导",
+      "target": "resiliency builder",
+      "alt": [
+        "弹性构建器"
+      ],
+      "note": "Dapr Dev Dashboard 中用于生成弹性策略的构建向导 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7270,9 +8428,11 @@
     {
       "id": "scheduler",
       "source": "Scheduler",
-      "target": "调度器",
-      "alt": [],
-      "note": "Dapr Scheduler 组件的译法。",
+      "target": "Scheduler",
+      "alt": [
+        "调度器"
+      ],
+      "note": "Dapr Scheduler 组件的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7290,9 +8450,11 @@
     {
       "id": "scheduler-control-plane",
       "source": "scheduler control plane",
-      "target": "Scheduler 控制平面",
-      "alt": [],
-      "note": "Dapr 调度器控制平面名称。",
+      "target": "scheduler control plane",
+      "alt": [
+        "Scheduler 控制平面"
+      ],
+      "note": "Dapr 调度器控制平面名称。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7310,9 +8472,11 @@
     {
       "id": "scheduler-control-plane-service",
       "source": "Scheduler control plane service",
-      "target": "Scheduler 控制平面服务",
-      "alt": [],
-      "note": "与术语 scheduler control plane 的译法 Scheduler 控制平面 一致",
+      "target": "Scheduler control plane service",
+      "alt": [
+        "Scheduler 控制平面服务"
+      ],
+      "note": "与术语 scheduler control plane 的译法 Scheduler 控制平面 一致 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7330,9 +8494,11 @@
     {
       "id": "scheduler-placement",
       "source": "scheduler placement",
-      "target": "调度器放置",
-      "alt": [],
-      "note": "Dapr 1.19 中由 Scheduler 服务提供 Actor 放置的模式名，对应 global.scheduler.placement.enabled。",
+      "target": "scheduler placement",
+      "alt": [
+        "调度器放置"
+      ],
+      "note": "Dapr 1.19 中由 Scheduler 服务提供 Actor 放置的模式名，对应 global.scheduler.placement.enabled。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7350,9 +8516,11 @@
     {
       "id": "scheduler-service",
       "source": "Scheduler service",
-      "target": "Scheduler 服务",
-      "alt": [],
-      "note": "Scheduler 服务的名称",
+      "target": "Scheduler service",
+      "alt": [
+        "Scheduler 服务"
+      ],
+      "note": "Scheduler 服务的名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7450,9 +8618,11 @@
     {
       "id": "search-api",
       "source": "Search API",
-      "target": "搜索 API",
-      "alt": [],
-      "note": "Dapr 搜索 API 的产品名称译法，全文一致使用。",
+      "target": "Search API",
+      "alt": [
+        "搜索 API"
+      ],
+      "note": "Dapr 搜索 API 的产品名称译法，全文一致使用。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7470,9 +8640,11 @@
     {
       "id": "search-component",
       "source": "search component",
-      "target": "搜索组件",
-      "alt": [],
-      "note": "Dapr 搜索构建块中的组件，如 Meilisearch 组件。",
+      "target": "search component",
+      "alt": [
+        "搜索组件"
+      ],
+      "note": "Dapr 搜索构建块中的组件，如 Meilisearch 组件。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7876,9 +9048,11 @@
     {
       "id": "service-account",
       "source": "service account",
-      "target": "服务账号",
-      "alt": [],
-      "note": "Kubernetes ServiceAccount 的译法。",
+      "target": "service account",
+      "alt": [
+        "服务账号"
+      ],
+      "note": "Kubernetes ServiceAccount 的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7896,9 +9070,11 @@
     {
       "id": "service-invocation",
       "source": "service invocation",
-      "target": "服务调用",
-      "alt": [],
-      "note": "与运行时 API 名称保持一致。",
+      "target": "service invocation",
+      "alt": [
+        "服务调用"
+      ],
+      "note": "与运行时 API 名称保持一致。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7996,9 +9172,11 @@
     {
       "id": "sidecar",
       "source": "sidecar",
-      "target": "边车",
-      "alt": [],
-      "note": "沿用 Kubernetes 与 Dapr 常用译法。",
+      "target": "sidecar",
+      "alt": [
+        "边车"
+      ],
+      "note": "沿用 Kubernetes 与 Dapr 常用译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8016,9 +9194,11 @@
     {
       "id": "sidecar-injector",
       "source": "sidecar injector",
-      "target": "边车注入器",
-      "alt": [],
-      "note": "Dapr 边车注入器（sidecar injector）的译法，用于 Helm 值 dapr_sidecar_injector 与相关说明。",
+      "target": "sidecar injector",
+      "alt": [
+        "边车注入器"
+      ],
+      "note": "Dapr 边车注入器（sidecar injector）的译法，用于 Helm 值 dapr_sidecar_injector 与相关说明。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8236,9 +9416,11 @@
     {
       "id": "state-machine-actor",
       "source": "state machine actor",
-      "target": "状态机 Actor",
-      "alt": [],
-      "note": "Dapr Actor 中以状态机方式编写的 Actor 类型。",
+      "target": "state machine Actor",
+      "alt": [
+        "状态机 Actor"
+      ],
+      "note": "Dapr Actor 中以状态机方式编写的 Actor 类型。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8256,9 +9438,11 @@
     {
       "id": "state-management",
       "source": "State Management",
-      "target": "状态管理",
-      "alt": [],
-      "note": "Dapr 状态管理构建块名称（链接文字、linkTitle 与标题中使用）",
+      "target": "State Management",
+      "alt": [
+        "状态管理"
+      ],
+      "note": "Dapr 状态管理构建块名称（链接文字、linkTitle 与标题中使用） 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8276,9 +9460,11 @@
     {
       "id": "state-manager",
       "source": "state manager",
-      "target": "状态管理器",
-      "alt": [],
-      "note": "Actor 的 state manager（_state_manager）的译法，本篇沿用。",
+      "target": "state manager",
+      "alt": [
+        "状态管理器"
+      ],
+      "note": "Actor 的 state manager（_state_manager）的译法，本篇沿用。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8358,9 +9544,11 @@
     {
       "id": "state-transaction",
       "source": "state transaction",
-      "target": "状态事务",
-      "alt": [],
-      "note": "Dapr 状态管理中的事务（state transactions）的译法，与状态存储并列出现。",
+      "target": "state transaction",
+      "alt": [
+        "状态事务"
+      ],
+      "note": "Dapr 状态管理中的事务（state transactions）的译法，与状态存储并列出现。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8398,9 +9586,11 @@
     {
       "id": "stateful-workflow",
       "source": "stateful workflow",
-      "target": "有状态工作流",
-      "alt": [],
-      "note": "Dapr 1.19 工作流的有状态历史（stateful history）特性名称。",
+      "target": "stateful workflow",
+      "alt": [
+        "有状态工作流"
+      ],
+      "note": "Dapr 1.19 工作流的有状态历史（stateful history）特性名称。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8418,9 +9608,11 @@
     {
       "id": "storage-class",
       "source": "storage class",
-      "target": "存储类",
-      "alt": [],
-      "note": "Kubernetes 存储类（StorageClass）的译法。",
+      "target": "storage class",
+      "alt": [
+        "存储类"
+      ],
+      "note": "Kubernetes 存储类（StorageClass）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8498,9 +9690,11 @@
     {
       "id": "streaming-subscription",
       "source": "streaming subscription",
-      "target": "流式订阅",
-      "alt": [],
-      "note": "Dapr 三种订阅类型之一（声明式、流式、编程式）。",
+      "target": "streaming subscription",
+      "alt": [
+        "流式订阅"
+      ],
+      "note": "Dapr 三种订阅类型之一（声明式、流式、编程式）。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "high",
@@ -8538,9 +9732,11 @@
     {
       "id": "subscription-streams",
       "source": "Subscription streams",
-      "target": "订阅流",
-      "alt": [],
-      "note": "Dapr .NET Actors Next 订阅流参考页的标题，正文中作为链接文字使用。",
+      "target": "Subscription streams",
+      "alt": [
+        "订阅流"
+      ],
+      "note": "Dapr .NET Actors Next 订阅流参考页的标题，正文中作为链接文字使用。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8616,6 +9812,26 @@
       "conflicts": []
     },
     {
+      "id": "tenant",
+      "source": "tenant",
+      "target": "租户",
+      "alt": [],
+      "note": "Azure / Microsoft Entra ID 租户（tenant），正文中以“Azure 租户”出现；术语表中尚无此条。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-aad.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/integrations/Azure/azure-authentication/howto-aad.md",
+        "run": "20261116-2249"
+      },
+      "conflicts": []
+    },
+    {
       "id": "time-to-live",
       "source": "Time To Live",
       "target": "生存时间",
@@ -8638,9 +9854,11 @@
     {
       "id": "timer",
       "source": "timer",
-      "target": "定时器",
-      "alt": [],
-      "note": "Dapr actor 定时器（timer）的译法。",
+      "target": "timer",
+      "alt": [
+        "定时器"
+      ],
+      "note": "Dapr actor 定时器（timer）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8738,9 +9956,11 @@
     {
       "id": "topic-scoping",
       "source": "topic scoping",
-      "target": "主题限制",
-      "alt": [],
-      "note": "Dapr 限制哪些应用程序可以发布或订阅主题的功能。",
+      "target": "topic scoping",
+      "alt": [
+        "主题限制"
+      ],
+      "note": "Dapr 限制哪些应用程序可以发布或订阅主题的功能。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8798,6 +10018,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/jobs/howto-schedule-and-handle-triggered-jobs.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "trigger-time",
+      "source": "trigger time",
+      "target": "触发时间",
+      "alt": [],
+      "note": "作业因到达 dueTime 而被发回应用程序的时刻(触发时间（trigger time）)",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/jobs/howto-schedule-and-handle-triggered-jobs.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/jobs/howto-schedule-and-handle-triggered-jobs.md",
+        "run": "20261117-0133"
       },
       "conflicts": []
     },
@@ -9188,9 +10428,11 @@
     {
       "id": "virtual-actor",
       "source": "virtual actor",
-      "target": "虚拟 Actor",
-      "alt": [],
-      "note": "虚拟 Actor 模式（virtual actor pattern）的译法，沿用旧译文。",
+      "target": "virtual Actor",
+      "alt": [
+        "虚拟 Actor"
+      ],
+      "note": "虚拟 Actor 模式（virtual actor pattern）的译法，沿用旧译文。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9222,6 +10464,26 @@
       "lastSeen": {
         "doc": "sdks_dotnet/dotnet-actors-next/dotnet-actorsnext-migration.md",
         "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "wait-for-completion",
+      "source": "Wait for completion",
+      "target": "等待写入完成",
+      "alt": [],
+      "note": "INDEXING_MODE_WAIT_FOR_COMPLETION 对应的写入等待功能名称，功能表格与小节标题使用。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2249"
+      },
+      "lastSeen": {
+        "doc": "docs/reference/components-reference/supported-search/meilisearch.md",
+        "run": "20261116-2249"
       },
       "conflicts": []
     },
@@ -9328,9 +10590,11 @@
     {
       "id": "workflow",
       "source": "workflow",
-      "target": "工作流",
-      "alt": [],
-      "note": "与工作流 API 和页面文案一致。",
+      "target": "workflow",
+      "alt": [
+        "工作流"
+      ],
+      "note": "与工作流 API 和页面文案一致。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9348,9 +10612,11 @@
     {
       "id": "workflow-access-policy",
       "source": "workflow access policy",
-      "target": "工作流访问策略",
-      "alt": [],
-      "note": "WorkflowAccessPolicy 资源的功能名称。",
+      "target": "workflow access policy",
+      "alt": [
+        "工作流访问策略"
+      ],
+      "note": "WorkflowAccessPolicy 资源的功能名称。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9368,9 +10634,11 @@
     {
       "id": "workflow-client",
       "source": "Workflow Client",
-      "target": "工作流客户端",
-      "alt": [],
-      "note": "工作流客户端（Workflow Client）的译法，与旧译一致。",
+      "target": "Workflow Client",
+      "alt": [
+        "工作流客户端"
+      ],
+      "note": "工作流客户端（Workflow Client）的译法，与旧译一致。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9388,9 +10656,11 @@
     {
       "id": "workflow-data-references",
       "source": "Workflow data references",
-      "target": "工作流数据引用",
-      "alt": [],
-      "note": "Dapr 工作流的数据引用功能名称，指把大负载卸载到二进制存储的机制。",
+      "target": "Workflow data references",
+      "alt": [
+        "工作流数据引用"
+      ],
+      "note": "Dapr 工作流的数据引用功能名称，指把大负载卸载到二进制存储的机制。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9408,9 +10678,11 @@
     {
       "id": "workflow-instance",
       "source": "workflow instance",
-      "target": "工作流实例",
-      "alt": [],
-      "note": "工作流的运行实例（instance），与 instance-id 条目配套。",
+      "target": "workflow instance",
+      "alt": [
+        "工作流实例"
+      ],
+      "note": "工作流的运行实例（instance），与 instance-id 条目配套。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9428,9 +10700,11 @@
     {
       "id": "workflow-registry",
       "source": "workflow registry",
-      "target": "工作流注册表",
-      "alt": [],
-      "note": "Go SDK 中用于注册工作流与活动的注册表对象的译法。",
+      "target": "workflow registry",
+      "alt": [
+        "工作流注册表"
+      ],
+      "note": "Go SDK 中用于注册工作流与活动的注册表对象的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9448,9 +10722,11 @@
     {
       "id": "workflow-runtime",
       "source": "workflow runtime",
-      "target": "工作流运行时",
-      "alt": [],
-      "note": "Dapr 工作流 SDK 中的运行时对象（WorkflowRuntime）的译法。",
+      "target": "workflow runtime",
+      "alt": [
+        "工作流运行时"
+      ],
+      "note": "Dapr 工作流 SDK 中的运行时对象（WorkflowRuntime）的译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9468,9 +10744,11 @@
     {
       "id": "workflow-versioning",
       "source": "workflow versioning",
-      "target": "工作流版本控制",
-      "alt": [],
-      "note": "工作流的版本控制机制，本页标题与链接使用此译法。",
+      "target": "workflow versioning",
+      "alt": [
+        "工作流版本控制"
+      ],
+      "note": "工作流的版本控制机制，本页标题与链接使用此译法。 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9488,9 +10766,11 @@
     {
       "id": "workflows-clustered-deployment",
       "source": "Workflows Clustered Deployment",
-      "target": "工作流集群部署",
-      "alt": [],
-      "note": "预览功能名称",
+      "target": "Workflows Clustered Deployment",
+      "alt": [
+        "工作流集群部署"
+      ],
+      "note": "预览功能名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9508,9 +10788,11 @@
     {
       "id": "workflows-durable-activity-results",
       "source": "Workflows Durable Activity Results",
-      "target": "工作流持久化活动结果",
-      "alt": [],
-      "note": "预览功能名称",
+      "target": "Workflows Durable Activity Results",
+      "alt": [
+        "工作流持久化活动结果"
+      ],
+      "note": "预览功能名称 2026-11-16 人工裁决:Dapr/Kubernetes 自有术语保留英文,不翻译。",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",

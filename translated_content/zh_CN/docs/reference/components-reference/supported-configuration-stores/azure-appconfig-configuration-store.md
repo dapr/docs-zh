@@ -45,14 +45,14 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-上述示例将机密作为纯文本字符串使用。建议使用机密存储来管理机密，详见[此处]({{% ref component-secrets.md %}})。
+上述示例将 secrets 作为纯文本字符串使用。建议使用 secret store 来管理 secrets，详见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段
 
 | Field                      | Required | Details                                                                                                                                                                                                                                                                                                                       | Example |
 |----------------------------|:--------:|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------|
-| connectionString  | Y*       | Azure App Configuration 实例的连接字符串。无默认值。可以是 `secretKeyRef` 以使用机密引用。*与 host 字段互斥。*使用 [Azure 身份验证](https://docs.dapr.io/integrations/azure/azure-authentication/authenticating-azure/)时不使用 | `Endpoint=https://foo.azconfig.io;Id=osOX-l9-s0:sig;Secret=00000000000000000000000000000000000000000000`
+| connectionString  | Y*       | Azure App Configuration 实例的连接字符串。无默认值。可以是 `secretKeyRef` 以使用 secrets 引用。*与 host 字段互斥。*使用 [Azure 身份验证](https://docs.dapr.io/integrations/azure/azure-authentication/authenticating-azure/)时不使用 | `Endpoint=https://foo.azconfig.io;Id=osOX-l9-s0:sig;Secret=00000000000000000000000000000000000000000000`
 | host              | N*       | Azure App Configuration 实例的终端节点。无默认值。*与 connectionString 字段互斥。*使用 [Azure 身份验证](https://docs.dapr.io/integrations/azure/azure-authentication/authenticating-azure/)时使用                                                   | `https://dapr.azconfig.io`
 | maxRetries                 | N        | 放弃前的最大重试次数。默认为 `3`                                                                                                                                                                                                                                                                   | `5`, `10`
 | retryDelay                 | N        | 重试延迟指定在重试操作前的初始延迟量。延迟随每次重试呈指数级增长，直到最大重试延迟指定的最大值。默认为 `4` 秒；`"-1"` 禁用重试间的延迟。                                                                                                                                         | `4s`
@@ -63,7 +63,7 @@ spec:
 
 ## 使用连接字符串进行身份验证
 
-使用连接字符串访问 App Configuration 实例，该字符串可在 Azure 门户中获取。由于连接字符串包含凭据信息，应将其视为机密，并[使用机密存储]({{% ref component-secrets.md %}})。
+使用连接字符串访问 App Configuration 实例，该字符串可在 Azure 门户中获取。由于连接字符串包含凭据信息，应将其视为 secrets，并[使用 secret store]({{% ref component-secrets.md %}})。
 
 ## 使用 Microsoft Entra ID 进行身份验证
 
@@ -86,7 +86,7 @@ Azure App Configuration 配置存储组件还支持通过 Microsoft Entra ID 进
    将 `host` 键设置为 `[终端节点]`或将 `connectionString` 键设置为你之前保存的值。
    
    {{% alert title="Note" color="primary" %}}
-   在生产级应用程序中，请遵循[机密管理]({{% ref component-secrets.md %}})说明，以安全地管理你的机密。
+   在生产级应用程序中，请遵循[secrets 管理]({{% ref component-secrets.md %}})说明，以安全地管理你的 secrets。
    {{% /alert %}}
 
 ## Azure App Configuration 请求元数据

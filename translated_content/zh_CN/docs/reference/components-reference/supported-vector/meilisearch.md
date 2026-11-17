@@ -27,7 +27,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上面的示例以纯文本字符串的形式使用机密。建议为机密使用机密存储，具体说明见[此处]({{% ref component-secrets.md %}})。
+上面的示例以纯文本字符串的形式使用 secrets。建议为 secrets 使用 secret store，具体说明见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规格元数据字段

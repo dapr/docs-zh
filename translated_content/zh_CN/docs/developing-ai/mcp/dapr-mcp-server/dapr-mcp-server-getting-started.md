@@ -117,7 +117,7 @@ dapr-mcp-server --version
 
 ## 步骤 2：定义组件
 
-服务器只会为已加载组件的构建块注册工具。创建一个 `components` 文件夹，其中包含一个内存状态存储和一个发布订阅 broker：
+服务器只会为已加载组件的构建块注册工具。创建一个 `components` 文件夹，其中包含一个内存 state store 和一个 pub/sub broker：
 
 ```bash
 mkdir -p components
@@ -147,7 +147,7 @@ spec:
   version: v1
 ```
 
-有了这两个组件，服务器会注册三个核心工具，以及状态和发布订阅工具。添加其他类型的组件（`bindings.*`、`secretstores.*`、`lock.*`、`crypto.*`、`conversation.*`）即可暴露其工具。完整的对应关系请参阅[工具参考]({{% ref dapr-mcp-server-tool-reference.md %}})。
+有了这两个组件，服务器会注册三个核心工具，以及状态和 pub/sub 工具。添加其他类型的组件（`bindings.*`、`secretstores.*`、`lock.*`、`crypto.*`、`conversation.*`）即可暴露其工具。完整的对应关系请参阅[工具参考]({{% ref dapr-mcp-server-tool-reference.md %}})。
 
 ## 步骤 3：运行并连接
 
@@ -211,7 +211,7 @@ claude mcp add dapr --env DAPR_GRPC_PORT=50001 -- /usr/local/bin/dapr-mcp-server
 
 {{< /tabpane >}}
 
-让助手列出你的 Dapr 组件。它会调用 `get_components`，并报告 `statestore` 和 `pubsub`。之后可以试试“将键 `greeting` 以值 `hello` 保存到状态存储”，再试试“把它读回来”。
+让助手列出你的 Dapr 组件。它会调用 `get_components`，并报告 `statestore` 和 `pubsub`。之后可以试试“将键 `greeting` 以值 `hello` 保存到 state store”，再试试“把它读回来”。
 
 服务器将日志以 JSON 格式写入 stderr，因此日志绝不会与 stdout 上的 MCP 消息混在一起。大多数客户端会在其 MCP 日志视图中显示 stderr。
 

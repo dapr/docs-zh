@@ -6,7 +6,7 @@ weight: 100
 description: "检查和调试在你的计算机上运行的 Dapr 应用"
 ---
 
-免费的开源（Apache-2.0）[Diagrid Dapr Dev Dashboard](https://github.com/diagridio/dev-dashboard) 是用于本地 Dapr 开发的配套工具。它可以检查你通过 `dapr run` / `dapr run -f`、Aspire、Docker Compose 或 Dapr Testcontainers 启动的应用，并展示有关这些应用的所有信息：边车、工作流、Actors、状态存储、订阅、组件、弹性策略、配置和日志。它还可以帮助你编写 Dapr 资源。**组件构建器**会引导你从完整的 Dapr 目录中选择组件类型、填写其元数据字段并选择身份验证配置文件。**弹性构建器**会组合弹性策略（超时、重试、断路器），并将其应用于目标（应用、Actors、组件）。两个构建器最终都会生成 YAML 预览，你可以将其复制或下载到项目中。
+免费的开源（Apache-2.0）[Diagrid Dapr Dev Dashboard](https://github.com/diagridio/dev-dashboard) 是用于本地 Dapr 开发的配套工具。它可以检查你通过 `dapr run` / `dapr run -f`、Aspire、Docker Compose 或 Dapr Testcontainers 启动的应用，并展示有关这些应用的所有信息：边车、工作流、Actors、state store、订阅、组件、弹性策略、配置和日志。它还可以帮助你编写 Dapr 资源。**组件构建器**会引导你从完整的 Dapr 目录中选择组件类型、填写其元数据字段并选择身份验证配置文件。**弹性构建器**会组合弹性策略（超时、重试、断路器），并将其应用于目标（应用、Actors、组件）。两个构建器最终都会生成 YAML 预览，你可以将其复制或下载到项目中。
 
 <img src="/images/dev-dashboard/applications.png" width=800 alt="Dapr Dev Dashboard 显示在本地计算机上运行的 Dapr 应用"/><br/>
 
@@ -110,7 +110,7 @@ diagrid-dev-dashboard update
 
 <img src="/images/dev-dashboard/workflow-detail.png" width=800 alt="Dapr Dev Dashboard 显示工作流实例的事件历史记录"/><br/>
 
-仪表板会直接从本地 Redis、PostgreSQL、SQLite 和 MongoDB 状态存储中读取工作流。对于其他状态存储（例如内存存储），它会通过边车的工作流 API 读取工作流，该 API 要求 Dapr 版本为 1.17 或更高版本。
+仪表板会直接从本地 Redis、PostgreSQL、SQLite 和 MongoDB state store 中读取工作流。对于其他 state store（例如内存存储），它会通过边车的工作流 API 读取工作流，该 API 要求 Dapr 版本为 1.17 或更高版本。
 
 ### 复制 Dapr CLI 命令
 
@@ -126,15 +126,15 @@ diagrid-dev-dashboard update
 
 ### 查看订阅并发布测试消息
 
-**订阅**页面会列出所有应用中的发布订阅订阅项，包括发布订阅组件、主题、路由和订阅类型（声明式、编程式或流式）。使用订阅项上的**发布**按钮，可通过应用的边车发送测试消息，这样你无需运行发布者应用就能测试订阅者。
+**订阅**页面会列出所有应用中的 pub/sub 订阅项，包括 pub/sub 组件、主题、路由和订阅类型（声明式、编程式或流式）。使用订阅项上的**发布**按钮，可通过应用的边车发送测试消息，这样你无需运行发布者应用就能测试订阅者。
 
 <img src="/images/dev-dashboard/publish-message.png" width=800 alt="Dapr Dev Dashboard 显示用于向订阅发布测试消息的对话框"/><br/>
 
 ### 浏览状态记录
 
-**状态**页面会列出已连接状态存储中的记录，包括键、应用、值、大小、版本（ETag）和 TTL。展开记录可查看其完整值；使用*解码 base64* 切换开关可解码值。使用**+ 新建记录**可添加记录，也可以逐条删除或多选删除。默认情况下会隐藏工作流历史记录和 Actor 状态；选择**显示内部键**即可显示这些内容。
+**状态**页面会列出已连接 state store 中的记录，包括键、应用、值、大小、版本（ETag）和 TTL。展开记录可查看其完整值；使用*解码 base64* 切换开关可解码值。使用**+ 新建记录**可添加记录，也可以逐条删除或多选删除。默认情况下会隐藏工作流历史记录和 Actor 状态；选择**显示内部键**即可显示这些内容。
 
-<img src="/images/dev-dashboard/state-records.png" width=800 alt="Dapr Dev Dashboard 显示 Redis 状态存储中的记录"/><br/>
+<img src="/images/dev-dashboard/state-records.png" width=800 alt="Dapr Dev Dashboard 显示 Redis state store 中的记录"/><br/>
 
 ### 查看和构建组件
 

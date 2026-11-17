@@ -42,7 +42,7 @@ Dapr Actor 也有一个健康 API 端点，Dapr 通过该端点探测应用程�
 - Dapr HTTP 端口可用；_但_
 - 应用程序通道尚未建立。
 
-在 Dapr SDK 中，`waitForSidecar` 方法（取决于[您使用的 SDK]({{% ref "#支持出站健康端点的-sdk" %}})）会使用 `v1.0/healthz/outbound` 端点执行此特定检查。使用此行为时，Dapr 不再等待应用程序通道可用（参见：红色边界线）后再通过 `v1.0/healthz/` 端点返回结果，而是等待来自 `v1.0/healthz/outbound` 的成功响应。这种方法使您的应用程序能够在应用程序通道初始化之前调用 Dapr 边车 API，例如使用机密 API 读取机密。
+在 Dapr SDK 中，`waitForSidecar` 方法（取决于[您使用的 SDK]({{% ref "#支持出站健康端点的-sdk" %}})）会使用 `v1.0/healthz/outbound` 端点执行此特定检查。使用此行为时，Dapr 不再等待应用程序通道可用（参见：红色边界线）后再通过 `v1.0/healthz/` 端点返回结果，而是等待来自 `v1.0/healthz/outbound` 的成功响应。这种方法使您的应用程序能够在应用程序通道初始化之前调用 Dapr 边车 API，例如使用 secrets API 读取 secrets。
 
 如果您在 SDK 中使用 `waitForSidecar` 方法，则会执行正确的初始化。否则，您可以在初始化期间调用 `v1.0/healthz/outbound` 端点，如果调用成功，就可以调用 Dapr 边车 API。
 
@@ -136,7 +136,7 @@ Dapr 在端口 3500 上提供其 HTTP 健康端点 `/v1.0/healthz`。该端点�
 
 Dapr 接受 [`dapr.io/block-shutdown-duration` 注解或 `--dapr-block-shutdown-duration` CLI 标志]({{% ref arguments-annotations-overview.md %}})，它会将完整的关闭流程延迟指定的时长，或延迟到应用程序报告为不健康为止（以先发生者为准）。
 
-在此期间，所有订阅和输入绑定都会关闭。这对于需要在自身关闭流程中使用 Dapr API 的应用程序很有用。
+在此期间，所有订阅和 input binding 都会关闭。这对于需要在自身关闭流程中使用 Dapr API 的应用程序很有用。
 
 对于 Kubernetes 上的 Actor 宿主，只有当应用程序的存活时间超过该延迟*并且*能够覆盖其后的 Actor 排空和停用过程时，此延迟才有帮助。请使用足以覆盖这三者的 `preStop` 钩子，让应用程序容器保持存活。请参阅 [Actor 宿主的优雅关闭]({{% ref "kubernetes-production.md#graceful-shutdown-for-actor-hosts" %}})。
 

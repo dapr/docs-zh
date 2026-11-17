@@ -6,18 +6,18 @@ weight: 200
 description: "使用 Dapr Binary Store API 上传、获取、覆盖和删除文件"
 ---
 
-本指南介绍如何配置 Binary Store 组件，并使用 Dapr HTTP API 或 .NET SDK 上传、获取和删除文件。示例使用运行时的内存组件进行本地开发。
+本指南介绍如何配置 Binary Store component，并使用 Dapr HTTP API 或 .NET SDK 上传、获取和删除文件。示例使用运行时的内存 component 进行本地开发。
 
 ## 前提条件
 
 - 已安装 [Dapr CLI]({{% ref install-dapr-cli %}})
-- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost %}})
-- Dapr 运行时支持 Binary Store API（Dapr 1.19 或更高版本）
+- 已初始化 [Dapr environment]({{% ref install-dapr-selfhost %}})
+- Dapr runtime 支持 Binary Store API（Dapr 1.19 或更高版本）
 - 对于 .NET 示例，需要 `Dapr.BinaryStore` NuGet 包
 
 ## 配置 Binary Store
 
-Binary Store 组件表示 Dapr 所使用的存储后端。将以下内存组件定义保存为 `components/binary-store.yaml`：
+Binary Store component 表示 Dapr 所使用的存储后端。将以下内存 component 定义保存为 `components/binary-store.yaml`：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -34,11 +34,11 @@ spec:
       value: "64Mi"
 ```
 
-`maxSize` 和 `maxTotalSize` 的值可以是字节数，也可以是带单位的大小字符串，例如 `16Mi` 或 `64Mi`。由于组件元数据的值都是字符串，因此在 YAML 中需要为数字形式的字节数加引号（例如 `"16777216"`）。
+`maxSize` 和 `maxTotalSize` 的值可以是字节数，也可以是带单位的大小字符串，例如 `16Mi` 或 `64Mi`。由于 component metadata 的值都是字符串，因此在 YAML 中需要为数字形式的字节数加引号（例如 `"16777216"`）。
 
-组件名称 `mystore` 会用在 API 的 URL 中。这种内存实现适合用来体验 API，但它不会在边车重启后保留文件，也无法在多个边车实例之间共享文件。生产环境请配置合适的持久化 Binary Store 组件及其所需的元数据。
+component 名称 `mystore` 会用在 API 的 URL 中。这种内存实现适合用来体验 API，但它不会在 sidecar 重启后保留文件，也无法在多个 sidecar 实例之间共享文件。生产环境请配置合适的持久化 Binary Store component 及其所需的 metadata。
 
-启动 Dapr 边车时，请让它能够访问组件目录。例如，使用以下命令在端口 `3500` 上公开 HTTP API：
+启动 Dapr sidecar 时，请让它能够访问 component 目录。例如，使用以下命令在端口 `3500` 上公开 HTTP API：
 
 ```sh
 dapr run --app-id binary-store-example --resources-path ./components --dapr-http-port 3500
@@ -124,7 +124,7 @@ await binaryStore.SetBinaryFileAsync("mystore", "report.pdf", content, overwrite
 
 HTTP 覆盖成功时返回 `204 No Content`。
 
-两种 API 都不要求将文件数据编码为 JSON。运行时会把内容流式传输给组件，组件可能会限制单个文件的最大大小或存储的总容量；请配置并审阅你所使用组件的限制。HTTP 上传不受边车 [`--max-body-size`]({{% ref increase-request-size.md %}}) 限制的约束，因此文件可以大于该限制。
+两种 API 都不要求将文件数据编码为 JSON。运行时会把内容流式传输给 component，component 可能会限制单个文件的最大大小或存储的总容量；请配置并审阅你所使用 component 的限制。HTTP 上传不受 sidecar [`--max-body-size`]({{% ref increase-request-size.md %}}) 限制的约束，因此文件可以大于该限制。
 
 ## 获取文件
 

@@ -3,7 +3,7 @@ type: docs
 title: "向量概述"
 linkTitle: "概述"
 weight: 1000
-description: "向量 API 构建块概述"
+description: "向量 API building block 概述"
 ---
 
 {{% alert title="Alpha 阶段" color="primary" %}}
@@ -106,7 +106,7 @@ Dapr 的向量 API 提供了一种统一、可移植的方式，用于在 Meilis
 
 ### 操作指南
 
-了解向量 API 构建块提供的功能后，请通过以下操作指南了解如何在应用程序中使用它：
+了解向量 API building block 提供的功能后，请通过以下操作指南了解如何在应用程序中使用它：
 
 - [操作指南：存储和查询向量]({{% ref path="howto-vector" lang="en" %}})
 

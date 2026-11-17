@@ -70,7 +70,7 @@ Dapr 边车可以通过 `dapr.io/config` 注解应用特定的配置。例如：
 - [中间件](#中间件)
 - [名称解析](#名称解析组件)
 - [工作流](#工作流)
-- [限定机密存储访问范围](#限定机密存储访问范围)
+- [限定 secret store 访问范围](#限定-secret-store-访问范围)
 - [构建块 API 的访问控制允许列表](#构建块-api-的访问控制允许列表)
 - [服务调用 API 的访问控制允许列表](#服务调用-api-的访问控制允许列表)
 - [禁止使用某些组件类型](#禁止使用某些组件类型)
@@ -109,7 +109,7 @@ tracing:
 | `otel.endpointAddress` | string | 设置要将追踪发送到的 Open Telemetry (OTEL) 服务器地址。根据 OTEL 提供商的不同，可能需要也可能不需要 https:// 或 http://。
 | `otel.isSecure` | bool | 到端点地址的连接是否加密
 | `otel.protocol` | string | 设置为 `http` 或 `grpc` 协议
-| `otel.headers` | array | 要包含在 OTLP 导出器请求中的标头。每个条目都包含一个 `name`，以及纯文本 `value` 或用于引用 Kubernetes 机密的 `secretKeyRef`（仅支持 Kubernetes 机密，不支持其他类型的机密）
+| `otel.headers` | array | 要包含在 OTLP 导出器请求中的标头。每个条目都包含一个 `name`，以及纯文本 `value` 或用于引用 Kubernetes secrets 的 `secretKeyRef`（仅支持 Kubernetes secrets，不支持其他类型的 secrets）
 | `otel.timeout` | string | OTLP 导出器请求的超时时间（例如 `30s`、`5m`）。
 | `zipkin.endpointAddress` | string | 设置要将追踪发送到的 Zipkin 服务器地址。端点应包含协议（http:// 或 https://）。
 
@@ -285,9 +285,9 @@ spec:
 | `workflowConcurrencyLimits` | array | 按工作流名称设置的、跨所有副本的并发限制。每个条目包含 `name`（字符串）和 `maxConcurrent`（int32）。 |
 | `activityConcurrencyLimits` | array | 按活动名称设置的、跨所有副本的并发限制。每个条目包含 `name`（字符串）和 `maxConcurrent`（int32）。 |
 
-#### 限定机密存储访问范围
+#### 限定 secret store 访问范围
 
-有关如何将机密限定到应用程序的信息和示例，请参阅[限定机密范围]({{% ref "secret-scope.md" %}})指南。
+有关如何将 secrets 限定到应用程序的信息和示例，请参阅[限定 secrets 范围]({{% ref "secret-scope.md" %}})指南。
 
 #### 构建块 API 的访问控制允许列表
 
@@ -320,11 +320,11 @@ spec:
 {{% alert title="注意" color="primary" %}}
  当您将组件类型 `secretstores.kubernetes` 添加到拒绝列表时，Dapr 会禁止创建 _其他_ `secretstores.kubernetes` 类型的组件。
 
- 但是，它不会禁用内置的 Kubernetes 机密存储，该存储：
+ 但是，它不会禁用内置的 Kubernetes secret store，该存储：
  - 由 Dapr 自动创建
- - 用于存储组件规范中指定的机密
+ - 用于存储组件规范中指定的 secrets
 
- 如果要禁用内置的 Kubernetes 机密存储，则需要使用 `dapr.io/disable-builtin-k8s-secret-store` [注解]({{% ref arguments-annotations-overview.md %}})。
+ 如果要禁用内置的 Kubernetes secret store，则需要使用 `dapr.io/disable-builtin-k8s-secret-store` [注解]({{% ref arguments-annotations-overview.md %}})。
 {{% /alert %}} 
 
 #### 启用预览功能

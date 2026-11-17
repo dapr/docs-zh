@@ -3,16 +3,16 @@ type: docs
 title: "How-To: 索引和搜索文档"
 linkTitle: "How-To: 搜索文档"
 weight: 2000
-description: "了解如何使用搜索 API 索引、查询和管理文档"
+description: "了解如何使用 Search API 索引、查询和管理文档"
 ---
 
-{{% alert title="Alpha 阶段" color="primary" %}}
-搜索 API 目前处于 [Alpha 阶段]({{% ref "certification-lifecycle#certification-levels" %}})。
+{{% alert title="alpha" color="primary" %}}
+Search API 目前处于 [alpha]({{% ref "certification-lifecycle#certification-levels" %}})。
 {{% /alert %}}
 
-让我们从使用 [搜索 API]({{% ref search-overview %}}) 开始。在本指南中，你将学习如何：
+让我们从使用 [Search API]({{% ref search-overview %}}) 开始。在本指南中，你将学习如何：
 
-- 设置 Meilisearch 搜索组件。
+- 设置 Meilisearch search component。
 - 创建索引。
 - 索引文档并等待写入完成。
 - 使用过滤、排序和分页执行全文搜索。
@@ -37,9 +37,9 @@ docker run -d --name meilisearch -p 7700:7700 \
   getmeili/meilisearch:v1.43
 ```
 
-## 设置搜索组件
+## 设置 search component
 
-在组件目录（例如 `./components`）中创建名为 `search.yaml` 的文件：
+在 component 目录（例如 `./components`）中创建名为 `search.yaml` 的文件：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -60,11 +60,11 @@ spec:
 上面的示例以明文字符串形式使用 secrets。建议使用 secret store 来保存这些 secrets，具体参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-有关所有受支持的搜索组件，请参阅[搜索组件规范]({{% ref supported-search %}})。
+有关所有受支持的 search component，请参阅[search component 规范]({{% ref supported-search %}})。
 
-## 启动 Dapr 边车
+## 启动 Dapr sidecar
 
-启动一个加载该组件的 Dapr 边车：
+启动一个加载该 component 的 Dapr sidecar：
 
 {{< tabpane text=true >}}
 
@@ -77,7 +77,7 @@ npm init -y
 npm install @dapr/dapr@3.19.0
 ```
 
-以下示例都放在单个 `app.mjs` 文件中。客户端只需创建一次，之后每次调用都复用它。搜索 API 同时通过 HTTP 和 gRPC 提供；gRPC 协议以原始字节形式发送文档内容，而 HTTP 会为你完成 base64 编码。
+以下示例都放在单个 `app.mjs` 文件中。客户端只需创建一次，之后每次调用都复用它。Search API 同时通过 HTTP 和 gRPC 提供；gRPC 协议以原始字节形式发送文档内容，而 HTTP 会为你完成 base64 编码。
 
 ```javascript
 import { DaprClient, CommunicationProtocolEnum } from "@dapr/dapr";
@@ -92,7 +92,7 @@ const storeName = "mysearch";
 const indexName = "articles";
 ```
 
-使用边车运行应用程序：
+使用 sidecar 运行应用程序：
 
 ```bash
 dapr run --app-id search-app --resources-path ./components -- node app.mjs
@@ -114,7 +114,7 @@ dapr run --app-id search-app --dapr-http-port 3500 --resources-path ./components
 
 ## 创建索引
 
-创建一个名为 `articles` 的索引。索引设置与具体组件相关，通过 `metadata` 传递。Meilisearch 只能对预先声明的属性进行过滤和排序，因此这里需要声明 `category` 和 `price`：
+创建一个名为 `articles` 的索引。索引设置与具体 component 相关，通过 `metadata` 传递。Meilisearch 只能对预先声明的属性进行过滤和排序，因此这里需要声明 `category` 和 `price`：
 
 {{< tabpane text=true >}}
 
@@ -131,7 +131,7 @@ await client.search.createIndex(storeName, indexName, {
 
 创建已存在的索引会失败并返回 `ALREADY_EXISTS`（HTTP `409`），且 Dapr 不会更改已有索引的设置。
 
-确认索引已创建。Meilisearch 组件总会将 `id` 添加到可排序属性中，因为它以文档 ID 作为并列结果的次序依据，从而保证分页结果稳定：
+确认索引已创建。Meilisearch component 总会将 `id` 添加到可排序属性中，因为它以文档 ID 作为并列结果的次序依据，从而保证分页结果稳定：
 
 ```javascript
 const info = await client.search.getIndex(storeName, indexName);
@@ -167,7 +167,7 @@ curl -X POST http://localhost:3500/v1.0-alpha1/search/mysearch/indexes/articles 
 
 创建已存在的索引会返回 HTTP `409`（`ALREADY_EXISTS`），且 Dapr 不会更改已有索引的设置。
 
-确认索引已创建。Meilisearch 组件总会将 `id` 添加到可排序属性中，因为它以文档 ID 作为并列结果的次序依据，从而保证分页结果稳定：
+确认索引已创建。Meilisearch component 总会将 `id` 添加到可排序属性中，因为它以文档 ID 作为并列结果的次序依据，从而保证分页结果稳定：
 
 ```bash
 curl http://localhost:3500/v1.0-alpha1/search/mysearch/indexes/articles
@@ -236,7 +236,7 @@ if (result.failedItems.length > 0) {
 }
 ```
 
-如果部分文档无法建立索引，它们会连同错误信息列在 `failedItems` 中，而批次中的其余文档仍会被索引。例如，`content` 不是 JSON 对象的文档，或使用了 Meilisearch 组件保留属性的文档，会以错误代码 `3`（`INVALID_ARGUMENT`）报告。
+如果部分文档无法建立索引，它们会连同错误信息列在 `failedItems` 中，而批次中的其余文档仍会被索引。例如，`content` 不是 JSON 对象的文档，或使用了 Meilisearch component 保留属性的文档，会以错误代码 `3`（`INVALID_ARGUMENT`）报告。
 
 {{% alert title="注意" color="primary" %}}
 如果省略选项，Dapr 会在 Meilisearch 将写入加入队列后立即返回（`ack` 为 `"queued"`）。文档会在 Meilisearch 处理完任务后不久变为可搜索。
@@ -282,7 +282,7 @@ curl -X POST http://localhost:3500/v1.0-alpha1/search/mysearch/indexes/articles/
 }
 ```
 
-如果部分文档无法建立索引，它们会连同错误信息列在 `failedItems` 中，而批次中的其余文档仍会被索引。例如，`content` 不是 JSON 对象的文档，或使用了 Meilisearch 组件保留属性的文档，会以 `INVALID_ARGUMENT` 报告。
+如果部分文档无法建立索引，它们会连同错误信息列在 `failedItems` 中，而批次中的其余文档仍会被索引。例如，`content` 不是 JSON 对象的文档，或使用了 Meilisearch component 保留属性的文档，会以 `INVALID_ARGUMENT` 报告。
 
 {{% alert title="注意" color="primary" %}}
 如果省略 `options`，Dapr 会在 Meilisearch 将写入加入队列后立即返回（`INDEX_ACK_QUEUED`）。文档会在 Meilisearch 处理完任务后不久变为可搜索。
@@ -538,7 +538,7 @@ await client.search.deleteIndex(storeName, indexName);
 curl -X DELETE http://localhost:3500/v1.0-alpha1/search/mysearch/indexes/articles
 ```
 
-不带请求体的请求（获取、列出和删除索引）以 `metadata.<key>=<value>` 查询参数的形式传递请求元数据。
+不带请求体的请求（获取、列出和删除索引）以 `metadata.<key>=<value>` 查询参数的形式传递请求 metadata。
 
 {{% /tab %}}
 
@@ -546,6 +546,6 @@ curl -X DELETE http://localhost:3500/v1.0-alpha1/search/mysearch/indexes/article
 
 ## 后续步骤
 
-- [搜索 API 参考]({{% ref search_api %}})
-- [搜索组件规范]({{% ref supported-search %}})
+- [Search API 参考]({{% ref search_api %}})
+- [search component 规范]({{% ref supported-search %}})
 - [How-To: 存储和查询向量]({{% ref howto-vector %}})

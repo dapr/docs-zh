@@ -1,16 +1,16 @@
 ---
 type: docs
-title: "二进制存储 API 参考"
-linkTitle: "二进制存储 API"
-description: "Dapr 二进制存储 API 的详细文档"
+title: "Binary Store API 参考"
+linkTitle: "Binary Store API"
+description: "Dapr Binary Store API 的详细文档"
 weight: 1550
 ---
 
-二进制存储 API 用于在已配置的二进制存储组件中存储、检索和删除二进制文件。HTTP API 目前处于 Alpha 阶段，使用 `v1.0-alpha1` 版本。上传时的请求体和下载时的响应体均为原始文件字节，而非 JSON。
+Binary Store API 用于在已配置的 Binary Store 组件中存储、检索和删除二进制文件。HTTP API 目前处于 Alpha 阶段，使用 `v1.0-alpha1` 版本。上传时的请求体和下载时的响应体均为原始文件字节，而非 JSON。
 
 ## 组件文件
 
-二进制存储需要配置为 Dapr 组件。`metadata.name` 是 API 请求中使用的存储名称，`spec.type` 用于选择组件实现：
+Binary Store 需要配置为 Dapr 组件。`metadata.name` 是 API 请求中使用的存储名称，`spec.type` 用于选择组件实现：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -25,7 +25,7 @@ spec:
       value: <VALUE>
 ```
 
-`spec.metadata` 中的值取决于所选的组件。有关本地内存示例，请参阅[二进制存储操作指南]({{% ref howto-use-binary-store.md %}})。
+`spec.metadata` 中的值取决于所选的组件。有关本地内存示例，请参阅[Binary Store 操作指南]({{% ref howto-use-binary-store.md %}})。
 
 ## HTTP API
 
@@ -38,7 +38,7 @@ http://localhost:<daprPort>/v1.0-alpha1/binarystore/<storeName>/<fileName>
 | 参数 | 说明 |
 |-----------|-------------|
 | `daprPort` | Dapr 边车的 HTTP 端口。 |
-| `storeName` | 已配置的二进制存储组件的 `metadata.name`。 |
+| `storeName` | 已配置的 Binary Store 组件的 `metadata.name`。 |
 | `fileName` | 存储中的文件名或相对路径。 |
 
 文件名可以包含嵌套的相对路径。不要使用开头或结尾的斜杠、空路径段、`.` 或 `..` 路径段，也不要使用字符 `\`、`*`、`?`、`[`、`]` 和 `#`。运行时会拒绝这些名称。
@@ -89,7 +89,7 @@ DELETE http://localhost:<daprPort>/v1.0-alpha1/binarystore/<storeName>/<fileName
 
 | 状态码 | 说明 |
 |-------------|-------------|
-| `400 Bad Request` | 文件名无效、未找到二进制存储组件，或请求格式不正确。 |
+| `400 Bad Request` | 文件名无效、未找到 Binary Store 组件，或请求格式不正确。 |
 | `404 Not Found` | 请求的文件不存在。 |
 | `409 Conflict` | `POST` 请求尝试创建已存在的文件。 |
 | `413 Content Too Large` | 组件因文件超过已配置的单文件大小限制而拒绝该文件。 |
@@ -110,6 +110,6 @@ gRPC API 处于 Alpha 阶段，并提供以下方法：
 
 ## 后续步骤
 
-- 阅读[二进制存储概述]({{% ref binarystore-overview.md %}})。
-- 参阅[二进制存储操作指南]({{% ref howto-use-binary-store.md %}})。
+- 阅读[Binary Store 概述]({{% ref binarystore-overview.md %}})。
+- 参阅[Binary Store 操作指南]({{% ref howto-use-binary-store.md %}})。
 - 探索适用于 .NET 应用程序的 [Dapr .NET SDK](https://docs.dapr.io/developing-applications/sdks/dotnet/)。

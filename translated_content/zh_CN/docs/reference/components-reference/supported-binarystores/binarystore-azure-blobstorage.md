@@ -2,12 +2,12 @@
 type: docs
 title: "Azure Blob 存储"
 linkTitle: "Azure Blob 存储"
-description: "Azure Blob 存储二进制存储组件的配置"
+description: "Azure Blob 存储 Binary Store 组件的配置"
 aliases:
   - "/zh-hans/reference/components-reference/supported-binarystore/azure-blobstorage/"
 ---
 
-Azure Blob 存储二进制存储会将每个文件作为一个 Blob 存储在已配置的容器中。该组件处于 Alpha 阶段。
+Azure Blob 存储 Binary Store 会将每个文件作为一个 Blob 存储在已配置的容器中。该组件处于 Alpha 阶段。
 
 ## 组件格式
 
@@ -29,7 +29,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-该示例将连接字符串显示为明文值。请使用 [Dapr 机密存储]({{% ref "operations/components/component-secrets.md" %}}) 将凭据排除在组件清单之外。
+该示例将连接字符串显示为明文值。请使用 [Dapr secret store]({{% ref "operations/components/component-secrets.md" %}}) 将凭据排除在组件清单之外。
 {{% /alert %}}
 
 ## 身份验证
@@ -63,4 +63,4 @@ spec:
 
 - [Azure Blob 存储文档](https://learn.microsoft.com/azure/storage/blobs/)
 - [Dapr 组件的基本架构]({{% ref "reference/resource-specs/component-schema.md" %}})
-- [如何使用二进制存储]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})
+- [如何使用 Binary Store]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})

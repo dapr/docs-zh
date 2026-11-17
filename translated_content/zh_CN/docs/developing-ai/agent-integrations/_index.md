@@ -36,4 +36,4 @@ async for event in runner.run_async(user_message="...", session_id="..."):
 | [Pydantic AI](https://docs.diagrid.io/getting-started/quickstarts/ai-agents/?agentframework=pydantic-ai) | 每一次 LLM 调用和工具执行 | `pip install "diagrid[pydantic_ai]"` |
 | [Strands Agents](https://docs.diagrid.io/getting-started/quickstarts/ai-agents/?agentframework=strands) | Strands agent 循环中的每一次工具调用 | `pip install "diagrid[strands]"` |
 | [Microsoft Agent Framework](https://docs.diagrid.io/getting-started/quickstarts/ai-agents/?agentframework=microsoft-dotnet) | 每一次 agent 调用都作为一个 Dapr Workflow 活动运行 | `dotnet add package Diagrid.AI.Microsoft.AgentFramework` |
-| [Flock](https://whiteducksoftware.github.io/flock/) | 通过 Dapr 状态存储持久化黑板状态和产物，同时保持 Flock agent 定义不变 | `pip install "flock-core[dapr]"` |
+| [Flock](https://whiteducksoftware.github.io/flock/) | 通过 Dapr state store 持久化黑板状态和产物，同时保持 Flock agent 定义不变 | `pip install "flock-core[dapr]"` |

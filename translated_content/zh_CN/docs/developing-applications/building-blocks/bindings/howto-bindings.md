@@ -7,19 +7,19 @@ weight: 300
 ---
 
 
-使用 output binding，你可以调用外部资源。调用请求中可以发送可选的有效负载和元数据。
+使用 output binding，你可以调用外部资源。调用请求中可以发送可选的有效负载和 metadata。
 
 {{< diagram name="binding-output-kafka" width="65" >}}
 
-本指南以 Kafka binding 为例。你可以从[binding 组件列表]({{% ref setup-bindings %}})中找到你需要的 binding 规范。在本指南中：
+本指南以 Kafka binding 为例。你可以从[binding component 列表]({{% ref setup-bindings %}})中找到你需要的 binding 规范。在本指南中：
 
 1. 示例通过调用 `/binding` 端点，并传递 `checkout`（要调用的 binding 名称）来执行操作。
 1. 有效负载放入必需的 `data` 字段中，可以是任何可序列化为 JSON 的值。
 1. `operation` 字段告诉 binding 需要执行什么操作。例如，[Kafka binding 支持 `create` 操作]({{% ref "kafka#binding-support" %}})。
-   - 你可以查看[每个 output binding 支持的操作（特定于各组件）]({{% ref supported-bindings %}})。
+   - 你可以查看[每个 output binding 支持的操作（特定于各 component）]({{% ref supported-bindings %}})。
 
 {{% alert title="注意" color="primary" %}}
-如果你还没有尝试过，可以先体验[binding 快速入门]({{% ref bindings-quickstart %}})，快速了解如何使用 binding API。
+如果你还没有尝试过，可以先体验[binding Quickstart]({{% ref bindings-quickstart %}})，快速了解如何使用 binding API。
 
 {{% /alert %}}
 
@@ -27,12 +27,12 @@ weight: 300
 
 创建一个 `binding.yaml` 文件，并将其保存到应用程序目录中的 `components` 子文件夹中。
 
-创建一个名为 `checkout` 的新 binding 组件。在 `metadata` 部分中，配置以下与 Kafka 相关的属性：
+创建一个名为 `checkout` 的新 binding component。在 `metadata` 部分中，配置以下与 Kafka 相关的属性：
 
 - 你要向其发布消息的主题
 - 代理
 
-创建 binding 组件时，[指定 binding 的受支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。
+创建 binding component 时，[指定 binding 的受支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。
 
 {{< tabpane text=true >}}
 
@@ -299,5 +299,5 @@ curl -X POST -H 'Content-Type: application/json' http://localhost:3601/v1.0/bind
 ## 参考
 
 - [binding API]({{% ref bindings_api %}})
-- [binding 组件]({{% ref bindings %}})
+- [binding component]({{% ref bindings %}})
 - [binding 详细规范]({{% ref supported-bindings %}})

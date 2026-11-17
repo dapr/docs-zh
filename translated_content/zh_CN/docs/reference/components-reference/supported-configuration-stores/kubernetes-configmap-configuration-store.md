@@ -146,7 +146,7 @@ ConfigMap 的 `data` 字段中的每个键都会成为一个配置项。ConfigMa
 不支持跨命名空间访问 ConfigMap。这是有意为之，以维护 Kubernetes 命名空间的安全边界。
 
 {{% alert title="注意" color="primary" %}}
-在 Kubernetes 中，ConfigMap 默认不会静态加密。不要在 ConfigMap 中存储敏感值（密码、API 密钥、令牌）。请改用 [Kubernetes 机密]({{% ref "kubernetes-secret-store" %}})或专用的机密存储。
+在 Kubernetes 中，ConfigMap 默认不会静态加密。不要在 ConfigMap 中存储敏感值（密码、API 密钥、令牌）。请改用 [Kubernetes secrets]({{% ref "kubernetes-secret-store" %}})或专用的 secret store。
 {{% /alert %}}
 
 ## 相关链接

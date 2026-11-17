@@ -6,11 +6,11 @@ weight: 80
 description: 了解有关 Actor 重入的更多信息
 ---
 
-[虚拟 Actor 模式](https://www.microsoft.com/research/project/orleans-virtual-actors/) 的一个核心原则是 Actor 执行的单线程特性。在没有重入的情况下，Dapr 运行时会对所有 Actor 请求加锁。第二个请求必须等到第一个请求完成后才能开始。这意味着，即使属于同一调用链，Actor 也无法调用自身，或让另一个 Actor 调用它。
+[virtual Actor 模式](https://www.microsoft.com/research/project/orleans-virtual-actors/) 的一个核心原则是 Actor 执行的单线程特性。在没有重入的情况下，Dapr 运行时会对所有 Actor 请求加锁。第二个请求必须等到第一个请求完成后才能开始。这意味着，即使属于同一调用链，Actor 也无法调用自身，或让另一个 Actor 调用它。
 
 重入通过允许来自同一链或上下文的请求重新进入已被锁定的 Actor 来解决这一问题。这在以下场景中非常有用：
 - Actor 想要调用自身的方法
-- Actor 在工作流中用于执行工作，然后回调到协调 Actor。
+- Actor 在 workflow 中用于执行工作，然后回调到协调 Actor。
 
 重入所允许的调用链示例如下：
 
@@ -19,7 +19,7 @@ Actor A -> Actor A
 Actor A -> Actor B -> Actor A
 ```
 
-借助重入，你可以执行更复杂的 Actor 调用，同时不牺牲虚拟 Actor 的单线程行为。
+借助重入，你可以执行更复杂的 Actor 调用，同时不牺牲 virtual Actor 的单线程行为。
 
 {{< diagram name="actor-reentrancy" width="85" >}}
 

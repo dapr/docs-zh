@@ -2,12 +2,12 @@
 type: docs
 title: "Azure Data Lake Storage Gen2"
 linkTitle: "Azure Data Lake Storage Gen2"
-description: "Azure Data Lake Storage Gen2 二进制存储组件的配置"
+description: "Azure Data Lake Storage Gen2 Binary Store 组件的配置"
 aliases:
   - "/zh-hans/reference/components-reference/supported-binarystore/azure-datalake/"
 ---
 
-Azure Data Lake Storage Gen2 二进制存储会将每个文件存储到已配置的文件系统中。该组件处于 Alpha 阶段。
+Azure Data Lake Storage Gen2 Binary Store 会将每个文件存储到已配置的文件系统中。该组件处于 Alpha 阶段。
 
 ## 组件格式
 
@@ -29,7 +29,7 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-该示例将连接字符串显示为明文值。请使用 [Dapr 机密存储]({{% ref "operations/components/component-secrets.md" %}}) 将凭据排除在组件清单之外。
+该示例将连接字符串显示为明文值。请使用 [Dapr secret store]({{% ref "operations/components/component-secrets.md" %}}) 将凭据排除在组件清单之外。
 {{% /alert %}}
 
 ## 身份验证
@@ -38,7 +38,7 @@ spec:
 
 - **连接字符串**：提供 `connectionString`。
 - **帐户密钥**：提供 `accountName` 和 `accountKey`。
-- **Microsoft Entra ID**：提供 `accountName`，并为边车的运行环境配置凭据。支持的凭据类型包括工作负载身份、托管标识、客户端密码和证书。请参阅 [向 Azure 进行身份验证]({{% ref "integrations/Azure/azure-authentication/authenticating-azure.md" %}})。
+- **Microsoft Entra ID**：提供 `accountName`，并为边车的运行环境配置凭据。支持的凭据类型包括工作负载身份、托管标识、client secret 和证书。请参阅 [向 Azure 进行身份验证]({{% ref "integrations/Azure/azure-authentication/authenticating-azure.md" %}})。
 
 ## 规范元数据字段
 
@@ -60,4 +60,4 @@ spec:
 
 - [Azure Data Lake Storage 文档](https://learn.microsoft.com/azure/storage/blobs/data-lake-storage-introduction)
 - [Dapr 组件的基本架构]({{% ref "reference/resource-specs/component-schema.md" %}})
-- [如何使用二进制存储]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})
+- [如何使用 Binary Store]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})

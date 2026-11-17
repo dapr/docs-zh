@@ -1,13 +1,13 @@
 ---
 type: docs
-title: "Zeebe JobWorker 绑定规范"
+title: "Zeebe JobWorker binding 规范"
 linkTitle: "Zeebe JobWorker"
-description: "Zeebe JobWorker 绑定组件的详细文档"
+description: "Zeebe JobWorker binding 组件的详细文档"
 ---
 
 ## 组件格式
 
-要设置 Zeebe JobWorker 绑定，需创建一个类型为 `bindings.zeebe.jobworker` 的组件。请参阅[此指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用绑定配置。
+要设置 Zeebe JobWorker binding，需创建一个类型为 `bindings.zeebe.jobworker` 的组件。请参阅[此指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})了解如何创建和应用 binding 配置。
 
 有关 Zeebe JobWorker 的文档，请参阅[此文档](https://docs.camunda.io/docs/components/concepts/job-workers/)。
 
@@ -68,7 +68,7 @@ spec:
 
 ## 规范元数据字段
 
-| 字段                     | 必填  | 绑定支持 |  详情  | 示例 |
+| 字段                     | 必填  | binding 支持 |  详情  | 示例 |
 |-------------------------|:--------:|------------|-----|---------|
 | `gatewayAddr`             | Y | Input | Zeebe 网关地址                                                                                                            | `"localhost:26500"` |
 | `gatewayKeepAlive`        | N | Input | 设置向网关发送保活消息的频率。默认为 45 秒                                         | `"45s"` |
@@ -91,7 +91,7 @@ spec:
 | `fetchVariables`          | N | Input | 要作为作业变量获取的变量列表；如果为空，则返回作业范围内在激活时所有可见的变量 | `"productId"`, `"productName"`, `"productKey"` |
 | `autocomplete`            | N | Input | 指示作业是否应自动完成。如果未设置，默认所有作业都会自动完成。如果 worker 应通过业务错误或事件手动完成或使作业失败，则将其禁用 | `"true"`, `"false"` |
 | `retryBackOff`            | N | Input | 作业失败时下一次重试的退避超时时间                                                                           | `15s` |
-| `direction`            | N | Input | 绑定的方向 | `"input"` |
+| `direction`            | N | Input | binding 的方向 | `"input"` |
 
 OAuth 为可选配置。如果设置了任一 OAuth 元数据字段，则以下字段均为必需：`clientId`、`clientSecret`、`authorizationServerUrl` 和 `tokenAudience`。
 
@@ -101,17 +101,17 @@ OAuth 为可选配置。如果设置了任一 OAuth 元数据字段，则以下�
 - Dapr 边车必须对该文件路径具有写入权限。
 - 若要在重启后保留缓存的凭据，请使用持久化的挂载路径。
 
-## 绑定支持
+## binding 支持
 
-此组件支持**输入**绑定接口。
+此组件支持**输入** binding 接口。
 
-### 输入绑定
+### input binding
 
 #### 变量
 
 Zeebe 流程引擎将流程状态以及流程变量作为可传递的内容处理，这些变量可以在流程实例化时传递，也可以在流程执行期间更新或创建。通过在 `fetchVariables` 元数据字段中将变量名称定义为逗号分隔的列表，这些变量可以传递给已注册的作业 worker。然后，流程引擎会将这些变量及其当前值传递给作业 worker 实现。
 
-如果绑定注册了三个变量 `productId`、`productName` 和 `productKey`，则 worker 将使用以下 JSON 主体调用：
+如果 binding 注册了三个变量 `productId`、`productName` 和 `productKey`，则 worker 将使用以下 JSON 主体调用：
 
 ```json
 {
@@ -126,9 +126,9 @@ Zeebe 流程引擎将流程状态以及流程变量作为可传递的内容处�
 #### 标头
 
 Zeebe 流程引擎能够将自定义任务标头传递给作业 worker。这些标头可以为每个[服务任务](https://docs.camunda.io/docs/components/best-practices/development/service-integration-patterns/#service-task)定义。
-任务标头将由绑定作为元数据（HTTP 标头）传递给作业 worker。
+任务标头将由 binding 作为元数据（HTTP 标头）传递给作业 worker。
 
-绑定还将传递以下与作业相关的变量作为元数据。值将作为字符串传递。该表还包含原始数据类型，以便可以将其转换回 worker 使用的编程语言中的等效数据类型。
+binding 还将传递以下与作业相关的变量作为元数据。值将作为字符串传递。该表还包含原始数据类型，以便可以将其转换回 worker 使用的编程语言中的等效数据类型。
 
 | 元数据                           | 数据类型 | 描述                                                                                     |
 |------------------------------------|-----------|-------------------------------------------------------------------------------------------------|
@@ -143,12 +143,12 @@ Zeebe 流程引擎能够将自定义任务标头传递给作业 worker。这些�
 | X-Zeebe-Worker                     | string    | 激活此作业的 worker 名称                                                 |
 | X-Zeebe-Retries                    | int32     | 此作业剩余的重试次数（应始终为正数）                              |
 | X-Zeebe-Deadline                   | int64     | 作业可以再次被激活的时间，以 UNIX epoch 时间戳发送                             |
-| X-Zeebe-Autocomplete               | bool      | 在绑定元数据中定义的自动完成状态                                 |
+| X-Zeebe-Autocomplete               | bool      | 在 binding 元数据中定义的自动完成状态                                 |
 
 ## 相关链接
 
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [绑定构建块]({{% ref bindings %}})
-- [操作方法：使用输入绑定触发应用]({{% ref howto-triggers.md %}})
-- [操作方法：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
-- [绑定 API 参考]({{% ref bindings_api.md %}})
+- [binding 构建块]({{% ref bindings %}})
+- [操作方法：使用 input binding 触发应用]({{% ref howto-triggers.md %}})
+- [操作方法：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
+- [binding API 参考]({{% ref bindings_api.md %}})

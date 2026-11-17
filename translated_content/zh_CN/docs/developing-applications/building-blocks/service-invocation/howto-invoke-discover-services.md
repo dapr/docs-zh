@@ -2,16 +2,16 @@
 type: docs
 title: "如何：使用 HTTP 调用服务"
 linkTitle: "如何：使用 HTTP 调用"
-description: "使用服务调用在服务之间进行调用"
+description: "使用 service invocation 在服务之间进行调用"
 weight: 20
 ---
 
-本文演示如何部署各自拥有唯一应用 ID 的服务，以便其他服务通过 HTTP 上的服务调用来发现并调用它们的端点。
+本文演示如何部署各自拥有唯一应用 ID 的服务，以便其他服务通过 HTTP 上的 service invocation 来发现并调用它们的端点。
 
 {{< diagram name="service-invocation-example" width="50" >}}
 
 {{% alert title="注意" color="primary" %}}
- 如果你还没有尝试过，请先体验[服务调用快速入门]({{% ref serviceinvocation-quickstart %}})，快速了解如何使用服务调用 API。
+ 如果你还没有尝试过，请先体验[service invocation Quickstart]({{% ref serviceinvocation-quickstart %}})，快速了解如何使用 service invocation API。
 
 {{% /alert %}}
 
@@ -149,9 +149,9 @@ spec:
 
 ## 调用服务
 
-要使用 Dapr 调用应用，你可以在任意 Dapr 实例上使用 `invoke` API。边车编程模型鼓励每个应用与其自身的 Dapr 实例交互。Dapr 边车之间会相互发现并通信。
+要使用 Dapr 调用应用，你可以在任意 Dapr 实例上使用 `invoke` API。sidecar 编程模型鼓励每个应用与其自身的 Dapr 实例交互。Dapr sidecar 之间会相互发现并通信。
 
-下面是利用 Dapr SDK 实现服务调用的代码示例。
+下面是利用 Dapr SDK 实现 service invocation 的代码示例。
 
 {{< tabpane text=true >}}
 
@@ -379,7 +379,7 @@ func main() {
 curl http://localhost:3602/v1.0/invoke/checkout/method/checkout/100
 ```
 
-为尽量避免更改 URL 路径，Dapr 提供以下方式来调用服务调用 API：
+为尽量避免更改 URL 路径，Dapr 提供以下方式来调用 service invocation API：
 
 1. 将 URL 中的地址改为 `localhost:<dapr-http-port>`。
 2. 添加 `dapr-app-id` 标头以指定目标服务的 ID，或者通过 HTTP Basic Auth 传递该 ID：`http://dapr-app-id:<service-id>@localhost:3602/path`。
@@ -410,7 +410,7 @@ dapr invoke --app-id checkout --method checkout/100
 
 #### 在 URL 中包含查询字符串
 
-你也可以在 URL 末尾附加查询字符串或片段，Dapr 会原样传递。这意味着，如果你需要在服务调用中传递既不属于负载也不属于路径的额外参数，可以在 URL 末尾追加 `?`，后接以 `=` 连接、以 `&` 分隔的键值对。例如：
+你也可以在 URL 末尾附加查询字符串或片段，Dapr 会原样传递。这意味着，如果你需要在 service invocation 中传递既不属于负载也不属于路径的额外参数，可以在 URL 末尾追加 `?`，后接以 `=` 连接、以 `&` 分隔的键值对。例如：
 
 ```bash
 curl 'http://dapr-app-id:checkout@localhost:3602/checkout/100?basket=1234&key=abc' -X POST
@@ -440,5 +440,5 @@ curl http://localhost:3602/v1.0/invoke/checkout.production/method/checkout/100 -
 
 ## 相关链接
 
-- [服务调用概述]({{% ref service-invocation-overview %}})
-- [服务调用 API 规范]({{% ref service_invocation_api %}})
+- [service invocation 概述]({{% ref service-invocation-overview %}})
+- [service invocation API 规范]({{% ref service_invocation_api %}})

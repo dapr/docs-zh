@@ -89,9 +89,9 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 |---------------------|------|--------------------------------------|----------------------------------------------|
 | `azureTenantId`     | Y    | Microsoft Entra ID 租户的 ID         | `"cd4b2887-304c-47e1-b4d5-65447fdd542b"`     |
 | `azureClientId`     | Y    | 客户端 ID（应用程序 ID）             | `"c7dd251f-811f-4ba2-a905-acd4d3f8f08b"`     |
-| `azureClientSecret` | Y    | 客户端密钥（应用程序密码）           | `"Ecy3XG7zVZK3/vl/a2NSB+a1zXLa8RnMum/IgD0E"` |
+| `azureClientSecret` | Y    | client secret（应用程序密码）           | `"Ecy3XG7zVZK3/vl/a2NSB+a1zXLa8RnMum/IgD0E"` |
 
-在 Kubernetes 上运行时，你也可以对上述任意或全部值使用 Kubernetes 机密引用。
+在 Kubernetes 上运行时，你也可以对上述任意或全部值使用 Kubernetes secrets 引用。
 
 #### 使用证书进行身份验证
 
@@ -103,7 +103,7 @@ Microsoft Entra ID 是 Azure 的身份与访问管理（IAM）解决方案，用
 | `azureCertificateFile` | `azureCertificate` 和 `azureCertificateFile` 二者之一 | 包含证书和私钥的 PFX/PKCS#12 文件路径 | `"/path/to/file.pem"` |
 | `azureCertificatePassword` | N | 证书的密码（如果已加密） | `"password"` |
 
-在 Kubernetes 上运行时，你也可以对上述任意或全部值使用 Kubernetes 机密引用。
+在 Kubernetes 上运行时，你也可以对上述任意或全部值使用 Kubernetes secrets 引用。
 
 #### 使用托管标识（MI）进行身份验证
 
@@ -229,7 +229,7 @@ Dapr 运行时使用这些详细信息向 Microsoft Entra ID 进行身份验证�
 
 默认情况下，Dapr Azure 组件会按固定顺序尝试每种受支持的身份验证方法，并使用第一个成功的方法：
 
-1. 客户端凭据（客户端 ID、客户端密钥和租户 ID）
+1. 客户端凭据（客户端 ID、client secret 和租户 ID）
 1. 客户端证书
 1. 工作负载身份（AKS）
 1. SPIFFE 工作负载身份（联合标识凭据）
@@ -277,13 +277,13 @@ spec:
 
 ### 在 Dapr 组件中的示例用法
 
-在此示例中，你将设置一个使用 Microsoft Entra ID 进行身份验证的 Azure 密钥保管库机密存储组件。
+在此示例中，你将设置一个使用 Microsoft Entra ID 进行身份验证的 Azure 密钥保管库 secret store 组件。
 
 {{< tabpane text=true >}}
 
 {{% tab "自托管" %}}
 
-要使用**客户端密钥**，请在组件目录中创建名为 `azurekeyvault.yaml` 的文件，并填入上述设置过程中获得的详细信息：
+要使用**client secret**，请在组件目录中创建名为 `azurekeyvault.yaml` 的文件，并填入上述设置过程中获得的详细信息：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -329,23 +329,23 @@ spec:
 {{% /tab %}}
 
 {{% tab "Kubernetes" %}}
-在 Kubernetes 中，你需要将客户端密钥或证书存储到 Kubernetes 机密存储中，然后在 YAML 文件中引用它们。
+在 Kubernetes 中，你需要将 client secret 或证书存储到 Kubernetes secret store 中，然后在 YAML 文件中引用它们。
 
-要使用**客户端密钥**：
+要使用**client secret**：
 
-1. 使用以下命令创建 Kubernetes 机密：
+1. 使用以下命令创建 Kubernetes secrets：
 
    ```bash
    kubectl create secret generic [your_k8s_secret_name] --from-literal=[your_k8s_secret_key]=[your_client_secret]
    ```
 
-    - `[your_client_secret]` 是上面生成的应用程序客户端密钥
-    - `[your_k8s_secret_name]` 是 Kubernetes 机密存储中的机密名称
-    - `[your_k8s_secret_key]` 是 Kubernetes 机密存储中的机密键
+    - `[your_client_secret]` 是上面生成的应用程序 client secret
+    - `[your_k8s_secret_name]` 是 Kubernetes secret store 中的 secrets 名称
+    - `[your_k8s_secret_key]` 是 Kubernetes secret store 中的 secrets 键
 
 1. 创建 `azurekeyvault.yaml` 组件文件。
 
-    组件 YAML 通过 `auth` 属性引用 Kubernetes 机密存储，`secretKeyRef` 则指向存储在 Kubernetes 机密存储中的客户端密钥。
+    组件 YAML 通过 `auth` 属性引用 Kubernetes secret store，`secretKeyRef` 则指向存储在 Kubernetes secret store 中的 client secret。
 
     ```yaml
     apiVersion: dapr.io/v1alpha1
@@ -379,19 +379,19 @@ spec:
 
 要使用**证书**：
 
-1. 使用以下命令创建 Kubernetes 机密：
+1. 使用以下命令创建 Kubernetes secrets：
 
    ```bash
    kubectl create secret generic [your_k8s_secret_name] --from-file=[your_k8s_secret_key]=[pfx_certificate_file_fully_qualified_local_path]
    ```
 
     - `[pfx_certificate_file_fully_qualified_local_path]` 是你之前获得的 PFX 文件的路径
-    - `[your_k8s_secret_name]` 是 Kubernetes 机密存储中的机密名称
-    - `[your_k8s_secret_key]` 是 Kubernetes 机密存储中的机密键
+    - `[your_k8s_secret_name]` 是 Kubernetes secret store 中的 secrets 名称
+    - `[your_k8s_secret_key]` 是 Kubernetes secret store 中的 secrets 键
 
 1. 创建 `azurekeyvault.yaml` 组件文件。
 
-    组件 YAML 通过 `auth` 属性引用 Kubernetes 机密存储，`secretKeyRef` 则指向存储在 Kubernetes 机密存储中的证书。
+    组件 YAML 通过 `auth` 属性引用 Kubernetes secret store，`secretKeyRef` 则指向存储在 Kubernetes secret store 中的证书。
 
     ```yaml
     apiVersion: dapr.io/v1alpha1
@@ -435,7 +435,7 @@ spec:
 
 - [Microsoft Entra ID 应用凭据：Azure CLI 参考](https://docs.microsoft.com/cli/azure/ad/app/credential)
 - [Azure 托管服务标识（MSI）概述](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
-- [机密构建块]({{% ref secrets %}})
-- [操作指南：检索机密]({{% ref "howto-secrets.md" %}})
-- [操作指南：在 Dapr 组件中引用机密]({{% ref component-secrets.md %}})
-- [机密 API 参考]({{% ref secrets_api.md %}})
+- [secrets 构建块]({{% ref secrets %}})
+- [操作指南：检索 secrets]({{% ref "howto-secrets.md" %}})
+- [操作指南：在 Dapr 组件中引用 secrets]({{% ref component-secrets.md %}})
+- [secrets API 参考]({{% ref secrets_api.md %}})

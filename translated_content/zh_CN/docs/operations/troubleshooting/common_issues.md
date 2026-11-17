@@ -139,7 +139,7 @@ kubectl describe pod <name-of-pod>
 
 消息 `Container daprd failed liveness probe, will be restarted` 表示 Dapr 边车未通过运行状况检查，将被重启。消息 `Readiness probe failed: Get http://10.244.1.10:3500/v1.0/healthz: dial tcp 10.244.1.10:3500: connect: connection refused` 和 `Liveness probe failed: Get http://10.244.1.10:3500/v1.0/healthz: dial tcp 10.244.1.10:3500: connect: connection refused` 表示运行状况检查失败，原因是无法建立到边车的连接。
 
-此故障最常见的原因是某个组件（例如状态存储）配置有误，导致初始化耗时过长。当初始化耗时较长时，运行状况检查可能会在边车输出任何有用的日志之前就终止边车。
+此故障最常见的原因是某个组件（例如 state store）配置有误，导致初始化耗时过长。当初始化耗时较长时，运行状况检查可能会在边车输出任何有用的日志之前就终止边车。
 
 要诊断根本原因：
 
@@ -151,7 +151,7 @@ kubectl describe pod <name-of-pod>
 
 ## 我无法保存或获取状态
 
-你是否在集群中安装了 Dapr 状态存储？
+你是否在集群中安装了 Dapr state store？
 
 要检查，请使用 kubectl 获取组件列表：
 
@@ -159,11 +159,11 @@ kubectl describe pod <name-of-pod>
 kubectl get components
 ```
 
-如果没有状态存储组件，则说明你需要先设置一个。
+如果没有 state store 组件，则说明你需要先设置一个。
 请访问[此处]({{% ref "state-management" %}})了解详情。
 
 如果一切设置正确，请确认凭据是否正确。
-搜索 Dapr 运行时日志，查找状态存储错误：
+搜索 Dapr 运行时日志，查找 state store 错误：
 
 ```bash
 kubectl logs <name-of-pod> daprd
@@ -179,11 +179,11 @@ kubectl logs <name-of-pod> daprd
 kubectl get components
 ```
 
-如果没有发布订阅组件，则说明你需要先设置一个。
+如果没有 pub/sub 组件，则说明你需要先设置一个。
 请访问[此处]({{% ref "pubsub" %}})了解详情。
 
 如果一切设置正确，请确认凭据是否正确。
-搜索 Dapr 运行时日志，查找发布订阅错误：
+搜索 Dapr 运行时日志，查找 pub/sub 错误：
 
 ```bash
 kubectl logs <name-of-pod> daprd

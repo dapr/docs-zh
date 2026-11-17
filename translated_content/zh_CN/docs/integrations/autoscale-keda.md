@@ -8,11 +8,11 @@ aliases:
   - /zh-hans/developing-applications/integrations/autoscale-keda/
 ---
 
-Dapr 借助其构建块 API 方式，以及众多[发布订阅组件]({{% ref pubsub %}})，让编写消息处理应用变得十分容易。由于 Dapr 可以在多种环境中运行（例如虚拟机、裸机、云端或边缘 Kubernetes），Dapr 应用的自动扩缩由宿主层管理。
+Dapr 借助其构建块 API 方式，以及众多[pub/sub 组件]({{% ref pubsub %}})，让编写消息处理应用变得十分容易。由于 Dapr 可以在多种环境中运行（例如虚拟机、裸机、云端或边缘 Kubernetes），Dapr 应用的自动扩缩由宿主层管理。
 
-对于 Kubernetes，Dapr 与 [KEDA](https://github.com/kedacore/keda) 集成，KEDA 是 Kubernetes 上的事件驱动自动扩缩器。Dapr 的许多发布订阅组件与 [KEDA](https://github.com/kedacore/keda) 提供的扩缩器功能重叠，因此很容易配置 Kubernetes 上的 Dapr 部署，使其根据背压借助 KEDA 实现自动扩缩。
+对于 Kubernetes，Dapr 与 [KEDA](https://github.com/kedacore/keda) 集成，KEDA 是 Kubernetes 上的事件驱动自动扩缩器。Dapr 的许多 pub/sub 组件与 [KEDA](https://github.com/kedacore/keda) 提供的扩缩器功能重叠，因此很容易配置 Kubernetes 上的 Dapr 部署，使其根据背压借助 KEDA 实现自动扩缩。
 
-在本指南中，你将配置一个可扩缩的 Dapr 应用，以及 Kafka 主题上的背压。不过，你可以将此方法应用于 Dapr 提供的 _任何_ [发布订阅组件]({{% ref pubsub %}})。
+在本指南中，你将配置一个可扩缩的 Dapr 应用，以及 Kafka 主题上的背压。不过，你可以将此方法应用于 Dapr 提供的 _任何_ [pub/sub 组件]({{% ref pubsub %}})。
 
 {{% alert title="注意" color="primary" %}}
  如果你使用的是 Azure Container Apps，请参阅 Azure 官方文档中关于[使用 KEDA 扩缩器扩缩 Dapr 应用](https://learn.microsoft.com/azure/container-apps/dapr-keda-scaling)的内容。
@@ -69,9 +69,9 @@ kubectl -n kafka exec -it kafka-client -- kafka-topics \
 
 > 主题的 `partitions` 数量与 KEDA 为你的部署所创建的最大副本数相关。
 
-## 部署 Dapr 发布订阅组件
+## 部署 Dapr pub/sub 组件
 
-为 Kubernetes 部署 Dapr Kafka 发布订阅组件。将以下 YAML 粘贴到名为 `kafka-pubsub.yaml` 的文件中：
+为 Kubernetes 部署 Dapr Kafka pub/sub 组件。将以下 YAML 粘贴到名为 `kafka-pubsub.yaml` 的文件中：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -90,7 +90,7 @@ spec:
       value: autoscaling-subscriber
 ```
 
-上面的 YAML 定义了你的应用所订阅的发布订阅组件，该组件即[你之前创建的主题（`demo-topic`）]({{% ref "#创建-kafka-主题" %}})。
+上面的 YAML 定义了你的应用所订阅的 pub/sub 组件，该组件即[你之前创建的主题（`demo-topic`）]({{% ref "#创建-kafka-主题" %}})。
 
 如果你使用了 [Kafka Helm 安装说明]({{% ref "#安装并部署-kafka" %}})，可以保留 `brokers` 的值不变。否则，请将该值改为你的 Kafka brokers 的连接字符串。
 
@@ -163,4 +163,4 @@ kubectl apply -f kafka_scaler.yaml
 
 ## 后续步骤
 
-[了解如何在 Azure Container Apps 中使用 KEDA 扩缩 Dapr 发布订阅或绑定应用](https://learn.microsoft.com/azure/container-apps/dapr-keda-scaling)
+[了解如何在 Azure Container Apps 中使用 KEDA 扩缩 Dapr pub/sub 或 binding 应用](https://learn.microsoft.com/azure/container-apps/dapr-keda-scaling)

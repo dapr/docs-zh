@@ -41,9 +41,9 @@ APP_ID=$(az ad app create --display-name "${APP_NAME}"  | jq -r .appId)
 
 {{< tabpane text=true >}}
 
-{{% tab "客户端密钥" %}}
+{{% tab "client secret" %}}
 
-要创建**客户端密钥**，请运行以下命令。
+要创建 **client secret**，请运行以下命令。
 
 ```sh
 az ad app credential reset \

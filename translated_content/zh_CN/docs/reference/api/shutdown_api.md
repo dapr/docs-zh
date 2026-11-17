@@ -6,7 +6,7 @@ description: "Shutdown API 的详细文档"
 weight: 1150
 ---
 
-Shutdown API 会触发 Dapr 边车（`daprd`）的优雅关闭。它与 daprd 收到 `SIGTERM` 时执行的关闭流程相同：输入绑定与发布订阅的订阅会被关闭，正在处理的请求可以完成（受 `--dapr-graceful-shutdown-seconds` 限制），提醒与组件会被刷新，然后进程退出。
+Shutdown API 会触发 Dapr 边车（`daprd`）的优雅关闭。它与 daprd 收到 `SIGTERM` 时执行的关闭流程相同：input binding 与 pub/sub 的订阅会被关闭，正在处理的请求可以完成（受 `--dapr-graceful-shutdown-seconds` 限制），提醒与组件会被刷新，然后进程退出。
 
 该 API 有两种模式：
 

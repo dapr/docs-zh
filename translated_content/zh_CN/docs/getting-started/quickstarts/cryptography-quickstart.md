@@ -1,16 +1,16 @@
 ---
 type: docs
-title: "快速入门：密码学"
+title: "Quickstart：密码学"
 linkTitle: 密码学
 weight: 79
-description: Dapr 密码学构建块入门
+description: Dapr cryptography building block 入门
 ---
 
 {{% alert title="Alpha" color="warning" %}}
-密码学构建块目前处于 **alpha** 阶段。
+cryptography building block 目前处于 **alpha** 阶段。
 {{% /alert %}}
 
-让我们来看看 Dapr [密码学构建块]({{% ref cryptography %}})。在本快速入门中，你将创建一个应用程序，使用 Dapr 密码学 API 加密和解密数据。你将：
+让我们来看看 Dapr [cryptography building block]({{% ref cryptography %}})。在本 Quickstart 中，你将创建一个应用程序，使用 Dapr 密码学 API 加密和解密数据。你将：
 
 - 使用 RSA 密钥加密然后解密一个短字符串，并在 Go 字节切片中以内存方式读取结果。
 - 使用 AES 密钥加密然后解密一个大文件，使用流将加密和解密后的数据存储到文件中。
@@ -28,7 +28,7 @@ description: Dapr 密码学构建块入门
  <!-- JavaScript -->
 {{% tab "JavaScript" %}}
 
-> 此快速入门包含一个名为 `crypto-quickstart` 的 JavaScript 应用程序。
+> 此 Quickstart 包含一个名为 `crypto-quickstart` 的 JavaScript 应用程序。
 
 ### 前置条件
 
@@ -230,7 +230,7 @@ async function encryptDecryptStream(client) {
  <!-- Go -->
 {{% tab "Go" %}}
 
-> 此快速入门包含一个名为 `crypto-quickstart` 的 Go 应用程序。
+> 此 Quickstart 包含一个名为 `crypto-quickstart` 的 Go 应用程序。
 
 ### 前置条件
 
@@ -479,13 +479,13 @@ func encryptDecryptFile(client dapr.Client) {
 
 ## 告诉我们你的想法！
 
-我们一直在努力改进快速入门示例，并重视你的反馈。你觉得这个快速入门有帮助吗？你对改进有什么建议？
+我们一直在努力改进 Quickstart 示例，并重视你的反馈。你觉得这个 Quickstart 有帮助吗？你对改进有什么建议？
 
 加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的想法。
 
 ## 后续步骤
 
 - 浏览[更多使用密码学 API 加密和解密的示例]({{% ref howto-cryptography %}})
-- 了解更多关于[作为 Dapr 构建块的密码学]({{% ref cryptography-overview %}})
+- 了解更多关于[作为 Dapr building block 的密码学]({{% ref cryptography-overview %}})
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

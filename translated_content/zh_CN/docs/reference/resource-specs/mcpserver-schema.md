@@ -163,12 +163,12 @@ spec:
 
 | 字段 | 必填 | 说明 | 示例 |
 |-------|:--------:|---------|---------|
-| auth.secretStore | 否 | 用于解析 headers 中 `secretKeyRef` 条目的 Dapr 机密存储。默认为 `"kubernetes"`。 | `"my-secret-store"` |
+| auth.secretStore | 否 | 用于解析 headers 中 `secretKeyRef` 条目的 Dapr secret store。默认为 `"kubernetes"`。 | `"my-secret-store"` |
 | auth.oauth2.issuer | 是（若使用 oauth2） | 授权服务器的令牌端点。 | `"https://auth.example.com/token"` |
 | auth.oauth2.clientID | 否 | 发送到令牌端点的 OAuth2 客户端标识符。标准的 `client_credentials` 流程依据 RFC 6749 要求此项；非标准流程中可以留空。 | `"my-client-id"` |
 | auth.oauth2.audience | 否 | 令牌请求中的 audience 声明。 | `"mcp://payments"` |
 | auth.oauth2.scopes | 否 | 令牌中请求的作用域。 | `["read", "write"]` |
-| auth.oauth2.secretKeyRef | 否 | 对机密存储中客户端密钥的引用。 | `name: "oauth-secret"` `key: "clientSecret"` |
+| auth.oauth2.secretKeyRef | 否 | 对 secret store 中 client secret 的引用。 | `name: "oauth-secret"` `key: "clientSecret"` |
 | auth.spiffe.jwt.header | 是（若使用 spiffe） | 注入 JWT 时使用的 HTTP 标头名称。 | `"Authorization"` |
 | auth.spiffe.jwt.headerValuePrefix | 否 | 拼接在 JWT 值前面的字符串。 | `"Bearer "` |
 | auth.spiffe.jwt.audience | 是（若使用 spiffe） | JWT 的目标受众。 | `"mcp://payments"` |

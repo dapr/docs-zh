@@ -1,15 +1,15 @@
 ---
 type: docs
-title: "GCP Storage Bucket 绑定规范"
+title: "GCP Storage Bucket binding 规范"
 linkTitle: "GCP Storage Bucket"
-description: "GCP Storage Bucket 绑定组件的详细文档"
+description: "GCP Storage Bucket binding 组件的详细文档"
 aliases:
   - "/zh-hans/operations/components/setup-bindings/supported-bindings/gcpbucket/"
 ---
 
 ## 组件格式
 
-要设置 GCP Storage Bucket 绑定，请创建类型为 `bindings.gcp.bucket` 的组件。有关如何创建和应用绑定配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
+要设置 GCP Storage Bucket binding，请创建类型为 `bindings.gcp.bucket` 的组件。有关如何创建和应用 binding 配置，请参阅[本指南]({{% ref "howto-bindings.md#1-create-a-binding" %}})。
 
 
 ```yaml
@@ -52,12 +52,12 @@ spec:
 ```
 
 {{% alert title="警告" color="warning" %}}
-上述示例将机密作为纯文本字符串使用。建议使用机密存储来保存机密，如[此处]({{% ref component-secrets.md %}})所述。
+上述示例将 secrets 作为纯文本字符串使用。建议使用 secret store 来保存 secrets，如[此处]({{% ref component-secrets.md %}})所述。
 {{% /alert %}}
 
 ## 规范元数据字段
 
-| 字段              | 必需 | 绑定支持 |  详细说明 | 示例 |
+| 字段              | 必需 | binding 支持 |  详细说明 | 示例 |
 |--------------------|:--------:|------------|-----|---------|
 | `bucket` | Y | 输出 | bucket 名称 | `"mybucket"` |
 | `project_id`     | Y | 输出 | GCP 项目 ID | `projectId` |
@@ -82,9 +82,9 @@ spec:
 
 > **注意：** `name` 元数据键为向后兼容而保留，会被映射到 `key`。新应用应使用 `key`。
 
-## 绑定支持
+## binding 支持
 
-此组件支持以下操作的**输出绑定**：
+此组件支持以下操作的**output binding**：
 
 - `create` : [创建文件](#创建文件)
 - `get` : [获取对象](#获取对象)
@@ -99,7 +99,7 @@ spec:
 
 ### 创建文件
 
-要执行 create 操作，请使用 `POST` 方法调用 GCP Storage Bucket 绑定，并提供以下 JSON 请求体：
+要执行 create 操作，请使用 `POST` 方法调用 GCP Storage Bucket binding，并提供以下 JSON 请求体：
 
 > 注意：默认情况下会生成一个随机 UUID。关于使用元数据设置名称，请参见下文。
 
@@ -209,7 +209,7 @@ spec:
 
 ### 获取对象
 
-要执行 get 操作，请使用 `POST` 方法调用 GCP bucket 绑定，并提供以下 JSON 请求体：
+要执行 get 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -251,7 +251,7 @@ spec:
 
 ### 批量获取对象
 
-要执行一次性检索所有 bucket 文件的批量获取操作，请使用 `POST` 方法调用 GCP bucket 绑定，并提供以下 JSON 请求体：
+要执行一次性检索所有 bucket 文件的批量获取操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -318,7 +318,7 @@ spec:
 
 ### 删除对象
 
-要执行 delete 操作，请使用 `POST` 方法调用 GCP bucket 绑定，并提供以下 JSON 请求体：
+要执行 delete 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -361,7 +361,7 @@ spec:
 
 ### 列出对象
 
-要执行 list 操作，请使用 `POST` 方法调用 GCP bucket 绑定，并提供以下 JSON 请求体：
+要执行 list 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -423,7 +423,7 @@ spec:
 
 ### 复制对象
 
-要执行 copy 操作，请使用 `POST` 方法调用 GCP bucket 绑定，并提供以下 JSON 请求体：
+要执行 copy 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -477,7 +477,7 @@ spec:
 
 ### 移动对象
 
-要执行 move 操作，请使用 `POST` 方法调用 GCP bucket 绑定，并提供以下 JSON 请求体：
+要执行 move 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -531,7 +531,7 @@ spec:
 
 ### 重命名对象
 
-要执行 rename 操作，请使用 `POST` 方法调用 GCP bucket 绑定，并提供以下 JSON 请求体：
+要执行 rename 操作，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -555,7 +555,7 @@ spec:
 
 ### 签名 URL
 
-要为对象生成 v4 签名 URL，请使用 `POST` 方法调用 GCP bucket 绑定，并提供以下 JSON 请求体：
+要为对象生成 v4 签名 URL，请使用 `POST` 方法调用 GCP bucket binding，并提供以下 JSON 请求体：
 
 ```json
 {
@@ -585,7 +585,7 @@ spec:
 ## 相关链接
 
 - [Dapr 组件的基本架构]({{% ref component-schema %}})
-- [绑定构建块]({{% ref bindings %}})
-- [操作方法：使用输入绑定触发应用程序]({{% ref howto-triggers.md %}})
-- [操作方法：使用绑定与外部资源交互]({{% ref howto-bindings.md %}})
-- [绑定 API 参考]({{% ref bindings_api.md %}})
+- [binding 构建块]({{% ref bindings %}})
+- [操作方法：使用 input binding 触发应用程序]({{% ref howto-triggers.md %}})
+- [操作方法：使用 binding 与外部资源交互]({{% ref howto-bindings.md %}})
+- [binding API 参考]({{% ref bindings_api.md %}})

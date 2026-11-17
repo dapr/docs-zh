@@ -20,7 +20,7 @@ aliases:
 
 我们将演示如何为你的 AKS 集群配置 Azure 密钥保管库资源。你可以根据需要替换组件定义，将本指南用于其他 Dapr Azure 组件。
 
-本操作指南将使用这个 [Dapr AKS 机密示例应用](https://github.com/dapr/samples/dapr-aks-workload-identity-federation)。
+本操作指南将使用这个 [Dapr AKS secrets 示例应用](https://github.com/dapr/samples/dapr-aks-workload-identity-federation)。
 
 ### 前提条件
 
@@ -35,9 +35,9 @@ aliases:
 
 完成后，请返回此处继续第 2 步。
 
-### 2 - 向 Azure 密钥保管库添加机密
+### 2 - 向 Azure 密钥保管库添加 secret
 
-在你创建的 Azure 密钥保管库中，添加一个名为 `dapr`、值为 `Hello Dapr!` 的机密。
+在你创建的 Azure 密钥保管库中，添加一个名为 `dapr`、值为 `Hello Dapr!` 的 secret。
 
 ### 3 - 配置 Azure 密钥保管库 dapr 组件
 
@@ -67,7 +67,7 @@ spec:
 
 请确保将镜像推送到你的 AKS 集群可以访问且有权拉取的镜像仓库中。
 
-接下来，创建一个 Deployment，同时包含示例 AKS 机密应用容器和 Dapr 边车。
+接下来，创建一个 Deployment，同时包含示例 AKS secrets 应用容器和 Dapr 边车。
 
 请记得将 `dapr-wif-k8s-service-account` 更新为你的服务账号名称，并将 `dapraksworkloadidentityfederation` 更新为集群可以解析的镜像：
 

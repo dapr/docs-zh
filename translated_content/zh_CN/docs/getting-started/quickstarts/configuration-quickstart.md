@@ -1,23 +1,23 @@
 ---
 type: docs
-title: "快速入门：配置"
+title: "Quickstart：配置"
 linkTitle: 配置
 weight: 78
-description: 开始使用 Dapr 的配置构建块
+description: 开始使用 Dapr 的 Configuration building block
 ---
 
-让我们来看一下 Dapr 的 [配置构建块]({{% ref configuration-api-overview %}})。配置项通常具有动态特性，与消费它的应用程序需求紧密耦合。配置项是包含配置数据的键/值对，例如：
+让我们来看一下 Dapr 的 [Configuration building block]({{% ref configuration-api-overview %}})。配置项通常具有动态特性，与消费它的应用程序需求紧密耦合。配置项是包含配置数据的键/值对，例如：
 - 应用 ID
 - 分区键
 - 数据库名称等
 
-在本快速入门中，你将运行一个使用配置 API 的 `order-processor` 微服务。该服务：
+在本 Quickstart 中，你将运行一个使用 Configuration API 的 `order-processor` 微服务。该服务：
 1. 从 config store 获取配置项。
 1. 订阅配置更新。
 
-<img src="/images/configuration-quickstart/configuration-quickstart-flow.png" width=1000 alt="演示使用键/值对的配置 API 快速入门流程的图表。">
+<img src="/images/configuration-quickstart/configuration-quickstart-flow.png" width=1000 alt="演示使用键/值对的 Configuration API Quickstart 流程的图表。">
 
-在继续进行快速入门之前，选择你首选的语言特定的 Dapr SDK。
+在继续进行 Quickstart 之前，选择你首选的语言特定的 Dapr SDK。
 
 {{< tabpane text=true >}}
  <!-- Python -->
@@ -62,7 +62,7 @@ cd configuration/python/sdk/order-processor
 uv sync
 ```
 
-运行 `order-processor` 服务，并同时启动 Dapr 边车。
+运行 `order-processor` 服务，并同时启动 Dapr sidecar。
 
 ```bash
 dapr run --app-id order-processor --resources-path ../../../components/ --app-port 6001 -- uv run python app.py
@@ -183,7 +183,7 @@ cd configuration/javascript/sdk/order-processor
 npm install
 ```
 
-运行 `order-processor` 服务，并同时启动 Dapr 边车。
+运行 `order-processor` 服务，并同时启动 Dapr sidecar。
 
 ```bash
 dapr run --app-id order-processor --resources-path ../../../components/ --app-protocol grpc --dapr-grpc-port 3500 -- node index.js
@@ -308,7 +308,7 @@ dotnet restore
 dotnet build
 ```
 
-运行 `order-processor` 服务，并同时启动 Dapr 边车。
+运行 `order-processor` 服务，并同时启动 Dapr sidecar。
 
 ```bash
 dapr run --app-id order-processor-http --resources-path ../../../components/ --app-port 7001 -- dotnet run --project .
@@ -427,7 +427,7 @@ cd configuration/java/sdk/order-processor
 mvn clean install
 ```
 
-运行 `order-processor` 服务，并同时启动 Dapr 边车。
+运行 `order-processor` 服务，并同时启动 Dapr sidecar。
 
 ```bash
 dapr run --app-id order-processor --resources-path ../../../components -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
@@ -536,7 +536,7 @@ docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
 cd configuration/go/sdk/order-processor
 ```
 
-运行 `order-processor` 服务，并同时启动 Dapr 边车。
+运行 `order-processor` 服务，并同时启动 Dapr sidecar。
 
 ```bash
 dapr run --app-id order-processor --app-port 6001 --resources-path ../../../components -- go run .
@@ -624,13 +624,13 @@ case <-ctx.Done():
 
 ## 演示
 
-观看这段[配置 API 快速入门的演示视频](https://youtu.be/EcE6IGuX9L8?t=94)：
+观看这段[Configuration API Quickstart 的演示视频](https://youtu.be/EcE6IGuX9L8?t=94)：
 
 {{< youtube id=EcE6IGuX9L8 start=94 >}}
 
 ## 告诉我们你的想法！
 
-我们一直在持续改进快速入门示例，并重视你的反馈。你觉得这个快速入门有帮助吗？你对改进有什么建议？
+我们一直在持续改进 Quickstart 示例，并重视你的反馈。你觉得这个 Quickstart 有帮助吗？你对改进有什么建议？
 
 欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的想法。
 
@@ -642,6 +642,6 @@ case <-ctx.Done():
   - [.NET](https://github.com/dapr/quickstarts/tree/master/configuration/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/configuration/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/configuration/go/http)
-- 进一步了解[配置构建块]({{% ref configuration-api-overview %}})
+- 进一步了解[Configuration building block]({{% ref configuration-api-overview %}})
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

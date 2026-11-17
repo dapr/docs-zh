@@ -165,7 +165,7 @@ def approve_deletions(ctx: ToolHookContext) -> HookDecision:
 from dapr_agents.agents.configs import AgentApprovalConfig, AgentExecutionConfig
 
 approval = AgentApprovalConfig(
-    pubsub_name="messagepubsub",                  # 设置后通过 Dapr 发布订阅发布
+    pubsub_name="messagepubsub",                  # 设置后通过 Dapr pub/sub 发布
     topic="agent-approval-requests",              # 事件主题
     default_timeout_seconds=300,                  # 超时后自动拒绝
 )
@@ -186,7 +186,7 @@ agent = DurableAgent(
 | `GET /hitl/approvals` | 列出待处理的审批请求 |
 | `POST /hitl/approvals/{approval_request_id}/respond` | 提交批准或拒绝的决定 |
 
-审批状态会持久化到 Dapr 状态存储中的 `{agent_name}:pending_approvals` 下，因此请求在 Pod 重启后依然保留。
+审批状态会持久化到 Dapr state store 中的 `{agent_name}:pending_approvals` 下，因此请求在 Pod 重启后依然保留。
 
 同样的审批流程也适用于由 `ClaudeAgentExecutor` 驱动的代理。代理的 `before_tool_call` 钩子（`hooks=Hooks(before_tool_call=[...])`）原样作用于它的 Claude 运行，运行会在受控的工具调用处暂停，直到收到决定为止。在执行器配置中同时设置钩子是可选的。参见 [工具调用的人工审批]({{< ref "dapr-agents-executors.md#human-approval-of-tool-calls" >}})。
 
@@ -195,7 +195,7 @@ agent = DurableAgent(
 `dapr-agents` 仓库在 `examples/02-durable-agent-tool-call/` 下提供了三个示例：
 
 - `durable_agent_hitl.py` — 通过自动挂载的 `/hitl/approvals` 端点进行 HTTP 轮询
-- `hitl_pubsub.py` — 通过 Dapr 发布订阅与外部订阅服务往返通信
+- `hitl_pubsub.py` — 通过 Dapr pub/sub 与外部订阅服务往返通信
 - `hitl_wf_event.py` — 直接投递工作流事件
 
 ## LLM 钩子

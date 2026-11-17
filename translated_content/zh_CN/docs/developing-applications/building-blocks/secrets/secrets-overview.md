@@ -3,7 +3,7 @@ type: docs
 title: "Secrets Management 概览"
 linkTitle: "概览"
 weight: 1000
-description: "Secrets Management API 构建块概览"
+description: "Secrets Management API building block 概览"
 ---
 
 应用程序通常使用专用的 secret store 来保存敏感信息。例如，你使用存储在 secret store（如 [AWS Secrets Manager、Azure Key Vault、Hashicorp Vault 等]({{% ref supported-secret-stores %}})）中的连接字符串、密钥、令牌和其他应用级 secrets，来对数据库、服务和外部系统进行身份验证。
@@ -12,11 +12,11 @@ description: "Secrets Management API 构建块概览"
 
 ## Secrets Management API
 
-Dapr 专用的 secrets 构建块 API 让开发者更容易从 secret store 中获取应用 secrets。要使用 Dapr 的 secret store 构建块，你需要：
+Dapr 专用的 secrets building block API 让开发者更容易从 secret store 中获取应用 secrets。要使用 Dapr 的 secret store building block，你需要：
 
-1. 为特定的 secret store 解决方案设置一个组件。
+1. 为特定的 secret store 解决方案设置一个 component。
 1. 在应用代码中使用 Dapr secrets API 检索 secrets。
-1. （可选）在 Dapr 组件文件中引用 secrets。
+1. （可选）在 Dapr component 文件中引用 secrets。
 
 [以下概览视频和演示](https://www.youtube.com/live/0y7ne6teHT4?si=3bmNSSyIEIVSF-Ej&t=9931)展示了 Dapr Secrets Management 的工作原理。
 
@@ -24,7 +24,7 @@ Dapr 专用的 secrets 构建块 API 让开发者更容易从 secret store 中�
 
 ## 功能特性
 
-Secrets Management API 构建块为你的应用程序带来了多项功能。
+Secrets Management API building block 为你的应用程序带来了多项功能。
 
 ### 无需更改应用代码即可配置 secrets
 
@@ -54,17 +54,17 @@ Secrets Management API 构建块为你的应用程序带来了多项功能。
 
 {{< diagram name="secrets-azure-aks-keyvault" width="55" >}}
 
-在上面的示例中，应用程序代码无需更改即可获取相同的 secret。Dapr 通过 Secrets Management 构建块 API 使用 secret management 组件。
+在上面的示例中，应用程序代码无需更改即可获取相同的 secret。Dapr 通过 Secrets Management building block API 使用 secret management component。
 
-通过我们的快速入门或教程之一[试用 secrets API]({{% ref "#试用-secrets-management" %}})。
+通过我们的 Quickstart 或教程之一[试用 secrets API]({{% ref "#试用-secrets-management" %}})。
 
-### 在 Dapr 组件中引用 secret store
+### 在 Dapr component 中引用 secret store
 
-在配置 Dapr 组件（如 state store）时，通常需要在组件文件中包含凭证。或者，你也可以将凭证放在 Dapr 支持的 secret store 中，并在 Dapr 组件中引用该 secret。这是首选方法，也是推荐的最佳实践，尤其是在生产环境中。
+在配置 Dapr component（如 state store）时，通常需要在 component 文件中包含凭证。或者，你也可以将凭证放在 Dapr 支持的 secret store 中，并在 Dapr component 中引用该 secret。这是首选方法，也是推荐的最佳实践，尤其是在生产环境中。
 
-在 Kubernetes 中运行，并引用内置 Kubernetes secret store 中的 secrets 时，如果被引用的 secret 值发生变化（例如凭证被轮换），Dapr 还会自动重新加载组件，无需重启应用程序。此功能默认启用，由[热重载]({{% ref "component-updates.md#hot-reloading" %}})特性提供支持。
+在 Kubernetes 中运行，并引用内置 Kubernetes secret store 中的 secrets 时，如果被引用的 secret 值发生变化（例如凭证被轮换），Dapr 还会自动重新加载 component，无需重启应用程序。此功能默认启用，由[热重载]({{% ref "component-updates.md#hot-reloading" %}})特性提供支持。
 
-有关更多信息，请阅读[在组件中引用 secret store]({{% ref component-secrets %}})以及[更新被引用的 secrets]({{% ref "component-secrets.md#updating-referenced-secrets" %}})。
+有关更多信息，请阅读[在 component 中引用 secret store]({{% ref component-secrets %}})以及[更新被引用的 secrets]({{% ref "component-secrets.md#updating-referenced-secrets" %}})。
 
 ### 限制对 secrets 的访问
 
@@ -72,18 +72,18 @@ Secrets Management API 构建块为你的应用程序带来了多项功能。
 
 ## 试用 Secrets Management
 
-### 快速入门和教程
+### Quickstart 和教程
 
-想测试 Dapr Secrets Management API？请参阅以下快速入门和教程，了解 Dapr secrets 的实际应用：
+想测试 Dapr Secrets Management API？请参阅以下 Quickstart 和教程，了解 Dapr secrets 的实际应用：
 
-| 快速入门/教程 | 描述 |
+| Quickstart/教程 | 描述 |
 | ------------------- | ----------- |
-| [Secrets Management 快速入门]({{% ref secrets-quickstart %}}) | 使用 Secrets Management API，从已配置的 secret store 中在应用代码里检索 secrets。 |
+| [Secrets Management Quickstart]({{% ref secrets-quickstart %}}) | 使用 Secrets Management API，从已配置的 secret store 中在应用代码里检索 secrets。 |
 | [secret store 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/secretstore) | 演示如何使用 Dapr secrets API 访问 secret store。 |
 
 ### 直接在你的应用中开始管理 secrets
 
-想跳过快速入门？没问题。你可以直接在应用程序中试用 Secrets Management 构建块，以检索和管理 secrets。在[安装 Dapr]({{% ref "getting-started/_index" %}})之后，你可以从[secrets 操作指南]({{% ref howto-secrets %}})开始使用 Secrets Management API。
+想跳过 Quickstart？没问题。你可以直接在应用程序中试用 Secrets Management building block，以检索和管理 secrets。在[安装 Dapr]({{% ref "getting-started/_index" %}})之后，你可以从[secrets 操作指南]({{% ref howto-secrets %}})开始使用 Secrets Management API。
 
 ## 后续步骤
 

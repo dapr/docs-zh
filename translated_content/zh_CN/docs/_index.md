@@ -16,7 +16,7 @@ Dapr 提供持久、可验证的执行能力，使你的工作流和 AI 代理�
   <a class="d-card c-blue" href="{{% ref workflow-overview %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/workflow.svg" alt="" width="40" height="40"><span class="d-card-title">持久工作流</span></span><span class="d-card-desc">编排持久、可验证的工作流，确保它们始终运行至完成。</span><span class="d-card-more">了解更多 →</span></a>
   <a class="d-card c-sky" href="{{% ref "../developing-ai" %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/dapr-agents.svg" alt="" width="40" height="40"><span class="d-card-title">持久 AI 代理</span></span><span class="d-card-desc">构建能够从任何故障中恢复的持久 AI 代理。</span><span class="d-card-more">了解更多 →</span></a>
   <a class="d-card c-blue" href="{{% ref service-invocation-overview %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/service-invocation.svg" alt="" width="40" height="40"><span class="d-card-title">微服务</span></span><span class="d-card-desc">使用 Dapr 服务调用 API 构建具有弹性的微服务。</span><span class="d-card-more">了解更多 →</span></a>
-  <a class="d-card c-sky" href="{{% ref pubsub-overview %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/pub-sub.svg" alt="" width="40" height="40"><span class="d-card-title">事件驱动架构</span></span><span class="d-card-desc">使用 Dapr 发布订阅 API 创建事件驱动应用程序。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-sky" href="{{% ref pubsub-overview %}}"><span class="d-card-head"><img class="d-card-icon" src="/images/homepage/pub-sub.svg" alt="" width="40" height="40"><span class="d-card-title">事件驱动架构</span></span><span class="d-card-desc">使用 Dapr pub/sub API 创建事件驱动应用程序。</span><span class="d-card-more">了解更多 →</span></a>
 </div>
 
 ### 语言
@@ -49,7 +49,7 @@ Dapr 提供持久、可验证的执行能力，使你的工作流和 AI 代理�
 ### 附加信息
 
 <div class="d-card-grid cols-3">
-  <a class="d-card c-blue" href="{{% ref reference %}}"><span class="d-card-title">参考</span><span class="d-card-desc">关于 Dapr API、CLI、绑定等的详细文档。</span><span class="d-card-more">了解更多 →</span></a>
+  <a class="d-card c-blue" href="{{% ref reference %}}"><span class="d-card-title">参考</span><span class="d-card-desc">关于 Dapr API、CLI、binding 等的详细文档。</span><span class="d-card-more">了解更多 →</span></a>
   <a class="d-card c-sky" href="{{% ref contributing %}}"><span class="d-card-title">贡献</span><span class="d-card-desc">如何为 Dapr 项目和各个代码仓库做出贡献。</span><span class="d-card-more">了解更多 →</span></a>
   <a class="d-card c-blue" href="{{% ref roadmap.md %}}"><span class="d-card-title">路线图</span><span class="d-card-desc">了解 Dapr 的路线图和变更流程。</span><span class="d-card-more">了解更多 →</span></a>
 </div>

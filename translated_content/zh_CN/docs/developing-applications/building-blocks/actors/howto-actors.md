@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "如何：通过脚本与虚拟 Actor 交互"
-linkTitle: "如何：与虚拟 Actor 交互"
+title: "如何：通过脚本与 virtual Actor 交互"
+linkTitle: "如何：与 virtual Actor 交互"
 weight: 70
-description: 调用 Actor 方法进行状态管理
+description: 调用 Actor 方法进行 State Management
 ---
 
-学习如何通过调用 HTTP/gRPC 端点来使用虚拟 Actor。
+学习如何通过调用 HTTP/gRPC 端点来使用 virtual Actor。
 
 ## 调用 Actor 方法
 
@@ -26,11 +26,11 @@ POST/GET/PUT/DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/meth
 
 ## 使用 Actor 保存状态
 
-你可以通过 HTTP/gRPC 端点与 Dapr 交互，利用 Dapr Actor 状态管理能力可靠地保存状态。
+你可以通过 HTTP/gRPC 端点与 Dapr 交互，利用 Dapr Actor State Management 能力可靠地保存状态。
 
-要使用 Actor，你的 state store 必须支持多项事务。这意味着你的 state store 组件必须实现 `TransactionalStore` 接口。
+要使用 Actor，你的 state store 必须支持多项事务。这意味着你的 state store component 必须实现 `TransactionalStore` 接口。
 
-[查看支持事务/Actor 的组件列表]({{% ref supported-state-stores %}})。所有 Actor 只能使用单个 state store 组件作为 state store。
+[查看支持事务/Actor 的 component 列表]({{% ref supported-state-stores %}})。所有 Actor 只能使用单个 state store component 作为 state store。
 
 ## 在本地检查 Actor
 

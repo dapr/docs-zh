@@ -1,22 +1,22 @@
 ---
 type: docs
-title: "定义组件"
-linkTitle: "定义组件"
+title: "定义 component"
+linkTitle: "定义 component"
 weight: 70
-description: "创建组件定义文件以与机密构建块交互"
+description: "创建 component 定义文件以与机密 building block 交互"
 ---
 
-在构建应用时，你很可能会根据想要使用的构建块和特定组件，创建自己的组件文件定义。
+在构建应用时，你很可能会根据想要使用的 building block 和特定 component，创建自己的 component 文件定义。
 
-在本教程中，你将创建一个组件定义文件，以与[机密构建块 API]({{% ref secrets %}})交互：
+在本教程中，你将创建一个 component 定义文件，以与[机密 building block API]({{% ref secrets %}})交互：
 
 - 创建一个本地 JSON 机密存储。
-- 使用组件定义文件向 Dapr 注册机密存储。
+- 使用 component 定义文件向 Dapr 注册机密存储。
 - 使用 Dapr HTTP API 获取机密。
 
 ## 步骤 1：创建 JSON 机密存储
 
-1. 创建一个名为 `my-components` 的新目录，用于存放新的机密和组件文件：
+1. 创建一个名为 `my-components` 的新目录，用于存放新的机密和 component 文件：
 
    ```bash
    mkdir my-components
@@ -36,7 +36,7 @@ description: "创建组件定义文件以与机密构建块交互"
 }
 ```
 
-## 步骤 2：创建机密存储 Dapr 组件
+## 步骤 2：创建机密存储 Dapr component
 
 1. 创建一个名为 `localSecretStore.yaml` 的新文件，内容如下：
 
@@ -57,16 +57,16 @@ description: "创建组件定义文件以与机密构建块交互"
    ```
 
 在上述文件定义中：
-- `type: secretstores.local.file` 表示 Dapr 将使用本地文件组件作为机密存储。
-- metadata 字段提供了使用此组件所需的特定信息。在本例中，机密存储 JSON 文件的路径是相对于你调用 `dapr run` 的位置而言的。
+- `type: secretstores.local.file` 表示 Dapr 将使用本地文件 component 作为机密存储。
+- metadata 字段提供了使用此 component 所需的特定信息。在本例中，机密存储 JSON 文件的路径是相对于你调用 `dapr run` 的位置而言的。
 
 {{% alert title="提示" color="primary" %}}
-你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}})中的组件构建器，而不必手动编写组件 YAML。该向导会引导你选择组件类型和元数据字段，并为你生成 YAML 文件。边车运行后，仪表板还会显示 Dapr 加载的组件，以便你验证 `my-secret-store` 是否可用。
+你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}})中的 component builder，而不必手动编写 component YAML。该向导会引导你选择 component 类型和 metadata 字段，并为你生成 YAML 文件。sidecar 运行后，仪表板还会显示 Dapr 加载的 component，以便你验证 `my-secret-store` 是否可用。
 {{% /alert %}}
 
-## 步骤 3：运行 Dapr 边车
+## 步骤 3：运行 Dapr sidecar
 
-启动一个 Dapr 边车，为名为 `myapp` 的空白应用程序在端口 3500 上侦听：
+启动一个 Dapr sidecar，为名为 `myapp` 的空白应用程序在端口 3500 上侦听：
 
 
 PowerShell 环境：
@@ -79,7 +79,7 @@ dapr run --app-id myapp --dapr-http-port 3500 --resources-path .
 ```
 
 {{% alert title="提示" color="primary" %}}
-如果出现错误消息，提示 `app-id` 已被使用，你可能需要停止当前正在运行的 Dapr 边车。在运行下一个 `dapr run` 命令之前，请通过以下任一方式停止边车：
+如果出现错误消息，提示 `app-id` 已被使用，你可能需要停止当前正在运行的 Dapr sidecar。在运行下一个 `dapr run` 命令之前，请通过以下任一方式停止 sidecar：
 
 - 按 Ctrl+C 或 Command+C。
 - 在终端中运行 `dapr stop` 命令。

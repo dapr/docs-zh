@@ -373,7 +373,7 @@ spec:
 | 参数 RBAC | `beforeCallTool` | `false` | 检查 `arguments`，返回错误以拒绝调用。 |
 | 速率限制 | `beforeCallTool` | `false` | 查找按 `toolName` 设定的预算；预算耗尽时返回错误。 |
 | PII 脱敏（请求） | `beforeCallTool` | `true` | 转换 `arguments`，并返回清理后的形状。 |
-| 审计日志记录 | `afterCallTool` | `false` | 将 `{toolName, arguments, result.isError}`（先解码 `result` 字节）发送到状态存储/日志接收端。 |
+| 审计日志记录 | `afterCallTool` | `false` | 将 `{toolName, arguments, result.isError}`（先解码 `result` 字节）发送到 state store/日志接收端。 |
 | 响应筛选 | `afterCallTool` | `true` | 移除/屏蔽已解码的 `CallToolResult` `content` 中的字段，然后进行 JSON 编码并返回。 |
 | 工具列表筛选 | `afterListTools` | `true` | 移除调用方无权发现的工具，并将更新后的 `ListToolsResult` 作为 JSON 字节返回。 |
 

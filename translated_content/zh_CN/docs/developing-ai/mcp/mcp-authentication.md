@@ -10,7 +10,7 @@ description: "如何启用 MCP 客户端和服务器端身份验证"
 
 [MCP 规范](https://modelcontextprotocol.io/specification/) 并不强制要求 MCP 客户端与服务器之间的任何形式的身份验证。安全模型由用户自行规划和实施。这给开发者带来了维护负担，并使 MCP 服务器面临各种攻击面。
 
-虽然 MCP 服务器缺少身份标识，但 OAuth2 是一个成熟的标准，可用于正确地对 MCP 客户端进行身份验证以访问 MCP 服务器。
+虽然 MCP 服务器缺少身份标识，但 OAuth2 是一个成熟的标准，可用于正确地对 MCP 客户端进行身份验证，以访问 MCP 服务器。
 
 在以下场景中，OAuth2 变得尤为重要：
 
@@ -31,11 +31,11 @@ Dapr 为 MCP 服务器的生产级部署支持两种关键身份验证机制—�
 
 客户端发起 OAuth2 以获取访问令牌，并在连接到 MCP 服务器时包含该令牌。
 这证明了用户的身份和权限，对于远程、敏感或多租户 MCP 服务器是必需的。
-它确保服务器可以信任调用方以及客户端允许使用的范围。
+它确保服务器能够信任调用方的身份，以及客户端被允许使用的作用域。
 
 ### 服务器端身份验证
 
-服务器验证客户端的令牌，或者在令牌缺失或不足时触发 OAuth2 登录或范围升级。
+服务器验证客户端的令牌，或者在令牌缺失或不足时触发 OAuth2 登录或作用域升级。
 这对于云托管或共享 MCP 服务器、租户感知系统以及需要用户特定授权的集成是必需的。
 它强制执行访问控制，隔离用户，并保护特权工具和数据。
 
@@ -100,7 +100,7 @@ spec:
 ```
 
 {{% alert title="注意" color="primary" %}} 
-访问[此链接]({{% ref "component-secrets.md" %}})，了解如何向 Dapr 组件提供机密
+访问[此链接]({{% ref "component-secrets.md" %}})，了解如何向 Dapr 组件提供 secrets。
 {{% /alert %}}
 
 ### 使用 MCP 客户端调用 MCP 服务器
@@ -148,7 +148,7 @@ if __name__ == "__main__":
 dapr run --app-id mcpclient --resources-path ./components --dapr-http-port 3500 --config ./config.yaml -- python mcpclient.py
 ```
 
-MCP 客户端使 Dapr 在连接到 MCP 服务器之前启动 OAuth2 流水线。  
+MCP 客户端会使 Dapr 在连接到 MCP 服务器之前启动 OAuth2 流水线。  
 
 ## 如何启用服务器端身份验证
 

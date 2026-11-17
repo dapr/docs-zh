@@ -93,11 +93,11 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 
 ### save_state
 
-将一个键值对保存到[状态存储]({{% ref state-management-overview.md %}})。
+将一个键值对保存到[state store]({{% ref state-management-overview.md %}})。
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `storeName` | 是 | 状态存储组件名称。 |
+| `storeName` | 是 | state store 组件名称。 |
 | `key` | 是 | 保存所用的键。 |
 | `value` | 是 | 要保存的值，为字符串。JSON 会按原样存储。 |
 
@@ -107,7 +107,7 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `storeName` | 是 | 状态存储组件名称。 |
+| `storeName` | 是 | state store 组件名称。 |
 | `key` | 是 | 要读取的键。 |
 
 ### delete_state
@@ -116,27 +116,27 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `storeName` | 是 | 状态存储组件名称。 |
+| `storeName` | 是 | state store 组件名称。 |
 | `key` | 是 | 要删除的键。 |
 
 ### execute_transaction
 
-将多个保存与删除操作作为一个原子事务运行。状态存储必须支持事务。
+将多个保存与删除操作作为一个原子事务运行。state store 必须支持事务。
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `storeName` | 是 | 状态存储组件名称。 |
+| `storeName` | 是 | state store 组件名称。 |
 | `items` | 是 | 非空的操作列表。每项包含 `key`（必填）、要保存的 `value`，以及用于改为删除该键的 `isDelete: true`。 |
 
 ## 发布与订阅
 
 ### publish_event
 
-向[发布订阅]({{% ref pubsub-overview.md %}})组件上的主题发布一条消息。
+向[pub/sub]({{% ref pubsub-overview.md %}})组件上的主题发布一条消息。
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `pubsubName` | 是 | 发布订阅组件名称。 |
+| `pubsubName` | 是 | pub/sub 组件名称。 |
 | `topic` | 是 | 要发布到的主题。 |
 | `message` | 是 | 消息负载，通常为 JSON。 |
 | `contentType` | 否 | `message` 的内容类型。若 `message` 是有效的 JSON，默认为 `application/json`，否则为 `text/plain`。 |
@@ -147,46 +147,46 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `pubsubName` | 是 | 发布订阅组件名称。 |
+| `pubsubName` | 是 | pub/sub 组件名称。 |
 | `topic` | 是 | 要发布到的主题。 |
 | `message` | 是 | 消息负载，通常为 JSON。 |
 | `contentType` | 否 | `message` 的内容类型。 |
 | `metadata` | 否 | 发布元数据，例如 `{"ttlInSeconds": "60"}`。 |
 
-## 绑定
+## binding
 
 ### invoke_output_binding
 
-对[输出绑定]({{% ref bindings-overview.md %}})执行一个操作，例如 HTTP 端点、队列或对象存储，并返回响应。
+对[output binding]({{% ref bindings-overview.md %}})执行一个操作，例如 HTTP 端点、队列或对象存储，并返回响应。
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `bindingName` | 是 | 绑定组件名称。 |
-| `operation` | 是 | 绑定支持的操作，例如 `create`、`get` 或 `delete`。 |
+| `bindingName` | 是 | binding 组件名称。 |
+| `operation` | 是 | binding 支持的操作，例如 `create`、`get` 或 `delete`。 |
 | `data` | 否 | 负载，通常为 JSON。 |
-| `metadata` | 否 | 绑定为此操作所需的元数据，例如对象存储绑定所需的 `key`。 |
+| `metadata` | 否 | binding 为此操作所需的元数据，例如对象存储 binding所需的 `key`。 |
 
-## 机密
+## secrets
 
-机密值会在工具结果中返回给模型。只公开代理应当读取的机密存储，并通过[机密作用域]({{% ref secrets-scopes.md %}})进一步收窄范围。
+secret 值会在工具结果中返回给模型。只公开代理应当读取的 secret store，并通过[secrets 作用域]({{% ref secrets-scopes.md %}})进一步收窄范围。
 
 ### get_secret
 
-从[机密存储]({{% ref secrets-overview.md %}})中读取一个机密。
+从[secret store]({{% ref secrets-overview.md %}})中读取一个 secret。
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `storeName` | 是 | 机密存储组件名称。 |
-| `secretName` | 是 | 机密的名称。 |
+| `storeName` | 是 | secret store 组件名称。 |
+| `secretName` | 是 | secret 的名称。 |
 | `metadata` | 否 | 存储特定的选项，例如 `version_id`。 |
 
 ### get_bulk_secrets
 
-读取应用在某个机密存储中可访问的全部机密。工具描述会告诉模型，仅当用户明确要求获取所有机密时才使用此工具。
+读取应用在某个 secret store 中可访问的全部 secrets。工具描述会告诉模型，仅当用户明确要求获取所有 secrets 时才使用此工具。
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `storeName` | 是 | 机密存储组件名称。 |
+| `storeName` | 是 | secret store 组件名称。 |
 | `metadata` | 否 | 存储特定的选项。 |
 
 ## 对话
@@ -235,7 +235,7 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `storeName` | 是 | 锁存储组件名称。 |
+| `storeName` | 是 | lock store 组件名称。 |
 | `resourceID` | 是 | 要加锁的资源名称。 |
 | `lockOwner` | 是 | 调用方的唯一 ID，释放锁时会再次使用。 |
 | `expiryInSeconds` | 是 | 锁的有效期（秒），必须大于零。锁会在此时间后自动过期。 |
@@ -246,6 +246,6 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
-| `storeName` | 是 | 锁存储组件名称。 |
+| `storeName` | 是 | lock store 组件名称。 |
 | `resourceID` | 是 | 已加锁的资源名称。 |
 | `lockOwner` | 是 | 获取锁时使用的所有者 ID。 |

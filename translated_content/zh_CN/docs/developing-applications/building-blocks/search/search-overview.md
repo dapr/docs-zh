@@ -3,7 +3,7 @@ type: docs
 title: "搜索概述"
 linkTitle: "概述"
 weight: 1000
-description: "搜索 API 构建块概述"
+description: "搜索 API building block 概述"
 ---
 
 {{% alert title="Alpha" color="primary" %}}
@@ -124,7 +124,7 @@ Dapr 在调用搜索引擎前检测到的错误会使用 Dapr 错误代码：`ER
 
 ### 操作指南
 
-了解搜索 API 构建块所提供的功能后，请通过以下操作指南了解如何在应用中使用它：
+了解搜索 API building block 所提供的功能后，请通过以下操作指南了解如何在应用中使用它：
 
 - [操作指南：为文档编制索引并进行搜索]({{% ref path="howto-search" lang="en" %}})
 

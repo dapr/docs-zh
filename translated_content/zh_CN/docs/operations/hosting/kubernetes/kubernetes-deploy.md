@@ -307,4 +307,4 @@ helm upgrade --install dapr dapr/dapr \
 - [使用 Helm 参数及其他详细信息部署 Dapr]({{% ref "kubernetes-production.md#deploy-dapr-with-helm" %}})
 - [在 Kubernetes 上升级 Dapr]({{% ref kubernetes-upgrade.md %}})
 - [Kubernetes 生产指南]({{% ref kubernetes-production.md %}})
-- [配置状态存储和发布订阅消息代理]({{% ref "getting-started/tutorials/configure-state-pubsub.md" %}})
+- [配置 state store 和发布订阅消息代理]({{% ref "getting-started/tutorials/configure-state-pubsub.md" %}})

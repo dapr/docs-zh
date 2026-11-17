@@ -15,7 +15,7 @@ Dapr Workflows 采用事件溯源（event sourcing）模式，这意味着工作
 默认情况下，Dapr Workflow 引擎使用 **Dapr Actors** 作为其存储后端。每个工作流实例都映射到一个唯一的 Actor 实例。这提供了以下特性：
 
 - **并发控制**：Actor 确保在任意时刻只有一个操作在处理同一个工作流实例。
-- **可靠性**：Actor 状态会持久化到已配置的 Dapr 状态存储中。
+- **可靠性**：Actor 状态会持久化到已配置的 Dapr state store 中。
 - **定时器**：Dapr Actors 提供持久化的提醒（reminder），用于实现工作流定时器。
 
 ## 工作流状态架构
@@ -37,7 +37,7 @@ Dapr Workflows 采用事件溯源（event sourcing）模式，这意味着工作
 
 ### 2. 历史记录
 
-一系列 `HistoryEvent` 对象，记录工作流中发生过的所有事件。为了优化大型历史记录，Dapr 通常会把历史事件分块存储，或作为单独的键存放在状态存储中：
+一系列 `HistoryEvent` 对象，记录工作流中发生过的所有事件。为了优化大型历史记录，Dapr 通常会把历史事件分块存储，或作为单独的键存放在 state store 中：
 
 - **键格式**：`wf-history-<instance_id>-<index>`
 - **事件内容**：序列化的 protobuf 消息，包含事件类型、时间戳以及特定于类型的数据（例如 `TaskScheduled`、`TaskCompleted`）。部分事件类型还带有额外的类型专属字段，例如 `TimerCreated` 事件会记录 `origin`，用来标识该定时器被调度的原因（参见 [Execution API]({{% ref "workflow-protocol-execution-api.md" %}})）。
@@ -75,4 +75,4 @@ Dapr Workflows 采用事件溯源（event sourcing）模式，这意味着工作
 
 ## 清除状态
 
-清除工作流时，Dapr 会从状态存储中删除元数据以及所有相关的历史事件键。这通常是为了在工作流结束后进行清理。
+清除工作流时，Dapr 会从 state store 中删除元数据以及所有相关的历史事件键。这通常是为了在工作流结束后进行清理。

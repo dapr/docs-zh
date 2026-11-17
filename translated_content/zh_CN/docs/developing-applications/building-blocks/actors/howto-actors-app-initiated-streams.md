@@ -7,7 +7,7 @@ description: "打开一条从应用到 daprd 的 gRPC 流，无需暴露服务�
 ---
 
 {{% alert title="Alpha" color="warning" %}}
-`SubscribeActorEventsAlpha1` 处于 Alpha 阶段。其 API 形式在未来的版本中可能会发生变化。
+`SubscribeActorEventsAlpha1` 处于 alpha。其 API 形式在未来的版本中可能会发生变化。
 {{% /alert %}}
 
 本指南介绍如何使用生成的 gRPC 客户端，以 Go 语言实现 `SubscribeActorEventsAlpha1`。请先阅读[概念文档]({{% ref "actors-app-initiated-streams" %}})，了解协议细节，以及何时应优先选择这种方式而不是传统回调。
@@ -290,7 +290,7 @@ func runWithReconnect(ctx context.Context, client runtimev1pb.DaprClient) {
 | `reentrancy` | `ActorReentrancyConfig` | 启用 Actor 重入并设置最大栈深度。默认：禁用。 |
 | `entities_config` | `[]ActorEntityConfig` | 为各个 Actor 类型单独覆盖上述任一字段。 |
 
-有关每个参数的说明，请参阅 [Actor 运行时配置参数]({{% ref "actors-runtime-config" %}})。
+有关每个参数的说明，请参阅 [Actor runtime 配置参数]({{% ref "actors-runtime-config" %}})。
 
 ## 与传统回调共存
 
@@ -298,7 +298,7 @@ func runWithReconnect(ctx context.Context, client runtimev1pb.DaprClient) {
 
 ## 相关链接
 
-- [Actor 应用发起的流概念]({{% ref "actors-app-initiated-streams" %}})
+- [Actor App-Initiated Streams 概念]({{% ref "actors-app-initiated-streams" %}})
 - [Actor API 参考 — SubscribeActorEventsAlpha1]({{% ref "actors_api#subscribeactoreventsalpha1-grpc" %}})
-- [Actor 运行时配置参数]({{% ref "actors-runtime-config" %}})
+- [Actor runtime 配置参数]({{% ref "actors-runtime-config" %}})
 - [Actor 概述]({{% ref "actors-overview" %}})

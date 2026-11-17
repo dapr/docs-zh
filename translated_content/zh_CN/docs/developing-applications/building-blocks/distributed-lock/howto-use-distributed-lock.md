@@ -6,7 +6,7 @@ weight: 2000
 description: "了解如何使用分布式锁为资源提供独占访问"
 ---
 
-既然你已经了解了 Dapr 分布式锁 API 构建块所提供的功能，接下来学习它如何在你的服务中发挥作用。在本指南中，示例应用程序使用 Redis 锁组件获取锁，以演示如何锁定资源。有关支持的 lock store 列表，请参阅[此参考页面](/reference/components-reference/supported-locks/)。
+既然你已经了解了 Dapr 分布式锁 API building block 所提供的功能，接下来学习它如何在你的服务中发挥作用。在本指南中，示例应用程序使用 Redis lock component 获取锁，以演示如何锁定资源。有关支持的 lock store 列表，请参阅[此参考页面](/reference/components-reference/supported-locks/)。
 
 在下图中，同一应用程序的两个实例尝试获取锁，其中一个实例成功，另一个被拒绝。
 
@@ -22,9 +22,9 @@ description: "了解如何使用分布式锁为资源提供独占访问"
 
 锁的作用范围限定在 Dapr 应用 ID（app-id）内，因此这两把锁彼此独立：每把锁只会排斥其所属应用的其他实例，而不会排斥另一个应用。两个应用无法通过锁 API 互相排斥，以独占同一资源。
 
-### 配置锁组件
+### 配置锁 component
 
-将以下组件文件保存到你机器上的[默认组件文件夹]({{% ref "install-dapr-selfhost#step-5-verify-components-directory-has-been-initialized" %}})中。
+将以下 component 文件保存到你机器上的[默认 component 文件夹]({{% ref "install-dapr-selfhost#step-5-verify-components-directory-has-been-initialized" %}})中。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

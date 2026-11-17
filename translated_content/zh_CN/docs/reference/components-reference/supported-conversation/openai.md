@@ -32,7 +32,7 @@ spec:
 ```
 
 {{% alert title="Warning" color="warning" %}}
-上述示例将密钥以纯文本字符串的形式使用。建议使用机密存储来管理密钥，具体描述请参见[此处]({{% ref component-secrets.md %}})。
+上述示例将密钥以纯文本字符串的形式使用。建议使用 secret store 来管理密钥，具体描述请参见[此处]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
 ## 规范元数据字段

@@ -118,10 +118,10 @@ spec:
 | ----- | ----- | ----- |
 | [服务调用]({{% ref service_invocation_api.md %}}) | `invoke` (`v1.0`) | `invoke` (`v1`) |
 | [状态]({{% ref state_api.md%}})| `state` (`v1.0` 和 `v1.0-alpha1`) | `state` (`v1` 和 `v1alpha1`) |
-| [发布订阅]({{% ref pubsub.md %}}) | `publish` (`v1.0` 和 `v1.0-alpha1`) | `publish` (`v1` 和 `v1alpha1`) |
-| [输出绑定]({{% ref bindings_api.md %}})  | `bindings` (`v1.0`) |`bindings` (`v1`) |
+| [pub/sub]({{% ref pubsub.md %}}) | `publish` (`v1.0` 和 `v1.0-alpha1`) | `publish` (`v1` 和 `v1alpha1`) |
+| [output binding]({{% ref bindings_api.md %}})  | `bindings` (`v1.0`) |`bindings` (`v1`) |
 | 订阅 | n/a | `subscribe` (`v1alpha1`) |
-| [机密]({{% ref secrets_api.md %}})| `secrets` (`v1.0`) | `secrets` (`v1`) |
+| [secrets]({{% ref secrets_api.md %}})| `secrets` (`v1.0`) | `secrets` (`v1`) |
 | [Actor]({{% ref actors_api.md %}}) | `actors`  (`v1.0`) |`actors` (`v1`) |
 | [元数据]({{% ref metadata_api.md %}}) | `metadata` (`v1.0`) |`metadata` (`v1`) |
 | [配置]({{% ref configuration_api.md %}}) | `configuration` (`v1.0` 和 `v1.0-alpha1`) | `configuration` (`v1` 和 `v1alpha1`) |

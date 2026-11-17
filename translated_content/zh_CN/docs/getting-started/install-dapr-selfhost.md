@@ -3,25 +3,25 @@ type: docs
 title: "在本地环境中初始化 Dapr"
 linkTitle: "在本地初始化 Dapr"
 weight: 20
-description: "获取 Dapr 边车二进制文件并使用 `dapr init` 在本地安装"
+description: "获取 Dapr sidecar 二进制文件并使用 `dapr init` 在本地安装"
 aliases:
   - /zh-hans/getting-started/set-up-dapr/install-dapr/
 ---
 
 既然你已经[安装了 Dapr CLI]({{%ref install-dapr-cli.md%}})，请使用该 CLI 在本地计算机上初始化 Dapr。
 
-Dapr 作为边车与应用程序一起运行。在自托管模式下，这意味着它是本地计算机上的一个进程。初始化 Dapr 后，你可以：
+Dapr 作为 sidecar 与应用程序一起运行。在自托管模式下，这意味着它是本地计算机上的一个进程。初始化 Dapr 后，你可以：
 
-- 在本地获取并安装 Dapr 边车二进制文件。
+- 在本地获取并安装 Dapr sidecar 二进制文件。
 - 创建一个开发环境，以简化使用 Dapr 开发应用程序的过程。
 
 Dapr 初始化包括：
 
 1. 运行 **Redis 容器实例**，将其用作本地 state store 和消息代理。
 1. 运行 **Zipkin 容器实例**，用于可观测性。
-1. 创建一个**默认组件文件夹**，其中包含上述组件的定义。
+1. 创建一个**默认 component 文件夹**，其中包含上述 component 的定义。
 1. 运行 **Dapr placement 服务容器实例**，以支持本地 Actor。
-1. 运行 **Dapr scheduler 服务容器实例**，用于作业调度。
+1. 运行 **Dapr scheduler 服务容器实例**，用于 job 调度。
 
 {{% alert title="Kubernetes 开发环境" color="primary" %}}
 要在本地或远程 **Kubernetes** 集群中初始化 Dapr 以用于开发（包括上面列出的 Redis 和 Zipkin 容器），请参阅[如何在 Kubernetes 上使用开发标志初始化 Dapr]({{%ref "kubernetes-deploy.md#install-dapr-from-the-official-dapr-helm-chart-with-development-flag" %}})
@@ -41,7 +41,7 @@ Dapr 初始化包括：
 
 {{% tab "Linux/MacOS" %}}
 
-如果符合以下任一情况，你需要在此快速入门中使用 `sudo`：
+如果符合以下任一情况，你需要在此 Quickstart 中使用 `sudo`：
 
 - 你使用 `sudo` 运行 Docker 命令，或
 - 安装路径为 `/usr/local/bin`（默认安装路径）。
@@ -65,7 +65,7 @@ Dapr 初始化包括：
 
 {{% tab "Linux/MacOS" %}}
 
-安装最新的 Dapr 运行时二进制文件：
+安装最新的 Dapr runtime 二进制文件：
 
 ```bash
 dapr init
@@ -85,7 +85,7 @@ sudo dapr init
 
 {{% tab "Windows" %}}
 
-安装最新的 Dapr 运行时二进制文件：
+安装最新的 Dapr runtime 二进制文件：
 
 ```bash
 dapr init
@@ -125,14 +125,14 @@ docker ps
 
 <img src="/images/install-dapr-selfhost/docker-containers.png">
 
-### 步骤 5：验证组件目录已初始化
+### 步骤 5：验证 component 目录已初始化
 
-运行 `dapr init` 时，CLI 还会创建一个默认组件文件夹，其中包含多个 YAML 文件，定义了 state store、pub/sub 和 Zipkin。Dapr 边车会读取这些组件并使用：
+运行 `dapr init` 时，CLI 还会创建一个默认 component 文件夹，其中包含多个 YAML 文件，定义了 state store、pub/sub 和 Zipkin。Dapr sidecar 会读取这些 component 并使用：
 
-- Redis 容器进行状态管理和消息传递。
+- Redis 容器进行 State Management 和消息传递。
 - Zipkin 容器收集追踪数据。
 
-打开组件目录进行验证：
+打开 component 目录进行验证：
 
 - Windows：`%UserProfile%\.dapr`
 - Linux/MacOS：`~/.dapr`
@@ -184,7 +184,7 @@ dapr init --slim
 
 #### Dapr Dev Dashboard
 
-免费的 [Diagrid Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 是用于本地 Dapr 开发的配套工具。它可以让你深入了解应用程序、边车、组件、state store、订阅、Actor、工作流和日志。你还可以使用它创建 Dapr 组件文件和弹性策略，而无需手动编辑 yaml。
+免费的 [Diagrid Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 是用于本地 Dapr 开发的配套工具。它可以让你深入了解应用程序、sidecar、component、state store、订阅、Actor、workflow 和日志。你还可以使用它创建 Dapr component 文件和 resiliency，而无需手动编辑 yaml。
 
 <img src="/images/install-dapr-selfhost/diagrid-dashboard-applications.png" width=800 alt="显示本地 Dapr 应用程序的 Diagrid Dev Dashboard"/><br/>
 

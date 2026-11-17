@@ -67,7 +67,7 @@ description: "了解如何使用托管标识"
 如果边车加载了一个未指定 `azureClientId` 的组件，它只会尝试系统分配标识。如果组件指定了 `azureClientId` 属性，它则只会尝试该 ID 对应的特定用户分配标识。
 {{% /alert %}}
 
-以下示例演示了如何在 Azure KeyVault 机密组件中设置系统托管标识或用户分配标识。
+以下示例演示了如何在 Azure KeyVault secrets 组件中设置系统托管标识或用户分配标识。
 
 {{< tabpane text=true >}}
 

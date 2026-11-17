@@ -2,12 +2,12 @@
 type: docs
 title: "OCI 对象存储"
 linkTitle: "OCI 对象存储"
-description: "OCI 对象存储二进制存储组件的配置"
+description: "OCI 对象存储 Binary Store 组件的配置"
 aliases:
   - "/zh-hans/reference/components-reference/supported-binarystore/oci-objectstorage/"
 ---
 
-OCI 对象存储二进制存储会将每个文件作为一个对象存储到已配置的存储桶中。该组件处于 Alpha 阶段。
+OCI 对象存储 Binary Store 会将每个文件作为一个对象存储到已配置的存储桶中。该组件处于 Alpha 阶段。
 
 ## 组件格式
 
@@ -73,4 +73,4 @@ spec:
 
 - [OCI 对象存储文档](https://docs.oracle.com/en-us/iaas/Content/Object/Concepts/objectstorageoverview.htm)
 - [Dapr 组件的基本架构]({{% ref "reference/resource-specs/component-schema.md" %}})
-- [如何使用二进制存储]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})
+- [如何使用 Binary Store]({{% ref "developing-applications/building-blocks/binarystore/howto-use-binary-store.md" %}})

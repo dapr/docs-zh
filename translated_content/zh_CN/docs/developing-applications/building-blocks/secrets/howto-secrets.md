@@ -3,21 +3,21 @@ type: docs
 title: "操作指南：获取密钥"
 linkTitle: "操作指南：获取密钥"
 weight: 2000
-description: "使用 secret store 构建块安全地获取密钥"
+description: "使用 secret store building block 安全地获取密钥"
 ---
 
-既然你已经了解了 [Dapr 密钥构建块提供的功能]({{% ref secrets-overview %}})，接下来让我们学习它如何在你的服务中工作。本指南演示如何调用 secrets API，并在应用代码中从已配置的 secret store 获取密钥。
+既然你已经了解了 [Dapr 密钥 building block 提供的功能]({{% ref secrets-overview %}})，接下来让我们学习它如何在你的服务中工作。本指南演示如何调用 secrets API，并在应用代码中从已配置的 secret store 获取密钥。
 
 {{< diagram name="secrets-mgmt-overview" width="80" >}}
 
 {{% alert title="Note" color="primary" %}}
- 如果你还没有尝试过，请先[试用 Secrets Management 快速入门]({{% ref secrets-quickstart %}})，快速了解如何使用 secrets API。
+ 如果你还没有尝试过，请先[试用 Secrets Management Quickstart]({{% ref secrets-quickstart %}})，快速了解如何使用 secrets API。
 
 {{% /alert %}}
 
 ## 设置 secret store
 
-在应用代码中获取密钥之前，你必须先配置一个 secret store 组件。本示例配置了一个使用本地 JSON 文件存储密钥的 secret store。
+在应用代码中获取密钥之前，你必须先配置一个 secret store component。本示例配置了一个使用本地 JSON 文件存储密钥的 secret store。
 
 {{% alert title="Warning" color="warning" %}}
 在生产级应用中，不推荐使用本地 secret store。请[查找替代方案]({{% ref supported-secret-stores %}})，以安全地管理你的密钥。
@@ -31,7 +31,7 @@ description: "使用 secret store 构建块安全地获取密钥"
 }
 ```
 
-创建一个名为 `components` 的目录。进入该目录，并创建一个名为 `local-secret-store.yaml` 的组件文件，内容如下：
+创建一个名为 `components` 的目录。进入该目录，并创建一个名为 `local-secret-store.yaml` 的 component 文件，内容如下：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -59,7 +59,7 @@ secret store JSON 文件的路径，相对于你调用 `dapr run` 的位置。
 
 ## 获取密钥
 
-通过 secrets API 调用 Dapr 边车来获取密钥：
+通过 secrets API 调用 Dapr sidecar 来获取密钥：
 
 ```bash
 curl http://localhost:3601/v1.0/secrets/localsecretstore/secret
@@ -237,4 +237,4 @@ main();
 - 查阅 [Dapr secrets API 功能]({{% ref secrets-overview %}})。
 - 了解如何[使用密钥作用域]({{% ref secrets-scopes %}})。
 - 阅读[secrets API 参考]({{% ref secrets_api %}})，并查阅[支持的密钥]({{% ref supported-secret-stores %}})。
-- 了解如何[设置不同的 secret store 组件]({{% ref setup-secret-store %}})，以及如何[在组件中引用密钥]({{% ref component-secrets %}})。
+- 了解如何[设置不同的 secret store component]({{% ref setup-secret-store %}})，以及如何[在 component 中引用密钥]({{% ref component-secrets %}})。
