@@ -170,7 +170,7 @@ CTRL + C
 
 {{< /tabpane >}}
 
-第一个请求失败后，将应用名为 `retryForever` 的重试策略：
+第一个请求失败后，将应用名为 `retryForever` 的 retry policy：
 
 ```bash
 INFO[0005] Error processing operation endpoint[order-processor, order-processor:orders]. Retrying...  
@@ -400,7 +400,7 @@ CTRL + C
 {{< /tabpane >}}
 
 
-第一个请求失败后，将应用名为 `retryForever` 的重试策略：
+第一个请求失败后，将应用名为 `retryForever` 的 retry policy：
 
 ```bash
 INFO[0005] Error processing operation endpoint[order-processor, order-processor:orders]. Retrying...  
@@ -632,7 +632,7 @@ CTRL + C
 {{< /tabpane >}}
 
 
-第一个请求失败后，将应用名为 `retryForever` 的重试策略：
+第一个请求失败后，将应用名为 `retryForever` 的 retry policy：
 
 ```bash
 INFO[0005] Error processing operation endpoint[order-processor, order-processor:orders]. Retrying...  
@@ -865,7 +865,7 @@ CTRL + C
 {{< /tabpane >}}
 
 
-第一个请求失败后，将应用名为 `retryForever` 的重试策略：
+第一个请求失败后，将应用名为 `retryForever` 的 retry policy：
 
 ```bash
 INFO[0005] Error processing operation endpoint[order-processor, order-processor:orders]. Retrying...  
@@ -1095,7 +1095,7 @@ CTRL + C
 {{< /tabpane >}}
 
 
-第一个请求失败后，将应用名为 `retryForever` 的重试策略：
+第一个请求失败后，将应用名为 `retryForever` 的 retry policy：
 
 ```bash
 INFO[0005] Error processing operation endpoint[order-processor, order-processor:orders]. Retrying...  

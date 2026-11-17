@@ -168,7 +168,7 @@ if err := server.AddServiceInvocationHandler("deleteJob", deleteJob); err != nil
 }
 ```
 
-接着，为所有 droid 注册 job 事件处理程序：
+接着，为所有 droid 注册 job 事件 handler：
 
 ```go
 for _, jobName := range jobNames {

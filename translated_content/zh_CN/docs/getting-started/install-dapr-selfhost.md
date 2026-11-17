@@ -18,7 +18,7 @@ Dapr 作为 sidecar 与应用程序一起运行。在自托管模式下，这意
 Dapr 初始化包括：
 
 1. 运行 **Redis 容器实例**，将其用作本地 state store 和消息代理。
-1. 运行 **Zipkin 容器实例**，用于可观测性。
+1. 运行 **Zipkin 容器实例**，用于 observability。
 1. 创建一个**默认 component 文件夹**，其中包含上述 component 的定义。
 1. 运行 **Dapr placement service 容器实例**，以支持本地 Actor。
 1. 运行 **Dapr Scheduler service 容器实例**，用于 job 调度。

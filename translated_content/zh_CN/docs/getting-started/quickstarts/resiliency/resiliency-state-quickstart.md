@@ -125,7 +125,7 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- uv run
 docker stop dapr_redis
 ```
 
-Redis 停止后，请求将开始失败，并应用名为 `retryForever` 的重试策略。下面的输出显示了 `order-processor` 服务的日志：
+Redis 停止后，请求将开始失败，并应用名为 `retryForever` 的 retry policy。下面的输出显示了 `order-processor` 服务的日志：
 
 ```bash
 INFO[0006] Error processing operation component[statestore] output. Retrying...
@@ -294,7 +294,7 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- npm st
 docker stop dapr_redis
 ```
 
-Redis 停止后，请求将开始失败，并应用名为 `retryForever` 的重试策略。下面的输出显示了 `order-processor` 服务的日志：
+Redis 停止后，请求将开始失败，并应用名为 `retryForever` 的 retry policy。下面的输出显示了 `order-processor` 服务的日志：
 
 ```bash
 INFO[0006] Error processing operation component[statestore] output. Retrying...
@@ -463,7 +463,7 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- dotnet
 docker stop dapr_redis
 ```
 
-Redis 停止后，请求将开始失败，并应用名为 `retryForever` 的重试策略。下面的输出显示了 `order-processor` 服务的日志：
+Redis 停止后，请求将开始失败，并应用名为 `retryForever` 的 retry policy。下面的输出显示了 `order-processor` 服务的日志：
 
 ```bash
 INFO[0006] Error processing operation component[statestore] output. Retrying...
@@ -634,7 +634,7 @@ dapr run --app-id order-processor --resources-path ../../../resources/ -- java -
 docker stop dapr_redis
 ```
 
-Redis 停止后，请求将开始失败，并应用名为 `retryForever` 的重试策略。下面的输出显示了 `order-processor` 服务的日志：
+Redis 停止后，请求将开始失败，并应用名为 `retryForever` 的 retry policy。下面的输出显示了 `order-processor` 服务的日志：
 
 ```bash
 INFO[0006] Error processing operation component[statestore] output. Retrying...
@@ -802,7 +802,7 @@ dapr run --app-id order-processor --resources-path ../../../resources -- go run 
 docker stop dapr_redis
 ```
 
-Redis 停止后，请求将开始失败，并应用名为 `retryForever` 的重试策略。下面的输出显示了 `order-processor` 服务的日志：
+Redis 停止后，请求将开始失败，并应用名为 `retryForever` 的 retry policy。下面的输出显示了 `order-processor` 服务的日志：
 
 ```bash
 INFO[0006] Error processing operation component[statestore] output. Retrying...

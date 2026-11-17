@@ -8,9 +8,9 @@ description: "Dapr 发布和订阅 building block 入门"
 
 让我们来了解一下 Dapr 的[发布和订阅（pub/sub）building block]({{% ref pubsub %}})。在本 Quickstart 中，你将运行一个发布者微服务和一个订阅者微服务，以演示 Dapr 如何实现 pub/sub 模式。
 
-1. 使用发布者服务，开发者可以反复向某个主题发布消息。
+1. 使用发布者服务，开发者可以反复向某个 topic 发布消息。
 1. [pub/sub component](https://docs.dapr.io/concepts/components-concept/#pubsub-brokers)会对这些消息进行排队或代理。下面的示例使用 Redis，你也可以使用 RabbitMQ、Kafka 等。
-1. 该主题的订阅者从队列中拉取消息并进行处理。
+1. 该 topic 的订阅者从队列中拉取消息并进行处理。
 
 <img src="/images/pubsub-quickstart/pubsub-diagram.png" width=800 style="padding-bottom:15px;">
 
@@ -150,7 +150,7 @@ spec:
 
 ##### `order-processor` 订阅者
 
-在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
+在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
 
 ```py
 # 注册 Dapr pub/sub 的订阅
@@ -179,7 +179,7 @@ app.run(port=5001)
 
 ##### `checkout` 发布者
 
-在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题发布 orderId 消息。服务一启动，便会循环发布消息：
+在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic 发布 orderId 消息。服务一启动，便会循环发布消息：
 
 ```python
 with DaprClient() as client:
@@ -323,7 +323,7 @@ spec:
 
 ##### `order-processor` 订阅者
 
-在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
+在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
 
 ```js
 server.pubsub.subscribe("orderpubsub", "orders", (data) => console.log("Subscriber received: " + JSON.stringify(data)));
@@ -331,7 +331,7 @@ server.pubsub.subscribe("orderpubsub", "orders", (data) => console.log("Subscrib
 
 ##### `checkout` 发布者
 
-在 `checkout` 发布者服务中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题发布 orderId 消息。服务一启动，便会循环发布消息：
+在 `checkout` 发布者服务中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic 发布 orderId 消息。服务一启动，便会循环发布消息：
 
 ```js
 const client = new DaprClient();
@@ -474,10 +474,10 @@ spec:
 
 ##### `order-processor` 订阅者
 
-在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
+在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
 
 ```cs
-// Dapr 订阅 [Topic] 会将 orders 主题路由到此路由
+// Dapr 订阅 [Topic] 会将 orders topic 路由到此路由
 app.MapPost("/orders", [Topic("orderpubsub", "orders")] (Order order) => {
     Console.WriteLine("Subscriber received : " + order);
     return Results.Ok(order);
@@ -488,7 +488,7 @@ public record Order([property: JsonPropertyName("orderId")] int OrderId);
 
 ##### `checkout` 发布者
 
-在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题发布 orderId 消息。服务一启动，便会循环发布消息：
+在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic 发布 orderId 消息。服务一启动，便会循环发布消息：
 
 ```cs
 using var client = new DaprClientBuilder().Build();
@@ -630,7 +630,7 @@ spec:
 
 ##### `order-processor` 订阅者
 
-在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
+在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
 
 ```java
 @Topic(name = "orders", pubsubName = "orderpubsub")
@@ -649,7 +649,7 @@ public Mono<ResponseEntity> getCheckout(@RequestBody(required = false) CloudEven
 
 ##### `checkout` 发布者
 
-在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题发布 orderId 消息。服务一启动，便会循环发布消息：
+在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic 发布 orderId 消息。服务一启动，便会循环发布消息：
 
 ```java
 DaprClient client = new DaprClientBuilder().build();
@@ -790,7 +790,7 @@ spec:
 
 ##### `order-processor` 订阅者
 
-在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
+在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
 
 ```go
 func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {
@@ -801,7 +801,7 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 
 ##### `checkout` 发布者
 
-在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题发布 orderId 消息。服务一启动，便会循环发布消息：
+在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic 发布 orderId 消息。服务一启动，便会循环发布消息：
 
 ```go
 client, err := dapr.NewClient()
@@ -844,7 +844,7 @@ fmt.Println("Published data: ", order)
 git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤 3：订阅主题
+### 步骤 3：订阅 topics
 
 在终端窗口中，从 Quickstarts 克隆目录的根目录进入 `order-processor` 目录。
 
@@ -865,7 +865,7 @@ dapr run --app-id order-processor --resources-path ../../../components/ --app-po
 ```
 
 
-在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
+在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
 
 ```py
 # 注册 Dapr pub/sub 的订阅
@@ -892,7 +892,7 @@ def orders_subscriber():
 app.run(port=5001)
 ```
 
-### 步骤 4：发布主题
+### 步骤 4：发布 topic
 
 在新的终端窗口中，进入 `checkout` 目录。
 
@@ -913,7 +913,7 @@ dapr run --app-id checkout --resources-path ../../../components/ -- uv run pytho
 ```
 
 
-在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题发布 orderId 消息。服务一启动，便会循环发布消息：
+在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic 发布 orderId 消息。服务一启动，便会循环发布消息：
 
 ```python
 with DaprClient() as client:
@@ -1015,7 +1015,7 @@ spec:
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤 3：订阅主题
+### 步骤 3：订阅 topics
 
 在新的终端窗口中，从 Quickstarts 克隆目录的根目录进入 `order-processor` 目录。
 
@@ -1040,13 +1040,13 @@ npm install
 dapr run --app-port 5002 --app-id order-processing --app-protocol http --dapr-http-port 3501 --resources-path ../../../components -- npm run start
 ```
 
-在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
+在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
 
 ```js
 server.pubsub.subscribe("orderpubsub", "orders", (data) => console.log("Subscriber received: " + JSON.stringify(data)));
 ```
 
-### 步骤 4：发布主题
+### 步骤 4：发布 topic
 
 在新的终端窗口中，从 Quickstarts 克隆目录的根目录进入 `checkout` 目录。
 
@@ -1071,7 +1071,7 @@ npm install
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 --resources-path ../../../components -- npm run start
 ```
 
-在 `checkout` 发布者服务中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题发布 orderId 消息。服务一启动，便会循环发布消息：
+在 `checkout` 发布者服务中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic 发布 orderId 消息。服务一启动，便会循环发布消息：
 
 ```js
 const client = new DaprClient();
@@ -1171,7 +1171,7 @@ spec:
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤 3：订阅主题
+### 步骤 3：订阅 topics
 
 在终端窗口中，从 Quickstarts 克隆目录的根目录进入 `order-processor` 目录。
 
@@ -1192,10 +1192,10 @@ dotnet build
 dapr run --app-id order-processor --resources-path ../../../components --app-port 7006 -- dotnet run
 ```
 
-在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
+在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
 
 ```cs
-// Dapr 订阅 [Topic] 会将 orders 主题路由到此路由
+// Dapr 订阅 [Topic] 会将 orders topic 路由到此路由
 app.MapPost("/orders", [Topic("orderpubsub", "orders")] (Order order) => {
     Console.WriteLine("Subscriber received : " + order);
     return Results.Ok(order);
@@ -1204,7 +1204,7 @@ app.MapPost("/orders", [Topic("orderpubsub", "orders")] (Order order) => {
 public record Order([property: JsonPropertyName("orderId")] int OrderId);
 ```
 
-### 步骤 4：发布主题
+### 步骤 4：发布 topic
 
 在新的终端窗口中，从 Quickstarts 克隆目录的根目录进入 `checkout` 目录。
 
@@ -1225,7 +1225,7 @@ dotnet build
 dapr run --app-id checkout --resources-path ../../../components -- dotnet run
 ```
 
-在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题发布 orderId 消息。服务一启动，便会循环发布消息：
+在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic 发布 orderId 消息。服务一启动，便会循环发布消息：
 
 ```cs
 using var client = new DaprClientBuilder().Build();
@@ -1325,7 +1325,7 @@ spec:
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤 3：订阅主题
+### 步骤 3：订阅 topics
 
 在终端窗口中，从 Quickstarts 克隆目录的根目录进入 `order-processor` 目录。
 
@@ -1345,7 +1345,7 @@ mvn clean install
 dapr run --app-port 8080 --app-id order-processor --resources-path ../../../components -- java -jar target/OrderProcessingService-0.0.1-SNAPSHOT.jar
 ```
 
-在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
+在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
 
 ```java
 @Topic(name = "orders", pubsubName = "orderpubsub")
@@ -1362,7 +1362,7 @@ public Mono<ResponseEntity> getCheckout(@RequestBody(required = false) CloudEven
 }
 ```
 
-### 步骤 4：发布主题
+### 步骤 4：发布 topic
 
 在新的终端窗口中，从 Quickstarts 克隆目录的根目录进入 `checkout` 目录。
 
@@ -1382,7 +1382,7 @@ mvn clean install
 dapr run --app-id checkout --resources-path ../../../components -- java -jar target/CheckoutService-0.0.1-SNAPSHOT.jar
 ```
 
-在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题发布 orderId 消息。服务一启动，便会循环发布消息：
+在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic 发布 orderId 消息。服务一启动，便会循环发布消息：
 
 ```java
 DaprClient client = new DaprClientBuilder().build();
@@ -1485,7 +1485,7 @@ scopes:
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-### 步骤 3：订阅主题
+### 步骤 3：订阅 topics
 
 在终端窗口中，从 Quickstarts 克隆目录的根目录进入 `order-processor` 目录。
 
@@ -1505,7 +1505,7 @@ go build .
 dapr run --app-port 6005 --app-id order-processor-sdk --app-protocol http --dapr-http-port 3501 --resources-path ../../../components -- go run .
 ```
 
-在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
+在 `order-processor` 订阅者中，你订阅了名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic。这使你的应用代码能够通过 Dapr sidecar 与 Redis component 实例通信。
 
 ```go
 func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err error) {
@@ -1514,7 +1514,7 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 }
 ```
 
-### 步骤 4：发布主题
+### 步骤 4：发布 topic
 
 在新的终端窗口中，从 Quickstarts 克隆目录的根目录进入 `checkout` 目录。
 
@@ -1534,7 +1534,7 @@ go build .
 dapr run --app-id checkout --app-protocol http --dapr-http-port 3500 --resources-path ../../../components -- go run .
 ```
 
-在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` 主题发布 orderId 消息。服务一启动，便会循环发布消息：
+在 `checkout` 发布者中，你会向名为 `orderpubsub` 的 Redis 实例（[在 `pubsub.yaml` component 中定义]({{% ref "#pubsubyaml-component-file" %}})）的 `orders` topic 发布 orderId 消息。服务一启动，便会循环发布消息：
 
 ```go
 client, err := dapr.NewClient()
@@ -1624,7 +1624,7 @@ scopes:
 
 ## 通过 Dapr Dev Dashboard 查看订阅
 
-Quickstart 运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看 `checkout` 和 `order-processor` 应用、`orderpubsub` component，以及 `order-processor` 应用对 `orders` 主题的订阅。你还可以在仪表板中向该订阅发布测试消息，这在不运行发布者的情况下测试订阅者时很有用。
+Quickstart 运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看 `checkout` 和 `order-processor` 应用、`orderpubsub` component，以及 `order-processor` 应用对 `orders` topic 的订阅。你还可以在仪表板中向该订阅发布测试消息，这在不运行发布者的情况下测试订阅者时很有用。
 
 ## 告诉我们你的看法！
 我们一直在持续改进 Quickstart 示例，并重视你的反馈。你觉得这个 Quickstart 有帮助吗？你对改进有什么建议吗？

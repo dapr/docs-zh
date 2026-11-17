@@ -1960,7 +1960,7 @@ dapr workflow resume e4d3807c \
   --reason "Inventory received"
 ```
 
-### 清理
+### purge
 
 测试完成后，清除已完成的 workflow。
 
@@ -1995,7 +1995,7 @@ dapr workflow purge --app-id order-processor --all
 
 ## 后续步骤
 
-- 运行 Quickstarts 仓库中的 [workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)（Python、.NET 和 Java）。这些教程涵盖任务链、扇出/扇入、child workflow、监控、外部系统交互、resiliency 与补偿、版本控制、workflow 管理和 history propagation
+- 运行 Quickstarts 仓库中的 [workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)（Python、.NET 和 Java）。这些教程涵盖 task chaining、扇出/扇入、child workflow、监控、外部系统交互、resiliency 与补偿、版本控制、workflow 管理和 history propagation
 - 使用 [HTTP 代替 SDK]({{% ref howto-manage-workflow.md %}})，通过任何编程语言设置 Dapr Workflow
 - 学习更深入的 [.NET SDK 示例 workflow](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
 - 了解更多关于 [workflow 作为 Dapr building block]({{% ref workflow-overview %}}) 的内容
