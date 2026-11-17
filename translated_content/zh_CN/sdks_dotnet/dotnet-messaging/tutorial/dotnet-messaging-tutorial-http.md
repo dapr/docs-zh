@@ -51,11 +51,11 @@ dapr run --app-id http-subscriber-example --app-port 5000 `
   --dapr-grpc-port 50001 -- dotnet run
 ```
 
-使用 `curl http://localhost:5000/dapr/subscribe` 查看生成的清单。
+使用 `curl http://localhost:5000/dapr/subscribe` 查看生成的 manifest。
 
 ## 测试 HTTP 投递
 
-单元测试直接调用发票处理程序，验证有效金额、零金额和负金额的情况。集成测试使用测试应用和真实的 Dapr 边车，验证订阅发现与 HTTP 推送投递。这使测试既能覆盖路由映射和 CloudEvent 派发，又无需将业务规则测试与 ASP.NET 宿主耦合在一起。
+单元测试直接调用发票处理程序，验证有效金额、零金额和负金额的情况。集成测试使用测试应用和真实的 Dapr sidecar，验证订阅发现与 HTTP 推送投递。这使测试既能覆盖路由映射和 CloudEvent 派发，又无需将业务规则测试与 ASP.NET 宿主耦合在一起。
 
 ```powershell
 dotnet test examples\Messaging\06-HttpSubscription\HttpSubscription.Example06.Tests\HttpSubscription.Example06.Tests.csproj
@@ -63,5 +63,5 @@ dotnet test examples\Messaging\06-HttpSubscription\HttpSubscription.Example06.Te
 
 ## 下一步
 
-- [第 7 部分：动态流式订阅]({{< ref dotnet-messaging-tutorial-dynamic.md >}})
+- [第 7 部分：动态 streaming subscription]({{< ref dotnet-messaging-tutorial-dynamic.md >}})
 - [Dapr 消息传递配置与使用指南]({{< ref dotnet-messaging-pubsub-usage.md >}})

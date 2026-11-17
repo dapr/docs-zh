@@ -1,9 +1,9 @@
 ---
 type: docs
-title: "第 7 部分：动态流式订阅"
+title: "第 7 部分：动态 streaming subscription"
 linkTitle: "第 7 部分：动态流式"
 weight: 160700
-description: "为运行时选定的主题打开命令式流式订阅"
+description: "为运行时选定的主题打开命令式 streaming subscription"
 ---
 
 当主题或订阅的生命周期无法在编译期确定时，可以使用 `SubscribeAsync`。[动态流式示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging/07-DynamicStreaming)展示了这一用法。

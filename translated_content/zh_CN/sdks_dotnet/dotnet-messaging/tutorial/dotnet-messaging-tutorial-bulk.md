@@ -3,7 +3,7 @@ type: docs
 title: "第 4 部分：批量订阅"
 linkTitle: "第 4 部分：批量订阅"
 weight: 160400
-description: "为高吞吐量的发布订阅消费者配置有界的批量投递"
+description: "为高吞吐量的 pub/sub 消费者配置有界的批量投递"
 ---
 
 [批量订阅示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging/04-BulkSubscribe)将批量发布与为高吞吐量摄取而配置的订阅结合在一起。
@@ -56,7 +56,7 @@ var response = await client.BulkPublishEventAsync(
 
 ## 测试批处理相关行为
 
-单元测试覆盖了有效的遥测数据，以及无效的温度和湿度值。集成测试通过真实的 Dapr 发布订阅测试框架发布读数和批次，以验证生成的批量订阅配置与投递语义。
+单元测试覆盖了有效的遥测数据，以及无效的温度和湿度值。集成测试通过真实的 Dapr pub/sub 测试框架发布读数和批次，以验证生成的批量订阅配置与投递语义。
 
 ```powershell
 dotnet test examples\Messaging\04-BulkSubscribe\BulkSubscribe.Example04.Tests\BulkSubscribe.Example04.Tests.csproj

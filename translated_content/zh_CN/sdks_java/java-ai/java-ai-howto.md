@@ -6,7 +6,7 @@ weight: 20000
 description: 如何使用 Dapr Java SDK 快速上手 Conversation AI
 ---
 
-在本次演示中，我们将介绍如何使用对话 API 与大型语言模型 (LLM) 进行对话。该 API 会返回给定提示词的 LLM 响应。通过[提供的 conversation ai 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/conversation)，你将：
+在本次演示中，我们将介绍如何使用conversation API 与大型语言模型 (LLM) 进行对话。该 API 会返回给定提示词的 LLM 响应。通过[提供的 conversation ai 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/conversation)，你将：
 
 - 使用 [Conversation AI 示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/conversation/DemoConversationAI.java) 提供提示词
 - 过滤个人身份信息（PII）。
@@ -43,7 +43,7 @@ mvn clean install -DskipTests
 cd examples
 ```
 
-运行 Dapr 边车。
+运行 Dapr sidecar。
 
 ```sh
 dapr run --app-id conversationapp --dapr-grpc-port 51439 --dapr-http-port 3500 --app-port 8080
@@ -96,7 +96,7 @@ java -jar target/dapr-java-sdk-examples-exec.jar io.dapr.examples.conversation.D
 
 如输出所示，发送到 API 的号码已被混淆，并以 <ISBN> 的形式返回。
 上面的示例使用了一个["echo"](https://docs.dapr.io/developing-applications/building-blocks/conversation/howto-conversation-layer/#set-up-the-conversation-component)
-组件进行测试，该组件只是简单地返回输入消息。
+component 进行测试，该 component 只是简单地返回输入消息。
 当与 OpenAI 或 Claude 等 LLM 集成时，你将收到有意义的响应，而不是回显的输入。
 
 ## 后续步骤

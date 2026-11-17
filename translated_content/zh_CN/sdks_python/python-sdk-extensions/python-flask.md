@@ -3,7 +3,7 @@ type: docs
 title: "Dapr Python SDK 与 Flask 集成"
 linkTitle: "Flask"
 weight: 300000
-description: 如何使用 Flask 扩展创建 Dapr Python 虚拟 Actor
+description: 如何使用 Flask 扩展创建 Dapr Python virtual Actor
 ---
 
 Dapr Python SDK 通过 `dapr.ext.flask` 扩展提供与 Flask 的集成。

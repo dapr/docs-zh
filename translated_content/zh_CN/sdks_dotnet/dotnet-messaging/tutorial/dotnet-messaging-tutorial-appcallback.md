@@ -3,10 +3,10 @@ type: docs
 title: "第 5 部分：gRPC AppCallback 推送订阅"
 linkTitle: "第 5 部分：AppCallback 推送"
 weight: 160500
-description: "通过边车发起的 gRPC AppCallback 调用接收发布订阅事件"
+description: "通过 sidecar 发起的 gRPC AppCallback 调用接收 pub/sub 事件"
 ---
 
-[AppCallback 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging/05-AppCallbackPush)使用 `DeliveryMode.Programmatic` 实现从边车到应用的 gRPC 推送。
+[AppCallback 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging/05-AppCallbackPush)使用 `DeliveryMode.Programmatic` 实现从 sidecar 到应用的 gRPC 推送。
 
 ## 定义编程式订阅者
 
@@ -27,7 +27,7 @@ public sealed class PaymentProcessingHandler : ITopicHandler<PaymentReceived>
 }
 ```
 
-在此模式下，Dapr 主动向应用的 AppCallback 服务发起 gRPC 调用。与流式订阅不同，应用必须暴露一个可访问的 gRPC 端口。
+在此模式下，Dapr 主动向应用的 AppCallback 服务发起 gRPC 调用。与 streaming subscription 不同，应用必须暴露一个可访问的 gRPC 端口。
 
 ## 映射生成的端点
 
@@ -40,7 +40,7 @@ app.MapDaprMessaging();
 app.Run();
 ```
 
-`MapDaprMessaging()` 暴露了生成的 AppCallback gRPC 服务，边车用它来列出订阅并投递事件。使用应用端口和 gRPC 协议运行应用，例如：
+`MapDaprMessaging()` 暴露了生成的 AppCallback gRPC 服务，sidecar 用它来列出订阅并投递事件。使用应用端口和 gRPC 协议运行应用，例如：
 
 ```powershell
 dapr run --app-id appcallback-example --app-port 5000 --app-protocol grpc `

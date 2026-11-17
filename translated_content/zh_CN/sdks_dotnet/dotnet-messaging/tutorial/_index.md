@@ -8,7 +8,7 @@ description: "一个由七部分组成的教程，介绍如何使用 Dapr.Messag
 
 本教程使用 [.NET SDK 仓库](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging) 中可运行的示例，演示 `Dapr.Messaging` 的主要功能。每个部分都包含实现模式，以及相应的单元测试和集成测试方法。
 
-示例支持 .NET 8、.NET 9、.NET 10 或 .NET 11，并且需要 Dapr 运行时 1.18 或更高版本。单元测试无需 Dapr、Docker 或消息代理即可运行。集成测试使用 `Dapr.Testcontainers` 运行真实的 Dapr 边车和 Redis 发布订阅组件，这是在应用中验证投递行为的推荐方式。
+示例支持 .NET 8、.NET 9、.NET 10 或 .NET 11，并且需要 Dapr runtime 1.18 或更高版本。单元测试无需 Dapr、Docker 或消息代理即可运行。集成测试使用 `Dapr.Testcontainers` 运行真实的 Dapr sidecar 和 Redis pub/sub component，这是在应用中验证投递行为的推荐方式。
 
 {{% alert title=".NET 框架支持" color="warning" %}}
 请注意，.NET 8 和 .NET 9 将于 2026 年十一月结束支持。两者的支持都将在 Dapr v1.20 中移除；只有 .NET 10 和 .NET 11 会支持到 2027 年底。
@@ -16,13 +16,13 @@ description: "一个由七部分组成的教程，介绍如何使用 Dapr.Messag
 
 ## 教程内容
 
-- [第 1 部分：发布事件]({{< ref dotnet-messaging-tutorial-publishing.md >}})：类型化事件、CloudEvent 元数据、批量发布和原始负载。
-- [第 2 部分：声明式流式订阅]({{< ref dotnet-messaging-tutorial-streaming.md >}})：源生成的处理程序，并明确区分成功、重试和丢弃的确认。
-- [第 3 部分：基于内容的路由与死信主题]({{< ref dotnet-messaging-tutorial-routing.md >}})：CEL 匹配规则、优先级、元数据和死信处理。
+- [第 1 部分：发布事件]({{< ref dotnet-messaging-tutorial-publishing.md >}})：类型化事件、CloudEvent metadata、批量发布和原始负载。
+- [第 2 部分：声明式 streaming subscription]({{< ref dotnet-messaging-tutorial-streaming.md >}})：源生成的处理程序，并明确区分成功、重试和丢弃的确认。
+- [第 3 部分：基于内容的路由与死信主题]({{< ref dotnet-messaging-tutorial-routing.md >}})：CEL 匹配规则、优先级、metadata 和死信处理。
 - [第 4 部分：批量订阅]({{< ref dotnet-messaging-tutorial-bulk.md >}})：通过有界的批大小和等待时长实现高吞吐量投递。
-- [第 5 部分：gRPC AppCallback 推送]({{< ref dotnet-messaging-tutorial-appcallback.md >}})：面向暴露 gRPC 端口的应用，由边车发起的 gRPC 投递。
+- [第 5 部分：gRPC AppCallback 推送]({{< ref dotnet-messaging-tutorial-appcallback.md >}})：面向暴露 gRPC 端口的应用，由 sidecar 发起的 gRPC 投递。
 - [第 6 部分：HTTP 推送订阅]({{< ref dotnet-messaging-tutorial-http.md >}})：生成的 `/dapr/subscribe` 发现机制与自定义 HTTP 路由。
-- [第 7 部分：动态流式订阅]({{< ref dotnet-messaging-tutorial-dynamic.md >}})：命令式的运行时订阅，具有监督、取消和重连行为。
+- [第 7 部分：动态 streaming subscription]({{< ref dotnet-messaging-tutorial-dynamic.md >}})：命令式的运行时订阅，具有监督、取消和重连行为。
 
 ## 测试模式
 
@@ -34,7 +34,7 @@ description: "一个由七部分组成的教程，介绍如何使用 Dapr.Messag
 
 - [.NET SDK](https://dotnet.microsoft.com/download) 8、9、10 或 11
 - [Dapr CLI]({{< ref install-dapr-cli.md >}}) 以及 Dapr 环境
-- Dapr 运行时 1.18 或更高版本，用于流式订阅
+- Dapr runtime 1.18 或更高版本，用于 streaming subscription
 - Docker 或其他容器运行时，用于集成测试
 - `Dapr.Messaging` 包
 

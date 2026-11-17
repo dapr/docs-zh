@@ -3,10 +3,10 @@ type: docs
 title: "Dapr Cryptography .NET SDK"
 linkTitle: "加密"
 weight: 140000
-description: "Dapr 密码学构建块在 .NET 中的概述"
+description: "Dapr cryptography building block 在 .NET 中的概述"
 ---
 
-`Dapr.Cryptography` 提供专用客户端，用于执行高性能的加密和解密操作。`DaprEncryptionClient` 支持流式操作，可处理任意大小的数据，并将加密计算工作交由 Dapr 运行时及其配置的加密组件完成。
+`Dapr.Cryptography` 提供专用客户端，用于执行高性能的加密和解密操作。`DaprEncryptionClient` 支持流式操作，可处理任意大小的数据，并将加密计算工作交由 Dapr 运行时及其配置的加密 component 完成。
 
 该客户端通过 `AddDaprEncryptionClient()` 注册到依赖注入中，并且可以从 `IConfiguration`、环境变量，或用于高级场景的 `DaprEncryptionClientBuilder` 进行配置。
 

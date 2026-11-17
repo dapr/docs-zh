@@ -3,7 +3,7 @@ type: docs
 title: "第 1 部分：使用 Dapr.Messaging 发布事件"
 linkTitle: "第 1 部分：发布"
 weight: 160100
-description: "使用 IDaprPublishSubscribeClient 发布有类型、批量、带丰富元数据以及原始格式的事件"
+description: "使用 IDaprPublishSubscribeClient 发布有类型、批量、带丰富 metadata 以及原始格式的事件"
 ---
 
 [发布示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging/01-Publishing)介绍了 `IDaprPublishSubscribeClient`，它是 `Dapr.Messaging` 中的发布 API。
@@ -40,9 +40,9 @@ app.MapPost("/orders", async (
 
 有类型的负载会被序列化为 JSON，并以 Dapr CloudEvents 的形式发布。请将请求的取消令牌传递给 SDK 调用。
 
-## 添加元数据并批量发布
+## 添加 metadata 并批量发布
 
-使用 `PublishOptions` 设置 CloudEvent 属性以及组件元数据（例如消息 TTL）：
+使用 `PublishOptions` 设置 CloudEvent 属性以及 component metadata（例如消息 TTL）：
 
 ```csharp
 var options = new PublishOptions
@@ -90,7 +90,7 @@ await client.PublishByteEventAsync(
 
 ## 测试发布者
 
-单元测试使用 Moq 验证客户端接收到了预期的主题、负载、选项和内容类型。它们不会启动 Dapr。集成测试使用 `DaprHarnessBuilder.BuildPubSub()`，将真实客户端连接到测试框架（harness）的动态 gRPC 与 HTTP 端口，并针对边车和 Redis 验证有类型、批量与原始格式的发布。
+单元测试使用 Moq 验证客户端接收到了预期的主题、负载、选项和内容类型。它们不会启动 Dapr。集成测试使用 `DaprHarnessBuilder.BuildPubSub()`，将真实客户端连接到测试框架（harness）的动态 gRPC 与 HTTP 端口，并针对 sidecar 和 Redis 验证有类型、批量与原始格式的发布。
 
 在 SDK 仓库中运行该示例：
 
@@ -100,5 +100,5 @@ dotnet test examples\Messaging\01-Publishing\Publishing.Example01.Tests\Publishi
 
 ## 下一步
 
-- [第 2 部分：声明式流式订阅]({{< ref dotnet-messaging-tutorial-streaming.md >}})
+- [第 2 部分：声明式 streaming subscription]({{< ref dotnet-messaging-tutorial-streaming.md >}})
 - [发布事件操作指南]({{< ref dotnet-messaging-publish-howto.md >}})

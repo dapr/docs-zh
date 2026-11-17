@@ -9,7 +9,7 @@ no_list: true
 
 Dapr Python SDK 提供了 Databricks Lakeflow 集成 `dapr.ext.databricks`，它可以将 Lakeflow 流式管道输出的记录，转换为持久的 [Dapr Workflow]({{% ref python-workflow-ext %}}) 执行。
 
-外部副作用（冻结卡片、调用合作方 API、为人工审核开立案件）与数据管道内部的转换，在可靠性要求上有本质区别。与其直接把这类业务逻辑写进 Lakeflow 的 `foreach_batch_sink` 中，不如把记录交给一个 Dapr Workflow，由它独立继续执行，并在流式查询的生命周期之外，借助重试、定时器、人在回路等待以及崩溃恢复来完成这些操作。
+外部副作用（冻结卡片、调用合作方 API、为人工审核开立案件）与数据管道内部的转换，在可靠性要求上有本质区别。与其直接把这类业务逻辑写进 Lakeflow 的 `foreach_batch_sink` 中，不如把记录交给一个 Dapr Workflow，由它独立继续执行，并在流式查询的生命周期之外，借助重试、timer、人在回路等待以及崩溃恢复来完成这些操作。
 
 ```text
 Databricks Lakeflow
@@ -53,7 +53,7 @@ def order_actions_flow():
     return spark.readStream.table('validated_orders')
 ```
 
-对于标准场景，你无需手动编写，`register_workflow_sink` 会为你注册 `foreach_batch_sink`。每个工作流实例 ID 都由 `namespace`/`name`/`generation` 以及记录自身的业务键（`id_field`，绝不是随机 UUID）确定性地推导得出，因此 Lakeflow 对同一微批次的重试，绝不会为同一条记录再启动一次工作流执行。
+对于标准场景，你无需手动编写，`register_workflow_sink` 会为你注册 `foreach_batch_sink`。每个 workflow instance ID 都由 `namespace`/`name`/`generation` 以及记录自身的业务键（`id_field`，绝不是随机 UUID）确定性地推导得出，因此 Lakeflow 对同一微批次的重试，绝不会为同一条记录再启动一次 workflow 执行。
 
 ## 后续步骤
 

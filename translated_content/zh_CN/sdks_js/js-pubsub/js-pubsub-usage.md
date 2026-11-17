@@ -1,18 +1,18 @@
 ---
 type: docs
-title: "JavaScript 发布订阅的配置与用法"
+title: "JavaScript pub/sub 的配置与用法"
 linkTitle: "配置与用法"
 weight: 3400
-description: "配置发布订阅客户端的生命周期、端点、身份验证、序列化以及可靠的消息处理"
+description: "配置 pub/sub 客户端的生命周期、端点、身份验证、序列化以及可靠的消息处理"
 ---
 
-本指南介绍使用 `@dapr/dapr` 3.19.0 或更高版本进行发布订阅时的通用配置与运维指导。请参阅[概述]({{% ref js-pubsub %}})，以在服务端回调与流式订阅之间做出选择。
+本指南介绍使用 `@dapr/dapr` 3.19.0 或更高版本进行 pub/sub 时的通用配置与运维指导。请参阅[概述]({{% ref js-pubsub %}})，以在服务端回调与 streaming subscription 之间做出选择。
 
 ## 客户端生命周期
 
 应复用长期存活的 `DaprClient`，而不是为每条消息创建一个。关闭时，在调用 `await client.stop()` 之前，先等待所有未完成的操作结束。
 
-对于服务端订阅，使用 `await server.stop()` 停止应用的监听器。对于流式订阅，先关闭每个订阅，并等待其 `closed` Promise 完成，然后再停止客户端；`client.stop()` 不会关闭流。参见[流式生命周期指南]({{% ref "js-pubsub-streaming-howto.md#supervise-failures-and-shut-down" %}})。
+对于服务端订阅，使用 `await server.stop()` 停止应用的监听器。对于 streaming subscription，先关闭每个订阅，并等待其 `closed` Promise 完成，然后再停止客户端；`client.stop()` 不会关闭流。参见[流式生命周期指南]({{% ref "js-pubsub-streaming-howto.md#supervise-failures-and-shut-down" %}})。
 
 ## 端点与身份验证
 
@@ -35,8 +35,8 @@ const client = new DaprClient({
 
 | 设置项 | 行为 |
 | --- | --- |
-| `DAPR_HTTP_ENDPOINT` / `DAPR_GRPC_ENDPOINT` | 在省略显式的主机与端口设置时，提供所选协议的边车端点。 |
-| `DAPR_HTTP_PORT` / `DAPR_GRPC_PORT` | 在未另行配置时，提供边车端口；默认值分别为 `3500` 和 `50001`。 |
+| `DAPR_HTTP_ENDPOINT` / `DAPR_GRPC_ENDPOINT` | 在省略显式的主机与端口设置时，提供所选协议的 sidecar 端点。 |
+| `DAPR_HTTP_PORT` / `DAPR_GRPC_PORT` | 在未另行配置时，提供 sidecar 端口；默认值分别为 `3500` 和 `50001`。 |
 | `DAPR_API_TOKEN` | 在省略 `daprApiToken` 时，提供身份验证令牌。 |
 
 ## 自定义序列化
@@ -72,6 +72,6 @@ const customServer = new DaprServer({
 
 请在应用的错误边界内等待 SDK 操作完成。发布失败时的行为因传输方式而异，批量发布即使其 Promise 已解决，也可能部分失败；参见[发布错误处理]({{% ref "js-pubsub-publish-howto.md#publish-error-handling" %}})。
 
-订阅者应保证幂等，并在返回确认之前等待所有处理完成。Dapr 发布订阅提供至少一次投递的语义，因此已成功处理的消息仍可能被重新投递。应通过 Dapr 弹性策略和组件设置来配置重试，不要假设 SDK 会重试每一次失败。
+订阅者应保证幂等，并在返回确认之前等待所有处理完成。Dapr pub/sub 提供至少一次投递的语义，因此已成功处理的消息仍可能被重新投递。应通过 Dapr resiliency 策略和 component 设置来配置重试，不要假设 SDK 会重试每一次失败。
 
 关于各投递模式的具体行为，请参见[服务端确认与重试配置]({{% ref "js-pubsub-subscribe-howto.md#acknowledge-retry-or-drop" %}})和[流式失败的监督]({{% ref "js-pubsub-streaming-howto.md#supervise-failures-and-shut-down" %}})。

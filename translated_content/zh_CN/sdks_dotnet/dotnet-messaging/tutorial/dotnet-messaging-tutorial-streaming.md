@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "第 2 部分：声明式流式订阅"
-linkTitle: "第 2 部分：流式订阅"
+title: "第 2 部分：声明式 streaming subscription"
+linkTitle: "第 2 部分：streaming subscription"
 weight: 160200
-description: "通过应用发起的流式 gRPC 连接消费发布订阅事件"
+description: "通过应用发起的流式 gRPC 连接消费 pub/sub 事件"
 ---
 
-[流式示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging/02-Streaming)展示了针对固定主题推荐的声明式订阅模型。
+[流式示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Messaging/02-Streaming)展示了针对固定主题推荐的 declarative subscription 模型。
 
 ## 定义处理程序
 
@@ -36,7 +36,7 @@ public sealed class OrderProcessingHandler : ITopicHandler<OrderPlaced>
 }
 ```
 
-`Success` 确认消息，`Retry` 针对暂时性故障请求重新传递，`Drop` 则拒绝无效或有毒消息。处理程序还会接收 `TopicContext`，其中包含发布订阅名称、主题、消息 ID、标头和元数据。
+`Success` 确认消息，`Retry` 针对暂时性故障请求重新传递，`Drop` 则拒绝无效或有毒消息。处理程序还会接收 `TopicContext`，其中包含 pub/sub 名称、主题、消息 ID、标头和 metadata。
 
 ## 配置应用程序
 
@@ -44,13 +44,13 @@ public sealed class OrderProcessingHandler : ITopicHandler<OrderPlaced>
 builder.Services.AddDaprMessaging();
 ```
 
-源生成器会发现带有特性标注的处理程序，将它们注册到依赖注入（DI）容器中，并启动流式订阅者托管服务。流式订阅由应用发起，因此应用不需要为接收消息提供入站的 HTTP 或 gRPC 端点。SDK 负责管理流，并在连接断开时重新连接。
+源生成器会发现带有特性标注的处理程序，将它们注册到依赖注入（DI）容器中，并启动 streaming subscriber 托管服务。streaming subscription 由应用发起，因此应用不需要为接收消息提供入站的 HTTP 或 gRPC 端点。SDK 负责管理流，并在连接断开时重新连接。
 
 ## 测试处理程序与流
 
 单元测试使用模拟的日志记录器和一个简单的 `TopicContext` 构造处理程序，然后针对具有代表性的输入断言 `Success`、`Retry` 和 `Drop` 的结果。这样可以让校验与确认逻辑保持快速，并且不依赖基础设施。
 
-集成测试使用 `DaprTestApplicationBuilder`，并用测试工具提供的 gRPC 端点配置 `AddDaprMessaging`。它通过边车发布消息，并等待测试日志接收端中出现成功处理、库存处理以及丢弃无效订单的记录。这样既验证了托管服务与真实的流式投递，又无需应用的入站端口。
+集成测试使用 `DaprTestApplicationBuilder`，并用测试工具提供的 gRPC 端点配置 `AddDaprMessaging`。它通过 sidecar 发布消息，并等待测试日志接收端中出现成功处理、库存处理以及丢弃无效订单的记录。这样既验证了托管服务与真实的流式投递，又无需应用的入站端口。
 
 ```powershell
 dotnet test examples\Messaging\02-Streaming\Streaming.Example02.Tests\Streaming.Example02.Tests.csproj

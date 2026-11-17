@@ -35,7 +35,7 @@ public sealed class ExpressShippingHandler : ITopicHandler<ShipmentPackage>
 }
 ```
 
-该示例使用 `event.data.destinationCountry != 'US'` 添加了一条国际规则，并为标准国内运输添加了一个优先级为 10 的兜底处理程序。`DaprTopicMetadata` 会向生成的订阅清单中添加自定义键值数据。
+该示例使用 `event.data.destinationCountry != 'US'` 添加了一条国际规则，并为标准国内运输添加了一个优先级为 10 的兜底处理程序。`DaprTopicMetadata` 会向生成的订阅 manifest 中添加自定义键值数据。
 
 ## 处理死信主题
 
@@ -56,13 +56,13 @@ public sealed class DeadLetterShipmentHandler : ITopicHandler<ShipmentPackage>
 }
 ```
 
-根据组件配置，消息在处理程序返回 `Drop` 之后，或在重试投递耗尽之后，都可能进入死信主题。
+根据 component 配置，消息在处理程序返回 `Drop` 之后，或在重试投递耗尽之后，都可能进入死信主题。
 
 ## 测试路由决策
 
 单元测试直接调用每个处理程序，覆盖加急运输、无效重量、国际目的地、标准兜底和死信消息等场景。这些测试验证的是业务决策，并不假装在验证 CEL 求值。
 
-集成测试则应当针对真实的 Dapr 边车和 broker，验证生成的订阅清单、CEL 求值、优先级排序以及死信转发。
+集成测试则应当针对真实的 Dapr sidecar 和 broker，验证生成的订阅 manifest、CEL 求值、优先级排序以及死信转发。
 
 ```powershell
 dotnet test examples\Messaging\03-RoutingAndDeadLetter\Routing.Example03.Tests\Routing.Example03.Tests.csproj
