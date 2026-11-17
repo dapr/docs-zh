@@ -793,3 +793,18 @@
 {"ts":"2026-11-17T03:32:43.473Z","run":"20261117-0133","op":"add","id":"gradle","kind":"doNotTranslate","version":311,"doc":"sdks_java/_index.md"}
 {"ts":"2026-11-17T03:32:43.473Z","run":"20261117-0133","op":"add","id":"netty","kind":"doNotTranslate","version":311,"doc":"sdks_java/_index.md"}
 {"ts":"2026-11-17T03:32:43.473Z","run":"20261117-0133","op":"reject","id":"grpc","target":"gRPC","reason":"identifier: looks like a path, flag or code symbol","version":311,"doc":"sdks_java/_index.md"}
+{"ts":"2026-11-17T03:35:46.599Z","run":"20261117-0133","op":"add","id":"stable","target":"Stable（稳定）","version":312,"doc":"sdks_dotnet/dotnet-guidance/dotnet-guidance-experimental-attributes.md"}
+{"ts":"2026-11-17T03:36:25.566Z","run":"20261117-0133","op":"add","id":"keyspace-notifications","target":"键空间通知","version":313,"doc":"sdks_js/js-configuration/js-configuration-howto.md"}
+{"ts":"2026-11-17T03:38:47.495Z","run":"20261117-0133","op":"add","id":"micro-batch","target":"微批次","version":314,"doc":"sdks_python/python-sdk-extensions/python-databricks-ext/python-databricks.md"}
+{"ts":"2026-11-17T03:38:47.495Z","run":"20261117-0133","op":"add","id":"full-refresh","target":"全量刷新","version":314,"doc":"sdks_python/python-sdk-extensions/python-databricks-ext/python-databricks.md"}
+{"ts":"2026-11-17T03:43:50.006Z","run":"20261117-0133","op":"add","id":"mock-actor","kind":"doNotTranslate","version":315,"doc":"sdks_python/python-actor.md"}
+{"ts":"2026-11-17T03:49:21.426Z","run":"20261117-0133","op":"add","id":"strands","kind":"doNotTranslate","version":316,"doc":"sdks_python/_index.md"}
+{"ts":"2026-11-17T03:49:21.426Z","run":"20261117-0133","op":"add","id":"databricks","kind":"doNotTranslate","version":316,"doc":"sdks_python/_index.md"}
+{"ts":"2026-11-17T03:58:28.551Z","run":"20261117-0133","op":"add","id":"history-reader","target":"历史读取器","version":317,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-history-propagation.md"}
+{"ts":"2026-11-17T04:01:33.472Z","run":"20261117-0133","op":"add","id":"dapr-java-sdk","kind":"doNotTranslate","version":318,"doc":"sdks_java/java-client/properties.md"}
+{"ts":"2026-11-17T04:03:16.852Z","run":"20261117-0133","op":"reject","id":"version-selector","target":"版本选择器","reason":"not-in-source: the term does not occur in the document's prose","version":318,"doc":"sdks_dotnet/dotnet-workflow/dotnet-workflow-versioning.md"}
+{"ts":"2026-11-17T04:03:20.070Z","run":"20261117-0133","op":"add","id":"actor-registry","target":"Actor 注册表","version":319,"doc":"sdks_dotnet/dotnet-actors-next/_index.md"}
+{"ts":"2026-11-17T04:08:15.403Z","run":"20261117-0133","op":"add","id":"durabletask-java","kind":"doNotTranslate","version":320,"doc":"sdks_java/java-workflow/java-workflow-howto.md"}
+{"ts":"2026-11-17T04:08:15.885Z","run":"20261117-0133","op":"add","id":"spring-data","kind":"doNotTranslate","version":321,"doc":"sdks_java/spring-boot/_index.md"}
+{"ts":"2026-11-17T04:08:15.885Z","run":"20261117-0133","op":"add","id":"spring-messaging","kind":"doNotTranslate","version":321,"doc":"sdks_java/spring-boot/_index.md"}
+{"ts":"2026-11-17T04:08:15.885Z","run":"20261117-0133","op":"add","id":"statestore","kind":"doNotTranslate","version":321,"doc":"sdks_java/spring-boot/_index.md"}

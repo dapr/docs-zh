@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 311,
-  "updatedAt": "2026-11-17T03:32:43.473Z",
+  "version": 321,
+  "updatedAt": "2026-11-17T04:08:15.885Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -2270,6 +2270,54 @@
       "note": "网络框架名称，保留原文。",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "Mock Actor",
+      "note": "Dapr Python SDK 的 Mock Actor 测试功能名,保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Strands",
+      "note": "Strands 智能体会话管理中的产品名，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Databricks",
+      "note": "Databricks Lakeflow 所属平台名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Dapr Java SDK",
+      "note": "Dapr Java SDK 产品名称,保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "durabletask-java",
+      "note": "durabletask-java 库名称，保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Spring Data",
+      "note": "Spring 框架子项目名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Spring Messaging",
+      "note": "Spring 框架子项目名称，保留原文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Statestore",
+      "note": "Dapr 状态存储组件的英文写法，保留英文",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
@@ -2486,6 +2534,26 @@
       "lastSeen": {
         "doc": "docs/reference/cli/dapr-init.md",
         "run": "20261116-1934"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "actor-registry",
+      "source": "actor registry",
+      "target": "Actor 注册表",
+      "alt": [],
+      "note": "源生成器生成的、描述每个 Actor 及其方法签名的注册表",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/_index.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-actors-next/_index.md",
+        "run": "20261117-0133"
       },
       "conflicts": []
     },
@@ -5380,6 +5448,26 @@
       "conflicts": []
     },
     {
+      "id": "full-refresh",
+      "source": "full refresh",
+      "target": "全量刷新",
+      "alt": [],
+      "note": "Lakeflow 管道的全量刷新，影响业务操作的重放",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_python/python-sdk-extensions/python-databricks-ext/python-databricks.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "sdks_python/python-sdk-extensions/python-databricks-ext/python-databricks.md",
+        "run": "20261117-0133"
+      },
+      "conflicts": []
+    },
+    {
       "id": "full-text-search",
       "source": "Full-text search",
       "target": "全文搜索",
@@ -5722,6 +5810,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-overview.md",
         "run": "20261116-1828"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "history-reader",
+      "source": "history reader",
+      "target": "历史读取器",
+      "alt": [],
+      "note": "SDK 公开的历史读取器概念（文中指活动上不存在的读取器）",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-history-propagation.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-workflow/dotnet-workflow-history-propagation.md",
+        "run": "20261117-0133"
       },
       "conflicts": []
     },
@@ -6402,6 +6510,26 @@
       "conflicts": []
     },
     {
+      "id": "keyspace-notifications",
+      "source": "keyspace notifications",
+      "target": "键空间通知",
+      "alt": [],
+      "note": "Redis 键空间通知（keyspace notifications）的译法",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_js/js-configuration/js-configuration-howto.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "sdks_js/js-configuration/js-configuration-howto.md",
+        "run": "20261117-0133"
+      },
+      "conflicts": []
+    },
+    {
       "id": "kube-api-server",
       "source": "kube api server",
       "target": "kube api server",
@@ -6894,6 +7022,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/vector/howto-vector.md",
         "run": "20261116-2040"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "micro-batch",
+      "source": "micro-batch",
+      "target": "微批次",
+      "alt": [],
+      "note": "Databricks Lakeflow 流式处理的微批次",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_python/python-sdk-extensions/python-databricks-ext/python-databricks.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "sdks_python/python-sdk-extensions/python-databricks-ext/python-databricks.md",
+        "run": "20261117-0133"
       },
       "conflicts": []
     },
@@ -9658,6 +9806,26 @@
       "lastSeen": {
         "doc": "docs/developing-applications/building-blocks/workflow/workflow-history-signing.md",
         "run": "20261115-1506"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "stable",
+      "source": "Stable",
+      "target": "Stable（稳定）",
+      "alt": [],
+      "note": "Dapr API 生命周期阶段名称，与 alpha、beta 同类；译文中作为阶段名出现",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-guidance/dotnet-guidance-experimental-attributes.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-guidance/dotnet-guidance-experimental-attributes.md",
+        "run": "20261117-0133"
       },
       "conflicts": []
     },
