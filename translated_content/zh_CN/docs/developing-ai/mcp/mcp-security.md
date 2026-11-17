@@ -3,7 +3,7 @@ type: docs
 title: "MCP 安全与信任态势"
 linkTitle: "安全态势"
 weight: 20
-description: "Dapr 如何为跨代理与 MCP 服务器的交互实施代理身份、授权和可审计性，以及哪些内容仍由你负责"
+description: "Dapr 如何为跨代理与 MCP 服务器的交互实施 Agent Identity、授权和可审计性，以及哪些内容仍由你负责"
 ---
 
 在生产环境中运行代理会引出三个问题，Dapr 正是为回答这些问题而设计的：
@@ -42,7 +42,7 @@ Dapr 的默认设置倾向于拒绝而非放行。以下各项都无需你“开
 | **越狱** | 提示词诱使 LLM 尝试未授权的操作。 | LLM 的决策发生在平台之前，Dapr 的授权检查则在之后执行。即使被越狱的 LLM 尝试访问被禁止的 MCP 服务器，也会在 MCP 服务器上的任何代码运行之前，被 `accessControl` 拒绝（或被 bearer middleware 以 `401` 拒绝）。 |
 | **“代理是谁？”** | 下游服务无法确认某个调用来自哪个代理。 | 每一次跳转都会验证 SPIFFE 工作负载身份。MCP 服务器（如果它作为 Dapr 应用运行）或 MCP 服务器调用的任何下游服务，都可以从 mTLS 连接或已验证 JWT 的声明中读取调用方身份。 |
 | **secret sprawl** | API 密钥出现在日志、提示词或下游代理调用中。 | bearer 或 OAuth2 middleware 使用的凭据会在请求时从 secret store 中解析，代理代码永远看不到。SPIFFE SVID 有效期很短，并由 Sentry 自动轮换。 |
-| **缺乏溯源** | 没有可验证的记录能证明谁做了什么。 | 每一次 service invocation 都会被 Dapr 的[可观测性管道]({{% ref observability-concept %}})记录，包括日志、指标和追踪，并通过 OpenTelemetry 发送到你的接收端。 |
+| **缺乏溯源** | 没有可验证的记录能证明谁做了什么。 | 每一次 service invocation 都会被 Dapr 的[observability 管道]({{% ref observability-concept %}})记录，包括日志、指标和追踪，并通过 OpenTelemetry 发送到你的接收端。 |
 
 ## 仍由你负责的部分
 
@@ -50,7 +50,7 @@ Dapr 将信任边界划定在平台的表面。某些风险则位于这一边界
 
 - **提示词注入与 LLM 层攻击。** 无论 LLM 做了什么，Dapr 都会在 service invocation 边界强制执行授权，但它不检查提示词内容。针对提示词注入的防御（内容过滤、允许列表、输出校验）应当置于代理在 LLM 调用之前和之后的层中。
 - **MCP 服务器本身的安全性。** 当你连接第三方 MCP 服务器（如 GitHub、Stripe 或内部工具）时，Dapr 保护的是*连接*，而不是*服务器*。应像对待其他依赖项一样审查第三方 MCP 服务器。
-- **审计接收端的持久性与完整性。** Dapr 将可观测性数据输出到你的接收端；这些记录的长期持久性和防篡改能力，取决于你所写入的接收端（如 SIEM、日志仓库、不可变存储桶）。应选择其保留与完整性保障能够满足你合规义务的接收端。
+- **审计接收端的持久性与完整性。** Dapr 将 observability 数据输出到你的接收端；这些记录的长期持久性和防篡改能力，取决于你所写入的接收端（如 SIEM、日志仓库、不可变存储桶）。应选择其保留与完整性保障能够满足你合规义务的接收端。
 - **service invocation 层的工具级粒度。** 目前 `accessControl` 以调用方 App ID 和目标 App ID 为键。如果一个 MCP 服务器同时提供低风险和高风险工具，而你只想授权其中一部分，那么要么把这些工具拆分到不同的 MCP 服务器中（每个服务器一个 App ID），使策略边界与信任边界一致；要么使用 [`MCPServer` 资源]({{% ref mcp-server-resource.md %}}) 的 middleware 钩子实现参数级 RBAC。
 
 ## 一段话说明身份模型

@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "Dapr MCP server observability"
-linkTitle: "可观测性"
+linkTitle: "observability"
 weight: 50
 description: "Dapr MCP 服务器通过 OpenTelemetry 导出的跟踪、指标和日志，以及它的健康检查端点"
 ---
@@ -29,7 +29,7 @@ dapr run --app-id dapr-mcp-server --resources-path ./components -- dapr-mcp-serv
 服务器会创建以下跨度：
 
 - **每个 HTTP 请求对应一个服务端跨度**，以请求方法和路由命名，例如 `POST /`。如果请求携带 W3C `traceparent` 标头，它会延续调用方的跟踪。
-- **每次工具调用对应一个跨度**，以工具名称命名，例如 `save_state`。它带有属性 `mcp.tool.name` 和 `mcp.tool.package`；如果工具以某个 component 为目标，还会带有 `dapr.component.name`；此外还包含状态键或主题等细节。失败的调用会被标记为错误状态。
+- **每次工具调用对应一个跨度**，以工具名称命名，例如 `save_state`。它带有属性 `mcp.tool.name` 和 `mcp.tool.package`；如果工具以某个 component 为目标，还会带有 `dapr.component.name`；此外还包含状态键或 topic 等细节。失败的调用会被标记为错误状态。
 
 每次 gRPC 调用都会将工具跨度的跟踪上下文传递给 Dapr sidecar，因此当 [Dapr 跟踪]({{% ref tracing-overview.md %}}) 导出到同一个后端时，来自 sidecar 以及它所调用的任何应用的跨度都会加入同一条跟踪。
 

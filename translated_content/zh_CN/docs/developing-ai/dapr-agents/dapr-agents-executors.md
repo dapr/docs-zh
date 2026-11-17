@@ -34,7 +34,7 @@ aliases:
 | `message` | 一条完整的助手消息 | 将其添加到代理的消息历史中 |
 | `tool_call` | `{id, name, arguments}` | 记录到工具历史中 |
 | `tool_result` | `{tool_call_id, result}` | 将结果记录到匹配的调用上 |
-| `session` | 来自执行器的检查点 | 保存 workflow 状态，包括 `session_id` |
+| `session` | 来自执行器的 checkpoint | 保存 workflow 状态，包括 `session_id` |
 | `complete` | 最终的助手消息 | 结束运行，并将该消息作为结果返回 |
 | `error` | 错误消息 | 以 `AgentError` 使运行失败 |
 | `paused` | 等待审批的工具调用 | 发起人工审批，然后恢复运行（参见[人工审批](#工具调用的人工审批)） |
@@ -394,7 +394,7 @@ async def run_with_approval(executor, task: str) -> AgentEvent:
 
 当 `include_partial_messages=True`（默认值）时，执行器会在 Claude 输出时发出 `text_delta` 事件。当代理以流式方式运行时，`DurableAgent` 会将每个增量发布到该次运行的流中，其方式与流式 LLM 客户端相同。可使用 `AgentRunner.run_stream(...)`，或配合流监听器使用 `AgentExecutionConfig(streaming=True)` 来读取它。思考文本和子代理的输出不会被流式传输。
 
-### 可观测性
+### observability
 
 执行器的运行与由 LLM 驱动的代理一样，通过 Dapr Agents 的 OpenTelemetry 插桩进行追踪。每个 `run_executor` activity 都会获得一个 `invoke_agent {agent}` 跨度，并且执行器每报告一次工具调用，就会有一个 `execute_tool {tool}` 子跨度。跨度携带 OpenInference 和 GenAI 属性：代理名称、`session.id`、token 用量、模型，以及 `executor.cost_usd`、`executor.session_total_cost_usd`、`executor.num_turns` 和 `executor.stop_reason`。出错时会设置 `error.type`。等待审批的工具调用会以 `tool.completed=false` 结束其跨度。
 
@@ -419,7 +419,7 @@ async def run_with_approval(executor, task: str) -> AgentEvent:
 
 ## 限制
 
-- **工具在一个 activity 中运行。**执行器、它的工具以及它的 MCP 调用都在同一个 `run_executor` activity 内运行。Dapr Workflow 不会为每次工具调用设置检查点，activity 的重试策略适用于整个运行，而不是每个工具。
+- **工具在一个 activity 中运行。**执行器、它的工具以及它的 MCP 调用都在同一个 `run_executor` activity 内运行。Dapr Workflow 不会为每次工具调用设置检查点，activity 的 retry policy 适用于整个运行，而不是每个工具。
 - **至少一次执行。**与任何 workflow activity 一样，`run_executor` 可能会运行不止一次，例如在一次运行期间 Pod 发生故障时。此时工具可能会再次运行。被重试的尝试会恢复失败尝试所保存的会话，并再次发送任务，因此 Claude 会看到两次任务。对于有副作用的工具，请使其具备[幂等性]({{% ref "workflow-features-concepts.md#workflow-activities" %}})，或将其置于审批之后。若一次在恢复后被重试的运行已经结束，则不会再次启动任务：执行器会从已保存的转录中返回最终答案。若先前的尝试在已批准的工具运行之后、Claude 作答之前停止，则重试会从工具结果处继续该会话。对于每次尝试都会重复出现的失败（例如达到 `max_turns` 或 `max_budget_usd`、提示词过长或身份验证错误），workflow 会立即失败，而不是重试。
 - **长时间运行会使 activity 保持打开。**一次 Claude 运行可能需要数分钟。设置 activity 的重试和超时策略时应考虑这一点。等待审批不会使 activity 保持打开。
 - **安装包大小与平台。**SDK 的 wheel 包含 Claude Code CLI（约 100 MB），并且没有适用于 musl Linux 的 wheel。参见[安装](#安装)。

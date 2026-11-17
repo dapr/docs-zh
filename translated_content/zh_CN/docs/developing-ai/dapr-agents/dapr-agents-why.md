@@ -31,7 +31,7 @@ Dapr Agents 的设计理念是将由 LLM 驱动的代理置于任务执行和工
 
 * **LLM 驱动的代理**：Dapr Agents 支持创建能够利用 LLM 进行推理、动态决策和自然语言交互的代理。
 * **自适应任务处理**：Dapr Agents 中的代理配备了灵活的模式，如工具调用和推理循环（例如 ReAct），使它们能够自主处理复杂且不断变化的任务。
-* **多代理系统**：Dapr Agents 的框架允许代理作为模块化、可复用的 building blocks，无缝集成到 workflow 中，无论它们是独立运行还是协作运行。
+* **Multi-Agent Systems**：Dapr Agents 的框架允许代理作为模块化、可复用的 building blocks，无缝集成到 workflow 中，无论它们是独立运行还是协作运行。
 
 虽然 Dapr Agents 以代理为中心，但它也认识到，在确定性 workflow 或更简单的任务序列中直接使用 LLM 同样有其价值。当代理内置的任务处理模式（如 `tool calling` 或 `ReAct` 循环）并非必需时，LLM 可以作为推理和决策的核心组件。这种灵活性确保你可以根据不同需求调整 Dapr Agents，而不局限于单一方法。
 
@@ -125,7 +125,7 @@ Dapr Agents 提供 AI 功能，为开发者提供完整的 API 表面来解决�
 ### 内置的消息传递和状态基础设施
 
 - **Service-to-Service Invocation**：通过内置的服务发现、错误处理和分布式追踪，实现代理之间的直接通信。代理可以在多代理 workflow 中将其用于同步消息传递。
-- **发布和订阅**：通过共享消息总线支持代理之间的松散耦合协作。这实现了用于任务分发和协调的实时、事件驱动交互。
+- **发布和订阅**：通过共享 message bus 支持代理之间的松散耦合协作。这实现了用于任务分发和协调的实时、事件驱动交互。
 - **Durable Workflow**：定义长时间运行的持久 workflow，将确定性流程与基于 LLM 的决策相结合。Dapr Agents 使用它来编排复杂的多步骤代理式 workflow。
 - **State Management**：提供灵活的键值存储，使代理能够在多次交互之间保留上下文，确保 workflow 过程中的连续性与适应性。
 - **LLM 集成**：使用 Dapr [Conversation API]({{% ref conversation-overview.md %}}) 抽象 LLM 推理 API，以实现聊天补全，并为嵌入向量和音频处理等其他 LLM 集成提供原生客户端。

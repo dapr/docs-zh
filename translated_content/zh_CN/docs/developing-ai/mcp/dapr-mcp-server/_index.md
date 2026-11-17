@@ -39,7 +39,7 @@ Dapr MCP 服务器（[`dapr/dapr-mcp-server`](https://github.com/dapr/dapr-mcp-s
 
 工具跟随 sidecar 中已加载的 component 变化，无需重启。当[component 热重载]({{% ref "component-updates.md#hot-reloading" %}})新增某类型的第一个 component（例如第一个 pub/sub component）时，服务器会在客户端下一次列出工具或调用 `get_components` 时注册该类型的工具，并通知已连接的客户端工具列表已变更。删除某类型的最后一个 component 时，该类型的工具也会随之移除。只读取一次工具列表的客户端（许多代理框架都是如此）需要重新连接，才能看到这些变化。
 
-每个工具都带有 MCP 安全注解（`readOnlyHint`、`destructiveHint`、`idempotentHint`），以及告诉模型何时使用该工具的描述。服务器的指令会告诉模型先调用 `get_components`，并且绝不要编造 component 名称、键或主题。
+每个工具都带有 MCP 安全注解（`readOnlyHint`、`destructiveHint`、`idempotentHint`），以及告诉模型何时使用该工具的描述。服务器的指令会告诉模型先调用 `get_components`，并且绝不要编造 component 名称、键或 topics。
 
 ## 安全注意事项
 
@@ -55,5 +55,5 @@ Dapr MCP 服务器（[`dapr/dapr-mcp-server`](https://github.com/dapr/dapr-mcp-s
 - [配置参考]({{% ref dapr-mcp-server-configuration.md %}})：所有标志和环境变量
 - [身份验证]({{% ref dapr-mcp-server-authentication.md %}})：OIDC、SPIFFE、Dapr Sentry 和混合模式
 - [工具参考]({{% ref dapr-mcp-server-tool-reference.md %}})：每个工具、其输入及其安全属性
-- [可观测性]({{% ref dapr-mcp-server-observability.md %}})：追踪、指标、日志和健康检查端点
+- [observability]({{% ref dapr-mcp-server-observability.md %}})：追踪、指标、日志和健康检查端点
 - [Quickstarts](https://github.com/dapr/quickstarts/tree/master/dapr-mcp-server)：使用 LangGraph、Dapr Agents 和 OpenAI Agents SDK 的代理示例，这些代理通过 MCP 客户端或 [`MCPServer` 资源]({{% ref mcp-server-resource.md %}})使用 Dapr MCP 服务器

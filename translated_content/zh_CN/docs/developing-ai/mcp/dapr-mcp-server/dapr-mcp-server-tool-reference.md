@@ -132,12 +132,12 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 
 ### publish_event
 
-向[pub/sub]({{% ref pubsub-overview.md %}}) component 上的主题发布一条消息。
+向[pub/sub]({{% ref pubsub-overview.md %}}) component 上的 topic 发布一条消息。
 
 | 输入 | 必填 | 说明 |
 |---|---|---|
 | `pubsubName` | 是 | pub/sub component 名称。 |
-| `topic` | 是 | 要发布到的主题。 |
+| `topic` | 是 | 要发布到的 topic。 |
 | `message` | 是 | 消息负载，通常为 JSON。 |
 | `contentType` | 否 | `message` 的内容类型。若 `message` 是有效的 JSON，默认为 `application/json`，否则为 `text/plain`。 |
 
@@ -148,7 +148,7 @@ Dapr MCP 服务器公开了 17 个工具。其中三个始终注册。其余工�
 | 输入 | 必填 | 说明 |
 |---|---|---|
 | `pubsubName` | 是 | pub/sub component 名称。 |
-| `topic` | 是 | 要发布到的主题。 |
+| `topic` | 是 | 要发布到的 topic。 |
 | `message` | 是 | 消息负载，通常为 JSON。 |
 | `contentType` | 否 | `message` 的内容类型。 |
 | `metadata` | 否 | 发布 metadata，例如 `{"ttlInSeconds": "60"}`。 |

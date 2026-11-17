@@ -177,7 +177,7 @@ agent = DurableAgent(
 )
 ```
 
-设置了 `pubsub_name` 时，代理会向该主题发布一个 `ApprovalRequiredEvent`，并等待回复的 `ApprovalResponseEvent`。
+设置了 `pubsub_name` 时，代理会向该 topic 发布一个 `ApprovalRequiredEvent`，并等待回复的 `ApprovalResponseEvent`。
 
 当 `pubsub_name` 为 `None` 且代理通过 `AgentRunner.serve()` 对外提供服务时，审批请求在内存中管理，并通过两个自动挂载的 HTTP 端点对外暴露：
 

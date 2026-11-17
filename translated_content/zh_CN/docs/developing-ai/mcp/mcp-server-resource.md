@@ -8,12 +8,12 @@ description: "将 MCP 服务器连接声明为一等 Dapr 资源，以实现持�
 
 ## 概述
 
-`MCPServer` 资源允许你将 MCP（模型上下文协议）服务器连接声明为一等 Dapr 资源。当 daprd 加载 MCPServer 时，它会发现服务器的工具，并为每个工具注册一个内置的持久 workflow 编排。调用工具随即变成“启动 workflow”——Dapr 会为你处理连接、重试、凭据、可观测性和崩溃恢复。你的应用无需导入 MCP SDK，也无需持有长期存在的 MCP 连接。
+`MCPServer` 资源允许你将 MCP（模型上下文协议）服务器连接声明为一等 Dapr 资源。当 daprd 加载 MCPServer 时，它会发现服务器的工具，并为每个工具注册一个内置的持久 workflow 编排。调用工具随即变成“启动 workflow”——Dapr 会为你处理连接、重试、凭据、observability 和崩溃恢复。你的应用无需导入 MCP SDK，也无需持有长期存在的 MCP 连接。
 
 {{% alert title="何时使用此方式" color="primary" %}}
 `MCPServer` 资源**不是 Dapr 中默认的 MCP 集成方式**——大多数团队应从 [service invocation 方式]({{% ref mcp-service-invocation.md %}}) 开始，这种方式不会改变现有的 MCP 客户端和代理框架。
 
-当你明确需要参数级 RBAC、审计、脱敏、在调用中途 sidecar 重启后仍能继续的持久重试，或按工具细分的可观测性时，`MCPServer` 是合适的选择。作为代价，你需要采用 [Dapr Workflow]({{% ref workflow-overview %}}) 客户端来调用工具——现成的 MCP 客户端无法驱动由 `MCPServer` 支撑的工具调用。
+当你明确需要参数级 RBAC、审计、脱敏、在调用中途 sidecar 重启后仍能继续的持久重试，或按工具细分的 observability 时，`MCPServer` 是合适的选择。作为代价，你需要采用 [Dapr Workflow]({{% ref workflow-overview %}}) 客户端来调用工具——现成的 MCP 客户端无法驱动由 `MCPServer` 支撑的工具调用。
 {{% /alert %}}
 
 ## 在 `MCPServer` 与 service invocation 方式之间选择
@@ -26,7 +26,7 @@ Dapr 为 MCP 提供两种集成方式。[service invocation 方式]({{% ref mcp-
 | 想要适用于任何框架的最简单设置 | **[service invocation 方式]({{% ref mcp-service-invocation.md %}})** |
 | 需要按工具实施参数级 RBAC、审计或脱敏钩子 | **`MCPServer` 资源**（本页） |
 | 需要在调用中途 sidecar 重启后仍能继续的持久重试 | **`MCPServer` 资源**（本页） |
-| 希望按工具细分可观测性（每个工具一个 workflow） | **`MCPServer` 资源**（本页） |
+| 希望按工具细分 observability（每个工具一个 workflow） | **`MCPServer` 资源**（本页） |
 
 这两种方式并不互斥——大多数 MCP 流量可以经由 service invocation 传输，而当某些服务器的策略需要感知参数，或你希望 MCP 交互具备持久性时，可以将这些特定服务器切换到 `MCPServer` 资源。
 
@@ -38,7 +38,7 @@ MCPServer 将 MCP 集成从应用代码层面的关注点，转变为部署时�
 - **在 YAML 中配置按工具的 RBAC、审计和脱敏。** 保序的 `beforeCallTool` / `afterCallTool` / `beforeListTools` / `afterListTools` 钩子会以 Dapr workflow 的形式运行参数级授权、速率限制、PII 脱敏、审计日志和响应过滤。在钩子上设置 `appID`，即可将其路由到集中式策略应用，由一个共享的 RBAC 服务统一管理所有代理，而无需每个应用各自嵌入策略。
 - **持久执行。** 工具调用作为 workflow activity 运行，并由 Dapr Scheduler reminder 支撑。如果 daprd 在调用中途重启，Scheduler 会将该 activity 重新投递给新实例，调用随即完成——代理无需自行实现重试或恢复逻辑。在单个 activity 内部，短暂的连接中断会被自动吸收：Dapr 为每个 MCPServer 保持一个带 keep-alive ping 的预热会话，并在遇到 `ErrConnectionClosed` 时重连一次，因此 workflow 永远不会感知到这次波动。
 - **为调用方提供快速反馈。** 必填字段校验会在联系 MCP 服务器之前，针对缓存的 JSON Schema 执行。缺失的参数会立即以结构化的 `mcp.CallToolResult{isError: true}` 返回——代理和大型语言模型 (LLM) 无需消耗一次网络往返，即可获得可操作的错误信息。
-- **按工具的可观测性。** 每个工具都有自己的 workflow 名称（`dapr.internal.mcp.<server>.CallTool.<tool>`），因此追踪、指标和审计日志开箱即按工具细分。你可以准确看到哪个工具被调用、由谁调用、使用了什么参数，以及返回了什么。
+- **按工具的 observability。** 每个工具都有自己的 workflow 名称（`dapr.internal.mcp.<server>.CallTool.<tool>`），因此追踪、指标和审计日志开箱即按工具细分。你可以准确看到哪个工具被调用、由谁调用、使用了什么参数，以及返回了什么。
 - **声明式身份验证。** OAuth2 客户端凭据、SPIFFE 工作负载身份和静态标头认证，全部在 YAML 中配置。Dapr 负责获取和刷新令牌、为每个 MCPServer 缓存 HTTP 客户端，且从不向你的应用暴露原始凭据。
 - **作用域与多租户。** MCPServer 与其他 Dapr 资源一样具有命名空间，并受 `scopes` 限制。一个 MCP 服务器可以在不同访问策略下被多个应用共享。
 - **热重载。** 可在运行时添加、删除或修改 MCPServer 资源，Dapr 会重新加载它们，无需重启 sidecar。
@@ -47,7 +47,7 @@ MCPServer 将 MCP 集成从应用代码层面的关注点，转变为部署时�
 |---|---|
 | 应用自行管理 MCP 连接、重试和凭据 | 声明 YAML，其余交给 Dapr 处理 |
 | sidecar 在调用中途崩溃 = 调用丢失 | Scheduler reminder 重新投递 activity，workflow 恢复执行 |
-| 按工具的追踪/指标需要自定义插桩 | 每个工具一个 workflow——内置的可观测性细分 |
+| 按工具的追踪/指标需要自定义插桩 | 每个工具一个 workflow——内置的 observability 细分 |
 | 每个应用都硬编码自己的 MCP 连接逻辑 | 单个资源，通过 `scopes` 在应用间共享 |
 | 工具调用的 RBAC 与审计逻辑嵌入在代理代码中 | 在 YAML 中为每个 MCPServer 声明，以持久 workflow 强制执行，并可通过 `appID` 集中管理 |
 
@@ -314,7 +314,7 @@ workflow rbac-check(input):
 
 - **使用 `mutate: false`**，因为该钩子只决定允许或拒绝，它从不重塑参数。（若要做 PII 脱敏，应改为 `mutate: true` 并返回清理后的 `arguments`。）
 - **使用 `beforeCallTool`**，因为拒绝操作应在 MCP 服务器看到请求之前完成。等效的 `afterCallTool` 钩子同样可以拦截（后置钩子出错会使 workflow 失败），但此时你已为上游调用付出了代价。
-- **基于调用方的 RBAC（“谁可以调用哪个工具”）应在[策略层](#可观测性和访问控制)实现，而不是放在钩子中**，因为钩子的输入不包含调用方的 appID。
+- **基于调用方的 RBAC（“谁可以调用哪个工具”）应在[策略层](#observability-和访问控制)实现，而不是放在钩子中**，因为钩子的输入不包含调用方的 appID。
 
 ### 示例：审计日志
 
@@ -379,7 +379,7 @@ spec:
 
 每种模式都是一个 workflow，其输入/输出形状遵循上文[钩子输入形状](#钩子输入形状)中的规定。完整的 middleware 字段参考，请参阅 [MCPServer 规范]({{% ref mcpserver-schema %}})。
 
-## 可观测性和访问控制
+## observability 和访问控制
 
 由于每个 MCP 工具都有自己的 workflow 名称（`dapr.internal.mcp.<server>.CallTool.<tool>`），所有标准的 Dapr Workflow 遥测面（实例状态、追踪、指标）都会自动按工具细分，无需自定义插桩。运维人员可以以 workflow 名称作为细分维度，构建按工具划分的仪表板或告警。
 
@@ -391,13 +391,13 @@ spec:
 
 ## 部署拓扑
 
-Dapr Workflow 的跨应用路由意味着 MCPServer 的 workflow 不必与调用代理位于同一个 daprd 上，其宿主位置由 workflow actor 的 appID 决定。这使以下三种模式成为可能：
+Dapr Workflow 的跨应用 Routing 意味着 MCPServer 的 workflow 不必与调用代理位于同一个 daprd 上，其宿主位置由 workflow actor 的 appID 决定。这使以下三种模式成为可能：
 
 - **MCP 网关**：由一个专用的 daprd 应用加载多个 MCPServer 资源（payments、github、内部工具等）。所有代理应用都在该网关上调用 MCP workflow。凭据、出口流量和策略集中管理，只需在一处轮换 secrets。可与 `WorkflowAccessPolicy` 结合使用，以控制哪些代理可以访问哪些工具。
 - **一对一**：每个代理应用只加载它所需的 MCPServer。租户隔离最严格，也不存在跨应用依赖。最适合各团队端到端负责自身 MCP 集成的场景。
 - **混合**：部分 MCPServer 位于共享网关（公共基础设施）上，部分位于各个应用中（特定租户）。使用 `WorkflowAccessPolicy` 按应用控制对网关工具的访问。
 
-`MCPServer` 本身不为此增加任何功能，这依赖的是现有的 Dapr Workflow 跨应用路由。结论是：选择符合你的治理与隔离模型的拓扑即可，使用 `MCPServer` 并不要求把所有内容都集中到同一个 daprd 上。
+`MCPServer` 本身不为此增加任何功能，这依赖的是现有的 Dapr Workflow 跨应用 Routing。结论是：选择符合你的治理与隔离模型的拓扑即可，使用 `MCPServer` 并不要求把所有内容都集中到同一个 daprd 上。
 
 ## 应用作用域
 

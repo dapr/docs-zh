@@ -8,7 +8,7 @@ aliases:
   - /zh-hans/developing-applications/dapr-agents/dapr-agents-quickstarts
 ---
 
-[Dapr Agents quickstarts](https://github.com/dapr/dapr-agents/tree/main/quickstarts) 展示了如何使用 Dapr Agents 构建基于大型语言模型 (LLM) 的自主代理和事件驱动 workflow 应用程序。quickstarts 是一套循序渐进的完整教程，从基本的 LLM 调用开始，逐步构建到 Durable Agent、workflow、多代理编排和 observability。
+[Dapr Agents quickstarts](https://github.com/dapr/dapr-agents/tree/main/quickstarts) 展示了如何使用 Dapr Agents 构建基于大型语言模型 (LLM) 的自主代理和事件驱动 workflow 应用程序。quickstarts 是一套循序渐进的完整教程，从基本的 LLM 调用开始，逐步构建到 Durable Agent、workflow、多 agent orchestration 和 observability。
 
 #### 开始之前
 
@@ -45,11 +45,11 @@ aliases:
 | [LLM 调用 – OpenAI Client](https://github.com/dapr/dapr-agents/tree/main/examples/01-llm-call-open-ai) | 使用原生 OpenAI 客户端实现聊天完成、结构化输出、音频和嵌入向量。*同样适用于 [ElevenLabs](https://github.com/dapr/dapr-agents/tree/main/examples/01-llm-call-elevenlabs)、[Hugging Face](https://github.com/dapr/dapr-agents/tree/main/examples/01-llm-call-hugging-face) 和 [NVIDIA](https://github.com/dapr/dapr-agents/tree/main/examples/01-llm-call-nvidia)。* |
 | [独立代理工具调用](https://github.com/dapr/dapr-agents/tree/main/examples/02-standalone-agent-tool-call) | 使用 `DurableAgent` 配合 `AgentRunner.run` 构建带工具的对话代理 |
 | [Durable Agent 工具调用](https://github.com/dapr/dapr-agents/tree/main/examples/02-durable-agent-tool-call) | 使用 `AgentRunner.run/subscribe/serve` 升级为由 workflow 支持的 Durable Agent |
-| [基于 LLM 的 workflows](https://github.com/dapr/dapr-agents/tree/main/examples/03-llm-based-workflows) | 使用 LLM 活动的确定性多步骤 workflows（链式调用、并行化、路由） |
+| [基于 LLM 的 workflows](https://github.com/dapr/dapr-agents/tree/main/examples/03-llm-based-workflows) | 使用 LLM 活动的确定性多步骤 workflows（链式调用、Parallelization、Routing） |
 | [基于代理的 workflows](https://github.com/dapr/dapr-agents/tree/main/examples/03-agent-based-workflows) | 在 Dapr Workflow 内编排代理活动 |
-| [消息路由器 workflow](https://github.com/dapr/dapr-agents/tree/main/examples/03-message-router-workflow) | 使用 `@message_router` 将 workflow 绑定到 Dapr pub/sub 主题 |
-| [多代理 workflows](https://github.com/dapr/dapr-agents/tree/main/examples/04-multi-agent-workflows) | 以指环王为主题的事件驱动多代理系统，支持 LLM、随机和轮询编排策略 |
-| [Kubernetes 上的多代理 workflows](https://github.com/dapr/dapr-agents/tree/main/examples/04-multi-agent-workflow-k8s) | 在 Kubernetes 中部署和编排多代理系统 |
+| [消息路由器 workflow](https://github.com/dapr/dapr-agents/tree/main/examples/03-message-router-workflow) | 使用 `@message_router` 将 workflow 绑定到 Dapr pub/sub topic |
+| [多代理 workflows](https://github.com/dapr/dapr-agents/tree/main/examples/04-multi-agent-workflows) | 以指环王为主题的事件驱动 Multi-Agent Systems，支持 LLM、随机和轮询编排策略 |
+| [Kubernetes 上的多代理 workflows](https://github.com/dapr/dapr-agents/tree/main/examples/04-multi-agent-workflow-k8s) | 在 Kubernetes 中部署和编排 Multi-Agent Systems |
 | [使用 Chainlit 的文档代理](https://github.com/dapr/dapr-agents/tree/main/examples/05-document-agent-chainlit) | 可对话的代理，能够上传并学习非结构化文档，并具备长期记忆 |
 | [MCP 客户端 – SSE](https://github.com/dapr/dapr-agents/tree/main/examples/06-agent-mcp-client-sse) | 通过服务器发送事件连接到远程 MCP 服务器 |
 | [MCP 客户端 – stdio](https://github.com/dapr/dapr-agents/tree/main/examples/06-agent-mcp-client-stdio) | 通过 stdio 连接到本地 MCP 服务器 |

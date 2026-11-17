@@ -10,7 +10,7 @@ aliases:
 
 Dapr Agents 的 **激活钩子（activation hook）** 是用于*扩展* `DurableAgent` 的受支持接入点。你可以借助它为代理接入自己的触发源，例如变更数据捕获（CDC）数据流、消息队列、Cron timer 或 Webhook，而无需修改代理本身或其 workflow。你通过 `agent.add_activation(...)` 注册一个回调；代理被托管时，运行器会**恰好调用一次**该回调，并在关闭时将其拆除。
 
-开箱即用时，`DurableAgent` 由 pub/sub 主题上的 `TriggerAction` 消息触发。激活钩子允许扩展接入*任意*事件源，并将其事件转换为代理运行，整个过程可以放在独立的包中完成，无需改动代理代码。
+开箱即用时，`DurableAgent` 由 pub/sub topic 上的 `TriggerAction` 消息触发。激活钩子允许扩展接入*任意*事件源，并将其事件转换为代理运行，整个过程可以放在独立的包中完成，无需改动代理代码。
 
 ## 工作原理
 

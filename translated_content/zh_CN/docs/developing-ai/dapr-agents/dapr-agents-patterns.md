@@ -115,16 +115,16 @@ Dapr Agents 的 workflow 编排提供：
 - **workflow 持久化** - 长时间运行的链式任务在进程重启后依然存在
 - **混合执行** - 轻松混合使用提示、代理调用以及配备工具的代理
 
-## 路由
+## Routing
 
-路由模式通过对输入进行分类，并将其引导到专门的后续任务，来处理多样化的请求类型。这样可以实现关注点分离，并为不同类型的查询创建专门的处理专家。
+Routing 模式通过对输入进行分类，并将其引导到专门的后续任务，来处理多样化的请求类型。这样可以实现关注点分离，并为不同类型的查询创建专门的处理专家。
 
 {{< diagram name="agents-routing" width="65" >}}
 
 **使用场景：**
 - 资源优化（将简单查询发送到较小的模型）
-- 多语言支持（将查询路由到特定语言的处理程序）
-- 客户支持（将不同类型的查询引导到专门的处理程序）
+- 多语言支持（将查询路由到特定语言的 handler）
+- 客户支持（将不同类型的查询引导到专门的 handler）
 - 内容创作（将写作任务路由给主题专家）
 - 混合 LLM 系统（为不同任务使用不同的模型）
 
@@ -138,7 +138,7 @@ def travel_assistant_workflow(ctx: DaprWorkflowContext, input_params: dict):
     # 使用 LLM 对查询类型进行分类
     query_type = yield ctx.call_activity(classify_query, input={"query": user_query})
 
-    # 路由到相应的专门处理程序
+    # 路由到相应的专门 handler
     if query_type == QueryType.ATTRACTIONS:
         response = yield ctx.call_activity(
             handle_attractions_query,
@@ -161,13 +161,13 @@ def travel_assistant_workflow(ctx: DaprWorkflowContext, input_params: dict):
 ```
 
 Dapr 方法的优势包括：
-- **熟悉的控制流** - 使用标准的编程 if-else 结构进行路由
+- **熟悉的控制流** - 使用标准的编程 if-else 结构进行 Routing
 - **可扩展性** - 控制流可以轻松扩展，以满足未来的需求
 - **LLM 驱动的分类** - 使用 LLM 动态对查询进行分类
 
-## 并行化
+## Parallelization
 
-并行化模式使问题的多个维度能够同时处理，并以编程方式汇总输出。对于包含可并发处理的独立子任务的复杂任务，此模式可以提高效率。
+Parallelization 模式使问题的多个维度能够同时处理，并以编程方式汇总输出。对于包含可并发处理的独立子任务的复杂任务，此模式可以提高效率。
 
 {{< diagram name="agents-parallelization" width="65" >}}
 
@@ -214,14 +214,14 @@ def travel_planning_workflow(ctx: DaprWorkflowContext, input_params: dict):
     return final_plan
 ```
 
-使用 Dapr 进行并行化的好处包括：
+使用 Dapr 进行 Parallelization 的好处包括：
 - **简化的并发** - 处理并行任务的复杂编排
 - **自动同步** - 等待所有并行任务完成
 - **workflow 持久性** - 整个并行过程都是持久且可恢复的
 
-## 编排器-工作者
+## Orchestrator-Workers
 
-对于高度复杂的任务，当子任务的数量和性质无法预先确定时，编排器-工作者模式提供了强大的解决方案。此模式包含一个中央编排器 LLM，它动态地分解任务、将任务委派给工作者 LLM，并综合它们的结果。
+对于高度复杂的任务，当子任务的数量和性质无法预先确定时，Orchestrator-Workers 模式提供了强大的解决方案。此模式包含一个中央编排器 LLM，它动态地分解任务、将任务委派给工作者 LLM，并综合它们的结果。
 
 {{< diagram agents-orchestrator-workers >}}
 
@@ -272,14 +272,14 @@ def orchestrator_travel_planner(ctx: DaprWorkflowContext, input_params: dict):
     return final_plan
 ```
 
-编排器-工作者模式的优势包括：
+Orchestrator-Workers 模式的优势包括：
 - **动态规划** - 编排器可以根据输入动态创建子任务
 - **工作者隔离** - 每个工作者专注于解决问题的某一个特定方面
 - **简化的综合** - 最终的综合步骤将结果合并为连贯的输出
 
-## 评估器-优化器
+## Evaluator-Optimizer
 
-质量通常需要通过迭代和细化来实现。评估器-优化器模式实现了双 LLM 流程：一个模型生成响应，另一个模型在迭代循环中提供评估和反馈。
+质量通常需要通过迭代和细化来实现。Evaluator-Optimizer 模式实现了双 LLM 流程：一个模型生成响应，另一个模型在迭代循环中提供评估和反馈。
 
 {{< diagram name="agents-evaluator-optimizer" width="65" >}}
 
@@ -481,17 +481,17 @@ asyncio.run(main())
 - **持久化记忆** - 代理状态存储在 Dapr 的 state store 中，进程崩溃后依然存在
 - **workflow 编排** - 所有代理交互都通过 Dapr 的 workflow 系统进行管理
 - **服务暴露** - `AgentRunner.serve()` 暴露 REST 端点（例如 `POST /agent/run`），用于调度代理的 `@workflow_entry`
-- **pub/sub 输入/输出** - `AgentRunner.subscribe()` 扫描代理中的 `@message_router` 方法，并通过模式验证将配置的主题连接起来
+- **pub/sub 输入/输出** - `AgentRunner.subscribe()` 扫描代理中的 `@message_router` 方法，并通过模式验证将配置的 topics 连接起来
 
 Durable Agent 实现了“无头代理”的概念，即在没有直接用户交互的情况下运行的自主系统。根据场景，你可以：
 
 1. **以编程方式运行**持久化 workflow（如上所示的 `runner.run`）
-2. **订阅**代理到主题，使其他服务能够通过 pub/sub 触发它（`runner.subscribe`）
+2. **订阅**代理到 topics，使其他服务能够通过 pub/sub 触发它（`runner.subscribe`）
 3. **以服务形式暴露**代理，将其部署在 FastAPI 应用之后，并提供内置的 `/run` 与状态端点（`runner.serve`）
 
 这些选项使异步处理请求变得简单，并能无缝集成到更大的分布式系统中。
 
-### 重试策略
+### Retry Policy
 
 Durable Agent 支持 Dapr workflow 的 `RetryPolicy`，即其 `WorkflowRetryPolicy`：
 
@@ -524,5 +524,5 @@ travel_planner = DurableAgent(
 从简单的代理 workflow 到完全自主的代理，这一路径代表了将 LLM 集成到应用程序中的一系列不同方法。不同的使用场景需要不同程度的代理性与控制力：
 
 - **从更简单的模式开始**，如增强型 LLM 和提示链，适用于可预测性至关重要的明确定义任务
-- **随着需求增长逐步转向更复杂的模式**，如并行化和编排器-工作者
+- **随着需求增长逐步转向更复杂的模式**，如 Parallelization 和 Orchestrator-Workers
 - **仅在开放式任务中考虑完全自主的代理**，前提是灵活性带来的好处超过了严格控制的需要

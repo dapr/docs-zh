@@ -103,7 +103,7 @@ async def main():
 - 跨越时间或多个系统的多步骤 workflow
 - 需要保证进度跟踪与状态持久化的任务
 - 操作可能暂停、失败，或需要在不丢失数据的情况下恢复的场景
-- 复杂的代理编排与多代理协作
+- 复杂的 agent orchestration 与多代理协作
 - 需要容错与可扩展性的生产系统
 
 总结如下：
@@ -353,7 +353,7 @@ memory = ConversationVectorMemory(
 
 Dapr Agents 支持在 `DurableAgent` 的推理循环中，将其他代理（无论是 Dapr Agents 代理还是第三方代理框架中的代理）作为工具调用。这使父代理能够将子任务委派给专门的子代理，从而组合出 multi-agent systems，而无需使用 pub/sub 消息代理。
 
-注册在同一注册表中的代理会自动可用作工具，其中也包括调用第三方框架的代理。另外，你也可以使用 `dapr_agents.tool.workflow` 中的 `agent_to_tool`，进行显式连接、跨应用路由，或调用其他框架的代理：
+注册在同一注册表中的代理会自动可用作工具，其中也包括调用第三方框架的代理。另外，你也可以使用 `dapr_agents.tool.workflow` 中的 `agent_to_tool`，进行显式连接、跨应用 Routing，或调用其他框架的代理：
 
 ```python
 from dapr_agents.tool.workflow import agent_to_tool
@@ -374,25 +374,25 @@ frodo = DurableAgent(
 )
 ```
 
-当 LLM 调用其中某个工具时，Dapr Agents 会将目标代理的 workflow 作为 `DurableAgent`（child workflow）进行调度并返回结果，同时透明地处理跨应用路由与结果封送。
+当 LLM 调用其中某个工具时，Dapr Agents 会将目标代理的 workflow 作为 `DurableAgent`（child workflow）进行调度并返回结果，同时透明地处理跨应用 Routing 与结果封送。
 
 | 参数 | 说明 |
 |---|---|
 | `agent_name` | 目标代理的名称（用于派生工具名称和 workflow ID） |
 | `description` | 在工具 schema 中展示给父 LLM 的可读描述 |
-| `target_app_id` | 用于跨应用路由的 Dapr app-id；进程内调用时为 `None` |
+| `target_app_id` | 用于跨应用 Routing 的 Dapr app-id；进程内调用时为 `None` |
 | `framework` | 非 Dapr Agents 目标所用的框架名称（例如 `"openai"`、`"langgraph"`） |
 | `workflow_name` | 显式指定的 Dapr workflow 名称；优先级高于 `framework` |
 
-参阅[代理即工具示例](https://github.com/dapr/dapr-agents/tree/main/examples/08-agents-as-tools)，以获取完整的可运行实现。
+参阅[Agents as Tools 示例](https://github.com/dapr/dapr-agents/tree/main/examples/08-agents-as-tools)，以获取完整的可运行实现。
 
 
-### 代理运行器
+### Agent Runner
 
 `AgentRunner` 将 DurableAgent 接入三种互补的托管模式：
 
 1. **`run`**——直接从 Python 触发 durable workflow（适用于 CLI、测试和 notebook），并可选择等待其完成。
-2. **`subscribe`**——自动为代理上每个带有 `@message_router` 装饰的 handler（包括内置的 `DurableAgent.agent_workflow`）注册 Dapr 订阅，使配置主题上的 CloudEvents 先按其 `message_model` 进行校验，再调度 workflow 入口。
+2. **`subscribe`**——自动为代理上每个带有 `@message_router` 装饰的 handler（包括内置的 `DurableAgent.agent_workflow`）注册 Dapr 订阅，使配置 topics 上的 CloudEvents 先按其 `message_model` 进行校验，再调度 workflow 入口。
 3. **`serve`**——将 `subscribe` 与 FastAPI 路由注册以及自动启动的 Uvicorn 服务器相结合，把代理托管为 Web 服务。默认情况下，它暴露 `POST /agent/run`（调度 `@workflow_entry`）和 `GET /agent/instances/{instance_id}`（获取 workflow 状态）；你也可以提供自己的 FastAPI 应用，或自定义主机、端口和路径。
 
 ```python
@@ -428,14 +428,14 @@ print(result)
 
 #### 2. 使用 `runner.subscribe(...)` 进行 pub/sub 订阅
 
-`subscribe` 会扫描代理上所有带有 `@message_router` 标记的方法（包括内置的 `agent_workflow`），并使用 `AgentPubSubConfig` 中定义的主题和 schema 自动注册必要的 Dapr 订阅。每个传入的 CloudEvent 都会先按声明的 `message_model`（例如 `TriggerAction`）进行校验，然后运行器才会调度 workflow 入口。
+`subscribe` 会扫描代理上所有带有 `@message_router` 标记的方法（包括内置的 `agent_workflow`），并使用 `AgentPubSubConfig` 中定义的 topics 和 schema 自动注册必要的 Dapr 订阅。每个传入的 CloudEvent 都会先按声明的 `message_model`（例如 `TriggerAction`）进行校验，然后运行器才会调度 workflow 入口。
 
 ```python
 runner.subscribe(travel_planner)
 await wait_for_shutdown()
 ```
 
-添加你自己的 `@message_router` 方法即可支持额外的主题或广播通道，运行器会自动发现它们，并将消息路由到相应的处理程序。使用 `wait_for_shutdown()`（来自 `dapr_agents.workflow.utils.core`）等辅助函数，可以让进程保持运行，直到你将其停止。
+添加你自己的 `@message_router` 方法即可支持额外的 topics 或广播通道，运行器会自动发现它们，并将消息路由到相应的 handler。使用 `wait_for_shutdown()`（来自 `dapr_agents.workflow.utils.core`）等辅助函数，可以让进程保持运行，直到你将其停止。
 
 #### 3. 使用 `runner.serve(...)` 提供 FastAPI 服务
 
@@ -457,7 +457,7 @@ runner.serve(
 
 与其构建一个能够处理众多任务的完全自治代理，在实践中更有效的做法是将其拆分为配备适当工具和指令的专门代理，然后协调多个代理之间的交互。
 
-Multi-agent systems (MAS) 将 workflow 的执行分布到多个相互协调的代理中，以高效地实现共同目标。这种被称为**代理编排**（agent orchestration）的方法，相较于单体式的代理设计，能够带来更好的专业化、可扩展性与可维护性。
+Multi-agent systems (MAS) 将 workflow 的执行分布到多个相互协调的代理中，以高效地实现共同目标。这种被称为 **agent orchestration** 的方法，相较于单体式的代理设计，能够带来更好的专业化、可扩展性与可维护性。
 
 {{< diagram agents-orchestration >}}
 
@@ -554,7 +554,7 @@ Workflow 能够通过结构化编排实现多种代理模式，包括 Prompt Cha
 
 ### 消息路由 Workflows
 
-`@message_router` 装饰器可将 workflow 直接绑定到 Dapr pub/sub 主题，使每条经过校验的消息都会自动调度一个 workflow 实例。这种模式（即 message-router Quickstart 所用的模式）允许你将 CloudEvent 负载推送到某个主题，并由基于 LLM 的活动立即接手处理。
+`@message_router` 装饰器可将 workflow 直接绑定到 Dapr pub/sub topic，使每条经过校验的消息都会自动调度一个 workflow 实例。这种模式（即 message-router Quickstart 所用的模式）允许你将 CloudEvent 负载推送到某个 topic，并由基于 LLM 的活动立即接手处理。
 
 ```python
 from pydantic import BaseModel
@@ -580,7 +580,7 @@ def blog_workflow(ctx: DaprWorkflowContext, wf_input: dict) -> str:
 
 ### Workflow 与 Durable Agents
 
-DurableAgent 与基于 workflow 的代理编排在底层都使用 Dapr workflow 来保证持久性与可靠性，但二者决定控制流的方式不同。
+DurableAgent 与基于 workflow 的 agent orchestration 在底层都使用 Dapr workflow 来保证持久性与可靠性，但二者决定控制流的方式不同。
 
 | 方面 | Workflow | Durable Agents |
 |--------|-----------|------------------------------------|
@@ -595,7 +595,7 @@ DurableAgent 与基于 workflow 的代理编排在底层都使用 Dapr workflow 
 
 ## 事件驱动编排
 
-事件驱动的代理编排借助异步的 [pub/sub 消息传递](https://docs.dapr.io/developing-applications/building-blocks/pubsub/pubsub-overview/)，使多个专门代理能够协同工作。这种方式通过独立扩展、服务隔离带来的弹性，以及清晰的职责划分，支持强大的协作式问题解决、并行处理，以及专门代理之间的职责分工。
+事件驱动的 agent orchestration 借助异步的 [pub/sub 消息传递](https://docs.dapr.io/developing-applications/building-blocks/pubsub/pubsub-overview/)，使多个专门代理能够协同工作。这种方式通过独立扩展、服务隔离带来的弹性，以及清晰的职责划分，支持强大的协作式问题解决、并行处理，以及专门代理之间的职责分工。
 
 ### 核心参与者
 
@@ -700,9 +700,9 @@ runner = AgentRunner()
 runner.serve(llm_orchestrator, port=8004)
 ```
 
-基于 LLM 的编排器会利用智能的代理选择做出感知上下文的决策，而 Random 与 RoundRobin 则为较简单的场景提供了替代的协调策略。运行器会将编排器作为 Dapr 应用或 HTTP 服务保持在线，使客户端可以通过主题或 REST 调用发布任务。
+基于 LLM 的编排器会利用智能的代理选择做出感知上下文的决策，而 Random 与 RoundRobin 则为较简单的场景提供了替代的协调策略。运行器会将编排器作为 Dapr 应用或 HTTP 服务保持在线，使客户端可以通过 topics 或 REST 调用发布任务。
 
-由于 `DurableAgent.agent_workflow` 与上述编排器都使用 `@message_router(message_model=TriggerAction)` 装饰，因此 `runner.subscribe(...)` 会自动绑定 `AgentPubSubConfig` 中声明的主题，并在调度 `@workflow_entry` 之前依据预期 schema 校验每个传入的 CloudEvent。你可以为同一代理添加更多消息路由（每个都可以拥有自己的 `message_model`），运行器会在下次启动时发现它们，并自动扩展订阅列表。
+由于 `DurableAgent.agent_workflow` 与上述编排器都使用 `@message_router(message_model=TriggerAction)` 装饰，因此 `runner.subscribe(...)` 会自动绑定 `AgentPubSubConfig` 中声明的 topics，并在调度 `@workflow_entry` 之前依据预期 schema 校验每个传入的 CloudEvent。你可以为同一代理添加更多消息路由（每个都可以拥有自己的 `message_model`），运行器会在下次启动时发现它们，并自动扩展订阅列表。
 
 ### 通信流程
 
@@ -718,17 +718,17 @@ runner.serve(llm_orchestrator, port=8004)
 
 * **跨任务协作**：代理交换消息，以共享更新、广播事件或交付任务结果。
 * **编排 workflow**：任务通过已发布的消息被触发和协调，使 workflow 能够动态调整。
-* **响应事件**：代理通过订阅相关主题，并在事件发生时进行处理，从而适应实时变化。
+* **响应事件**：代理通过订阅相关 topics，并在事件发生时进行处理，从而适应实时变化。
 
 借助消息传递，workflow 保持模块化与可扩展性，代理专注于各自的角色，同时无缝参与到更大的系统中。
 
-#### 消息总线与主题
+#### Message Bus 与 Topics
 
-消息总线是管理主题与消息投递的中央系统。代理通过消息总线收发消息：
+message bus 是管理 topics 与消息投递的中央系统。代理通过 message bus 收发消息：
 
-* **发布消息**：代理向特定主题发布消息，使所有已订阅的代理都能获取这些信息。
-* **订阅主题**：代理订阅与其角色相关的主题，确保只接收其所需的消息。
-* **广播更新**：多个代理可以订阅同一主题，从而对共享事件或更新作出响应。
+* **发布消息**：代理向特定 topic 发布消息，使所有已订阅的代理都能获取这些信息。
+* **订阅 Topics**：代理订阅与其角色相关的 topics，确保只接收其所需的消息。
+* **广播更新**：多个代理可以订阅同一 topic，从而对共享事件或更新作出响应。
 
 #### 为什么在代理式 workflow 中使用 pub/sub 消息传递？
 
@@ -736,7 +736,7 @@ runner.serve(llm_orchestrator, port=8004)
 
 * **解耦组件**：代理发布消息时无需了解哪些代理会接收，从而促进模块化和可扩展的设计。
 * **支持实时通信**：消息在事件发生时即被投递，使代理能够即时作出反应。
-* **促进协作**：多个代理可以订阅同一主题，便于共享更新或分担职责。
-* **支持可扩展性**：无论你是在添加新代理、扩展 workflow，还是适应不断变化的需求，消息总线都能让通信轻松扩展。代理之间保持松耦合，使 workflow 能够在不中断的情况下演进。
+* **促进协作**：多个代理可以订阅同一 topic，便于共享更新或分担职责。
+* **支持可扩展性**：无论你是在添加新代理、扩展 workflow，还是适应不断变化的需求，message bus 都能让通信轻松扩展。代理之间保持松耦合，使 workflow 能够在不中断的情况下演进。
 
 这一消息框架确保代理高效运行、workflow 保持灵活，并且系统能够动态扩展。

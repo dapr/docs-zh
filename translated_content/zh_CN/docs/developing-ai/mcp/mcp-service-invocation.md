@@ -3,10 +3,10 @@ type: docs
 title: "通过 Dapr service invocation 使用 MCP"
 linkTitle: "service invocation 路径"
 weight: 5
-description: "将 MCP 客户端和服务器作为 Dapr 应用运行，并借助 App ID 身份、访问策略、bearer middleware、mTLS 和可观测性来管控它们之间的流量"
+description: "将 MCP 客户端和服务器作为 Dapr 应用运行，并借助 App ID 身份、访问策略、bearer middleware、mTLS 和 observability 来管控它们之间的流量"
 ---
 
-Dapr 允许你将 [模型上下文协议（MCP）](https://modelcontextprotocol.io/) 的客户端和服务器作为 Dapr 应用运行，并使用你已经用于其他服务间调用的相同控制手段来管理它们之间的流量：App ID 身份、访问策略、bearer middleware、mTLS、可观测性和 resiliency。
+Dapr 允许你将 [模型上下文协议（MCP）](https://modelcontextprotocol.io/) 的客户端和服务器作为 Dapr 应用运行，并使用你已经用于其他服务间调用的相同控制手段来管理它们之间的流量：App ID 身份、访问策略、bearer middleware、mTLS、observability 和 resiliency。
 
 由于 [service invocation]({{% ref service-invocation-overview.md %}}) 使用普通的 HTTP 协议，代理现有的 MCP 客户端可以指向本地的 Dapr sidecar，并通过 App ID 访问 MCP 服务器。**现成的 MCP 客户端和代理框架无需改动即可使用**，在这条路径上无需采用任何 Dapr 专用的 MCP SDK。
 
@@ -19,7 +19,7 @@ service invocation 路径复用的是你几乎肯定已经在运行的 Dapr 原�
 - **粗粒度的 App ID 访问控制。** 附加到 MCP 服务器 App ID 上的 [`Configuration` `accessControl`]({{% ref mcp-access-control.md %}}) 决定哪些代理 App ID 可以访问它，并以 `deny` 作为默认动作，从而确保不可信的调用方不会意外访问到 MCP 服务器。
 - **通过 OPA 实现按工具授权。** 当 App ID 层面的控制粒度不够细时，MCP 服务器入站流水线上的 [OPA middleware]({{% ref mcp-access-control.md %}}) 会检查 JSON-RPC 请求体，提取工具名称（必要时还包括参数），并应用以 `(caller App ID, tool name)` 为键的 Rego 策略。这样，无需修改 SDK，现成的 MCP 客户端也能获得按工具的授权能力。
 - **声明式的 OAuth 2.0 / bearer 认证。** 入站流水线上的 [bearer middleware]({{% ref mcp-authentication.md %}}) 会根据颁发者的 JWKS、`iss` 和 `aud` 声明验证 JWT。出站方面，另一个 middleware 会为上游 MCP 服务器获取令牌。全部以声明式方式完成，MCP 服务器中无需任何代码。
-- **内置可观测性。** service invocation 会生成按调用方和目标 App ID 切分的追踪、指标和日志，与你已用于非 MCP 流量的遥测数据完全相同。
+- **内置 observability。** service invocation 会生成按调用方和目标 App ID 切分的追踪、指标和日志，与你已用于非 MCP 流量的遥测数据完全相同。
 - **resiliency 策略。** 重试、超时和断路器通过 [`Resiliency` 资源]({{% ref policies.md %}}) 附加到 MCP 服务器的 App ID 上。MCP 调用与其他 service invocation 一样，继承 Dapr 的 resiliency。
 
 | 不使用 Dapr service invocation | 使用 Dapr service invocation |
@@ -27,7 +27,7 @@ service invocation 路径复用的是你几乎肯定已经在运行的 Dapr 原�
 | 每个代理都内嵌一个 MCP 客户端，以及独立的身份与授权层 | 所有服务流量（包括 MCP）共用同一套身份栈 |
 | 在应用中为每个服务器单独搭建 bearer 令牌的传递逻辑 | 声明式的 OAuth 2.0 / bearer middleware |
 | 按工具的 RBAC 需要分叉 MCP 客户端 | OPA 读取 JSON-RPC 请求体并应用按工具的策略 |
-| 需要为 MCP 流量单独附加可观测性 | 与系统其余部分相同的追踪、指标和日志 |
+| 需要为 MCP 流量单独附加 observability | 与系统其余部分相同的追踪、指标和日志 |
 
 ## 工作原理
 
@@ -131,7 +131,7 @@ MCP 工具调用会经过 Dapr 的 service invocation 层，因此你可以叠�
 
 - 你需要按工具进行参数级 RBAC、审计、脱敏或响应过滤（即 `beforeCallTool` / `afterCallTool` / `beforeListTools` / `afterListTools` 钩子）。
 - 你需要在调用中途 sidecar 重启后仍能保留的持久重试。
-- 你希望按工具切分可观测性数据（每个工具对应一个 workflow 名称）。
+- 你希望按工具切分 observability 数据（每个工具对应一个 workflow 名称）。
 
 这两种路径并不互斥：你可以对大多数 MCP 流量使用 service invocation，并在某个服务器的策略需要感知参数时，将其切换为 `MCPServer` 资源。
 

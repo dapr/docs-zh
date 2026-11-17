@@ -370,4 +370,4 @@ Streamable HTTP 会话保存在服务器的内存中。如果运行多个副本�
 - 试试 [Dapr MCP 服务器 quickstarts](https://github.com/dapr/quickstarts/tree/master/dapr-mcp-server)，它们分别在 LangGraph、Dapr Agents 和 OpenAI Agents SDK 中运行同一个代理，既可以通过 MCP 客户端运行，也可以通过 [`MCPServer` 资源]({{% ref mcp-server-resource.md %}})运行。
 - 浏览[工具参考]({{% ref dapr-mcp-server-tool-reference.md %}})，了解每个工具的作用，以及启用它的 component 类型。
 - 使用[身份验证]({{% ref dapr-mcp-server-authentication.md %}})保护 HTTP 传输。
-- 使用[可观测性]({{% ref dapr-mcp-server-observability.md %}})，将追踪、指标和日志发送到后端。
+- 使用[observability]({{% ref dapr-mcp-server-observability.md %}})，将追踪、指标和日志发送到后端。

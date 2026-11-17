@@ -66,7 +66,7 @@ Dapr MCP 服务器接受少量命令行标志，其余配置都从环境变量�
 
 ## 遥测
 
-在设置 OTLP 端点之前，遥测处于关闭状态。服务器输出的内容请参阅[可观测性]({{% ref dapr-mcp-server-observability.md %}})。
+在设置 OTLP 端点之前，遥测处于关闭状态。服务器输出的内容请参阅[observability]({{% ref dapr-mcp-server-observability.md %}})。
 
 | 变量 | 默认值 | 说明 |
 |---|---|---|

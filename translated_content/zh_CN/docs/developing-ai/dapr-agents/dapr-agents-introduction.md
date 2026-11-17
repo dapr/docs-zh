@@ -17,9 +17,9 @@ Dapr Agents **v1.0** 已可用于生产环境，提供稳定的 API 以及面向
 Dapr Agents 是一个开发者框架，用于构建由大型语言模型 (LLM) 驱动的、持久且有弹性的 AI 代理系统。它基于久经考验的 Dapr 项目构建，使开发者能够创建具备身份、能够推理问题、做出动态决策并无缝协作的自主系统。它包含内置的 observability 和 stateful workflow 执行能力，以确保代理工作流无论复杂度如何都能成功完成。无论你是在开发单代理应用，还是复杂的多代理 workflow，Dapr Agents 都为能够跨环境扩展的智能、自适应系统提供基础设施。
 
 ## 核心能力
-- **代理身份**：使用 Dapr Agents 时，每个代理都会被分配一个唯一的加密身份，用于对代理交互进行身份验证，并在服务和基础设施之间执行授权。
+- **Agent Identity**：使用 Dapr Agents 时，每个代理都会被分配一个唯一的加密身份，用于对代理交互进行身份验证，并在服务和基础设施之间执行授权。
 - **持久执行**：使用 Dapr Agents 创建的代理由 Dapr 的 workflow 引擎支撑，该引擎会将每次代理与 LLM 和工具的交互持久化到持久的 state store 中，即使代理重启后也能恢复并继续执行。
-- **弹性**：Dapr Agents 可以通过自动重试策略、超时和断路器从临时故障中恢复，也可以应用由 workflow 状态支撑的持久重试，从持续时间更长的故障中恢复。
+- **弹性**：Dapr Agents 可以通过自动 retry policies、超时和断路器从临时故障中恢复，也可以应用由 workflow 状态支撑的持久重试，从持续时间更长的故障中恢复。
 - **规模与效率**：在单个核心上高效运行数千个代理。Dapr 会透明地将单代理和多代理应用分布到机器集群中，并处理它们的生命周期。
 - **数据驱动代理**：通过连接数十种不同的数据源，直接与数据库、文档和非结构化数据集成。
 - **Multi-Agent Systems**：默认安全且可观测，支持代理之间的协作。
@@ -37,12 +37,12 @@ Dapr Agents 提供专为构建智能自主系统而设计的专用模块。每�
 | [**结构化输出**]({{% ref "dapr-agents-core-concepts.md#structured-outputs" %}})               | 利用 OpenAI 的函数调用等能力，生成符合 JSON Schema 和 OpenAPI 标准的可预测、可靠结果，用于工具集成。
 | [**工具选择**]({{% ref "dapr-agents-core-concepts.md#tool-calling" %}})                         | 基于需求、最佳动作，通过 [函数调用](https://platform.openai.com/docs/guides/function-calling) 能力进行动态工具选择并执行。
 | [**MCP 支持**]({{% ref "dapr-agents-core-concepts.md#mcp-support" %}})                             | 内置对 [模型上下文协议（MCP）](https://modelcontextprotocol.io/) 的支持，使代理能够通过标准化接口动态发现并调用外部工具。
-| [**Agents as Tools**]({{% ref "dapr-agents-core-concepts.md#agents-as-tools" %}})                     | 在 DurableAgent 的推理循环中，将其他 Dapr Agents，或来自其他框架（如 OpenAI Agents、LangGraph 和 CrewAI）的代理作为工具调用，以构建可组合的多代理系统。
+| [**Agents as Tools**]({{% ref "dapr-agents-core-concepts.md#agents-as-tools" %}})                     | 在 DurableAgent 的推理循环中，将其他 Dapr Agents，或来自其他框架（如 OpenAI Agents、LangGraph 和 CrewAI）的代理作为工具调用，以构建可组合的 Multi-Agent Systems。
 | [**内存管理**]({{% ref "dapr-agents-core-concepts.md#memory" %}})                            | 在多次交互之间保留上下文。可选方案从简单的内存列表到向量数据库（Chroma、PostgreSQL、Redis）不等，并可与 [Dapr state stores]({{% ref state-management-overview.md %}}) 集成，实现可扩展的持久化内存。
 | [**Durable Agents**]({{% ref "dapr-agents-core-concepts.md#durable-agents" %}})                       | 由 workflow 支撑的代理，提供容错执行，具备持久状态管理和自动重试机制，适用于长时间运行的进程。
-| [**代理运行器**]({{% ref "dapr-agents-core-concepts.md#agent-runner" %}})                           | 通过 HTTP 暴露代理，或订阅 PubSub 以执行长时间运行的任务，使代理无需用户界面或人工干预即可通过 API 访问。
+| [**Agent Runner**]({{% ref "dapr-agents-core-concepts.md#agent-runner" %}})                           | 通过 HTTP 暴露代理，或订阅 PubSub 以执行长时间运行的任务，使代理无需用户界面或人工干预即可通过 API 访问。
 | [**事件驱动通信**]({{% ref "dapr-agents-core-concepts.md#event-driven-orchestration" %}}) | 通过 [pub/sub 消息传递]({{% ref pubsub-overview.md %}}) 实现代理协作，用于分布式系统中的事件驱动通信、任务分发和实时协调。
-| [**代理编排**]({{% ref "dapr-agents-core-concepts.md#deterministic-workflows" %}})         | 使用 [Dapr Workflows]({{% ref workflow-overview.md %}}) 进行确定性的代理编排，通过更高层级的任务与 LLM 交互，处理复杂的多步骤流程。
+| [**Agent Orchestration**]({{% ref "dapr-agents-core-concepts.md#deterministic-workflows" %}})         | 使用 [Dapr Workflows]({{% ref workflow-overview.md %}}) 进行确定性的 agent orchestration，通过更高层级的任务与 LLM 交互，处理复杂的多步骤流程。
 
 
 ## 代理模式
@@ -58,9 +58,9 @@ Dapr Agents 支持一整套模式，代表构建智能系统的不同方法。
 | [**Durable Agent**]({{% ref "dapr-agents-patterns.md#durable-agent" %}})               | 通过使用 Dapr 的 state store 为代理交互增加持久性和持久化，从而扩展增强型 LLM。
 | [**Prompt Chaining**]({{% ref "dapr-agents-patterns.md#prompt-chaining" %}})           | 将复杂任务分解为一系列步骤，其中每次 LLM 调用都处理前一次调用的输出。
 | [**Evaluator-Optimizer**]({{% ref "dapr-agents-patterns.md#evaluator-optimizer" %}})   | 实现双 LLM 流程，其中一个模型生成响应，另一个模型在迭代循环中提供评估和反馈。
-| [**并行化**]({{% ref "dapr-agents-patterns.md#parallelization" %}})           | 同时处理问题的多个维度，并以编程方式聚合输出，以提高效率。
-| [**路由**]({{% ref "dapr-agents-patterns.md#routing" %}})                           | 对输入进行分类，并将其导向专门的后续任务，实现关注点分离和专家专业化。
-| [**编排器-工作者**]({{% ref "dapr-agents-patterns.md#orchestrator-workers" %}}) | 由一个中央编排器 LLM 动态地分解任务，将其委派给工作者 LLM，并综合各方结果。
+| [**Parallelization**]({{% ref "dapr-agents-patterns.md#parallelization" %}})           | 同时处理问题的多个维度，并以编程方式聚合输出，以提高效率。
+| [**Routing**]({{% ref "dapr-agents-patterns.md#routing" %}})                           | 对输入进行分类，并将其导向专门的后续任务，实现关注点分离和专家专业化。
+| [**Orchestrator-Workers**]({{% ref "dapr-agents-patterns.md#orchestrator-workers" %}}) | 由一个中央编排器 LLM 动态地分解任务，将其委派给工作者 LLM，并综合各方结果。
 
 
 ## 开发者体验

@@ -6,7 +6,7 @@ weight: 25
 description: "Dapr 帮助开发者运行安全、可靠且持久的模型上下文协议（MCP）服务器集成"
 ---
 
-Dapr 借助其 [service invocation API]({{% ref service-invocation-overview.md %}}) 支持 MCP。开箱即用的 [模型上下文协议（MCP）](https://modelcontextprotocol.io/) 客户端和代理框架（LangGraph、官方 MCP SDK、自定义 HTTP 客户端）指向本地 Dapr sidecar，并通过 App ID 访问 MCP 服务器。Dapr 使用与其他任何服务间调用相同的控制措施来管理这些流量：App ID 身份、访问策略、HTTP middleware、mTLS、可观测性以及 resiliency。
+Dapr 借助其 [service invocation API]({{% ref service-invocation-overview.md %}}) 支持 MCP。开箱即用的 [模型上下文协议（MCP）](https://modelcontextprotocol.io/) 客户端和代理框架（LangGraph、官方 MCP SDK、自定义 HTTP 客户端）指向本地 Dapr sidecar，并通过 App ID 访问 MCP 服务器。Dapr 使用与其他任何服务间调用相同的控制措施来管理这些流量：App ID 身份、访问策略、HTTP middleware、mTLS、observability 以及 resiliency。
 
 ## 工作原理
 
@@ -18,7 +18,7 @@ Dapr 借助其 [service invocation API]({{% ref service-invocation-overview.md %
 - **验证调用方的工作负载身份**：使用基于 SPIFFE 签发凭据的 [mTLS]({{% ref mtls.md %}})。默认开启。
 - **应用访问控制策略**：为目标 MCP 服务器的 App ID 定义的策略，包括粗粒度的 App ID 准入控制，以及通过 [OPA]({{% ref mcp-access-control.md %}}) 实现的逐工具授权。
 - **应用 HTTP middleware**：作用于入站流水线，例如 [OAuth 2.0 Bearer 校验]({{% ref middleware-bearer.md %}})。
-- **采集可观测性数据**：记录调用的日志、指标和追踪，并按调用方和目标 App ID 切分。
+- **采集 observability 数据**：记录调用的日志、指标和追踪，并按调用方和目标 App ID 切分。
 
 开箱即用的 MCP 客户端无需修改即可工作，这条路径下无需引入 Dapr 专用的 MCP SDK。
 
@@ -59,7 +59,7 @@ Dapr 借助其 [service invocation API]({{% ref service-invocation-overview.md %
 
 - 你需要**逐工具的参数级 RBAC、审计或脱敏钩子**（`beforeCallTool` / `afterCallTool` / `beforeListTools` / `afterListTools`）。
 - 你需要**持久重试**，即在 sidecar 重启导致调用中断后仍能恢复（由 Dapr Workflow 与 Scheduler reminder 提供支持）。
-- 你需要**逐工具的可观测性切分**：每个工具对应一个 workflow 名称，因此追踪、指标和审计日志开箱即可按工具切分。
+- 你需要**逐工具的 observability 切分**：每个工具对应一个 workflow 名称，因此追踪、指标和审计日志开箱即可按工具切分。
 - 你的应用已在其余执行模型中使用 Dapr Workflow。
 - 你接受开箱即用的 MCP 客户端和代理框架无法用于这些调用。
 
