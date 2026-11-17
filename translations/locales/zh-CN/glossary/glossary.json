@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 304,
-  "updatedAt": "2026-11-17T02:54:27.038Z",
+  "version": 309,
+  "updatedAt": "2026-11-17T03:17:09.296Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -2216,6 +2216,30 @@
       "note": "Google Kubernetes Engine 的缩写，产品名称，保留原文。",
       "origin": "auto",
       "locked": false
+    },
+    {
+      "term": "Tavily",
+      "note": "网页搜索服务名称，保留原文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "outbox",
+      "note": "Dapr outbox 模式（ERR_PUBLISH_OUTBOX 所在行），译文保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "shortcode",
+      "note": "Hugo shortcode 的译法，译文保留英文",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Front-matter",
+      "note": "Hugo front matter 的译法，译文保留英文",
+      "origin": "auto",
+      "locked": false
     }
   ],
   "terms": [
@@ -2339,7 +2363,13 @@
         "doc": "docs/developing-ai/rag/rag-quickstart.md",
         "run": "20261116-2040"
       },
-      "conflicts": []
+      "conflicts": [
+        {
+          "target": "活动",
+          "doc": "sdks_dotnet/dotnet-workflow/_index.md",
+          "run": "20261117-0133"
+        }
+      ]
     },
     {
       "id": "activity-actor",
@@ -6856,6 +6886,26 @@
       "lastSeen": {
         "doc": "docs/reference/components-reference/supported-middleware/middleware-rate-limit.md",
         "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "minimal-api",
+      "source": "minimal API",
+      "target": "最小 API",
+      "alt": [],
+      "note": "ASP.NET Core 最小 API（minimal API）的译法，文中用于作业触发端点映射。",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "sdks_dotnet/dotnet-jobs/_index.md",
+        "run": "20261117-0133"
+      },
+      "lastSeen": {
+        "doc": "sdks_dotnet/dotnet-jobs/_index.md",
+        "run": "20261117-0133"
       },
       "conflicts": []
     },

@@ -780,3 +780,10 @@
 {"ts":"2026-11-17T02:54:27.038Z","run":"20261117-0133","op":"add","id":"kind","kind":"doNotTranslate","version":304,"doc":"docs/operations/hosting/kubernetes/kubernetes-deploy.md"}
 {"ts":"2026-11-17T02:54:27.038Z","run":"20261117-0133","op":"add","id":"minikube","kind":"doNotTranslate","version":304,"doc":"docs/operations/hosting/kubernetes/kubernetes-deploy.md"}
 {"ts":"2026-11-17T02:54:27.038Z","run":"20261117-0133","op":"add","id":"gke","kind":"doNotTranslate","version":304,"doc":"docs/operations/hosting/kubernetes/kubernetes-deploy.md"}
+{"ts":"2026-11-17T03:04:51.977Z","run":"20261117-0133","op":"add","id":"tavily","kind":"doNotTranslate","version":305,"doc":"docs/developing-ai/dapr-agents/dapr-agents-hooks.md"}
+{"ts":"2026-11-17T03:06:36.407Z","run":"20261117-0133","op":"add","id":"outbox","kind":"doNotTranslate","version":306,"doc":"docs/developing-applications/error-codes/error-codes-reference.md"}
+{"ts":"2026-11-17T03:06:36.879Z","run":"20261117-0133","op":"add","id":"shortcode","kind":"doNotTranslate","version":307,"doc":"docs/contributing/docs-contrib/contributing-docs.md"}
+{"ts":"2026-11-17T03:06:36.879Z","run":"20261117-0133","op":"add","id":"front-matter","kind":"doNotTranslate","version":307,"doc":"docs/contributing/docs-contrib/contributing-docs.md"}
+{"ts":"2026-11-17T03:17:06.487Z","run":"20261117-0133","op":"add","id":"minimal-api","target":"最小 API","version":308,"doc":"sdks_dotnet/dotnet-jobs/_index.md"}
+{"ts":"2026-11-17T03:17:06.939Z","run":"20261117-0133","op":"reject","id":"state-query","target":"状态查询","reason":"not-in-source: the term does not occur in the document's prose","version":308,"doc":"sdks_dotnet/dotnet-state-management/_index.md"}
+{"ts":"2026-11-17T03:17:09.296Z","run":"20261117-0133","op":"conflict","id":"activity","target":"活动","version":309,"doc":"sdks_dotnet/dotnet-workflow/_index.md"}
