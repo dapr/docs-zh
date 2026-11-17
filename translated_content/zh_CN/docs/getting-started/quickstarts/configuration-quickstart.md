@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "Quickstart：配置"
+title: "Quickstart: Configuration"
 linkTitle: 配置
 weight: 78
 description: 开始使用 Dapr 的 Configuration building block
 ---
 
-让我们来看一下 Dapr 的 [Configuration building block]({{% ref configuration-api-overview %}})。配置项通常具有动态特性，与消费它的应用程序需求紧密耦合。配置项是包含配置数据的键/值对，例如：
+让我们来看一下 Dapr 的 [Configuration building block]({{% ref configuration-api-overview %}})。配置项通常是动态的，并与消费它的应用程序需求紧密耦合。配置项是包含配置数据的键/值对，例如：
 - 应用 ID
 - 分区键
 - 数据库名称等
@@ -17,7 +17,7 @@ description: 开始使用 Dapr 的 Configuration building block
 
 <img src="/images/configuration-quickstart/configuration-quickstart-flow.png" width=1000 alt="演示使用键/值对的 Configuration API Quickstart 流程的图表。">
 
-在继续进行 Quickstart 之前，选择你首选的语言特定的 Dapr SDK。
+在继续本 Quickstart 之前，请选择你偏好的特定语言 Dapr SDK。
 
 {{< tabpane text=true >}}
  <!-- Python -->
@@ -42,7 +42,7 @@ description: 开始使用 Dapr 的 Configuration building block
 git clone --depth 1 https://github.com/dapr/quickstarts.git
 ```
 
-克隆完成后，打开一个新终端并运行以下命令，为配置项 `orderId1` 和 `orderId2` 设置值。
+克隆完成后，打开一个新终端，运行以下命令为配置项 `orderId1` 和 `orderId2` 设置值。
 
 ```bash
 docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
@@ -163,7 +163,7 @@ if unsubscribed == True:
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-克隆完成后，打开一个新终端并运行以下命令，为配置项 `orderId1` 和 `orderId2` 设置值。
+克隆完成后，打开一个新终端，运行以下命令为配置项 `orderId1` 和 `orderId2` 设置值。
 
 ```bash
 docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
@@ -276,8 +276,7 @@ setTimeout(() => {
 <!-- END_IGNORE -->
 - 已安装 [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0)、[.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0) 或 [.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)
 
-**注意：** .NET 6 是本版本中 Dapr .NET SDK 软件包支持的最低 .NET 版本。
-仅 .NET 8 和 .NET 9 将在 Dapr v1.16 及更高版本中受支持。
+**注意：** 在本版本中，.NET 6 是 Dapr .NET SDK 软件包支持的最低 .NET 版本。在 Dapr v1.16 及更高版本中，将仅支持 .NET 8 和 .NET 9。
 
 ### 步骤 1：设置环境
 
@@ -287,7 +286,7 @@ setTimeout(() => {
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-克隆完成后，打开一个新终端并运行以下命令，为配置项 `orderId1` 和 `orderId2` 设置值。
+克隆完成后，打开一个新终端，运行以下命令为配置项 `orderId1` 和 `orderId2` 设置值。
 
 ```bash
 docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
@@ -353,7 +352,7 @@ dapr run --app-id order-processor-http --resources-path ../../../components/ --a
 获取配置项：
 
 ```csharp
-// 从 config store 获取配置
+// 从 configuration store 获取配置
 GetConfigurationResponse config = await client.GetConfiguration(DAPR_CONFIGURATION_STORE, CONFIGURATION_ITEMS);
 foreach (var item in config.Items)
 {
@@ -391,7 +390,7 @@ try
 对于本示例，你需要：
 
 - [Dapr CLI 和初始化的环境](https://docs.dapr.io/getting-started)。
-- Java JDK 17（或更高版本）：
+- Java JDK 17 或更高版本：
   - [Oracle JDK](https://www.oracle.com/technetwork/java/javase/downloads/index.html#JDK11)，或
   - OpenJDK
 - [Apache Maven](https://maven.apache.org/install.html)，版本 3.x。
@@ -407,7 +406,7 @@ try
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-克隆完成后，打开一个新终端并运行以下命令，为配置项 `orderId1` 和 `orderId2` 设置值。
+克隆完成后，打开一个新终端，运行以下命令为配置项 `orderId1` 和 `orderId2` 设置值。
 
 ```bash
 docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
@@ -509,7 +508,7 @@ if (unsubscribe.getIsUnsubscribed()) {
 对于本示例，你需要：
 
 - [Dapr CLI 和初始化的环境](https://docs.dapr.io/getting-started)。
-- [最新版本的 Go](https://go.dev/dl/)。
+- [最新版 Go](https://go.dev/dl/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -522,7 +521,7 @@ if (unsubscribe.getIsUnsubscribed()) {
 git clone https://github.com/dapr/quickstarts.git
 ```
 
-克隆完成后，打开一个新终端并运行以下命令，为配置项 `orderId1` 和 `orderId2` 设置值。
+克隆完成后，打开一个新终端，运行以下命令为配置项 `orderId1` 和 `orderId2` 设置值。
 
 ```bash
 docker exec dapr_redis redis-cli MSET orderId1 "101" orderId2 "102"
@@ -624,24 +623,24 @@ case <-ctx.Done():
 
 ## 演示
 
-观看这段[Configuration API Quickstart 的演示视频](https://youtu.be/EcE6IGuX9L8?t=94)：
+观看此视频，了解 [Configuration API Quickstart 演示](https://youtu.be/EcE6IGuX9L8?t=94)：
 
 {{< youtube id=EcE6IGuX9L8 start=94 >}}
 
 ## 告诉我们你的想法！
 
-我们一直在持续改进 Quickstart 示例，并重视你的反馈。你觉得这个 Quickstart 有帮助吗？你对改进有什么建议？
+我们一直在持续改进 Quickstart 示例，并重视你的反馈。你觉得这个 Quickstart 有帮助吗？你对改进有什么建议吗？
 
-欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的想法。
+加入我们的 [Discord Server](https://diagrid.ws/dapr-discord)，分享你的想法。
 
 ## 后续步骤
 
-- 使用 HTTP 而非 SDK 来使用 Dapr 配置。
+- 使用 HTTP 而非 SDK 来使用 Dapr Configuration。
   - [Python](https://github.com/dapr/quickstarts/tree/master/configuration/python/http)
   - [JavaScript](https://github.com/dapr/quickstarts/tree/master/configuration/javascript/http)
   - [.NET](https://github.com/dapr/quickstarts/tree/master/configuration/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/configuration/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/configuration/go/http)
-- 进一步了解[Configuration building block]({{% ref configuration-api-overview %}})
+- 了解更多关于 [Configuration building block]({{% ref configuration-api-overview %}}) 的信息
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

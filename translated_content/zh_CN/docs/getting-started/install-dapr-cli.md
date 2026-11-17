@@ -1,21 +1,21 @@
 ---
 type: docs
-title: "安装 Dapr CLI"
+title: "Install the Dapr CLI"
 linkTitle: "安装 Dapr CLI"
 weight: 10
 description: "安装 Dapr CLI，作为运行 Dapr 相关任务的主要工具"
 ---
 
-您将使用 Dapr CLI 作为各种 Dapr 相关任务的主要工具。您可以使用它来：
+你将使用 Dapr CLI 作为完成各类 Dapr 相关任务的主要工具。你可以用它来：
 
 - 使用 Dapr sidecar 运行应用程序。
 - 查看 sidecar 日志。
-- 列出运行中的服务。
+- 列出正在运行的服务。
 
 Dapr CLI 同时支持 [自托管]({{% ref self-hosted %}}) 和 [Kubernetes]({{% ref Kubernetes %}}) 环境。
 
 {{% alert title="开始之前" color="primary" %}}
-在 Docker Desktop 的高级选项中，请确认您已允许使用默认的 Docker socket。如果您在 Windows 上使用 WSL 集成，则此选项不可用。
+在 Docker Desktop 的高级选项中，请确认你已允许使用默认的 Docker socket。如果你在 Windows 上使用 WSL 集成，则此选项不可用。
    <img src="/images/docker-desktop-setting.png" width=800 style="padding-bottom:15px;">
 {{% /alert %}}
 
@@ -27,7 +27,7 @@ Dapr CLI 同时支持 [自托管]({{% ref self-hosted %}}) 和 [Kubernetes]({{% 
 
 #### 从终端安装
 
-将最新的 Linux Dapr CLI 安装到 `/usr/local/bin`：
+将最新的 Linux 版 Dapr CLI 安装到 `/usr/local/bin`：
 
 ```bash
 wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash
@@ -35,7 +35,7 @@ wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O 
 
 ##### 安装特定 CLI 版本
 
-以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。您也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
+以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。你也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
 
 ```bash
 wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash -s {{% dapr-latest-version cli="true" %}}
@@ -44,7 +44,7 @@ wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O 
 
 #### 不使用 `sudo` 安装
 
-如果您没有 `sudo` 命令的访问权限，或者您的用户名不在 `sudoers` 文件中，您可以通过 `DAPR_INSTALL_DIR` 环境变量将 Dapr 安装到备用目录。该目录必须已存在且当前用户可访问。
+如果你没有 `sudo` 命令的访问权限，或者你的用户名不在 `sudoers` 文件中，你可以通过 `DAPR_INSTALL_DIR` 环境变量将 Dapr 安装到备用目录。该目录必须已存在，并且当前用户可以访问。
 
 ```bash
 wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | DAPR_INSTALL_DIR="$HOME/dapr" /bin/bash
@@ -52,7 +52,7 @@ wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O 
 
 ##### 不使用 `sudo` 安装特定 CLI 版本
 
-以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。您也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
+以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。你也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
 
 ```bash
 wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | DAPR_INSTALL_DIR="$HOME/dapr" /bin/bash -s {{% dapr-latest-version cli="true" %}}
@@ -64,17 +64,17 @@ wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O 
 
 #### 从命令提示符安装
 
-将最新的 Windows Dapr CLI 安装到 `$Env:SystemDrive\dapr`，并将此目录添加到用户 PATH 环境变量：
+将最新的 Windows 版 Dapr CLI 安装到 `$Env:SystemDrive\dapr`，并将此目录添加到用户 PATH 环境变量：
 
 ```powershell
 powershell -Command "iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1 | iex"
 ```
 
-**注意：** PATH 更新可能需要重启终端应用程序后才能生效。
+**注意：** PATH 的更新可能需要重启终端应用程序后才会生效。
 
 ##### 安装特定 CLI 版本
 
-以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。您也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
+以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。你也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
 
 ```powershell
 powershell -Command "$script=iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/install.ps1; $block=[ScriptBlock]::Create($script); invoke-command -ScriptBlock $block -ArgumentList {{% dapr-latest-version cli="true" %}}"
@@ -82,7 +82,7 @@ powershell -Command "$script=iwr -useb https://raw.githubusercontent.com/dapr/cl
 
 #### 不使用管理员权限安装
 
-如果您没有管理员权限，可以通过 `DAPR_INSTALL_DIR` 环境变量将 Dapr 安装到备用目录。以下脚本会在目录不存在时创建该目录。
+如果你没有管理员权限，可以通过 `DAPR_INSTALL_DIR` 环境变量将 Dapr 安装到备用目录。以下脚本会在目录不存在时创建该目录。
 
 ```powershell
 $Env:DAPR_INSTALL_DIR = "<your_alt_install_dir_path>"
@@ -91,7 +91,7 @@ $script=iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/inst
 
 #### 不使用管理员权限安装特定 CLI 版本
 
-以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。您也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
+以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。你也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
 
 ```powershell
 $Env:DAPR_INSTALL_DIR = "<your_alt_install_dir_path>"
@@ -100,7 +100,7 @@ $script=iwr -useb https://raw.githubusercontent.com/dapr/cli/master/install/inst
 
 #### 使用 winget 安装
 
-将最新的 Windows Dapr CLI 安装到 `$Env:SystemDrive\dapr`，并将此目录添加到用户 PATH 环境变量：
+将最新的 Windows 版 Dapr CLI 安装到 `$Env:SystemDrive\dapr`，并将此目录添加到用户 PATH 环境变量：
 
 ```powershell
 winget install Dapr.CLI
@@ -116,12 +116,12 @@ winget install Dapr.CLI.Preview
 
 #### 使用 MSI 安装程序安装
 
-每个 Dapr CLI 版本还包含 Windows 安装程序。您可以手动下载 MSI：
+每个 Dapr CLI 版本还包含 Windows 安装程序。你也可以手动下载 MSI：
 
 1. 从最新的 [Dapr Release](https://github.com/dapr/cli/releases) 下载 MSI 安装包 `dapr.msi`。
-2. 导航到下载的 MSI 文件并双击运行。
-3. 按照安装提示接受许可协议并选择安装目录。所选文件夹将被添加到用户 PATH 环境变量。默认值为 `$Env:SystemDrive\dapr`。
-4. 点击 `Install` 开始安装。安装完成后，您会看到最终消息。
+2. 找到下载的 MSI 文件，双击运行。
+3. 按照安装提示接受许可协议并选择安装目录。所选文件夹会被添加到用户 PATH 环境变量。默认值为 `$Env:SystemDrive\dapr`。
+4. 点击 `Install` 开始安装。安装完成后会显示最终提示信息。
 
 {{% /tab %}}
 
@@ -129,7 +129,7 @@ winget install Dapr.CLI.Preview
 
 ### 从终端安装
 
-将最新的 Darwin Dapr CLI 安装到 `/usr/local/bin`：
+将最新的 Darwin 版 Dapr CLI 安装到 `/usr/local/bin`：
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | /bin/bash
@@ -137,7 +137,7 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
 
 ##### 安装特定 CLI 版本
 
-以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。您也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
+以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。你也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | /bin/bash -s {{% dapr-latest-version cli="true" %}}
@@ -145,9 +145,9 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
 
 **对于 ARM64 Mac：**
 
-从终端安装时，可以使用原生 ARM64 二进制文件。 
+从终端安装时，可使用原生 ARM64 二进制文件。
 
-要安装 Rosetta 模拟：
+要安装 Rosetta 模拟器：
 
 ```bash
 softwareupdate --install-rosetta
@@ -163,14 +163,14 @@ brew install dapr/tap/dapr-cli
 
 **对于 ARM64 Mac：**
 
-对于 ARM64 Mac，支持 Homebrew 3.0 及更高版本。请将 Homebrew 更新到 3.0.0 或更高版本，然后运行以下命令：
+ARM64 Mac 支持 Homebrew 3.0 及更高版本。请将 Homebrew 更新到 3.0.0 或更高版本，然后运行以下命令：
 
 ```bash
 arch -arm64 brew install dapr/tap/dapr-cli
 ```
 
 #### 不使用 `sudo` 安装
-如果您没有 `sudo` 命令的访问权限，或者您的用户名不在 `sudoers` 文件中，您可以通过 `DAPR_INSTALL_DIR` 环境变量将 Dapr 安装到备用目录。该目录必须已存在且当前用户可访问。
+如果你没有 `sudo` 命令的访问权限，或者你的用户名不在 `sudoers` 文件中，你可以通过 `DAPR_INSTALL_DIR` 环境变量将 Dapr 安装到备用目录。该目录必须已存在，并且当前用户可以访问。
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | DAPR_INSTALL_DIR="$HOME/dapr" /bin/bash
@@ -178,7 +178,7 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
 
 ##### 不使用 `sudo` 安装特定 CLI 版本
 
-以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。您也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
+以下示例展示如何安装 CLI 版本 `{{% dapr-latest-version cli="true" %}}`。你也可以通过指定版本号来安装候选版本（例如 `1.10.0-rc.3`）。
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh | DAPR_INSTALL_DIR="$HOME/dapr" /bin/bash -s {{% dapr-latest-version cli="true" %}}
@@ -187,15 +187,15 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
 {{% /tab %}}
 
 {{% tab header="二进制文件" text=true %}}
-每个 Dapr CLI 版本都包含多种操作系统和架构的构建。您可以手动下载并安装这些二进制版本。
+每个 Dapr CLI 版本都包含多种操作系统和架构的构建。你可以手动下载并安装这些二进制版本。
 
 1. 从最新的 [Dapr Release](https://github.com/dapr/cli/releases) 下载所需的 Dapr CLI。
 2. 解压缩文件（例如 dapr_linux_amd64.tar.gz、dapr_windows_amd64.zip）。
-3. 将其移动到您想要的位置。
+3. 将其移动到你希望的位置。
    - 对于 Linux/MacOS，建议使用 `/usr/local/bin`。
-   - 对于 Windows，创建一个目录并将其添加到系统 PATH。例如：
+   - 对于 Windows，创建一个目录，并将其添加到系统 PATH。例如：
      - 创建一个名为 `C:\dapr` 的目录。
-     - 通过编辑系统环境变量，将新创建的目录添加到用户 PATH。
+     - 通过编辑系统环境变量，将新建的目录添加到用户 PATH。
 
 {{% /tab %}}
 
@@ -204,7 +204,7 @@ curl -fsSL https://raw.githubusercontent.com/dapr/cli/master/install/install.sh 
 
 ### 步骤 2：验证安装
 
-重启终端或命令提示符后，运行以下命令以验证 CLI 是否已安装：
+重启终端或命令提示符后，运行以下命令以验证 CLI 已安装：
 
 ```bash
 dapr -h

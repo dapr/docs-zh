@@ -1,20 +1,20 @@
 ---
 type: docs
-title: "Quickstart：service invocation"
-linkTitle: "service invocation"
+title: "Quickstart: Service Invocation"
+linkTitle: "Service Invocation"
 weight: 71
-description: "开始使用 Dapr 的 service invocation building block"
+description: "开始使用 Dapr 的 Service Invocation building block"
 ---
 
-借助 [Dapr 的 service invocation building block](https://docs.dapr.io/developing-applications/building-blocks/service-invocation)，你的应用程序可以与其他应用程序进行可靠且安全的通信。
+借助 [Dapr 的 Service Invocation building block](https://docs.dapr.io/developing-applications/building-blocks/service-invocation)，你的应用程序可以与其他应用程序进行可靠且安全的通信。
 
 <img src="/images/serviceinvocation-quickstart/service-invocation-overview.png" width=800 alt="展示 service invocation 步骤的示意图" style="padding-bottom:25px;">
 
-Dapr 提供了多种 service invocation 方法，你可以根据场景选择。在本 Quickstart 中，你将让 checkout 服务通过 order-processor 服务中的 HTTP 代理调用一个方法，并通过以下任一方式运行：
-- [使用 Multi-App Run 模板文件同时运行本示例中的所有应用程序]({{% ref "#使用-multi-app-run-运行" %}})，或
-- [一次运行一个应用程序]({{% ref "#一次运行一个应用" %}})
+Dapr 提供了多种 service invocation 方法，你可以根据场景进行选择。在本 Quickstart 中，你将让 checkout 服务通过 order-processor 服务中的 HTTP 代理调用一个方法，并通过以下任一方式运行：
+- [使用 Multi-App Run 模板文件同时运行本 Quickstart 中的所有应用程序]({{% ref "#run-using-multi-app-run" %}})，或
+- [一次运行一个应用程序]({{% ref "#run-one-application-at-a-time" %}})
 
-在[service invocation 概述文章]({{% ref service-invocation-overview %}})中，你可以进一步了解 Dapr 的 service invocation 方法。
+在 [service invocation 概述文章]({{% ref service-invocation-overview %}})中，你可以进一步了解 Dapr 的 service invocation 方法。
 
 ## 使用 Multi-App Run 运行
 
@@ -113,7 +113,7 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
+在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-service" %}})和[发布者]({{% ref "#checkout-service" %}})应用程序。
 
 ##### `dapr.yaml` Multi-App Run 模板文件
 
@@ -258,7 +258,7 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
+在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-service" %}})和[发布者]({{% ref "#checkout-service" %}})应用程序。
 
 ##### `dapr.yaml` Multi-App Run 模板文件
 
@@ -402,7 +402,7 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
+在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-service" %}})和[发布者]({{% ref "#checkout-service" %}})应用程序。
 
 ##### `dapr.yaml` Multi-App Run 模板文件
 
@@ -544,7 +544,7 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
+在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-service" %}})和[发布者]({{% ref "#checkout-service" %}})应用程序。
 
 ##### `dapr.yaml` Multi-App Run 模板文件
 
@@ -683,7 +683,7 @@ Exited App successfully
 
 ### 发生了什么？
 
-在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-服务" %}})和[发布者]({{% ref "#checkout-服务" %}})应用程序。
+在本 Quickstart 中运行 `dapr run -f .` 时，通过 `dapr.yaml` Multi-App Run 模板文件同时启动了[订阅者]({{% ref "#order-processor-service" %}})和[发布者]({{% ref "#checkout-service" %}})应用程序。
 
 ##### `dapr.yaml` Multi-App Run 模板文件
 
@@ -1010,7 +1010,7 @@ Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，sidecar �
 本示例需要以下内容：
 
 - [Dapr CLI 与已初始化的环境](https://docs.dapr.io/getting-started)。
-- [.NET SDK 或 .NET 7 SDK](https://dotnet.microsoft.com/download)（需已安装）。
+- [已安装 .NET SDK 或 .NET 7 SDK](https://dotnet.microsoft.com/download)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -1403,17 +1403,17 @@ Dapr 可以在任意 Dapr 实例上调用应用程序。在代码中，sidecar �
 
 ## 使用 Dapr Dev Dashboard 检查应用
 
-Quickstart 运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看 `checkout` 和 `order-processor` 应用的健康状况、端口和进程 ID，确认两者均已注册到 Dapr。该仪表板还会实时显示每个应用及其 sidecar 的日志，方便你同时跟踪调用双方的请求。
+Quickstart 运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看 `checkout` 和 `order-processor` 应用的健康状况、端口和进程 ID，确认两者均已注册到 Dapr。该仪表板还会实时显示每个应用及其 sidecar 的日志，方便你跟踪调用双方的请求。
 
 ## 告诉我们你的想法！
-我们在持续改进 Quickstart 示例，非常重视你的反馈。这个 Quickstart 对你有帮助吗？你对改进有什么建议？
+我们在持续改进 Quickstart 示例，并非常重视你的反馈。这个 Quickstart 对你有帮助吗？你对改进有什么建议？
 
-欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的看法。
+欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的想法。
 
 ## 后续步骤
 
-- 进一步了解[service invocation building block]({{% ref service-invocation-overview %}})
-- 进一步了解如何通过以下方式调用 Dapr 的 service invocation：
+- 进一步了解 [service invocation building block]({{% ref service-invocation-overview %}})
+- 进一步了解如何通过以下方式使用 Dapr 的 service invocation 进行调用：
     - [HTTP]({{% ref howto-invoke-discover-services %}})，或
     - [gRPC]({{% ref howto-invoke-services-grpc %}})
 

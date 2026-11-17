@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Quickstart：State Management"
+title: "Quickstart: State Management"
 linkTitle: "State Management"
 weight: 74
 description: "开始使用 Dapr State Management building block"
@@ -28,7 +28,7 @@ description: "开始使用 Dapr State Management building block"
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
 - [已安装 Python 3.11 或更高版本](https://www.python.org/downloads/)。
-- [uv](https://docs.astral.sh/uv/getting-started/installation/)，即本示例使用的 Python 包管理器。
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)，即本示例所使用的 Python 包管理器。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -43,7 +43,7 @@ git clone --depth 1 https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：操作服务状态
 
-在终端窗口中，进入 `python/sdk` 目录。`dapr.yaml` 文件位于此目录中。
+在终端窗口中进入 `python/sdk` 目录。`dapr.yaml` 文件位于此目录中。
 
 ```bash
 cd state_management/python/sdk
@@ -156,7 +156,7 @@ spec:
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [最新版本的 Node.js](https://nodejs.org/download/)。
+- [已安装最新版 Node.js](https://nodejs.org/download/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -171,7 +171,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：操作服务状态
 
-在终端窗口中，进入 `order-processor` 目录。
+在终端窗口中进入 `order-processor` 目录。
 
 ```bash
 cd state_management/javascript/sdk/order-processor
@@ -293,7 +293,7 @@ spec:
 <!-- END_IGNORE -->
 - 已安装 [.NET 6](https://dotnet.microsoft.com/download/dotnet/6.0)、[.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0) 或 [.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)
 
-**注意：** 在本版本中，.NET 6 是 Dapr .NET SDK 软件包最低支持的 .NET 版本。在 Dapr v1.16 及更高版本中，将仅支持 .NET 8 和 .NET 9。
+**注意：**在本版本中，.NET 6 是 Dapr .NET SDK 包所支持的最低 .NET 版本。在 Dapr v1.16 及更高版本中，将仅支持 .NET 8 和 .NET 9。
 
 ### 步骤 1：设置环境
 
@@ -305,7 +305,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：操作服务状态
 
-在终端窗口中，进入 `order-processor` 目录。
+在终端窗口中进入 `order-processor` 目录。
 
 ```bash
 cd state_management/csharp/sdk/order-processor
@@ -439,7 +439,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：操作服务状态
 
-在终端窗口中，进入 `order-processor` 目录。
+在终端窗口中进入 `order-processor` 目录。
 
 ```bash
 cd state_management/java/sdk/order-processor
@@ -557,7 +557,7 @@ spec:
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [最新版本的 Go](https://go.dev/dl/)。
+- [已安装最新版 Go](https://go.dev/dl/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -572,7 +572,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：操作服务状态
 
-在终端窗口中，进入 `order-processor` 目录。
+在终端窗口中进入 `order-processor` 目录。
 
 ```bash
 cd state_management/go/sdk/order-processor
@@ -697,7 +697,7 @@ spec:
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
 - [已安装 Python 3.11 或更高版本](https://www.python.org/downloads/)。
-- [uv](https://docs.astral.sh/uv/getting-started/installation/)，即本示例使用的 Python 包管理器。
+- [uv](https://docs.astral.sh/uv/getting-started/installation/)，即本示例所使用的 Python 包管理器。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -712,7 +712,7 @@ git clone --depth 1 https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：操作服务状态
 
-在终端窗口中，进入 `order-processor` 目录。
+在终端窗口中进入 `order-processor` 目录。
 
 ```bash
 cd state_management/python/sdk/order-processor
@@ -812,7 +812,7 @@ spec:
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [已安装最新版本的 Node.js](https://nodejs.org/download/)。
+- [已安装最新版 Node.js](https://nodejs.org/download/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -827,13 +827,13 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：操作服务状态
 
-在终端窗口中，进入 `order-processor` 目录。
+在终端窗口中进入 `order-processor` 目录。
 
 ```bash
 cd state_management/javascript/sdk/order-processor
 ```
 
-安装依赖项，其中包括 JavaScript SDK 中的 `@dapr/dapr` 包：
+安装依赖项，其中包括来自 JavaScript SDK 的 `@dapr/dapr` 包：
 
 ```bash
 npm install
@@ -934,7 +934,7 @@ spec:
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- 已安装 [.NET SDK 或 .NET 6 SDK](https://dotnet.microsoft.com/download)。
+- 已安装 [.NET SDK 或 .NET 6 SDK](https://dotnet.microsoft.com/download)
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -949,7 +949,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：操作服务状态
 
-在终端窗口中，进入 `order-processor` 目录。
+在终端窗口中进入 `order-processor` 目录。
 
 ```bash
 cd state_management/csharp/sdk/order-processor
@@ -1069,7 +1069,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：操作服务状态
 
-在终端窗口中，进入 `order-processor` 目录。
+在终端窗口中进入 `order-processor` 目录。
 
 ```bash
 cd state_management/java/sdk/order-processor
@@ -1173,7 +1173,7 @@ spec:
 对于此示例，你需要：
 
 - [Dapr CLI 和已初始化的环境](https://docs.dapr.io/getting-started)。
-- [最新版本的 Go](https://go.dev/dl/)。
+- [已安装最新版 Go](https://go.dev/dl/)。
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
@@ -1188,7 +1188,7 @@ git clone https://github.com/dapr/quickstarts.git
 
 ### 步骤 2：操作服务状态
 
-在终端窗口中，进入 `order-processor` 目录。
+在终端窗口中进入 `order-processor` 目录。
 
 ```bash
 cd state_management/go/sdk/order-processor
@@ -1287,21 +1287,21 @@ spec:
 
 ## 使用 Dapr Dev Dashboard 检查 state store
 
-在 Quickstart 运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看 `order-processor` 应用及其 `statestore` component。你可以浏览该应用保存在 state store 中的订单记录、解码其值，并添加或删除记录，以观察应用的行为。
+在 Quickstart 运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看 `order-processor` 应用及其 `statestore` component。你可以浏览该应用保存在 state store 中的订单记录、解码其值，并添加或删除记录，以观察应用的行为变化。
 
 ## 告诉我们你的想法！
-我们一直在努力改进 Quickstart 示例，并重视你的反馈。你觉得本 Quickstart 有帮助吗？你对改进有什么建议吗？
+我们一直在持续改进 Quickstart 示例，并重视你的反馈。你觉得本 Quickstart 有帮助吗？你对改进有什么建议？
 
 欢迎加入我们的 [Discord 服务器](https://diagrid.ws/dapr-discord)，分享你的想法。
 
 ## 后续步骤
 
-- 使用 HTTP 而非 SDK 来使用 Dapr State Management。
+- 使用 Dapr State Management 的 HTTP 接口而非 SDK。
   - [Python](https://github.com/dapr/quickstarts/tree/master/state_management/python/http)
   - [JavaScript](https://github.com/dapr/quickstarts/tree/master/state_management/javascript/http)
   - [.NET](https://github.com/dapr/quickstarts/tree/master/state_management/csharp/http)
   - [Java](https://github.com/dapr/quickstarts/tree/master/state_management/java/http)
   - [Go](https://github.com/dapr/quickstarts/tree/master/state_management/go/http)
-- 进一步了解[State Management building block]({{% ref state-management %}})
+- 了解更多关于 [State Management building block]({{% ref state-management %}}) 的内容
 
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "使用 Dapr API"
+title: "Use the Dapr API"
 linkTitle: "使用 Dapr API"
 weight: 30
 description: "运行 Dapr sidecar 并试用 State Management API"
@@ -156,4 +156,4 @@ Invoke-RestMethod -Method Delete -ContentType 'application/json' -Uri 'http://lo
 
 {{< /tabpane >}}
 
-{{< button text="下一步：Dapr Quickstart >>" page="getting-started/quickstarts.md" >}}
+{{< button text="下一步：Dapr Quickstarts >>" page="getting-started/quickstarts.md" >}}
