@@ -11,7 +11,7 @@ cascade:
   github_branch: master
 ---
 
-Dapr 提供了多种软件包来协助 Java 应用程序的开发。使用它们，你可以通过 Dapr 创建 Java 客户端、服务器和虚拟 Actor。
+Dapr 提供了多种软件包来协助 Java 应用程序的开发。使用它们，你可以通过 Dapr 创建 Java 客户端、服务器和 virtual Actor。
 
 ## 前提条件
 
@@ -115,11 +115,11 @@ Dapr Java SDK 通过 gRPC 使用 Netty。从 SDK 1.19 开始，SDK 会传递性�
 
 ## 试用
 
-测试 Dapr Java SDK。通过 Java 快速入门和教程，查看 Dapr 的实际效果：
+测试 Dapr Java SDK。通过 Java Quickstart 和教程，查看 Dapr 的实际效果：
 
 | SDK 示例 | 描述 |
 | ----------- | ----------- |
-| [快速入门]({{% ref quickstarts %}}) | 在几分钟内使用 Java SDK 体验 Dapr 的 API 构建块。 |
+| [Quickstart]({{% ref quickstarts %}}) | 在几分钟内使用 Java SDK 体验 Dapr 的 API building block。 |
 | [SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples) | 克隆 SDK 仓库以尝试一些示例并开始使用。 |
 
 ```java
@@ -135,8 +135,8 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关输出绑定的完整指南，请访问 [操作指南：输出绑定]({{% ref howto-bindings.md %}})。
-- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http)，获取代码示例并尝试输出绑定的相关说明。
+- 有关 output binding 的完整指南，请访问 [操作指南：output binding]({{% ref howto-bindings.md %}})。
+- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http)，获取代码示例并尝试 output binding 的相关说明。
 
 ## 可用软件包
 
@@ -144,14 +144,14 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>客户端</b></h5>
-      <p class="card-text">创建与 Dapr 边车和其他 Dapr 应用程序交互的 Java 客户端。</p>
+      <p class="card-text">创建与 Dapr sidecar 和其他 Dapr 应用程序交互的 Java 客户端。</p>
       <a href="{{% ref java-client %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title"><b>工作流</b></h5>
-      <p class="card-text">在 Java 中创建和管理与其他 Dapr API 协同工作的工作流。</p>
+      <h5 class="card-title"><b>workflow</b></h5>
+      <p class="card-text">在 Java 中创建和管理与其他 Dapr API 协同工作的 workflow。</p>
       <a href="{{% ref workflow %}}" class="stretched-link"></a>
     </div>
   </div>

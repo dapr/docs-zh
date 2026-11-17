@@ -78,7 +78,7 @@ def error_handler(ctx, error):
 
 if __name__ == '__main__':
     wfr.start()
-    sleep(10)  # 等待工作流运行时启动
+    sleep(10)  # 等待 workflow 运行时启动
 
     wf_client = wf.DaprWorkflowClient()
     instance_id = wf_client.schedule_new_workflow(workflow=task_chain_workflow, input=42)
@@ -89,22 +89,22 @@ if __name__ == '__main__':
     wfr.shutdown()
 ```
 
-- 了解有关编写和管理工作流的更多信息：
-  - [How-To: 编写工作流]({{% ref howto-author-workflow.md %}})。
-  - [How-To: 管理工作流]({{% ref howto-manage-workflow.md %}})。
+- 了解有关编写和管理 workflow 的更多信息：
+  - [How-To: 编写 workflow]({{% ref howto-author-workflow.md %}})。
+  - [How-To: 管理 workflow]({{% ref howto-manage-workflow.md %}})。
   - 
 - 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/workflow)，获取代码示例以及尝试 Dapr Workflow 的说明：
-  - [简单工作流示例]({{% ref python-workflow.md %}})
+  - [简单 workflow 示例]({{% ref python-workflow.md %}})
   - [任务链示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/task_chaining.py)
   - [Fan-out/Fan-in 示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/fan_out_fan_in.py)
-  - [子工作流示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/child_workflow.py)
+  - [child workflow 示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/child_workflow.py)
   - [人工审批示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/human_approval.py)
   - [监控示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/monitor.py)
 
 
-## 有状态工作流历史
+## stateful workflow 历史
 
-从 Dapr 1.19 开始，工作流工作进程会在内存中保存每个工作流实例的历史记录，因此 Dapr 边车在每一轮只发送新事件。此功能默认启用。若要关闭它（例如在工作进程内存有限时），请在 `WorkflowRuntime` 上设置 `disable_stateful_history=True`：
+从 Dapr 1.19 开始，workflow 工作进程会在内存中保存每个 workflow 实例的历史记录，因此 Dapr sidecar 在每一轮只发送新事件。此功能默认启用。若要关闭它（例如在工作进程内存有限时），请在 `WorkflowRuntime` 上设置 `disable_stateful_history=True`：
 
 ```python
 import dapr.ext.workflow as wf
@@ -112,9 +112,9 @@ import dapr.ext.workflow as wf
 wfr = wf.WorkflowRuntime(disable_stateful_history=True)
 ```
 
-了解更多信息，请参阅[有状态工作流客户端]({{% ref workflow-stateful-client.md %}})。
+了解更多信息，请参阅[stateful workflow 客户端]({{% ref workflow-stateful-client.md %}})。
 
-## 等待工作流
+## 等待 workflow
 
 `wait_for_workflow_start` 和 `wait_for_workflow_completion` 会忽略 `DAPR_API_TIMEOUT_SECONDS` 环境变量。如果不传 `timeout_in_seconds` 参数，它们会无限期等待。传入 `timeout_in_seconds` 可限制调用的等待时长。超过时限后，调用会抛出 `TimeoutError`：
 
