@@ -29,7 +29,7 @@ description: "无需暴露服务器端口，即可通过应用发起的 gRPC 流
 | **NetworkPolicy / 防火墙** | 必须允许 sidecar 到应用的入站 | 只需要允许应用到 sidecar 的出站 |
 | **回调类型** | 每种类型一个独立端点 | 四种类型都走同一条流 |
 | **SDK 支持** | 所有 SDK | Go SDK 提供辅助工具；其他 SDK 通过生成的 gRPC 客户端使用 |
-| **稳定性** | 稳定 | Alpha (v1.18+) |
+| **稳定性** | Stable（稳定） | Alpha (v1.18+) |
 
 ## 工作原理
 
@@ -103,7 +103,7 @@ spec:
 
 ## SDK 支持
 
-[Go SDK](https://github.com/dapr/go-sdk) 提供了一个高级辅助工具 [`client.SubscribeActorEvents`](https://github.com/dapr/go-sdk/tree/main/examples/actor-grpc)，它会为你管理流的生命周期、回调分发和重连。其他 Dapr SDK 目前只能通过其生成的 gRPC 客户端暴露 `SubscribeActorEventsAlpha1`；请按[操作指南]({{% ref "howto-actors-app-initiated-streams" %}})中所示直接调用它。
+[Go SDK](https://github.com/dapr/go-sdk) 提供了一个高级辅助工具 [`client.SubscribeActorEvents`](https://github.com/dapr/go-sdk/tree/main/examples/actor-grpc)，它会为你管理流的生命周期、回调派发和重连。其他 Dapr SDK 目前只能通过其生成的 gRPC 客户端暴露 `SubscribeActorEventsAlpha1`；请按[操作指南]({{% ref "howto-actors-app-initiated-streams" %}})中所示直接调用它。
 
 ## 相关链接
 

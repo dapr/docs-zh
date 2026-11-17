@@ -176,7 +176,7 @@ State Management API 可在[State Management API 参考]({{% ref state_api.md %}
 | ------------------- | ----------- |
 | [State Management Quickstart]({{% ref statemanagement-quickstart.md %}}) | 使用 State Management API 创建有状态的应用程序。 |
 | [Hello World](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world)            | _推荐_ <br> 演示如何在本地运行 Dapr。重点介绍 service invocation 和 State Management。  |
-| [Hello World Kubernetes](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)       | _推荐_ <br> 演示如何在 Kubernetes 中运行 Dapr。重点介绍 service invocation 和_State Management_。  |
+| [Hello World Kubernetes](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes)       | _推荐_ <br> 演示如何在 Kubernetes 中运行 Dapr。重点介绍 service invocation 和 _State Management_。  |
 
 ### 直接在应用程序中开始使用 State Management
 

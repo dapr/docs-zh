@@ -9,7 +9,7 @@ description: "Dapr 如何处理接近 sidecar 最大请求体大小的 workflow 
 Dapr sidecar 与 workflow SDK 之间的派发通过单个双向 gRPC 流（`GetWorkItems`）进行。每次派发都会通过该流发送一个 `WorkflowRequest` 或 `ActivityRequest`，其中包含 workflow 的 `PastEvents`、`NewEvents`，以及（对于 multi-app workflow）`PropagatedHistory`。该流上单条消息的最大大小受 sidecar 的 `--max-body-size` 标志（及等效的 `dapr.io/max-body-size` 注解）限制，默认为 **4 MiB**。
 
 {{% alert title="注意" color="primary" %}}
-使用[stateful workflow client]({{% ref "workflow-stateful-client.md" %}})时，已预热的 worker 只会收到自其上一轮以来新增的 history event，因此实际经过该流的内容通常远小于 workflow 的完整历史。这并不会提高本页所述的上限。下面的大小检查针对的是状态中保存的 workflow 完整历史，发生在工作项被缩减为增量之前，因此无论如何，workflow 都会在同一位置停滞，即便实际发送的消息只是一个很小的增量。该检查必须保守：执行检查时，sidecar 尚不知道哪个 worker 会接收该轮次，而对该实例而言处于冷状态（未持有其状态）的 worker 总是会收到完整历史。
+使用 [stateful workflow client]({{% ref "workflow-stateful-client.md" %}}) 时，已预热的工作进程只会收到自其上一轮次以来新增的 history event，因此实际经过该流的内容通常远小于 workflow 的完整历史。这并不会提高本页所述的上限。下面的大小检查针对的是状态中保存的 workflow 完整历史，发生在工作项被缩减为增量之前，因此无论如何，workflow 都会在同一位置停滞，即便实际发送的消息只是一个很小的增量。该检查必须保守：执行检查时，sidecar 尚不知道哪个工作进程会接收该轮次，而对该实例而言处于冷状态（未持有其状态）的工作进程总是会收到完整历史。
 {{% /alert %}}
 
 ## 优雅停滞
@@ -28,7 +28,7 @@ Dapr sidecar 与 workflow SDK 之间的派发通过单个双向 gRPC 流（`GetW
 2. 若负载无限制增长（例如，某个 workflow 长时间不断向一个大列表追加内容），则**强制清除该 workflow**。参见[操作指南：管理 workflow]({{% ref howto-manage-workflow.md %}})。
 3. **重构 workflow**，避免在 activity 之间传递大负载。例如，改为传递引用（对象存储 URL、state store 键）而非内联数据。
 
-.NET SDK 的[Workflow data references（alpha）]({{% ref dotnet-workflow-data-references.md %}})为上述第三种方式提供了可选的 Binary Store 卸载功能及显式引用。Binary Store 与 SDK 集成均处于 alpha 阶段，可能会发生变更。跨应用使用需要兼容且支持负载感知的 .NET 应用，并且这些应用能够访问相同的被引用对象；其他 Dapr 语言 SDK 目前不支持数据引用。卸载不会提高派发上限，也不会减小其他 history event 的大小。
+.NET SDK 的 [Workflow data references（alpha）]({{% ref dotnet-workflow-data-references.md %}}) 为上述第三种方式提供了可选的 Binary Store 卸载功能及显式引用。Binary Store 与 SDK 集成均处于 alpha 阶段，可能会发生变更。跨应用使用需要兼容且支持负载感知的 .NET 应用，并且这些应用能够访问相同的被引用对象；其他 Dapr 语言 SDK 目前不支持数据引用。卸载不会提高派发上限，也不会减小其他 history event 的大小。
 
 同样的预检查也适用于 activity 派发；超大的 activity 请求只会使该 activity 停滞，而不会使其父 workflow 停滞。
 

@@ -192,7 +192,7 @@ DELETE http://localhost:3500/v1.0/actors/<actorType>/<actorId>/reminders/<name>
 ```
 
 如果触发了 Actor reminder，而应用没有向运行时返回 2** 状态码（例如由于连接问题），Actor reminder 将按其失败策略重试，默认重试三次，每次尝试之间的退避间隔为一秒。
-此外，根据所应用的任何 [Actor resiliency]({{% ref "override-default-retries" %}})，还可能进行额外的重试。
+此外，根据所应用的任何 [Actor resiliency 策略]({{% ref "override-default-retries" %}})，还可能进行额外的重试。
 
 更多详细信息，请参阅 [API 规范]({{% ref "actors_api#invoke-reminder" %}})。
 

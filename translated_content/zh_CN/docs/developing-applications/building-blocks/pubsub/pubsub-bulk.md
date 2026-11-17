@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "Bulk Publish 和订阅消息"
-linkTitle: "Bulk Publish 和订阅消息"
+title: "发布和订阅批量消息"
+linkTitle: "发布和订阅批量消息"
 weight: 7100
-description: "了解如何在 Dapr 中使用 Bulk Publish 和订阅 API。"
+description: "了解如何在 Dapr 中使用 Bulk Publish 和 Bulk Subscribe API。"
 ---
 
-借助 Bulk Publish 和订阅 API，你可以在单个请求中发布和订阅多条消息。在编写需要发送或接收大量消息的应用程序时，使用批量操作可以减少 Dapr sidecar、应用程序与底层 pub/sub 代理之间的请求总数，从而实现高吞吐量。
+借助 Bulk Publish 和 Bulk Subscribe API，你可以在单个请求中发布和订阅多条消息。在编写需要发送或接收大量消息的应用程序时，使用批量操作可以减少 Dapr sidecar、应用程序与底层 pub/sub broker 之间的请求总数，从而实现高吞吐量。
 
 ## Bulk Publish 消息
 
@@ -303,7 +303,7 @@ scopes:
 - checkout
 ```
 
-在上面的示例中，`bulkSubscribe` 是*可选的*。如果使用 `bulkSubscribe`，则：
+在上面的示例中，`bulkSubscribe` 是_可选的_。如果使用 `bulkSubscribe`，则：
 - `enabled` 为必填项，用于启用或禁用该主题上的 Bulk Subscribe
 - 你可以选择配置一条批量消息中传递的最大消息数量（`maxMessagesCount`）。
 对于不支持 Bulk Subscribe 的 component，`maxMessagesCount` 的默认值为 100，即应用程序与 Dapr 之间默认的批量事件。请参阅[component 如何处理批量消息的发布和订阅]({{% ref pubsub-bulk %}})。
@@ -522,15 +522,15 @@ if __name__ == '__main__':
 
 对于事件的发布/订阅，涉及两类网络传输：
 1. *应用程序*与 *Dapr* 之间的传输。
-1. *Dapr* 与*pub/sub 代理*之间的传输。
+1. *Dapr* 与*pub/sub broker* 之间的传输。
 
 这些环节都可以进行优化。优化后会发出批量请求，从而减少调用总次数，进而提高吞吐量并改善延迟。
 
 启用 Bulk Publish 和/或 Bulk Subscribe 后，应用程序与 Dapr sidecar 之间的通信（即上面的第 1 点）会针对**所有 component**进行优化。
 
-Dapr sidecar 与 pub/sub 代理之间的优化取决于多种因素，例如：
-- 代理本身必须支持批量 pub/sub
-- Dapr component 必须更新为支持使用代理提供的批量 API
+Dapr sidecar 与 pub/sub broker 之间的优化取决于多种因素，例如：
+- broker 本身必须支持批量 pub/sub
+- Dapr component 必须更新为支持使用 broker 提供的批量 API
 
 目前，以下 component 已更新，支持这一级别的优化：
 

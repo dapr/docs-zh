@@ -44,7 +44,7 @@ Dapr actor 旨在提供一种在分布式系统中封装状态和行为的方式
 
 - 你的问题空间涉及大量（数千个或更多）小型、独立且相互隔离的状态与逻辑单元。
 - 你希望使用单线程对象，这些对象不需要来自外部 component 的大量交互，包括跨一组 actor 查询状态。
-- 你的 actor 实例不会通过发起 I/O 操作而以不可预测的延迟阻塞调用者。
+- 你的 actor 实例不会通过发起 I/O 操作而以不可预测的延迟阻塞调用方。
 
 ### 何时使用 Dapr Workflow
 
@@ -68,12 +68,12 @@ Dapr 支持 namespace actor。actor 类型可以部署到不同的 namespace 中
 
 ### Actor 生命周期
 
-由于 Dapr actor 是虚拟的，因此无需显式创建或销毁它们。Dapr actor 运行时会：
+由于 Dapr actor 是虚拟的，因此无需显式创建或销毁它们。Dapr Actor runtime 会：
 1. 在收到针对某个 actor ID 的首次请求后，自动激活该 actor。
 1. 对未使用的 actor 的内存对象进行垃圾回收。
 1. 保留 actor 存在的信息，以便之后重新激活。
 
-actor 的状态比对象的生命周期更长，因为 state store 在为 Dapr runtime 配置的状态提供程序中。
+actor 的状态比对象的生命周期更长，因为状态保存在为 Dapr runtime 配置的状态提供程序中。
 
 [了解有关 actor 生命周期的更多信息。]({{% ref "actors-features-concepts#actor-lifetime" %}})
 
@@ -81,7 +81,7 @@ actor 的状态比对象的生命周期更长，因为 state store 在为 Dapr r
 
 为了提供可扩展性和可靠性，actor 实例分布在整个集群中。Dapr 在整个集群中分布 actor 实例，并自动将它们迁移到健康的节点上。
 
-[了解有关 Dapr actor placement 的更多信息。]({{% ref "actors-features-concepts#actor-placement-service" %}})
+[了解有关 Dapr Actor placement 的更多信息。]({{% ref "actors-features-concepts#actor-placement-service" %}})
 
 ### Actor 通信
 
@@ -89,7 +89,7 @@ actor 的状态比对象的生命周期更长，因为 state store 在为 Dapr r
 
 {{< diagram name="actors-calling-method" width="60" >}}
 
-1. service invocation sidecar 上的 actor API。
+1. 服务在 sidecar 上调用 actor API。
 1. sidecar 利用 placement service 提供的缓存分区信息，确定哪个 actor 服务实例将托管 actor ID **3**。调用会被转发到相应的 sidecar。
 1. Pod 2 中的 sidecar 实例调用服务实例，以调用 actor 并执行 actor 方法。
 
@@ -97,9 +97,9 @@ actor 的状态比对象的生命周期更长，因为 state store 在为 Dapr r
 
 #### 并发性
 
-Dapr actor 运行时为访问 actor 方法提供了一种简单的基于轮次的访问模型。基于轮次的访问极大地简化了并发系统，因为无需使用同步机制来访问数据。
+Dapr Actor runtime 为访问 actor 方法提供了一种简单的基于轮次的访问模型。基于轮次的访问极大地简化了并发系统，因为无需使用同步机制来访问数据。
 
-- [了解有关 actor 可重入性的更多信息]({{% ref "actor-reentrancy" %}})
+- [了解有关 actor 重入的更多信息]({{% ref "actor-reentrancy" %}})
 - [了解有关基于轮次的访问模型的更多信息]({{% ref "actors-features-concepts#turn-based-access" %}})
 
 ### 状态
@@ -114,7 +114,7 @@ Dapr actor 运行时为访问 actor 方法提供了一种简单的基于轮次�
 
 Actor 可以通过注册 timer 或 reminder，为自己安排周期性工作。
 
-timer 和 reminder 的功能非常相似。主要区别在于：Dapr actor 运行时在 actor 停用后不保留有关 timer 的任何信息，而是使用 Dapr actor 状态提供程序持久化有关 reminder 的信息。
+timer 和 reminder 的功能非常相似。主要区别在于：Dapr Actor runtime 在 actor 停用后不保留有关 timer 的任何信息，而是使用 Dapr actor 状态提供程序持久化有关 reminder 的信息。
 
 这一区别让用户可以在轻量但无状态的 timer，与资源需求更高但有状态的 reminder 之间进行权衡。
 

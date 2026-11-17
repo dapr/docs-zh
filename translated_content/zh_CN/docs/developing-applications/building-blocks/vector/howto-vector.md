@@ -14,12 +14,12 @@ description: "了解如何存储嵌入向量，并使用向量 API 运行相似�
 
 - 设置 Meilisearch 向量 component。
 - 创建集合。
-- 插入或更新带有向量、metadata 和负载的记录。
+- 使用 Upsert 写入带有向量、metadata 和负载的记录。
 - 使用 metadata 过滤器和分数阈值运行相似性查询。
 - 在一个批次中运行多个查询。
 - 按 ID 检索和删除记录。
 
-本指南中的示例使用 `curl` 调用 Dapr HTTP API，并使用 4 维向量以便于阅读。在实际应用中，向量来自嵌入模型，通常具有数百或数千个维度。HTTP API 使用 [protobuf 消息的 JSON 映射](https://protobuf.dev/programming-guides/json/)：字段名为 camelCase，64 位整数为字符串，字节则使用 base64 编码。响应中会包含值为零值的字段，并省略未设置的可选字段。如需查看使用类型化负载、metadata 过滤器和批量查询的 .NET 示例，请参阅 [向量 .NET SDK 指南]({{% ref dotnet-vector-howto.md %}})，其适用于 SDK 1.19.0 或更高版本。
+本指南中的示例使用 `curl` 调用 Dapr HTTP API，并使用 4 维向量以便于阅读。在实际应用中，向量来自嵌入模型，通常具有数百或数千个维度。HTTP API 使用 [protobuf 消息的 JSON 映射](https://protobuf.dev/programming-guides/json/)：字段名为 camelCase，64 位整数为字符串，字节则使用 base64 编码。响应中会包含值为零值的字段，并省略未设置的可选字段。如需查看使用类型化负载、metadata 过滤器和批量查询的 .NET 示例，请参阅 [Vector .NET SDK 指南]({{% ref dotnet-vector-howto.md %}})，其适用于 SDK 1.19.0 或更高版本。
 
 ## 前提条件
 
@@ -101,11 +101,11 @@ curl http://localhost:3500/v1.0-alpha1/vector/myvectors/collections/cars
 }
 ```
 
-## 插入或更新记录
+## Upsert 记录
 
-每条记录都包含一个 `id`、向量 `values`、可用于过滤的结构化 `metadata`，以及可选的不透明 `payload`。由于 `payload` 定义为字节类型，HTTP API 要求其使用 base64 编码。在本示例中，`car-1` 的 payload 是 `{"name":"Model 3"}` 的 base64 编码。
+每条记录都包含一个 `id`、向量 `values`、可用于过滤的结构化 `metadata`，以及可选的不透明 `payload`。由于 `payload` 定义为字节类型，HTTP API 要求其使用 base64 编码。在本示例中，`car-1` 的负载是 `{"name":"Model 3"}` 的 base64 编码。
 
-以下请求插入或更新三条记录，并最多等待 10 秒以完成写入：
+以下请求执行 Upsert 三条记录，并最多等待 10 秒以完成写入：
 
 ```bash
 curl -X POST http://localhost:3500/v1.0-alpha1/vector/myvectors/collections/cars/vectors \
@@ -281,7 +281,7 @@ curl -X POST http://localhost:3500/v1.0-alpha1/vector/myvectors/collections/cars
 
 ## 删除记录
 
-删除记录同样属于写入操作，并接受与插入或更新相同的 `options`。不存在的 ID 不会导致错误：
+删除记录同样属于写入操作，并接受与 Upsert 相同的 `options`。不存在的 ID 不会导致错误：
 
 ```bash
 curl -X POST http://localhost:3500/v1.0-alpha1/vector/myvectors/collections/cars/vectors/delete \

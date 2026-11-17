@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "操作指南：获取密钥"
-linkTitle: "操作指南：获取密钥"
+title: "操作指南：获取 secret"
+linkTitle: "操作指南：获取 secret"
 weight: 2000
-description: "使用 secret store building block 安全地获取密钥"
+description: "使用 secret store building block 安全地获取 secret"
 ---
 
-既然你已经了解了 [Dapr 密钥 building block 提供的功能]({{% ref secrets-overview %}})，接下来让我们学习它如何在你的服务中工作。本指南演示如何调用 secrets API，并在应用代码中从已配置的 secret store 获取密钥。
+既然你已经了解了 [Dapr secrets building block 提供的功能]({{% ref secrets-overview %}})，接下来让我们学习它如何在你的服务中工作。本指南演示如何调用 secrets API，并在应用代码中从已配置的 secret store 获取 secret。
 
 {{< diagram name="secrets-mgmt-overview" width="80" >}}
 
@@ -17,10 +17,10 @@ description: "使用 secret store building block 安全地获取密钥"
 
 ## 设置 secret store
 
-在应用代码中获取密钥之前，你必须先配置一个 secret store component。本示例配置了一个使用本地 JSON 文件存储密钥的 secret store。
+在应用代码中获取 secret 之前，你必须先配置一个 secret store component。本示例配置了一个使用本地 JSON 文件存储 secret 的 secret store。
 
 {{% alert title="Warning" color="warning" %}}
-在生产级应用中，不推荐使用本地 secret store。请[查找替代方案]({{% ref supported-secret-stores %}})，以安全地管理你的密钥。
+在生产级应用中，不推荐使用本地 secret store。请[查找替代方案]({{% ref supported-secret-stores %}})，以安全地管理你的 secrets。
 {{% /alert %}}
 
 在项目目录中，创建一个名为 `secrets.json` 的文件，内容如下：
@@ -43,7 +43,7 @@ spec:
   version: v1
   metadata:
   - name: secretsFile
-    value: secrets.json  #密钥文件的路径
+    value: secrets.json  #secrets 文件的路径
   - name: nestedSeparator
     value: ":"
 ```
@@ -57,9 +57,9 @@ secret store JSON 文件的路径，相对于你调用 `dapr run` 的位置。
 - 了解如何[配置其他类型的 secret store]({{% ref setup-secret-store %}})。
 - 查阅[支持的 secret store]({{% ref supported-secret-stores %}})，了解不同 secret store 解决方案的具体细节。
 
-## 获取密钥
+## 获取 secret
 
-通过 secrets API 调用 Dapr sidecar 来获取密钥：
+通过 secrets API 调用 Dapr sidecar 来获取 secret：
 
 ```bash
 curl http://localhost:3601/v1.0/secrets/localsecretstore/secret
@@ -69,7 +69,7 @@ curl http://localhost:3601/v1.0/secrets/localsecretstore/secret
 
 ## 从代码中调用 secrets API
 
-既然你已经设置好了本地 secret store，接下来就可以在应用代码中调用 Dapr 获取密钥。以下代码示例利用 Dapr SDK 获取密钥。
+既然你已经设置好了本地 secret store，接下来就可以在应用代码中调用 Dapr 获取 secret。以下代码示例利用 Dapr SDK 获取 secret。
 
 {{< tabpane text=true >}}
 
@@ -91,7 +91,7 @@ var app = builder.Build();
 //从 DI 中解析 DaprClient
 var daprClient = app.Services.GetRequiredService<DaprClient>();
 
-//使用 Dapr SDK 获取密钥
+//使用 Dapr SDK 获取 secret
 var secret = await daprClient.GetSecretAsync(SECRET_STORE_NAME, "secret");
 
 Console.WriteLine($"Result: {string.Join(", ", secret)}");
@@ -124,7 +124,7 @@ public class OrderProcessingServiceApplication {
 
     public static void main(String[] args) throws InterruptedException, JsonProcessingException {
         DaprClient client = new DaprClientBuilder().build();
-        //使用 Dapr SDK 获取密钥
+        //使用 Dapr SDK 获取 secret
         Map<String, String> secret = client.getSecret(SECRET_STORE_NAME, "secret").block();
         log.info("Result: " + JSON_SERIALIZER.writeValueAsString(secret));
     }
@@ -151,11 +151,11 @@ DAPR_STORE_NAME = "localsecretstore"
 key = 'secret'
 
 with DaprClient() as client:
-    #使用 Dapr SDK 获取密钥
+    #使用 Dapr SDK 获取 secret
     secret = client.get_secret(store_name=DAPR_STORE_NAME, key=key)
     logging.info('Result: ')
     logging.info(secret.secret)
-    #使用 Dapr SDK 批量获取密钥
+    #使用 Dapr SDK 批量获取 secret
     secret = client.get_bulk_secret(store_name=DAPR_STORE_NAME)
     logging.info('Result for bulk secret: ')
     logging.info(sorted(secret.secrets.items()))
@@ -183,13 +183,13 @@ func main() {
 	}
 	defer client.Close()
 	ctx := context.Background()
-     //使用 Dapr SDK 获取密钥
+     //使用 Dapr SDK 获取 secret
 	secret, err := client.GetSecret(ctx, SECRET_STORE_NAME, "secret", nil)
 	if secret != nil {
 		log.Println("Result : ")
 		log.Println(secret)
 	}
-    //使用 Dapr SDK 批量获取密钥
+    //使用 Dapr SDK 批量获取 secret
 	secretBulk, err := client.GetBulkSecret(ctx, SECRET_STORE_NAME, nil)
 
 	if secret != nil {
@@ -217,10 +217,10 @@ async function main() {
         communicationProtocol: CommunicationProtocolEnum.HTTP,
     });
     const SECRET_STORE_NAME = "localsecretstore";
-    //使用 Dapr SDK 获取密钥
+    //使用 Dapr SDK 获取 secret
     var secret = await client.secret.get(SECRET_STORE_NAME, "secret");
     console.log("Result: " + secret);
-    //使用 Dapr SDK 批量获取密钥
+    //使用 Dapr SDK 批量获取 secret
     secret = await client.secret.getBulk(SECRET_STORE_NAME);
     console.log("Result for bulk: " + secret);
 }
@@ -235,6 +235,6 @@ main();
 ## 相关链接
 
 - 查阅 [Dapr secrets API 功能]({{% ref secrets-overview %}})。
-- 了解如何[使用密钥作用域]({{% ref secrets-scopes %}})。
-- 阅读[secrets API 参考]({{% ref secrets_api %}})，并查阅[支持的密钥]({{% ref supported-secret-stores %}})。
-- 了解如何[设置不同的 secret store component]({{% ref setup-secret-store %}})，以及如何[在 component 中引用密钥]({{% ref component-secrets %}})。
+- 了解如何[使用 secrets 作用域]({{% ref secrets-scopes %}})。
+- 阅读[secrets API 参考]({{% ref secrets_api %}})，并查阅[支持的 secrets]({{% ref supported-secret-stores %}})。
+- 了解如何[设置不同的 secret store component]({{% ref setup-secret-store %}})，以及如何[在 component 中引用 secrets]({{% ref component-secrets %}})。

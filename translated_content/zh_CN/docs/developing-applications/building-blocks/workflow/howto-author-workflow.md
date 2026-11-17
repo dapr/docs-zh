@@ -6,17 +6,17 @@ weight: 5000
 description: "了解如何开发和编写 workflow"
 ---
 
-本文提供有关如何编写由 Dapr workflow 引擎执行的 workflow 的高级概述。
+本文提供有关如何编写由 Dapr Workflow 引擎执行的 workflow 的高级概述。
 
 {{% alert title="Note" color="primary" %}}
-如果你还没有尝试过，建议先体验一下 [workflow Quickstart]({{% ref workflow-quickstart.md %}})，快速了解如何使用 workflow。
+ 如果你还没有尝试过，建议先体验一下 [workflow Quickstart]({{% ref workflow-quickstart.md %}})，快速了解如何使用 workflow。
 
 {{% /alert %}}
 
 
 ## 以代码形式编写 workflow
 
-Dapr workflow 逻辑使用通用编程语言实现，使你能够：
+Dapr Workflow 逻辑使用通用编程语言实现，使你能够：
 
 - 使用你偏好的编程语言（无需学习新的 DSL 或 YAML 模式）。
 - 访问语言的标准库。
@@ -24,7 +24,7 @@ Dapr workflow 逻辑使用通用编程语言实现，使你能够：
 - 使用调试器并检查局部变量。
 - 像应用程序的其他部分一样，为 workflow 编写单元测试。
 
-Dapr sidecar 不会加载任何 workflow 定义。相反，sidecar 只是驱动 workflow 的执行，所有 workflow activity 都作为应用程序的一部分。
+Dapr sidecar 不会加载任何 workflow 定义。相反，sidecar 只是驱动 workflow 的执行，并将所有 workflow activity 交由应用程序负责。
 
 ## 编写 workflow activity
 
@@ -86,7 +86,7 @@ export default class WorkflowActivityContext {
 
 <!--csharp-->
 
-定义你希望 workflow 执行的 workflow activity。activity 是一个类定义，可以接受输入和输出。activity 也参与依赖注入，例如 binding 到 Dapr 客户端。
+定义你希望 workflow 执行的 workflow activity。activity 是一个类定义，可以接受输入和输出。activity 也可以参与依赖注入，例如 binding 到 Dapr 客户端。
 
 下面示例中调用的 activity 包括：
 - `NotifyActivity`：接收新订单的通知。
@@ -200,7 +200,7 @@ public class DemoWorkflowActivity implements WorkflowActivity {
 ### 定义 workflow activity
 
 定义你希望 workflow 执行的每个 workflow activity。activity 的输入可以通过 `ctx.GetInput` 从上下文中反序列化。activity 应定义为接受一个 `ctx workflow.ActivityContext` 参数，并返回一个接口和一个错误。
-
+ 
 ```go
 func BusinessActivity(ctx workflow.ActivityContext) (any, error) {
 	var input int
@@ -240,7 +240,7 @@ func BusinessWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 
 ### 注册 workflow 和 activity
 
-在应用程序能够执行 workflow 之前，必须将 workflow 编排器及其 activity 一同注册到 workflow registry 中。这样可以确保 Dapr 知道在执行 workflow 时应调用哪些函数。
+在应用程序能够执行 workflow 之前，必须将 workflow 编排器（orchestrator）及其 activity 一并注册到 workflow registry 中。这样可以确保 Dapr 知道在执行 workflow 时应调用哪些函数。
 
 ```go
 func main() {
@@ -311,7 +311,7 @@ func main() {
 <!--python-->
 
 `hello_world_wf` 函数是一个从名为 `DaprWorkflowContext` 的类派生的函数，带有输入和输出参数类型。它还包含 `yield` 语句，负责 workflow 的主要逻辑并调用 workflow activity。
-
+ 
 ```python
 @wfr.workflow(name='hello_world_wf')
 def hello_world_wf(ctx: DaprWorkflowContext, wf_input):
@@ -345,7 +345,7 @@ def hello_world_wf(ctx: DaprWorkflowContext, wf_input):
 <!--javascript-->
 
 接下来，使用 `WorkflowRuntime` 类注册 workflow，并启动 workflow runtime。
-
+ 
 ```javascript
 export default class WorkflowRuntime {
 
@@ -372,7 +372,7 @@ export default class WorkflowRuntime {
     return this;
   }
 
-  // 启动 workflow runtime 以处理条目，并保持阻塞。
+  // 启动 workflow runtime 处理条目，并保持阻塞。
   public async start() {
     await this.worker.start();
   }
@@ -502,7 +502,7 @@ func BusinessWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 
 <!--python-->
 
-[以下示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)是一个使用 Python SDK 的基础 Python Hello World 应用程序。对于该示例，你的项目代码将包括：
+[在下面的示例](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)中，对于一个使用 Python SDK 的基础 Python Hello World 应用程序，你的项目代码将包括：
 
 - 一个名为 `DaprClient` 的 Python 包，用于获取 Python SDK 的各项能力。
 - 一组构建器扩展，包括：
@@ -780,11 +780,11 @@ main().catch((e) => { console.error(e); });
 using Dapr.Workflow;
 //...
 
-// Dapr workflow 作为服务配置的一部分进行注册
+// Dapr Workflow 作为服务配置的一部分进行注册
 builder.Services.AddDaprWorkflow(options =>
 {
-    // 注意，也可以将 lambda 函数注册为 workflow，
-    // 或 activity 的实现，而不是使用类。
+    // 注意，也可以将 lambda 函数而不是类注册为 workflow，
+    // 或 activity 的实现。
     options.RegisterWorkflow<OrderProcessingWorkflow>();
 
     // 以下是由 workflow 调用的 activity。
@@ -838,7 +838,7 @@ app.Run();
 
 <!--java-->
 
-[如下示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorkflow.java)所示，一个使用 Java SDK 和 Dapr workflow 的 hello-world 应用程序将包括：
+[如下示例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/chain/DemoChainWorkflow.java)所示，一个使用 Java SDK 和 Dapr Workflow 的 hello-world 应用程序将包括：
 
 - 一个名为 `io.dapr.workflows.client` 的 Java 包，用于获取 Java SDK 客户端的能力。
 - 导入 `io.dapr.workflows.Workflow`
@@ -885,7 +885,7 @@ public class DemoWorkflow extends Workflow {
 
 <!--go-->
 
-[如下示例](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)所示，一个使用 Go SDK 和 Dapr workflow 的 hello-world 应用程序将包括：
+[如下示例](https://github.com/dapr/go-sdk/tree/main/examples/workflow/README.md)所示，一个使用 Go SDK 和 Dapr Workflow 的 hello-world 应用程序将包括：
 
 - 一个名为 `client` 的 Go 包，用于获取 Go SDK 客户端的能力。
 - `BusinessWorkflow` 方法
@@ -1128,9 +1128,9 @@ func FailActivity(ctx workflow.ActivityContext) (any, error) {
 
 通过 IDE 或 Dapr CLI 启动 workflow 应用程序，并调度一个新的 workflow instance。如果要同时启动多个应用程序，请使用 [Dapr multi-app run]({{%  ref multi-app-overview.md %}})；如果只启动一个应用程序，请使用常规的 [Dapr run 命令](#通过-dapr-cli-测试-workflow)。
 
-使用本地的 [Diagrid Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 可视化并检查 workflow 状态，还可以深入查看详细的 workflow 执行历史。该仪表板作为独立工具运行，并从 Dapr workflow 所使用的 state store 中读取 workflow（默认为本地 Redis 实例）。Redis、PostgreSQL、SQLite 和 MongoDB 会被直接读取；其他 state store 则通过 sidecar 的 workflow API 读取，这需要 Dapr 1.17 或更高版本。
+使用本地的 [Diagrid Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 可视化并检查 workflow 状态，还可以深入查看详细的 workflow 执行历史。该仪表板作为独立工具运行，并从 Dapr Workflow 所使用的 state store 中读取 workflow（默认为本地 Redis 实例）。Redis、PostgreSQL、SQLite 和 MongoDB 会被直接读取；其他 state store 则通过 sidecar 的 workflow API 读取，这需要 Dapr 1.17 或更高版本。
 
-<img src="/images/workflow-overview/workflow-diagrid-dashboard.png" width=800 alt="Diagrid Dev Dashboard 显示本地工作流执行情况"/><br/>
+<img src="/images/workflow-overview/workflow-diagrid-dashboard.png" width=800 alt="Diagrid Dev Dashboard 显示本地 workflow 执行情况"/><br/>
 
 {{< tabpane text=true >}}
 
@@ -1410,13 +1410,13 @@ dapr workflow rerun <failed-instance-id> --app-id workflow-app --input '<new-inp
 
 ## 后续步骤
 
-你已经编写了一个 workflow，接下来了解如何管理它。若要运行每种 workflow 模式的示例，请参阅 Quickstarts 仓库中的[workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)。
+现在你已经编写了一个 workflow，接下来了解如何管理它。若要运行每种 workflow 模式的示例，请参阅 Quickstarts 仓库中的 [workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)。
 
-{{< button text="管理工作流 >>" page="howto-manage-workflow.md" >}}
+{{< button text="管理 workflow >>" page="howto-manage-workflow.md" >}}
 
 ## 相关链接
 - [workflow 概述]({{% ref workflow-overview.md %}})
-- Quickstarts 仓库中的[workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)
+- Quickstarts 仓库中的 [workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow)
 - 试用完整的 SDK 示例：
   - [Python 示例](https://github.com/dapr/python-sdk/tree/main/examples/workflow)
   - [JavaScript 示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow)

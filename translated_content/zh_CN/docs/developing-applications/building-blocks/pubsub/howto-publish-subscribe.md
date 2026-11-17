@@ -217,7 +217,7 @@ namespace CheckoutService.Controllers;
 [ApiController]
 public sealed class CheckoutServiceController : ControllerBase
 {
-    //从 "order-pub-sub" component 订阅名为 "orders" 的主题
+    //从 "order-pub-sub" component 订阅名为 "orders" 的主题 
     [Topic("order-pub-sub", "orders")]
     [HttpPost("checkout")]
     public void GetCheckout([FromBody] int orderId)
@@ -287,7 +287,7 @@ import json
 #代码
 app = App()
 logging.basicConfig(level = logging.INFO)
-#订阅一个主题
+#订阅一个主题 
 @app.subscribe(pubsub_name='order-pub-sub', topic='orders')
 def mytopic(event: v1.Event) -> None:
     data = json.loads(event.Data())
@@ -530,7 +530,7 @@ dapr run --app-id orderprocessing --app-port 6001 --dapr-http-port 3601 --dapr-g
 {{% tab "Python" %}}
 
 ```python
-#依赖
+#依赖  
 import random
 from time import sleep    
 import requests

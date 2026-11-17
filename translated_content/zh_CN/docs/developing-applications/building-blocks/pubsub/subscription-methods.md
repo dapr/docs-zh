@@ -6,22 +6,22 @@ weight: 3000
 description: "了解可用于订阅消息主题的订阅类型。"
 ---
 
-## pub/sub API 订阅类型
+## Pub/sub API 订阅类型
 
 Dapr 应用程序可以通过三种订阅类型订阅已发布的主题，这三种类型支持相同的功能：声明式、流式和编程式。
 
 | 订阅类型 | 描述 |
 | ------------------- | ----------- |
-| [**声明式**]({{% ref "subscription-methods#declarative-subscription" %}}) | 订阅在**外部文件**中定义。声明式方法让你的代码无需依赖 Dapr，允许现有应用程序在无需更改代码的情况下订阅主题。 |
-| [**流式**]({{% ref "subscription-methods#streaming-subscription" %}}) | 订阅在**应用程序代码**中定义。streaming subscription 是动态的，这意味着可以在运行时添加或删除订阅。它们不需要应用程序提供订阅端点（编程式和 declarative subscription 都需要），因此易于在代码中配置。streaming subscription 也不要求为应用程序配置 sidecar 即可接收消息。 |
-| [**编程式**]({{% ref "subscription-methods#programmatic-subscription" %}}) | 订阅在**应用程序代码**中定义。编程式方法实现静态订阅，并要求代码中提供一个端点。 |
+| [**声明式**]({{% ref "subscription-methods#declarative-subscriptions" %}}) | 订阅在**外部文件**中定义。声明式方式让你的代码无需依赖 Dapr，允许现有应用程序在无需更改代码的情况下订阅主题。 |
+| [**流式**]({{% ref "subscription-methods#streaming-subscriptions" %}}) | 订阅在**应用程序代码**中定义。streaming subscription 是动态的，这意味着可以在运行时添加或删除订阅。它们不需要应用程序提供订阅端点（programmatic subscription 和 declarative subscription 都需要），因此易于在代码中配置。streaming subscription 也不要求为应用程序配置 sidecar 即可接收消息。 |
+| [**编程式**]({{% ref "subscription-methods#programmatic-subscriptions" %}}) | 订阅在**应用程序代码**中定义。编程式方式实现静态订阅，并要求在代码中提供一个端点。 |
 
-下面的示例演示了 `checkout` 应用与 `orderprocessing` 应用之间通过 `orders` 主题进行的 pub/sub 消息传递。这些示例先以声明式方式使用同一个 Dapr pub/sub component，然后以编程式方式使用它。
+下面的示例演示了 `checkout` 应用与 `orderprocessing` 应用之间通过 `orders` 主题进行的 pub/sub 消息传递。这些示例先以声明式方式、再以编程式方式使用同一个 Dapr pub/sub component。
 
-### declarative subscription
+### declarative subscriptions
 
 {{% alert title="注意" color="primary" %}}
-declarative subscription 默认会被“热重载”，即无需重启即可自动获取更新。如需退出该行为，请在 Dapr 应用程序配置中禁用 `HotReload` 功能：
+declarative subscriptions 默认会被“热重载”，即无需重启即可自动获取更新。如需退出该行为，请在 Dapr 应用程序配置中禁用 `HotReload` 功能：
 
 ```yaml
 spec:
@@ -51,7 +51,7 @@ scopes:
 这里名为 `order` 的订阅：
 - 使用名为 `pubsub` 的 pub/sub component 订阅名为 `orders` 的主题。
 - 设置 `route` 字段，将所有主题消息发送到应用程序中的 `/orders` 端点。
-- 设置 `scopes` 字段，使此订阅仅可由 ID 为 `orderprocessing` 的应用程序访问。
+- 设置 `scopes` 字段，将此订阅的作用域限定为仅 ID 为 `orderprocessing` 的应用程序可以访问。
 
 运行 Dapr 时，请将 YAML component 文件路径设置为指向该 component，使 Dapr 能够找到它。
 
@@ -195,9 +195,9 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 
 {{< /tabpane >}}
 
-`/orders` 端点与订阅中的 `route` 相匹配，Dapr 会将所有主题消息发送到该端点。
+`/orders` 端点与订阅中定义的 `route` 相匹配，Dapr 会将所有主题消息发送到该端点。
 
-### streaming subscription
+### streaming subscriptions
 
 streaming subscription 是在应用程序代码中定义、可以在运行时动态停止和启动的订阅。
 消息由应用程序从 Dapr 中拉取。这意味着订阅主题不需要端点，甚至可以在完全未为 sidecar 配置任何应用的情况下订阅。
@@ -399,8 +399,9 @@ func main() {
 
 		// 处理事件
 
-		// 必须始终上报消息的处理结果，否则消息不会被视为已处理，
-		// 并会被重新投递或转入死信队列。
+		// 必须始终上报消息的处理结果，否则
+		// 消息不会被视为已处理，并会被重新投递
+		// 或转入死信队列。
 		// msg.Retry()
 		// msg.Drop()
 		if err := msg.Success(); err != nil {
@@ -467,17 +468,17 @@ func eventHandler(e *common.TopicEvent) common.SubscriptionResponseStatus {
 
 {{< youtube id=57l-QDwgI-Y start=841 >}}
 
-### programmatic subscription
+### programmatic subscriptions
 
 动态编程式方法在代码中返回 `routes` JSON 结构，而声明式方法使用的是 YAML 中的 `route` 结构。
 
-> **注意：** programmatic subscription 仅在应用程序启动时读取一次。你无法_动态_添加新的 programmatic subscription，只能在编译时添加。
+> **注意：** programmatic subscription 仅在应用程序启动时读取一次。你无法 _动态_ 添加新的 programmatic subscription，只能在编译时添加。
 
-{{% alert title="禁用 programmatic subscription" color="primary" %}}
+{{% alert title="禁用 programmatic subscriptions" color="primary" %}}
 如果你的应用程序不使用 programmatic subscription，可以禁用对 `/dapr/subscribe` 的自动 HTTP 调用，以减少日志噪音。在 `dapr run` 中使用 `--disable-init-endpoints subscribe` 标志，或在 Kubernetes 中使用 `dapr.io/disable-init-endpoints: "subscribe"` 注解即可。[了解有关禁用初始化端点的更多信息。]({{% ref "arguments-annotations-overview#disable-init-endpoints" %}})
 {{% /alert %}}
 
-在下面的示例中，你将在应用程序代码中定义上方[声明式 YAML 订阅](#declarative-subscription)中的各项值。
+在下面的示例中，你将在应用程序代码中定义上方[声明式 YAML 订阅](#declarative-subscriptions)中的各项值。
 
 {{< tabpane text=true >}}
 
@@ -496,7 +497,7 @@ public async Task<ActionResult<Order>>Checkout(Order order, [FromServices] DaprC
 或者
 
 ```csharp
-// Dapr 订阅（[Topic]）将 orders 主题路由到此路由
+// Dapr 订阅 [Topic] 将 orders 主题路由到此路由
 app.MapPost("/orders", [Topic("pubsub", "orders")] (Order order) => {
     Console.WriteLine("Subscriber received : " + order);
     return Results.Ok(order);

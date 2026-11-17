@@ -1,15 +1,15 @@
 ---
 type: docs
-title: "操作指南：使用 Cryptography API"
-linkTitle: "操作指南：使用 Cryptography"
+title: "操作指南：使用加密 API"
+linkTitle: "操作指南：使用加密"
 weight: 2000
 description: "了解如何加密和解密文件"
 ---
 
-现在你已经阅读了 [Cryptography 作为 Dapr building block]({{% ref cryptography-overview %}})，让我们通过 SDK 来演练如何使用 cryptography API。
+现在你已经阅读了 [作为 Dapr building block 的加密]({{% ref cryptography-overview %}})，让我们通过 SDK 来演练如何使用加密 API。
 
 {{% alert title="注意" color="primary" %}}
-Dapr cryptography 目前处于 Alpha 阶段。
+Dapr 加密目前处于 alpha 阶段。
 
 {{% /alert %}}
 
@@ -32,9 +32,9 @@ def encrypt_decrypt_string(dapr: DaprClient):
     resp = dapr.encrypt(
         data=message.encode(),
         options=EncryptOptions(
-            # cryptography component 的名称（必需）
+            # 加密 component 的名称（必需）
             component_name=CRYPTO_COMPONENT_NAME,
-            # 存储在 cryptography component 中的密钥（必需）
+            # 存储在加密 component 中的密钥（必需）
             key_name=RSA_KEY_NAME,
             # 用于包装密钥的算法，必须由上面命名的密钥支持。
             # 可选项包括："RSA"、"AES"
@@ -53,9 +53,9 @@ def encrypt_decrypt_string(dapr: DaprClient):
 
 <!--JavaScript-->
 
-使用 **`@dapr/dapr` 3.19.0 或更高版本**时，`client.crypto` 同时支持 HTTP 和 gRPC。你可以加密缓冲区或 UTF-8 字符串中的数据。对于大载荷和生产环境中的流式处理，建议优先使用 gRPC，因为 Dapr 会在读取完请求之前缓冲 HTTP 的 cryptography 输出。
+使用 **`@dapr/dapr` 3.19.0 或更高版本**时，`client.crypto` 同时支持 HTTP 和 gRPC。你可以加密缓冲区或 UTF-8 字符串中的数据。对于大负载和生产环境中的流式处理，建议优先使用 gRPC，因为 Dapr 会在读取完请求之前缓冲 HTTP 的加密输出。
 
-安装、component 和密钥设置、客户端配置以及可运行的示例，请参阅 [JavaScript Cryptography 操作指南]({{% ref js-cryptography-howto.md %}})。
+安装、component 和密钥设置、客户端配置以及可运行的示例，请参阅 [JavaScript 加密操作指南]({{% ref js-cryptography-howto.md %}})。
 
 ```js
 // 传递数据（缓冲区或字符串）时，`encrypt` 返回包含加密消息的 Buffer
@@ -99,12 +99,12 @@ await pipeline(
 ```csharp
 using var client = new DaprClientBuilder().Build();
 
-const string componentName = "azurekeyvault"; // 更改此项以匹配你的 cryptography component
-const string keyName = "myKey"; // 更改此项以匹配你的加密存储中的密钥名称
+const string componentName = "azurekeyvault"; //更改此项以匹配你的加密 component
+const string keyName = "myKey"; //更改此项以匹配你的加密 store 中的密钥名称
 
 const string plainText = "This is the value we're going to encrypt today";
 
-// 将字符串编码为 UTF-8 字节数组并加密
+//将字符串编码为 UTF-8 字节数组并加密
 var plainTextBytes = Encoding.UTF8.GetBytes(plainText);
 var encryptedBytesResult = await client.EncryptAsync(componentName, plaintextBytes, keyName, new EncryptionOptions(KeyWrapAlgorithm.Rsa));
 ```
@@ -213,9 +213,9 @@ def encrypt_decrypt_string(dapr: DaprClient):
     resp = dapr.decrypt(
         data=encrypt_bytes,
         options=DecryptOptions(
-            # cryptography component 的名称（必需）
+            # 加密 component 的名称（必需）
             component_name=CRYPTO_COMPONENT_NAME,
-            # 存储在 cryptography component 中的密钥（必需）
+            # 存储在加密 component 中的密钥（必需）
             key_name=RSA_KEY_NAME,
         ),
     )
@@ -254,7 +254,7 @@ await pipeline(
 );
 ```
 
-请先完成加密，再开始解密。受 [dapr/kit#170](https://github.com/dapr/kit/issues/170) 影响的运行时，在解密与其他 cryptography 操作重叠时可能会失败。有关所有加密选项、流的行为和限制，请参阅 [JavaScript 客户端使用指南]({{% ref js-cryptography-client-usage.md %}})。
+请先完成加密，再开始解密。受 [dapr/kit#170](https://github.com/dapr/kit/issues/170) 影响的运行时，在解密与其他加密操作重叠时可能会失败。有关所有加密选项、流的行为和限制，请参阅 [JavaScript 客户端使用指南]({{% ref js-cryptography-client-usage.md %}})。
 
 {{% /tab %}}
 
@@ -270,8 +270,8 @@ public async Task<string> DecryptBytesAsync(byte[] encryptedBytes)
 {
   using var client = new DaprClientBuilder().Build();
 
-  const string componentName = "azurekeyvault"; // 更改此项以匹配你的 cryptography component
-  const string keyName = "myKey"; // 更改此项以匹配你的加密存储中的密钥名称
+  const string componentName = "azurekeyvault"; //更改此项以匹配你的加密 component
+  const string keyName = "myKey"; //更改此项以匹配你的加密 store 中的密钥名称
 
   var decryptedBytes = await client.DecryptAsync(componentName, encryptedBytes, keyName);
   var decryptedString = Encoding.UTF8.GetString(decryptedBytes.ToArray());
@@ -301,4 +301,4 @@ out, err := sdkClient.Decrypt(context.Background(), rf, dapr.EncryptOptions{
 {{< /tabpane >}}
 
 ## 后续步骤
-[Cryptography component 规范]({{% ref supported-cryptography %}})
+[加密 component 规范]({{% ref supported-cryptography %}})

@@ -6,7 +6,7 @@ weight: 200
 description: "使用 Dapr Binary Store API 上传、获取、覆盖和删除文件"
 ---
 
-本指南介绍如何配置 Binary Store component，并使用 Dapr HTTP API 或 .NET SDK 上传、获取和删除文件。示例使用运行时的内存 component 进行本地开发。
+本指南介绍如何配置 Binary Store component，并使用 Dapr HTTP API 或 .NET SDK 上传、获取和删除文件。示例使用运行时的 in-memory component 进行本地开发。
 
 ## 前提条件
 
@@ -17,7 +17,7 @@ description: "使用 Dapr Binary Store API 上传、获取、覆盖和删除文�
 
 ## 配置 Binary Store
 
-Binary Store component 表示 Dapr 所使用的存储后端。将以下内存 component 定义保存为 `components/binary-store.yaml`：
+Binary Store component 表示 Dapr 所使用的存储后端。将以下 in-memory component 定义保存为 `components/binary-store.yaml`：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

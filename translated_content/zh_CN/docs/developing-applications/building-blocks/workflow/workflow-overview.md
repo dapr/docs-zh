@@ -55,7 +55,7 @@ child workflow 还支持自动重试策略。
 
 ### multi-application workflow
 
-multi-application workflow 使你能够编排跨越多个应用程序的复杂业务流程。这允许 workflow 在不同应用程序中调用 activity 或启动 child workflow，在分布 workflow 执行的同时，保持 Dapr workflow 引擎的安全性、可靠性和持久性保证。
+multi-application workflow 使你能够编排跨越多个应用程序的复杂业务流程。这允许 workflow 在不同应用程序中调用 activity 或启动 child workflow，在分发 workflow 执行的同时，保持 Dapr workflow 引擎的安全性、可靠性和持久性保证。
 
 [详细了解 multi-application workflow。]({{% ref "workflow-multi-app.md" %}})
 
@@ -72,7 +72,7 @@ multi-application workflow 使你能够编排跨越多个应用程序的复杂�
 
 ### 快速路径
 
-`WorkflowsFastPath` 预览功能会在已持有相应工作的主机上驱动 workflow 轮次和 activity 主体，并将 activity 完成事件合并到下一轮的单次 state store 提交中，而不是为每个事件创建 Scheduler reminder。这消除了每个事件的 Scheduler 往返开销，也去掉了 workflow 热路径上的大部分 state store 提交。至少一次执行语义保持不变：每个实例的 janitor reminder，以及自动回退到持久 reminder 的机制，提供了恢复能力。
+`WorkflowsFastPath` 预览功能会在已持有相应工作的主机上驱动 workflow 轮次和 activity 主体，并将 activity 完成事件合并到下一个轮次的单次 state store 提交中，而不是为每个事件创建 Scheduler reminder。这消除了每个事件的 Scheduler 往返开销，也去掉了 workflow 热路径上的大部分 state store 提交。至少一次执行语义保持不变：每个实例的 janitor reminder，以及自动回退到持久 reminder 的机制，提供了恢复能力。
 
 [详细了解 workflow 快速路径。]({{% ref "workflow-fast-path.md" %}})
 
@@ -84,11 +84,11 @@ multi-application workflow 使你能够编排跨越多个应用程序的复杂�
 
 ### history propagation
 
-workflow history propagation 使当前 workflow 能够回顾其自身或其他 workflow 已执行的事件集合，并验证这些事件确实发生过。其适用场景包括欺诈检查、合规门禁检查（某个 activity 是否被调用），或让长时间运行的 AI 智能体/ workflow 在跨多次调用（多智能体、multi-app workflow）时保持上下文，以判断智能体或 workflow 所声称已做的事情是否属实。
+workflow history propagation 使当前 workflow 能够回顾其自身或其他 workflow 已执行的事件集合，并验证这些事件确实发生过。其适用场景包括欺诈检查、合规门禁检查（某个 activity 是否被调用），或让长时间运行的 AI 代理或 workflow 在跨多次调用（多代理、multi-app workflow）时保持上下文，以判断代理或 workflow 所声称已做的事情是否属实。
 
-父 workflow 可以选择与 child workflow 和 activity 共享其执行历史，适用于证据链（chain-of-custody）验证、欺诈检测、审计，以及需要跨多跳传递的 AI 智能体上下文。
+父 workflow 可以选择与 child workflow 和 activity 共享其执行历史，适用于保管链（chain-of-custody）验证、欺诈检测、审计，以及需要跨多个跳转传递的 AI 代理上下文。
 
-详细信息请阅读 [workflow history propagation]({{% ref "workflow-history-propagation.md" %}} 以了解如何将其应用于 workflow、child workflow 和 activity。
+详细信息请阅读 [workflow history propagation ]({{% ref "workflow-history-propagation.md" %}} 以了解如何将其应用于 workflow、child workflow 和 activity。
 
 [详细了解 workflow history propagation。]({{< ref workflow-history-propagation.md >}})
 
@@ -138,7 +138,7 @@ workflow 逻辑存在于你的应用程序中，并由 Dapr sidecar 中运行的
 | Quickstart/教程 | 描述 |
 | ------------------- | ----------- |
 | [Workflow Quickstart]({{% ref workflow-quickstart.md %}}) | 运行一个包含五个 workflow activity 的 workflow 应用程序，了解 Dapr Workflow 的实际应用 |
-| [Workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow) | 在 Python、.NET 或 Java 中为每种 workflow 模式各运行一个示例。示例涵盖任务链、扇出/扇入、child workflow、监控、外部系统交互、弹性与补偿、版本管理、workflow 管理和 history propagation。Go 提供 history propagation 教程。 |
+| [Workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow) | 在 Python、.NET 或 Java 中为每种 workflow 模式各运行一个示例。示例涵盖任务链、扇出/扇入、child workflow、监控、外部系统交互、resiliency 与补偿、版本管理、workflow 管理和 history propagation。Go 提供 history propagation 教程。 |
 | [Workflow Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/workflow) | 了解如何使用 Python `dapr.ext.workflow` 包创建 Dapr Workflow 并调用它。 |
 | [Workflow JavaScript SDK 示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow) | 了解如何使用 JavaScript SDK 创建 Dapr Workflow 并调用它。 |
 | [Workflow .NET SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow) | 了解如何使用 ASP.NET Core Web API 创建 Dapr Workflow 并调用它。 |
@@ -193,7 +193,7 @@ dapr workflow purge --app-id myapp --all-older-than 720h
 ## 限制
 
 - **state store：**你只能使用支持 workflow 的 state store，[如所述]({{% ref supported-state-stores %}})。
-- Azure Cosmos DB 有[有效负载和 workflow 复杂性限制]({{% ref "setup-azure-cosmosdb.md#workflow-limitations" %}})。
+- Azure Cosmos DB 有[负载和 workflow 复杂性限制]({{% ref "setup-azure-cosmosdb.md#workflow-limitations" %}})。
 - AWS DynamoDB 有[workflow 复杂性限制]({{% ref "setup-azure-cosmosdb.md#workflow-limitations" %}})。
 
 ## workflow 安全

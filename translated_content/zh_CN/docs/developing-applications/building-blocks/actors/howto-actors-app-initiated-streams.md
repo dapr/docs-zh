@@ -13,7 +13,7 @@ description: "打开一条从应用到 daprd 的 gRPC 流，无需暴露服务�
 本指南介绍如何使用生成的 gRPC 客户端，以 Go 语言实现 `SubscribeActorEventsAlpha1`。请先阅读[概念文档]({{% ref "actors-app-initiated-streams" %}})，了解协议细节，以及何时应优先选择这种方式而不是传统回调。
 
 {{% alert title="使用 Go SDK？" color="primary" %}}
-[Dapr Go SDK](https://github.com/dapr/go-sdk) 将该协议封装为一个高级辅助函数 —— [`client.SubscribeActorEvents`](https://github.com/dapr/go-sdk/tree/main/examples/actor-grpc) —— 由它为你管理流、回调分发和重新连接。本指南直接记录原始的 gRPC 协议，适用于理解线上传输格式，或用于尚未提供辅助函数的 SDK。
+[Dapr Go SDK](https://github.com/dapr/go-sdk) 将该协议封装为一个高级辅助函数 —— [`client.SubscribeActorEvents`](https://github.com/dapr/go-sdk/tree/main/examples/actor-grpc) —— 由它为你管理流、回调派发和重新连接。本指南直接记录原始的 gRPC 协议，适用于理解线上传输格式，或用于尚未提供辅助函数的 SDK。
 {{% /alert %}}
 
 ## 前提条件
@@ -53,7 +53,7 @@ import (
 )
 
 func main() {
-    // 连接到 Dapr 边车的 gRPC 端口（默认 50001）。
+    // 连接到 Dapr sidecar 的 gRPC 端口（默认 50001）。
     conn, err := grpc.NewClient("localhost:50001",
         grpc.WithTransportCredentials(insecure.NewCredentials()))
     if err != nil {
@@ -158,7 +158,7 @@ func handleCallbacks(stream runtimev1pb.Dapr_SubscribeActorEventsAlpha1Client) {
             req := v.ReminderRequest
             log.Printf("reminder %s/%s name=%s (id=%s)", req.ActorType, req.ActorId, req.Name, req.Id)
 
-            // 返回 cancel=true，以在本次触发后取消该提醒。
+            // 返回 cancel=true，以在本次触发后取消该 reminder。
             shouldCancel := handleReminder(req.ActorType, req.ActorId, req.Name, req.Data)
 
             if err := stream.Send(&runtimev1pb.SubscribeActorEventsRequestAlpha1{

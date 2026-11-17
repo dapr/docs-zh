@@ -416,17 +416,17 @@ dapr invoke --app-id checkout --method checkout/100
 curl 'http://dapr-app-id:checkout@localhost:3602/checkout/100?basket=1234&key=abc' -X POST
 ```
 
-### 命名空间
+### Namespaces
 
-在[支持命名空间的平台]({{% ref "service_invocation_api#namespace-supported-platforms" %}})上运行时，需要在应用 ID 中包含目标应用的命名空间。例如，按照 `<app>.<namespace>` 格式，使用 `checkout.production`。
+在[支持 namespace 的平台]({{% ref "service_invocation_api#namespace-supported-platforms" %}})上运行时，需要在应用 ID 中包含目标应用的 namespace。例如，按照 `<app>.<namespace>` 格式，使用 `checkout.production`。
 
-以此为例，带命名空间调用服务的写法如下：
+以此为例，带 namespace 调用服务的写法如下：
 
 ```bash
 curl http://localhost:3602/v1.0/invoke/checkout.production/method/checkout/100 -X POST
 ```
 
-有关命名空间的更多信息，请参阅[跨命名空间 API 规范]({{% ref "service_invocation_api#cross-namespace-invocation" %}})。
+有关 namespace 的更多信息，请参阅[跨 namespace API 规范]({{% ref "service_invocation_api#cross-namespace-invocation" %}})。
 
 ## 查看追踪和日志
 

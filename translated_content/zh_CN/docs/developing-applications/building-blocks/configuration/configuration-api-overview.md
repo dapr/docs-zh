@@ -6,17 +6,17 @@ weight: 1000
 description: "Configuration API building block 概述"
 ---
 
-在编写应用程序时，消费应用程序配置是一项常见任务。配置存储通常用于管理这些配置数据。配置项通常是动态的，并且与消费它的应用程序的需求紧密耦合。
+在编写应用程序时，消费应用程序配置是一项常见任务。通常会使用 configuration store 管理这些配置数据。配置项通常是动态的，并且与消费它的应用程序的需求紧密耦合。
 
 例如，应用程序配置可以包括：
-- 密钥名称
+- secrets 的名称
 - 不同的标识符
 - 分区或消费者 ID
 - 要连接的数据库名称等
 
-通常，配置项以键/值对的形式存储在 state store 或数据库中。开发人员或运维人员可以在运行时更改配置存储中的应用程序配置。更改完成后，会通知服务加载新配置。
+通常，配置项以键/值对的形式存储在 state store 或数据库中。开发人员或运维人员可以在运行时更改 configuration store 中的应用程序配置。更改完成后，会通知服务加载新配置。
 
-从应用程序 API 的角度来看，配置数据是只读的，配置存储的更新通过运维工具完成。借助 Dapr 的 Configuration API，你可以：
+配置数据从应用程序 API 的角度来看是只读的，configuration store 的更新通过运维工具完成。借助 Dapr 的 Configuration API，你可以：
 - 消费以只读键/值对形式返回的配置项
 - 订阅配置项的变更
 
@@ -48,4 +48,4 @@ Configuration API 不应与 [Dapr sidecar 和 control plane 配置]({{% ref "con
 
 ## 后续步骤
 按照以下指南操作：
-- [操作指南：从配置存储读取应用程序配置]({{% ref howto-manage-configuration %}})
+- [操作指南：从 configuration store 读取应用程序配置]({{% ref howto-manage-configuration %}})

@@ -10,7 +10,7 @@ is_preview: true
 workflow 快速路径是 Dapr sidecar 内部的三项优化的组合。它们去掉了每个 workflow 轮次中按事件创建的 Scheduler reminder，以及大部分 state store 提交，同时保留与默认路径相同的至少一次执行保证。workflow 和 activity 在已经持有对应工作的主机上驱动执行，activity 完成也不再单独提交，而是持久化到下一次轮次的那一次 state store 提交之中。
 
 {{% alert title="预览功能" color="warning" %}}
-快速路径从 Dapr v1.19 起以[预览功能]({{% ref "support-preview-features.md" %}})的形式提供，由 `WorkflowsFastPath` feature gate 控制。它默认关闭，需要通过 [Configuration 的 `features` 列表]({{% ref "preview-features.md" %}})按应用启用。
+快速路径从 Dapr v1.19 起以[预览功能]({{% ref "support-preview-features.md" %}})的形式提供，由 `WorkflowsFastPath` feature gate 控制。它默认关闭，需要通过 [配置的 `features` 列表]({{% ref "preview-features.md" %}})按应用启用。
 
 快速路径完全位于 sidecar 内部。无需升级 SDK，也无需修改应用；workflow SDK 与 sidecar 之间的协议保持不变。
 {{% /alert %}}
@@ -45,7 +45,7 @@ workflow 通过*轮次*推进。一次轮次会唤醒 workflow Actor，在你的
 
 ## 配置
 
-在应用的 Configuration 资源中启用快速路径：
+在应用的配置资源中启用快速路径：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -60,9 +60,9 @@ spec:
 
 该门控在 sidecar 启动时读取。修改之后，需要重启应用的 sidecar。
 
-该设置的作用范围限于使用该 Configuration 的应用。在[multi-application workflow]({{% ref "workflow-multi-app.md" %}})中，只有当托管该 activity 的应用的 Configuration 也启用了快速路径时，该 activity 才会在本地驱动；否则它保留持久 reminder 路径。
+该设置的作用范围限于使用该配置的应用。在[multi-application workflow]({{% ref "workflow-multi-app.md" %}})中，只有当托管该 activity 的应用的配置也启用了快速路径时，该 activity 才会在本地驱动；否则它保留持久 reminder 路径。
 
-如果 Configuration 同时设置了由 Scheduler 强制执行的并发限制，sidecar 会在启动时输出以下日志，并改为运行默认的 reminder 路径：
+如果配置同时设置了由 Scheduler 强制执行的并发限制，sidecar 会在启动时输出以下日志，并改为运行默认的 reminder 路径：
 
 ```
 WorkflowsFastPath is enabled but scheduler-enforced workflow concurrency limits are configured; disabling the fast path so the limits are enforced
@@ -172,7 +172,7 @@ janitor 是一个可重复执行的 Actor reminder，名为 `new-event-janitor`�
 | 收件箱无行，但有未解析且没有驱动在途的 `TaskScheduled` 事件 | 重新派发这些 activity（见[第 2 段](#第-2-段本地活动驱动)） | `janitor_redispatched` 及相关状态 |
 | 无待处理工作 | 空操作，且不停用 Actor | |
 
-空闲的 janitor 还能防止过期的内存缓存：对端主机可能在本主机加载状态之后写入了收件箱行。若在每个空闲实例的每次触发时都重新读取存储，将成为 janitor 的主要开销，因此探测会在连续的空闲触发之间退避（第 1、2、4、8 次触发，之后每 8 次一次）。因此，这种罕见的双重故障的恢复最多需要八个周期，而非一个。任何真实的 activity 都会重置这一节奏。
+空闲的 janitor 还能防止过期的内存缓存：对端主机可能在本主机加载状态之后写入了收件箱行。若在每个空闲实例的每次触发时都重新读取存储，将成为 janitor 的主要开销，因此探测会在连续的空闲触发之间退避（依次为第一、第二、第四和第八次触发，之后每八次一次）。因此，这种罕见的双重故障的恢复最多需要八个周期，而非一个。任何真实的 activity 都会重置这一节奏。
 
 {{< diagram workflow-fast-path >}}
 
@@ -442,7 +442,7 @@ sum by (app_id) (rate(dapr_runtime_workflow_completions_fold_count[5m])) > 0.05
 
 ### 为什么我的 sidecar 日志显示快速路径已禁用？
 
-因为 Configuration 设置了由 Scheduler 强制执行的并发限制。请删除全局或按名称设置的限制，或保留这些限制并接受默认路径。参见[并发限制](#并发限制)。
+因为配置设置了由 Scheduler 强制执行的并发限制。请删除全局或按名称设置的限制，或保留这些限制并接受默认路径。参见[并发限制](#并发限制)。
 
 ### 为什么 activity 完成的确认开始变慢了？
 

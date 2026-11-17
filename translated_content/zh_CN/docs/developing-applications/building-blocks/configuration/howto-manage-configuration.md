@@ -326,7 +326,7 @@ var client = new DaprClientBuilder().Build();
 // 在本示例中没有必要这样做，因为我们并未在任何地方注入它。  
 // builder.Services.AddDaprClient();
 
-// 获取初始值，并持续监听其变化
+// 获取初始值，并持续监听其变化 
 builder.Configuration.AddDaprConfigurationStore("configstore", new List<string>() { "orderId1","orderId2" }, client, TimeSpan.FromSeconds(20));
 builder.Configuration.AddStreamingDaprConfigurationStore("configstore", new List<string>() { "orderId1","orderId2" }, client, TimeSpan.FromSeconds(20));
 
@@ -538,7 +538,7 @@ builder.Services.AddDaprClient();
 var app = builder.Build();
 
 const string DAPR_CONFIGURATION_STORE = "configstore";
-const string SubscriptionId = "abc123"; //Replace with the subscription identifier to unsubscribe from
+const string SubscriptionId = "abc123"; //替换为要取消订阅的订阅 ID
 var client = app.Services.GetRequiredService<DaprClient>();
 
 await client.UnsubscribeConfiguration(DAPR_CONFIGURATION_STORE, SubscriptionId);

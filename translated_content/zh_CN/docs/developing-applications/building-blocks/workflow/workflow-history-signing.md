@@ -1,21 +1,21 @@
 ---
 type: docs
-title: "workflow 历史记录签名"
-linkTitle: "历史记录签名"
+title: "workflow history signing"
+linkTitle: "history signing"
 weight: 9000
 description: "对 workflow 执行历史记录进行加密篡改检测"
 is_preview: true
 ---
 
-Dapr workflow 历史记录签名可对 workflow 执行历史记录进行加密篡改检测。在 workflow 的整个生命周期中生成的每个历史记录事件，都会使用 sidecar 的 mTLS 身份（X.509 SPIFFE 可验证身份文档（SVID））进行签名，从而形成可审计的签名链；每次加载 workflow 状态时都会验证该签名链。
+Dapr workflow history signing 为 workflow 执行历史记录提供加密篡改检测。workflow 生命周期内产生的每个 history event，都会使用 sidecar 的 mTLS 身份（X.509 SPIFFE 可验证身份文档（SVID））进行签名，从而形成可审计的签名链；每次加载 workflow 状态时都会验证该签名链。
 
 {{% alert title="启用签名之前：规划根 CA 生命周期" color="warning" %}}
-workflow 历史记录签名信任你的 Dapr **根 CA**。默认情况下，Dapr 生成的自签名根证书有效期为 **一年**。如果该根证书过期，或者你轮换到使用不同私钥的新根证书，**在旧根证书下签发的所有已签名 workflow 都将无法通过验证**，并因错误类型 `SignatureVerificationFailed` 而无法加载。没有重新签名的途径。
+Workflow history signing 信任你的 Dapr **根 CA**。默认情况下，Dapr 生成的自签名根证书有效期为 **一年**。如果该根证书过期，或者你轮换到使用不同私钥的新根证书，**在旧根证书下签发的所有已签名 workflow 都将无法通过验证**，并因错误类型 `SignatureVerificationFailed` 而无法加载。没有重新签名的途径。
 
-启用此功能之前，请决定你将采取以下哪一种措施：
+在启用此功能之前，请决定你将采取以下哪一种措施：
 
 1. **使用相同的根密钥续订叶证书/颁发者证书**（推荐）。现在备份 Dapr 生成的根私钥，并在每次续订时重复使用，或者
-2. **使用你自己的 CA**，并安全存储由你控制的根密钥（HSM 或机密存储），在所有颁发者证书续订时重复使用该根密钥，或者
+2. **使用你自己的 CA**，并安全存储由你控制的根密钥（HSM 或 secret store），在所有颁发者证书续订时重复使用该根密钥，或者
 3. **在轮换到新根证书之前排空 workflow**。只运行可以在一个根 CA 有效期内完成（或清除）的 workflow，并在轮换根证书之前完成或清除所有已签名 workflow。
 
 如果你无法在最长 workflow 的整个生命周期内保证做到其中一项，**请暂时不要启用签名**。完整指南请参阅[长时间运行的 workflow 与根 CA 过期](#长时间运行的-workflow-与根-ca-过期)。
@@ -23,22 +23,22 @@ workflow 历史记录签名信任你的 Dapr **根 CA**。默认情况下，Dapr
 
 ## 关于 SPIFFE 可验证身份文档（SVID）
 
-SVID 是工作负载的数字护照。每个 Dapr sidecar 都会从 Sentry 获取一个 SVID，并将其同时用于 mTLS 和 workflow 历史记录签名。
+SVID 是工作负载的数字护照。每个 Dapr sidecar 都会从 Sentry 获取一个 SVID，并将其同时用于 mTLS 和 workflow history signing。
 
 - **SPIFFE ID**：嵌入在 X.509 证书中（位于 URI Subject Alternative Name 内），格式为 `spiffe://<trust-domain>/ns/<namespace>/<app-id>`。它用于标识生成签名的工作负载。
 - **加密证明**：sidecar 持有与之匹配的私钥，并使用该密钥对每批历史记录进行签名。
 - **信任根**：每个 SVID 都链接到一个 Sentry CA。验证方只有在证书链链接到信任包中的某个 CA 时才会接受签名。
-- **软件来源信息**（Kubernetes、Dapr 1.19+）：Sentry 会将[工作负载 Pod 的容器映像引用]({{% ref "security-concept.md#container-image-references-in-workload-certificates" %}})作为自定义 X.509 扩展写入每个 SVID。由于签名证书会与 workflow 历史记录一同持久化，因此这也扩展到[执行 workflow 的软件来源信息](#执行-workflow-的软件来源信息哪些映像执行了-workflow)。
+- **软件来源信息**（Kubernetes，Dapr 1.19+）：Sentry 会将[工作负载 Pod 的容器映像引用]({{% ref "security-concept.md#container-image-references-in-workload-certificates" %}})作为自定义 X.509 扩展写入每个 SVID。由于签名证书会与 workflow 历史记录一同持久化，因此这也扩展到[执行 workflow 的软件来源信息](#执行-workflow-的软件来源信息哪些映像执行了-workflow)。
 
 有关 Sentry、mTLS 和信任域的背景信息，请参阅 [mTLS 设置与配置]({{% ref "mtls.md" %}})和[安全概念]({{% ref "security-concept.md" %}})。
 
 ## 概述
 
-Dapr 中的 workflow 按一系列确定性重放步骤执行。每个步骤都会将历史记录事件追加到[参与者 state store]({{% ref "workflow-architecture.md" %}})。历史记录签名可确保这些事件在写入后未被修改、重排或删除。
+Dapr 中的 workflow 按一系列确定性重放步骤执行。每个步骤都会将 history event 追加到[actor state store]({{% ref "workflow-architecture.md" %}})。history signing 可确保这些 history event 在写入后未被修改、重排或删除。
 
 启用签名后，Dapr 会：
 
-1. 以确定性方式编组每个新历史记录事件。
+1. 以确定性方式编组每个新 history event。
 2. 计算该批事件的 SHA-256 摘要。
 3. 将新摘要链接到前一个签名的摘要。
 4. 使用 sidecar 的 [SPIFFE](https://spiffe.io/) X.509 私钥（SVID）对组合输入签名。
@@ -52,13 +52,13 @@ Dapr 中的 workflow 按一系列确定性重放步骤执行。每个步骤都�
 
 ## 先决条件
 
-历史记录签名要求启用 [mTLS]({{% ref "mtls.md" %}})。mTLS 提供用作签名密钥的 SPIFFE X.509 身份。没有 mTLS 时，没有可用的身份材料，签名会被静默禁用。
+history signing 要求启用 [mTLS]({{% ref "mtls.md" %}})。mTLS 提供用作签名密钥的 SPIFFE X.509 身份。没有 mTLS 时，没有可用的身份材料，签名会被静默禁用。
 
 在使用 [Sentry 服务]({{% ref "security-concept.md" %}})的标准 Dapr 部署中，默认启用 mTLS。
 
 ## 配置
 
-历史记录签名由 `WorkflowHistorySigning` 功能标志控制。默认情况下，**该功能处于禁用状态**，必须显式启用。
+history signing 由 `WorkflowHistorySigning` 功能标志控制。默认情况下，**该功能处于禁用状态**，必须显式启用。
 
 ### 启用签名
 
@@ -75,7 +75,7 @@ spec:
       enabled: true
 ```
 
-### 启用签名的条件
+### 签名生效的条件
 
 必须同时满足以下两个条件，签名才会执行：
 
@@ -90,7 +90,7 @@ spec:
 **签名是一项单向承诺。**workflow 启用签名创建后，就必须始终在启用了签名的主机上运行。在加载先前已签名 workflow 的主机上禁用签名会导致 workflow 失败。同样，在加载先前未签名 workflow 的主机上启用签名也会导致 workflow 失败。详情请参阅[单向承诺](#单向承诺)。
 {{% /alert %}}
 
-### 作用范围
+### 作用域
 
 签名在 sidecar 级别应用。在 Dapr 配置中启用功能标志后，**使用该配置的 sidecar 上运行的每个 workflow 都会进行签名**——不支持按 workflow 类型或实例单独选择启用。如果你只想为部分 workflow 引入签名，请在单独的 appID 下运行这些 workflow，并使用启用了该功能的配置。
 
@@ -127,7 +127,7 @@ Dapr 会透明地处理证书轮换。当 sidecar 的 SVID 轮换时（例如，
 2. 向表中追加新的证书条目。
 3. 新签名引用新的证书索引。
 
-以前的签名仍然有效，因为它们引用的是原始证书；该证书仍在表中，并且可根据 CA 信任锚验证。
+以前的签名仍然有效，因为它们引用的是原始证书；该证书仍在表中，并且可根据 CA 信任锚点验证。
 
 {{< mermaid >}}
 gantt
@@ -154,7 +154,7 @@ Cert A 和 Cert B 都链接到同一个 Sentry CA，因此所有签名都仍然�
 {{% alert title="重要" color="warning" %}}
 **证书轮换**（新的叶 SVID，相同的 CA 根证书）可以无缝完成。
 
-完整的 **CA 轮换**（完全不同的根 CA）会导致使用旧 CA 签名的 workflow 验证失败，因为旧签名证书链无法链接到新的信任锚。这是设计如此：如果信任根发生更改，就无法验证先前签名的数据。
+完整的 **CA 轮换**（完全不同的根 CA）会导致使用旧 CA 签名的 workflow 验证失败，因为旧签名证书链无法链接到新的信任锚点。这是设计如此：如果信任根发生更改，就无法验证先前签名的数据。
 {{% /alert %}}
 
 ### 长时间运行的 workflow 与根 CA 过期
@@ -166,7 +166,7 @@ Cert A 和 Cert B 都链接到同一个 Sentry CA，因此所有签名都仍然�
 要使长时间运行的已签名 workflow 在 CA 续订期间保持正常，请采取以下任一措施：
 
 1. **轮换叶证书/颁发者证书，但保留相同的根密钥。**这是推荐方式。Dapr CLI 支持使用 `dapr mtls renew-certificate -k --private-key <existing-root-key>` 完成此操作（参阅[续订证书]({{% ref "mtls.md#root-and-issuer-certificate-upgrade-using-cli-recommended" %}})）。现有已签名 workflow 仍可根据相同的根证书通过验证。
-2. **使用你自己的 CA。**提供一个根证书，并控制其私钥且安全存储（例如，存放在你自己的 HSM 或机密存储中）。无限期地使用相同根密钥续订叶证书/颁发者证书。参阅[使用你自己的证书]({{% ref "mtls.md#bringing-your-own-certificates" %}})。
+2. **使用你自己的 CA。**提供一个根证书，并控制其私钥且安全存储（例如，存放在你自己的 HSM 或 secret store 中）。无限期地使用相同根密钥续订叶证书/颁发者证书。参阅[使用你自己的证书]({{% ref "mtls.md#bringing-your-own-certificates" %}})。
 3. **在轮换到新根证书之前排空 workflow。**如果必须轮换到全新的根密钥，请先完成或清除执行中的已签名 workflow。签名是一项单向承诺，因此无法执行“使用新根证书重新签名”操作。
 
 {{% alert title="启用签名之前规划 CA 生命周期" color="warning" %}}
@@ -177,7 +177,7 @@ Cert A 和 Cert B 都链接到同一个 Sentry CA，因此所有签名都仍然�
 
 ### 为新事件签名
 
-每次 workflow 执行步骤后，Dapr 都会为新追加的历史记录事件签名。
+每次 workflow 执行步骤后，Dapr 都会为新追加的 history event 签名。
 
 {{< diagram name="workflow-signing-steps" width="80" >}}
 
@@ -195,7 +195,7 @@ Cert A 和 Cert B 都链接到同一个 Sentry CA，因此所有签名都仍然�
 
 6. **证书解析**：如果当前 SVID 证书与证书表中的最后一个条目相同，则重复使用现有索引。否则，会追加一个新条目。这会透明地处理[证书轮换](#证书轮换)。
 
-7. **持久化**：签名、新证书条目（如果有）和历史记录事件都会通过一次事务性写入持久化到 state store，确保原子性。
+7. **持久化**：签名、新证书条目（如果有）和 history event 都会通过一次事务性写入持久化到 state store，确保原子性。
 
 ### 加载时验证
 
@@ -244,9 +244,9 @@ child workflow 或 activity 完成时，执行器会附加以下其中一种证�
 
 1. 证明必须存在（启用签名意味着发送方必须提供证明）。
 2. 伴随证书的摘要必须与已绑定的 `signerCertDigest` 匹配。
-3. 证书链必须通过 Sentry 信任锚验证。
+3. 证书链必须通过 Sentry 信任锚点验证。
 4. 必须对确切的证明载荷字节验证签名（接收端不会重新编组）。
-5. `parentInstanceId` 必须等于接收 workflow 的参与者 ID。
+5. `parentInstanceId` 必须等于接收 workflow 的 actor ID。
 6. `parentTaskScheduledId` 必须能解析到已存在于已签名历史记录中的 `TaskScheduled` 或 `ChildWorkflowInstanceCreated` 事件。
 7. `ioDigest` 必须等于父 workflow 调度输入与所报告输出的规范摘要。
 8. `terminalStatus` 必须与外围事件类型匹配。
@@ -255,7 +255,7 @@ child workflow 或 activity 完成时，执行器会附加以下其中一种证�
 
 ### 传播血缘的验证
 
-当 workflow 的历史记录作为 `IncomingHistory`，通过 `PropagateLineage` 转发到另一个 workflow 时（通常是跨应用的多跳子调用），接收 workflow 需要验证转发的内容。由于传播的字节不会成为接收方自身已签名 `History` 的一部分，因此会在分发时附加独立的逐块签名。
+当 workflow 的历史记录作为 `IncomingHistory`，通过 `PropagateLineage` 转发到另一个 workflow 时（通常是跨应用的多跳子调用），接收 workflow 需要验证转发的内容。由于传播的字节不会成为接收方自身已签名 `History` 的一部分，因此会在派发时附加独立的逐块签名。
 
 每个 `PropagatedHistoryChunk` 都包含：
 
@@ -263,11 +263,11 @@ child workflow 或 activity 完成时，执行器会附加以下其中一种证�
 - 由该块所属应用使用其当前 SPIFFE X.509 密钥生成的、新鲜的块级签名，用于签署这些事件。
 - 该签名密钥的 DER 编码证书链。
 
-接收时会独立验证每个块：
+摄取时会独立验证每个块：
 
 | 检查项 | 可检测的问题 |
 | --- | --- |
-| 到 Sentry 信任锚的信任链（重复使用每实例缓存） | 伪造或自签名的血缘信息 |
+| 到 Sentry 信任锚点的信任链（重复使用每实例缓存） | 伪造或自签名的血缘信息 |
 | 叶证书 SPIFFE ID 的应用部分与该块声明的 `appId` 匹配 | 由错误应用生成的血缘信息 |
 | 逐块签名确切覆盖该块中的连续事件 | 拼接、间隙或部分遗漏 |
 | 含签名但内容为空、缺少签名、缺少证书等情况 | 本会导致验证提前结束的格式错误块 |
@@ -278,7 +278,7 @@ child workflow 或 activity 完成时，执行器会附加以下其中一种证�
 
 在 Kubernetes 上，从 Dapr **1.19** 起，Sentry 签发的每个 SVID 都会将[请求 Pod 的容器映像引用]({{% ref "security-concept.md#container-image-references-in-workload-certificates" %}})作为自定义 X.509 扩展（OID `1.3.6.1.4.1.57683.100.1`）携带：daprd sidecar 映像、所有应用容器映像，以及尽力解析出的摘要。Sentry 在签发证书期间从 Kubernetes API 服务器的 Pod 对象读取这些数据；工作负载无法影响这些数据。
 
-由于 workflow 历史记录签名会将每个签名者的完整证书链与历史记录一同持久化，因此每个已签名 workflow 都会自动累积一份经过加密绑定的记录，准确表明**执行该 workflow 的软件**：
+由于 workflow history signing 会将每个签名者的完整证书链与历史记录一同持久化，因此每个已签名 workflow 都会自动累积一份经过加密绑定的记录，准确表明**执行该 workflow 的软件**：
 
 - `sigcert-NNNNNN` 表保存 workflow 自身执行器用来签名的证书。每个签名都引用其证书，每个证书都标明持有该私钥的 Pod 中的 daprd 和应用映像。对于任何一段历史记录事件范围，都可以确定生成这些事件的 Pod 所用的映像。
 - `ext-sigcert-NNNNNN` 表保存已验证的外部身份的证书：每个经过证明的 child workflow 和 activity 完成事件，以及每个已验证的血缘块，都会引用此表中的证书。对于每个跨身份完成事件，都可以确定执行该 child workflow 或 activity 的应用所用的映像。
@@ -309,7 +309,7 @@ child workflow 或 activity 完成时，执行器会附加以下其中一种证�
 2. 为客户端提供稳定、可供机器匹配的信号（`DAPR_WORKFLOW_HISTORY_TAMPERED`）。
 3. 保留原始（不可信的）历史记录和签名，以便操作员检查篡改内容。
 
-从应用的角度看，workflow 会显示为 `FAILED`；任何针对该实例调用 `GetWorkflow`（或等效 SDK 方法）的客户端，都会在失败详情中收到 `DAPR_WORKFLOW_HISTORY_TAMPERED` 错误类型。SDK 会将此错误作为与普通 workflow 失败相同的异常类型抛出，因此现有错误处理路径可以根据错误类型进行匹配，以专门检测篡改。Dapr sidecar 还会发出错误级别日志条目，指出 workflow instance ID 和失败的具体验证检查。
+从应用的角度看，workflow 会显示为 `FAILED`；任何针对该实例调用 `GetWorkflow`（或等效 SDK 方法）的客户端，都会在失败详情中收到 `DAPR_WORKFLOW_HISTORY_TAMPERED` 错误类型。SDK 会将此错误作为与普通 workflow 失败相同的异常类型抛出，因此现有错误处理路径可以根据错误类型进行匹配，以专门检测篡改。Dapr sidecar 还会发出错误级别日志条目，指出 workflow instance 的实例 ID 和失败的具体验证检查。
 
 `LoadWorkflowState` 会识别篡改标记，并在后续加载时跳过签名验证，因此可以读取该 workflow 并将其显示为 `FAILED`，而不是完全无法加载。workflow 及其 activity 的 reminder 会被删除，以阻止引擎无休止地重试已受损的 workflow。
 
@@ -319,7 +319,7 @@ child workflow 或 activity 完成时，执行器会附加以下其中一种证�
 
 已签名历史记录与主机签名配置不匹配（已签名 workflow 由未配置签名器的主机加载，或未签名 workflow 由启用了签名的主机加载）时，系统会报告独立的 `ConfigurationError`，而不是篡改。上述篡改恢复路径不会应用于这些完整但无法加载的 workflow：其历史记录与写入时逐字节相同，因此追加篡改终止事件本身会构成破坏性修改。请修复主机配置，或清除该 workflow 以进行恢复。
 
-该错误会在两个位置显示：加载失败时，Dapr sidecar 会记录错误级别条目，指出 workflow instance ID 以及主机是否应配置签名器；发起 workflow metadata 查询的调用方（`GET /v1.0/workflows/<id>` 或等效 SDK）会直接在响应中收到 `ConfigurationError`，因此可以通过程序检测该错误。
+该错误会在两个位置显示：加载失败时，Dapr sidecar 会记录错误级别条目，指出 workflow instance 的实例 ID 以及主机是否应配置签名器；发起 workflow metadata 查询的调用方（`GET /v1.0/workflows/<id>` 或等效 SDK）会直接在响应中收到 `ConfigurationError`，因此可以通过程序检测该错误。
 
 ### metadata 查询（API 路径）
 
@@ -346,11 +346,11 @@ child workflow 或 activity 完成时，执行器会附加以下其中一种证�
 
 ## state store 布局
 
-workflow 签名数据与 workflow 状态一同存储，使用以下键前缀。所有键的作用范围均限定为 workflow instance ID。
+workflow 签名数据与 workflow 状态一同存储，使用以下键前缀。所有键的作用域均限定为 workflow instance 的实例 ID。
 
 | 键模式 | 内容 | 格式 |
 |------------|---------|--------|
-| `history-NNNNNN` | 历史记录事件 | Protobuf `HistoryEvent` |
+| `history-NNNNNN` | history event | Protobuf `HistoryEvent` |
 | `signature-NNNNNN` | 签名条目 | Protobuf `HistorySignature` |
 | `sigcert-NNNNNN` | 签名证书（自身 SPIFFE 身份） | Protobuf `SigningCertificate`（DER 编码 X.509 链） |
 | `ext-sigcert-NNNNNN` | 从已验证的完成证明和血缘块中吸收的外部签名证书（按摘要去重） | Protobuf `SigningCertificate`（DER 编码 X.509 链） |
@@ -358,13 +358,13 @@ workflow 签名数据与 workflow 状态一同存储，使用以下键前缀。�
 
 `NNNNNN` 后缀是补零的 6 位索引（例如，`signature-000000`、`signature-000001`）。
 
-`metadata` 条目会跟踪每种条目的数量，使加载器能够准确知道需要获取多少个键。所有写入（历史记录事件、签名、证书、metadata）都通过一次事务性状态操作持久化，以确保原子性。
+`metadata` 条目会跟踪每种条目的数量，使加载器能够准确知道需要获取多少个键。所有写入（history event、签名、证书、metadata）都通过一次事务性状态操作持久化，以确保原子性。
 
 ## 安全属性
 
 | 属性 | 保证 |
 |----------|-----------|
-| **篡改检测** | 对持久化历史记录事件的任何修改都会改变事件摘要，从而导致验证失败 |
+| **篡改检测** | 对持久化的 history event 的任何修改都会改变事件摘要，从而导致验证失败 |
 | **链完整性** | `previousSignatureDigest` 链接可防止签名被重排、插入或删除 |
 | **不可否认性** | 每个签名都绑定到特定的 X.509 身份（SPIFFE SVID） |
 | **应用身份绑定** | 会针对 workflow 所属的应用 ID 验证每个签名证书中的 SPIFFE ID，从而防止跨应用伪造 |
@@ -381,7 +381,7 @@ workflow 签名数据与 workflow 状态一同存储，使用以下键前缀。�
 
 ### 签名会增加 workflow 执行延迟吗？
 
-签名操作本身（SHA-256 哈希和 ECDSA/Ed25519/RSA 签名）速度很快，增加的 CPU 延迟可以忽略不计。可测量的开销来自 state store：每个 workflow 步骤现在都会在历史记录事件之外持久化其他条目（一个签名条目；证书轮换时还会有一个新证书条目）。这些额外条目与历史记录事件在同一事务批次中写入，因此它们会增加一次事务的大小，而不会增加额外的往返次数，但确实会增加每个 workflow 的载荷大小和存储占用。具体影响取决于你的 state store 定价和写入特性。
+签名操作本身（SHA-256 哈希和 ECDSA/Ed25519/RSA 签名）速度很快，增加的 CPU 延迟可以忽略不计。可测量的开销来自 state store：每个 workflow 步骤现在都会在 history event 之外持久化其他条目（一个签名条目；证书轮换时还会有一个新证书条目）。这些额外条目与 history event 在同一事务批次中写入，因此它们会增加一次事务的大小，而不会增加额外的往返次数，但确实会增加每个 workflow 的载荷大小和存储占用。具体影响取决于你的 state store 定价和写入特性。
 
 ### 如果我对先前已签名的 workflow 禁用签名，会发生什么？
 
@@ -395,7 +395,7 @@ workflow 签名数据与 workflow 状态一同存储，使用以下键前缀。�
 
 **证书轮换**（新的叶 SVID，相同的 CA 根证书）：可以无缝完成。多个证书会存储在证书表中，每个签名都引用其对应的证书。所有证书链都链接到同一个 CA。
 
-**CA 轮换**（全新的根 CA）：签名证书由旧 CA 签发的 workflow 将无法通过验证。workflow 会以 FAILED 状态显示 `SignatureVerificationFailed`。这是有意设计的：信任根已发生更改，无法根据新的信任锚验证先前签名的数据。有关避免此问题的运维指南，请参阅[长时间运行的 workflow 与根 CA 过期](#长时间运行的-workflow-与根-ca-过期)。
+**CA 轮换**（全新的根 CA）：签名证书由旧 CA 签发的 workflow 将无法通过验证。workflow 会以 FAILED 状态显示 `SignatureVerificationFailed`。这是有意设计的：信任根已发生更改，无法根据新的信任锚点验证先前签名的数据。有关避免此问题的运维指南，请参阅[长时间运行的 workflow 与根 CA 过期](#长时间运行的-workflow-与根-ca-过期)。
 
 ### 多副本部署呢？
 
@@ -407,7 +407,7 @@ workflow 签名数据与 workflow 状态一同存储，使用以下键前缀。�
 
 ### 支持哪些 state store 后端？
 
-历史记录签名适用于任何支持参与者状态事务性 API 的 state store。签名数据作为额外的键值条目，与现有 workflow 状态一同存储。
+history signing 适用于任何支持 actor 状态事务性 API 的 state store。签名数据作为额外的键值条目，与现有 workflow 状态一同存储。
 
 ## 相关链接
 

@@ -121,4 +121,4 @@ scopes:
 ## 后续步骤
 
 - 有关 resiliency 的更多信息，请阅读[resiliency 概述]({{% ref resiliency-overview %}})。
-- 有关主题订阅的更多信息，请阅读[声明式、流式和编程式订阅方法]({{% ref "pubsub-overview#message-subscription" %}})。
+- 有关主题订阅的更多信息，请阅读[declarative、streaming 和 programmatic subscription 方法]({{% ref "pubsub-overview#message-subscription" %}})。
