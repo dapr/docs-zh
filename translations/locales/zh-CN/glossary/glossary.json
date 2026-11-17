@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 362,
-  "updatedAt": "2026-11-17T16:41:57.081Z",
+  "version": 363,
+  "updatedAt": "2026-11-17T17:48:31.878Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -2606,6 +2606,132 @@
       "note": "reverted: v331–v361 分类复核:回退为保留英文",
       "origin": "human",
       "locked": false
+    },
+    {
+      "term": "transaction marker",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "intent message",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "dispatch stream",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "compensation pattern",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "saga pattern",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "reconcile",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "retry filter",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "retry policy",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "Agent Runner",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "Agent Identity",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "Agent Orchestration",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "entity management",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "checkpoint",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "signed history",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "token validator",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "advertised listeners",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "message bus",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "static client builder",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "topic",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "fold path",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "wire contract",
+      "note": "reverted: 用户决定:不确定的术语保留英文原文",
+      "origin": "human",
+      "locked": false
     }
   ],
   "terms": [
@@ -2812,9 +2938,9 @@
     {
       "id": "advertised-listeners",
       "source": "advertised listeners",
-      "target": "广告监听器",
+      "target": "advertised listeners",
       "alt": [],
-      "note": "Pulsar broker 的 advertisedListeners 配置项及其概念",
+      "note": "Pulsar broker 的 advertisedListeners 配置项及其概念; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2872,9 +2998,9 @@
     {
       "id": "agent-identity",
       "source": "Agent Identity",
-      "target": "代理身份",
+      "target": "Agent Identity",
       "alt": [],
-      "note": "Dapr Agents 的核心能力名称。",
+      "note": "Dapr Agents 的核心能力名称。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2892,9 +3018,9 @@
     {
       "id": "agent-orchestration",
       "source": "Agent Orchestration",
-      "target": "代理编排",
+      "target": "Agent Orchestration",
       "alt": [],
-      "note": "Dapr Agents 的功能名称，基于 Dapr Workflows 的确定性编排。",
+      "note": "Dapr Agents 的功能名称，基于 Dapr Workflows 的确定性编排。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -2912,9 +3038,9 @@
     {
       "id": "agent-runner",
       "source": "Agent Runner",
-      "target": "代理运行器",
+      "target": "Agent Runner",
       "alt": [],
-      "note": "Dapr Agents 的功能模块名称（代理运行器）。",
+      "note": "Dapr Agents 的功能模块名称（代理运行器）。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3512,9 +3638,9 @@
     {
       "id": "checkpoint",
       "source": "checkpoint",
-      "target": "检查点",
+      "target": "checkpoint",
       "alt": [],
-      "note": "Event Hubs 组件的检查点频率与检查点写入，用于订阅位置记录。",
+      "note": "Event Hubs 组件的检查点频率与检查点写入，用于订阅位置记录。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -3672,9 +3798,9 @@
     {
       "id": "compensation-pattern",
       "source": "compensation pattern",
-      "target": "补偿模式",
+      "target": "compensation pattern",
       "alt": [],
-      "note": "补偿模式（也称为 Saga 模式）。",
+      "note": "补偿模式（也称为 Saga 模式）。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4412,9 +4538,9 @@
     {
       "id": "dispatch-stream",
       "source": "dispatch stream",
-      "target": "派发流",
+      "target": "dispatch stream",
       "alt": [],
-      "note": "sidecar 向 SDK 派发 workflow 或 activity 的数据流。",
+      "note": "sidecar 向 SDK 派发 workflow 或 activity 的数据流。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -4798,9 +4924,9 @@
     {
       "id": "entity-management",
       "source": "entity management",
-      "target": "实体管理",
+      "target": "entity management",
       "alt": [],
-      "note": "Event Hubs 组件启用命名空间和存储帐户管理的功能名称。",
+      "note": "Event Hubs 组件启用命名空间和存储帐户管理的功能名称。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -5278,9 +5404,9 @@
     {
       "id": "fold-path",
       "source": "fold path",
-      "target": "折叠路径",
+      "target": "fold path",
       "alt": [],
-      "note": "升级器把旧版状态结构逐级折叠到当前结构的路径（DAPR1426）",
+      "note": "升级器把旧版状态结构逐级折叠到当前结构的路径（DAPR1426）; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6138,9 +6264,9 @@
     {
       "id": "intent-message",
       "source": "intent message",
-      "target": "意向消息",
+      "target": "intent message",
       "alt": [],
-      "note": "Outbox 内部主题中记录事件意向的消息",
+      "note": "Outbox 内部主题中记录事件意向的消息; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -6578,9 +6704,9 @@
     {
       "id": "message-bus",
       "source": "message bus",
-      "target": "消息总线",
+      "target": "message bus",
       "alt": [],
-      "note": "发布订阅中管理主题与消息投递的中央系统。",
+      "note": "发布订阅中管理主题与消息投递的中央系统。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -7980,9 +8106,9 @@
     {
       "id": "reconcile",
       "source": "reconcile",
-      "target": "协调",
+      "target": "reconcile",
       "alt": [],
-      "note": "Dapr 对组件执行的周期性 reconcile 循环，译作“协调”，协调器为 reconciler。",
+      "note": "Dapr 对组件执行的周期性 reconcile 循环，译作“协调”，协调器为 reconciler。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8260,9 +8386,9 @@
     {
       "id": "retry-filter",
       "source": "retry filter",
-      "target": "重试过滤器",
+      "target": "retry filter",
       "alt": [],
-      "note": "Dapr 基于状态码的重试过滤功能名称。",
+      "note": "Dapr 基于状态码的重试过滤功能名称。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8280,9 +8406,9 @@
     {
       "id": "retry-policy",
       "source": "retry policy",
-      "target": "重试策略",
+      "target": "retry policy",
       "alt": [],
-      "note": "Dapr resiliency 中 retries 策略的称呼。",
+      "note": "Dapr resiliency 中 retries 策略的称呼。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8340,9 +8466,9 @@
     {
       "id": "saga-pattern",
       "source": "saga pattern",
-      "target": "Saga 模式",
+      "target": "saga pattern",
       "alt": [],
-      "note": "补偿模式的别名，保留 Saga 原名。",
+      "note": "补偿模式的别名，保留 Saga 原名。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8680,9 +8806,9 @@
     {
       "id": "signed-history",
       "source": "signed history",
-      "target": "已签名历史",
+      "target": "signed history",
       "alt": [],
-      "note": "workflow 历史记录的签名，指带签名的 workflow 历史",
+      "note": "workflow 历史记录的签名，指带签名的 workflow 历史; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -8980,9 +9106,9 @@
     {
       "id": "static-client-builder",
       "source": "static client builder",
-      "target": "静态客户端构建器",
+      "target": "static client builder",
       "alt": [],
-      "note": "Manual Instantiation 小节中指 DaprClient 的静态客户端构建器（static client builder）。",
+      "note": "Manual Instantiation 小节中指 DaprClient 的静态客户端构建器（static client builder）。; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9260,9 +9386,9 @@
     {
       "id": "token-validator",
       "source": "token validator",
-      "target": "令牌验证器",
+      "target": "token validator",
       "alt": [],
-      "note": "Sentry 用于校验客户端令牌的组件",
+      "note": "Sentry 用于校验客户端令牌的组件; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9300,9 +9426,9 @@
     {
       "id": "topic",
       "source": "topic",
-      "target": "主题",
+      "target": "topic",
       "alt": [],
-      "note": "Dapr 发布订阅主题（topic），用于 [DaprTopic] 相关规则（DAPR1610、DAPR1613、DAPR1615 等）",
+      "note": "Dapr 发布订阅主题（topic），用于 [DaprTopic] 相关规则（DAPR1610、DAPR1613、DAPR1615 等）; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9400,9 +9526,9 @@
     {
       "id": "transaction-marker",
       "source": "transaction marker",
-      "target": "事务标记",
+      "target": "transaction marker",
       "alt": [],
-      "note": "Outbox 流程中写入状态存储、用于确认数据库提交成功的标记",
+      "note": "Outbox 流程中写入状态存储、用于确认数据库提交成功的标记; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
@@ -9940,9 +10066,9 @@
     {
       "id": "wire-contract",
       "source": "wire contract",
-      "target": "线上契约",
+      "target": "wire contract",
       "alt": [],
-      "note": "Actor 接口与线上通信的契约（DAPR1418）",
+      "note": "Actor 接口与线上通信的契约（DAPR1418）; kept in English: 用户决定:不确定的术语保留英文原文",
       "origin": "auto",
       "locked": false,
       "confidence": "medium",
