@@ -12,7 +12,7 @@ cascade:
   github_branch: master
 ---
 
-Dapr 提供了多种子包来帮助开发 Python 应用程序。使用它们，你可以使用 Dapr 创建 Python 客户端、服务器和虚拟 Actor。
+Dapr 提供了多种子包来帮助开发 Python 应用程序。使用它们，你可以使用 Dapr 创建 Python 客户端、服务器和 virtual Actor。
 
 ## 前提条件
 
@@ -61,7 +61,7 @@ pip install "dapr[fastapi,grpc]"
 | `dapr[fastapi]` | [FastAPI]({{% ref python-fastapi %}}) | `dapr.ext.fastapi` |
 | `dapr[flask]` | [Flask]({{% ref python-flask %}}) | `dapr.ext.flask` |
 | `dapr[grpc]` | [gRPC]({{% ref python-grpc %}}) | `dapr.ext.grpc` |
-| `dapr[workflow]` | [工作流]({{% ref python-workflow-ext %}}) | `dapr.ext.workflow` |
+| `dapr[workflow]` | [workflow]({{% ref python-workflow-ext %}}) | `dapr.ext.workflow` |
 | `dapr[databricks]` | [Databricks]({{% ref python-databricks-ext %}}) | `dapr.ext.databricks` |
 | `dapr[langgraph]` | LangGraph 检查点持久化 | `dapr.ext.langgraph` |
 | `dapr[strands]` | Strands 智能体会话管理 | `dapr.ext.strands` |
@@ -93,7 +93,7 @@ Python SDK 导入是随主 SDK 安装包含的子包，但在使用时需要导�
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>Client</b></h5>
-      <p class="card-text">编写 Python 应用程序以与 Dapr 边车和其他 Dapr 应用程序交互，包括 Python 中的有状态虚拟 Actor</p>
+      <p class="card-text">编写 Python 应用程序以与 Dapr sidecar 和其他 Dapr 应用程序交互，包括 Python 中的有状态 virtual Actor</p>
       <a href="{{% ref python-client %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -107,7 +107,7 @@ Python SDK 导入是随主 SDK 安装包含的子包，但在使用时需要导�
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>Conversation</b></h5>
-      <p class="card-text">使用 Dapr 对话 API（Alpha）进行大型语言模型 (LLM) 交互、工具调用和多轮流程。</p>
+      <p class="card-text">使用 Dapr conversation API（Alpha）进行大型语言模型 (LLM) 交互、工具调用和多轮流程。</p>
       <a href="{{% ref conversation %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -117,7 +117,7 @@ Python SDK 导入是随主 SDK 安装包含的子包，但在使用时需要导�
 
 ### SDK 扩展
 
-SDK 扩展主要用作接收发布订阅事件、以编程方式创建发布订阅的订阅，以及处理输入绑定事件的实用工具。虽然你可以在不使用扩展的情况下完成所有这些任务，但使用 Python SDK 扩展会更加方便。
+SDK 扩展主要用作接收 pub/sub 事件、以编程方式创建 pub/sub 的订阅，以及处理 input binding 事件的实用工具。虽然你可以在不使用扩展的情况下完成所有这些任务，但使用 Python SDK 扩展会更加方便。
 
 <div class="card-deck">
   <div class="card">
@@ -130,21 +130,21 @@ SDK 扩展主要用作接收发布订阅事件、以编程方式创建发布订�
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>FastAPI</b></h5>
-      <p class="card-text">使用 Dapr FastAPI 扩展与 Dapr Python 虚拟 Actor 和发布订阅集成。</p>
+      <p class="card-text">使用 Dapr FastAPI 扩展与 Dapr Python virtual Actor 和 pub/sub 集成。</p>
       <a href="{{% ref python-fastapi %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>Flask</b></h5>
-      <p class="card-text">使用 Dapr Flask 扩展与 Dapr Python 虚拟 Actor 集成。</p>
+      <p class="card-text">使用 Dapr Flask 扩展与 Dapr Python virtual Actor 集成。</p>
       <a href="{{% ref python-flask %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>Workflow</b></h5>
-      <p class="card-text">在 Python 中编写与其他 Dapr API 配合使用的工作流。</p>
+      <p class="card-text">在 Python 中编写与其他 Dapr API 配合使用的 workflow。</p>
       <a href="{{% ref python-workflow %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -167,18 +167,18 @@ SDK 扩展主要用作接收发布订阅事件、以编程方式创建发布订�
 git clone https://github.com/dapr/python-sdk.git
 ```
 
-浏览 Python 快速入门、教程和示例，查看 Dapr 的实际运行情况：
+浏览 Python Quickstart、教程和示例，查看 Dapr 的实际运行情况：
 
 | SDK 示例 | 描述 |
 | ----------- | ----------- |
-| [快速入门]({{% ref quickstarts %}}) | 使用 Python SDK，在几分钟内体验 Dapr 的 API 构建块。 |
+| [Quickstart]({{% ref quickstarts %}}) | 使用 Python SDK，在几分钟内体验 Dapr 的 API building block。 |
 | [SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples) | 克隆 SDK 仓库，试用其中的一些示例并开始使用。 |
-| [绑定教程](https://github.com/dapr/quickstarts/tree/master/tutorials/bindings) | 了解 Dapr Python SDK 如何与其他 Dapr SDK 协同工作以启用绑定。 |
+| [binding 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/bindings) | 了解 Dapr Python SDK 如何与其他 Dapr SDK 协同工作以启用 binding。 |
 | [分布式计算器教程](https://github.com/dapr/quickstarts/tree/master/tutorials/distributed-calculator/python) | 使用 Dapr Python SDK 处理方法调用和状态持久化功能。 |
 | [Hello World 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-world) | 了解如何使用 Python SDK 在本地机器上启动并运行 Dapr。 |
 | [Hello Kubernetes 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/hello-kubernetes) | 在 Kubernetes 集群中快速上手 Dapr Python SDK。 |
 | [可观测性教程](https://github.com/dapr/quickstarts/tree/master/tutorials/observability) | 使用 Python SDK 探索 Dapr 的指标收集、链路追踪、日志记录和健康检查功能。 |
-| [发布订阅教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub) | 了解 Dapr Python SDK 如何与其他 Dapr SDK 协同工作以启用发布订阅应用。 |
+| [pub/sub 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/pub-sub) | 了解 Dapr Python SDK 如何与其他 Dapr SDK 协同工作以启用 pub/sub 应用。 |
 
 
 ## 更多信息

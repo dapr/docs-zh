@@ -1,11 +1,11 @@
-title: "对话 API（Python）– 推荐用法"
+title: "conversation API（Python）– 推荐用法"
 linkTitle: "对话"
 weight: 11000
 type: docs
-description: 推荐在 Python 中配合或不配合工具使用 Dapr 对话 API 的模式，包括多轮流程与安全指引。
+description: 推荐在 Python 中配合或不配合工具使用 Dapr conversation API 的模式，包括多轮流程与安全指引。
 ---
 
-Dapr 对话 API 当前仍处于 alpha 阶段。本页给出在 Python SDK 中高效使用它的推荐最小模式：
+Dapr conversation API 当前仍处于 alpha 阶段。本页给出在 Python SDK 中高效使用它的推荐最小模式：
 - 纯请求（无工具）
 - 携带工具的请求（将函数用作工具）
 - 带工具执行的多轮流程
@@ -18,7 +18,7 @@ Dapr 对话 API 当前仍处于 alpha 阶段。本页给出在 Python SDK 中高
 - 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
 - 已安装 [Python 3.10+](https://www.python.org/downloads/)
 - 已安装 [Dapr Python 包]({{% ref "python#installation" %}})
-- 已在 Dapr 环境中配置好大型语言模型 (LLM) 组件（例如 OpenAI 或 Azure OpenAI）
+- 已在 Dapr 环境中配置好大型语言模型 (LLM) component（例如 OpenAI 或 Azure OpenAI）
 
 如需完整的端到端流程与提供程序配置，请参阅：
 - 对话相关的 SDK 示例：
@@ -37,7 +37,7 @@ alpha2_input = conversation.ConversationInputAlpha2(messages=[user_msg])
 
 with DaprClient() as client:
     resp = client.converse_alpha2(
-        name="echo",  # 替换为你的 LLM 组件名称
+        name="echo",  # 替换为你的 LLM component 名称
         inputs=[alpha2_input],
         temperature=1,
     )
@@ -72,7 +72,7 @@ alpha2_input = conversation.ConversationInputAlpha2(messages=[user_msg])
 
 with DaprClient() as client:
     response = client.converse_alpha2(
-        name="openai",  # 你的 LLM 组件
+        name="openai",  # 你的 LLM component
         inputs=[alpha2_input],
         tools=conversation.get_registered_tools(),  # 由 @conversation.tool 注册的工具
         tool_choice='auto',

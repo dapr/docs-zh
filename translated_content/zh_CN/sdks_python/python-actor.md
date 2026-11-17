@@ -6,7 +6,7 @@ weight: 20000
 description: 如何快速上手使用 Dapr Python SDK
 ---
 
-Dapr Actor 包使你能够从 Python 应用程序与 Dapr 虚拟 Actor 进行交互。
+Dapr Actor 包使你能够从 Python 应用程序与 Dapr virtual Actor 进行交互。
 
 ## 前置条件
 
@@ -30,7 +30,7 @@ class DemoActorInterface(ActorInterface):
 
 ## Actor 服务
 
-Actor 服务用于托管虚拟 Actor。它由一个派生自基类型 `Actor` 并实现 Actor 接口中所定义接口的类来实现。
+Actor 服务用于托管 virtual Actor。它由一个派生自基类型 `Actor` 并实现 Actor 接口中所定义接口的类来实现。
 
 可以使用以下任一 Dapr Actor 扩展来创建 Actor：
    - [FastAPI Actor 扩展]({{% ref python-fastapi.md %}})
@@ -79,7 +79,7 @@ mock_actor = create_mock_actor(MyActor, "id")
 await mock_actor.save_state(5)
 assert mockactor._state_manager._mock_state['mystate'] == 5 #True
 ```
-Mock Actor 通过将你的 Actor 类和 Actor ID（字符串）传递给 create_mock_actor 函数来创建。该函数返回一个 Actor 实例，其中许多内部方法已被覆盖。对于保存状态或管理定时器等任务，Mock Actor 不与 Dapr 交互，而是使用内存中的状态来模拟这些行为。
+Mock Actor 通过将你的 Actor 类和 Actor ID（字符串）传递给 create_mock_actor 函数来创建。该函数返回一个 Actor 实例，其中许多内部方法已被覆盖。对于保存状态或管理 timer 等任务，Mock Actor 不与 Dapr 交互，而是使用内存中的状态来模拟这些行为。
 
 可以通过以下变量访问此状态：
 
@@ -89,12 +89,12 @@ Mock Actor 通过将你的 Actor 类和 Actor ID（字符串）传递给 create_
 一个 `[str, object]` 字典，其中存储了所有 Actor 状态。通过 `_state_manager.save_state(key, value)` 或任何其他 statemanager 方法保存的变量，都会以该键值对的形式存储在字典中。通过 `try_get_state` 或任何其他 statemanager 方法加载的值，都取自此字典。
 
 - **_state_manager._mock_timers()**  
-一个 `[str, ActorTimerData]` 字典，其中保存活动的 Actor 定时器。任何会添加或移除定时器的 Actor 方法，都会相应地在此字典中添加或弹出对应的 `ActorTimerData` 对象。
+一个 `[str, ActorTimerData]` 字典，其中保存活动的 Actor timer。任何会添加或移除 timer 的 Actor 方法，都会相应地在此字典中添加或弹出对应的 `ActorTimerData` 对象。
 
 - **_state_manager._mock_reminders()**  
-一个 [str, ActorReminderData] 字典，其中保存活动的 Actor 提醒。任何会添加或移除定时器的 Actor 方法，都会相应地在此字典中添加或弹出对应的 ActorReminderData 对象。
+一个 [str, ActorReminderData] 字典，其中保存活动的 Actor reminder。任何会添加或移除 timer 的 Actor 方法，都会相应地在此字典中添加或弹出对应的 ActorReminderData 对象。
 
-**注意：定时器和提醒永远不会真正触发。这些字典仅用于测试应当添加或移除定时器/提醒的方法。如果你需要测试它们应激活的回调，应使用适当的值直接调用这些回调：**
+**注意：timer 和 reminder 永远不会真正触发。这些字典仅用于测试应当添加或移除 timer/reminder 的方法。如果你需要测试它们应激活的回调，应使用适当的值直接调用这些回调：**
 ```
 result = await mock_actor.recieve_reminder(name, state, due_time, period, _ttl)
 # 直接测试结果，或通过查询 `_state_manager._mock_state` 测试副作用（例如改变状态）
@@ -119,7 +119,7 @@ result = await mock_actor.recieve_reminder(name, state, due_time, period, _ttl)
 
 Actor 的 `_runtime_ctx` 变量被设置为 None。所有常规 Actor 方法都已被覆盖，因此不会调用它；但如果你的代码本身直接与 `_runtime_ctx` 交互，测试可能会失败。
 
-Actor 的 _state_manager 会被替换为 `MockStateManager` 的实例。它具有与基类 `ActorStateManager` 相同的所有方法和功能，区别在于它使用各种 `_mock` 变量而不是 `_runtime_ctx` 来存储数据。如果你的代码实现了自定义的状态管理器，它将被覆盖，测试很可能会失败。
+Actor 的 _state_manager 会被替换为 `MockStateManager` 的实例。它具有与基类 `ActorStateManager` 相同的所有方法和功能，区别在于它使用各种 `_mock` 变量而不是 `_runtime_ctx` 来存储数据。如果你的代码实现了自定义的 state manager，它将被覆盖，测试很可能会失败。
 
 ### 类型提示
 

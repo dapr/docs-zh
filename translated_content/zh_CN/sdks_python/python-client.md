@@ -9,7 +9,7 @@ description: 如何快速上手使用 Dapr Python SDK
 Dapr 客户端包允许你在 Python 应用程序中与其他 Dapr 应用进行交互。
 
 {{% alert title="注意" color="primary" %}}
-如果你还没有试过，请先体验其中一个[快速入门]({{% ref quickstarts %}})，快速了解如何将 Dapr Python SDK 与 API 构建块配合使用。
+如果你还没有试过，请先体验其中一个[Quickstart]({{% ref quickstarts %}})，快速了解如何将 Dapr Python SDK 与 API building blocks 配合使用。
 
 {{% /alert %}}
 
@@ -31,7 +31,7 @@ from dapr.clients import DaprClient
 
 #### 默认值：
 
-在不传入任何参数的情况下初始化客户端时，将使用 Dapr 边车实例的默认值（`127.0.0.1:50001`）。
+在不传入任何参数的情况下初始化客户端时，将使用 Dapr sidecar 实例的默认值（`127.0.0.1:50001`）。
 
 ```python
 from dapr.clients import DaprClient
@@ -59,7 +59,7 @@ with DaprClient("mydomain:50051?tls=true") as d:
 
 #### 配置选项：
 
-##### Dapr 边车端点
+##### Dapr sidecar 端点
 
 你可以使用标准化的 `DAPR_GRPC_ENDPOINT` 环境变量指定 gRPC 端点。设置该变量后，客户端可以在不带任何参数的情况下初始化：
 
@@ -73,25 +73,25 @@ with DaprClient() as d:
     # 客户端将使用环境变量中指定的端点
 ```
 
-要通过 Unix 域套接字连接到边车，请在三个斜杠之后给出套接字的绝对路径，例如 `unix:///tmp/dapr.sock`。`DaprClient`、`WorkflowRuntime` 和 `DaprWorkflowClient` 都接受这种形式。`unix://` 之后带有主机部分的端点（例如 `unix://dapr.sock`）会在创建客户端时抛出 `ValueError`。如需使用相对路径，请写作 `unix:dapr.sock`。
+要通过 Unix 域套接字连接到 sidecar，请在三个斜杠之后给出套接字的绝对路径，例如 `unix:///tmp/dapr.sock`。`DaprClient`、`WorkflowRuntime` 和 `DaprWorkflowClient` 都接受这种形式。`unix://` 之后带有主机部分的端点（例如 `unix://dapr.sock`）会在创建客户端时抛出 `ValueError`。如需使用相对路径，请写作 `unix:dapr.sock`。
 
 旧版环境变量 `DAPR_RUNTIME_HOST`、`DAPR_HTTP_PORT` 和 `DAPR_GRPC_PORT` 同样受支持，但 `DAPR_GRPC_ENDPOINT` 优先。
 
 `DAPR_GRPC_ENDPOINT` 中的 `http://` 和 `https://` 前缀同样已弃用，请改用 `host:port?tls=true` 或 `host:port?tls=false`。
 
-##### Dapr API 令牌
+##### Dapr API Token
 
-如果你的 Dapr 实例配置为需要 `DAPR_API_TOKEN` 环境变量，可以在环境中设置它，客户端会自动使用。你可以在[这里](https://docs.dapr.io/operations/security/api-token/)进一步了解 Dapr API 令牌认证。
+如果你的 Dapr 实例配置为需要 `DAPR_API_TOKEN` 环境变量，可以在环境中设置它，客户端会自动使用。你可以在[这里](https://docs.dapr.io/operations/security/api-token/)进一步了解 Dapr API Token 认证。
 
 ##### 健康检查超时
 
-客户端初始化时，会对 Dapr 边车执行健康检查（`/healthz/outbound`）。客户端会等待边车启动并运行后再继续。
+客户端初始化时，会对 Dapr sidecar 执行健康检查（`/healthz/outbound`）。客户端会等待 sidecar 启动并运行后再继续。
 
-默认的健康检查超时时间为 60 秒，可以通过设置 `DAPR_HEALTH_TIMEOUT` 环境变量进行覆盖。每次健康检查尝试也受此超时限制，因此一个接受连接却不响应的边车不会无限期地阻塞客户端。
+默认的健康检查超时时间为 60 秒，可以通过设置 `DAPR_HEALTH_TIMEOUT` 环境变量进行覆盖。每次健康检查尝试也受此超时限制，因此一个接受连接却不响应的 sidecar 不会无限期地阻塞客户端。
 
 ##### 重试与超时
 
-如果从边车收到特定的错误代码，Dapr 客户端可以重试请求。该行为可通过 `DAPR_API_MAX_RETRIES` 环境变量进行配置，并会被自动读取，无需修改代码。`DAPR_API_MAX_RETRIES` 的默认值为 `0`，表示不进行重试。
+如果从 sidecar 收到特定的错误代码，Dapr 客户端可以重试请求。该行为可通过 `DAPR_API_MAX_RETRIES` 环境变量进行配置，并会被自动读取，无需修改代码。`DAPR_API_MAX_RETRIES` 的默认值为 `0`，表示不进行重试。
 
 你可以创建 `dapr.clients.retry.RetryPolicy` 对象并将其传给 DaprClient 构造函数，从而进一步微调重试参数：
 
@@ -119,9 +119,9 @@ proxy = ActorProxy.create('DemoActor', ActorId('1'), DemoActorInterface, factory
 
 可以通过 `DAPR_API_TIMEOUT_SECONDS` 环境变量为所有调用设置**超时**。默认情况下不设置超时，调用会无时间限制地等待。
 
-> 注意：`DAPR_API_TIMEOUT_SECONDS` 不适用于工作流客户端方法 `wait_for_workflow_start` 和 `wait_for_workflow_completion`。若未通过各自的 `timeout_in_seconds` 参数指定，它们会无时间限制地等待。传入 `timeout_in_seconds` 可以限制等待时间。参见 [Dapr Workflow 扩展]({{% ref python-workflow-ext %}})。
+> 注意：`DAPR_API_TIMEOUT_SECONDS` 不适用于 workflow 客户端方法 `wait_for_workflow_start` 和 `wait_for_workflow_completion`。若未通过各自的 `timeout_in_seconds` 参数指定，它们会无时间限制地等待。传入 `timeout_in_seconds` 可以限制等待时间。参见 [Dapr Workflow 扩展]({{% ref python-workflow-ext %}})。
 
-> 注意：你可以通过向 `invoke_method` 方法传入 `timeout` 参数，单独控制服务调用的超时时间。
+> 注意：你可以通过向 `invoke_method` 方法传入 `timeout` 参数，单独控制 service invocation 的超时时间。
 
 ##### macOS 上的 DNS 解析
 
@@ -149,13 +149,13 @@ except DaprGrpcError as err:
     print(f"Bad request (description): {err.bad_request.field_violations[0].description}")
 ```
 
-## 构建块
+## building blocks
 
-Python SDK 允许你与所有 [Dapr 构建块]({{% ref building-blocks %}}) 进行交互。
+Python SDK 允许你与所有 [Dapr building blocks]({{% ref building-blocks %}}) 进行交互。
 
 ### 调用服务
 
-Dapr Python SDK 提供了简单的 API，用于通过 HTTP 或 gRPC（已弃用）调用服务。可以通过设置 `DAPR_API_METHOD_INVOCATION_PROTOCOL` 环境变量来选择协议，未设置时默认为 HTTP。Dapr 中的 gRPC 服务调用已弃用，推荐使用 gRPC 代理作为替代方案。
+Dapr Python SDK 提供了简单的 API，用于通过 HTTP 或 gRPC（已弃用）调用服务。可以通过设置 `DAPR_API_METHOD_INVOCATION_PROTOCOL` 环境变量来选择协议，未设置时默认为 HTTP。Dapr 中的 gRPC service invocation 已弃用，推荐使用 gRPC 代理作为替代方案。
 
 ```python
 from dapr.clients import DaprClient
@@ -173,8 +173,8 @@ HTTP API 调用的基础端点通过 `DAPR_HTTP_ENDPOINT` 环境变量指定。�
 
 gRPC 调用的基础端点即客户端初始化时使用的端点（[见上文](#初始化客户端)）。
 
-- 有关服务调用的完整指南，请参阅[操作指南：调用服务]({{% ref howto-invoke-discover-services.md %}})。
-- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/invoke-simple)，获取服务调用的示例代码和试用说明。
+- 有关 service invocation 的完整指南，请参阅[操作指南：调用服务]({{% ref howto-invoke-discover-services.md %}})。
+- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/invoke-simple)，获取 service invocation 的示例代码和试用说明。
 
 ### 保存与获取应用状态
 
@@ -193,7 +193,7 @@ with DaprClient() as d:
 ```
 
 - 有关完整的状态操作列表，请参阅[操作指南：获取与保存状态]({{% ref howto-get-save-state.md %}})。
-- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/state_store)，获取状态管理的示例代码和试用说明。
+- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/state_store)，获取 State Management 的示例代码和试用说明。
 
 ### 查询应用状态（Alpha）
 
@@ -222,8 +222,8 @@ with DaprClient() as d:
         )
 ```
 
-- 有关状态存储查询选项的完整列表，请参阅[操作指南：状态查询]({{% ref howto-state-query-api.md %}})。
-- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/state_store_query)，获取状态存储查询的示例代码和试用说明。
+- 有关 state store 查询选项的完整列表，请参阅[操作指南：Query State]({{% ref howto-state-query-api.md %}})。
+- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/state_store_query)，获取 state store 查询的示例代码和试用说明。
 
 ### 发布与订阅
 
@@ -311,7 +311,7 @@ with DaprClient() as d:
         print(f'failed entry {entry.entry_id}: {entry.error}')
 ```
 
-有关更多详情，请参阅[批量发布指南]({{% ref pubsub-bulk.md %}})。
+有关更多详情，请参阅[Bulk Publish 指南]({{% ref pubsub-bulk.md %}})。
 
 #### 订阅消息
 
@@ -327,7 +327,7 @@ def mytopic(event: SubscriptionMessage) -> None:
     print(f'Received: id={data["id"]}, message="{data ["message"]}"' 
           f' content_type="{event.data_content_type()}"',flush=True)
 
-# 使用发布订阅路由的特定处理程序
+# 使用 pub/sub 路由的特定处理程序
 @app.subscribe(pubsub_name='pubsub', topic='TOPIC_A',
                rule=Rule("event.type == \"important\"", 1))
 def mytopic_important(event: SubscriptionMessage) -> None:
@@ -336,18 +336,18 @@ def mytopic_important(event: SubscriptionMessage) -> None:
           f' content_type="{event.data_content_type()}"',flush=True)
 ```
 
-将事件参数标注为 `SubscriptionMessage`，这与流式订阅投递的类型相同。`data()` 会按内容类型解析负载，例如 JSON 会返回 `dict`。未标注类型的处理程序，或标注为 `cloudevents.sdk.event.v1.Event` 的处理程序，将收到已弃用的、基于 CloudEvents 的事件，并且 `subscribe()` 会发出 `DeprecationWarning`。有关弃用时间线，请参阅 [Python gRPC 扩展]({{% ref "python-grpc.md#subscribe-to-a-topic" %}})。
+将事件参数标注为 `SubscriptionMessage`，这与 streaming subscription 投递的类型相同。`data()` 会按内容类型解析负载，例如 JSON 会返回 `dict`。未标注类型的处理程序，或标注为 `cloudevents.sdk.event.v1.Event` 的处理程序，将收到已弃用的、基于 CloudEvents 的事件，并且 `subscribe()` 会发出 `DeprecationWarning`。有关弃用时间线，请参阅 [Python gRPC 扩展]({{% ref "python-grpc.md#subscribe-to-a-topic" %}})。
 
-- 有关发布订阅的更多信息，请参阅[操作指南：发布与订阅]({{% ref howto-publish-subscribe.md %}})。
-- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/pubsub-simple)，获取发布订阅的示例代码和试用说明。
+- 有关 pub/sub 的更多信息，请参阅[操作指南：发布与订阅]({{% ref howto-publish-subscribe.md %}})。
+- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/pubsub-simple)，获取 pub/sub 的示例代码和试用说明。
 
 #### 流式消息订阅
 
-你可以使用 `subscribe` 或 `subscribe_handler` 方法创建到发布订阅主题的流式订阅。
+你可以使用 `subscribe` 或 `subscribe_handler` 方法创建到 pub/sub 主题的 streaming subscription。
 
 `subscribe` 方法返回一个可迭代的 `Subscription` 对象，允许你通过 `for` 循环（例如 `for message in subscription`）或调用 `next_message` 方法从流中拉取消息。在等待消息时，这会阻塞主线程。完成后，应调用 close 方法来终止订阅并停止接收消息。
 
-如果流因瞬时错误而失败，或被边车结束，订阅会重新连接并返回下一条消息。在 Python SDK 1.19 之前，重新连接后订阅会返回 `None`，因此你不再需要检查 `None`。连续五次重新连接失败后，`next_message()` 和 `for` 循环会抛出 `StreamReconnectError`。捕获此错误后，你可以决定是创建新的订阅还是停止应用程序。
+如果流因瞬时错误而失败，或被 sidecar 结束，订阅会重新连接并返回下一条消息。在 Python SDK 1.19 之前，重新连接后订阅会返回 `None`，因此你不再需要检查 `None`。连续五次重新连接失败后，`next_message()` 和 `for` 循环会抛出 `StreamReconnectError`。捕获此错误后，你可以决定是创建新的订阅还是停止应用程序。
 
 `subscribe_with_handler` 方法接受一个回调函数，对从流中接收到的每条消息执行该函数。它在单独的线程中运行，因此不会阻塞主线程。回调应返回 `TopicEventResponse`（例如 `TopicEventResponse('success')`），以表明消息是处理成功、应重试还是应丢弃。该方法会根据返回的状态自动管理消息确认。调用 `subscribe_with_handler` 方法会返回一个关闭函数，完成后应调用该函数来终止订阅。
 
@@ -455,16 +455,16 @@ if __name__ == '__main__':
     main()
 ```
 
-- 有关发布订阅的更多信息，请参阅[操作指南：发布与订阅]({{% ref howto-publish-subscribe.md %}})。
-- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/pubsub-simple)，获取流式发布订阅的示例代码和试用说明。
+- 有关 pub/sub 的更多信息，请参阅[操作指南：发布与订阅]({{% ref howto-publish-subscribe.md %}})。
+- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/pubsub-simple)，获取流式 pub/sub 的示例代码和试用说明。
 
 ### 对话（Alpha）
 
 {{% alert title="注意" color="primary" %}}
-Dapr 对话 API 目前处于 Alpha 阶段。
+Dapr conversation API 目前处于 Alpha 阶段。
 {{% /alert %}}
 
-自 1.15 版本起，Dapr 为开发者提供了通过[对话 API]({{% ref conversation-overview.md %}})安全、可靠地与大型语言模型 (LLM) 交互的能力。
+自 1.15 版本起，Dapr 为开发者提供了通过[conversation API]({{% ref conversation-overview.md %}})安全、可靠地与大型语言模型 (LLM) 交互的能力。
 
 ```python
 from dapr.clients import DaprClient
@@ -490,7 +490,7 @@ with DaprClient() as d:
         print(f'Result: {output.result}')
 ```
 
-### 与输出绑定交互
+### 与 output binding 交互
 
 ```python
 from dapr.clients import DaprClient
@@ -499,10 +499,10 @@ with DaprClient() as d:
     resp = d.invoke_binding(binding_name='kafkaBinding', operation='create', data='{"message":"Hello World"}')
 ```
 
-- 有关输出绑定的完整指南，请参阅[操作指南：使用绑定]({{% ref howto-bindings.md %}})。
-- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/invoke-binding)，获取输出绑定的示例代码和试用说明。
+- 有关 output binding 的完整指南，请参阅[操作指南：使用 binding]({{% ref howto-bindings.md %}})。
+- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/invoke-binding)，获取 output binding 的示例代码和试用说明。
 
-### 获取机密
+### 获取 secrets
 
 ```python
 from dapr.clients import DaprClient
@@ -511,8 +511,8 @@ with DaprClient() as d:
     resp = d.get_secret(store_name='localsecretstore', key='secretKey')
 ```
 
-- 有关机密的完整指南，请参阅[操作指南：获取机密]({{% ref howto-secrets.md %}})。
-- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/secret_store)，获取检索机密的示例代码和试用说明。
+- 有关 secrets 的完整指南，请参阅[操作指南：获取 secrets]({{% ref howto-secrets.md %}})。
+- 访问 [Python SDK 示例](https://github.com/dapr/python-sdk/tree/master/examples/secret_store)，获取检索 secrets 的示例代码和试用说明。
 
 ### 配置
 
@@ -539,7 +539,7 @@ async def executeConfiguration():
 
         key = 'orderId'
 
-        # 等待边车在 20 秒内启动。
+        # 等待 sidecar 在 20 秒内启动。
         d.wait(20)
 
         # 按键订阅配置。
@@ -618,7 +618,7 @@ def main():
         )
         decrypt_bytes = resp.read()
 
-        print(decrypt_bytes.decode())  # 机密内容为 "passw0rd"
+        print(decrypt_bytes.decode())  # secrets 内容为 "passw0rd"
 ```
 
 - 有关加密操作的完整列表，请参阅[操作指南：使用加密 API]({{% ref howto-cryptography.md %}})。
