@@ -12,7 +12,7 @@ Dapr 支持每条消息设置生存时间（TTL）。这意味着应用程序可
 
 所有 Dapr [发布订阅组件]({{% ref supported-pubsub %}})都兼容消息 TTL，因为 Dapr 在运行时内部处理 TTL 逻辑。只需在发布消息时设置 `ttlInSeconds` 元数据即可。
 
-对于某些组件（如 Kafka），可以通过 `retention.ms` 在主题级别配置生存时间，详见 [文档](https://kafka.apache.org/documentation/#topicconfigs_retention.ms)。通过 Dapr 的消息 TTL，使用 Kafka 的应用程序现在可以除了按主题设置外，还可以为每条消息设置生存时间。
+对于某些组件（如 Kafka），可以通过 `retention.ms` 在 topic 级别配置生存时间，详见 [文档](https://kafka.apache.org/documentation/#topicconfigs_retention.ms)。通过 Dapr 的消息 TTL，使用 Kafka 的应用程序现在可以除了按 topic 设置外，还可以为每条消息设置生存时间。
 
 ## 原生消息 TTL 支持
 
@@ -84,7 +84,7 @@ $app->run(function(\DI\FactoryInterface $factory) {
 
 ## 下一步
 
-- 了解[主题作用域]({{% ref pubsub-scopes %}})
+- 了解[topic 作用域]({{% ref pubsub-scopes %}})
 - 了解[如何配置多命名空间的发布订阅组件]({{% ref pubsub-namespaces %}})
 - [发布订阅组件]({{% ref supported-pubsub %}})列表
 - 阅读 [API 参考]({{% ref pubsub_api %}})

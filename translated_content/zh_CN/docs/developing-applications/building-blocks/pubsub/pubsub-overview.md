@@ -8,8 +8,8 @@ description: "pub/sub API building block 概述"
 
 发布和订阅（pub/sub）使微服务能够使用消息进行通信，从而实现事件驱动架构。
 
-- 生产者（**发布者**）将消息写入输入通道并发送到主题，无需知道哪个应用程序会接收它们。
-- 消费者（**订阅者**）订阅主题并从输出通道接收消息，无需知道是哪个服务产生了这些消息。
+- 生产者（**发布者**）将消息写入输入通道并发送到 topic，无需知道哪个应用程序会接收它们。
+- 消费者（**订阅者**）订阅 topic 并从输出通道接收消息，无需知道是哪个服务产生了这些消息。
 
 中间的消息代理会将每条消息从发布者的输入通道复制到输出通道，供所有对该消息感兴趣的订阅者使用。当你需要让微服务彼此解耦时，这种模式尤其有用。
 
@@ -30,17 +30,17 @@ Dapr 中的 pub/sub API：
 
 1. 你的服务向 Dapr pub/sub building block API 发起网络调用。
 1. pub/sub building block 调用封装了特定消息代理的 Dapr pub/sub component。
-1. 要接收某个主题上的消息，Dapr 会代表你的服务订阅 pub/sub component 上的该主题，并在消息到达时将其投递到你的服务端点。
+1. 要接收某个 topic 上的消息，Dapr 会代表你的服务订阅 pub/sub component 上的该 topic，并在消息到达时将其投递到你的服务端点。
 
 [以下概述视频和演示](https://www.youtube.com/live/0y7ne6teHT4?si=FMg2Y7bRuljKism-&t=5384) 展示了 Dapr pub/sub 的工作方式。
 
 {{< youtube id=0y7ne6teHT4 start=5384 >}}
 
-在下图中，"shipping" 服务和 "email" 服务都订阅了 "cart" 服务发布的主题。每个服务都加载指向同一个 pub/sub 消息代理 component 的 pub/sub component 配置文件，例如：Redis Streams、NATS Streaming、Azure Service Bus 或 RabbitMQ。
+在下图中，"shipping" 服务和 "email" 服务都订阅了 "cart" 服务发布的 topic。每个服务都加载指向同一个 pub/sub 消息代理 component 的 pub/sub component 配置文件，例如：Redis Streams、NATS Streaming、Azure Service Bus 或 RabbitMQ。
 
 {{< diagram pubsub-components >}}
 
-在下图中，Dapr API 将发布方 "cart" 服务的 "order" 主题发布到订阅方 "shipping" 和 "email" 服务的 "order" 端点。
+在下图中，Dapr API 将发布方 "cart" 服务的 "order" topic 发布到订阅方 "shipping" 和 "email" 服务的 "order" 端点。
 
 {{< diagram pubsub-publish-api >}}
 
@@ -52,7 +52,7 @@ pub/sub API building block 为你的应用程序提供多项功能。
 
 ### 使用 CloudEvents 发送消息
 
-为了实现消息路由，并在服务之间为每条消息提供额外的上下文，Dapr 使用 [CloudEvents 1.0 规范](https://github.com/cloudevents/spec/tree/v1.0) 作为其消息格式。应用程序通过 Dapr 发送到主题的任何消息都会自动包装在 Cloud Events 信封中，并使用 [`Content-Type` 头值]({{% ref "pubsub-overview#content-types" %}}) 作为 `datacontenttype` 属性。
+为了实现消息 Routing，并在服务之间为每条消息提供额外的上下文，Dapr 使用 [CloudEvents 1.0 规范](https://github.com/cloudevents/spec/tree/v1.0) 作为其消息格式。应用程序通过 Dapr 发送到 topic 的任何消息都会自动包装在 Cloud Events 信封中，并使用 [`Content-Type` 头值]({{% ref "pubsub-overview#content-types" %}}) 作为 `datacontenttype` 属性。
 
 更多信息，请阅读[使用 CloudEvents 进行消息传递]({{% ref pubsub-cloudevents %}})，或[发送不带 CloudEvents 的原始消息]({{% ref pubsub-raw %}})。
 
@@ -73,31 +73,31 @@ pub/sub API building block 为你的应用程序提供多项功能。
 
 原则上，订阅者处理消息并返回非错误响应后，Dapr 即认为该消息已成功传递。若需要更精细的控制，Dapr 的 pub/sub API 还提供明确的状态（定义在响应负载中），订阅者可借此向 Dapr 指示具体的处理指令，例如 `RETRY` 或 `DROP`。
 
-### 使用主题订阅接收消息
+### 使用 topic 订阅接收消息
 
-Dapr 应用程序可以通过三种订阅类型订阅已发布的主题，这三种类型支持相同的功能：声明式、流式和编程式。
+Dapr 应用程序可以通过三种订阅类型订阅已发布的 topic，这三种类型支持相同的功能：声明式、流式和编程式。
 
 | 订阅类型 | 描述 |
 | ------------------- | ----------- |
-| **声明式** | 订阅定义在**外部文件**中。声明式方法使代码不再依赖 Dapr，并允许现有应用程序无需修改代码即可订阅主题。 |
-| **流式** | 订阅定义在**用户代码**中。streaming subscription 是动态的，意味着可以在运行时添加或移除订阅。它们不需要应用程序中的订阅端点（编程式和 declarative subscription 都需要），因此在代码中配置非常简便。streaming subscription 也不要求应用程序配置 sidecar 即可接收消息。由于消息会被发送到消息处理程序代码，streaming subscription 中没有路由和批量订阅的概念。 |
+| **声明式** | 订阅定义在**外部文件**中。声明式方法使代码不再依赖 Dapr，并允许现有应用程序无需修改代码即可订阅 topic。 |
+| **流式** | 订阅定义在**用户代码**中。streaming subscription 是动态的，意味着可以在运行时添加或移除订阅。它们不需要应用程序中的订阅端点（编程式和 declarative subscription 都需要），因此在代码中配置非常简便。streaming subscription 也不要求应用程序配置 sidecar 即可接收消息。由于消息会被发送到消息 handler 代码，streaming subscription 中没有路由和批量订阅的概念。 |
 | **编程式** | 订阅定义在**用户代码**中。编程式方法实现静态订阅，并且需要代码中提供端点。 |
 
 更多信息，请了解[订阅类型中的各种订阅方式]({{% ref subscription-methods %}})。
 
-### 重新加载主题订阅
+### 重新加载 topic 订阅
 
-编程式主题订阅需要重启 Dapr sidecar 才能重新加载。
-Dapr sidecar 会动态重新加载已更改的声明式主题订阅，无需重启。该功能默认启用；如需关闭，请在 [Dapr 应用程序配置]({{% ref "preview-features.md" %}}) 中禁用 `HotReload` 特性。
+编程式 topic 订阅需要重启 Dapr sidecar 才能重新加载。
+Dapr sidecar 会动态重新加载已更改的声明式 topic 订阅，无需重启。该功能默认启用；如需关闭，请在 [Dapr 应用程序配置]({{% ref "preview-features.md" %}}) 中禁用 `HotReload` 特性。
 重新加载订阅时，正在传输中的消息不受影响。
 
-### 消息路由
+### 消息 Routing
 
-Dapr 提供了[基于内容的路由](https://www.enterpriseintegrationpatterns.com/ContentBasedRouter.html)模式。[pub/sub 路由]({{% ref howto-route-messages %}})是该模式的一种实现，允许开发者使用表达式，根据 [CloudEvents](https://cloudevents.io) 的内容将其路由到应用程序中不同的 URI/路径和事件处理程序。如果没有任何路由匹配，则使用可选的默认路由。当你的应用程序扩展到支持多个事件版本或特殊情况时，这一点非常有用。
+Dapr 提供了[基于内容的路由](https://www.enterpriseintegrationpatterns.com/ContentBasedRouter.html)模式。[pub/sub Routing]({{% ref howto-route-messages %}})是该模式的一种实现，允许开发者使用表达式，根据 [CloudEvents](https://cloudevents.io) 的内容将其路由到应用程序中不同的 URI/路径和事件 handler。如果没有任何路由匹配，则使用可选的默认路由。当你的应用程序扩展到支持多个事件版本或特殊情况时，这一点非常有用。
 
 此功能同时适用于声明式和编程式订阅方式。
 
-更多关于消息路由的信息，请阅读 [Dapr pub/sub API 参考]({{% ref "pubsub_api#provide-routes-for-dapr-to-deliver-topic-events" %}})。
+更多关于消息 Routing 的信息，请阅读 [Dapr pub/sub API 参考]({{% ref "pubsub_api#provide-routes-for-dapr-to-deliver-topic-events" %}})。
 
 ### 使用死信主题处理失败消息
 
@@ -113,7 +113,7 @@ Dapr 通过[消费者组 namespace]({{% ref howto-namespace %}})解决大规模�
 
 ### 至少一次保证
 
-Dapr 保证消息投递的至少一次（at-least-once）语义。当应用程序使用 pub/sub API 向某个主题发布消息时，Dapr 会确保该消息*至少一次*投递给每个订阅者。
+Dapr 保证消息投递的至少一次（at-least-once）语义。当应用程序使用 pub/sub API 向某个 topic 发布消息时，Dapr 会确保该消息*至少一次*投递给每个订阅者。
 
 即使消息投递失败或应用程序崩溃，Dapr 也会尝试重新投递该消息，直到投递成功。
 
@@ -129,12 +129,12 @@ Dapr 会自动重试失败的订阅启动，以提高部署场景下的可靠性
 
 Dapr 承担了处理消费者组和竞争消费者模式的工作。在竞争消费者模式中，使用同一个消费者组的多个应用程序实例会竞争同一条消息。当副本使用相同的 `app-id` 且没有显式的消费者组覆盖配置时，Dapr 会强制执行竞争消费者模式。
 
-当同一应用程序的多个实例（具有相同的 `app-id`）订阅某个主题时，Dapr 会将每条消息只投递给**该应用程序的一个实例**。下图展示了这一概念。
+当同一应用程序的多个实例（具有相同的 `app-id`）订阅某个 topic 时，Dapr 会将每条消息只投递给**该应用程序的一个实例**。下图展示了这一概念。
 
 {{< diagram name="pubsub-competing-consumers" width="65" >}}
 <br></br>
 
-同样，如果两个不同的应用程序（具有不同的 `app-id`）订阅同一个主题，Dapr 会将每条消息分别投递给**每个应用程序的一个实例**。
+同样，如果两个不同的应用程序（具有不同的 `app-id`）订阅同一个 topic，Dapr 会将每条消息分别投递给**每个应用程序的一个实例**。
 
 并非所有 Dapr pub/sub component 都支持竞争消费者模式。目前，以下（非穷举）pub/sub component 支持该模式：
 
@@ -143,9 +143,9 @@ Dapr 承担了处理消费者组和竞争消费者模式的工作。在竞争消
 - [RabbitMQ]({{% ref setup-rabbitmq %}})
 - [Redis Streams]({{% ref setup-redis-pubsub %}})
 
-### 限制主题以增强安全性
+### 限制 topic 以增强安全性
 
-默认情况下，与某个 pub/sub component 实例关联的所有主题消息，对配置了该 component 的每个应用程序都可用。你可以使用 Dapr topic scoping 来限制哪些应用程序可以发布或订阅主题。更多信息，请阅读：[pub/sub topic scoping]({{% ref pubsub-scopes %}})。
+默认情况下，与某个 pub/sub component 实例关联的所有 topic 消息，对配置了该 component 的每个应用程序都可用。你可以使用 Dapr topic scoping 来限制哪些应用程序可以发布或订阅 topic。更多信息，请阅读：[pub/sub topic scoping]({{% ref pubsub-scopes %}})。
 
 ### 消息生存时间（TTL）
 
@@ -172,11 +172,11 @@ Dapr 支持在单个请求中发送和接收多条消息。在编写需要发送
 
 ### 直接在应用程序中使用 pub/sub
 
-想跳过 Quickstart？没问题。你可以直接在应用程序中试用 pub/sub building block，发布消息并订阅主题。[安装 Dapr]({{% ref "getting-started/_index" %}})后，即可从[pub/sub 操作指南]({{% ref howto-publish-subscribe %}})开始使用 pub/sub API。
+想跳过 Quickstart？没问题。你可以直接在应用程序中试用 pub/sub building block，发布消息并订阅 topic。[安装 Dapr]({{% ref "getting-started/_index" %}})后，即可从[pub/sub 操作指南]({{% ref howto-publish-subscribe %}})开始使用 pub/sub API。
 
 ### 在本地检查 pub/sub
 
-在本地开发期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用程序注册的订阅，包括 pub/sub component、主题和路由。你还可以从仪表板向某个订阅发布测试消息，这是在无需运行发布者的情况下快速测试订阅者的方法。
+在本地开发期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用程序注册的订阅，包括 pub/sub component、topic 和路由。你还可以从仪表板向某个订阅发布测试消息，这是在无需运行发布者的情况下快速测试订阅者的方法。
 
 ## 下一步
 

@@ -16,7 +16,7 @@ Workflow history signing 信任你的 Dapr **根 CA**。默认情况下，Dapr �
 
 1. **使用相同的根密钥续订叶证书/颁发者证书**（推荐）。现在备份 Dapr 生成的根私钥，并在每次续订时重复使用，或者
 2. **使用你自己的 CA**，并安全存储由你控制的根密钥（HSM 或 secret store），在所有颁发者证书续订时重复使用该根密钥，或者
-3. **在轮换到新根证书之前排空 workflow**。只运行可以在一个根 CA 有效期内完成（或清除）的 workflow，并在轮换根证书之前完成或清除所有已签名 workflow。
+3. **在轮换到新根证书之前 drain workflow**。只运行可以在一个根 CA 有效期内完成（或清除）的 workflow，并在轮换根证书之前完成或清除所有已签名 workflow。
 
 如果你无法在最长 workflow 的整个生命周期内保证做到其中一项，**请暂时不要启用签名**。完整指南请参阅[长时间运行的 workflow 与根 CA 过期](#长时间运行的-workflow-与根-ca-过期)。
 {{% /alert %}}
@@ -96,7 +96,7 @@ spec:
 
 ### 在现有部署中启用签名
 
-由于签名是[单向承诺](#单向承诺)，在已有未签名 workflow 正在运行的集群上启用该功能，会导致这些执行中的 workflow 无法加载。你**不**需要全新部署，但在切换功能标志之前，必须排空未签名工作。典型的发布步骤如下：
+由于签名是[单向承诺](#单向承诺)，在已有未签名 workflow 正在运行的集群上启用该功能，会导致这些执行中的 workflow 无法加载。你**不**需要全新部署，但在切换功能标志之前，必须 drain 未签名工作。典型的发布步骤如下：
 
 1. 停止在将启用签名的 appID 上调度新的 workflow instance。
 2. 允许执行中的 workflow 自然完成，或[清除]({{% ref "howto-manage-workflow.md" %}})不需要保留的 workflow。
@@ -105,7 +105,7 @@ spec:
 5. 等待配置更改传播到 sidecar（Dapr 默认会[热重载]({{% ref "component-updates.md" %}})配置，因此无需重启；只需留出时间，让更改传播到所有 sidecar）。
 6. 恢复调度。新的 workflow instance 从第一个事件开始签名。
 
-如果无法排空执行中的 workflow，请并行运行一个启用了签名的 appID 来处理新工作，同时让原 appID 在不启用签名的情况下完成其 workflow。原 appID 中没有剩余实例后，再将其停用。
+如果无法 drain 执行中的 workflow，请并行运行一个启用了签名的 appID 来处理新工作，同时让原 appID 在不启用签名的情况下完成其 workflow。原 appID 中没有剩余实例后，再将其停用。
 
 ## 单向承诺
 
@@ -167,10 +167,10 @@ Cert A 和 Cert B 都链接到同一个 Sentry CA，因此所有签名都仍然�
 
 1. **轮换叶证书/颁发者证书，但保留相同的根密钥。**这是推荐方式。Dapr CLI 支持使用 `dapr mtls renew-certificate -k --private-key <existing-root-key>` 完成此操作（参阅[续订证书]({{% ref "mtls.md#root-and-issuer-certificate-upgrade-using-cli-recommended" %}})）。现有已签名 workflow 仍可根据相同的根证书通过验证。
 2. **使用你自己的 CA。**提供一个根证书，并控制其私钥且安全存储（例如，存放在你自己的 HSM 或 secret store 中）。无限期地使用相同根密钥续订叶证书/颁发者证书。参阅[使用你自己的证书]({{% ref "mtls.md#bringing-your-own-certificates" %}})。
-3. **在轮换到新根证书之前排空 workflow。**如果必须轮换到全新的根密钥，请先完成或清除执行中的已签名 workflow。签名是一项单向承诺，因此无法执行“使用新根证书重新签名”操作。
+3. **在轮换到新根证书之前 drain workflow。**如果必须轮换到全新的根密钥，请先完成或清除执行中的已签名 workflow。签名是一项单向承诺，因此无法执行“使用新根证书重新签名”操作。
 
 {{% alert title="启用签名之前规划 CA 生命周期" color="warning" %}}
-如果你的 workflow 可能持续数周或数月，**请备份根私钥**，并将根 CA 轮换视为一项有计划的“排空并轮换”操作。丢失根密钥或轮换到新生成的根证书，会永久破坏所有在旧根证书下签发的已签名 workflow 的验证能力。
+如果你的 workflow 可能持续数周或数月，**请备份根私钥**，并将根 CA 轮换视为一项有计划的“drain-and-rotate”操作。丢失根密钥或轮换到新生成的根证书，会永久破坏所有在旧根证书下签发的已签名 workflow 的验证能力。
 {{% /alert %}}
 
 ## 签名的工作原理
@@ -220,7 +220,7 @@ Cert A 和 Cert B 都链接到同一个 Sentry CA，因此所有签名都仍然�
 
 ### 收件箱事件验证
 
-启用签名后，Dapr workflow runtime 会在处理收件箱事件之前对其进行验证。结果事件（`TaskCompleted`、`TaskFailed`、`ChildWorkflowInstanceCompleted`、`ChildWorkflowInstanceFailed`）必须引用已签名历史记录中实际调度的操作。引用不存在操作的事件（例如，为从未调度过的任务 ID 发送的 `TaskCompleted`）会被视为注入事件，并从收件箱中清除。这样可以防止拥有 state store 访问权限的攻击者注入伪造的 activity 或 child workflow 结果，否则这些结果会被签入历史记录链。
+启用签名后，Dapr workflow runtime 会在处理收件箱事件之前对其进行验证。结果事件（`TaskCompleted`、`TaskFailed`、`ChildWorkflowInstanceCompleted`、`ChildWorkflowInstanceFailed`）必须引用 signed history 中实际调度的操作。引用不存在操作的事件（例如，为从未调度过的任务 ID 发送的 `TaskCompleted`）会被视为注入事件，并从收件箱中清除。这样可以防止拥有 state store 访问权限的攻击者注入伪造的 activity 或 child workflow 结果，否则这些结果会被签入历史记录链。
 
 ### child workflow 和 activity 证明
 
@@ -247,7 +247,7 @@ child workflow 或 activity 完成时，执行器会附加以下其中一种证�
 3. 证书链必须通过 Sentry 信任锚点验证。
 4. 必须对确切的证明载荷字节验证签名（接收端不会重新编组）。
 5. `parentInstanceId` 必须等于接收 workflow 的 actor ID。
-6. `parentTaskScheduledId` 必须能解析到已存在于已签名历史记录中的 `TaskScheduled` 或 `ChildWorkflowInstanceCreated` 事件。
+6. `parentTaskScheduledId` 必须能解析到已存在于 signed history 中的 `TaskScheduled` 或 `ChildWorkflowInstanceCreated` 事件。
 7. `ioDigest` 必须等于父 workflow 调度输入与所报告输出的规范摘要。
 8. `terminalStatus` 必须与外围事件类型匹配。
 
@@ -317,7 +317,7 @@ child workflow 或 activity 完成时，执行器会附加以下其中一种证�
 
 ### 配置错误
 
-已签名历史记录与主机签名配置不匹配（已签名 workflow 由未配置签名器的主机加载，或未签名 workflow 由启用了签名的主机加载）时，系统会报告独立的 `ConfigurationError`，而不是篡改。上述篡改恢复路径不会应用于这些完整但无法加载的 workflow：其历史记录与写入时逐字节相同，因此追加篡改终止事件本身会构成破坏性修改。请修复主机配置，或清除该 workflow 以进行恢复。
+signed history 与主机签名配置不匹配（已签名 workflow 由未配置签名器的主机加载，或未签名 workflow 由启用了签名的主机加载）时，系统会报告独立的 `ConfigurationError`，而不是篡改。上述篡改恢复路径不会应用于这些完整但无法加载的 workflow：其历史记录与写入时逐字节相同，因此追加篡改终止事件本身会构成破坏性修改。请修复主机配置，或清除该 workflow 以进行恢复。
 
 该错误会在两个位置显示：加载失败时，Dapr sidecar 会记录错误级别条目，指出 workflow instance 的实例 ID 以及主机是否应配置签名器；发起 workflow metadata 查询的调用方（`GET /v1.0/workflows/<id>` 或等效 SDK）会直接在响应中收到 `ConfigurationError`，因此可以通过程序检测该错误。
 
@@ -370,7 +370,7 @@ workflow 签名数据与 workflow 状态一同存储，使用以下键前缀。�
 | **应用身份绑定** | 会针对 workflow 所属的应用 ID 验证每个签名证书中的 SPIFFE ID，从而防止跨应用伪造 |
 | **时间绑定** | 根据事件时间戳检查证书有效性，防止使用已过期的凭据 |
 | **信任锚定** | 根据 Sentry CA 信任包验证所有签名证书 |
-| **收件箱验证** | 根据已签名历史记录中的已调度操作验证 activity 和 child workflow 结果，防止注入伪造结果 |
+| **收件箱验证** | 根据 signed history 中的已调度操作验证 activity 和 child workflow 结果，防止注入伪造结果 |
 | **跨身份证明** | child workflow 和 activity 完成事件由执行身份进行加密证明，并由父 workflow 在这些事件进入收件箱之前进行验证 |
 | **血缘完整性** | 转发的 `PropagatedHistoryChunk` 会单独签名，并根据生成该块的应用的 SPIFFE 身份进行验证 |
 | **不可变历史记录** | Dapr 不会修改现有 workflow 历史记录、签名或收件箱；检测到篡改时唯一的写入是一个未签名的终端 `ExecutionCompleted` 事件，其错误类型为 `DAPR_WORKFLOW_HISTORY_TAMPERED` |

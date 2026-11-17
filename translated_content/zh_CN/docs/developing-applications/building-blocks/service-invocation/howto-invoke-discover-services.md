@@ -436,7 +436,7 @@ curl http://localhost:3602/v1.0/invoke/checkout.production/method/checkout/100 -
 - 允许你可视化服务之间的调用图并记录错误，以及
 - 可选地记录负载正文。
 
-有关追踪和日志的更多信息，请参阅[可观测性]({{% ref observability-concept %}})文章。
+有关追踪和日志的更多信息，请参阅[observability]({{% ref observability-concept %}})文章。
 
 ## 相关链接
 

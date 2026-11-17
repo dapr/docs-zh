@@ -308,7 +308,7 @@ func Step3(ctx workflow.ActivityContext) (any, error) {
 - 自动保存进度。
 - 如果 workflow 进程因任何原因失败，会自动从最后完成的步骤恢复 workflow。
 - 支持以目标编程语言自然地表达错误处理，让您可以轻松实现补偿逻辑。
-- 提供内置的重试配置原语，简化为 workflow 中各个步骤配置复杂重试策略的过程。
+- 提供内置的重试配置原语，简化为 workflow 中各个步骤配置复杂 retry policies 的过程。
 
 要运行此模式，请在 [Python](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/python/task-chaining)、[.NET](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/csharp/task-chaining) 或 [Java](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/java/task-chaining) 中尝试 task chaining 教程。
 
@@ -985,7 +985,7 @@ func SendAlert(ctx workflow.ActivityContext) (any, error) {
 
 ## 外部系统交互
 
-在某些情况下，workflow 可能需要暂停并等待外部系统执行某些操作。例如，workflow 可能需要暂停并等待收到付款。在这种情况下，支付系统可能会在收到付款时向 pub/sub 主题发布一个事件，而该主题上的监听器可以通过 [raise event workflow API]({{% ref "howto-manage-workflow.md#raise-an-event" %}}) 向 workflow 发送事件。
+在某些情况下，workflow 可能需要暂停并等待外部系统执行某些操作。例如，workflow 可能需要暂停并等待收到付款。在这种情况下，支付系统可能会在收到付款时向 pub/sub topic 发布一个事件，而该 topic 上的监听器可以通过 [raise event workflow API]({{% ref "howto-manage-workflow.md#raise-an-event" %}}) 向 workflow 发送事件。
 
 另一种非常常见的场景是 workflow 需要暂停并等待人工操作，例如审批采购订单。Dapr Workflow 通过 [external events]({{% ref "workflow-features-concepts.md#external-events" %}}) 功能支持此事件模式。
 
@@ -1420,31 +1420,31 @@ func raiseEvent() {
 
 {{< /tabpane >}}
 
-外部事件不必由人工直接触发，也可以由其他系统触发。例如，workflow 可能需要暂停并等待收到付款。在这种情况下，支付系统可能会在收到付款时向 pub/sub 主题发布一个事件，而该主题上的监听器可以通过 raise event workflow API 向 workflow 发送事件。
+外部事件不必由人工直接触发，也可以由其他系统触发。例如，workflow 可能需要暂停并等待收到付款。在这种情况下，支付系统可能会在收到付款时向 pub/sub topic 发布一个事件，而该 topic 上的监听器可以通过 raise event workflow API 向 workflow 发送事件。
 
 要运行此模式，请在 [Python](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/python/external-system-interaction)、[.NET](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/csharp/external-system-interaction) 或 [Java](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/java/external-system-interactions) 中尝试外部系统交互教程。
 
 ## 补偿
 
-补偿模式（也称为 Saga 模式）提供了一种机制，用于在 workflow 中途失败时回滚或撤销已执行的操作。此模式对于跨多个微服务、且传统数据库事务不可行的长时间运行的 workflow 尤为重要。
+compensation pattern（也称为 saga pattern）提供了一种机制，用于在 workflow 中途失败时回滚或撤销已执行的操作。此模式对于跨多个微服务、且传统数据库事务不可行的长时间运行的 workflow 尤为重要。
 
-在分布式微服务架构中，您通常需要跨多个服务协调操作。当这些操作无法包含在单个事务中时，补偿模式通过为 workflow 中的每个步骤定义补偿操作，提供了一种保持一致性的方法。
+在分布式微服务架构中，您通常需要跨多个服务协调操作。当这些操作无法包含在单个事务中时，compensation pattern 通过为 workflow 中的每个步骤定义补偿操作，提供了一种保持一致性的方法。
 
-补偿模式解决了几个关键挑战：
+compensation pattern 解决了几个关键挑战：
 
-- **分布式事务管理**：当 workflow 跨越多个微服务（每个微服务都有各自的数据存储）时，传统的 ACID 事务是不可能实现的。补偿模式通过确保操作要么全部成功完成，要么全部通过补偿撤销，提供事务一致性。
-- **部分故障恢复**：如果 workflow 在某些步骤已成功完成后失败，补偿模式可让您优雅地撤销这些已完成的步骤。
+- **分布式事务管理**：当 workflow 跨越多个微服务（每个微服务都有各自的数据存储）时，传统的 ACID 事务是不可能实现的。compensation pattern 通过确保操作要么全部成功完成，要么全部通过补偿撤销，提供事务一致性。
+- **部分故障恢复**：如果 workflow 在某些步骤已成功完成后失败，compensation pattern 可让您优雅地撤销这些已完成的步骤。
 - **业务流程完整性**：确保业务流程在发生故障时能够正确回滚，从而维护业务操作的完整性。
 - **长时间运行的流程**：对于可能运行数小时、数天甚至更久的 workflow，传统的锁定机制并不实用。补偿为这些场景中的故障处理提供了一种方法。
 
-补偿模式的常见用例包括：
+compensation pattern 的常见用例包括：
 
 - **电子商务订单处理**：预留库存、处理付款并发货。如果发货失败，您需要释放库存并退还付款。
 - **金融交易**：在转账中，如果向目标账户入账失败，您需要回滚从源账户的扣款。
 - **资源预配**：在跨多个提供商预配云资源时，如果某个步骤失败，您需要清理之前已预配的所有资源。
 - **多步骤业务流程**：任何涉及多个不可逆步骤、且可能需要在后续失败时撤销的业务流程。
 
-Dapr Workflow 为补偿模式提供支持，允许您为每个步骤注册补偿 activity，并在需要时以相反的顺序执行它们。
+Dapr Workflow 为 compensation pattern 提供支持，允许您为每个步骤注册补偿 activity，并在需要时以相反的顺序执行它们。
 
 以下是一个电子商务流程的 workflow 示例：
 
@@ -1618,16 +1618,16 @@ class SendConfirmationActivity implements WorkflowActivity {
 
 {{< /tabpane >}}
 
-使用 Dapr Workflow 补偿模式的主要好处包括：
+使用 Dapr Workflow compensation pattern 的主要好处包括：
 
 - **补偿控制**：您可以完全控制补偿 activity 何时以及如何执行。
 - **灵活配置**：您可以实现自定义逻辑，以确定要运行哪些补偿。
 - **错误处理**：根据您的具体业务需求处理补偿失败。
 - **简单实现**：无需额外的框架依赖，只需标准的 workflow activity 和异常处理。
 
-补偿模式确保分布式 workflow 能够保持一致性，并从故障中优雅地恢复，使其成为构建可靠微服务架构的重要工具。
+compensation pattern 确保分布式 workflow 能够保持一致性，并从故障中优雅地恢复，使其成为构建可靠微服务架构的重要工具。
 
-要运行此模式，请在 [Python](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/python/resiliency-and-compensation)、[.NET](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/csharp/resiliency-and-compensation) 或 [Java](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/java/resiliency-and-compensation) 中尝试 resiliency and compensation 教程，该教程还展示了重试策略。
+要运行此模式，请在 [Python](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/python/resiliency-and-compensation)、[.NET](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/csharp/resiliency-and-compensation) 或 [Java](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow/java/resiliency-and-compensation) 中尝试 resiliency and compensation 教程，该教程还展示了 retry policies。
 
 ## 后续步骤
 

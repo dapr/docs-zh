@@ -46,7 +46,7 @@ def hello_act(ctx: WorkflowActivityContext, wf_input):
     print(f'New counter value is: {counter}!', flush=True)
 ```
 
-[查看任务链 workflow activity 的上下文。](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)
+[查看 task chaining workflow activity 的上下文。](https://github.com/dapr/python-sdk/blob/main/examples/workflow/simple.py)
 
 
 {{% /tab %}}

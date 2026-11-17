@@ -280,7 +280,7 @@ async function start() {
 
 ### 确认事件
 
-从您的 HTTP 处理程序返回 `200 OK` 响应，告知 Dapr 您已成功处理该事件。
+从您的 HTTP handler 返回 `200 OK` 响应，告知 Dapr 您已成功处理该事件。
 
 ### 拒绝事件
 

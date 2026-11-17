@@ -17,7 +17,7 @@ Search API 的范围仅限于存储和查询已可直接编制索引的文档。
 你可以将 Search API 与以下 Dapr 功能配合使用：
 
 - [resiliency 策略]({{% ref resiliency-overview %}})，包括针对搜索引擎调用的断路器、超时和重试
-- 可观测性：使用指标（按 `operation` 标记的 `dapr_component_search_count` 和 `dapr_component_search_latencies`），以及通过 OpenTelemetry 和 Zipkin 进行分布式追踪
+- observability：使用指标（按 `operation` 标记的 `dapr_component_search_count` 和 `dapr_component_search_latencies`），以及通过 OpenTelemetry 和 Zipkin 进行分布式追踪
 - 用于搜索引擎凭据的 [secret store 引用]({{% ref component-secrets %}})
 
 ## 概念
@@ -33,7 +33,7 @@ Search API 的范围仅限于存储和查询已可直接编制索引的文档。
 
 ### 索引管理
 
-创建、获取、列出和删除索引。创建已存在的索引会返回 `ALREADY_EXISTS`；Dapr 从不协调现有索引的设置。获取索引会返回文档数量的近似值以及组件特定的属性，例如已配置的可过滤或可排序属性。
+创建、获取、列出和删除索引。创建已存在的索引会返回 `ALREADY_EXISTS`；Dapr 从不 reconcile 现有索引的设置。获取索引会返回文档数量的近似值以及组件特定的属性，例如已配置的可过滤或可排序属性。
 
 ### 按键 Upsert
 
@@ -114,7 +114,7 @@ Dapr 在调用搜索引擎之前检测到的错误则使用 Dapr 错误代码：
 
 对搜索引擎的调用会受 search store 的 [resiliency 策略]({{% ref resiliency-overview %}}) 约束：
 
-- 重试策略可以通过 `matching.gRPCStatusCodes` 匹配搜索引擎返回的规范 gRPC 代码。
+- Retry policies 可以通过 `matching.gRPCStatusCodes` 匹配搜索引擎返回的规范 gRPC 代码。
 - 超出策略超时时间的请求会以 `DEADLINE_EXCEEDED` 失败。
 - 使用 `INDEXING_WAIT_TIMEOUT_ACTION_FAIL_REQUEST` 等待完成的写入，在其等待超时后不会重试。
 - 重试索引删除时，如果返回 `NOT_FOUND`，该删除会被报告为成功，因为较早的一次尝试很可能已经删除了索引。

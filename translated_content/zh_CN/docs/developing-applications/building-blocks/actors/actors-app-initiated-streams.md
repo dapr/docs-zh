@@ -35,7 +35,7 @@ description: "无需暴露服务器端口，即可通过应用发起的 gRPC 流
 
 该协议基于双向 gRPC 流上的请求–响应配对：
 
-1. **应用打开流。** 应用调用 Dapr gRPC 服务上的 `SubscribeActorEventsAlpha1`，并发送一条初始注册消息（`SubscribeActorEventsRequestInitialAlpha1`），其中列出它承载的 Actor 类型，以及可选的运行时配置覆盖项（空闲超时、排空设置、重入）。
+1. **应用打开流。** 应用调用 Dapr gRPC 服务上的 `SubscribeActorEventsAlpha1`，并发送一条初始注册消息（`SubscribeActorEventsRequestInitialAlpha1`），其中列出它承载的 Actor 类型，以及可选的运行时配置覆盖项（空闲超时、drain 设置、重入）。
 
 2. **Dapr 确认注册。** daprd 在流上回复 `SubscribeActorEventsResponseInitialAlpha1`。消息体为空表示成功；错误会以 gRPC 流错误的形式返回。
 
@@ -57,7 +57,7 @@ description: "无需暴露服务器端口，即可通过应用发起的 gRPC 流
 Dapr 支持同一个应用进程同时存在多条并发流。这使得零停机的滚动重启成为可能：
 
 - 当新 Pod 打开流时，daprd 会把所有**新**回调路由到最新的连接。
-- **较旧**的连接会继续接收它已发送回调的响应，并自然排空。
+- **较旧**的连接会继续接收它已发送回调的响应，并自然 drain。
 - 当旧连接上所有进行中的工作完成后，即可安全关闭该连接。
 
 如果流中断，应用应使用指数退避进行重连。

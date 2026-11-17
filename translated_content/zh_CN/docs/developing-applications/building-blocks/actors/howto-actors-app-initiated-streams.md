@@ -286,7 +286,7 @@ func runWithReconnect(ctx context.Context, client runtimev1pb.DaprClient) {
 | `entities` | `[]string` | **必填。** 本应用承载的 Actor 类型。 |
 | `actor_idle_timeout` | `Duration` | 在此空闲时长后停用 Actor。未设置时使用 Dapr 默认值（60 分钟）。 |
 | `drain_ongoing_call_timeout` | `Duration` | 重新平衡期间，等待进行中调用完成的时长。未设置时使用 Dapr 默认值（2 秒）。 |
-| `drain_rebalanced_actors` | `bool` | 若为 true，则在停用经过重新平衡的 Actor 之前等待排空。未设置时使用 Dapr 默认值。 |
+| `drain_rebalanced_actors` | `bool` | 若为 true，则在停用经过重新平衡的 Actor 之前等待 drain。未设置时使用 Dapr 默认值。 |
 | `reentrancy` | `ActorReentrancyConfig` | 启用 Actor 重入并设置最大栈深度。默认：禁用。 |
 | `entities_config` | `[]ActorEntityConfig` | 为各个 Actor 类型单独覆盖上述任一字段。 |
 

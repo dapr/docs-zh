@@ -6,13 +6,13 @@ weight: 5000
 description: "了解如何在 component 中使用基于 metadata 的命名空间消费者组"
 ---
 
-你已经设置了 [Dapr 的 pub/sub API building block]({{% ref pubsub-overview %}})，你的应用程序正在使用中心化的消息代理顺畅地发布和订阅主题。如果你想为应用程序执行简单的 A/B 测试、蓝绿部署，甚至金丝雀部署，该怎么办呢？即使使用 Dapr，这也可能变得很困难。
+你已经设置了 [Dapr 的 pub/sub API building block]({{% ref pubsub-overview %}})，你的应用程序正在使用中心化的消息代理顺畅地发布和订阅 topics。如果你想为应用程序执行简单的 A/B 测试、蓝绿部署，甚至金丝雀部署，该怎么办呢？即使使用 Dapr，这也可能变得很困难。
 
 Dapr 通过其 pub/sub 命名空间消费者组构造解决了大规模的多租户问题。
 
 ## 没有命名空间消费者组
 
-假设你有一个 Kubernetes 集群，其中两个应用程序（App1 和 App2）部署在同一个 namespace（namespace-a）中。App1 发布到名为 `order` 的主题，而 App2 订阅名为 `order` 的主题。这将创建两个消费者组，以你的应用程序命名（App1 和 App2）。
+假设你有一个 Kubernetes 集群，其中两个应用程序（App1 和 App2）部署在同一个 namespace（namespace-a）中。App1 发布到名为 `order` 的 topic，而 App2 订阅名为 `order` 的 topic。这将创建两个消费者组，以你的应用程序命名（App1 和 App2）。
 
 {{< diagram name="pubsub-namespace-basic" width="60" >}}
 
@@ -47,30 +47,30 @@ spec:
     value: "{namespace}"
 ```
 
-通过将 `consumerID` 配置为 `{namespace}` 值，你就可以在不同的 namespace 中使用相同的 `app-id` 和相同的主题。
+通过将 `consumerID` 配置为 `{namespace}` 值，你就可以在不同的 namespace 中使用相同的 `app-id` 和相同的 topics。
 
 {{< diagram pubsub-namespace-with >}}
 
-在上图中，你有两个 namespace，每个 namespace 中都有具有相同 `app-id` 的应用程序，它们发布和订阅同一个逻辑主题 `order`。Dapr 会为底层的消息代理实体添加 namespace，因此两个 namespace 不会相互干扰。
+在上图中，你有两个 namespace，每个 namespace 中都有具有相同 `app-id` 的应用程序，它们发布和订阅同一个逻辑 topic `order`。Dapr 会为底层的消息代理实体添加 namespace，因此两个 namespace 不会相互干扰。
 
 无需更改代码或 `app-id`，命名空间消费者组可以让你：
 - 添加更多 namespace
-- 在各 namespace 之间，在**应用程序代码中**使用相同的主题名称
+- 在各 namespace 之间，在**应用程序代码中**使用相同的 topic 名称
 - 在各 namespace 之间保持相同的 `app-id`
 - 保持整个部署流水线完好无损
 
 只需在 component metadata 中包含 `"{namespace}"` 消费者组构造即可。你无需在 metadata 中编写 namespace。Dapr 会识别其运行所在的 namespace，并为你补全 namespace 的值，就像运行时注入的动态 metadata 值一样。
 
 {{% alert title="重要：namespace 如何体现在消息代理上" color="warning" %}}
-当 `{namespace}` 出现在 pub/sub component metadata 的任何位置时，Dapr 会对**整个 component** 进行 namespace 限定，而不仅仅是 `consumerID` 字段。在每次发布和订阅时，Kubernetes namespace 都会同时作为前缀加在**主题**和**订阅 / 消费者组**上。
+当 `{namespace}` 出现在 pub/sub component metadata 的任何位置时，Dapr 会对**整个 component** 进行 namespace 限定，而不仅仅是 `consumerID` 字段。在每次发布和订阅时，Kubernetes namespace 都会同时作为前缀加在**topic** 和**订阅 / 消费者组**上。
 
-例如，namespace 为 `team-a`、逻辑主题为 `order` 时，在消息代理上创建的实体为：
-- 主题：`team-aorder`
+例如，namespace 为 `team-a`、逻辑 topic 为 `order` 时，在消息代理上创建的实体为：
+- Topic：`team-aorder`
 - 订阅 / 消费者组：`team-a.<appID>`
 
-从应用程序代码的角度看，主题名称端到端保持不变：Dapr 在接收路径上会去掉前缀后再将消息投递给应用程序，而且 sidecar 日志中的 `app is subscribed to the following topics: [...]` 这一行也显示未加前缀的名称。前缀只存在于网络传输与消息代理上。
+从应用程序代码的角度看，topic 名称端到端保持不变：Dapr 在接收路径上会去掉前缀后再将消息投递给应用程序，而且 sidecar 日志中的 `app is subscribed to the following topics: [...]` 这一行也显示未加前缀的名称。前缀只存在于网络传输与消息代理上。
 
-如果你希望使用**共享**的消息代理主题，并为每个应用使用唯一的订阅，请从 component metadata 中去掉 `{namespace}`，并以其他方式使 `consumerID` 唯一（例如 `consumerID: "{appID}"`）。
+如果你希望使用**共享**的消息代理 topic，并为每个应用使用唯一的订阅，请从 component metadata 中去掉 `{namespace}`，并以其他方式使 `consumerID` 唯一（例如 `consumerID: "{appID}"`）。
 {{% /alert %}}
 
 {{% alert title="注意" color="primary" %}}

@@ -57,7 +57,7 @@ description: "跨多个应用程序执行 workflow"
 
 ## multi-application workflow
 
-workflow 执行的路由基于[托管 Dapr 应用程序的 app ID]({{% ref "security-concept.md#application-identity" %}})。
+workflow 执行的 Routing 基于[托管 Dapr 应用程序的 app ID]({{% ref "security-concept.md#application-identity" %}})。
 默认情况下，完整的 workflow 执行托管在启动该 workflow 的 app ID 上。该 workflow 可以在此 app ID 的任意副本上执行，而不仅限于调度该 workflow 的那一个副本。
 
 
@@ -92,11 +92,11 @@ multi-application workflow 需要 Dapr runtime v1.16.0 或更高版本。.NET SD
 ## 错误处理
 
 调用多应用 activity 或 child workflow 时：
-- 如果目标应用程序不存在，将使用所提供的重试策略重试该调用。
+- 如果目标应用程序不存在，将使用所提供的 retry policy 重试该调用。
 - 如果目标应用程序存在，但不包含指定的 activity 或 workflow，调用将返回错误。
-- 标准 workflow 重试策略同样适用于多应用调用。
+- 标准 workflow retry policies 同样适用于多应用调用。
 
-目标应用（无论本地还是远程）没有连接任何 workflow 工作进程时，[客户端操作](#跨应用管理-workflow)会立即失败，错误信息为 `no workflow worker is connected for app '<app-id>'`。该错误提示你需要启动应用，或等待其工作进程连接，而不是返回类似 `did not find address for actor` 的 actor 路由错误。启动 workflow 在这种情况下不再重试，因此错误会比以前提前约 20 秒返回。原始错误仍被包装在其中，因此现有的错误代码检查依然有效。
+目标应用（无论本地还是远程）没有连接任何 workflow 工作进程时，[客户端操作](#跨应用管理-workflow)会立即失败，错误信息为 `no workflow worker is connected for app '<app-id>'`。该错误提示你需要启动应用，或等待其工作进程连接，而不是返回类似 `did not find address for actor` 的 actor Routing 错误。启动 workflow 在这种情况下不再重试，因此错误会比以前提前约 20 秒返回。原始错误仍被包装在其中，因此现有的错误代码检查依然有效。
 
 至关重要的是，负责不同 app ID 的团队之间必须相互协调，确保 activity 和 child workflow 在需要时已经定义并可用。
 
@@ -255,7 +255,7 @@ public sealed class BusinessWorkflow : Workflow<string, string>
 
 ### 适用场景
 
-- **客户端级别的操作（本节）**：调用方不在 workflow 内部。例如 HTTP 处理程序、针对已知 实例 ID 的运维工具，或启动自己并不托管的工作的服务。
+- **客户端级别的操作（本节）**：调用方不在 workflow 内部。例如 HTTP handler、针对已知 实例 ID 的运维工具，或启动自己并不托管的工作的服务。
 - **[child workflow 和 activity](#多应用-activity-示例)**：调用方*本身就是*一个 workflow，它将另一个应用程序的工作组合进自己的执行过程，并等待其结果。
 
 ### 工作原理

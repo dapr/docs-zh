@@ -126,7 +126,7 @@ diagrid-dev-dashboard update
 
 ### 查看订阅并发布测试消息
 
-**订阅**页面会列出所有应用中的 pub/sub 订阅，包括 pub/sub component、主题、路由和订阅类型（声明式、编程式或流式）。使用订阅上的**发布**按钮，可通过应用的 sidecar 发送测试消息，这样你无需运行发布者应用就能测试订阅者。
+**订阅**页面会列出所有应用中的 pub/sub 订阅，包括 pub/sub component、topic、路由和订阅类型（声明式、编程式或流式）。使用订阅上的**发布**按钮，可通过应用的 sidecar 发送测试消息，这样你无需运行发布者应用就能测试订阅者。
 
 <img src="/images/dev-dashboard/publish-message.png" width=800 alt="Dapr Dev Dashboard 显示用于向订阅发布测试消息的对话框"/><br/>
 

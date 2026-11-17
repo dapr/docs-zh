@@ -1,22 +1,22 @@
 ---
 type: docs
-title: "操作指南：发布消息并订阅主题"
-linkTitle: "操作指南：发布和订阅主题"
+title: "操作指南：发布消息并订阅 topic"
+linkTitle: "操作指南：发布和订阅 topics"
 weight: 2000
-description: "了解如何通过一个服务向主题发送消息，并在另一个服务中订阅该主题"
+description: "了解如何通过一个服务向 topic 发送消息，并在另一个服务中订阅该 topic"
 ---
 
 在了解了 Dapr pub/sub building block 提供的能力之后，接下来了解它如何在你的服务中工作。下面的代码示例大致描述了一个处理订单的应用程序，它包含两个服务，每个服务都配有 Dapr sidecar：
 
 - 一个订单处理服务，使用 Dapr 向 RabbitMQ 发布消息。
-- 一个结账服务，使用 Dapr 订阅消息队列中的主题。
+- 一个结账服务，使用 Dapr 订阅消息队列中的 topic。
 
 
 {{< diagram name="pubsub-howto-overview" width="70" >}}
 
 Dapr 会自动将用户负载封装在符合 CloudEvents v1.0 规范的信封中，并使用 `Content-Type` 头部的值作为 `datacontenttype` 属性。[了解有关 CloudEvents 消息的更多信息。]({{% ref pubsub-cloudevents %}})
 
-下面的示例演示了你的应用程序如何发布和订阅名为 `orders` 的主题。
+下面的示例演示了你的应用程序如何发布和订阅名为 `orders` 的 topic。
 
 {{% alert title="注意" color="primary" %}}
 如果你还没有尝试过，请先体验[pub/sub Quickstart]({{% ref pubsub-quickstart %}})，快速了解如何使用 pub/sub。
@@ -152,9 +152,9 @@ dapr run --app-id myapp --resources-path ./myComponents -- npm start
 
 {{< /tabpane >}}
 
-## 订阅主题
+## 订阅 topics
 
-Dapr 提供了三种订阅主题的方法：
+Dapr 提供了三种订阅 topics 的方法：
 
 - **声明式**，订阅在外部文件中定义。
 - **流式**，订阅在用户代码中定义。
@@ -179,9 +179,9 @@ scopes:
 - checkout
 ```
 
-上面的示例展示了对 `orders` 主题的事件订阅，使用的是 pub/sub component `order-pub-sub`。
+上面的示例展示了对 `orders` topic 的事件订阅，使用的是 pub/sub component `order-pub-sub`。
 
-- `route` 字段告诉 Dapr 将所有主题消息发送到应用程序中的 `/checkout` 端点。
+- `route` 字段告诉 Dapr 将所有 topic 消息发送到应用程序中的 `/checkout` 端点。
 - `scopes` 字段为 ID 为 `orderprocessing` 和 `checkout` 的应用程序启用此订阅。
 
 将 `subscription.yaml` 放在与 `pubsub.yaml` component 相同的目录中。Dapr 启动时，会与 component 一起加载订阅。
@@ -198,7 +198,7 @@ spec:
 为防止消息被重复处理或未处理的消息丢失，在热重载事件期间，Dapr 与你的应用程序之间正在传输的消息不受影响。
 {{% /alert %}}
 
-以下代码示例利用 Dapr SDK 订阅你在 `subscription.yaml` 中定义的主题。
+以下代码示例利用 Dapr SDK 订阅你在 `subscription.yaml` 中定义的 topic。
 
 {{< tabpane text=true >}}
 
@@ -401,7 +401,7 @@ dapr run --app-id checkout --app-port 6002 --dapr-http-port 3602 --dapr-grpc-por
 dapr run --app-id orderprocessing --dapr-http-port 3601
 ```
 
-然后向 `orders` 主题发布一条消息：
+然后向 `orders` topic 发布一条消息：
 
 {{< tabpane text=true >}}
 
@@ -431,7 +431,7 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Body '{"orderId"
 
 {{< /tabpane >}}
 
-以下代码示例利用 Dapr SDK 发布主题。
+以下代码示例利用 Dapr SDK 发布 topic。
 
 {{< tabpane text=true >}}
 

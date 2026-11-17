@@ -186,7 +186,7 @@ child workflows 有许多优势：
 * 您可以让 workflow 逻辑并发地分布在多个计算节点上，如果您的 workflow 逻辑需要协调大量任务，这一点尤其有用。
 * 通过让父 workflow 的历史记录更小，您可以降低内存使用和 CPU 开销。
 
-child workflow 的返回值即其输出。如果 child workflow 因异常失败，该异常会像 activity 任务因异常失败时一样，被传递给父 workflow。child workflows 也支持自动重试策略。
+child workflow 的返回值即其输出。如果 child workflow 因异常失败，该异常会像 activity 任务因异常失败时一样，被传递给父 workflow。child workflows 也支持自动 retry policies。
 
 终止父 workflow 会终止该 workflow instance 创建的所有 child workflows。更多信息请参阅 [terminate workflow API]({{% ref "workflow_api.md#terminate-workflow-request" %}})。
 
@@ -204,27 +204,27 @@ Dapr Workflows 允许您为任意时间范围调度类似 reminder 的持久化�
 workflow 编写 SDK 中的某些 API 可能会在内部调度 durable timers，以实现内部超时行为。
 {{% /alert %}}
 
-## 重试策略
+## Retry policies
 
-workflow 支持针对 activities 和 child workflows 的持久化重试策略。workflow 重试策略与 [Dapr resiliency policies]({{% ref "resiliency-overview.md" %}}) 在以下方面有所不同：
+workflow 支持针对 activities 和 child workflows 的持久化 retry policies。workflow retry policies 与 [Dapr resiliency policies]({{% ref "resiliency-overview.md" %}}) 在以下方面有所不同：
 
-- workflow 重试策略由 workflow 作者在代码中配置，而 Dapr resiliency policies 由应用运维人员在 YAML 中配置。
-- workflow 重试策略是持久的，并且在应用重启后保持其状态，而 Dapr resiliency policies 不是持久的，应用重启后必须重新应用。
-- workflow 重试策略由 activities 和 child workflows 中未处理的错误或异常触发，而 Dapr resiliency policies 由操作超时和连接故障触发。
+- workflow retry policies 由 workflow 作者在代码中配置，而 Dapr resiliency policies 由应用运维人员在 YAML 中配置。
+- workflow retry policies 是持久的，并且在应用重启后保持其状态，而 Dapr resiliency policies 不是持久的，应用重启后必须重新应用。
+- workflow retry policies 由 activities 和 child workflows 中未处理的错误或异常触发，而 Dapr resiliency policies 由操作超时和连接故障触发。
 
 重试在内部使用 durable timers 实现。这意味着 workflow 在等待重试触发期间可以被安全地从内存中卸载，从而节省系统资源。这也意味着重试之间的延迟可以任意长，包括几分钟、几小时，甚至几天。
 
 {{% alert title="注意" color="primary" %}}
-重试策略执行的操作会保存到 workflow 的历史记录中。在 workflow 已经执行之后，必须注意不要更改重试策略的行为，否则 workflow 在重放时可能出现意外行为。更多信息请参阅关于[更新 workflow 代码]({{% ref "#updating-workflow-code" %}})的说明。
+retry policy 执行的操作会保存到 workflow 的历史记录中。在 workflow 已经执行之后，必须注意不要更改 retry policy 的行为，否则 workflow 在重放时可能出现意外行为。更多信息请参阅关于[更新 workflow 代码]({{% ref "#updating-workflow-code" %}})的说明。
 {{% /alert %}}
 
-也可以同时使用 workflow 重试策略和 Dapr resiliency policies。例如，如果 workflow activity 使用 Dapr 客户端调用某个服务，则 Dapr 客户端会使用已配置的 resiliency policy。更多信息及示例，请参阅 [Quickstart：Service-to-service resiliency]({{% ref "resiliency-serviceinvo-quickstart.md" %}})。但是，如果 activity 本身因任何原因失败（包括耗尽了 resiliency policy 的重试次数），则 workflow 的 resiliency policy 会介入。
+也可以同时使用 workflow retry policies 和 Dapr resiliency policies。例如，如果 workflow activity 使用 Dapr 客户端调用某个服务，则 Dapr 客户端会使用已配置的 resiliency policy。更多信息及示例，请参阅 [Quickstart：Service-to-service resiliency]({{% ref "resiliency-serviceinvo-quickstart.md" %}})。但是，如果 activity 本身因任何原因失败（包括耗尽了 resiliency policy 的重试次数），则 workflow 的 resiliency policy 会介入。
 
 {{% alert title="注意" color="primary" %}}
-同时使用 workflow 重试策略和 resiliency policies 可能导致意外行为。例如，如果 workflow activity 耗尽了其配置的重试策略，workflow 引擎仍会根据 workflow 重试策略重试该 activity。这可能导致 activity 被重试的次数超出预期。
+同时使用 workflow retry policies 和 resiliency policies 可能导致意外行为。例如，如果 workflow activity 耗尽了其配置的 retry policy，workflow 引擎仍会根据 workflow retry policy 重试该 activity。这可能导致 activity 被重试的次数超出预期。
 {{% /alert %}}
 
-由于 workflow 重试策略在代码中配置，具体的开发体验可能因 workflow SDK 版本而异。一般来说，workflow 重试策略可通过以下参数进行配置：
+由于 workflow retry policies 在代码中配置，具体的开发体验可能因 workflow SDK 版本而异。一般来说，workflow retry policies 可通过以下参数进行配置：
 
 | 参数 | 描述 |
 | --- | --- |
@@ -255,7 +255,7 @@ Workflow history propagation 使 workflow instance 能够回溯 workflow 或其�
 父 workflow 可以选择将其执行历史与下游的 child workflows、grandchild workflows 以及 activities 共享。提供两种作用域：
 
 - **Lineage**— 调用方的事件，外加完整的祖先链（保管链）
-- **Own history**— 仅包含调用方的事件（作为信任边界，不包含祖先谱系）
+- **Own history**— 仅包含调用方的事件（作为信任边界，不包含祖先 Lineage）
 
 接收方 workflow 或 activity 可通过 SDK 的 `GetPropagatedHistory()` API 读取其继承的历史，并验证上游发生了什么。
 
@@ -283,7 +283,7 @@ workflow 代码是长期运行的，在更新期间必须保持确定性。关�
 
 ### 负载大小
 
-单次 workflow 或 activity 派发受 sidecar 的 `--max-body-size` 设置限制（默认为 4 MiB）。如果 workflow 的 `PastEvents + NewEvents + PropagatedHistory` 将超过该上限的 95%，则该 workflow 会进入停滞状态，而不会中断派发流。指标会展示每个 workflow 和 activity 距离上限的接近程度，以便运维人员在停滞发生之前采取行动。详情与补救步骤请参阅 [Workflow 负载大小]({{% ref workflow-payload-size.md %}})。
+单次 workflow 或 activity 派发受 sidecar 的 `--max-body-size` 设置限制（默认为 4 MiB）。如果 workflow 的 `PastEvents + NewEvents + PropagatedHistory` 将超过该上限的 95%，则该 workflow 会进入停滞状态，而不会中断 dispatch stream。指标会展示每个 workflow 和 activity 距离上限的接近程度，以便运维人员在停滞发生之前采取行动。详情与补救步骤请参阅 [Workflow 负载大小]({{% ref workflow-payload-size.md %}})。
 
 ### 快速路径与并发限制
 

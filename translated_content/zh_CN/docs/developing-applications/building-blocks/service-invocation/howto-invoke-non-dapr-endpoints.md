@@ -11,7 +11,7 @@ weight: 40
 借助 Dapr 的 service invocation API，你可以与使用或不使用 Dapr 的端点进行通信。使用 Dapr 调用不使用 Dapr 的端点，不仅能获得一致的 API，还能获得以下 [Dapr service invocation]({{% ref service-invocation-overview %}}) 的优势：
 
 - 能够应用 resiliency 策略
-- 通过追踪与指标实现调用的可观测性
+- 通过追踪与指标实现调用的observability
 - 通过作用域实现安全访问控制
 - 能够利用 middleware 流水线中的 component
 - 服务发现

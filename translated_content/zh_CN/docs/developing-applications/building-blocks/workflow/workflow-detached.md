@@ -26,7 +26,7 @@ detached workflow 从 Dapr v1.19 起可用。目前 Go（Go SDK v1.16.0 及更�
 | **调用方行为** | 获得一个可等待的任务，通常会等待其完成 | 同步获得新实例 ID，并立即继续执行 |
 | **返回值与错误** | 输出和异常会回传给调用方 | 不会向调用方回传任何内容 |
 | **父级终止** | 终止调用方会同时终止 child workflow | 终止调用方对 detached workflow 没有影响 |
-| **重试策略** | 支持 | 不适用，因为调用方不跟踪其结果 |
+| **Retry policies** | 支持 | 不适用，因为调用方不跟踪其结果 |
 
 如果你需要被调度 workflow 的结果、希望其失败能够向上传播，或希望它随父 workflow 一起终止，请改用 [child workflow]({{% ref "workflow-features-concepts.md#child-workflows" %}})。
 

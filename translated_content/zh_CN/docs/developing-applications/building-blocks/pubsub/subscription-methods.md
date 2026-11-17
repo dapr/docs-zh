@@ -3,20 +3,20 @@ type: docs
 title: "声明式、流式和 programmatic subscription 类型"
 linkTitle: "订阅类型"
 weight: 3000
-description: "了解可用于订阅消息主题的订阅类型。"
+description: "了解可用于订阅消息 topic 的订阅类型。"
 ---
 
 ## Pub/sub API 订阅类型
 
-Dapr 应用程序可以通过三种订阅类型订阅已发布的主题，这三种类型支持相同的功能：声明式、流式和编程式。
+Dapr 应用程序可以通过三种订阅类型订阅已发布的 topic，这三种类型支持相同的功能：声明式、流式和编程式。
 
 | 订阅类型 | 描述 |
 | ------------------- | ----------- |
-| [**声明式**]({{% ref "subscription-methods#declarative-subscriptions" %}}) | 订阅在**外部文件**中定义。声明式方式让你的代码无需依赖 Dapr，允许现有应用程序在无需更改代码的情况下订阅主题。 |
+| [**声明式**]({{% ref "subscription-methods#declarative-subscriptions" %}}) | 订阅在**外部文件**中定义。声明式方式让你的代码无需依赖 Dapr，允许现有应用程序在无需更改代码的情况下订阅 topic。 |
 | [**流式**]({{% ref "subscription-methods#streaming-subscriptions" %}}) | 订阅在**应用程序代码**中定义。streaming subscription 是动态的，这意味着可以在运行时添加或删除订阅。它们不需要应用程序提供订阅端点（programmatic subscription 和 declarative subscription 都需要），因此易于在代码中配置。streaming subscription 也不要求为应用程序配置 sidecar 即可接收消息。 |
 | [**编程式**]({{% ref "subscription-methods#programmatic-subscriptions" %}}) | 订阅在**应用程序代码**中定义。编程式方式实现静态订阅，并要求在代码中提供一个端点。 |
 
-下面的示例演示了 `checkout` 应用与 `orderprocessing` 应用之间通过 `orders` 主题进行的 pub/sub 消息传递。这些示例先以声明式方式、再以编程式方式使用同一个 Dapr pub/sub component。
+下面的示例演示了 `checkout` 应用与 `orderprocessing` 应用之间通过 `orders` topic 进行的 pub/sub 消息传递。这些示例先以声明式方式、再以编程式方式使用同一个 Dapr pub/sub component。
 
 ### declarative subscriptions
 
@@ -32,7 +32,7 @@ spec:
 为防止消息被重复处理或未处理的消息丢失，在热重载事件期间，Dapr 与你的应用程序之间正在传输的消息不受影响。
 {{% /alert %}}
 
-你可以使用外部 component 文件以声明式方式订阅主题。本示例使用名为 `subscription.yaml` 的 YAML component 文件：
+你可以使用外部 component 文件以声明式方式订阅 topic。本示例使用名为 `subscription.yaml` 的 YAML component 文件：
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -49,8 +49,8 @@ scopes:
 ```
 
 这里名为 `order` 的订阅：
-- 使用名为 `pubsub` 的 pub/sub component 订阅名为 `orders` 的主题。
-- 设置 `route` 字段，将所有主题消息发送到应用程序中的 `/orders` 端点。
+- 使用名为 `pubsub` 的 pub/sub component 订阅名为 `orders` 的 topic。
+- 设置 `route` 字段，将所有 topic 消息发送到应用程序中的 `/orders` 端点。
 - 设置 `scopes` 字段，将此订阅的作用域限定为仅 ID 为 `orderprocessing` 的应用程序可以访问。
 
 运行 Dapr 时，请将 YAML component 文件路径设置为指向该 component，使 Dapr 能够找到它。
@@ -109,7 +109,7 @@ kubectl apply -f subscription.yaml
 
 {{< /tabpane >}}
 
-在应用程序代码中，订阅 Dapr pub/sub component 中指定的主题。
+在应用程序代码中，订阅 Dapr pub/sub component 中指定的 topic。
 
 {{< tabpane text=true >}}
 
@@ -195,22 +195,22 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 
 {{< /tabpane >}}
 
-`/orders` 端点与订阅中定义的 `route` 相匹配，Dapr 会将所有主题消息发送到该端点。
+`/orders` 端点与订阅中定义的 `route` 相匹配，Dapr 会将所有 topic 消息发送到该端点。
 
 ### streaming subscriptions
 
 streaming subscription 是在应用程序代码中定义、可以在运行时动态停止和启动的订阅。
-消息由应用程序从 Dapr 中拉取。这意味着订阅主题不需要端点，甚至可以在完全未为 sidecar 配置任何应用的情况下订阅。
-可以同时订阅任意数量的 pub/sub component 和主题。
-由于消息会被发送到给定的消息处理代码，因此不存在路由或批量订阅的概念。
+消息由应用程序从 Dapr 中拉取。这意味着订阅 topic 不需要端点，甚至可以在完全未为 sidecar 配置任何应用的情况下订阅。
+可以同时订阅任意数量的 pub/sub component 和 topic。
+由于消息会被发送到给定的消息 handler 代码，因此不存在路由或批量订阅的概念。
 
-下面的示例展示了通过流式方式订阅主题的不同方法。
+下面的示例展示了通过流式方式订阅 topic 的不同方法。
 
 {{< tabpane text=true >}}
 
 {{% tab ".NET" %}}
 
-你可以使用 `DaprPublishSubscribeClient` 上的 `SubscribeAsync` 方法配置消息处理程序，用于从流中拉取消息。
+你可以使用 `DaprPublishSubscribeClient` 上的 `SubscribeAsync` 方法配置消息 handler，用于从流中拉取消息。
 
 ```csharp
 using System.Text;
@@ -504,7 +504,7 @@ app.MapPost("/orders", [Topic("pubsub", "orders")] (Order order) => {
 });
 ```
 
-上面定义的两个处理程序还需要进行映射，以配置 `dapr/subscribe` 端点。这需要在应用程序启动代码中定义端点时完成。
+上面定义的两个 handler 还需要进行映射，以配置 `dapr/subscribe` 端点。这需要在应用程序启动代码中定义端点时完成。
 
 ```csharp
 app.UseEndpoints(endpoints =>
@@ -671,7 +671,7 @@ func main() {
 
 ## 在本地检查订阅
 
-无论选择哪种订阅类型，在本地开发期间都可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用已注册的订阅，包括 pub/sub component、主题和路由。这是快速确认 declarative subscription 文件已加载，或确认应用返回了预期 programmatic subscription 的便捷方法。你还可以在仪表板中向订阅发送测试消息。
+无论选择哪种订阅类型，在本地开发期间都可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-dashboard.md %}}) 查看每个应用已注册的订阅，包括 pub/sub component、topic 和路由。这是快速确认 declarative subscription 文件已加载，或确认应用返回了预期 programmatic subscription 的便捷方法。你还可以在仪表板中向订阅发送测试消息。
 
 ## 后续步骤
 

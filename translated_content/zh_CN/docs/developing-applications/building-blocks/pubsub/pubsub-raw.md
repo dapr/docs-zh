@@ -10,7 +10,7 @@ description: "了解何时可能不使用 CloudEvents 以及如何禁用它们�
 
 ## 发布原始消息
 
-Dapr 应用程序能够在不进行 CloudEvent 封装的情况下，向 pub/sub 主题发布原始事件，以便与非 Dapr 应用程序兼容。
+Dapr 应用程序能够在不进行 CloudEvent 封装的情况下，向 pub/sub topic 发布原始事件，以便与非 Dapr 应用程序兼容。
 
 {{< diagram name="pubsub-publish-raw" width="65" >}}
 
@@ -135,7 +135,7 @@ public class PublishController {
 
 ## 订阅原始消息
 
-Dapr 应用程序可以订阅来自 pub/sub 主题的原始消息，即使这些消息并非以 CloudEvents 形式发布。然而，订阅端的 Dapr 进程在将这些原始消息交付给订阅应用程序之前，仍会将其包装在 CloudEvent 中。
+Dapr 应用程序可以订阅来自 pub/sub topic 的原始消息，即使这些消息并非以 CloudEvents 形式发布。然而，订阅端的 Dapr 进程在将这些原始消息交付给订阅应用程序之前，仍会将其包装在 CloudEvent 中。
 
 {{< diagram name="pubsub-subscribe-raw" width="65" >}}
 

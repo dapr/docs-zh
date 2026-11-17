@@ -43,7 +43,7 @@ workflow activity 具有以下特点：
 
 除 activity 外，你还可以编写 workflow，将其他 workflow 调度为 child workflow。
 child workflow 拥有独立于启动它的父 workflow 的实例 ID、历史记录和状态，但终止父 workflow 会同时终止由其创建的所有 child workflow。
-child workflow 还支持自动重试策略。
+child workflow 还支持自动 retry policies。
 
 [详细了解 child workflow。]({{% ref "workflow-features-concepts.md#child-workflows" %}})
 
@@ -138,7 +138,7 @@ workflow 逻辑存在于你的应用程序中，并由 Dapr sidecar 中运行的
 | Quickstart/教程 | 描述 |
 | ------------------- | ----------- |
 | [Workflow Quickstart]({{% ref workflow-quickstart.md %}}) | 运行一个包含五个 workflow activity 的 workflow 应用程序，了解 Dapr Workflow 的实际应用 |
-| [Workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow) | 在 Python、.NET 或 Java 中为每种 workflow 模式各运行一个示例。示例涵盖任务链、扇出/扇入、child workflow、监控、外部系统交互、resiliency 与补偿、版本管理、workflow 管理和 history propagation。Go 提供 history propagation 教程。 |
+| [Workflow 教程](https://github.com/dapr/quickstarts/tree/master/tutorials/workflow) | 在 Python、.NET 或 Java 中为每种 workflow 模式各运行一个示例。示例涵盖 task chaining、扇出/扇入、child workflow、监控、外部系统交互、resiliency 与补偿、版本管理、workflow 管理和 history propagation。Go 提供 history propagation 教程。 |
 | [Workflow Python SDK 示例](https://github.com/dapr/python-sdk/tree/main/examples/workflow) | 了解如何使用 Python `dapr.ext.workflow` 包创建 Dapr Workflow 并调用它。 |
 | [Workflow JavaScript SDK 示例](https://github.com/dapr/js-sdk/tree/main/examples/workflow) | 了解如何使用 JavaScript SDK 创建 Dapr Workflow 并调用它。 |
 | [Workflow .NET SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow) | 了解如何使用 ASP.NET Core Web API 创建 Dapr Workflow 并调用它。 |

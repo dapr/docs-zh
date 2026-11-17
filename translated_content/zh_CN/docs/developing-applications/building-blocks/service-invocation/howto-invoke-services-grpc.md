@@ -241,7 +241,7 @@ ctx = metadata.AppendToOutgoingContext(ctx, "dapr-app-id", "server.production")
 
 上面的示例向你展示如何直接调用本地或 Kubernetes 上运行的不同服务。Dapr 输出指标、追踪和日志信息，使你能够可视化服务之间的调用图、记录错误，并可选择记录有效负载正文。
 
-有关追踪和日志的更多信息，请参阅[可观测性]({{% ref observability-concept %}})文章。
+有关追踪和日志的更多信息，请参阅[observability]({{% ref observability-concept %}})文章。
 
 ## 代理流式 RPC
 
@@ -314,7 +314,7 @@ context.AddMetadata("dapr-stream", "true");
 代理流式 gRPC 时，由于其长期存在的特性，[弹性]({{% ref "resiliency-overview" %}})策略仅应用于"初始握手"。因此：
 
 - 如果流在初始握手后被中断，Dapr 不会自动重新建立它。你的应用将收到流已结束的通知，并需要重新创建它。
-- 重试策略仅影响初始连接"握手"。如果你的弹性策略包含重试，Dapr 将检测建立与目标应用的初始连接时的失败，并将重试直到成功（或直到策略中定义的重试次数用尽）。
+- Retry policies 仅影响初始连接"握手"。如果你的弹性策略包含重试，Dapr 将检测建立与目标应用的初始连接时的失败，并将重试直到成功（或直到策略中定义的重试次数用尽）。
 - 同样，弹性策略中定义的超时仅适用于初始"握手"。连接建立后，超时不再影响流。
 
 ## 相关链接

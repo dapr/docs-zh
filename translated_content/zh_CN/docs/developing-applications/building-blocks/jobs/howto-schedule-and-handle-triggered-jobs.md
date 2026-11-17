@@ -49,9 +49,9 @@ internal sealed record BackupJobData([property: JsonPropertyName("task")] string
 internal sealed record BackupMetadata([property: JsonPropertyName("DBName")]string DatabaseName, [property: JsonPropertyName("BackupLocation")] string BackupLocation);
 ```
 
-接下来，作为应用程序设置的一部分，设置一个处理程序，每当应用程序上有 job 被触发时都会调用它。该处理程序负责根据提供的 job 名称确定应如何处理该 job。
+接下来，作为应用程序设置的一部分，设置一个 handler，每当应用程序上有 job 被触发时都会调用它。该 handler 负责根据提供的 job 名称确定应如何处理该 job。
 
-这是通过在 ASP.NET Core 中于 `/job/<job-name>` 注册一个处理程序来实现的，其中 `<job-name>` 是参数化的，并被传递给该处理程序委托，从而满足 Dapr 对能够处理已触发的命名 job 的端点的要求。
+这是通过在 ASP.NET Core 中于 `/job/<job-name>` 注册一个 handler 来实现的，其中 `<job-name>` 是参数化的，并被传递给该 handler 委托，从而满足 Dapr 对能够处理已触发的命名 job 的端点的要求。
 
 在 `Program.cs` 文件中填入以下内容：
 
@@ -176,7 +176,7 @@ job 通过设置 `Schedule` 和所需的 `Repeats` 数量进行调度。这两�
 	}
 ```
 
-当 job 被触发时，Dapr 会自动将其路由到你在服务器初始化期间设置的事件处理程序。例如，在 Go 中，你可以像这样注册事件处理程序：
+当 job 被触发时，Dapr 会自动将其路由到你在服务器初始化期间设置的事件 handler。例如，在 Go 中，你可以像这样注册事件处理程序：
 
 ```go
 ...
@@ -185,7 +185,7 @@ if err = server.AddJobEventHandler("prod-db-backup", prodDBBackupHandler); err !
 }
 ```
 
-Dapr 负责底层路由。job 被触发时，会使用已触发的 job 数据调用你的 `prodDBBackupHandler` 函数。以下是处理已触发 job 的示例：
+Dapr 负责底层 Routing。job 被触发时，会使用已触发的 job 数据调用你的 `prodDBBackupHandler` 函数。以下是处理已触发 job 的示例：
 
 ```go
 // ...

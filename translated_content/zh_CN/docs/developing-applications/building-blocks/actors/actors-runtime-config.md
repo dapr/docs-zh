@@ -24,7 +24,7 @@ description: 修改默认的 Dapr Actor 运行时配置行为
 
 此 drain 窗口受两个不同的 dissemination 超时时间约束：
 
-- daprd 的 dissemination 超时时间，通过 `--actors-disseminate-timeout` 参数（`dapr.io/actors-disseminate-timeout` 注解）设置，默认为 30 秒。如果一轮分发超过该时间，daprd 会重置自身的 placement gRPC 流，并停止其承载的 Actor。
+- daprd 的 dissemination 超时时间，通过 `--actors-disseminate-timeout` 参数（`dapr.io/actors-disseminate-timeout` 注解）设置，默认为 30 秒。如果一轮 dissemination 超过该时间，daprd 会重置自身的 placement gRPC 流，并停止其承载的 Actor。
 - Placement 服务的 dissemination 超时时间，通过 placement 的 `--disseminate-timeout` 参数（`dapr_placement.disseminateTimeout` Helm 值）设置，默认为 8 秒。在此期限内未确认更新的 Dapr sidecar 会被视为无响应，其 gRPC 流会被 Placement 重置。
 
 {{% alert title="注意" color="primary" %}}
@@ -38,7 +38,7 @@ description: 修改默认的 Dapr Actor 运行时配置行为
 
 clamp 同时作用于两个注册位置：全局的 `drainOngoingCallTimeout`，以及通过 SDK 在 `entitiesConfig` 下设置的各 Actor 类型 `drainOngoingCallTimeout`。应用通过 Actor 配置端点上报给 daprd 的配置值保持不变，只有 drain 期间实际使用的生效值会被 clamped。
 
-clamping 只能保护 daprd 不会重置自身的 placement 流。如果 drain 超时未被 clamped，它仍可能超过 Placement 服务的 dissemination 超时时间（默认 8 秒），这时 Placement 会将该 sidecar 移出本轮分发并重置其 gRPC 流，从而产生大量无谓的重连和重新调度。建议将 `drainOngoingCallTimeout` 保持在 Placement 的 `disseminateTimeout` 之下并留有余量（例如 5 秒或更低），或者提高 `dapr_placement.disseminateTimeout` 以容纳更长的 drain 时间。
+clamping 只能保护 daprd 不会重置自身的 placement 流。如果 drain 超时未被 clamped，它仍可能超过 Placement 服务的 dissemination 超时时间（默认 8 秒），这时 Placement 会将该 sidecar 移出本轮 dissemination 并重置其 gRPC 流，从而产生大量无谓的重连和重新调度。建议将 `drainOngoingCallTimeout` 保持在 Placement 的 `disseminateTimeout` 之下并留有余量（例如 5 秒或更低），或者提高 `dapr_placement.disseminateTimeout` 以容纳更长的 drain 时间。
 
 大多数 Dapr SDK 在应用未显式配置时会保持 `drainOngoingCallTimeout` 未设置，因此使用默认的 2 秒。.NET Actors.Next SDK 是例外：它默认设置为 30 秒，恰好位于 clamp 边界上，因此请显式配置一个更小的值。
 

@@ -12,7 +12,7 @@ description: "了解如何在 Dapr 中使用 Bulk Publish 和 Bulk Subscribe API
 
 ### Bulk Publish 消息的限制
 
-Bulk Publish API 允许你在单个请求中向一个主题发布多条消息。它是*非事务性的*，也就是说，在同一个批量请求中，部分消息可能成功，部分消息可能失败。如果任何消息发布失败，Bulk Publish 操作会返回失败消息的列表。
+Bulk Publish API 允许你在单个请求中向一个 topic 发布多条消息。它是*非事务性的*，也就是说，在同一个批量请求中，部分消息可能成功，部分消息可能失败。如果任何消息发布失败，Bulk Publish 操作会返回失败消息的列表。
 
 Bulk Publish 操作也不保证消息的任何顺序。
 
@@ -275,14 +275,14 @@ Invoke-RestMethod -Method Post -ContentType 'application/json' -Uri 'http://loca
 
 ## Bulk Subscribe 消息
 
-Bulk Subscribe API 允许你在单个请求中从一个主题订阅多条消息。
-正如在[如何操作：发布和订阅主题]({{% ref howto-publish-subscribe %}})中介绍的，订阅主题有三种方式：
+Bulk Subscribe API 允许你在单个请求中从一个 topic 订阅多条消息。
+正如在[如何操作：发布和订阅主题]({{% ref howto-publish-subscribe %}})中介绍的，订阅 topic 有三种方式：
 
 - **声明式**：订阅在外部文件中定义。
 - **编程式**：订阅在代码中定义。
-- **流式**：Bulk Subscribe*不支持*流式，因为消息会被发送到处理程序代码。
+- **流式**：Bulk Subscribe*不支持*流式，因为消息会被发送到 handler 代码。
 
-要 Bulk Subscribe 主题，只需使用 `bulkSubscribe` 规范属性，示例如下：
+要 Bulk Subscribe topic，只需使用 `bulkSubscribe` 规范属性，示例如下：
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -304,7 +304,7 @@ scopes:
 ```
 
 在上面的示例中，`bulkSubscribe` 是_可选的_。如果使用 `bulkSubscribe`，则：
-- `enabled` 为必填项，用于启用或禁用该主题上的 Bulk Subscribe
+- `enabled` 为必填项，用于启用或禁用该 topic 上的 Bulk Subscribe
 - 你可以选择配置一条批量消息中传递的最大消息数量（`maxMessagesCount`）。
 对于不支持 Bulk Subscribe 的 component，`maxMessagesCount` 的默认值为 100，即应用程序与 Dapr 之间默认的批量事件。请参阅[component 如何处理批量消息的发布和订阅]({{% ref pubsub-bulk %}})。
 如果 component 支持 Bulk Subscribe，则该参数的默认值可以在该 component 的文档中找到。

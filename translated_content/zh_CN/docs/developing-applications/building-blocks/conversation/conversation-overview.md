@@ -22,7 +22,7 @@ Dapr 的 conversation API 降低了大规模安全、可靠地与大型语言模
 你还可以将 conversation API 与 Dapr 功能结合使用，例如：
 
 - resiliency 策略，包括用于处理重复错误的断路器、用于防范慢响应的超时机制，以及应对临时网络故障的重试
-- 借助 OpenTelemetry 和 Zipkin 实现可观测性，包括指标和分布式追踪
+- 借助 OpenTelemetry 和 Zipkin 实现 observability，包括指标和分布式追踪
 - middleware，用于对进出 LLM 的请求进行身份验证
 
 ## 功能

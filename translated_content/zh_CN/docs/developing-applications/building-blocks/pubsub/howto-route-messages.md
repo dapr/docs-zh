@@ -1,20 +1,20 @@
 ---
 type: docs
-title: "操作指南：将消息路由到不同的事件处理程序"
+title: "操作指南：将消息路由到不同的事件 handler"
 linkTitle: "操作指南：路由事件"
 weight: 2300
-description: "了解如何根据 CloudEvent 字段将消息从主题路由到不同的事件处理程序"
+description: "了解如何根据 CloudEvent 字段将消息从 topic 路由到不同的事件 handler"
 ---
 
-发布订阅路由是[基于内容的路由](https://www.enterpriseintegrationpatterns.com/ContentBasedRouter.html)的一种实现，这是一种使用 DSL 而非命令式应用程序代码的消息传递模式。通过发布订阅路由，你可以使用表达式根据内容将 [CloudEvents](https://cloudevents.io) 路由到应用程序中的不同 URI/路径和事件处理程序。如果没有路由匹配，则使用可选的默认路由。当应用程序扩展以支持多个事件版本或特殊情况时，这非常有用。
+发布订阅 Routing 是[基于内容的路由](https://www.enterpriseintegrationpatterns.com/ContentBasedRouter.html)的一种实现，这是一种使用 DSL 而非命令式应用程序代码的消息传递模式。通过发布订阅 Routing，你可以使用表达式根据内容将 [CloudEvents](https://cloudevents.io) 路由到应用程序中的不同 URI/路径和事件 handler。如果没有路由匹配，则使用可选的默认路由。当应用程序扩展以支持多个事件版本或特殊情况时，这非常有用。
 
-虽然路由可以通过代码实现，但将路由规则保持在应用程序外部可以提高可移植性。
+虽然 Routing 可以通过代码实现，但将 Routing 规则保持在应用程序外部可以提高可移植性。
 
 此功能适用于[声明式和编程式订阅方法]({{% ref subscription-methods %}})，但不适用于流式订阅。
 
 ## 声明式订阅
 
-对于声明式订阅，使用 `dapr.io/v2alpha1` 作为 `apiVersion`。以下是使用路由的 `subscriptions.yaml` 示例：
+对于声明式订阅，使用 `dapr.io/v2alpha1` 作为 `apiVersion`。以下是使用 Routing 的 `subscriptions.yaml` 示例：
 
 ```yaml
 apiVersion: dapr.io/v2alpha1
@@ -367,7 +367,7 @@ event.type == "mymessage.v2"
 #### type
 
 - **类型：** `String`
-- **描述：** 包含一个描述与源发事件相关的事件类型的值。通常，此属性用于路由、可观测性、策略执行等。格式由生产者定义，可能包括 `type` 的版本等信息。有关更多信息，请参阅 [Primer 中的 CloudEvents 版本控制](https://github.com/cloudevents/spec/blob/v1.0.1/primer.md#versioning-of-cloudevents)。
+- **描述：** 包含一个描述与源发事件相关的事件类型的值。通常，此属性用于 Routing、observability、策略执行等。格式由生产者定义，可能包括 `type` 的版本等信息。有关更多信息，请参阅 [Primer 中的 CloudEvents 版本控制](https://github.com/cloudevents/spec/blob/v1.0.1/primer.md#versioning-of-cloudevents)。
 - **约束：**
   - 必需 (REQUIRED)
   - 必须是非空字符串
@@ -442,14 +442,14 @@ event.type == "mymessage.v2"
 
 ## 社区电话演示
 
-观看[此视频](https://www.youtube.com/watch?v=QqJgRmbH82I&t=1063s)，了解如何使用发布订阅进行消息路由：
+观看[此视频](https://www.youtube.com/watch?v=QqJgRmbH82I&t=1063s)，了解如何使用发布订阅进行消息 Routing：
 
 {{< youtube id=QqJgRmbH82I start=1063 >}}
 
 ## 后续步骤
 
-- 尝试[发布订阅路由示例](https://github.com/dapr/samples/tree/master/pub-sub-routing)。
-- 了解[主题范围]({{% ref pubsub-scopes %}})和[消息存活时间]({{% ref pubsub-message-ttl %}})。
+- 尝试[发布订阅 Routing 示例](https://github.com/dapr/samples/tree/master/pub-sub-routing)。
+- 了解[topic 范围]({{% ref pubsub-scopes %}})和[消息存活时间]({{% ref pubsub-message-ttl %}})。
 - [配置具有多个命名空间的发布订阅组件]({{% ref pubsub-namespaces %}})。
 - 查看[发布订阅组件]({{% ref setup-pubsub %}})列表。
 - 阅读 [API 参考]({{% ref pubsub_api %}})。

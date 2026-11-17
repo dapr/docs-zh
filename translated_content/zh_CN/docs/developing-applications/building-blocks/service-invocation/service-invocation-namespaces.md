@@ -12,7 +12,7 @@ description: "调用部署在不同命名空间中的服务"
 localhost:3500/v1.0/invoke/nodeapp/method/neworder
 ```
 
-服务调用也支持跨命名空间调用。在所有支持的托管平台上，Dapr 应用 ID 符合包含目标命名空间的有效 FQDN 格式。你可以同时指定：
+服务调用也支持跨命名空间调用。在所有支持的 hosting platform 上，Dapr 应用 ID 符合包含目标命名空间的有效 FQDN 格式。你可以同时指定：
 
 - 应用 ID（`nodeapp`），以及
 - 应用运行的命名空间（`production`）。

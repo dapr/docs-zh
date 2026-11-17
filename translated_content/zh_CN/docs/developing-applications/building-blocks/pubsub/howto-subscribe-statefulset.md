@@ -37,14 +37,14 @@ spec:
         imagePullPolicy: Always
 ```
 
-通过 Dapr 订阅发布订阅主题时，应用程序可以定义 `consumerID`，该 ID 决定了订阅者在队列或主题中的位置。借助 StatefulSets 的 Pod 稳定标识特性，每个 Pod 可以拥有唯一的 `consumerID`，从而实现订阅者应用程序的每个水平扩展。Dapr 会跟踪每个 Pod 的名称，该名称可在声明组件时使用 `{podName}` 标记。
+通过 Dapr 订阅发布订阅 topic 时，应用程序可以定义 `consumerID`，该 ID 决定了订阅者在队列或 topic 中的位置。借助 StatefulSets 的 Pod 稳定标识特性，每个 Pod 可以拥有唯一的 `consumerID`，从而实现订阅者应用程序的每个水平扩展。Dapr 会跟踪每个 Pod 的名称，该名称可在声明组件时使用 `{podName}` 标记。
 
-在扩展给定主题的订阅者数量时，每个 Dapr 组件都有独特的设置来决定其行为。通常，多个消费者有两种选择：
+在扩展给定 topic 的订阅者数量时，每个 Dapr 组件都有独特的设置来决定其行为。通常，多个消费者有两种选择：
 
- - 广播：发布到主题的每条消息都会被所有订阅者消费。
+ - 广播：发布到 topic 的每条消息都会被所有订阅者消费。
  - 共享：一条消息由任意订阅者消费（但不是全部）。
 
-Kafka 通过 `consumerID` 隔离每个订阅者，并在主题中维护各自的位置。当实例重启时，它会重用相同的 `consumerID` 并从其最后已知位置继续，不会跳过消息。下面的组件演示了 Kafka 组件如何被多个 Pod 使用：
+Kafka 通过 `consumerID` 隔离每个订阅者，并在 topic 中维护各自的位置。当实例重启时，它会重用相同的 `consumerID` 并从其最后已知位置继续，不会跳过消息。下面的组件演示了 Kafka 组件如何被多个 Pod 使用：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -63,7 +63,7 @@ spec:
     value: "false"
 ```
 
-MQTT3 协议具有共享主题功能，允许多个订阅者"竞争"主题中的消息，即一条消息仅由其中一个处理。例如：
+MQTT3 协议具有共享 topics 功能，允许多个订阅者"竞争"topic 中的消息，即一条消息仅由其中一个处理。例如：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1

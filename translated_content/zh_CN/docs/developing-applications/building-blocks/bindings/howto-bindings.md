@@ -29,7 +29,7 @@ weight: 300
 
 创建一个名为 `checkout` 的新 binding component。在 `metadata` 部分中，配置以下与 Kafka 相关的属性：
 
-- 你要向其发布消息的主题
+- 你要向其发布消息的 topic
 - broker
 
 创建 binding component 时，[指定 binding 的受支持的 `direction`]({{% ref "bindings_api#binding-direction-optional" %}})。

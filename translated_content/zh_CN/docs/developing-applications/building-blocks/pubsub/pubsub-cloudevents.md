@@ -6,7 +6,7 @@ weight: 2100
 description: "了解 Dapr 为何使用 CloudEvents、它们如何在 Dapr 发布订阅中工作，以及如何创建 CloudEvents。"
 ---
 
-为启用消息路由并为每条消息提供额外的上下文，Dapr 使用 [CloudEvents 1.0 规范](https://github.com/cloudevents/spec/tree/v1.0) 作为其消息格式。应用程序使用 Dapr 发送到主题的任何消息都会自动包装在 CloudEvents 信封中，并使用 [`Content-Type` 头部的值]({{% ref "pubsub-overview#content-types" %}}) 作为 `datacontenttype` 属性。
+为启用消息 Routing 并为每条消息提供额外的上下文，Dapr 使用 [CloudEvents 1.0 规范](https://github.com/cloudevents/spec/tree/v1.0) 作为其消息格式。应用程序使用 Dapr 发送到 topic 的任何消息都会自动包装在 CloudEvents 信封中，并使用 [`Content-Type` 头部的值]({{% ref "pubsub-overview#content-types" %}}) 作为 `datacontenttype` 属性。
 
 Dapr 使用 CloudEvents 为事件负载提供额外的上下文，从而启用以下功能：
 
@@ -36,7 +36,7 @@ Dapr 使用 CloudEvents 为事件负载提供额外的上下文，从而启用�
 - `time`
 - `datacontenttype`（可选）
 
-以下示例演示了 Dapr 为发布到 `orders` 主题的操作生成的 CloudEvent，其中包括：
+以下示例演示了 Dapr 为发布到 `orders` topic 的操作生成的 CloudEvent，其中包括：
 - W3C `traceid`，对每条消息唯一
 - `data` 和 CloudEvent 的字段，其中数据内容被序列化为 JSON
 
@@ -207,7 +207,7 @@ JSON 负载随后会反映新的 `source` 和 `id` 值：
 {{% tab "Dapr CLI" %}}
 
 
-向 `orders` 主题发布一个 CloudEvent：
+向 `orders` topic 发布一个 CloudEvent：
 
 ```bash
 dapr publish --publish-app-id orderprocessing --pubsub order-pub-sub --topic orders --data '{\"orderId\": \"100\"}'
@@ -218,7 +218,7 @@ dapr publish --publish-app-id orderprocessing --pubsub order-pub-sub --topic ord
 {{% tab "HTTP API (Bash)" %}}
 
 
-向 `orders` 主题发布一个 CloudEvent：
+向 `orders` topic 发布一个 CloudEvent：
 
 ```bash
 curl -X POST http://localhost:3601/v1.0/publish/order-pub-sub/orders -H "Content-Type: application/cloudevents+json" -d '{"specversion" : "1.0", "type" : "com.dapr.cloudevent.sent", "source" : "testcloudeventspubsub", "subject" : "Cloud Events Test", "id" : "someCloudEventId", "time" : "2021-08-02T09:00:00Z", "datacontenttype" : "application/cloudevents+json", "data" : {"orderId": "100"}}'
@@ -229,7 +229,7 @@ curl -X POST http://localhost:3601/v1.0/publish/order-pub-sub/orders -H "Content
 {{% tab "HTTP API (PowerShell)" %}}
 
 
-向 `orders` 主题发布一个 CloudEvent：
+向 `orders` topic 发布一个 CloudEvent：
 
 ```powershell
 Invoke-RestMethod -Method Post -ContentType 'application/cloudevents+json' -Body '{"specversion" : "1.0", "type" : "com.dapr.cloudevent.sent", "source" : "testcloudeventspubsub", "subject" : "Cloud Events Test", "id" : "someCloudEventId", "time" : "2021-08-02T09:00:00Z", "datacontenttype" : "application/cloudevents+json", "data" : {"orderId": "100"}}' -Uri 'http://localhost:3601/v1.0/publish/order-pub-sub/orders'
@@ -258,7 +258,7 @@ Invoke-RestMethod -Method Post -ContentType 'application/cloudevents+json' -Body
 {{% tab "HTTP API (Bash)" %}}
 
 
-向 orders 主题发布二进制 CloudEvent：
+向 orders topic 发布二进制 CloudEvent：
 
 ```bash
 curl -X POST http://localhost:3500/v1.0/publish/order-pub-sub/orders \

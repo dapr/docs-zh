@@ -63,7 +63,7 @@ service invocation 提供多项功能，让您可以轻松地在应用程序之�
 在发生调用失败和瞬时错误时，service invocation 提供 resiliency 功能，该功能会按退避时间段自动执行重试。要了解更多信息，请参阅[Resiliency 文章]({{% ref resiliency-overview %}})。
 
 {{% alert title="注意" color="primary" %}}
-对于 HTTP service invocation，重试策略（包括内置策略和用户配置的策略）会自动跳过流式请求（即使用分块传输编码或没有已知 `Content-Length` 的请求）。由于请求正文在读取时即被消耗，无法在重试时重放。具有已知 `Content-Length` 的非流式请求仍像以前一样支持重试。更多详情请参阅[HTTP service invocation 流式传输](#http-service-invocation-流式传输)。
+对于 HTTP service invocation，retry policies（包括内置策略和用户配置的策略）会自动跳过流式请求（即使用分块传输编码或没有已知 `Content-Length` 的请求）。由于请求正文在读取时即被消耗，无法在重试时重放。具有已知 `Content-Length` 的非流式请求仍像以前一样支持重试。更多详情请参阅[HTTP service invocation 流式传输](#http-service-invocation-流式传输)。
 {{% /alert %}}
 
 ### 通过 observability 实现追踪和指标
@@ -130,7 +130,7 @@ Dapr 会自动检测流式 HTTP 请求，即使用分块传输编码或没有已
 
 - **请求正文不会缓存在内存中。** Dapr sidecar 会在读取请求正文时直接转发，避免大负载占用过多内存。
 - **响应正文不会缓存在内存中。** 流式响应（例如服务器发送事件、文件下载或长时间运行的数据流）会直接转发给调用方。
-- **重试策略会被绕过。** 内置重试逻辑以及用户配置的[resiliency 重试策略]({{% ref resiliency-overview %}})都会被自动跳过，因为请求正文在读取时即被消耗，无法重放。
+- **Retry policies 会被绕过。** 内置重试逻辑以及用户配置的[resiliency retry policies]({{% ref resiliency-overview %}})都会被自动跳过，因为请求正文在读取时即被消耗，无法重放。
 - **其他 resiliency 功能仍然适用。** 断路器对流式请求仍会正常跟踪失败。
 - **非流式请求不受影响。** 具有已知 `Content-Length` 的请求仍像以前一样支持重试和缓冲的错误处理。
 

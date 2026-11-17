@@ -8,7 +8,7 @@ description: Bindings API building block 概述
 
 使用 Dapr 的 bindings API，你可以通过来自外部系统的事件触发你的应用程序，并与外部系统进行交互。通过 bindings API，你可以：
 
-- 避免连接和轮询消息系统（如队列和消息总线）的复杂性。
+- 避免连接和轮询消息系统（如队列和 message buses）的复杂性。
 - 专注于业务逻辑，而不是与系统交互的实现细节。
 - 让你的代码不依赖 SDK 或库。
 - 处理重试和故障恢复。

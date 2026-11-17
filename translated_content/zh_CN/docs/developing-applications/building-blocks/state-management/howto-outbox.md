@@ -20,7 +20,7 @@ description: "在 state store 与 pub/sub 消息代理之间提交单个事务"
 
 1) 服务 A 使用事务将状态保存或更新到 state store。
 2) 在同一事务下向消息代理写入一条消息。当消息成功投递到消息代理后，事务完成，从而确保状态与消息作为一个整体完成事务提交。
-3) 消息代理将消息主题投递给任何订阅者，本例中为服务 B。
+3) 消息代理将消息 topic 投递给任何订阅者，本例中为服务 B。
 
 {{< diagram name="state-management-outbox" width="85" >}}
 
@@ -35,28 +35,28 @@ Dapr outbox 在两个流程中处理请求：用户请求流程与后台消息�
 1. 应用程序调用 Dapr State Management API，使用事务方法以事务方式写入状态。  
    这是业务数据（例如订单或资料更新）提交进行持久化的入口点。
 
-2. Dapr 向一个内部 outbox 主题发布一条带有唯一事务 ID 的意向消息。  
+2. Dapr 向一个内部 outbox topic 发布一条带有唯一事务 ID 的 intent message。  
    这条持久化记录确保在任何数据库提交发生之前，事件意向就已经存在。
 
-3. 状态与一个事务标记以原子方式写入同一个 state store。  
+3. 状态与一个 transaction marker 以原子方式写入同一个 state store。  
    业务数据与标记在同一事务中提交，防止部分写入。
 
 4. 事务提交后，应用程序收到成功响应。  
    此时应用程序可以继续执行，因为已知状态已保存，事件意向也得到保证。
 
-5. 后台订阅者读取意向消息。  
-   当 outbox 启用时，Dapr 会启动消费者来处理内部 outbox 主题。
+5. 后台订阅者读取 intent message。  
+   当 outbox 启用时，Dapr 会启动消费者来处理内部 outbox topic。
 
-6. 订阅者在 state store 中验证事务标记。  
+6. 订阅者在 state store 中验证 transaction marker。  
    此项检查确认数据库提交已成功，然后才会进行外部发布。
 
-7. 验证通过的业务事件被发布到外部 pub/sub 主题。  
+7. 验证通过的业务事件被发布到外部 pub/sub topic。  
    事件被发送到已配置的消息代理（Kafka、RabbitMQ 等），其他服务可以消费该事件。
 
 8. 从 state store 中清理（删除）标记。  
    事件成功投递后，这可防止数据库无限制地增长。
 
-9. 消息被确认并从内部主题中移除  
+9. 消息被确认并从内部 topic 中移除  
    如果发布或清理失败，Dapr 会重试，从而确保可靠的至少一次投递。
   
 ## 要求
@@ -70,19 +70,19 @@ Dapr outbox 在两个流程中处理请求：用户请求流程与后台消息�
    建议使用支持竞争消费者模式的消息代理（例如 [Apache Kafka]({{% ref setup-apache-kafka%}})），以降低重复事件的可能性。
    {{% /alert %}}
 
-3. 内部 outbox 主题  
-   启用 outbox 时，Dapr 会使用以下命名约定创建一个内部主题：`{namespace}{appID}{topic}outbox`，其中：
+3. 内部 outbox topic  
+   启用 outbox 时，Dapr 会使用以下命名约定创建一个内部 topic：`{namespace}{appID}{topic}outbox`，其中：
 
    - `namespace`：Dapr 应用程序的 namespace（如果已配置）
    - `appID`：Dapr 应用程序标识符
    - `topic`：在 `outboxPublishTopic` 元数据中指定的值
 
-   这样，每个 outbox 主题都会在应用程序与外部主题的范围内被唯一标识，从而防止多租户环境中的路由冲突。
+   这样，每个 outbox topic 都会在应用程序与外部 topic 的范围内被唯一标识，从而防止多租户环境中的路由冲突。
 
-   你可以通过设置 `outboxInternalTopic` 元数据字段来覆盖自动生成的名称。设置后，该值将作为完整的内部主题名称使用，不附加 namespace、appID 或后缀。
+   你可以通过设置 `outboxInternalTopic` 元数据字段来覆盖自动生成的名称。设置后，该值将作为完整的内部 topic 名称使用，不附加 namespace、appID 或后缀。
 
    {{% alert title="注意" color="primary" %}}
-   请确保主题已提前创建，或者 Dapr 在启动时拥有足够的权限来创建该主题。
+   请确保 topic 已提前创建，或者 Dapr 在启动时拥有足够的权限来创建该 topic。
    {{% /alert %}}
 
 ## 启用发件箱模式
@@ -117,9 +117,9 @@ spec:
 | 名称                | 必填    | 默认值 | 描述                                            |
 | --------------------|-------------|---------------|------------------------------------------------------- |
 | outboxPublishPubsub | 是         | N/A           | 设置在发布状态变更时用于投递通知的 pub/sub 组件名称
-| outboxPublishTopic  | 是         | N/A           | 设置在 `outboxPublishPubsub` 所配置的 pub/sub 上接收状态变更的主题。消息正文将是针对 `insert` 或 `update` 操作的状态事务项
+| outboxPublishTopic  | 是         | N/A           | 设置在 `outboxPublishPubsub` 所配置的 pub/sub 上接收状态变更的 topic。消息正文将是针对 `insert` 或 `update` 操作的状态事务项
 | outboxPubsub        | 否         | `outboxPublishPubsub`           | 设置 Dapr 用于协调状态与 pub/sub 事务的 pub/sub 组件。如果未设置，则使用 `outboxPublishPubsub` 所配置的 pub/sub 组件。如果你希望将用于发送通知状态变更的 pub/sub 组件与用于协调事务的组件分开，此设置会很有用
-| outboxInternalTopic | 否         | 自动生成           | 设置内部 outbox 主题名称。设置后，该值将作为完整的主题名称使用，不附加 namespace、appID 或后缀。为空时，使用默认命名约定 `{namespace}{appID}{topic}outbox`
+| outboxInternalTopic | 否         | 自动生成           | 设置内部 outbox topic 名称。设置后，该值将作为完整的 topic 名称使用，不附加 namespace、appID 或后缀。为空时，使用默认命名约定 `{namespace}{appID}{topic}outbox`
 | outboxDiscardWhenMissingState  | 否         | `false`           | 将 `outboxDiscardWhenMissingState` 设置为 `true` 后，如果 Dapr 无法在数据库中找到状态，它将丢弃该事务且不再重试。如果在 Dapr 能够投递消息之前，state store 中的数据因任何原因被删除，并且你希望 Dapr 从 pub/sub 中丢弃这些项且停止重试获取状态，则此设置会很有用
 
 ## 其他配置
@@ -178,7 +178,7 @@ spec:
 
 <!--python-->
 
-在以下状态事务的 Python SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户主题。
+在以下状态事务的 Python SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户 topic。
 
 ```python
 DAPR_STORE_NAME = "statestore"
@@ -205,7 +205,7 @@ async def main():
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
 - 第一个操作被写入 state store，不会向消息代理写入消息。
-- 第二个操作的值被发布到已配置的 pub/sub 主题。   
+- 第二个操作的值被发布到已配置的 pub/sub topic。   
 
 {{% /tab %}}
 
@@ -213,7 +213,7 @@ async def main():
 
 <!--javascript-->
 
-在以下状态事务的 JavaScript SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户主题。
+在以下状态事务的 JavaScript SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户 topic。
 
 ```javascript
 const { DaprClient, StateOperationType } = require('@dapr/dapr');
@@ -259,7 +259,7 @@ main().catch(err => {
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
 - 第一个操作被写入 state store，不会向消息代理写入消息。
-- 第二个操作的值被发布到已配置的 pub/sub 主题。   
+- 第二个操作的值被发布到已配置的 pub/sub topic。   
 
 
 {{% /tab %}}
@@ -268,7 +268,7 @@ main().catch(err => {
 
 <!--dotnet-->
 
-在以下状态事务的 .NET SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户主题。
+在以下状态事务的 .NET SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户 topic。
 
 ```csharp
 public class Program
@@ -310,7 +310,7 @@ public class Program
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
 - 第一个操作被写入 state store，不会向消息代理写入消息。
-- 第二个操作的值被发布到已配置的 pub/sub 主题。    
+- 第二个操作的值被发布到已配置的 pub/sub topic。    
 
 {{% /tab %}}
 
@@ -318,7 +318,7 @@ public class Program
 
 <!--java-->
 
-在以下状态事务的 Java SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户主题。
+在以下状态事务的 Java SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户 topic。
 
 ```java
 public class Main {
@@ -376,7 +376,7 @@ public class Main {
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
 - 第一个操作被写入 state store，不会向消息代理写入消息。
-- 第二个操作的值被发布到已配置的 pub/sub 主题。   
+- 第二个操作的值被发布到已配置的 pub/sub topic。   
 
 
 {{% /tab %}}
@@ -385,7 +385,7 @@ public class Main {
 
 <!--go-->
 
-在以下状态事务的 Go SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户主题。
+在以下状态事务的 Go SDK 示例中，值 `"2"` 被保存到数据库，而值 `"3"` 被发布到最终用户 topic。
 
 ```go
 ops := make([]*dapr.StateOperation, 0)
@@ -415,7 +415,7 @@ err := testClient.ExecuteStateTransaction(ctx, store, meta, ops)
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
 - 第一个操作被写入 state store，不会向消息代理写入消息。
-- 第二个操作的值被发布到已配置的 pub/sub 主题。   
+- 第二个操作的值被发布到已配置的 pub/sub topic。   
 
 {{% /tab %}}
 
@@ -460,7 +460,7 @@ curl -X POST http://localhost:3500/v1.0/state/starwars/transaction \
 
 通过将元数据项 `"outbox.projection"` 设置为 `"true"` 并确保 `key` 值匹配（`key1`）：
 - 第一个操作被写入 state store，不会向消息代理写入消息。
-- 第二个操作的值被发布到已配置的 pub/sub 主题。   
+- 第二个操作的值被发布到已配置的 pub/sub topic。   
 
 {{% /tab %}}
 

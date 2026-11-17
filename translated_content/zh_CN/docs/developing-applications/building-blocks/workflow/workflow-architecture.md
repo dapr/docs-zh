@@ -176,9 +176,9 @@ Dapr Workflow 在内部使用 Actor 驱动 workflow 的执行。
 任何支持 Actor 的 state store 都隐式支持 Dapr Workflow。
 
 如[workflow Actor]({{% ref "workflow-architecture.md#workflow-actors" %}})一节所述，workflow 通过追加到历史日志的方式增量保存其状态。
-workflow 的历史日志分布在多个 state store 键中，因此每个“检查点”只需追加最新的条目。
+workflow 的历史日志分布在多个 state store 键中，因此每个“checkpoint”只需追加最新的条目。
 
-每个检查点的大小取决于 workflow 在进入空闲状态之前所调度的并发操作数量。因此，[顺序 workflow]({{% ref "workflow-overview.md#task-chaining" %}})对 state store 的批量更新较小，而[扇出/扇入 workflow]({{% ref "workflow-overview.md#fan-outfan-in" %}})则需要更大的批量。批量大小还会受到 workflow 在[调用 activity]({{% ref "workflow-features-concepts.md#workflow-activities" %}})或[调用 child workflow]({{% ref "workflow-features-concepts.md#child-workflows" %}})时的输入和输出大小的影响。
+每个 checkpoint 的大小取决于 workflow 在进入空闲状态之前所调度的并发操作数量。因此，[顺序 workflow]({{% ref "workflow-overview.md#task-chaining" %}})对 state store 的批量更新较小，而[扇出/扇入 workflow]({{% ref "workflow-overview.md#fan-outfan-in" %}})则需要更大的批量。批量大小还会受到 workflow 在[调用 activity]({{% ref "workflow-features-concepts.md#workflow-activities" %}})或[调用 child workflow]({{% ref "workflow-features-concepts.md#child-workflows" %}})时的输入和输出大小的影响。
 
 {{< diagram workflow-state-store-interactions >}}
 

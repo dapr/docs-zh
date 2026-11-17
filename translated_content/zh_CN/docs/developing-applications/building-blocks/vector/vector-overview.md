@@ -18,7 +18,7 @@ Dapr 的向量 API 提供了一种统一、可移植的方式，用于在 Meilis
 
 - 使用 [conversation API]({{% ref conversation-overview %}}) 将检索到的上下文发送给大型语言模型 (LLM)
 - [resiliency 策略]({{% ref resiliency-overview %}})，包括断路器、超时和针对向量数据库调用的重试
-- 借助指标实现可观测性（`dapr_component_vector_count` 和 `dapr_component_vector_latencies`，按 `operation` 标记），并使用 OpenTelemetry 和 Zipkin 进行分布式追踪
+- 借助指标实现 observability（`dapr_component_vector_count` 和 `dapr_component_vector_latencies`，按 `operation` 标记），并使用 OpenTelemetry 和 Zipkin 进行分布式追踪
 - 向量数据库凭据的 [secret store 引用]({{% ref component-secrets %}})
 
 ## 概念
