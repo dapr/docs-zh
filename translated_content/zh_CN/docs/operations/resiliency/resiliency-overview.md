@@ -6,19 +6,19 @@ weight: 100
 description: "配置 Dapr 重试、超时和断路器"
 ---
 
-Dapr 提供了通过[弹性规范]({{% ref "resiliency-overview.md#完整示例策略" %}})定义和应用容错 resiliency 的能力。弹性规范保存在与 component 规范相同的位置，并在 Dapr sidecar 启动时应用。sidecar 决定如何将 resiliency 应用于你的 Dapr API 调用。
-- **在自托管模式下：** 弹性规范必须命名为 `resiliency.yaml`。
-- **在 Kubernetes 中：** Dapr 会查找应用程序使用的命名弹性规范。
+Dapr 提供了通过[弹性规范]({{% ref "resiliency-overview.md#完整示例策略" %}})定义和应用容错 resiliency 的能力。弹性规范保存在与 component 规范相同的位置，并在 Dapr sidecar 启动时应用。sidecar 决定如何将 resiliency 应用于你的 Dapr API 调用。 
+- **在自托管模式下：** 弹性规范必须命名为 `resiliency.yaml`。 
+- **在 Kubernetes 中：** Dapr 会查找应用程序使用的命名弹性规范。 
 
 ## 策略
 
-你可以通过以下部分配置 Dapr resiliency：
-- 定义策略应用位置的元数据（如命名空间和作用域）
+你可以通过以下部分配置 Dapr resiliency： 
+- 定义策略应用位置的 metadata（如 namespace 和作用域）
 - 指定弹性名称和行为的策略，例如：
   - [超时]({{% ref timeouts.md %}})
   - [重试]({{% ref retries-overview.md %}})
   - [断路器]({{% ref circuit-breakers.md %}})
-- 确定这些策略作用于哪些交互的目标，包括：
+- 确定这些策略作用于哪些交互的目标，包括： 
   - 通过 service invocation 的[应用]({{% ref "targets.md#apps" %}})
   - [component]({{% ref "targets.md#components" %}})
   - [Actor]({{% ref "targets.md#actors" %}})
@@ -205,6 +205,6 @@ spec:
  - [目标]({{% ref "targets.md" %}})
 
 ## 相关链接
-尝试其中一个 resiliency Quickstart：
+尝试其中一个 Resiliency Quickstart：
 - [resiliency：服务到服务]({{% ref resiliency-serviceinvo-quickstart.md %}})
 - [resiliency：State Management]({{% ref resiliency-state-quickstart.md %}})

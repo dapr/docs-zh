@@ -27,7 +27,7 @@ error 产生的输出最少，而 debug 产生的输出最多。默认级别是 
 ./placement --log-level debug
 ```
 
-这将以 `error` 日志级别启动 Dapr 运行时二进制文件，并以 `debug` 日志级别启动 Dapr Actor placement service。
+这将以 `error` 日志级别启动 Dapr runtime 二进制文件，并以 `debug` 日志级别启动 Dapr Actor Placement Service。
 
 ## 独立模式下的日志
 
@@ -77,7 +77,7 @@ dapr run node myapp.js
 
 > [了解如何在 Kubernetes 上调试 `daprd`。]({{% ref "debug-daprd.md" %}}) 
 
-你可以在 pod 规范模板中添加以下注解，为每个 sidecar 单独设置日志级别：
+你可以在 Pod 规范模板中添加以下注解，为每个 sidecar 单独设置日志级别：
 
 ```yml
 annotations:
@@ -110,8 +110,8 @@ Dapr 日志会写入 stdout 和 stderr。
 
 #### sidecar 日志
 
-在 Kubernetes 中部署时，Dapr sidecar injector 会将名为 `daprd` 的 Dapr 容器注入到带注解的 pod 中。
-要查看 sidecar 的日志，只需运行 `kubectl get pods` 找到相关 pod：
+在 Kubernetes 中部署时，Dapr sidecar injector 会将名为 `daprd` 的 Dapr 容器注入到带注解的 Pod 中。
+要查看 sidecar 的日志，只需运行 `kubectl get pods` 找到相关 Pod：
 
 ```bash
 NAME                                        READY     STATUS    RESTARTS   AGE
@@ -162,7 +162,7 @@ I1207 06:01:03.516641 1 leaderelection.go:253] successfully acquired lease dapr-
 time="2021-12-07T06:01:03.526202227Z" level=info msg="Successfully patched webhook in CRD "subscriptions.dapr.io"" instance=dapr-operator-84bb47f895-dvbsj scope=dapr.operator type=log ver=unknown
 ```
 
-*注意：如果 Dapr 安装在 dapr-system 以外的命名空间中，只需在上述命令中将命名空间替换为所需的命名空间*
+*注意：如果 Dapr 安装在 dapr-system 以外的 namespace 中，只需在上述命令中将 namespace 替换为所需的 namespace*
 
 #### sidecar injector 日志
 
@@ -176,7 +176,7 @@ time="2021-12-07T06:01:01.557646524Z" level=info msg="Healthz server is listenin
 time="2021-12-07T06:01:01.621291968Z" level=info msg="Sidecar injector is listening on :4000, patching Dapr-enabled pods" instance=dapr-sidecar-injector-5d88fcfcf5-2gmvv scope=dapr.injector type=log ver=unknown
 ```
 
-*注意：如果 Dapr 安装在 dapr-system 以外的命名空间中，只需在上述命令中将命名空间替换为所需的命名空间*
+*注意：如果 Dapr 安装在 dapr-system 以外的 namespace 中，只需在上述命令中将 namespace 替换为所需的 namespace*
 
 #### 查看 placement service 日志
 
@@ -195,7 +195,7 @@ time="2021-12-04T05:08:07.036850257Z" level=info msg="cluster leadership acquire
 time="2021-12-04T05:08:07.036909357Z" level=info msg="leader is established." instance=dapr-placement-server-0 scope=dapr.placement type=log ver=1.5.0
 ```
 
-*注意：如果 Dapr 安装在 dapr-system 以外的命名空间中，只需在上述命令中将命名空间替换为所需的命名空间*
+*注意：如果 Dapr 安装在 dapr-system 以外的 namespace 中，只需在上述命令中将 namespace 替换为所需的 namespace*
 
 ### 非 Kubernetes 环境
 

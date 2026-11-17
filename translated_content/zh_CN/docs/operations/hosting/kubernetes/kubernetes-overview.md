@@ -12,9 +12,9 @@ Dapr 可以配置为在任何受支持版本的 Kubernetes 上运行。为此，
 |-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `dapr-operator`         | 管理 [component]({{% ref components %}}) 更新，以及 Dapr 的 Kubernetes 服务端点（state store、pub/sub 等）                                                                                                                                                                         |
 | `dapr-sidecar-injector` | 将 Dapr 注入到[已添加注解](#将-dapr-添加到-kubernetes-部署)的部署 Pod 中，并添加环境变量 `DAPR_HTTP_PORT` 和 `DAPR_GRPC_PORT`，以便用户定义的应用程序无需硬编码 Dapr 端口值即可轻松与 Dapr 通信。 |
-| `dapr-placement`        | 仅用于 [Actor]({{% ref actors %}})。创建将 Actor 实例映射到 Pod 的映射表。当 Actor 的 Placement 由 Scheduler service 提供时（`global.scheduler.placement.enabled=true`），不会部署此服务。                                                                                    |
+| `dapr-placement`        | 仅用于 [Actor]({{% ref actors %}})。创建将 Actor 实例映射到 Pod 的映射表。当 Actor placement 由 Scheduler service 提供时（`global.scheduler.placement.enabled=true`），不会部署此服务。                                                                                    |
 | `dapr-sentry`           | 管理服务之间的 mTLS，并充当证书颁发机构。有关更多信息，请阅读[安全概述]({{% ref "security-concept.md" %}})                                                                                                                                                                  |
-| `dapr-scheduler`        | 提供由 Jobs API、Workflow API 和 Actor reminder 使用的分布式 job 调度功能。也可以代替 `dapr-placement`，提供 [Actor Placement]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})。                                                                              |
+| `dapr-scheduler`        | 提供由 Jobs API、Workflow API 和 Actor reminder 使用的分布式 job 调度功能。也可以代替 `dapr-placement`，提供 [Actor placement]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})。                                                                              |
 
 {{< diagram hosting-kubernetes >}}
 

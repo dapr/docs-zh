@@ -8,10 +8,10 @@ description: "限制哪些应用可以在目标应用上调用 workflow 和 acti
 
 使用 workflow access policy，你可以控制哪些调用方应用被允许在目标应用上调用特定的 workflow 操作。`WorkflowAccessPolicy` 是一种 Kubernetes CRD（在自托管模式下为 YAML 资源），在被调用方一侧进行评估。你可以通过 `scopes` 为其设置作用域，将其限定到一个或多个目标应用；若省略 `scopes`，则该策略将应用于所有应用。
 
-workflow access policy 是纯粹的允许列表。仅当某个已加载策略中的某条规则同时匹配调用方、操作以及 workflow 或 activity 名称时，请求才会被允许。未加载任何策略时，所有调用都被允许（默认开放），以保持向后兼容。自调用（调用方 App ID 与目标 App ID 相同）无论策略内容如何，始终被允许。
+workflow access policy 是纯粹的允许列表。仅当已加载策略中的某条规则同时匹配调用方、操作以及 workflow 或 activity 名称时，请求才会被允许。未加载任何策略时，所有调用都被允许（默认开放），以保持向后兼容。自调用（调用方 App ID 与目标 App ID 相同）无论策略内容如何，始终被允许。
 
 {{% alert title="不支持跨 namespace workflow" color="warning" %}}
-workflow 始终限定在单个 namespace 内。来自与目标不同 namespace 的调用方发起的任何 workflow 或 activity 调用，无论策略内容如何、无论是否加载了任何策略，始终会被拒绝。multi-application workflow 中涉及的所有 App ID 必须位于同一 namespace。
+workflow 始终限定在单个 namespace 内。来自与目标不同 namespace 的调用方发起的任何 workflow 或 activity 调用，无论策略内容如何、也无论是否加载了任何策略，始终会被拒绝。multi-application workflow 中涉及的所有 App ID 必须位于同一 namespace。
 {{% /alert %}}
 
 ## 前提条件
@@ -27,11 +27,11 @@ workflow access policy 描述的是 *调用方* 应用被允许对 *目标* 应�
 - **目标**应用是承载被调度的 workflow 或 activity 的应用。策略在目标的 Dapr sidecar 内强制执行（被调用方侧强制执行）。策略通过 `spec.scopes` 字段应用于目标，该字段列出策略所适用的目标 App ID。
 - **调用方**应用是发起 workflow 或 activity 调用的应用。对于跨应用调用，调用方的 App ID 取自 mTLS 客户端证书中的 [SPIFFE](https://spiffe.io/) 身份。对于同一 sidecar 内的（自）调用，则直接使用本地 App ID。
 
-mTLS 证书中嵌入的 SPIFFE ID 格式为 `spiffe://<trustdomain>/ns/<namespace>/<appid>`。在评估 workflow access policy 时，会从该身份中提取 App ID 和 namespace。
+mTLS 证书中嵌入的 SPIFFE ID 格式为 `spiffe://<trustdomain>/ns/<namespace>/<appid>`。评估 workflow access policy 时，会从该身份中提取 App ID 和 namespace。
 
 ### workflow 与 activity 名称匹配
 
-策略规则中的 workflow 和 activity 名称可以按精确名称或 glob 模式进行匹配。Glob 匹配遵循 Go 的 [`path.Match`](https://pkg.go.dev/path#Match) 语义：
+策略规则中的 workflow 和 activity 名称可以按精确名称或 glob 模式匹配。Glob 匹配遵循 Go 的 [`path.Match`](https://pkg.go.dev/path#Match) 语义：
 
 - `*` 匹配任意不含分隔符的字符序列
 - `?` 匹配任意单个不含分隔符的字符
@@ -138,7 +138,7 @@ spec:
 | `event.raised` | 已触发了具有给定名称的 external event |
 
 {{% alert title="workflow.started 匹配 child workflow" color="primary" %}}
-`workflow.started` 匹配的是调用方调度的*子* workflow，而不是调用方自身的 workflow 执行。若以调用方自身的 workflow 名称进行控制，条件将始终满足，因此不起任何作用。
+`workflow.started` 匹配的是调用方调度的*子* workflow，而不是调用方自身的 workflow 执行。若以调用方自身的 workflow 名称进行控制，条件将始终满足，因此没有任何效果。
 {{% /alert %}}
 
 ### 顺序与组合要求

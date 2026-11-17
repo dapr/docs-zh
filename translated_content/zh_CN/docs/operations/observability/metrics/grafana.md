@@ -149,7 +149,7 @@ description: "如何在 Grafana 仪表板中查看 Dapr 指标。"
 
    ```
 
-      在本指南中，服务器名称是 `dapr-prom-prometheus-server`，命名空间是 `dapr-monitoring`，所以 HTTP URL 将是 `http://dapr-prom-prometheus-server.dapr-monitoring`。
+      在本指南中，服务器名称是 `dapr-prom-prometheus-server`，namespace 是 `dapr-monitoring`，所以 HTTP URL 将是 `http://dapr-prom-prometheus-server.dapr-monitoring`。
 
 1. 填写以下设置：
 

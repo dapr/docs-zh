@@ -108,7 +108,7 @@ The CustomResourceDefinition "configurations.dapr.io" is invalid: spec.preserveU
    dapr-sidecar-injector-68f868668f-6xnbt   1/1     Running   0          41s
    ```
 
-1. 重启你的应用程序部署以更新 Dapr 运行时：
+1. 重启你的应用程序部署以更新 Dapr runtime：
 
    ```bash
    kubectl rollout restart deploy/<DEPLOYMENT-NAME>
@@ -120,7 +120,7 @@ The CustomResourceDefinition "configurations.dapr.io" is invalid: spec.preserveU
 
 ## Scheduler RBAC 权限
 
-从 Dapr 1.19 开始，Scheduler 需要在 Dapr control plane 命名空间中对 `pods` 拥有 `get`、`list` 和 `watch` 权限，以检测是否部署了 placement service。无论是否启用 scheduler placement，每次升级到 1.19 都需要此权限。Helm chart 和 `dapr upgrade -k` 会在发布命名空间中以 `dapr-scheduler-pods` Role 和 RoleBinding 的形式添加该权限。`dapr-scheduler` ClusterRole（或在命名空间 RBAC 模式下为 Role）仍只保留 `namespaces` 权限。
+从 Dapr 1.19 开始，Scheduler 需要在 Dapr control plane 的 namespace 中对 `pods` 拥有 `get`、`list` 和 `watch` 权限，以检测是否部署了 placement service。无论是否启用 scheduler placement，每次升级到 1.19 都需要此权限。Helm chart 和 `dapr upgrade -k` 会在 release namespace 中以 `dapr-scheduler-pods` Role 和 RoleBinding 的形式添加该权限。`dapr-scheduler` ClusterRole（或在 namespaced RBAC 模式下为 Role）仍只保留 `namespaces` 权限。
 
 ## 升级现有 Dapr 部署以启用高可用模式
 
@@ -128,10 +128,10 @@ The CustomResourceDefinition "configurations.dapr.io" is invalid: spec.preserveU
 
 ## 在现有 Dapr 部署中启用 scheduler placement
 
-通过使用 `global.scheduler.placement.enabled=true` 进行升级，Actor placement 可以由 Scheduler service 代替独立的 placement service 提供。同一次升级会移除 placement StatefulSet，正在运行的 sidecar 会自行采用 scheduler placement，两个方向上都不需要重启 sidecar。Scheduler 会在几秒内检测到 placement pod 离开并接管；在此次升级之外，placement pod 崩溃或重启不会转移放置权限。[进一步了解由 Scheduler service 提供放置。]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})
+通过使用 `global.scheduler.placement.enabled=true` 进行升级，Actor placement 可以由 Scheduler service 代替独立的 placement service 提供。同一次升级会移除 placement StatefulSet，正在运行的 sidecar 会自行采用 scheduler placement，两个方向上都不需要重启 sidecar。Scheduler 会在几秒内检测到 placement pod 离开并接管；在此次升级之外，placement pod 崩溃或重启不会转移 placement 权限。[进一步了解由 Scheduler service 提供 placement。]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})
 
 {{% alert title="重要" color="warning" %}}
-在启用此设置之前，请先完成 Dapr 版本的推出。运行较旧 Dapr 版本的 sidecar 只能使用 placement service：如果未部署它，它们的 Actor 和 workflow API 将停滞，直到 pod 升级到支持 scheduler placement 的版本。不会丢失任何 Actor 状态。只要 placement service 仍在运行，它就仍是放置权限的持有者：存在 placement service 时，Scheduler 不提供放置，因此集群在整个推出过程中始终只有一个放置权限持有者。一旦不再存在 placement service，Scheduler 就会提供放置，而仍在连接的旧版 sidecar 会被记录为警告，因为已无服务可供其使用。
+在启用此设置之前，请先完成 Dapr 版本的推出。运行较旧 Dapr 版本的 sidecar 只能使用 placement service：如果未部署它，它们的 Actor 和 workflow API 将停滞，直到 pod 升级到支持 scheduler placement 的版本。不会丢失任何 Actor 状态。只要 placement service 仍在运行，它就仍是 placement 权限的持有者：存在 placement service 时，Scheduler 不提供 placement，因此集群在整个推出过程中始终只有一个 placement 权限持有者。一旦不再存在 placement service，Scheduler 就会提供 placement，而仍在连接的旧版 sidecar 会被记录为警告，因为已无服务可供其使用。
 {{% /alert %}}
 
 启用之前，请确认：
@@ -150,9 +150,9 @@ dapr upgrade -k --runtime-version={{% dapr-latest-version long="true" %}} --set 
 
 要验证时，请检查 sidecar 是否记录了 `Connected to scheduler placement leader <address>`，并且恰好有一个 Scheduler 的 `dapr_scheduler_placement_leader` 指标为 `1`。如果 `dapr_scheduler_placement_incapable_sidecars` 大于 `0`，或者某个 Scheduler 记录了 `A sidecar running an older Dapr version is connected`，请升级这些 pod：它们的 Actor 和 workflow API 将会停滞。
 
-要回滚，请将该设置改为 `false` 进行升级：placement StatefulSet 会重新部署，Scheduler 会将放置权限交还给它，同样不需要重启 sidecar。两个方向上，此变更都会[一次性重新分配 Actor]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})，因为两个服务使用不同的算法放置 Actor。Actor 状态不受影响。
+要回滚，请将该设置改为 `false` 进行升级：placement StatefulSet 会重新部署，Scheduler 会将 placement 权限交还给它，同样不需要重启 sidecar。两个方向上，此变更都会[一次性重新分配 Actor]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})，因为两个服务使用不同的算法放置 Actor。Actor 状态不受影响。
 
-由于 `helm upgrade` 会重置未在命令行中传递的值，因此在之后的每次升级中都要传递该设置（或将其保存在你的 values 文件中），否则 placement StatefulSet 会被重新部署，放置权限也会交还给它。
+由于 `helm upgrade` 会重置未在命令行中传递的值，因此在之后的每次升级中都要传递该设置（或将其保存在你的 values 文件中），否则 placement StatefulSet 会被重新部署，placement 权限也会交还给它。
 
 ## 降级
 

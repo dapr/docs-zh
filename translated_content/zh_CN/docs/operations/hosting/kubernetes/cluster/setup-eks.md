@@ -112,9 +112,9 @@ dapr init -k
 ✅  Success! Dapr has been installed to namespace dapr-system. To verify, run `dapr status -k' in your terminal. To get started, go here: https://docs.dapr.io/getting-started
 ```
 
-## 服务账户的 IAM 角色（IRSA）
+## service account 的 IAM 角色（IRSA）
 
-你可以为 `dapr_rbac` Helm 子图表创建的 ServiceAccounts 附加自定义注解，这对于在 AWS EKS 上启用服务账户的 IAM 角色（IRSA）非常有用。
+你可以为 `dapr_rbac` Helm 子图表创建的 ServiceAccounts 附加自定义注解，这对于在 AWS EKS 上启用 service account 的 IAM 角色（IRSA）非常有用。
 这可以通过 EKS 的 IRSA 机制为 Dapr component 启用细粒度、安全的访问控制。
 更新你的 Dapr Helm 值文件，为 ServiceAccounts 加入以下必要的注解。
 

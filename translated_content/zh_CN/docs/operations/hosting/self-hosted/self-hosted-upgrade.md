@@ -25,7 +25,7 @@ description: "按照以下步骤在自托管模式下升级 Dapr 并确保顺利
    dapr init --runtime-version={{% dapr-latest-version long="true" %}}
    ```
 
-   若要让 Scheduler 代替 Placement 服务提供 Actor 放置（Dapr 1.19 或更高版本），请添加 `--scheduler-placement`。此时不会启动 `dapr_placement` 容器。[了解更多关于由 Scheduler service 提供放置的信息。]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})
+   若要让 Scheduler 代替 placement service 提供 Actor placement（Dapr 1.19 或更高版本），请添加 `--scheduler-placement`。此时不会启动 `dapr_placement` 容器。[了解更多关于由 Scheduler service 提供 placement 的信息。]({{% ref "placement#serving-placement-from-the-scheduler-service" %}})
 
 1. 使用以下命令确保你使用的是最新版本的 Dapr（v{{% dapr-latest-version long="true" %}}）：
 

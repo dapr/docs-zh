@@ -137,7 +137,7 @@ kubectl apply -f edot-collector.yaml
 
 ### 配置 Dapr 将追踪数据发送到 Collector
 
-创建一个 Configuration 资源，指向你的 Elastic 实例。
+创建一个配置资源，指向你的 Elastic 实例。
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -153,7 +153,7 @@ spec:
       isSecure: false   # 与 Collector 的集群内连接；Collector 通过 HTTPS 连接 Elastic
 ```
 
-将此 Configuration 资源应用到你的集群：
+将此配置资源应用到你的集群：
 
 ```bash
 kubectl apply -f appconfig.yaml

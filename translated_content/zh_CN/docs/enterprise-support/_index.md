@@ -16,7 +16,7 @@ Diagrid 为任何云上的开源 Dapr 提供 [Dapr Support](https://www.diagrid.
 
 ## Diagrid
 
-[Diagrid]({{< ref diagrid-platform.md >}}) 是一个构建在 Dapr 之上的持久执行平台，让 AI 智能体和 workflow 具备持久性、可验证性与安全性。
+[Diagrid]({{< ref diagrid-platform.md >}}) 是一个构建在 Dapr 之上的持久执行平台，让 AI 代理和 workflow 具备持久性、可验证性与安全性。
 
 {{< button text="了解 Diagrid" page="diagrid-platform.md" >}}
 

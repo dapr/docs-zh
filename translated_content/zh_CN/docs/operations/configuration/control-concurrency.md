@@ -20,7 +20,7 @@ Dapr 提供了多种并发和速率限制的方法。了解它们之间的区别
 | `middleware.http.ratelimit` | 按远程 IP 统计的每秒 HTTP 请求数 | 每个 sidecar |
 | [workflow 并发限制]({{% ref workflow-concurrency.md %}}) | workflow 和 activity 的执行，可按名称细分 | 每个 sidecar，或全局（跨所有副本） |
 
-本指南重点介绍 `app-max-concurrency`。有关其他方法，请参阅[rate limit middleware]({{% ref middleware-rate-limit.md %}})和[workflow 并发限制]({{% ref workflow-concurrency.md %}})。
+本指南重点介绍 `app-max-concurrency`。有关其他方法，请参阅 [rate limit middleware]({{% ref middleware-rate-limit.md %}}) 和 [workflow 并发限制]({{% ref workflow-concurrency.md %}})。
 
 ## 演示
 
@@ -88,7 +88,7 @@ spec:
 ## 限制
 
 ### 控制外部请求的并发性
-对于来自 Dapr 的每个事件（包括 pub/sub 事件、来自其他服务的直接调用、binding 事件等），都可以保证速率限制。但是，Dapr 无法对从外部发送到您的应用程序的请求强制执行并发策略。
+对于来自 Dapr 的每个事件（包括 pub/sub 事件、来自其他服务的直接调用、binding 事件等），Dapr 都保证执行速率限制。但是，Dapr 无法对从外部发送到您的应用程序的请求强制执行并发策略。
 
 ## 相关链接
 
