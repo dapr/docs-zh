@@ -14,7 +14,7 @@ Dapr Python SDK 通过 `dapr.ext.flask` 扩展提供与 Flask 的集成。
 
 {{< tabpane text=true >}}
 
-{{% tab header="Stable" %}}
+{{% tab header="Stable（稳定）" %}}
 ```bash
 pip install "dapr[flask]"
 ```
@@ -22,7 +22,7 @@ pip install "dapr[flask]"
 
 {{% tab header="Development" %}}
 {{% alert title="注意" color="warning" %}}
-开发版本将包含与 Dapr 运行时预发布版本兼容的功能和行为。只有打过标签的发布版本会发布到 PyPI，因此请从 GitHub 仓库安装开发版本。在安装之前，请先卸载所有稳定版本的 Python SDK。
+开发版本将包含与 Dapr runtime 预发布版本兼容的功能和行为。只有打过标签的发布版本会发布到 PyPI，因此请从 GitHub 仓库安装开发版本。在安装之前，请先卸载所有 Stable（稳定）版本的 Python SDK。
 {{% /alert %}}
 
 ```bash
@@ -35,7 +35,7 @@ pip install "dapr[flask] @ git+https://github.com/dapr/python-sdk.git@main"
 从 Dapr 1.19 开始，该扩展是 `dapr` 包的可选依赖（extra）。`flask-dapr` 包不再发布。如果你之前安装过它，请按照[升级步骤]({{% ref "python#install-extensions" %}})迁移到该可选依赖。
 
 {{% alert title="注意" color="primary" %}}
-`flask_dapr` 导入路径仍然可用，它只是一个轻量的兼容层，但会发出 `FutureWarning`。请改为从 `dapr.ext.flask` 导入。
+`flask_dapr` 导入路径仍然可用，它只是一个轻量的兼容层（shim），但会发出 `FutureWarning`。请改为从 `dapr.ext.flask` 导入。
 {{% /alert %}}
 
 ## 示例

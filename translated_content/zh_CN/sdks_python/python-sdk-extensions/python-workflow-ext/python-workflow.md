@@ -163,7 +163,7 @@ dapr run --app-id wf-simple-example --dapr-grpc-port 50001 --resources-path comp
 
 ## 列出、检查和重新运行 workflow instance
 
-从 Dapr 1.19 开始，`DaprWorkflowClient` 以及 `dapr.ext.workflow.aio` 中的异步客户端可以列出应用的 workflow instance、读取实例的历史记录，并从其 history event 之一重新运行已结束的实例。你可以借此查找实例而无需自行保存其 ID，查看失败的实例停在了哪一步，并从该步骤使用修正后的输入进行重试，而不必从头开始。
+从 Dapr 1.19 开始，`DaprWorkflowClient` 以及 `dapr.ext.workflow.aio` 中的异步客户端可以列出应用的 workflow instance、读取实例的历史记录，并从其某个 history event 重新运行已结束的实例。你可以借此查找实例而无需自行保存其 ID，查看失败的实例停在了哪一步，并从该步骤使用修正后的输入进行重试，而不必从头开始。
 
 ```python
 import dapr.ext.workflow as wf
@@ -198,9 +198,9 @@ wfr = wf.WorkflowRuntime(max_grpc_message_length=16 * 1024 * 1024)
 wf_client = wf.DaprWorkflowClient(max_grpc_message_length=16 * 1024 * 1024)
 ```
 
-## Worker 就绪状态
+## 工作进程就绪状态
 
-`wfr.start()` 会等待 worker 打开到 Dapr sidecar 的工作项流，默认等待 30 秒（即 `WorkflowRuntime` 上的 `worker_ready_timeout`）。之后，`wfr.wait_for_worker_ready(timeout=30.0)` 在流已打开时返回 `True`；如果在超时时间内流没有再次打开（例如 worker 在 sidecar 重启后重新连接期间），则返回 `False`。在就绪检查中使用它，可以让应用在其 worker 无法接收工作项时报告未就绪。Python SDK 1.19 之前，它在首次连接后会一直返回 `True`。
+`wfr.start()` 会等待工作进程打开到 Dapr sidecar 的工作项流，默认等待 30 秒（即 `WorkflowRuntime` 上的 `worker_ready_timeout`）。之后，`wfr.wait_for_worker_ready(timeout=30.0)` 在工作项流已打开时返回 `True`；如果在超时时间内流没有再次打开（例如工作进程在 sidecar 重启后重新连接期间），则返回 `False`。在就绪检查中使用它，可以让应用在其工作进程无法接收工作项时报告未就绪。Python SDK 1.19 之前，它在首次连接后会一直返回 `True`。
 
 ## 后续步骤
 - [了解更多关于 Dapr Workflow]({{% ref workflow-overview.md %}})

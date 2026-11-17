@@ -11,7 +11,7 @@ Dapr Actor 包使你能够从 Python 应用程序与 Dapr virtual Actor 进行�
 ## 前置条件
 
 - 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
+- 已初始化 [Dapr environment]({{% ref install-dapr-selfhost.md %}})
 - 已安装 [Python 3.10+](https://www.python.org/downloads/)
 - 已安装 [Dapr Python 包]({{% ref "python#installation" %}})
 

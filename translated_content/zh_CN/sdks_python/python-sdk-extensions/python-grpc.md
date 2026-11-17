@@ -22,7 +22,7 @@ pip install "dapr[grpc]"
 
 {{% tab header="Development" %}}
 {{% alert title="注意" color="warning" %}}
-开发版将包含与 Dapr 运行时预发布版本兼容的功能和行为。只有打过标签的正式版本会发布到 PyPI，因此请从 GitHub 仓库安装开发版。安装之前，请确保卸载所有稳定版本的 Python SDK。
+开发版将包含与 Dapr runtime 预发布版本兼容的功能和行为。只有打过标签的正式版本会发布到 PyPI，因此请从 GitHub 仓库安装开发版。安装之前，请确保卸载所有稳定版本的 Python SDK。
 {{% /alert %}}
 
 ```bash
@@ -63,9 +63,9 @@ app.run(50051)
 
 ### 订阅主题
 
-订阅主题时，你可以指示 Dapr 已接受投递的事件，还是应当丢弃它，或稍后重试。
+订阅主题时，你可以告诉 Dapr 投递的事件是已被接受、应当丢弃，还是应稍后重试。
 
-请为每个处理程序的事件参数标注 `SubscriptionMessage` 类型，它与 streaming subscription 投递的类型相同。该类型提供解析后的负载（`data()`）、投递元数据（`metadata()`），以及 CloudEvent 字段，例如 `id()`、`type()` 和 `extensions()`。
+请为每个处理程序的事件参数标注 `SubscriptionMessage` 类型，它与 streaming subscription 投递的类型相同。该类型提供解析后的负载（`data()`）、投递的 metadata（`metadata()`），以及 CloudEvent 字段，例如 `id()`、`type()` 和 `extensions()`。
 
 ```python
 from typing import Optional
@@ -103,6 +103,7 @@ app.run(50051)
 
 {{% alert title="已弃用" color="warning" %}}
 未标注类型的处理程序，或标注为 `cloudevents.sdk.event.v1.Event` 的处理程序，会接收基于 CloudEvents 的事件，并且 `subscribe()` 在注册这些处理程序时会发出 `DeprecationWarning`。请在该类型被移除之前，为它们标注 `SubscriptionMessage`：
+
 - 在 1.20 中，未标注类型的处理程序将接收 `SubscriptionMessage`。只有标注为 CloudEvents 类型的处理程序仍会接收该类型的事件。
 - 在 1.21 中，`dapr[grpc]` 可选依赖不再安装 `cloudevents`。
 - 在 1.22 中，基于 CloudEvents 的类型将被移除。

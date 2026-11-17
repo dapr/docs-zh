@@ -15,10 +15,10 @@ Dapr conversation API 当前仍处于 alpha 阶段。本页给出在 Python SDK 
 ## 前提条件
 
 - 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
+- 已初始化 [Dapr environment]({{% ref install-dapr-selfhost.md %}})
 - 已安装 [Python 3.10+](https://www.python.org/downloads/)
 - 已安装 [Dapr Python 包]({{% ref "python#installation" %}})
-- 已在 Dapr 环境中配置好大型语言模型 (LLM) component（例如 OpenAI 或 Azure OpenAI）
+- 已在 Dapr environment 中配置好大型语言模型 (LLM) component（例如 OpenAI 或 Azure OpenAI）
 
 如需完整的端到端流程与提供程序配置，请参阅：
 - 对话相关的 SDK 示例：
@@ -291,4 +291,4 @@ LLM 可能会建议调用工具。应将模型提供的所有参数都视为不�
 - ConversationResponseAlpha2.to_assistant_messages() -> list[ConversationMessage]
   - 便捷方法，将响应输出转换为 assistant 的 ConversationMessage 对象，便于直接追加到 history 中（包括存在的 tool_calls）。
 
-提示：@conversation.tool 装饰器是创建工具最简单的方式。它会根据函数自动生成 schema，支持可选的命名空间或名称覆盖，并自动注册工具（若想延后注册，可设置 register=False）。
+提示：@conversation.tool 装饰器是创建工具最简单的方式。它会根据函数自动生成 schema，支持可选的 namespace 或名称覆盖，并自动注册工具（若想延后注册，可设置 register=False）。
