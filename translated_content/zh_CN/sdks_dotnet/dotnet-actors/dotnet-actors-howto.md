@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "如何：在 .NET SDK 中运行和使用虚拟 Actor"
-linkTitle: "如何：运行和使用虚拟 Actor"
+title: "如何：在 .NET SDK 中运行和使用 virtual Actor"
+linkTitle: "如何：运行和使用 virtual Actor"
 weight: 300000
-description: 通过此示例试用 .NET Dapr 虚拟 Actor
+description: 通过此示例试用 .NET Dapr virtual Actor
 ---
 
-Dapr Actor 包允许你从 .NET 应用程序与 Dapr 虚拟 Actor 交互。在本指南中，你将学习如何：
+Dapr Actor 包允许你从 .NET 应用程序与 Dapr virtual Actor 交互。在本指南中，你将学习如何：
 
 - 创建一个 Actor（`MyActor`）。
 - 在客户端应用程序上调用其方法。
@@ -43,7 +43,7 @@ Actor 类还必须实现一个构造函数，该构造函数接受一个 `ActorS
 
 ## 前置条件
 - 已安装 [Dapr CLI]({{< ref install-dapr-cli.md >}})。
-- 已初始化 [Dapr 环境]({{< ref install-dapr-selfhost.md >}})。
+- 已初始化 [Dapr environment]({{< ref install-dapr-selfhost.md >}})。
 - 已安装 [.NET 8](https://dotnet.microsoft.com/download)、[.NET 9](https://dotnet.microsoft.com/download)、
   [.NET 10](https://dotnet.microsoft.com/download) 或 [.NET 11](https://dotnet.microsoft.com/download)
 
@@ -118,7 +118,7 @@ namespace MyActor.Interfaces
 
 ## 步骤 2：创建 Actor 服务
 
-Dapr 使用 ASP.NET Web 服务来承载 Actor 服务。本节将实现 `IMyActor` Actor 接口，并将 Actor 注册到 Dapr 运行时。
+Dapr 使用 ASP.NET Web 服务来承载 Actor 服务。本节将实现 `IMyActor` Actor 接口，并将 Actor 注册到 Dapr runtime。
 
 ### 创建 Actor 服务项目并添加依赖项
 
@@ -139,7 +139,7 @@ cd ..
 
 ### 添加 Actor 实现
 
-实现 IMyActor 接口并派生自 `Dapr.Actors.Actor` 类。以下示例还展示了如何使用 Actor 提醒。要让 Actor 使用提醒，它必须派生自 IRemindable。如果你不打算使用提醒功能，可以跳过实现 IRemindable 以及下方代码中展示的提醒相关方法。
+实现 IMyActor 接口并派生自 `Dapr.Actors.Actor` 类。以下示例还展示了如何使用 Actor reminder。要让 Actor 使用 reminder，它必须派生自 IRemindable。如果你不打算使用 reminder 功能，可以跳过实现 IRemindable 以及下方代码中展示的 reminder 相关方法。
 
 将以下代码粘贴到 `MyActorService` 项目的 `MyActor.cs` 中：
 
@@ -285,13 +285,13 @@ namespace MyActorService
 }
 ```
 
-### 在 ASP.NET Core 启动时注册 Actor 运行时
+### 在 ASP.NET Core 启动时注册 Actor runtime
 
-Actor 运行时通过 ASP.NET Core 的 `Startup.cs` 进行配置。
+Actor runtime 通过 ASP.NET Core 的 `Startup.cs` 进行配置。
 
-运行时使用 ASP.NET Core 依赖注入系统来注册 Actor 类型和基本服务。该集成通过在 `ConfigureServices(...)` 中调用 `AddActors(...)` 方法提供。使用传递给 `AddActors(...)` 的委托来注册 Actor 类型并配置 Actor 运行时设置。你可以在 `ConfigureServices(...)` 内注册其他用于依赖注入的类型，这些类型之后即可注入到 Actor 类型的构造函数中。
+运行时使用 ASP.NET Core 依赖注入系统来注册 Actor 类型和基本服务。该集成通过在 `ConfigureServices(...)` 中调用 `AddActors(...)` 方法提供。使用传递给 `AddActors(...)` 的委托来注册 Actor 类型并配置 Actor runtime 设置。你可以在 `ConfigureServices(...)` 内注册其他用于依赖注入的类型，这些类型之后即可注入到 Actor 类型的构造函数中。
 
-Actor 通过与 Dapr 运行时之间的 HTTP 调用来实现。此功能是应用程序 HTTP 处理管道的一部分，并在 `Configure(...)` 内的 `UseEndpoints(...)` 中注册。
+Actor 通过与 Dapr runtime 之间的 HTTP 调用来实现。此功能是应用程序 HTTP 处理流水线的一部分，并在 `Configure(...)` 内的 `UseEndpoints(...)` 中注册。
 
 将以下代码粘贴到 `MyActorService` 项目的 `Startup.cs` 中：
 
@@ -462,7 +462,7 @@ namespace MyActorClient
     Got response: PropertyA: ValueA, PropertyB: ValueB
     ```
 
-> 💡 此示例依赖于一些假设。ASP.NET Core Web 项目的默认监听端口为 5000，该端口通过 `--app-port 5000` 传递给 `dapr run`。Dapr 边车的默认 HTTP 端口为 3500。我们让 `MyActorService` 的边车使用 3500，以便 `MyActorClient` 可以依赖默认值。
+> 💡 此示例依赖于一些假设。ASP.NET Core Web 项目的默认监听端口为 5000，该端口通过 `--app-port 5000` 传递给 `dapr run`。Dapr sidecar 的默认 HTTP 端口为 3500。我们让 `MyActorService` 的 sidecar 使用 3500，以便 `MyActorClient` 可以依赖默认值。
 
 现在你已成功创建 Actor 服务和客户端。请参阅相关链接部分以了解更多信息。
 

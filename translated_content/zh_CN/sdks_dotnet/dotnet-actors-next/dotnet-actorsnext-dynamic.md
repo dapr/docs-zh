@@ -18,7 +18,7 @@ description: "无需编译期契约，通过类型、ID 与方法调用 Actor，
 
 共有两个组成部分：发现与调用。
 
-`IActorRegistry` 负责发现。源生成器会根据本应用托管的 Actor 生成它，其中包含每个类型、它的方法以及各方法的参数和返回值类型。这是真正的新能力：Dapr 运行时元数据只列出 Actor 类型名，而生成的注册表则携带完整签名，因此本应用中的代码可以枚举它对外暴露了什么，以及如何调用。
+`IActorRegistry` 负责发现。源生成器会根据本应用托管的 Actor 生成它，其中包含每个类型、它的方法以及各方法的参数和返回值类型。这是真正的新能力：Dapr runtime metadata 只列出 Actor 类型名，而生成的注册表则携带完整签名，因此本应用中的代码可以枚举它对外暴露了什么，以及如何调用。
 
 ```csharp
 public interface IActorRegistry
@@ -70,7 +70,7 @@ public sealed class ActorGateway(IActorRegistry registry, IDynamicActorClient cl
 
 ## 投递契约依然适用
 
-动态调用不会改变投递语义，因为投递语义是调用路径的属性，而与你如何发起调用无关。动态调用的方法是至少一次（at-least-once）语义：运行时已拉取但无法确认的调用会被重试，因此 Actor 方法必须能够安全地重复执行。强类型路径、提醒和订阅投递受同一契约约束。如果你通过网关暴露动态调用，其背后的 Actor 仍需要幂等的处理程序。
+动态调用不会改变投递语义，因为投递语义是调用路径的属性，而与你如何发起调用无关。动态调用的方法是至少一次（at-least-once）语义：运行时已拉取但无法确认的调用会被重试，因此 Actor 方法必须能够安全地重复执行。强类型路径、reminder 和订阅投递受同一契约约束。如果你通过网关暴露动态调用，其背后的 Actor 仍需要幂等的处理程序。
 
 ## 适用场景
 
@@ -83,7 +83,7 @@ public sealed class ActorGateway(IActorRegistry registry, IDynamicActorClient cl
 
 ## 测试
 
-动态调用可以像强类型调用一样在内存测试运行时中驱动，因此无需边车即可测试网关或通用路由器。
+动态调用可以像强类型调用一样在内存测试运行时中驱动，因此无需 sidecar 即可测试网关或通用路由器。
 
 ```csharp
 // IDynamicActorClient 和 IActorRegistry 从运行时的服务提供程序中解析，

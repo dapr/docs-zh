@@ -10,7 +10,7 @@ description: "定义 Actor，由源生成器自动完成连接，并通过 Dapr.
 
 ## 前提条件
 
-Dapr 运行时 v1.18.0 或更高版本、应用上用于接收 gRPC 入站连接的端口，以及 `Dapr.Actors.Next` 包。`Dapr.Actors.Next` 是一个元包，将运行时、源生成器和分析器集中到同一个引用中。
+Dapr runtime v1.18.0 或更高版本、应用上用于接收 gRPC 入站连接的端口，以及 `Dapr.Actors.Next` 包。`Dapr.Actors.Next` 是一个元包，将运行时、源生成器和分析器集中到同一个引用中。
 
 ```xml
 <ItemGroup>
@@ -80,7 +80,7 @@ public sealed class CartActor(ActorActivationContext context, IPricingClient pri
 
 | 你编写 | 源生成器生成 |
 | --- | --- |
-| `interface ICartActor : IActor` 上的 `[GenerateActorClient]` | 用于调用该 Actor 的强类型客户端代理，以及接口清单中该契约的条目 |
+| `interface ICartActor : IActor` 上的 `[GenerateActorClient]` | 用于调用该 Actor 的强类型客户端代理，以及接口 manifest 中该契约的条目 |
 | 已标注接口的实现上的 `[DaprActor]` | 将传入调用路由到你方法的分发器 |
 | 已标注接口的实现上的 `[DaprActor]` | 通过依赖注入构造 Actor 的强类型激活工厂 |
 | 已标注接口的实现上的 `[DaprActor]` | 生成的注册信息和 Actor 注册表中的条目（其类型、方法与签名） |
@@ -89,7 +89,7 @@ public sealed class CartActor(ActorActivationContext context, IPricingClient pri
 
 ### 一个接口可支撑多个 Actor 类型
 
-已注册 Actor 的标识是 Actor 类型名，而不是接口。可以有多个 `[DaprActor]` 类实现同一个 `[GenerateActorClient]` 接口，每个类都会成为各自独立的 Actor 类型，拥有自己的名称、状态、放置和注册。共享的接口只是它们共同具备的可调用形态。
+已注册 Actor 的标识是 Actor 类型名，而不是接口。可以有多个 `[DaprActor]` 类实现同一个 `[GenerateActorClient]` 接口，每个类都会成为各自独立的 Actor 类型，拥有自己的名称、状态、placement 和注册。共享的接口只是它们共同具备的可调用形态。
 
 ```csharp
 [GenerateActorClient]
@@ -211,7 +211,7 @@ builder.Services.AddDaprActors(options =>
 });
 ```
 
-空闲超时、排空设置和重入设置会向已注册 Actor 类型的 Dapr 边车进行公布。`DisableStateMigration` 由 SDK 在持久化该 Actor 状态时在本地应用，不会向边车公布。完整的可运行版本位于 `examples/Actor.Next/07-PerTypeOptions`。
+空闲超时、排空设置和重入设置会向已注册 Actor 类型的 Dapr sidecar 进行公布。`DisableStateMigration` 由 SDK 在持久化该 Actor 状态时在本地应用，不会向 sidecar 公布。完整的可运行版本位于 `examples/Actor.Next/07-PerTypeOptions`。
 
 当 SDK 在本地接纳匹配的调用链时，也会强制执行 `EnableReentrancy` 和 `MaxReentrantDepth`，并优先使用按类型的值，然后才是应用级的值。请显式配置这些选项，使其与应用的调用图保持一致。
 
@@ -276,7 +276,7 @@ builder.Services.AddDaprActors(options =>
 {{% /alert %}}
 
 {{% alert title="自定义名称仍然是持久地址" color="warning" %}}
-支持从配置中选择 Actor 类型名，但该名称是持久地址的一部分：状态和放置都以它为键。若更改一组已有实例所用的名称，这些实例将无法通过新名称访问。对于由配置驱动的名称，应在其背后数据的整个生命周期内保持固定，并且只有在采取与数据迁移同等的谨慎态度时才能更改。
+支持从配置中选择 Actor 类型名，但该名称是持久地址的一部分：状态和 placement 都以它为键。若更改一组已有实例所用的名称，这些实例将无法通过新名称访问。对于由配置驱动的名称，应在其背后数据的整个生命周期内保持固定，并且只有在采取与数据迁移同等的谨慎态度时才能更改。
 {{% /alert %}}
 
 ### 跨程序集发现
@@ -299,9 +299,9 @@ builder.Services.AddDaprActors(options =>
 builder.Services.AddDaprActors();
 ```
 
-支持将依赖注入到 Actor 的构造函数中，任何被注入的服务都从 Actor 的每次激活作用域中解析，并随该作用域一同释放。但注入要求你自行注册该服务：`AddDaprActors()` 只接入 Actor 基础设施，不会代为注册任何 Dapr 构建块客户端。
+支持将依赖注入到 Actor 的构造函数中，任何被注入的服务都从 Actor 的每次激活作用域中解析，并随该作用域一同释放。但注入要求你自行注册该服务：`AddDaprActors()` 只接入 Actor 基础设施，不会代为注册任何 Dapr building block 客户端。
 
-例如，若要在 Actor 内部使用状态管理客户端来访问应用的状态存储（这些存储与 Actor 自身的 `State` 是分开的），请添加 `Dapr.StateManagement` 包，注册 `DaprStateManagementClient` 并将其注入：
+例如，若要在 Actor 内部使用 State Management 客户端来访问应用的 state store（这些存储与 Actor 自身的 `State` 是分开的），请添加 `Dapr.StateManagement` 包，注册 `DaprStateManagementClient` 并将其注入：
 
 ```csharp
 builder.Services.AddDaprActors();
@@ -345,7 +345,7 @@ public sealed class CartActor(ActorActivationContext context) : Actor, ICartActo
 
 ## 横切的轮次过滤器
 
-`IActorTurnFilter` 会将每个 Actor 轮次（跨越所有 Actor 类型）包装为围绕调用的中间件管道。它只适用于一小类工作，大多数应用都不需要它。
+`IActorTurnFilter` 会将每个 Actor 轮次（跨越所有 Actor 类型）包装为围绕调用的 middleware 管道。它只适用于一小类工作，大多数应用都不需要它。
 
 只将轮次过滤器用于基础设施性质而非业务行为的关注点，并且这些关注点必须统一应用于多个 Actor 类型：例如在任何轮次运行前强制要求存在租户或认证头，或为每个轮次丰富追踪和指标。这些内容否则就需要被复制到每个 Actor 中，它们确实属于任何单个 Actor 之外。
 
@@ -361,9 +361,9 @@ public sealed class CartActor(ActorActivationContext context) : Actor, ICartActo
 
 分析器（`DAPR1416`，信息级别）会在 `IActorTurnFilter` 看似包含业务逻辑时发出提示，以保持过滤器精简且只承担基础设施职责。
 
-## 定时器与提醒
+## timer 与 reminder
 
-在 Actor 内部，通过注入所需的调度器来注册定时器和提醒。定时器使用 `IActorTimerScheduler`；持久提醒使用 `IActorReminderScheduler`。
+在 Actor 内部，通过注入所需的 Scheduler 来注册 timer 和 reminder。timer 使用 `IActorTimerScheduler`；持久 reminder 使用 `IActorReminderScheduler`。
 
 ```csharp
 using Dapr.Actors.Next;
@@ -383,7 +383,7 @@ public sealed class CartActor(
         var cart = await State.GetOrCreateAsync("cart", () => new CartState(), ct);
         cart.Value.Items.Add(item);
 
-        // 一次性的激活内定时器。如果在它触发前激活已被移除，回调将丢失。
+        // 一次性的激活内 timer。如果在它触发前激活已被移除，回调将丢失。
         await timers.RescheduleAsync(
             actorType: "Cart",
             actorId: Id,
@@ -393,7 +393,7 @@ public sealed class CartActor(
             arguments: item.Sku,
             cancellationToken: ct);
 
-        // 周期性的激活内定时器，受 TTL 限制。
+        // 周期性的激活内 timer，受 TTL 限制。
         await timers.RescheduleAsync(
             actorType: "Cart",
             actorId: Id,
@@ -430,35 +430,35 @@ public sealed class CartActor(
 }
 ```
 
-需要围绕其持久性进行设计。定时器存在于内存中，并与激活绑定：它无法在停用或进程重启后存活，因此应将其视为存活激活期间的尽力而为的便利功能，而不是持久的调度。提醒是持久的，由 Dapr 调度器投递，因此即使 Actor 处于空闲状态并需要重新激活，它仍会触发。凡是无论激活状态如何都必须唤醒的工作，请使用提醒；定时器只用于在 Actor 停用时丢失也无妨的工作。
+需要围绕其持久性进行设计。timer 存在于内存中，并与激活绑定：它无法在停用或进程重启后存活，因此应将其视为存活激活期间的尽力而为的便利功能，而不是持久的调度。reminder 是持久的，由 Dapr Scheduler 投递，因此即使 Actor 处于空闲状态并需要重新激活，它仍会触发。凡是无论激活状态如何都必须唤醒的工作，请使用 reminder；timer 只用于在 Actor 停用时丢失也无妨的工作。
 
-定时器注册同时包含定时器 `name` 和 `operationName`；运行时将回调路由到 `operationName`。提醒注册则没有单独的回调字段：提醒的 `name` 既是持久提醒的标识，也是回调时路由到的 Actor 操作，因此应选择稳定的操作名称，不要随意重命名。如果 Actor 方法被重命名，所有已使用旧名称注册的持久提醒将继续调用旧的操作名称，直到它们被更新或取消。建议保留原有的回调方法，并让它替换提醒，以直接注册新方法。
+timer 注册同时包含 timer `name` 和 `operationName`；运行时将回调路由到 `operationName`。reminder 注册则没有单独的回调字段：reminder 的 `name` 既是持久 reminder 的标识，也是回调时路由到的 Actor 操作，因此应选择稳定的操作名称，不要随意重命名。如果 Actor 方法被重命名，所有已使用旧名称注册的持久 reminder 将继续调用旧的操作名称，直到它们被更新或取消。建议保留原有的回调方法，并让它替换 reminder，以直接注册新方法。
 
 {{% alert title="回调名称在构建时即被校验" color="primary" %}}
-由于回调是字符串，拼写错误或重命名后残留的旧名称，否则只会在定时器或提醒触发时才暴露出来。分析器会在你输入时就将其捕获。回调必须能解析为运行时可派发的方法，也就是同时派生自 `IActor` 并标注 `[GenerateActorClient]` 的接口上的方法（仅存在于类上的方法，或存在于未标注 `[GenerateActorClient]` 的 Actor 接口上的方法，永远不会被派发）。当目标 Actor 类型定义在本应用（或被引用的项目）中时，`DAPR1429` 会标记与任何可派发方法都不匹配的回调（并附带一个建议最接近匹配项的代码修复），`DAPR1431` 会标记指向一个存在但未通过 `[GenerateActorClient]` 契约公开的方法的回调。当在本应用中找不到该 Actor 类型字符串时，`DAPR1430` 会警告它可能由其他 Dapr 应用托管，且无法在此验证。以上三条规则都适用于定时器的 `operationName` 和提醒的 `name`。
+由于回调是字符串，拼写错误或重命名后残留的旧名称，否则只会在 timer 或 reminder 触发时才暴露出来。分析器会在你输入时就将其捕获。回调必须能解析为运行时可派发的方法，也就是同时派生自 `IActor` 并标注 `[GenerateActorClient]` 的接口上的方法（仅存在于类上的方法，或存在于未标注 `[GenerateActorClient]` 的 Actor 接口上的方法，永远不会被派发）。当目标 Actor 类型定义在本应用（或被引用的项目）中时，`DAPR1429` 会标记与任何可派发方法都不匹配的回调（并附带一个建议最接近匹配项的代码修复），`DAPR1431` 会标记指向一个存在但未通过 `[GenerateActorClient]` 契约公开的方法的回调。当在本应用中找不到该 Actor 类型字符串时，`DAPR1430` 会警告它可能由其他 Dapr 应用托管，且无法在此验证。以上三条规则都适用于 timer 的 `operationName` 和 reminder 的 `name`。
 {{% /alert %}}
 
-定时器和提醒的负载可以以强类型值或原始 `byte[]` 的形式进行调度。传入强类型值时会使用所配置的 Actor 线路序列化器，因此回调方法可以声明相匹配的强类型参数。如果你已自行序列化负载，或回调不接受负载而你想传入 `Array.Empty<byte>()`，则使用 `byte[]` 重载。
+timer 和 reminder 的负载可以以强类型值或原始 `byte[]` 的形式进行调度。传入强类型值时会使用所配置的 Actor 线路序列化器，因此回调方法可以声明相匹配的强类型参数。如果你已自行序列化负载，或回调不接受负载而你想传入 `Array.Empty<byte>()`，则使用 `byte[]` 重载。
 
-对于定时器，`dueTime` 控制首次触发的时间。如果你省略 `period`，或将其设为 `Timeout.InfiniteTimeSpan` 或 `TimeSpan.Zero`，SDK 会将该定时器视为一次性的，并在回调轮次提交后取消它。设置一个正的 `period` 即可创建周期性定时器。`ttl` 是可选的，用于限制定时器的存活时长；提供时，它必须大于或等于 `dueTime`。使用相同的 Actor 类型、Actor ID 和定时器名称即可取消定时器：
+对于 timer，`dueTime` 控制首次触发的时间。如果你省略 `period`，或将其设为 `Timeout.InfiniteTimeSpan` 或 `TimeSpan.Zero`，SDK 会将该 timer 视为一次性的，并在回调轮次提交后取消它。设置一个正的 `period` 即可创建周期性 timer。`ttl` 是可选的，用于限制 timer 的存活时长；提供时，它必须大于或等于 `dueTime`。使用相同的 Actor 类型、Actor ID 和 timer 名称即可取消 timer：
 
 ```csharp
 await timers.CancelAsync("Cart", Id, "refresh-prices-periodic", ct);
 ```
 
-对于提醒，`dueTime` 控制首次触发时间，`period` 控制重复触发；若要创建一次性提醒，请使用 `TimeSpan.Zero`。`ttl` 是可选的，用于限制提醒的存活时长。`overwrite` 控制注册一个已存在的提醒名称时是否替换之前的注册；Dapr 默认为覆盖，若设置 `overwrite: false`，则重复注册会失败。使用相同的 Actor 类型、Actor ID 和名称即可取消持久提醒：
+对于 reminder，`dueTime` 控制首次触发时间，`period` 控制重复触发；若要创建一次性 reminder，请使用 `TimeSpan.Zero`。`ttl` 是可选的，用于限制 reminder 的存活时长。`overwrite` 控制注册一个已存在的 reminder 名称时是否替换之前的注册；Dapr 默认为覆盖，若设置 `overwrite: false`，则重复注册会失败。使用相同的 Actor 类型、Actor ID 和名称即可取消持久 reminder：
 
 ```csharp
 await reminders.CancelAsync("Cart", Id, nameof(AbandonCart), ct);
 ```
 
-定时器和提醒的回调与普通调用通过同一个 Actor 事件流到达。只有在 Actor 轮次提交且待处理的状态已保存之后，SDK 才会确认该回调。对于一次性定时器，成功的确认会包含 `cancel: true`，以免运行时再次触发该定时器。周期性定时器和提醒会按照其注册继续运行，直到被取消、因 TTL 过期或被替换。如果处理程序抛出异常，或者在确认到达运行时之前流中断，运行时可能会重新投递该回调。请保持处理程序的幂等性，尤其是当它们执行外部副作用时。
+timer 和 reminder 的回调与普通调用通过同一个 Actor 事件流到达。只有在 Actor 轮次提交且待处理的状态已保存之后，SDK 才会确认该回调。对于一次性 timer，成功的确认会包含 `cancel: true`，以免运行时再次触发该 timer。周期性 timer 和 reminder 会按照其注册继续运行，直到被取消、因 TTL 过期或被替换。如果处理程序抛出异常，或者在确认到达运行时之前流中断，运行时可能会重新投递该回调。请保持处理程序的幂等性，尤其是当它们执行外部副作用时。
 
-定时器和提醒的回调是独立的 Actor 轮次，而不是注册它的轮次的可重入延续。它们会等待同一 Actor 上进行中的轮次结束。取消注册并不会撤销已被接纳执行的回调，因此正在进行中的回调仍可能完成。
+timer 和 reminder 的回调是独立的 Actor 轮次，而不是注册它的轮次的可重入延续。它们会等待同一 Actor 上进行中的轮次结束。取消注册并不会撤销已被接纳执行的回调，因此正在进行中的回调仍可能完成。
 
 ### 查看与管理注册
 
-SDK `1.19.0` 或更高版本还提供了定时器和提醒的查看功能，以及提醒的批量取消功能：
+SDK `1.19.0` 或更高版本还提供了 timer 和 reminder 的查看功能，以及 reminder 的批量取消功能：
 
 ```csharp
 var timer = await timers.GetAsync("Cart", Id, "refresh-prices-periodic", ct);
@@ -469,19 +469,19 @@ var actorReminders = await reminders.ListAsync("Cart", Id, ct);
 var remindersForType = await reminders.ListAsync("Cart", cancellationToken: ct);
 ```
 
-当注册不存在时，`GetAsync` 返回 null。列表操作返回具名的注册记录。定时器是宿主本地的：请通过托管该 Actor 的边车来查看，而不是通过集群中的任意边车。提醒的列表可以限定为某个 Actor ID，也可以限定为整个 Actor 类型。
+当注册不存在时，`GetAsync` 返回 null。列表操作返回具名的注册记录。timer 是宿主本地的：请通过托管该 Actor 的 sidecar 来查看，而不是通过集群中的任意 sidecar。reminder 的列表可以限定为某个 Actor ID，也可以限定为整个 Actor 类型。
 
-要取消某个 Actor 的所有提醒：
+要取消某个 Actor 的所有 reminder：
 
 ```csharp
 await reminders.CancelAllAsync("Cart", Id, ct);
 ```
 
-省略 `actorId` 会取消**该给定类型的每个 Actor**的提醒。只有在有意管理整个类型时，才应使用这一范围更广的操作。
+省略 `actorId` 会取消**该给定类型的每个 Actor**的 reminder。只有在有意管理整个类型时，才应使用这一范围更广的操作。
 
-### 提醒的失败策略
+### reminder 的失败策略
 
-注册提醒时可以提供 `failurePolicy`，以覆盖运行时对失败触发的默认处理：
+注册 reminder 时可以提供 `failurePolicy`，以覆盖运行时对失败触发的默认处理：
 
 ```csharp
 await reminders.ScheduleAsync(
@@ -497,7 +497,7 @@ await reminders.ScheduleAsync(
     cancellationToken: ct);
 ```
 
-`ActorReminderFailurePolicy.Drop` 会丢弃失败的触发。`Constant` 以指定的间隔重试；未设置 `MaxRetries` 时允许无限次重试。该策略只影响提醒投递失败的情况，不影响定时器的持久性、重复周期，也不影响 Actor 自身的应用级重试逻辑。
+`ActorReminderFailurePolicy.Drop` 会丢弃失败的触发。`Constant` 以指定的间隔重试；未设置 `MaxRetries` 时允许无限次重试。该策略只影响 reminder 投递失败的情况，不影响 timer 的持久性、重复周期，也不影响 Actor 自身的应用级重试逻辑。
 
 ## 保存 Actor 状态
 
@@ -511,7 +511,7 @@ public async Task AddItem(CartItem item, CancellationToken ct = default)
 }
 ```
 
-只有当你需要在方法继续执行之前，让当前更改抵达底层状态存储时，才调用 `State.SaveStateAsync(ct)`，例如在进行一次必须能读取到持久化 Actor 状态的外部调用之前：
+只有当你需要在方法继续执行之前，让当前更改抵达底层 state store 时，才调用 `State.SaveStateAsync(ct)`，例如在进行一次必须能读取到持久化 Actor 状态的外部调用之前：
 
 ```csharp
 public async Task AddItemAndNotify(CartItem item, CancellationToken ct = default)
@@ -536,15 +536,15 @@ Actor 回调是至少一次（at-least-once）语义，这决定了你编写 Act
 
 因此，你的 Actor 方法必须能够安全地重复执行，包括其中的状态变更。仅仅因为使用了 Actor `State` 而递增计数器或追加条目，并不会自动具备幂等性；针对已提交状态的重试可能会再次应用该变更。请使用天然幂等的更新，或将稳定的请求标识及其结果与状态变更一并持久化，以便识别重复请求。外部副作用（发布事件、调用另一个 Actor、扣款）同样需要幂等策略。丢失的响应并不意味着回滚。
 
-提醒在被确认之前可能会被重新投递，这取决于其运行时失败策略。配置的常量策略会改变重试间隔或上限，而丢弃策略则可能会停止该次触发的重试。因此，提醒处理程序必须是幂等的，并且重复出现的失败必须被暴露出来，而不是被吞掉。
+reminder 在被确认之前可能会被重新投递，这取决于其运行时失败策略。配置的常量策略会改变重试间隔或上限，而丢弃策略则可能会停止该次触发的重试。因此，reminder 处理程序必须是幂等的，并且重复出现的失败必须被暴露出来，而不是被吞掉。
 
 {{% alert title="实践规则" color="primary" %}}
-将每个 Actor 方法、提醒和订阅处理程序都设计为可以安全地重复执行。状态变更和外部副作用都需要幂等性。应将缺失的响应视为不确定的结果，而不是该操作从未执行或其状态变更已回滚的证据。
+将每个 Actor 方法、reminder 和订阅处理程序都设计为可以安全地重复执行。状态变更和外部副作用都需要幂等性。应将缺失的响应视为不确定的结果，而不是该操作从未执行或其状态变更已回滚的证据。
 {{% /alert %}}
 
 ## 调用 Actor
 
-调用 Actor 涉及两个相互独立的问题：编译时已知什么（这决定使用强类型代理还是动态客户端），以及从哪里调用（客户端，还是另一个 Actor）。无论哪种情况，Actor 类型名都是运行时用于放置的寻址键，并且序列化始终走同一条 `IDaprSerializer` 路径。
+调用 Actor 涉及两个相互独立的问题：编译时已知什么（这决定使用强类型代理还是动态客户端），以及从哪里调用（客户端，还是另一个 Actor）。无论哪种情况，Actor 类型名都是运行时用于 placement 的寻址键，并且序列化始终走同一条 `IDaprSerializer` 路径。
 
 当你在编译时即可获得 Actor 的契约接口时，应使用强类型代理，这也是应用代码中的常见情况。它提供编译时的签名检查和编辑器补全。当 Actor 类型或方法存在于其他应用中，或在运行时才为人所知时（例如在网关或调用未引用的 Actor 的工具中），应使用动态客户端。
 
@@ -601,7 +601,7 @@ public sealed class CartActor(ActorActivationContext context, IActorProxyFactory
 
 - 等待调用不会释放你的轮次。运行时会在整个轮次期间持有该 Actor 的锁，包括在你等待对另一个 Actor 的调用期间。另一个 Actor 运行它自己的轮次；你的轮次会一直保持打开，直到你的方法返回。
 - 该调用与任何调用一样是至少一次语义。如果你的轮次被重新投递（参见[设计时必须考虑的投递保证](#设计时必须考虑的投递保证)），出站调用会再次执行，因此目标必须具备幂等性，或者该调用必须可以安全地重复。
-- 启用时，重入由框架自动处理。Actor 开发者无需手动提供重入头。当 Actor 运行时启用了重入时，`Dapr.Actors.Next` 会在 Actor 轮次中发起的 Actor 调用之间自动传播调用链元数据，因此，一条重新进入调用链中已有 Actor 的调用链（A 调用 B，B 再回调 A）会被识别为重入，而不会因第一个轮次仍持有的锁而阻塞。
+- 启用时，重入由框架自动处理。Actor 开发者无需手动提供重入头。当 Actor runtime 启用了重入时，`Dapr.Actors.Next` 会在 Actor 轮次中发起的 Actor 调用之间自动传播调用链 metadata，因此，一条重新进入调用链中已有 Actor 的调用链（A 调用 B，B 再回调 A）会被识别为重入，而不会因第一个轮次仍持有的锁而阻塞。
 
 {{% alert title="显式配置重入" color="primary" %}}
 设置 `DaprActorsOptions.EnableReentrancy`，并使用 `DaprActorsOptions.MaxReentrantDepth` 限制深度。按类型的设置会覆盖应用级设置。SDK 只有在重入调用与被占用 Actor 的活动调用链匹配时才会接纳它；当显式禁用重入或超过深度限制时，它会以 `ActorInvocationException` 拒绝接纳。Dapr 还会根据所公布的 Actor 配置另行控制重入的投递，因此当重入被禁用时，不要依赖循环调用图能够继续推进。
@@ -613,7 +613,7 @@ public sealed class CartActor(ActorActivationContext context, IActorProxyFactory
 
 ### 在其他 Dapr 应用中调用 Actor
 
-从调用方的角度看，调用由另一个应用托管的 Actor，与调用本应用中的 Actor 完全相同。你使用相同的类型名创建相同的代理并等待即可；放置机制会将调用路由到托管该类型的应用，在常见情况下无需特殊的跨应用客户端、端点，也无需管理 App ID。
+从调用方的角度看，调用由另一个应用托管的 Actor，与调用本应用中的 Actor 完全相同。你使用相同的类型名创建相同的代理并等待即可；placement 机制会将调用路由到托管该类型的应用，在常见情况下无需特殊的跨应用客户端、端点，也无需管理 App ID。
 
 ```csharp
 // 无论 "CartActor" 托管在本应用还是其他应用中，调用方式相同：
@@ -630,7 +630,7 @@ await cart.AddItem(item);   // 放置机制会将调用路由到 "CartActor" 所
 由于两端的序列化都走同一条 `IDaprSerializer` 路径，且与代理无关，强类型代理同样适用于跨应用调用，而旧的远程处理代理则做不到这一点。
 
 {{% alert title="保持类型名稳定" color="warning" %}}
-Actor 类型名是持久地址的一部分；状态和放置都以它为键。请慎重选择并且不要更改它，否则已有的实例将无法被访问。若要演进行为或状态，请对状态进行版本化，而不是对类型名进行版本化。参见[状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})。
+Actor 类型名是持久地址的一部分；状态和 placement 都以它为键。请慎重选择并且不要更改它，否则已有的实例将无法被访问。若要演进行为或状态，请对状态进行版本化，而不是对类型名进行版本化。参见[状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})。
 {{% /alert %}}
 
 ### 动态调用
@@ -644,7 +644,7 @@ Actor 类型名是持久地址的一部分；状态和放置都以它为键。�
 | 编号 | 标记内容 | 类别 | 严重程度 |
 | --- | --- | --- | --- |
 | `DAPR1410` | 状态形状变更导致已发布状态的反序列化失败 | 兼容性 | 警告 |
-| `DAPR1411` | 工作脱离了 Actor 调度器，例如 `Task.Run` | 并发 | 警告 |
+| `DAPR1411` | 工作脱离了 Actor Scheduler，例如 `Task.Run` | 并发 | 警告 |
 | `DAPR1412` | Actor 轮次内的阻塞调用 | 并发 | 警告 |
 | `DAPR1413` | 读取挂钟时间，而不是使用注入的 `TimeProvider` | 确定性 | 警告 |
 | `DAPR1414` | 未设种子的非确定性来源，例如 `Guid.NewGuid()` 或 `Random` | 确定性 | 警告 |
@@ -661,13 +661,13 @@ Actor 类型名是持久地址的一部分；状态和放置都以它为键。�
 | `DAPR1426` | Actor 状态迁移家族存在多条通往同一目标的折叠路径 | 兼容性 | 警告 |
 | `DAPR1427` | 同一持久化 Actor 状态名被用于多个迁移家族 | 用法 | 警告 |
 | `DAPR1428` | Actor 代码针对较旧的状态类型，而存在更新的可达版本 | 用法 | 信息 |
-| `DAPR1429` | 已调度的提醒/定时器回调与任何可派发的 Actor 方法都不匹配 | 用法 | 错误 |
-| `DAPR1430` | 已调度的提醒/定时器指向本应用中未找到的 Actor 类型 | 用法 | 警告 |
-| `DAPR1431` | 已调度的提醒/定时器回调方法未通过生成的 Actor 客户端公开 | 用法 | 错误 |
+| `DAPR1429` | 已调度的 reminder/timer 回调与任何可派发的 Actor 方法都不匹配 | 用法 | 错误 |
+| `DAPR1430` | 已调度的 reminder/timer 指向本应用中未找到的 Actor 类型 | 用法 | 警告 |
+| `DAPR1431` | 已调度的 reminder/timer 回调方法未通过生成的 Actor 客户端公开 | 用法 | 错误 |
 
 ## 最佳实践
 
-- 只添加 `AddDaprActors()`，其余交给生成器完成；如果你使用 `DaprStateManagementClient` 等构建块客户端，请单独注册它们。
+- 只添加 `AddDaprActors()`，其余交给生成器完成；如果你使用 `DaprStateManagementClient` 等 building block 客户端，请单独注册它们。
 - 将 Actor 状态保存在 `State` 中，字段保持不可变，并让注入的服务保持无状态。
 - 在编译时即可获得契约时，通过 `IActorProxyFactory` 使用强类型代理；仅在网关和确实需要延迟绑定的工具中使用 `IDynamicActorClient`。
 - 选定 Actor 类型名后就不要再更改。
@@ -678,5 +678,5 @@ Actor 类型名是持久地址的一部分；状态和放置都以它为键。�
 - [教程第 1 部分：购物车，现代基线]({{< ref dotnet-actorsnext-tutorial-cart.md >}})
 - [序列化]({{< ref dotnet-actorsnext-serialization.md >}})
 - [状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})
-- [状态机 Actor]({{< ref dotnet-actorsnext-statemachine.md >}})
+- [state machine Actor]({{< ref dotnet-actorsnext-statemachine.md >}})
 - [测试 Actor]({{< ref dotnet-actorsnext-testing.md >}})

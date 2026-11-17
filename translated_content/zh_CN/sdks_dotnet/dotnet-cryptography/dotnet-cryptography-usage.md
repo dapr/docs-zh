@@ -6,12 +6,12 @@ weight: 510005
 description: 了解如何创建 Dapr Cryptography 客户端
 ---
 
-Dapr Cryptography 包允许你执行由 Dapr 边车提供的加密和解密操作。
+Dapr Cryptography 包允许你执行由 Dapr sidecar 提供的加密和解密操作。
 
 ## 生命周期管理
 `DaprEncryptionClient` 是 Dapr 客户端的一个专用版本，专门用于与 Dapr Cryptography API 交互。它可以与 `DaprClient` 及其他 Dapr 客户端一同注册，不会有任何问题。
 
-它维护着用于与 Dapr 边车通信的 TCP 套接字形式的网络资源。
+它维护着用于与 Dapr sidecar 通信的 TCP 套接字形式的网络资源。
 
 为了获得最佳性能，请创建一个长期存在的 `DaprEncryptionClient` 实例，并在整个应用程序中共享访问该实例。`DaprEncryptionClient` 实例是线程安全的，设计上就是用于共享的。
 
@@ -24,25 +24,25 @@ Dapr Cryptography 包允许你执行由 Dapr 边车提供的加密和解密操�
 
 ```cs
 var daprEncryptionClient = new DaprEncryptionClientBuilder()
-    .UseDaprApiToken("abc123") // 指定用于向 Dapr 边车进行身份验证的 API 令牌
+    .UseDaprApiToken("abc123") // 指定用于向 Dapr sidecar 进行身份验证的 API 令牌
     .Build();
 ```
 
 `DaprEncryptionClientBuilder` 包含以下设置：
-- Dapr 边车的 HTTP 端点
-- Dapr 边车的 gRPC 端点
+- Dapr sidecar 的 HTTP 端点
+- Dapr sidecar 的 gRPC 端点
 - 用于配置 JSON 序列化的 `JsonSerializerOptions` 对象
 - 用于配置 gRPC 的 `GrpcChannelOptions` 对象
-- 用于向边车验证请求的 API 令牌
+- 用于向 sidecar 验证请求的 API 令牌
 - 用于创建 SDK 所使用的 `HttpClient` 实例的工厂方法
-- 向边车发出请求时，`HttpClient` 实例所使用的超时时间
+- 向 sidecar 发出请求时，`HttpClient` 实例所使用的超时时间
 
 SDK 将读取以下环境变量以配置默认值：
 
-- `DAPR_HTTP_ENDPOINT`：用于查找 Dapr 边车的 HTTP 端点，例如：`https://dapr-api.mycompany.com`
-- `DAPR_GRPC_ENDPOINT`：用于查找 Dapr 边车的 gRPC 端点，例如：`https://dapr-grpc-api.mycompany.com`
-- `DAPR_HTTP_PORT`：如果未设置 `DAPR_HTTP_ENDPOINT`，则用于查找 Dapr 边车的 HTTP 本地端点
-- `DAPR_GRPC_PORT`：如果未设置 `DAPR_GRPC_ENDPOINT`，则用于查找 Dapr 边车的 gRPC 本地端点
+- `DAPR_HTTP_ENDPOINT`：用于查找 Dapr sidecar 的 HTTP 端点，例如：`https://dapr-api.mycompany.com`
+- `DAPR_GRPC_ENDPOINT`：用于查找 Dapr sidecar 的 gRPC 端点，例如：`https://dapr-grpc-api.mycompany.com`
+- `DAPR_HTTP_PORT`：如果未设置 `DAPR_HTTP_ENDPOINT`，则用于查找 Dapr sidecar 的 HTTP 本地端点
+- `DAPR_GRPC_PORT`：如果未设置 `DAPR_GRPC_ENDPOINT`，则用于查找 Dapr sidecar 的 gRPC 本地端点
 - `DAPR_API_TOKEN`：用于设置 API 令牌
 
 ### 配置 gRPC 通道选项

@@ -6,16 +6,16 @@ weight: 50005
 description: 了解如何创建 Dapr AI 客户端
 ---
 
-Dapr AI 客户端包允许你与 Dapr 边车提供的 AI 能力进行交互。
+Dapr AI 客户端包允许你与 Dapr sidecar 提供的 AI 能力进行交互。
 
 {{% alert title="注意" color="primary" %}}
-Dapr 对话构建块需要 Dapr 运行时 v1.16.0 或更高版本。响应格式、提示词缓存保留以及令牌使用统计需要 Dapr 运行时 v1.17.0 或更高版本。
+Dapr conversation building block 需要 Dapr 运行时 v1.16.0 或更高版本。响应格式、提示词缓存保留以及令牌使用统计需要 Dapr 运行时 v1.17.0 或更高版本。
 {{% /alert %}}
 
 ## 生命周期管理
-`DaprConversationClient` 是 Dapr 客户端的一个专用版本，用于与 Dapr 对话 API 交互。它可以与 `DaprClient` 及其他 Dapr 客户端一同注册，不会有任何问题。
+`DaprConversationClient` 是 Dapr 客户端的一个专用版本，用于与 Dapr conversation API 交互。它可以与 `DaprClient` 及其他 Dapr 客户端一同注册，不会有任何问题。
 
-它通过用于与 Dapr 边车通信的 TCP 套接字维持对网络资源的访问。
+它通过用于与 Dapr sidecar 通信的 TCP 套接字维持对网络资源的访问。
 
 为获得最佳性能，请创建一个长期存活的 `DaprConversationClient` 实例，并在整个应用程序中共享访问该实例。`DaprConversationClient` 实例是线程安全的，设计上就是用于共享的。
 
@@ -29,26 +29,26 @@ Dapr 对话构建块需要 Dapr 运行时 v1.16.0 或更高版本。响应格式
 
 ```cs
 var daprConversationClient = new DaprConversationClientBuilder()
-    .UseDaprApiToken("abc123") // 指定用于向其他 Dapr 边车进行身份验证的 API 令牌
+    .UseDaprApiToken("abc123") // 指定用于向其他 Dapr sidecar 进行身份验证的 API 令牌
     .Build();
 ```
 
 `DaprConversationClientBuilder` 包含以下设置：
 
-- Dapr 边车的 HTTP 端点
-- Dapr 边车的 gRPC 端点
+- Dapr sidecar 的 HTTP 端点
+- Dapr sidecar 的 gRPC 端点
 - 用于配置 JSON 序列化的 `JsonSerializerOptions` 对象
 - 用于配置 gRPC 的 `GrpcChannelOptions` 对象
-- 用于向边车验证请求身份的 API 令牌
+- 用于向 sidecar 验证请求身份的 API 令牌
 - 用于创建 SDK 所用 `HttpClient` 实例的工厂方法
-- 向边车发出请求时，`HttpClient` 实例所使用的超时时间
+- 向 sidecar 发出请求时，`HttpClient` 实例所使用的超时时间
 
 SDK 会读取以下环境变量来配置默认值：
 
-- `DAPR_HTTP_ENDPOINT`：用于查找 Dapr 边车的 HTTP 端点，例如：`https://dapr-api.mycompany.com`
-- `DAPR_GRPC_ENDPOINT`：用于查找 Dapr 边车的 gRPC 端点，例如：`https://dapr-grpc-api.mycompany.com`
-- `DAPR_HTTP_PORT`：如果未设置 `DAPR_HTTP_ENDPOINT`，则用于查找 Dapr 边车的本地 HTTP 端点
-- `DAPR_GRPC_PORT`：如果未设置 `DAPR_GRPC_ENDPOINT`，则用于查找 Dapr 边车的本地 gRPC 端点
+- `DAPR_HTTP_ENDPOINT`：用于查找 Dapr sidecar 的 HTTP 端点，例如：`https://dapr-api.mycompany.com`
+- `DAPR_GRPC_ENDPOINT`：用于查找 Dapr sidecar 的 gRPC 端点，例如：`https://dapr-grpc-api.mycompany.com`
+- `DAPR_HTTP_PORT`：如果未设置 `DAPR_HTTP_ENDPOINT`，则用于查找 Dapr sidecar 的本地 HTTP 端点
+- `DAPR_GRPC_PORT`：如果未设置 `DAPR_GRPC_ENDPOINT`，则用于查找 Dapr sidecar 的本地 gRPC 端点
 - `DAPR_API_TOKEN`：用于设置 API 令牌
 
 ### 配置 gRPC 通道选项
@@ -119,7 +119,7 @@ var app = builder.Build();
 
 ## 发送对话请求
 
-使用 `ConversationInput` 和 `ConversationOptions` 向你的对话组件发送提示：
+使用 `ConversationInput` 和 `ConversationOptions` 向你的 conversation component 发送提示：
 
 ```cs
 using Dapr.AI.Conversation;
@@ -158,11 +158,11 @@ foreach (var output in response.Outputs)
 
 | 选项 | 行为 |
 | --- | --- |
-| `ConversationComponentId` | 必需的组件名称，通过 `ConversationOptions` 构造函数提供。 |
-| `ContextId` | 可选的现有对话上下文。返回的上下文可通过 `ConversationResponse.ConversationId` 获取；保留时长取决于运行时和组件。 |
+| `ConversationComponentId` | 必需的 component 名称，通过 `ConversationOptions` 构造函数提供。 |
+| `ContextId` | 可选的现有对话上下文。返回的上下文可通过 `ConversationResponse.ConversationId` 获取；保留时长取决于运行时和 component。 |
 | `Temperature` | 提供商支持的创造性与可预测性设置。 |
 | `ScrubPII` | 请求对响应数据进行脱敏。`ConversationInput.ScrubPII` 则单独请求对输入数据进行脱敏。 |
-| `Metadata` | 组件特定的字符串键值元数据。 |
+| `Metadata` | component 特定的字符串键值元数据。 |
 | `Parameters` | 以 `Google.Protobuf.WellKnownTypes.Any` 值表示的自定义参数。 |
 | `Tools`、`ToolChoice` | 每个请求的工具声明与选择策略；参见 [工具调用]({{< ref dotnet-ai-conversation-tools.md >}})。 |
 | `ResponseFormat` | 可选的 protobuf `Struct`，描述所请求的响应架构。 |
@@ -216,7 +216,7 @@ var options = new ConversationOptions("my-conversation-component")
 
 ## 提示词缓存保留
 
-如果你的对话组件支持提示缓存，可以使用 `ConversationOptions.PromptCacheRetention` 请求一个缓存保留时间窗口。此功能需要 Dapr 运行时 v1.17.0 或更高版本。
+如果你的 conversation component 支持提示缓存，可以使用 `ConversationOptions.PromptCacheRetention` 请求一个缓存保留时间窗口。此功能需要 Dapr 运行时 v1.17.0 或更高版本。
 
 ```cs
 var options = new ConversationOptions("my-conversation-component")
@@ -227,7 +227,7 @@ var options = new ConversationOptions("my-conversation-component")
 
 ## 令牌使用统计
 
-当组件和运行时均支持时，响应中会包含可选的令牌使用统计信息。使用数据可通过 `ConversationResponseResult.Usage` 获取，其中包括总计数以及详细明细：
+当 component 和运行时均支持时，响应中会包含可选的令牌使用统计信息。使用数据可通过 `ConversationResponseResult.Usage` 获取，其中包括总计数以及详细明细：
 
 ```cs
 var response = await daprConversationClient.ConverseAsync(inputs, options);

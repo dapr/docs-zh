@@ -1,27 +1,27 @@
 ---
 type: docs
-title: "操作指南：使用 Dapr 状态管理 .NET SDK 管理状态"
+title: "操作指南：使用 Dapr State Management .NET SDK 管理状态"
 linkTitle: "操作指南：管理状态"
 weight: 53050
-description: 学习如何使用 Dapr 状态管理 .NET SDK 保存、读取、删除和查询状态
+description: 学习如何使用 Dapr State Management .NET SDK 保存、读取、删除和查询状态
 ---
 
-下面演示如何使用 `Dapr.StateManagement` 包管理状态。以下演示使用[此处提供的示例项目](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement)，内容涵盖通过源生成器获得的强类型状态存储客户端、用于批量操作和事务的直接客户端用法，以及使用 ETag 实现的乐观并发控制。在本指南中，你将：
+下面演示如何使用 `Dapr.StateManagement` 包管理状态。以下演示使用[此处提供的示例项目](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement)，内容涵盖通过源生成器获得的 typed state store 客户端、用于批量操作和事务的直接客户端用法，以及使用 ETag 实现的乐观并发控制。在本指南中，你将：
 
 - 部署一个 .NET 应用（[StateManagementExample](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement/StateManagementExample)）
-- 使用 Dapr .NET 状态管理 SDK 保存、读取和删除状态条目
+- 使用 Dapr .NET State Management SDK 保存、读取和删除状态条目
 - 使用 ETag 实现乐观并发控制
-- 执行批量操作与状态事务
+- 执行批量操作与 state transaction
 - 使用源生成器创建强类型的、按存储划分范围的接口
 
 在 .NET 示例项目中：
 
 - 主文件 [`Program.cs`](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement/StateManagementExample/Program.cs) 同时包含两种用法（强类型存储与直接客户端）。
-- [`IWidgetStore.cs`](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement/StateManagementExample/IWidgetStore.cs) 文件演示了强类型状态存储接口。
+- [`IWidgetStore.cs`](https://github.com/dapr/dotnet-sdk/tree/master/examples/StateManagement/StateManagementExample/IWidgetStore.cs) 文件演示了 typed state store 接口。
 
 ## 前提条件
 - [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
-- [已初始化的 Dapr 环境](https://docs.dapr.io/getting-started/install-dapr-selfhost)
+- [已初始化的 Dapr environment](https://docs.dapr.io/getting-started/install-dapr-selfhost)
 - 已安装 [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)、[.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)、[.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) 或 [.NET 11](https://dotnet.microsoft.com/download/dotnet/11.0)
 - 已将 [Dapr.StateManagement](https://www.nuget.org/packages/Dapr.StateManagement) NuGet 包安装到你的项目中
 
@@ -37,7 +37,7 @@ description: 学习如何使用 Dapr 状态管理 .NET SDK 保存、读取、删
 git clone https://github.com/dapr/dotnet-sdk.git
 ```
 
-在 .NET SDK 根目录中，进入 Dapr 状态管理示例目录。
+在 .NET SDK 根目录中，进入 Dapr State Management 示例目录。
 
 ```sh
 cd examples/StateManagement
@@ -45,13 +45,13 @@ cd examples/StateManagement
 
 ## 在本地运行应用
 
-要运行该 Dapr 应用，你需要同时启动 .NET 程序和一个 Dapr 边车。进入 `StateManagementExample` 目录。
+要运行该 Dapr 应用，你需要同时启动 .NET 程序和一个 Dapr sidecar。进入 `StateManagementExample` 目录。
 
 ```sh
 cd StateManagementExample
 ```
 
-下面的命令会同时启动 Dapr 边车和 .NET 程序。
+下面的命令会同时启动 Dapr sidecar 和 .NET 程序。
 
 ```sh
 dapr run --app-id statemanagement-example --dapr-grpc-port 50001 -- dotnet run
@@ -63,7 +63,7 @@ dapr run --app-id statemanagement-example --dapr-grpc-port 50001 -- dotnet run
 
 这些示例面向 `Dapr.StateManagement` `1.19.0` 或更高版本。为了使用客户端、注册与序列化，请导入 `Dapr.StateManagement`、`Dapr.StateManagement.Extensions` 和 `System.Text.Json`。状态选项与操作模型位于 `Dapr.StateManagement` 中。
 
-`DaprStateManagementClient` 通过 `IServiceCollection` 上的扩展方法 `AddDaprStateManagementClient()` 注册。该方法返回一个 `IDaprStateManagementBuilder`，可用它进一步注册由源生成器生成的强类型状态存储客户端。
+`DaprStateManagementClient` 通过 `IServiceCollection` 上的扩展方法 `AddDaprStateManagementClient()` 注册。该方法返回一个 `IDaprStateManagementBuilder`，可用它进一步注册由源生成器生成的 typed state store 客户端。
 
 ### 默认注册
 
@@ -108,9 +108,9 @@ builder.Services.AddDaprStateManagementClient((sp, clientBuilder) =>
 
 | 键 | 说明 |
 |--------------------|-----------------------------------------|
-| `DAPR_GRPC_ENDPOINT` | Dapr 边车的 gRPC 端点 |
-| `DAPR_HTTP_ENDPOINT` | Dapr 边车的 HTTP 端点 |
-| `DAPR_API_TOKEN`     | 用于对 Dapr 边车进行身份验证的 API 令牌 |
+| `DAPR_GRPC_ENDPOINT` | Dapr sidecar 的 gRPC 端点 |
+| `DAPR_HTTP_ENDPOINT` | Dapr sidecar 的 HTTP 端点 |
+| `DAPR_API_TOKEN`     | 用于对 Dapr sidecar 进行身份验证的 API 令牌 |
 
 这些值可以通过环境变量、`appsettings.json` 或任何其他 `IConfiguration` 来源提供。
 
@@ -218,9 +218,9 @@ await client.DeleteBulkStateAsync("statestore", new List<BulkDeleteStateItem>
 });
 ```
 
-## 状态事务
+## state transaction
 
-在单个事务中原子地执行多个 upsert 与 delete 操作。并非所有状态存储都支持事务，请查阅 [Dapr 文档](https://docs.dapr.io/reference/components-reference/supported-state-stores/)，确认你所用的存储。
+在单个事务中原子地执行多个 upsert 与 delete 操作。并非所有 state store 都支持事务，请查阅 [Dapr 文档](https://docs.dapr.io/reference/components-reference/supported-state-stores/)，确认你所用的存储。
 
 ```csharp
 await client.ExecuteStateTransactionAsync("statestore", new List<StateTransactionRequest>
@@ -243,11 +243,11 @@ await client.ExecuteStateTransactionAsync("statestore", new List<StateTransactio
 });
 ```
 
-`StateTransactionRequest` 可以携带每个操作各自的 ETag、选项和元数据。请求级别的元数据则单独传给 `ExecuteStateTransactionAsync`。批量保存不能替代原子事务。
+`StateTransactionRequest` 可以携带每个操作各自的 ETag、选项和 metadata。请求级别的 metadata 则单独传给 `ExecuteStateTransactionAsync`。批量保存不能替代原子事务。
 
-## 状态查询
+## Query State
 
-如果底层状态存储支持查询，你可以使用带 JSON 查询表达式的 `QueryStateAsync`：
+如果底层 state store 支持查询，你可以使用带 JSON 查询表达式的 `QueryStateAsync`：
 
 ```csharp
 var query = """
@@ -269,13 +269,13 @@ foreach (var item in response.Results)
 }
 ```
 
-> 查询支持取决于状态存储组件。有关查询语法与限制，请参阅 [Dapr 状态存储查询 API 文档](https://docs.dapr.io/developing-applications/building-blocks/state-management/howto-state-query-api/)。分页时，请在下一次查询的分页字段中沿用 `response.Token`；不要假设所有结果都能放进一次响应中。
+> 查询支持取决于 state store component。有关查询语法与限制，请参阅 [Dapr state store Query API 文档](https://docs.dapr.io/developing-applications/building-blocks/state-management/howto-state-query-api/)。分页时，请在下一次查询的分页字段中沿用 `response.Token`；不要假设所有结果都能放进一次响应中。
 
-查询字段指的是已存储的 JSON 文档。示例使用客户端默认的 Web JSON 设置，它将 `Widget.Color` 和 `Widget.Size` 序列化为 `color` 与 `size`；请根据你的序列化器及组件的索引要求调整查询。
+查询字段指的是已存储的 JSON 文档。示例使用客户端默认的 Web JSON 设置，它将 `Widget.Color` 和 `Widget.Size` 序列化为 `color` 与 `size`；请根据你的序列化器及 component 的索引要求调整查询。
 
-## 向请求传递元数据
+## 向请求传递 metadata
 
-大多数状态管理操作都接受可选的 `metadata` 参数。元数据是由字符串键值对组成的字典，其有效的键与值取决于所用的状态存储组件：
+大多数 State Management 操作都接受可选的 `metadata` 参数。metadata 是由字符串键值对组成的字典，其有效的键与值取决于所用的 state store component：
 
 ```csharp
 var metadata = new Dictionary<string, string>
@@ -287,9 +287,9 @@ await client.SaveStateAsync("statestore", "my-widget", widget, metadata: metadat
 var loaded = await client.GetStateAsync<Widget>("statestore", "my-widget", metadata: metadata);
 ```
 
-## 使用源生成器访问强类型状态存储
+## 使用源生成器访问 typed state store
 
-为了获得更简洁、更易维护且更易测试的写法，请使用源生成器创建绑定到特定状态存储的强类型接口。这样就不必在代码各处重复书写存储名称字符串。
+为了获得更简洁、更易维护且更易测试的写法，请使用源生成器创建绑定到特定 state store 的强类型接口。这样就不必在代码各处重复书写存储名称字符串。
 
 ### 第 1 步：定义接口
 
@@ -346,7 +346,7 @@ public class WidgetService(IWidgetStore store)
 
 ### 注册多个强类型存储
 
-你可以为不同的 Dapr 状态存储组件定义多个接口，并将它们全部注册：
+你可以为不同的 Dapr state store component 定义多个接口，并将它们全部注册：
 
 ```csharp
 [StateStore("statestore")]

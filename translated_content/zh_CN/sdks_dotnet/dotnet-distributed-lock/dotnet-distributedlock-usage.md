@@ -10,7 +10,7 @@ description: 使用 DaprDistributedLockClient 的重要提示与建议
 
 `DaprDistributedLockClient` 是 Dapr 客户端的一个版本，专门用于与 Dapr 分布式锁 API 交互。它可以与 `DaprClient` 以及其他 Dapr 客户端一同注册，不会产生冲突。
 
-它会保持与 Dapr 边车运行时通信所用的 TCP 套接字等网络资源。
+它会保持与 Dapr sidecar 运行时通信所用的 TCP 套接字等网络资源。
 
 为获得最佳性能，建议使用 `Dapr.DistributedLock` 包提供的依赖注入容器机制，在应用的各处便捷地访问注入的实例。这些注入的实例是线程安全的，可在应用中的不同类型之间共享使用。通过依赖注入进行注册时，可以使用 `IConfiguration` 中的值或其他已注入的服务，而在各个类中从零开始创建客户端时，这种做法往往难以实现。
 
@@ -24,26 +24,26 @@ description: 使用 DaprDistributedLockClient 的重要提示与建议
 
 ```csharp
 var daprDistributedLockClient = new DaprDistributedLockBuilder()
-    .UseDaprApiToken("abc123") // 可选:指定用于向其他 Dapr 边车进行身份验证的 API 令牌
+    .UseDaprApiToken("abc123") // 可选:指定用于向其他 Dapr sidecar 进行身份验证的 API 令牌
     .Build();
 ```
 
 `DaprDistributedLockBuilder` 包含以下设置：
 
-- Dapr 边车的 HTTP 端点
-- Dapr 边车的 gRPC 端点
+- Dapr sidecar 的 HTTP 端点
+- Dapr sidecar 的 gRPC 端点
 - 用于配置 JSON 序列化的 `JsonSerializerOptions` 对象
 - 用于配置 gRPC 的 `GrpcChannelOptions` 对象
-- 用于向边车进行请求身份验证的 API 令牌
+- 用于向 sidecar 进行请求身份验证的 API 令牌
 - 用于创建 SDK 所使用的 `HttpClient` 实例的工厂方法
-- 向边车发出请求时 `HttpClient` 实例所使用的超时时间
+- 向 sidecar 发出请求时 `HttpClient` 实例所使用的超时时间
 
 SDK 会读取以下环境变量来配置默认值：
 
-- `DAPR_HTTP_ENDPOINT`：用于查找 Dapr 边车的 HTTP 端点，示例：`https://dapr-api.mycompany.com`
-- `DAPR_GRPC_ENDPOINT`：用于查找 Dapr 边车的 gRPC 端点，示例：`https://dapr-grpc-api.mycompany.com`
-- `DAPR_HTTP_PORT`：若未设置 `DAPR_HTTP_ENDPOINT`，则用于查找 Dapr 边车的本地 HTTP 端点
-- `DAPR_GRPC_PORT`：若未设置 `DAPR_GRPC_ENDPOINT`，则用于查找 Dapr 边车的本地 gRPC 端点
+- `DAPR_HTTP_ENDPOINT`：用于查找 Dapr sidecar 的 HTTP 端点，示例：`https://dapr-api.mycompany.com`
+- `DAPR_GRPC_ENDPOINT`：用于查找 Dapr sidecar 的 gRPC 端点，示例：`https://dapr-grpc-api.mycompany.com`
+- `DAPR_HTTP_PORT`：若未设置 `DAPR_HTTP_ENDPOINT`，则用于查找 Dapr sidecar 的本地 HTTP 端点
+- `DAPR_GRPC_PORT`：若未设置 `DAPR_GRPC_ENDPOINT`，则用于查找 Dapr sidecar 的本地 gRPC 端点
 - `DAPR_API_TOKEN`：用于设置 API 令牌
 
 ### 配置 gRPC 通道选项

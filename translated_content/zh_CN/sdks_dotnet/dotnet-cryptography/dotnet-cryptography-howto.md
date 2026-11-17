@@ -12,7 +12,7 @@ description: 了解如何使用 .NET SDK 创建和使用 Dapr Cryptography 客�
   [.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) 或
   [.NET 11](https://dotnet.microsoft.com/download/dotnet/11.0)
 - [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
-- [已初始化 Dapr 环境](https://docs.dapr.io/getting-started/install-dapr-selfhost)
+- [已初始化 Dapr environment](https://docs.dapr.io/getting-started/install-dapr-selfhost)
 
 ## 安装
 
@@ -24,9 +24,9 @@ description: 了解如何使用 .NET SDK 创建和使用 Dapr Cryptography 客�
 dotnet add package Dapr.Cryptography
 ```
 
-以下示例面向 SDK `1.19.0` 或更高版本。运行这些示例之前，请先配置一个加密组件以及该组件支持的密钥。需要导入 `Dapr.Cryptography.Encryption`、`Dapr.Cryptography.Encryption.Models` 和 `Dapr.Cryptography.Encryption.Extensions`。该客户端为实验性功能，对应的功能开关为 `DAPR_CRYPTOGRAPHY`。
+以下示例面向 SDK `1.19.0` 或更高版本。运行这些示例之前，请先配置一个加密 component 以及该 component 支持的密钥。需要导入 `Dapr.Cryptography.Encryption`、`Dapr.Cryptography.Encryption.Models` 和 `Dapr.Cryptography.Encryption.Extensions`。该客户端为实验性功能，对应的功能开关为 `DAPR_CRYPTOGRAPHY`。
 
-`DaprEncryptionClient` 通过用于与 Dapr 边车通信的 TCP 套接字来保持对网络资源的访问。
+`DaprEncryptionClient` 通过用于与 Dapr sidecar 通信的 TCP 套接字来保持对网络资源的访问。
 
 ### 依赖注入
 
@@ -96,7 +96,7 @@ var plaintext = await daprEncryptionClient.DecryptAsync(
     "cryptostore", ciphertext, "encryption-key", cancellationToken: cancellationToken);
 ```
 
-请选择你所配置的密钥和加密组件支持的密钥包装算法。SDK 提供了 AES 密钥包装（`Aes`、`A256kw`）、AES-CBC（`A128cbc`、`A192cbc`、`A256cbc`）和 RSA（`Rsa`、`RsaOaep256`）等选项；但枚举值存在并不保证每个加密组件都支持它。
+请选择你所配置的密钥和加密 component 支持的密钥包装算法。SDK 提供了 AES 密钥包装（`Aes`、`A256kw`）、AES-CBC（`A128cbc`、`A192cbc`、`A256cbc`）和 RSA（`Rsa`、`RsaOaep256`）等选项；但枚举值存在并不保证每个加密 component 都支持它。
 
 ## 加密和解密流
 

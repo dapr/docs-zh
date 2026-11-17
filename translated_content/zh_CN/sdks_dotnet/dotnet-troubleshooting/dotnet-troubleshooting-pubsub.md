@@ -1,18 +1,18 @@
 ---
 type: docs
-title: "使用 .NET SDK 对发布订阅进行故障排查"
-linkTitle: "发布订阅故障排查"
+title: "使用 .NET SDK 对 pub/sub 进行故障排查"
+linkTitle: "pub/sub 故障排查"
 weight: 100000
-description: 使用 .NET SDK 对发布订阅进行故障排查
+description: 使用 .NET SDK 对 pub/sub 进行故障排查
 ---
 
-发布订阅最常见的问题是应用程序中的发布订阅端点未被调用。
+pub/sub 最常见的问题是应用程序中的 pub/sub 端点未被调用。
 
 这个问题有几个层次，各自对应不同的解决方案：
 
 - 应用程序未收到来自 Dapr 的任何流量
-- 应用程序未向 Dapr 注册发布订阅端点
-- 发布订阅端点已向 Dapr 注册，但请求未到达预期的端点
+- 应用程序未向 Dapr 注册 pub/sub 端点
+- pub/sub 端点已向 Dapr 注册，但请求未到达预期的端点
 
 ## 步骤 1：提高日志级别
 
@@ -91,7 +91,7 @@ curl http://localhost:5000/dapr/subscribe -v
 
 拿到这条命令的输出后，你就可以开始诊断问题，或进入下一步了。
 
-### 选项 0：响应为 200 且包含一些发布订阅条目
+### 选项 0：响应为 200 且包含一些 pub/sub 条目
 
 **如果此测试的 JSON 输出中包含条目，则问题出在其他地方，请进入步骤 4。**
 
@@ -121,14 +121,14 @@ app.UseEndpoints(endpoints =>
 
 ---
 
-如果你使用控制器实现发布订阅，应当有类似下面的方法：
+如果你使用控制器实现 pub/sub，应当有类似下面的方法：
 
 ```C#
 [Topic("pubsub", "deposit")]
 [HttpPost("deposit")]
 public async Task<ActionResult> Deposit(...)
 
-// 使用发布订阅路由
+// 使用 pub/sub 路由
 [Topic("pubsub", "transactions", "event.type == \"withdraw.v2\"", 1)]
 [HttpPost("withdraw")]
 public async Task<ActionResult> Withdraw(...)
@@ -138,7 +138,7 @@ public async Task<ActionResult> Withdraw(...)
 
 ---
 
-如果你使用路由实现发布订阅，应当有类似下面的端点：
+如果你使用路由实现 pub/sub，应当有类似下面的端点：
 
 ```C#
 endpoints.MapPost("deposit", ...).WithTopic("pubsub", "deposit");
@@ -148,11 +148,11 @@ endpoints.MapPost("deposit", ...).WithTopic("pubsub", "deposit");
 
 ---
 
-**修正此代码并重新测试后，如果 JSON 输出仍为空数组（如 `[]`），请在此仓库中提交 issue，并附上 `Startup.cs` 的内容以及你的发布订阅端点。**
+**修正此代码并重新测试后，如果 JSON 输出仍为空数组（如 `[]`），请在此仓库中提交 issue，并附上 `Startup.cs` 的内容以及你的 pub/sub 端点。**
 
 ## 步骤 4：验证端点可达性
 
-在此步骤中，我们将验证已向发布订阅注册的条目是否可以访问。上一步应该会得到类似下面的 JSON 输出：
+在此步骤中，我们将验证已向 pub/sub 注册的条目是否可以访问。上一步应该会得到类似下面的 JSON 输出：
 
 ```json
 [
@@ -180,9 +180,9 @@ endpoints.MapPost("deposit", ...).WithTopic("pubsub", "deposit");
 
 1. 按正常方式启动应用程序（`dapr run ...`）。
 
-2. 在命令行中使用 `curl`（或其他 HTTP 测试工具）访问已注册到发布订阅端点的某个路由。
+2. 在命令行中使用 `curl`（或其他 HTTP 测试工具）访问已注册到 pub/sub 端点的某个路由。
 
-以下示例命令假设你的应用程序监听端口为 5000，且其中一个发布订阅路由为 `withdraw`：
+以下示例命令假设你的应用程序监听端口为 5000，且其中一个 pub/sub 路由为 `withdraw`：
 
 ```sh
 curl http://localhost:5000/withdraw -H 'Content-Type: application/json' -d '{}' -v
@@ -258,7 +258,7 @@ info: Microsoft.AspNetCore.Routing.EndpointMiddleware[0]
       Executing endpoint 'ControllerSample.Controllers.SampleController.Withdraw (ControllerSample)'
 ```
 
-你可以尝试使用 Dapr CLI 直接发送一条发布订阅消息，并比较日志输出。
+你可以尝试使用 Dapr CLI 直接发送一条 pub/sub 消息，并比较日志输出。
 
 示例命令：
 
@@ -270,7 +270,7 @@ dapr publish --pubsub pubsub --topic withdraw --data '{}'
 
 ### 选项 1：路由未执行
 
-如果在日志中看不到 `Microsoft.AspNetCore.Routing.EndpointMiddleware` 的条目，则说明该请求是由路由之外的其他组件处理的。这种情况通常是中间件行为异常导致的。该请求的其他日志可能会提供线索，帮助你了解具体发生了什么。
+如果在日志中看不到 `Microsoft.AspNetCore.Routing.EndpointMiddleware` 的条目，则说明该请求是由路由之外的其他组件处理的。这种情况通常是 middleware 行为异常导致的。该请求的其他日志可能会提供线索，帮助你了解具体发生了什么。
 
 **如果你需要帮助理解问题，请在此仓库中提交 issue，并附上你的 `Startup.cs` 内容。**
 

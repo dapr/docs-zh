@@ -6,12 +6,12 @@ weight: 80000
 description: "面向 .NET 的现代化 Dapr Actors 实现概述（Dapr.Actors.Next）"
 ---
 
-`Dapr.Actors.Next` 是 .NET 中 Dapr Actors 构建块的重新实现。原有的 `Dapr.Actors` 包已经服役很长时间，早于现代 Dapr .NET SDK 所依赖的许多机制，因此本包将 Actor 体验更新到与之匹配：它通过 Dapr 1.18 引入的双向 gRPC 流与运行时通信，从 Actor 路径中移除了反射，并使 Actor 与 SDK 其他部分使用的依赖注入、选项、序列化和源生成器模式保持一致。
+`Dapr.Actors.Next` 是 .NET 中 Dapr Actors building block 的重新实现。原有的 `Dapr.Actors` 包已经服役很长时间，早于现代 Dapr .NET SDK 所依赖的许多机制，因此本包将 Actor 体验更新到与之匹配：它通过 Dapr 1.18 引入的双向 gRPC 流与运行时通信，从 Actor 路径中移除了反射，并使 Actor 与 SDK 其他部分使用的依赖注入、选项、序列化和源生成器模式保持一致。
 
-Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID 寻址，并支持重入、定时器、提醒和代理。`Dapr.Actors.Next` 是一个独立的包系列，与 `Dapr.Actors` 不具备 API 兼容性，但与 Dapr 运行时在协议层面完全兼容。因此采用它无需对运行时做任何改动，唯一的要求是 Dapr 运行时为 v1.18 或更高版本。
+Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID 寻址，并支持重入、timer、reminder 和代理。`Dapr.Actors.Next` 是一个独立的包系列，与 `Dapr.Actors` 不具备 API 兼容性，但与 Dapr runtime 在协议层面完全兼容。因此采用它无需对运行时做任何改动，唯一的要求是 Dapr runtime 为 v1.18 或更高版本。
 
 {{% alert title="运行时要求与连接" color="primary" %}}
-`Dapr.Actors.Next` 要求 Dapr 运行时 v1.18.0 或更高版本。它通过持久的、由应用发起的 `SubscribeActorEvents` gRPC 流托管 Actor，因此 Actor 回调经由该流到达，而不是作为入站 HTTP 请求发送到已映射的 Actor 处理程序端点，而后者正是 `Dapr.Actors` 所要求的方式。应用仍需暴露其 gRPC 服务器端口，运行时用它进行前置条件检查；变化的是 Actor 回调的投递方式，而不是应用是否运行 gRPC 服务器。
+`Dapr.Actors.Next` 要求 Dapr runtime v1.18.0 或更高版本。它通过持久的、由应用发起的 `SubscribeActorEvents` gRPC 流托管 Actor，因此 Actor 回调经由该流到达，而不是作为入站 HTTP 请求发送到已映射的 Actor 处理程序端点，而后者正是 `Dapr.Actors` 所要求的方式。应用仍需暴露其 gRPC 服务器端口，运行时用它进行前置条件检查；变化的是 Actor 回调的投递方式，而不是应用是否运行 gRPC 服务器。
 {{% /alert %}}
 
 {{% alert title="Dapr.Actors 的状态" color="warning" %}}
@@ -26,8 +26,8 @@ Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID �
 
 这次重写源于两个核心理念：
 
-1) 第一个是 SDK 与运行时的交互方式。Actor 回调（invoke、提醒、定时器和 deactivate）现在通过长期存活的双向 gRPC 流到达，而不再是对已托管 Actor 端点的逐次请求。这降低了每次调用的开销，也无需映射入站的 Actor 处理程序。这与 Dapr 在发布订阅订阅和工作流派发中已采用的流式模式一致。
-2) 第二个是 SDK 现在在连接的你这一侧（无论是构建时还是运行时）本地完成的工作量，以使 Actor 代码更易于编写且更安全。源生成器取代了基于反射的代理与派发机制，这既消除了运行时开销，也使 Native AOT 成为可能。序列化迁移到与状态管理和工作流相同的可插拔 `IDaprSerializer`。状态迁移、状态机编程模型、由发布订阅驱动的 Actor，以及确定性的内存测试运行时，均已内置提供。其目标是让你能够直接使用现代 Dapr .NET SDK 的其他部分来构建高性能的 Actor 应用，而不必遵循一套独立的 Actor 专属约定。
+1) 第一个是 SDK 与运行时的交互方式。Actor 回调（invoke、reminder、timer 和 deactivate）现在通过长期存活的双向 gRPC 流到达，而不再是对已托管 Actor 端点的逐次请求。这降低了每次调用的开销，也无需映射入站的 Actor 处理程序。这与 Dapr 在 pub/sub 订阅和 workflow 派发中已采用的流式模式一致。
+2) 第二个是 SDK 现在在连接的你这一侧（无论是构建时还是运行时）本地完成的工作量，以使 Actor 代码更易于编写且更安全。源生成器取代了基于反射的代理与派发机制，这既消除了运行时开销，也使 Native AOT 成为可能。序列化迁移到与 State Management 和 workflow 相同的可插拔 `IDaprSerializer`。状态迁移、状态机编程模型、由 pub/sub 驱动的 Actor，以及确定性的内存测试运行时，均已内置提供。其目标是让你能够直接使用现代 Dapr .NET SDK 的其他部分来构建高性能的 Actor 应用，而不必遵循一套独立的 Actor 专属约定。
 
 ## 源生成器与编译期检查
 
@@ -49,10 +49,10 @@ Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID �
 | 代理类型 | 远程处理代理（.NET 到 .NET）与非远程处理代理（跨应用） | 单一代理；不再区分远程处理与非远程处理 |
 | 序列化 | 通过远程处理代理使用 DataContract，或通过非远程处理代理使用 System.Text.Json | 每次调用都使用可插拔的 `IDaprSerializer`（默认 System.Text.Json）；内置不支持 DataContract |
 | 配置 | 自定义实现 | 选项模式（`IOptions<DaprActorsOptions>`） |
-| 测试 | 针对边车的集成测试 | 内存中的确定性运行时，以及可选的 Coyote 深度测试 |
+| 测试 | 针对 sidecar 的集成测试 | 内存中的确定性运行时，以及可选的 Coyote 深度测试 |
 | 状态版本管理 | 手动 | 状态信封的模式版本控制，支持升级器链 |
 | 状态机 | 不提供 | 一流的 `StateMachineActor<TState, TData>` 模型 |
-| 发布订阅集成 | 不提供 | 内置的 `[Subscribe]` 订阅流 |
+| pub/sub 集成 | 不提供 | 内置的 `[Subscribe]` Subscription streams |
 | 每个 Actor 的状态缓存 | 有 | 有（保留） |
 
 {{% alert title="序列化与 Dapr.Actors 彻底断开" color="warning" %}}
@@ -63,7 +63,7 @@ Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID �
 
 公共接口已标注可空引用类型，因此编译器能够区分可能不返回值的 Actor 方法与总是返回结果的方法，并在构建时而非调用时标出这种差异。结合源生成的代理与序列化，这消除了一类只能在运行时才暴露的、基于反射的 SDK 所存在的错误。
 
-这种现代化是实质性的，而非表面上的。移除反射使 Native AOT 成为可能，并降低启动与内存开销。选项模式取代了自定义配置。真正的按激活划分的 DI 作用域意味着 Actor 的依赖项与 Actor 本身在同一生命周期内被解析和释放。单一的可插拔序列化器使 Actor、状态管理和工作流以相同的方式序列化。
+这种现代化是实质性的，而非表面上的。移除反射使 Native AOT 成为可能，并降低启动与内存开销。选项模式取代了自定义配置。真正的按激活划分的 DI 作用域意味着 Actor 的依赖项与 Actor 本身在同一生命周期内被解析和释放。单一的可插拔序列化器使 Actor、State Management 和 workflow 以相同的方式序列化。
 
 ## 核心概念
 
@@ -72,10 +72,10 @@ Actor 模型本身没有变化：Actor 仍然是虚拟的，通过类型和 ID �
 - [编写、注册并调用 Actor]({{< ref dotnet-actorsnext-howto.md >}})：特性、源生成器产生的内容、必须注册的最少内容，以及跨程序集与跨应用的场景。
 - [序列化]({{< ref dotnet-actorsnext-serialization.md >}})：可插拔序列化器与每个 Actor 的缓存。
 - [状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})：状态信封，以及使用升级器进行的状态版本管理。
-- [状态机 Actor]({{< ref dotnet-actorsnext-statemachine.md >}})：`StateMachineActor` 模型、何时选择它而非工作流，以及如何测试它。
-- [订阅流]({{< ref dotnet-actorsnext-streams.md >}})：使用 `[Subscribe]` 元数据与显式流注册，由发布订阅主题驱动 Actor。
+- [state machine Actor]({{< ref dotnet-actorsnext-statemachine.md >}})：`StateMachineActor` 模型、何时选择它而非 workflow，以及如何测试它。
+- [Subscription streams]({{< ref dotnet-actorsnext-streams.md >}})：使用 `[Subscribe]` metadata 与显式流注册，由 pub/sub 主题驱动 Actor。
 - [动态调用]({{< ref dotnet-actorsnext-dynamic.md >}})：在没有编译期契约的情况下，按类型、ID 和方法调用 Actor，适用于网关、工具以及跨语言调用方。
-- [测试]({{< ref dotnet-actorsnext-testing.md >}})：内存测试运行时、远程调用模拟、暂停的状态写入与停用竞争、虚拟定时器和提醒、回调流故障注入，以及可选的 Coyote 集成。
+- [测试]({{< ref dotnet-actorsnext-testing.md >}})：内存测试运行时、远程调用模拟、暂停的状态写入与停用竞争、虚拟 timer 和 reminder、回调流故障注入，以及可选的 Coyote 集成。
 - 每类型的运行时选项通过 `options.Actors.RegisterActor<TActor>(...)` 支持，包括空闲超时、重入、排空以及状态迁移覆盖。
 
 ## 通过示例学习

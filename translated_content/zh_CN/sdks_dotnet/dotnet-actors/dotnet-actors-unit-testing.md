@@ -8,7 +8,7 @@ description: 了解如何在 .NET 中对 Dapr Actor 进行单元测试
 
 Dapr Actor 封装了业务逻辑、状态转换和 Actor 之间的通信。单元测试可以在部署到启用了 Dapr 的集群之前尽早发现缺陷。
 
-本指南介绍在不运行 Dapr 边车的情况下，使用标准 .NET 测试框架测试 Actor 的实用模式。
+本指南介绍在不运行 Dapr sidecar 的情况下，使用标准 .NET 测试框架测试 Actor 的实用模式。
 
 ## 前提条件
 
@@ -22,15 +22,15 @@ Dapr Actor 封装了业务逻辑、状态转换和 Actor 之间的通信。单�
 请注意，.NET 8 和 .NET 9 将在 2026 年 11 月结束支持。这两个版本都将在 Dapr v1.20 中停止支持；只有 .NET 10 和 .NET 11 会持续受支持，直至 2027 年底。
 {{% /alert %}}
 
-Actor 类继承自 `Actor`（命名空间为 `Dapr.Actors.Runtime`）。可用于测试的关键成员如下：
+Actor 类继承自 `Actor`（namespace 为 `Dapr.Actors.Runtime`）。可用于测试的关键成员如下：
 
 | 成员 | 作用 |
 |---|---|
-| `StateManager` | 带类型的键值状态存储（`IActorStateManager`） |
+| `StateManager` | 带类型的键值 state store（`IActorStateManager`） |
 | `Id` | Actor 的唯一标识符（`ActorId`） |
 | `Host` | 带有已注册类型信息的 `ActorHost` |
 | `RegisterTimerAsync()` | 注册周期性回调 |
-| `RegisterReminderAsync()` | 注册持久化提醒 |
+| `RegisterReminderAsync()` | 注册持久化 reminder |
 
 ## 使用 ActorHost 进行单元测试
 
@@ -151,9 +151,9 @@ public async Task PlaceOrder_WithdrawsFromBank()
 }
 ```
 
-## 测试定时器和提醒
+## 测试 timer 和 reminder
 
-测试 Actor 在激活时是否正确注册了定时器和提醒：
+测试 Actor 在激活时是否正确注册了 timer 和 reminder：
 
 ```csharp
 [Fact]
@@ -164,16 +164,16 @@ public async Task OnActivate_RegistersReminder()
 
     await actor.OnActivateAsync();
 
-    // 断言提醒注册行为
+    // 断言 reminder 注册行为
     // （如已注入，则通过模拟的 IActorReminderManager 进行验证）
 }
 ```
 
-> **注意：** 定时器回调是异步执行的。在单元测试中测试*注册*，在带有 Dapr 边车的集成测试中测试*执行*。
+> **注意：** timer 回调是异步执行的。在单元测试中测试*注册*，在带有 Dapr sidecar 的集成测试中测试*执行*。
 
 ## 使用 Dapr 进行集成测试
 
-若要与 Actor 运行时完整集成，请使用 Dapr 边车：
+若要与 Actor runtime 完整集成，请使用 Dapr sidecar：
 
 ```csharp
 [Collection("Dapr")]
@@ -208,8 +208,8 @@ public class ActorIntegrationTests
 | 原则 | 原因 |
 |---|---|
 | 注入依赖项 | 让模拟变得简单：`IActorStateManager`、`IActorProxyFactory` 等 |
-| 避免在单元测试中执行定时器 | 定时器以异步方式运行回调；只测试注册 |
-| 使用轻量的 `ActorHost` | 创建速度快；单元测试不需要 Dapr 边车 |
+| 避免在单元测试中执行 timer | timer 以异步方式运行回调；只测试注册 |
+| 使用轻量的 `ActorHost` | 创建速度快；单元测试不需要 Dapr sidecar |
 | 测试状态隔离 | 每个测试都创建一个全新的 Actor 实例 |
 | 区分单元测试和集成测试 | 单元测试保持快速；集成测试使用 Dapr |
 

@@ -6,7 +6,7 @@ weight: 54100
 description: 配置 DaprSearchClient、构造查询、管理写入确认，并生成强类型索引客户端
 ---
 
-`Dapr.Search` 中的 `DaprSearchClient` 通过 gRPC 实现 Alpha 阶段的搜索 API。请使用 .NET SDK 1.19.0 或更高版本，并搭配支持搜索的 Dapr 运行时和组件。发布要求参见[概述]({{% ref dotnet-search %}})，完整的文档生命周期参见[操作指南]({{% ref dotnet-search-howto.md %}})。
+`Dapr.Search` 中的 `DaprSearchClient` 通过 gRPC 实现 alpha 的 Search API。请使用 .NET SDK 1.19.0 或更高版本，并搭配支持搜索的 Dapr runtime 和 component。发布要求参见[概述]({{% ref dotnet-search %}})，完整的文档生命周期参见[操作指南]({{% ref dotnet-search-howto.md %}})。
 
 ## 客户端生命周期与配置
 
@@ -33,25 +33,25 @@ using var client = new DaprSearchClientBuilder()
     .Build();
 ```
 
-构建器接受可选的 `IConfiguration`。默认值会解析 `DAPR_GRPC_ENDPOINT`；若未设置，则使用 `DAPR_GRPC_PORT`（默认为 50001）拼出本地端点。`DAPR_API_TOKEN` 提供边车身份验证。通过构建器显式设置的值会覆盖默认值；若要覆盖令牌，请使用 `UseDaprApiToken`。
+构建器接受可选的 `IConfiguration`。默认值会解析 `DAPR_GRPC_ENDPOINT`；若未设置，则使用 `DAPR_GRPC_PORT`（默认为 50001）拼出本地端点。`DAPR_API_TOKEN` 提供 sidecar 身份验证。通过构建器显式设置的值会覆盖默认值；若要覆盖令牌，请使用 `UseDaprApiToken`。
 
 文档序列化使用 `UseJsonSerializationOptions`，gRPC 设置使用 `UseGrpcChannelOptions`。提供通道选项时，请保留 `ThrowOperationCanceledOnCancellation = true`。尽管共享构建器还提供 HTTP 端点、HTTP 客户端工厂和 HTTP 超时设置，但搜索操作使用 gRPC；修改 HTTP 端点不会改变其传输方式，`UseTimeout` 也不是单次 RPC 的截止时间。若要限制调用方的等待时长，请传入带时限的 `CancellationToken`。
 
 ## API 覆盖范围
 
-所有操作都接受可选的、组件专用的请求 `metadata`（`IReadOnlyDictionary<string, string>`）和 `CancellationToken`。
+所有操作都接受可选的、component 专用的请求 `metadata`（`IReadOnlyDictionary<string, string>`）和 `CancellationToken`。
 
 | 操作 | 结果 |
 | --- | --- |
-| `CreateIndexAsync`、`DeleteIndexAsync` | 创建或删除索引。创建时的元数据用于提供特定于提供方的设置。 |
-| `GetIndexAsync` | 包含 `Index`、近似的 `DocumentCount` 和组件 `Properties` 的 `SearchIndex`。 |
-| `ListIndexesAsync` | 组件中的索引名称。 |
+| `CreateIndexAsync`、`DeleteIndexAsync` | 创建或删除索引。创建时的 metadata 用于提供特定于提供方的设置。 |
+| `GetIndexAsync` | 包含 `Index`、近似的 `DocumentCount` 和 component `Properties` 的 `SearchIndex`。 |
+| `ListIndexesAsync` | component 中的索引名称。 |
 | `IndexDocumentsAsync<T>` | 包含 `Ack` 和 `FailedItems` 的 `IndexDocumentsResult`。 |
 | `GetDocumentsAsync<T>` | 按请求顺序返回找到的 `SearchDocument<T>` 条目。 |
 | `DeleteDocumentsAsync` | 删除操作的 `IndexAck`。 |
 | `SearchAsync<T>` | 一页 `SearchResult<T>` 结果。 |
 
-请求元数据用于配置操作，与每个文档中存储的、不透明的 `Metadata` 相互独立。
+请求 metadata 用于配置操作，与每个文档中存储的、不透明的 `Metadata` 相互独立。
 
 ## 查询选项与结果
 
@@ -62,21 +62,21 @@ using var client = new DaprSearchClientBuilder()
 | `Text` | 可移植的全文查询。与 `Native` 互斥；两者都未设置时表示匹配全部。 |
 | `Native` | 由 JSON 对象（`JsonElement`）表示的提供方原生查询。 |
 | `Filter` | 可移植的 JSON 对象过滤器，用于指定内容字段，包括带点号的嵌套路径。 |
-| `TopK` | 可为空的 `uint` 类型页大小；为 null 或零时使用组件默认值。 |
+| `TopK` | 可为空的 `uint` 类型页大小；为 null 或零时使用 component 默认值。 |
 | `ContinuationToken` | 上一次响应返回的不透明令牌。查询的其余部分保持不变。 |
 | `SearchFields` | 要搜索的内容字段。 |
 | `Sort` | 有序的 `SortClause` 条目，排序方向可为 `Ascending`、`Descending`，或使用提供方默认的 `Unspecified`。 |
 | `IncludeContent` | 为 null 或 false 时省略内容，返回的 `Content` 为 `default(T)`。 |
 | `ReturnFields` | 投影到返回内容中的字段。需与 `IncludeContent = true` 一起使用。 |
-| `HighlightFields` | 若组件支持，则请求返回高亮片段的字段。 |
+| `HighlightFields` | 若 component 支持，则请求返回高亮片段的字段。 |
 
-过滤器支持 `$eq`、`$ne`、`$gt`、`$gte`、`$lt`、`$lte`、`$in`、`$nin`、`$exists`、`$and`、`$or` 和 `$not`。对象中的多个条件之间为与（AND）关系，直接给出的字段值表示等值判断。请使用序列化后的 JSON 字段名，默认为 camelCase。关于可移植的[过滤语言]({{% ref "search-overview.md#filter-language" %}})，以及可过滤和可排序字段的要求，请参见你所用组件的文档。
+过滤器支持 `$eq`、`$ne`、`$gt`、`$gte`、`$lt`、`$lte`、`$in`、`$nin`、`$exists`、`$and`、`$or` 和 `$not`。对象中的多个条件之间为与（AND）关系，直接给出的字段值表示等值判断。请使用序列化后的 JSON 字段名，默认为 camelCase。关于可移植的[过滤语言]({{% ref "search-overview.md#filter-language" %}})，以及可过滤和可排序字段的要求，请参见你所用 component 的文档。
 
 `SearchResult<T>.Hits` 包含 `SearchHit<T>` 条目，每个条目带有 `Document`、未经归一化的提供方特定 `Score`，以及以字段为键的 `Highlights` 字典。在同一结果集内，分数越高表示相关性越强；不要跨提供方比较分数。`TotalHits` 可为空，`TotalHitsRelation` 的取值为 `Unspecified`、`Exact`、`LowerBound` 或 `Estimate`。当 `ContinuationToken` 为 null 或空字符串时，停止翻页。
 
 ### 投影与高亮
 
-使用操作指南中的 `Article` 类型和客户端，以下查询需要支持高亮的组件，例如 Meilisearch：
+使用操作指南中的 `Article` 类型和客户端，以下查询需要支持高亮的 component，例如 Meilisearch：
 
 ```csharp
 var page = await client.SearchAsync<Article>("searchstore", "articles", new SearchQuery
@@ -114,7 +114,7 @@ var page = await client.SearchAsync<JsonElement>("searchstore", "articles", new 
 });
 ```
 
-此示例使用 Meilisearch 语法，无法与 in-memory 组件配合使用。Meilisearch 的分页与排序仍须使用可移植的 `TopK`、`ContinuationToken` 和 `Sort` 属性。同时设置 `Text` 与 `Native`，或提供非对象类型的 `Native` 或 `Filter`，都会在发送 RPC 之前抛出 `ArgumentException`。
+此示例使用 Meilisearch 语法，无法与 in-memory component 配合使用。Meilisearch 的分页与排序仍须使用可移植的 `TopK`、`ContinuationToken` 和 `Sort` 属性。同时设置 `Text` 与 `Native`，或提供非对象类型的 `Native` 或 `Filter`，都会在发送 RPC 之前抛出 `ArgumentException`。
 
 ## 写入确认
 
@@ -122,12 +122,12 @@ var page = await client.SearchAsync<JsonElement>("searchstore", "articles", new 
 
 | 设置 | 行为 |
 | --- | --- |
-| 省略选项、`ReturnOnAcceptance` 或 `Unspecified` 模式 | 在被接受后返回。`IndexAck.Queued` 表示后台工作已被接受，并不代表索引已成功。同步组件可以返回 `Completed`。 |
+| 省略选项、`ReturnOnAcceptance` 或 `Unspecified` 模式 | 在被接受后返回。`IndexAck.Queued` 表示后台工作已被接受，并不代表索引已成功。同步 component 可以返回 `Completed`。 |
 | `WaitForCompletion` | 需要正数的 `WaitTimeout` 和显式的 `OnWaitTimeout`。`Completed` 表示最终写入结果已可用，包括任何条目失败。 |
-| `OnWaitTimeout = ContinueAsync` | 等待超时时返回 `Queued`；需要组件支持排队确认。 |
+| `OnWaitTimeout = ContinueAsync` | 等待超时时返回 `Queued`；需要 component 支持排队确认。 |
 | `OnWaitTimeout = FailRequest` | 等待超时时以 `DeadlineExceeded` 失败。提供方一侧的工作仍可能完成。 |
 
-在接受模式下，不要同时提供 `WaitTimeout` 或 `OnWaitTimeout`。`WaitTimeout` 必须短于剩余的 RPC 截止时间，并且要为存储弹性策略中的超时留出余量，余量至少为该超时的 10%，且至少 100 毫秒。请参见运行时的[确认规则]({{% ref "search-overview.md#write-acknowledgements" %}})。
+在接受模式下，不要同时提供 `WaitTimeout` 或 `OnWaitTimeout`。`WaitTimeout` 必须短于剩余的 RPC 截止时间，并且要为存储 resiliency 中的超时留出余量，余量至少为该超时的 10%，且至少 100 毫秒。请参见运行时的[确认规则]({{% ref "search-overview.md#write-acknowledgements" %}})。
 
 务必同时检查 `IndexDocumentsResult.Ack` 和 `FailedItems`。一个已完成的批次可能包含失败的文档，而整个请求不会因此抛出异常。每个 `SearchFailedItem` 包含 `Id`、规范的数字类型 `ErrorCode`、`ErrorMessage`，以及保留了 protobuf `TypeUrl` 和原始 `Value` 字节的 `Details`。在排队边界处，只能报告已知的失败；客户端没有 API 可用于轮询最终的索引结果。
 
@@ -151,7 +151,7 @@ internal partial class SearchJsonContext : JsonSerializerContext
 }
 ```
 
-下文生成的索引客户端不会生成 JSON 序列化元数据。若需要免反射的序列化，请单独配置 JSON 选项。
+下文生成的索引客户端不会生成 JSON 序列化 metadata。若需要免反射的序列化，请单独配置 JSON 选项。
 
 ## 生成强类型索引客户端
 
@@ -166,13 +166,13 @@ public partial interface IArticleSearch : IDaprSearchIndex<Article>
 }
 ```
 
-组件名和索引名都不能为空。生成器会提供 `AddArticleSearch` 方法，其名称取自接口名并去掉开头的 `I`：
+component 名和索引名都不能为空。生成器会提供 `AddArticleSearch` 方法，其名称取自接口名并去掉开头的 `I`：
 
 ```csharp
 builder.Services.AddDaprSearchClient().AddArticleSearch();
 ```
 
-注入该接口，而不必反复指定组件、索引和泛型类型：
+注入该接口，而不必反复指定 component、索引和泛型类型：
 
 ```csharp
 public sealed class ArticleService(IArticleSearch articles)
@@ -184,13 +184,13 @@ public sealed class ArticleService(IArticleSearch articles)
 }
 ```
 
-生成的包装器提供了 API 表格中按索引范围划分的操作，但不包括范围覆盖整个存储的 `ListIndexesAsync`。它会原样转发选项、请求元数据和取消令牌，继承已注册客户端的生命周期，并且不拥有该客户端，也不负责释放它。注册本身不会创建索引；需要显式调用 `CreateIndexAsync`。
+生成的包装器提供了 API 表格中按索引范围划分的操作，但不包括范围覆盖整个存储的 `ListIndexesAsync`。它会原样转发选项、请求 metadata 和取消令牌，继承已注册客户端的生命周期，并且不拥有该客户端，也不负责释放它。注册本身不会创建索引；需要显式调用 `CreateIndexAsync`。
 
-无效的声明、绑定或契约分别会产生构建错误 `DAPR1801`、`DAPR1802` 或 `DAPR1803`。
+无效的声明、binding 或契约分别会产生构建错误 `DAPR1801`、`DAPR1802` 或 `DAPR1803`。
 
 ## 取消与错误
 
-无效的客户端参数会在发出 RPC 之前抛出参数异常。RPC 失败会抛出 `DaprException`，并以原始的 `Grpc.Core.RpcException` 作为 `InnerException`，保留其状态和尾部元数据：
+无效的客户端参数会在发出 RPC 之前抛出参数异常。RPC 失败会抛出 `DaprException`，并以原始的 `Grpc.Core.RpcException` 作为 `InnerException`，保留其状态和尾部 metadata：
 
 ```csharp
 using Dapr;
@@ -207,4 +207,4 @@ catch (DaprException ex) when (
 }
 ```
 
-这与成功的索引调用所返回的条目失败不同。调用方取消可能抛出 `OperationCanceledException`，但并不保证提供方已停止处理写入。重试和超时策略应通过 Dapr [弹性策略]({{% ref "search-overview.md#resiliency" %}})配置，而不是由本客户端配置。
+这与成功的索引调用所返回的条目失败不同。调用方取消可能抛出 `OperationCanceledException`，但并不保证提供方已停止处理写入。重试和超时策略应通过 Dapr [resiliency]({{% ref "search-overview.md#resiliency" %}})配置，而不是由本客户端配置。

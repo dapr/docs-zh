@@ -16,18 +16,18 @@ description: 了解为什么我们用 `[Experimental]` 属性标记某些方法
 请注意，.NET 8 和 .NET 9 将于 2026 年 11 月结束支持。Dapr v1.20 将不再支持这两个版本；只有 .NET 10 和 .NET 11 会支持到 2027 年底。
 {{% /alert %}}
 
-在 Dapr .NET SDK 中，我们现在使用 `[Experimental]` 属性而不是 `[Obsolete]` 来标记尚未通过稳定生命周期认证的构建块和组件。这种方式能在以下两者之间提供更清晰的区分：
+在 Dapr .NET SDK 中，我们现在使用 `[Experimental]` 属性而不是 `[Obsolete]` 来标记尚未通过稳定生命周期认证的 building block 和 component。这种方式能在以下两者之间提供更清晰的区分：
 
-1. **Experimental APIs** — 已经可用但仍在演进的功能，尚未根据 [Dapr 组件认证生命周期](https://docs.dapr.io/operations/components/certification-lifecycle/) 认证为稳定。
+1. **Experimental APIs** — 已经可用但仍在演进的功能，尚未根据 [Dapr Component Certification Lifecycle](https://docs.dapr.io/operations/components/certification-lifecycle/) 认证为稳定。
 
 2. **Obsolete APIs** — 真正已被弃用并将在未来版本中移除的功能。
 
 ### 在 Dapr .NET SDK 中的使用
 
-在 Dapr .NET SDK 中，我们在类级别为仍处于 [组件认证生命周期](https://docs.dapr.io/operations/components/certification-lifecycle/) 的 Alpha 或 Beta 阶段的构建块应用 `[Experimental]` 属性。该属性包括：
+在 Dapr .NET SDK 中，我们在类级别为仍处于 [Component Certification Lifecycle](https://docs.dapr.io/operations/components/certification-lifecycle/) 的 Alpha 或 Beta 阶段的 building block 应用 `[Experimental]` 属性。该属性包括：
 
-- 一个用于标识实验性构建块的诊断 ID
-- 一个指向该构建块相关文档的 URL
+- 一个用于标识实验性 building block 的诊断 ID
+- 一个指向该 building block 相关文档的 URL
 
 例如：
 
@@ -45,9 +45,9 @@ namespace Dapr.Cryptography.Encryption
 
 诊断 ID 遵循 `DAPR_[BUILDING_BLOCK_NAME]` 的命名约定，例如：
 
-- `DAPR_CONVERSATION` — 用于对话构建块
-- `DAPR_CRYPTOGRAPHY` — 用于密码学构建块
-- `DAPR_DISTRIBUTEDLOCK` — 用于分布式锁构建块
+- `DAPR_CONVERSATION` — 用于 conversation building block
+- `DAPR_CRYPTOGRAPHY` — 用于 cryptography building block
+- `DAPR_DISTRIBUTEDLOCK` — 用于分布式锁 building block
 
 ### 抑制 Experimental 警告
 
@@ -102,7 +102,7 @@ var client = new DaprEncryptionClient();
 
 ### Experimental API 的生命周期
 
-随着构建块通过认证生命周期并进入 Stable（稳定）阶段，`[Experimental]` 属性将被移除。届时用户无需进行任何迁移或代码修改，只需删除之前添加的警告抑制（如果有的话）。
+随着 building block 通过认证生命周期并进入 Stable（稳定）阶段，`[Experimental]` 属性将被移除。届时用户无需进行任何迁移或代码修改，只需删除之前添加的警告抑制（如果有的话）。
 
 相反，`[Obsolete]` 属性现在将专门保留给真正已被弃用并计划移除的 API。当您看到标记了 `[Obsolete]` 的方法或类时，应按照属性消息中提供的迁移指南规划迁移。
 
@@ -118,11 +118,11 @@ var client = new DaprEncryptionClient();
     - 定期检查您正在使用的实验性 API，并确认它们是否已稳定
 
 3. **为 SDK 做贡献时：**
-    - 对尚未完成认证的新构建块使用 `[Experimental]`
+    - 对尚未完成认证的新 building block 使用 `[Experimental]`
     - 仅对真正已弃用的 API 使用 `[Obsolete]`
     - 在 `UrlFormat` 参数中提供清晰的文档链接
 
 ### 其他资源
 
-- [Dapr 组件认证生命周期](https://docs.dapr.io/operations/components/certification-lifecycle/)
+- [Dapr Component Certification Lifecycle](https://docs.dapr.io/operations/components/certification-lifecycle/)
 - [C# Experimental 属性文档](https://learn.microsoft.com/dotnet/csharp/language-reference/proposals/csharp-12.0/experimental-attribute)

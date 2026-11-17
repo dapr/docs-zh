@@ -27,11 +27,11 @@ dotnet add package Dapr.AI
 dotnet add package Dapr.AI.Microsoft.Extensions
 ```
 
-`DaprChatClient` 是 `IChatClient` 接口的基于 Dapr 的实现，该接口由 `Microsoft.Extensions.AI.Abstractions` 包提供，使用 Dapr 的[对话构建块]({{< ref conversation-overview.md >}})。它允许开发者针对 Microsoft 提供的抽象类型进行开发，同时与 Dapr 对话构建块保持最大程度的一致。由于这两种方法都采用 OpenAI 的 API 方式，预计它们会随着时间推移逐步趋同。
+`DaprChatClient` 是 `IChatClient` 接口的基于 Dapr 的实现，该接口由 `Microsoft.Extensions.AI.Abstractions` 包提供，使用 Dapr 的[conversation building block]({{< ref conversation-overview.md >}})。它允许开发者针对 Microsoft 提供的抽象类型进行开发，同时与 Dapr conversation building block 保持最大程度的一致。由于这两种方法都采用 OpenAI 的 API 方式，预计它们会随着时间推移逐步趋同。
 
-{{% alert title="Dapr 对话构建块" color="primary" %}}
+{{% alert title="Dapr conversation building block" color="primary" %}}
 
-请注意，Dapr 的对话构建块仍处于 alpha 阶段，这意味着 API 的形态在未来版本中可能会发生变化。本 SDK 包旨在提供一个与 Microsoft AI 扩展对齐、同时映射到并符合 Dapr API 的 API，但类型和属性的名称可能会在版本之间发生变化，因此在使用本 SDK 时请留意这种可能性。
+请注意，Dapr 的 conversation building block 仍处于 alpha 阶段，这意味着 API 的形态在未来版本中可能会发生变化。本 SDK 包旨在提供一个与 Microsoft AI 扩展对齐、同时映射到并符合 Dapr API 的 API，但类型和属性的名称可能会在版本之间发生变化，因此在使用本 SDK 时请留意这种可能性。
 
 {{% /alert %}}
 
@@ -40,7 +40,7 @@ dotnet add package Dapr.AI.Microsoft.Extensions
 
 {{% alert title="有限支持" color="warning" %}}
 
-请注意，Microsoft 的 AI 扩展提供的属性和方法比 Dapr 对话构建块当前支持的要多得多。此包只会映射那些 Dapr 已支持的属性，并忽略其他属性，因此，某个功能存在于 Microsoft.Extensions.AI 包中，并不意味着 Dapr 支持它。请以本文档和包中公开的 XML 文档为准，了解支持与不支持的内容。
+请注意，Microsoft 的 AI 扩展提供的属性和方法比 Dapr conversation building block 当前支持的要多得多。此包只会映射那些 Dapr 已支持的属性，并忽略其他属性，因此，某个功能存在于 Microsoft.Extensions.AI 包中，并不意味着 Dapr 支持它。请以本文档和包中公开的 XML 文档为准，了解支持与不支持的内容。
 
 {{% /alert %}}
 
@@ -51,7 +51,7 @@ dotnet add package Dapr.AI.Microsoft.Extensions
 services.AddDaprConversationClient();
 ```
 
-接着，使用你的对话组件名称注册 `DaprChatClient`：
+接着，使用你的 conversation component 名称注册 `DaprChatClient`：
 
 ```csharp
 services.AddDaprChatClient("my-conversation-component", configure: null);
@@ -60,7 +60,7 @@ services.AddDaprChatClient("my-conversation-component", configure: null);
 在 `1.19.0` 中，请显式传入 `configure: null`，以消除带可选参数的重载之间的歧义。
 
 ### 配置选项
-你可以通过 `DaprChatClientOptions` 配置 `DaprChatClient`，但当前实现仅为组件名称本身提供配置。这一点预计会在未来的版本中改变。
+你可以通过 `DaprChatClientOptions` 配置 `DaprChatClient`，但当前实现仅为 component 名称本身提供配置。这一点预计会在未来的版本中改变。
 
 ```csharp
 services.AddDaprChatClient("my-conversation-component", options => 
@@ -75,7 +75,7 @@ services.AddDaprChatClient("my-conversation-component", options =>
 services.AddDaprChatClient("my-conversation-component", ServiceLifetime.Singleton);
 ```
 
-对于多个组件，请注册带键的客户端：
+对于多个 component，请注册带键的客户端：
 
 ```csharp
 services.AddDaprChatClient(
@@ -84,7 +84,7 @@ services.AddDaprChatClient(
     serviceKey: "catalog", conversationComponentName: "catalog-conversation");
 ```
 
-通过 `[FromKeyedServices("support")] IChatClient` 或 `GetRequiredKeyedService<IChatClient>("support")` 解析它们。仅使用组件名称的重载同样会注册一个带键的客户端，并以组件名称作为其键。
+通过 `[FromKeyedServices("support")] IChatClient` 或 `GetRequiredKeyedService<IChatClient>("support")` 解析它们。仅使用 component 名称的重载同样会注册一个带键的客户端，并以 component 名称作为其键。
 
 ## 使用
 注册后，你可以在服务中注入并使用 `IChatClient`：
@@ -108,7 +108,7 @@ public class ChatService(IChatClient chatClient)
 `DaprChatClient` 在 SDK `1.19.0` 中不支持流式响应。调用 `GetStreamingResponseAsync` 会抛出 `NotImplementedException`。
 
 ### 工具集成
-该客户端会将工具声明映射到模型，并将返回的调用以 `FunctionCallContent` 形式提供。调用 `GetResponseAsync` 不会自动执行函数。应用程序自行实现的工具循环，或函数调用中间件，必须执行允许的函数并返回结果。
+该客户端会将工具声明映射到模型，并将返回的调用以 `FunctionCallContent` 形式提供。调用 `GetResponseAsync` 不会自动执行函数。应用程序自行实现的工具循环，或函数调用 middleware，必须执行允许的函数并返回结果。
 
 ```csharp
 string GetCurrentWeather() => Random.Shared.NextDouble() > 0.5 ? "It's sunny today!" : "It's raining today!";
@@ -124,7 +124,7 @@ foreach (var toolResp in toolResponse.Messages)
 `DaprChatClient` 集成了 Dapr 的错误处理机制，并会在出现问题时抛出相应的异常。
 
 ## 配置和元数据
-底层的 Dapr 对话组件可以通过 Dapr 对话构建块的配置来设置元数据和参数。`DaprChatClient` 在调用对话组件时会遵循这些设置。
+底层的 Dapr conversation component 可以通过 Dapr conversation building block 的配置来设置元数据和参数。`DaprChatClient` 在调用 conversation component 时会遵循这些设置。
 
 ### SDK 1.19.0 中的映射
 
@@ -137,7 +137,7 @@ foreach (var toolResp in toolResponse.Messages)
 | `ChatOptions.ConversationId` | `ConversationOptions.ContextId` |
 | `ChatOptions.ToolMode` | None、auto、required，或指定的必需函数 |
 | `ChatOptions.Tools` | 工具名称、描述以及 `AdditionalProperties` 映射为函数参数；请验证你的工具实际发送的 schema。 |
-| `ChatOptions.AdditionalProperties` | 字符串化的组件元数据，而非 protobuf `Parameters`。 |
+| `ChatOptions.AdditionalProperties` | 字符串化的 component 元数据，而非 protobuf `Parameters`。 |
 | 响应 | 对话 ID、结束原因、文本、返回的函数调用，以及 `RawRepresentation` 中的每个原始 choice。在本版本中，`ChatResponse` 不映射 token 用量和模型。 |
 
 此适配器不映射响应格式、提示词缓存保留和 PII 清理等选项。如果你需要这些功能，或需要完全控制[工具调用对话历史]({{< ref dotnet-ai-conversation-tools.md >}})，请直接使用 `DaprConversationClient`。
@@ -150,10 +150,10 @@ foreach (var toolResp in toolResponse.Messages)
 
 3. **资源管理**：在本版本中，`DaprChatClient.Dispose` 是空操作。依赖注入会管理单独注册的 `DaprConversationClient`；手动构造的应用程序必须保持该客户端存活，并自行将其释放。
 
-4. **配置**：正确配置你的 Dapr 对话组件，以确保最佳性能和可靠性。
+4. **配置**：正确配置你的 Dapr conversation component，以确保最佳性能和可靠性。
 
 ## 相关链接
 
-- [Dapr 对话构建块]({{< ref conversation-overview.md >}})
+- [Dapr conversation building block]({{< ref conversation-overview.md >}})
 - [Microsoft.Extensions.AI 文档](https://learn.microsoft.com/dotnet/ai/microsoft-extensions-ai)
 - [Dapr .NET Conversation SDK]({{% ref dotnet-ai-conversation-howto.md %}})

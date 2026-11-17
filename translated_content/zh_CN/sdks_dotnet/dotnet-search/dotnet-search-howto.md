@@ -6,13 +6,13 @@ weight: 54050
 description: 使用 Dapr.Search 创建索引、写入类型化文档、搜索并检索文档
 ---
 
-使用 `DaprSearchClient` 为 JSON 文档建立索引，并通过 Dapr 搜索组件执行全文查询。本指南将配置一个本地存储、创建索引、写入并搜索类型化文档，最后删除这些文档。
+使用 `DaprSearchClient` 为 JSON 文档建立索引，并通过 Dapr search component 执行全文查询。本指南将配置一个本地存储、创建索引、写入并搜索类型化文档，最后删除这些文档。
 
 ## 前提条件
 
-- [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及[已初始化的 Dapr 环境]({{% ref install-dapr-selfhost.md %}})
+- [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及[已初始化的 Dapr environment]({{% ref install-dapr-selfhost.md %}})
 - [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)、[.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)、[.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) 或 [.NET 11](https://dotnet.microsoft.com/download/dotnet/11.0)
-- 支持搜索功能的 Dapr 运行时 1.19 或更高版本
+- 支持搜索功能的 Dapr runtime 1.19 或更高版本
 - [Dapr.Search](https://www.nuget.org/packages/Dapr.Search) NuGet 包，版本 1.19.0 或更高
 
 {{% alert title=".NET 框架支持" color="warning" %}}
@@ -25,9 +25,9 @@ description: 使用 Dapr.Search 创建索引、写入类型化文档、搜索并
 dotnet add package Dapr.Search
 ```
 
-[搜索 SDK 概述]({{% ref dotnet-search %}}) 介绍了 Alpha 阶段的 API 及其发布要求。
+[搜索 SDK 概述]({{% ref dotnet-search %}}) 介绍了 alpha 的 API 及其发布要求。
 
-## 配置搜索组件
+## 配置 search component
 
 在应用目录中创建 `components\searchstore.yaml`：
 
@@ -44,13 +44,13 @@ spec:
     value: "0s"
 ```
 
-[in-memory 组件]({{% ref "/reference/components-reference/supported-search/in-memory.md" %}}) 不需要外部服务。边车停止后数据会丢失，且不同边车之间不共享。请将其用于本地开发和测试，而不要用于持久化存储。
+[in-memory component]({{% ref "/reference/components-reference/supported-search/in-memory.md" %}}) 不需要外部服务。sidecar 停止后数据会丢失，且不同 sidecar 之间不共享。请将其用于本地开发和测试，而不要用于持久化存储。
 
-在生产环境中，请配置一个受支持的[搜索组件]({{% ref supported-search %}})。不同组件的能力各不相同：例如，in-memory 组件不支持高亮和原生查询。
+在生产环境中，请配置一个受支持的[search component]({{% ref supported-search %}})。不同 component 的能力各不相同：例如，in-memory component 不支持高亮和原生查询。
 
 ## 注册并解析客户端
 
-将以下代码添加到 `Program.cs`。客户端会从配置或环境变量中读取边车的端点和 API 令牌。
+将以下代码添加到 `Program.cs`。客户端会从配置或环境变量中读取 sidecar 的端点和 API 令牌。
 
 ```csharp
 using Dapr.Search;
@@ -69,7 +69,7 @@ var client = app.Services.GetRequiredService<DaprSearchClient>();
 public sealed record Article(string Title, string Category, decimal Price);
 ```
 
-使用加载了该组件的边车运行应用：
+使用加载了该 component 的 sidecar 运行应用：
 
 ```sh
 dapr run --app-id search-example --resources-path .\components -- dotnet run
@@ -92,9 +92,9 @@ var indexes = await client.ListIndexesAsync(storeName);
 Console.WriteLine(string.Join(", ", indexes));
 ```
 
-对已存在的索引再次调用创建会以 `AlreadyExists` 失败，且不会更新索引设置。如果在两次执行之间保持边车运行，请先删除示例索引，再重新创建。
+对已存在的索引再次调用创建会以 `AlreadyExists` 失败，且不会更新索引设置。如果在两次执行之间保持 sidecar 运行，请先删除示例索引，再重新创建。
 
-`CreateIndexAsync` 的 `metadata` 参数接受组件特定的索引设置。例如，Meilisearch 组件需要通过 `filterableAttributes` 和 `sortableAttributes` 声明用于过滤和排序的字段。in-memory 示例不需要这些设置。
+`CreateIndexAsync` 的 `metadata` 参数接受component 特定的索引设置。例如，Meilisearch component 需要通过 `filterableAttributes` 和 `sortableAttributes` 声明用于过滤和排序的字段。in-memory 示例不需要这些设置。
 
 ## 写入类型化文档
 
@@ -128,9 +128,9 @@ if (write.FailedItems.Count != 0 || write.Ack != IndexAck.Completed)
 }
 ```
 
-`SearchDocument<T>` 包含一个 ID、类型化的内容以及可选的字符串元数据。SDK 使用客户端的 JSON 选项将内容序列化为 UTF-8 JSON。内容必须序列化为 JSON **对象**；无效内容会由运行时报告为单项失败。ID 必须非空，并且在同一次写入请求中唯一。写入已存在的 ID 会更新该文档（upsert）。
+`SearchDocument<T>` 包含一个 ID、类型化的内容以及可选的字符串 metadata。SDK 使用客户端的 JSON 选项将内容序列化为 UTF-8 JSON。内容必须序列化为 JSON **对象**；无效内容会由运行时报告为单项失败。ID 必须非空，并且在同一次写入请求中唯一。写入已存在的 ID 会更新该文档（upsert）。
 
-文档元数据会原样存储和返回，但不会被索引，也不能用于过滤。过滤条件针对 `Content` 的字段，而不是 `SearchDocument<T>.Metadata`。
+文档 metadata 会原样存储和返回，但不会被索引，也不能用于过滤。过滤条件针对 `Content` 的字段，而不是 `SearchDocument<T>.Metadata`。
 
 如果不传入 `writeOptions`，写入会在被接受后立即返回，并可能返回 `IndexAck.Queued`。此时即使 `FailedItems` 为空，也不能保证最终一定索引成功。上文显式的等待可以让后续读取看到已完成的写入。参见[写入确认指南]({{% ref "dotnet-search-client-usage.md#write-acknowledgements" %}})。
 
@@ -202,5 +202,5 @@ await client.DeleteIndexAsync(storeName, indexName);
 ## 后续步骤
 
 - [搜索客户端配置、高级查询和生成的类型化客户端]({{% ref dotnet-search-client-usage.md %}})
-- [搜索 API 参考]({{% ref search_api %}})
+- [Search API 参考]({{% ref search_api %}})
 - [在 .NET 中存储和查询向量]({{% ref dotnet-vector-howto.md %}})

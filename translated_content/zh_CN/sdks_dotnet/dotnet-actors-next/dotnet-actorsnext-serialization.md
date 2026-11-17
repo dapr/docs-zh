@@ -6,7 +6,7 @@ weight: 120000
 description: "可插拔的序列化、现代 C# 类型支持，以及每个 Actor 的状态缓存"
 ---
 
-`Dapr.Actors.Next` 与 Dapr 状态管理和工作流使用同一套可插拔序列化器，开箱即支持现代 C# 类型，并保留每个 Actor 的状态缓存。本页介绍这些内容。跨版本演进状态结构是另一个更深入的主题，有独立的页面：参见 [状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})。
+`Dapr.Actors.Next` 与 Dapr State Management 和 workflow 使用同一套可插拔序列化器，开箱即支持现代 C# 类型，并保留每个 Actor 的状态缓存。本页介绍这些内容。跨版本演进状态结构是另一个更深入的主题，有独立的页面：参见 [状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})。
 
 ## 可插拔序列化
 
@@ -39,7 +39,7 @@ builder.Services.AddDaprActors();
 对于完全提前编译（AOT）的宿主，还需注册一个匹配的 `IActorWireSerializer`，它在调用的线路边界进行序列化，因此不再保留任何基于反射的路径。
 
 {{% alert title="为什么默认使用 System.Text.Json" color="primary" %}}
-生成的代理与分发器只通过使用具体编译期类型的强类型泛型路径进行序列化，这使得整个 Actor 路径保持裁剪与 AOT 安全。这与 Dapr 状态管理和工作流使用的序列化器抽象相同，因此应用在各构建块之间的序列化方式保持一致。
+生成的代理与分发器只通过使用具体编译期类型的强类型泛型路径进行序列化，这使得整个 Actor 路径保持裁剪与 AOT 安全。这与 Dapr State Management 和 workflow 使用的序列化器抽象相同，因此应用在各 building block 之间的序列化方式保持一致。
 {{% /alert %}}
 
 ### 现代 C# 类型可原样使用
@@ -67,7 +67,7 @@ public sealed class CartState(string ownerId)
 
 ## 每个 Actor 的状态缓存
 
-状态读取由一个以激活为作用域的内存中写后（write-behind）缓存提供服务。修改不会在每次变更时直写；而是在每个轮次结束时一次性保存挂起的状态，从而减少对状态存储的调用。
+状态读取由一个以激活为作用域的内存中写后（write-behind）缓存提供服务。修改不会在每次变更时直写；而是在每个轮次结束时一次性保存挂起的状态，从而减少对 state store 的调用。
 
 ```csharp
 public async Task AddItem(CartItem item, CancellationToken ct = default)
@@ -85,7 +85,7 @@ public async Task AddItem(CartItem item, CancellationToken ct = default)
 {{% /alert %}}
 
 {{% alert title="序列化器是持久化契约的一部分" color="warning" %}}
-状态使用所配置的任何序列化器和设置进行存储，因此这些设置是持久性契约的一部分，而不仅仅是运行时细节。更改序列化器，或更改会改变输出形状的设置（枚举以字符串还是数字表示、属性命名策略、如何输出可空性或默认值），都可能使现有状态无法读取，即使 CLR 类型没有变化。应将状态类型的序列化器配置视为有版本的决策：谨慎地更改；如果某项更改会改变持久化的形状，则像处理状态结构变更一样处理它，使用升级器（注意升级器不会在不同序列化配置之间迁移）或兼容性设置。Actor 状态还存储在有自身值大小限制的状态存储中，因此请保持每个 Actor 的状态大小合理；整个状态每个轮次作为一个值保存。
+状态使用所配置的任何序列化器和设置进行存储，因此这些设置是持久性契约的一部分，而不仅仅是运行时细节。更改序列化器，或更改会改变输出形状的设置（枚举以字符串还是数字表示、属性命名策略、如何输出可空性或默认值），都可能使现有状态无法读取，即使 CLR 类型没有变化。应将状态类型的序列化器配置视为有版本的决策：谨慎地更改；如果某项更改会改变持久化的形状，则像处理状态结构变更一样处理它，使用升级器（注意升级器不会在不同序列化配置之间迁移）或兼容性设置。Actor 状态还存储在有自身值大小限制的 state store 中，因此请保持每个 Actor 的状态大小合理；整个状态每个轮次作为一个值保存。
 {{% /alert %}}
 
 ## 演进状态结构：参见状态迁移
@@ -103,5 +103,5 @@ public async Task AddItem(CartItem item, CancellationToken ct = default)
 
 - [状态迁移]({{< ref dotnet-actorsnext-statemigration.md >}})
 - [编写、注册和调用 Actor]({{< ref dotnet-actorsnext-howto.md >}})
-- [状态机 Actor]({{< ref dotnet-actorsnext-statemachine.md >}})
+- [state machine Actor]({{< ref dotnet-actorsnext-statemachine.md >}})
 - [测试 Actor]({{< ref dotnet-actorsnext-testing.md >}})

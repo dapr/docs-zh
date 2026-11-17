@@ -19,7 +19,7 @@ Aspire 通过与流行的 IDE 提供丰富的集成来简化本地开发，包�
 
 虽然 Aspire 也协助将应用程序部署到 Microsoft Azure 和 Amazon AWS 等各种云主机，但部署目前超出了本指南的范围。更多信息可以在 Aspire 的文档[这里](https://learn.microsoft.com/dotnet/aspire/deployment/overview)找到。
 
-可以在[这里](https://github.com/dapr/dotnet-sdk/tree/master/examples/Hosting/Aspire/ServiceInvocationDemo)找到一个端到端演示，该演示包含下列内容，并演示了多个启用 Dapr 的服务之间的服务调用。
+可以在[这里](https://github.com/dapr/dotnet-sdk/tree/master/examples/Hosting/Aspire/ServiceInvocationDemo)找到一个端到端演示，该演示包含下列内容，并演示了多个启用 Dapr 的服务之间的 service invocation。
 
 ## 前提条件
 - Dapr .NET SDK 支持 [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)、
@@ -100,13 +100,13 @@ var frontEndApp = builder
 
 由于此解决方案中已添加项目引用，在本教程的语境中，你的项目会以类型的形式出现在 `Projects.` 命名空间下。在本教程中，为项目分配的变量名并不十分重要；但如果你想借助 Aspire 的服务发现功能，在此项目与另一个项目之间建立引用，就会用到该变量名。
 
-添加 `.WithDaprSidecar()` 会将 Dapr 配置为一个 .NET Aspire 资源，使项目运行时边车会与你的应用程序一同部署。该方法接受多种不同的选项，也可以按照以下示例进行可选配置：
+添加 `.WithDaprSidecar()` 会将 Dapr 配置为一个 .NET Aspire 资源，使项目运行时 sidecar 会与你的应用程序一同部署。该方法接受多种不同的选项，也可以按照以下示例进行可选配置：
 
 ```csharp
 DaprSidecarOptions sidecarOptions = new()
 {
     AppId = "how-dapr-identifies-your-app",
-    AppPort = 8080, //请注意，自 Aspire v9.0 起，如果你打算配置发布订阅、Actor 或工作流，则需要此参数
+    AppPort = 8080, //请注意，自 Aspire v9.0 起，如果你打算配置发布订阅、Actor 或 workflow，则需要此参数
     DaprGrpcPort = 50001,
     DaprHttpPort = 3500,
     MetricsPort = 9090
@@ -120,10 +120,10 @@ builder
 
 {{% alert color="primary" %}}
 
-如上例所示，自 .NET Aspire 9.0 起，如果你打算使用 Dapr 需要调用你的应用程序的任何功能（例如发布订阅、Actor 或工作流），则需要将 AppPort 指定为已配置的选项，因为 Aspire 不会在运行时自动将其传递给 Dapr。预计此行为会在未来版本中改变，因为相关修复已被合并，可在[这里](https://github.com/dotnet/aspire/pull/6362)跟踪。
+如上例所示，自 .NET Aspire 9.0 起，如果你打算使用 Dapr 需要调用你的应用程序的任何功能（例如发布订阅、Actor 或 workflow），则需要将 AppPort 指定为已配置的选项，因为 Aspire 不会在运行时自动将其传递给 Dapr。预计此行为会在未来版本中改变，因为相关修复已被合并，可在[这里](https://github.com/dotnet/aspire/pull/6362)跟踪。
 
 {{% /alert %}}
 
-最后，让我们为后端应用添加一个端点，我们可以使用 Dapr 的服务调用来调用该端点，并将其显示在页面上，以演示 Dapr 正在按预期工作。
+最后，让我们为后端应用添加一个端点，我们可以使用 Dapr 的 service invocation 来调用该端点，并将其显示在页面上，以演示 Dapr 正在按预期工作。
 
 在 IDE 中打开解决方案时，请确保将 `aspiredemo.AppHost` 配置为启动项目；但当你以调试配置启动它时，你会注意到集成控制台应显示预期的 Dapr 日志，并且 Dapr 可供你的应用程序使用。

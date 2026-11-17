@@ -3,7 +3,7 @@ type: docs
 title: "DaprWorkflowClient 生命周期管理与注册"
 linkTitle: "DaprWorkflowClient 注册"
 weight: 1000
-description: 配置工作流托管、自动发现、客户端生命周期、传输限制与历史缓存
+description: 配置 workflow 托管、自动发现、客户端生命周期、传输限制与历史缓存
 ---
 
 ## 安装与注册
@@ -14,7 +14,7 @@ description: 配置工作流托管、自动发现、客户端生命周期、传�
 dotnet add package Dapr.Workflow
 ```
 
-`AddDaprWorkflow` 会将工作流 Worker 注册为托管服务、其依赖项以及一个 `DaprWorkflowClient`。它适用于 ASP.NET Core 和 .NET Generic Host。需要启动主机才能处理工作项；仅构建服务提供程序并不会启动 Worker。
+`AddDaprWorkflow` 会将 workflow Worker 注册为托管服务、其依赖项以及一个 `DaprWorkflowClient`。它适用于 ASP.NET Core 和 .NET Generic Host。需要启动主机才能处理工作项；仅构建服务提供程序并不会启动 Worker。
 
 ```csharp
 using Dapr.Workflow;
@@ -26,7 +26,7 @@ var app = builder.Build();
 await app.RunAsync();
 ```
 
-请配置与工作流兼容的状态存储，以及 [编写工作流]({{% ref howto-author-workflow.md %}}) 中所述的 Dapr 运行时服务。若要使用 SDK 1.19 的全部功能，请使用 Dapr 运行时 1.19。
+请配置与 workflow 兼容的 state store，以及 [编写 workflow]({{% ref howto-author-workflow.md %}}) 中所述的 Dapr 运行时服务。若要使用 SDK 1.19 的全部功能，请使用 Dapr 运行时 1.19。
 
 ### 自动发现与显式注册
 
@@ -43,7 +43,7 @@ builder.Services.AddDaprWorkflow(options =>
 });
 ```
 
-若要扫描被引用程序集中可访问的工作流和活动类型，请在宿主项目的 `.csproj` 中同时添加 **属性值** 与 **编译器可见属性**。为减少构建开销，引用扫描默认处于禁用状态：
+若要扫描被引用程序集中可访问的 workflow 和 activity 类型，请在宿主项目的 `.csproj` 中同时添加 **属性值** 与 **编译器可见属性**。为减少构建开销，引用扫描默认处于禁用状态：
 
 ```xml
 <PropertyGroup>
@@ -54,7 +54,7 @@ builder.Services.AddDaprWorkflow(options =>
 </ItemGroup>
 ```
 
-自动发现不要求启用[基于名称的工作流版本控制]({{% ref dotnet-workflow-versioning.md %}})。请避免简单类型名称冲突，或为其注册互不相同的显式名称。
+自动发现不要求启用[name-based workflow versioning]({{% ref dotnet-workflow-versioning.md %}})。请避免简单类型名称冲突，或为其注册互不相同的显式名称。
 
 ## 客户端生命周期与依赖注入
 
@@ -88,11 +88,11 @@ await using var scope = host.Services.CreateAsyncScope();
 var client = scope.ServiceProvider.GetRequiredService<DaprWorkflowClient>();
 ```
 
-`Dapr.Workflow.Registration` 中的公共 `DaprWorkflowClientBuilder` 也可以在不托管 Worker 的情况下构造管理客户端。对于自行构造的客户端，请自行释放。在本版本中，`AddDaprWorkflowClient` **不是公共注册扩展方法**；若要托管工作流，请使用 `AddDaprWorkflow`。
+`Dapr.Workflow.Registration` 中的公共 `DaprWorkflowClientBuilder` 也可以在不托管 Worker 的情况下构造管理客户端。对于自行构造的客户端，请自行释放。在本版本中，`AddDaprWorkflowClient` **不是公共注册扩展方法**；若要托管 workflow，请使用 `AddDaprWorkflow`。
 
 ## 传输配置
 
-托管 Worker 与依赖注入客户端会通过 Dapr 配置解析其边车的 gRPC 地址，包括 `DAPR_GRPC_ENDPOINT` / `DAPR_GRPC_PORT`。当边车需要身份验证时，请配置 `DAPR_API_TOKEN`。工作流操作使用 gRPC；更改 HTTP 超时并不等同于工作流执行的截止时间。
+托管 Worker 与依赖注入客户端会通过 Dapr 配置解析其 sidecar 的 gRPC 地址，包括 `DAPR_GRPC_ENDPOINT` / `DAPR_GRPC_PORT`。当 sidecar 需要身份验证时，请配置 `DAPR_API_TOKEN`。workflow 操作使用 gRPC；更改 HTTP 超时并不等同于 workflow 执行的截止时间。
 
 ### 更改 gRPC 消息大小限制
 
@@ -105,11 +105,11 @@ builder.Services.AddDaprWorkflow()
         maxSendMessageSize: 16 * 1024 * 1024);
 ```
 
-依赖注入传输默认不设置 SDK 的发送/接收大小限制。显式设置的限制必须是正的字节数。边车、调度器和状态存储的限制仍会分别生效。对于大负载，请优先考虑[数据引用]({{% ref dotnet-workflow-data-references.md %}})，而不是提高限制。`WorkflowRuntimeOptions.UseGrpcChannelOptions` 也支持设置发送/接收限制；注册过程并不会复制该 `GrpcChannelOptions` 对象的每个属性。
+依赖注入传输默认不设置 SDK 的发送/接收大小限制。显式设置的限制必须是正的字节数。sidecar、Scheduler 和 state store 的限制仍会分别生效。对于大负载，请优先考虑[数据引用]({{% ref dotnet-workflow-data-references.md %}})，而不是提高限制。`WorkflowRuntimeOptions.UseGrpcChannelOptions` 也支持设置发送/接收限制；注册过程并不会复制该 `GrpcChannelOptions` 对象的每个属性。
 
 ## Worker 历史缓存
 
-Worker 默认启用有状态历史记录：边车可以只发送新事件，而不是每一轮都发送完整历史。缓存未命中时，会通过历史 RPC 恢复；该缓存并非持久化的应用状态。
+Worker 默认启用有状态历史记录：sidecar 可以只发送新事件，而不是每一轮都发送完整历史。缓存未命中时，会通过历史 RPC 恢复；该缓存并非持久化的应用状态。
 
 ```csharp
 builder.Services.AddDaprWorkflow(options =>
@@ -127,13 +127,13 @@ builder.Services.AddDaprWorkflow(options =>
 | `HistoryCacheMaxInstances` | 默认为 `0`，使用内置上限：每个工作项流 100,000 个实例。 |
 | `HistoryCacheMaxBytes` | 默认为 `0`，表示不设字节预算；实例数量与 TTL 仍然生效。 |
 
-容量值不能为负数。当超过容量上限时，条目按最近最少使用的顺序被逐出。该缓存不会消除工作流重放，也不会自动缓存已解析的二进制负载。
+容量值不能为负数。当超过容量上限时，条目按最近最少使用的顺序被逐出。该缓存不会消除 workflow 重放，也不会自动缓存已解析的二进制负载。
 
-`WorkflowRuntimeOptions` 上的 `MaxConcurrentWorkflows` 和 `MaxConcurrentActivities` 已过时，且不再生效。请改为在 Dapr 运行时中配置分发并发。若需了解单个工作流内部的并发处理，请参阅[有界并行处理]({{% ref dotnet-workflow-authoring.md %}}#fan-out-and-bounded-parallel-processing)。
+`WorkflowRuntimeOptions` 上的 `MaxConcurrentWorkflows` 和 `MaxConcurrentActivities` 已过时，且不再生效。请改为在 Dapr 运行时中配置分发并发。若需了解单个 workflow 内部的并发处理，请参阅[有界并行处理]({{% ref dotnet-workflow-authoring.md %}}#fan-out-and-bounded-parallel-processing)。
 
-## 将服务注入活动
+## 将服务注入 activity
 
-活动通过依赖注入激活，每次调用活动时都会在一个作用域中进行。请按常规方式注册其依赖项：
+activity 通过依赖注入激活，每次调用 activity 时都会在一个作用域中进行。请按常规方式注册其依赖项：
 
 ```csharp
 using Dapr.Workflow;
@@ -149,16 +149,16 @@ public sealed class SquareNumberActivity(ILogger<SquareNumberActivity> logger) :
 }
 ```
 
-### 活动任务执行标识符
+### activity 任务执行标识符
 
-`WorkflowActivityContext` 公开了 `Identifier`、`InstanceId`、**`TaskExecutionKey`**（而非 `TaskExecutionId`），以及 `ScheduledEventId`，后者是该活动尝试对应的 `TaskScheduled` 历史事件的 ID。当运行时提供任务执行 ID 时，Worker 会使用它；否则回退为数字形式的任务 ID。SDK 的活动重试会保留任务执行 ID。在设计幂等键时，请将该键与工作流实例/应用标识组合使用，并使去重记录与副作用以原子方式持久化。仅凭该标识符并不能保证活动恰好执行一次。`ScheduledEventId` 可以与实例 ID 一起记录，之后传给 `RerunWorkflowFromEventAsync`，从该活动处重新运行工作流（参见[从历史事件重新运行]({{% ref "dotnet-workflow-management-methods.md#rerun-from-a-history-event" %}})）。
+`WorkflowActivityContext` 公开了 `Identifier`、`InstanceId`、**`TaskExecutionKey`**（而非 `TaskExecutionId`），以及 `ScheduledEventId`，后者是该 activity 尝试对应的 `TaskScheduled` 历史事件的 ID。当运行时提供任务执行 ID 时，Worker 会使用它；否则回退为数字形式的任务 ID。SDK 的 activity 重试会保留任务执行 ID。在设计幂等键时，请将该键与 workflow 实例/应用标识组合使用，并使去重记录与副作用以原子方式持久化。仅凭该标识符并不能保证 activity 恰好执行一次。`ScheduledEventId` 可以与实例 ID 一起记录，之后传给 `RerunWorkflowFromEventAsync`，从该 activity 处重新运行 workflow（参见[从历史事件重新运行]({{% ref "dotnet-workflow-management-methods.md#rerun-from-a-history-event" %}})）。
 
 ### 重放安全日志
 
-在工作流内部请使用 `context.CreateReplaySafeLogger<T>()`。它会在重放期间抑制日志写入。尽管当前的工厂可以通过依赖注入激活工作流构造函数，内置的 `DAPR1305` 分析器仍会对工作流构造函数注入给出警告。请把需要注入的 I/O 依赖放在活动中；它们并不能使非确定性操作在工作流重放期间变得安全。
+在 workflow 内部请使用 `context.CreateReplaySafeLogger<T>()`。它会在重放期间抑制日志写入。尽管当前的工厂可以通过依赖注入激活 workflow 构造函数，内置的 `DAPR1305` 分析器仍会对 workflow 构造函数注入给出警告。请把需要注入的 I/O 依赖放在 activity 中；它们并不能使非确定性操作在 workflow 重放期间变得安全。
 
 ## 后续步骤
 
-- [在 .NET 中编写工作流和活动]({{% ref dotnet-workflow-authoring.md %}})
-- [工作流管理操作]({{% ref dotnet-workflow-management-methods.md %}})
-- [配置工作流序列化]({{% ref dotnet-workflow-serialization.md %}})
+- [在 .NET 中编写 workflow 和 activity]({{% ref dotnet-workflow-authoring.md %}})
+- [workflow 管理操作]({{% ref dotnet-workflow-management-methods.md %}})
+- [配置 workflow 序列化]({{% ref dotnet-workflow-serialization.md %}})

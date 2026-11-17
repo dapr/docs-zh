@@ -6,7 +6,7 @@ weight: 53050
 description: 学习如何使用 Dapr Binary Store .NET SDK 存储、检索、流式传输和删除二进制文件
 ---
 
-使用 `Dapr.BinaryStore` 包，通过 Dapr 二进制存储组件存储和检索文件。客户端以分块方式流式传输文件内容，因此处理大文件时无需将整个文件加载到内存中。在本指南中，你将：
+使用 `Dapr.BinaryStore` 包，通过 Dapr Binary Store component 存储和检索文件。客户端以分块方式流式传输文件内容，因此处理大文件时无需将整个文件加载到内存中。在本指南中，你将：
 
 - 注册并配置 `DaprBinaryStoreClient`
 - 使用流上传和下载文件
@@ -16,11 +16,11 @@ description: 学习如何使用 Dapr Binary Store .NET SDK 存储、检索、流
 ## 前提条件
 
 - [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 一个已初始化的 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
+- 一个已初始化的 [Dapr environment]({{% ref install-dapr-selfhost.md %}})
 - [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0)、[.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0)、[.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) 或 [.NET 11](https://dotnet.microsoft.com/download/dotnet/11.0)
-- Dapr 运行时 1.19 或更高版本
+- Dapr runtime 1.19 或更高版本
 - [Dapr.BinaryStore](https://www.nuget.org/packages/Dapr.BinaryStore) NuGet 包
-- 在 Dapr 中配置好的[二进制存储]({{% ref "developing-applications/building-blocks/binarystore/_index.md" %}})组件
+- 在 Dapr 中配置好的[Binary Store]({{% ref "developing-applications/building-blocks/binarystore/_index.md" %}}) component
 
 {{% alert title=".NET 框架支持" color="warning" %}}
 请注意，.NET 8 和 .NET 9 将于 2026 年 11 月结束支持。两者的支持都将在 Dapr v1.20 中取消；只有 .NET 10 和 .NET 11 会支持到 2027 年底。
@@ -32,9 +32,9 @@ description: 学习如何使用 Dapr Binary Store .NET SDK 存储、检索、流
 dotnet add package Dapr.BinaryStore
 ```
 
-## 配置内存二进制存储
+## 配置 In-memory Binary Store
 
-在本地开发时，请在应用目录中创建 `components` 目录，并将以下组件保存为 `components\filestore.yaml`：
+在本地开发时，请在应用目录中创建 `components` 目录，并将以下 component 保存为 `components\filestore.yaml`：
 
 ```yaml
 apiVersion: dapr.io/v1alpha1
@@ -51,9 +51,9 @@ spec:
       value: "512Mi"
 ```
 
-该组件将文件存储在 Dapr 边车的内存中，无需外部存储服务。它允许单个文件最大 4 MiB，所有文件合计最多 512 MiB。边车停止后数据即会丢失，且不会在多个边车之间共享，因此请将其用于本地开发和测试，而不是持久化存储。
+该 component 将文件存储在 Dapr sidecar 的内存中，无需外部存储服务。它允许单个文件最大 4 MiB，所有文件合计最多 512 MiB。sidecar 停止后数据即会丢失，且不会在多个 sidecar 之间共享，因此请将其用于本地开发和测试，而不是持久化存储。
 
-组件的 `metadata.name`（即 `filestore`）是下方示例中传给客户端方法或 `[BinaryStore]` 特性的存储名称。
+component 的 `metadata.name`（即 `filestore`）是下方示例中传给客户端方法或 `[BinaryStore]` 特性的存储名称。
 
 ## 注册客户端
 
@@ -69,7 +69,7 @@ builder.Services.AddDaprBinaryStoreClient();
 var app = builder.Build();
 ```
 
-在应用的项目目录中启动应用，并加载 `components` 中的内存组件，同时启动其 Dapr 边车：
+在应用的项目目录中启动应用，并加载 `components` 中的 in-memory component，同时启动其 Dapr sidecar：
 
 ```sh
 dapr run --app-id binary-store-example --resources-path .\components -- dotnet run
@@ -86,7 +86,7 @@ builder.Services.AddDaprBinaryStoreClient((sp, clientBuilder) =>
 
 ## 上传和下载文件
 
-获取已注册的客户端，并传入二进制存储组件名称、文件名和流。示例使用上面配置的 `filestore` 组件。运行示例前，请将一个不超过 4 MiB 的 `report.pdf` 文件放到应用的工作目录中。在 `var app = builder.Build();` 之后添加以下代码，并把所需的 `using` 指令放在文件顶部（`Program.cs` 中）。
+获取已注册的客户端，并传入 Binary Store component 名称、文件名和流。示例使用上面配置的 `filestore` component。运行示例前，请将一个不超过 4 MiB 的 `report.pdf` 文件放到应用的工作目录中。在 `var app = builder.Build();` 之后添加以下代码，并把所需的 `using` 指令放在文件顶部（`Program.cs` 中）。
 
 ```csharp
 using Dapr.BinaryStore;
@@ -107,11 +107,11 @@ await using (var destination = File.Create("downloaded-report.pdf"))
 }
 ```
 
-该示例将 `report.pdf` 以 `uploads/report.pdf` 的名称上传到内存存储，并下载为 `downloaded-report.pdf`。请在同一个边车上运行后续示例，以便在删除文件之前使用已上传的文件。
+该示例将 `report.pdf` 以 `uploads/report.pdf` 的名称上传到内存存储，并下载为 `downloaded-report.pdf`。请在同一个 sidecar 上运行后续示例，以便在删除文件之前使用已上传的文件。
 
 `SetBinaryFileAsync` 的 `Stream` 重载从输入流的当前位置开始读取，并以分块方式发送到运行时。默认上传块大小为 32 KiB；如需其他大小，可传入一个正整数作为 `chunkSize`。设置 `overwrite: true` 可替换已存在的文件。默认情况下，如果文件已存在，上传会失败。
 
-文件名可以包含嵌套路径，例如 `uploads/report.pdf`。请避免使用前导或尾随斜杠、空路径段、`.` 或 `..` 段，以及字符 `\`、`*`、`?`、`[`、`]` 和 `#`；Dapr 运行时会拒绝这些名称。
+文件名可以包含嵌套路径，例如 `uploads/report.pdf`。请避免使用前导或尾随斜杠、空路径段、`.` 或 `..` 段，以及字符 `\`、`*`、`?`、`[`、`]` 和 `#`；Dapr runtime 会拒绝这些名称。
 
 ## 处理内存中的内容
 
@@ -143,7 +143,7 @@ await client.DeleteBinaryFileAsync(storeName, fileName);
 
 ## 使用绑定到存储的类型化客户端
 
-该包包含一个源生成器，用于生成绑定到单个组件的类型化客户端。定义一个扩展 `IDaprBinaryStoreClient` 的 `partial` 接口，并使用 `[BinaryStore]` 指定组件名称：
+该包包含一个源生成器，用于生成绑定到单个 component 的类型化客户端。定义一个扩展 `IDaprBinaryStoreClient` 的 `partial` 接口，并使用 `[BinaryStore]` 指定 component 名称：
 
 ```csharp
 using Dapr.BinaryStore;

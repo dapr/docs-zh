@@ -1,22 +1,22 @@
 ---
 type: docs
 title: "操作指南：在 .NET SDK 中编写和管理 Dapr Jobs"
-linkTitle: "操作指南：编写和管理作业"
+linkTitle: "操作指南：编写和管理 job"
 weight: 51000
-description: "调度作业、接收 HTTP 或 gRPC 回调，并在 .NET 中管理作业注册"
+description: "调度 job、接收 HTTP 或 gRPC 回调，并在 .NET 中管理 job 注册"
 ---
 
-请使用 `Dapr.Jobs` 的 `1.19.0` 或更高版本，并配合运行中的 Dapr 边车与调度器。本文描述的完整管理功能需要运行时支持相应操作；1.19 的功能请使用 Dapr 1.19。所有客户端操作都会在稳定版与 alpha 版 API 之间自动回退，但这并不意味着旧版运行时可以使用较新的管理操作。
+请使用 `Dapr.Jobs` 的 `1.19.0` 或更高版本，并配合运行中的 Dapr sidecar 与 Scheduler。本文描述的完整管理功能需要运行时支持相应操作；1.19 的功能请使用 Dapr 1.19。所有客户端操作都会在稳定版与 alpha 版 API 之间自动回退，但这并不意味着旧版运行时可以使用较新的管理操作。
 
 ```sh
 dotnet add package Dapr.Jobs
 ```
 
-作业的作用域限定在调度它的应用的 Dapr App ID 之内。调度触发器时，客户端不接受其他目标 App ID。参见 [Jobs 示例](https://github.com/dapr/dotnet-sdk/tree/v1.19.0/examples/Jobs/JobsSample)。
+job 的作用域限定在调度它的应用的 Dapr App ID 之内。调度触发器时，客户端不接受其他目标 App ID。参见 [Jobs 示例](https://github.com/dapr/dotnet-sdk/tree/v1.19.0/examples/Jobs/JobsSample)。
 
 ## 注册客户端和回调处理程序
 
-在构建主机之前注册客户端，并为动态命名的作业映射一个处理程序：
+在构建主机之前注册客户端，并为动态命名的 job 映射一个处理程序：
 
 ```csharp
 using Dapr.Jobs;
@@ -41,7 +41,7 @@ app.MapDaprScheduledJobHandler(
 await app.RunAsync();
 ```
 
-`HandleJobAsync` 代表你的应用逻辑。回调接收作业名称和原始负载字节；其他服务可以从请求的依赖注入容器中解析。它的取消令牌包含已配置的处理程序超时。处理程序必须自行检查该令牌；超时并不会强制终止任意代码。异步工作请返回 `Task`，使回调在确认触发之前等待其完成。
+`HandleJobAsync` 代表你的应用逻辑。回调接收 job 名称和原始负载字节；其他服务可以从请求的依赖注入容器中解析。它的取消令牌包含已配置的处理程序超时。处理程序必须自行检查该令牌；超时并不会强制终止任意代码。异步工作请返回 `Task`，使回调在确认触发之前等待其完成。
 
 对于 HTTP 回调，映射器会注册 `POST /job/{jobName}`。请使用匹配的应用端口启动应用：
 
@@ -64,7 +64,7 @@ builder.WebHost.ConfigureKestrel(options =>
 
 仅支持 HTTP/1 的监听器，或未经协议协商的明文 `Http1AndHttp2`，无法提供此 gRPC 回调。如果同一应用还需要接收 HTTP/1 流量，请使用单独的监听器。
 
-## 注册作业
+## 注册 job
 
 解析 `DaprJobsClient`，并对每种调度类型使用 `ScheduleJobAsync`：
 
@@ -79,7 +79,7 @@ await jobsClient.ScheduleJobAsync(
     cancellationToken: cancellationToken);
 ```
 
-只有在回调就绪之后才进行调度，或使用将来的到期时间。注册作业本身不会启动应用监听器。
+只有在回调就绪之后才进行调度，或使用将来的到期时间。注册 job 本身不会启动应用监听器。
 
 | 参数 | 含义 |
 | --- | --- |
@@ -105,7 +105,7 @@ await jobsClient.ScheduleJobAsync("refresh-cache", interval, repeats: 5,
 
 预定义调度还包括 `Hourly`、`Midnight`、`Weekly`、`Monthly` 和 `Yearly`。
 
-### 基于 Cron 的作业与时区
+### 基于 Cron 的 job 与时区
 
 使用 `FromExpression` 传入字符串表达式，或使用 `FromCronExpression` 传入 `CronExpressionBuilder`：
 
@@ -142,9 +142,9 @@ await jobsClient.ScheduleJobAsync(
     cancellationToken: cancellationToken);
 ```
 
-`JobFailurePolicyConstantOptions` 按指定间隔重试；未设置 `MaxRetries` 时会无限重试。`JobFailurePolicyDropOptions` 会丢弃失败的触发器。省略策略时，将沿用运行时默认值。该策略与作业的周期性调度和重复次数相互独立。由于触发器可能被多次投递，请确保回调的副作用是幂等的。
+`JobFailurePolicyConstantOptions` 按指定间隔重试；未设置 `MaxRetries` 时会无限重试。`JobFailurePolicyDropOptions` 会丢弃失败的触发器。省略策略时，将沿用运行时默认值。该策略与 job 的周期性调度和重复次数相互独立。由于触发器可能被多次投递，请确保回调的副作用是幂等的。
 
-## 获取已调度作业的详细信息
+## 获取已调度 job 的详细信息
 
 ```csharp
 var details = await jobsClient.GetJobAsync("refresh-catalog", cancellationToken);
@@ -152,7 +152,7 @@ var details = await jobsClient.GetJobAsync("refresh-catalog", cancellationToken)
 
 `DaprJobDetails` 暴露 `Name`、`Schedule`、`DueTime`、`Ttl`、`RepeatCount`、`Payload`、`FailurePolicy` 和 `Overwrite`。对于手动构造的结果或旧版运行时返回的结果，`Name` 可能为 null。请检查 `details.Schedule.ExpressionValue`，以及 `IsCronExpression`、`IsPointInTimeExpression` 等调度分类属性。响应中不提供顶层的 `Interval` 或 `CronExpression` 属性。
 
-## 列出所有已注册的作业
+## 列出所有已注册的 job
 
 ```csharp
 var registered = await jobsClient.ListJobsAsync(cancellationToken);
@@ -162,29 +162,29 @@ foreach (var job in registered)
 }
 ```
 
-结果为 `IReadOnlyList<DaprJobDetails>`，范围限定为当前 App ID。空列表通常表示没有作业；另请参阅下文描述的、与版本相关的取消行为。
+结果为 `IReadOnlyList<DaprJobDetails>`，范围限定为当前 App ID。空列表通常表示没有 job；另请参阅下文描述的、与版本相关的取消行为。
 
-## 删除已调度的作业
+## 删除已调度的 job
 
 ```csharp
 await jobsClient.DeleteJobAsync("refresh-catalog", cancellationToken);
 ```
 
-## 按名称前缀删除多个作业
+## 按名称前缀删除多个 job
 
 ```csharp
 await jobsClient.DeleteJobsByPrefixAsync("report-", cancellationToken);
 ```
 
-前缀匹配区分大小写。**null、空字符串或仅含空白的前缀会删除该 App ID 下的所有作业。** 调用此操作之前，请先校验用户提供的前缀。
+前缀匹配区分大小写。**null、空字符串或仅含空白的前缀会删除该 App ID 下的所有 job。** 调用此操作之前，请先校验用户提供的前缀。
 
-## 清除所有作业
+## 清除所有 job
 
 ```csharp
 await jobsClient.PurgeAllJobsAsync(cancellationToken);
 ```
 
-此操作会明确请求删除与当前 App ID 关联的全部作业，而不是集群中的所有作业。
+此操作会明确请求删除与当前 App ID 关联的全部 job，而不是集群中的所有 job。
 
 ## 错误与取消
 
@@ -192,4 +192,4 @@ await jobsClient.PurgeAllJobsAsync(cancellationToken);
 
 ## 分析器
 
-`Dapr.Jobs.Analyzers` 包提供诊断 `DAPR1501`（警告，类别为 Usage）。当 `ScheduleJobAsync` 使用字面量作业名称调用，而同一源文件中不存在 `MapDaprScheduledJobHandler` 调用时，它会被触发。诊断消息为 “Job invocations require the MapDaprScheduledJobHandler be set and configured for job name '{name}' on IEndpointRouteBuilder”。请添加处理程序映射；如果处理程序有意映射在其他位置，可以用 `#pragma warning disable DAPR1501` 或 `.editorconfig` 规则抑制该诊断。
+`Dapr.Jobs.Analyzers` 包提供诊断 `DAPR1501`（警告，类别为 Usage）。当 `ScheduleJobAsync` 使用字面量 job 名称调用，而同一源文件中不存在 `MapDaprScheduledJobHandler` 调用时，它会被触发。诊断消息为 “Job invocations require the MapDaprScheduledJobHandler be set and configured for job name '{name}' on IEndpointRouteBuilder”。请添加处理程序映射；如果处理程序有意映射在其他位置，可以用 `#pragma warning disable DAPR1501` 或 `.editorconfig` 规则抑制该诊断。

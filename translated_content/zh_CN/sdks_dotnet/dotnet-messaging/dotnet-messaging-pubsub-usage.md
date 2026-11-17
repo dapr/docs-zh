@@ -16,14 +16,14 @@ description: "Dapr.Messaging（.NET）的配置、选项、生命周期管理、
 
 ### 客户端生命周期（`IDaprPublishSubscribeClient`）
 
-`IDaprPublishSubscribeClient`（及其底层实现 `DaprPublishSubscribeClient`）管理与 Dapr 边车通信所用的持久 TCP 与 gRPC 通道资源。
+`IDaprPublishSubscribeClient`（及其底层实现 `DaprPublishSubscribeClient`）管理与 Dapr sidecar 通信所用的持久 TCP 与 gRPC 通道资源。
 
 - **单例注册**：该客户端是线程安全的，设计上应在依赖注入容器中注册为 **Singleton（单例）**。
 - **连接池**：在多次请求之间复用底层的 `HttpClient` 与 `GrpcChannel` 实例。
 - **不要按操作创建**：避免为每次操作实例化或释放 `DaprPublishSubscribeClient`。整个应用应共用同一个客户端。
 
 ```csharp
-// 注册 Dapr Messaging 组件栈，包括以单例方式注册的 IDaprPublishSubscribeClient 与 DaprPublishSubscribeClient
+// 注册 Dapr Messaging component 栈，包括以单例方式注册的 IDaprPublishSubscribeClient 与 DaprPublishSubscribeClient
 builder.Services.AddDaprMessaging();
 ```
 
@@ -69,9 +69,9 @@ builder.Services.AddDaprMessaging(options =>
 
 | 选项 | 默认值 | 说明 |
 | --- | --- | --- |
-| `DaprGrpcEndpoint` | `http://localhost:50001` | Dapr 边车的 gRPC 端点 URL。 |
-| `DaprApiToken` | `null` | 在出站的 Dapr 请求中转发的 API 令牌，用于边车身份验证。 |
-| `StreamingReconnectDelay` | `5 seconds` | 重新连接已断开的流式订阅之前所等待的时间间隔。 |
+| `DaprGrpcEndpoint` | `http://localhost:50001` | Dapr sidecar 的 gRPC 端点 URL。 |
+| `DaprApiToken` | `null` | 在出站的 Dapr 请求中转发的 API 令牌，用于 sidecar 身份验证。 |
+| `StreamingReconnectDelay` | `5 seconds` | 重新连接已断开的 streaming subscription 之前所等待的时间间隔。 |
 | `JsonSerializerOptions` | `JsonSerializerDefaults.Web` | 消息发布客户端使用的选项。生成的订阅者分发器目前使用其生成时的默认选项。 |
 
 ### 端点与环境变量的优先级
@@ -79,7 +79,7 @@ builder.Services.AddDaprMessaging(options =>
 底层构建器能够识别标准的 Dapr 端点/端口与 API 令牌环境变量。
 但在 SDK `1.19.0` 中，`AddDaprMessaging` 会在创建构建器**之后**应用非空的 `DaprMessagingOptions.DaprGrpcEndpoint`。因此，即使你没有显式配置，其默认值 `http://localhost:50001` 也会覆盖由环境变量推导出的 gRPC 地址。
 
-当边车使用其他端口时，请绑定正确的端点：
+当 sidecar 使用其他端口时，请绑定正确的端点：
 
 ```csharp
 builder.Services.AddDaprMessaging(options =>
@@ -98,20 +98,20 @@ builder.Services.AddDaprMessaging(options =>
 
 | 维度 | 流式（`DeliveryMode.Streaming`） | 编程式（`DeliveryMode.Programmatic`） | HTTP（`DeliveryMode.Http`） |
 | --- | --- | --- | --- |
-| **方向** | 从应用出站（应用通过 gRPC 流连接边车） | 入站到应用（边车连接应用的 gRPC 服务器） | 入站到应用（边车连接应用的 HTTP 端口） |
+| **方向** | 从应用出站（应用通过 gRPC 流连接 sidecar） | 入站到应用（sidecar 连接应用的 gRPC 服务器） | 入站到应用（sidecar 连接应用的 HTTP 端口） |
 | **需要端点** | **无** | gRPC `AppCallback` 服务 | HTTP 端点（`/dapr/subscribe`） |
-| **应用配置** | 仅依靠边车即可工作（无需 `app-port`） | 需要在边车上配置应用的 gRPC 端口 | 需要在边车上配置应用的 HTTP 端口 |
+| **应用配置** | 仅依靠 sidecar 即可工作（无需 `app-port`） | 需要在 sidecar 上配置应用的 gRPC 端口 | 需要在 sidecar 上配置应用的 HTTP 端口 |
 | **背压** | 客户端缓冲队列 | 由运行时管理的并发 | Web 服务器 / ASP.NET 管道 |
 | **最适用于** | 工作进程、控制台应用、没有入站监听器的微服务 | 高吞吐量的 gRPC 服务、低延迟场景 | 传统 Web API、已有的 HTTP 路由设置 |
 | **端点注册** | 无 | `app.MapDaprMessaging()` | `app.MapDaprMessaging()` |
 
 ## 高级消息模式
 
-### 批量发布与订阅
+### Bulk Publish 与订阅
 
-批量操作允许以批次方式发布和消费多个事件，从而减少与边车之间的网络往返次数：
+批量操作允许以批次方式发布和消费多个事件，从而减少与 sidecar 之间的网络往返次数：
 
-#### 批量发布
+#### Bulk Publish
 ```csharp
 var orders = new List<Order>
 {
@@ -212,11 +212,11 @@ public Task<TopicResponseAction> HandleAsync(Order message, TopicContext context
 如果与 `ITopicHandler<TMessage>` 一起使用的消息类型未包含在源生成器生成的 `JsonSerializerContext` 中，分析器 `DAPR1612` 会发出构建警告。该分析器警告本身并不能使生成的订阅者反序列化具备裁剪安全性。
 {{% /alert %}}
 
-## 弹性策略与错误处理
+## resiliency 与错误处理
 
 ### 流式模式下的背压管理
 
-使用 `DeliveryMode.Streaming` 或动态流式订阅时，SDK 会将传入的消息排入应用程序内存中的队列。`MaximumQueuedMessages` 可以为空，默认为无界队列；设置一个正数上限即可限制客户端缓冲并施加背压。
+使用 `DeliveryMode.Streaming` 或动态 streaming subscription 时，SDK 会将传入的消息排入应用程序内存中的队列。`MaximumQueuedMessages` 可以为空，默认为无界队列；设置一个正数上限即可限制客户端缓冲并施加背压。
 
 你可以在 `DaprSubscriptionOptions` 中调整队列大小与清理超时时间：
 
@@ -230,7 +230,7 @@ var options = new DaprSubscriptionOptions(
     MaximumCleanupTimeout = TimeSpan.FromSeconds(30), // 关闭时等待刷新 ACK 的最长时间
     ErrorHandler = async (exception) =>
     {
-        // 边车流式传输或连接出现故障时调用
+        // sidecar 流式传输或连接出现故障时调用
         logger.LogError(exception, "Streaming subscription encountered an error");
     }
 };
@@ -238,22 +238,22 @@ var options = new DaprSubscriptionOptions(
 
 ### 优雅关闭
 
-流式订阅会尝试在 `MaximumCleanupTimeout`（默认 30 秒）内刷新待处理的确认。这是一种有时限的尽力而为式关闭，并不提供零丢失或恰好一次的保证。当未收到确认时（包括处理已成功之后），消息可能被重复投递。因此，请让处理程序具备幂等性。
+streaming subscription 会尝试在 `MaximumCleanupTimeout`（默认 30 秒）内刷新待处理的确认。这是一种有时限的尽力而为式关闭，并不提供零丢失或恰好一次的保证。当未收到确认时（包括处理已成功之后），消息可能被重复投递。因此，请让处理程序具备幂等性。
 
 ### 监控后台订阅故障
 
 `SubscribeAsync` 返回 `IAsyncDisposable`，但其运行时句柄实现了 `IDaprSubscription`。请监控 `IDaprSubscription.Completion`，以便在启动后检测流或确认循环的故障。`ErrorHandler` 是一种通知回调，而不是恢复机制：原始故障仍会使订阅以异常方式完成。如果该回调本身也抛出异常，则完成任务会通过 `AggregateException` 同时报告这两个故障。请根据应用程序自行管理的重试策略重新创建失败的动态订阅。
 
-生成的流式订阅者会使用已配置的重连延迟。不要因为生成的宿主会自动重连，就假设任意动态订阅也会自动重连。
+生成的 streaming subscriber 会使用已配置的重连延迟。不要因为生成的宿主会自动重连，就假设任意动态订阅也会自动重连。
 
 ## 现有的 DaprClient 与 ASP.NET 集成
 
-`DaprClient.PublishEventAsync` 和 `BulkPublishEventAsync`，以及 `Dapr.AspNetCore` 的 `[Topic]`、CloudEvents 中间件和订阅端点映射，仍然是各自独立且受支持的 API 接口。生成的 `[DaprTopic]`/`ITopicHandler<T>` 模型不要求整体迁移现有的订阅者。专用发布者使用 `PublishOptions`，较旧的客户端则使用元数据字典。迁移某个主题时，请避免注册重复的订阅。
+`DaprClient.PublishEventAsync` 和 `BulkPublishEventAsync`，以及 `Dapr.AspNetCore` 的 `[Topic]`、CloudEvents middleware 和订阅端点映射，仍然是各自独立且受支持的 API 接口。生成的 `[DaprTopic]`/`ITopicHandler<T>` 模型不要求整体迁移现有的订阅者。专用发布者使用 `PublishOptions`，较旧的客户端则使用元数据字典。迁移某个主题时，请避免注册重复的订阅。
 
 ## 后续步骤
 
 - [操作指南：使用 IDaprPublishSubscribeClient 发布事件]({{< ref dotnet-messaging-publish-howto.md >}})
 - [操作指南：编写订阅并处理主题消息]({{< ref dotnet-messaging-subscribe-howto.md >}})
 - [教程：通过示例学习 Dapr.Messaging]({{< ref "tutorial/_index.md" >}})
-- [Dapr 发布订阅概述]({{% ref pubsub-overview %}})
-- [Dapr 组件规范]({{% ref supported-pubsub %}})
+- [Dapr pub/sub 概述]({{% ref pubsub-overview %}})
+- [Dapr component 规范]({{% ref supported-pubsub %}})

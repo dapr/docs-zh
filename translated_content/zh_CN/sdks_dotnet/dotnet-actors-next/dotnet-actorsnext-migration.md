@@ -6,12 +6,12 @@ weight: 105000
 description: "逐概念介绍如何把现有的 Dapr.Actors（以及 Dapr.Actors.AspNetCore）Actor 层迁移到 Dapr.Actors.Next"
 ---
 
-本指南面向已经在 `Dapr.Actors`（通常由 `Dapr.Actors.AspNetCore` 托管）上运行 Actor、并希望迁移到 `Dapr.Actors.Next` 的开发者。它逐一介绍你当前使用的每个概念，给出新 SDK 中的对应写法，说明概念本身有哪些变化，指出容易导致严重错误的地方，并提供迁移前后的代码对比。本文默认你已了解 `Dapr.Actors` 的工作方式，不再重新讲解 Actor 模型；对于旧 SDK 中没有对应功能的特性（状态机、订阅流、内存测试运行时和状态迁移，各自都有独立页面），本文有意略过。
+本指南面向已经在 `Dapr.Actors`（通常由 `Dapr.Actors.AspNetCore` 托管）上运行 Actor、并希望迁移到 `Dapr.Actors.Next` 的开发者。它逐一介绍你当前使用的每个概念，给出新 SDK 中的对应写法，说明概念本身有哪些变化，指出容易导致严重错误的地方，并提供迁移前后的代码对比。本文默认你已了解 `Dapr.Actors` 的工作方式，不再重新讲解 Actor 模型；对于旧 SDK 中没有对应功能的特性（状态机、Subscription streams、内存测试运行时和状态迁移，各自都有独立页面），本文有意略过。
 
-`Dapr.Actors.Next` 是一个全新的包族，API 与旧版不同。采用它意味着重写你的 Actor 层，而不是原地升级包版本。好消息是，它与 Dapr 运行时的线协议兼容，并且使用相同的类型名称寻址 Actor，因此新旧 SDK 可以共存，你可以一次迁移一个 Actor 类型，而不必一次性全部切换。
+`Dapr.Actors.Next` 是一个全新的包族，API 与旧版不同。采用它意味着重写你的 Actor 层，而不是原地升级包版本。好消息是，它与 Dapr runtime 的线协议兼容，并且使用相同的类型名称寻址 Actor，因此新旧 SDK 可以共存，你可以一次迁移一个 Actor 类型，而不必一次性全部切换。
 
 {{% alert title="运行时要求" color="warning" %}}
-`Dapr.Actors.Next` 需要 Dapr 运行时 **v1.18.0 或更高版本**。它通过持久的、由应用发起的 `SubscribeActorEvents` gRPC 流托管 Actor，而不是通过入站的 HTTP Actor 处理端点。开始之前，请确认你的集群已运行 1.18 或更高版本；目前没有受支持的方式让新 SDK 对接更旧的边车。虽然 `Dapr.Actors` 和 `Dapr.Actors.AspNetCore` 包可以与所有受支持的 Dapr 运行时版本配合使用，但它们不会用到任何 gRPC 功能；同时使用新旧两套 Actors SDK 的应用，需要再开放一个端口，用于接收运行时的 HTTP 和 gRPC 回调。
+`Dapr.Actors.Next` 需要 Dapr runtime **v1.18.0 或更高版本**。它通过持久的、由应用发起的 `SubscribeActorEvents` gRPC 流托管 Actor，而不是通过入站的 HTTP Actor 处理端点。开始之前，请确认你的集群已运行 1.18 或更高版本；目前没有受支持的方式让新 SDK 对接更旧的 sidecar。虽然 `Dapr.Actors` 和 `Dapr.Actors.AspNetCore` 包可以与所有受支持的 Dapr runtime 版本配合使用，但它们不会用到任何 gRPC 功能；同时使用新旧两套 Actors SDK 的应用，需要再开放一个端口，用于接收运行时的 HTTP 和 gRPC 回调。
 {{% /alert %}}
 
 ## 开始之前：最容易出问题的两件事
@@ -23,7 +23,7 @@ description: "逐概念介绍如何把现有的 Dapr.Actors（以及 Dapr.Actors
 2. **跨 SDK 的实时调用只能在 JSON 路径上对齐。** 在新旧共存期间，`Dapr.Actors.Next` 代理发出的调用使用 System.Text.Json 序列化。这与旧版的**非远程处理**代理（同样是 JSON）一致，但与旧版的**远程处理**代理（DataContract）**不一致**。如果迁移途中的集群里，一个应用通过 Actor 协议调用另一个应用，那么两端必须就线协议格式达成一致。避免这类问题的一个简便方法，是把一个 Actor 类型与它的调用方一起迁移，这样同一类型就不会跨越两种序列化格式。
 
 {{% alert title="每次只迁移一个 Actor 类型" color="primary" %}}
-由于两套 SDK 都使用相同的类型名称寻址 Actor，并且与运行时线协议兼容，你无需进行大规模的一次性切换。先部署新的宿主（或在现有应用中启用新模式），迁移单个 Actor 类型及调用它的代码，验证状态读取和行为，然后再迁移下一个。对于尚未迁移的类型，继续保留 `Dapr.Actors` 包。你也可以为类型保留完整的命名空间，以便区分各自使用的是哪一套，避免迁移过程中出现冲突。
+由于两套 SDK 都使用相同的类型名称寻址 Actor，并且与运行时线协议兼容，你无需进行大规模的一次性切换。先部署新的宿主（或在现有应用中启用新模式），迁移单个 Actor 类型及调用它的代码，验证状态读取和行为，然后再迁移下一个。对于尚未迁移的类型，继续保留 `Dapr.Actors` 包。你也可以为类型保留完整的 namespace，以便区分各自使用的是哪一套，避免迁移过程中出现冲突。
 {{% /alert %}}
 
 ## 快速对照
@@ -42,18 +42,18 @@ description: "逐概念介绍如何把现有的 Dapr.Actors（以及 Dapr.Actors
 | 显式保存                             | `SaveStateAsync()`（或轮次结束时自动保存） | 需要时调用 `State.SaveStateAsync()`；否则轮次结束时自动保存               |
 | 代理形式                             | 远程处理（`Create<T>`）和非远程处理（`Create` + `InvokeMethodAsync`） | 单一代理：`IActorProxyFactory.Create<T>(id, type)`                        |
 | 负载序列化                           | DataContract（远程处理）或 System.Text.Json（非远程处理） | 可插拔的 `IDaprSerializer` 路径（默认 System.Text.Json）                   |
-| 定时器                               | `RegisterTimerAsync(name, callbackMethodName, byte[] state, …)` | `IActorTimerScheduler.ScheduleAsync(…, operationName, arguments, …)`      |
-| 提醒                                 | `RegisterReminderAsync(…)` + 实现 `IRemindable` | `IActorReminderScheduler.ScheduleAsync(…)`，路由到指定的具名 Actor 方法   |
+| timer                               | `RegisterTimerAsync(name, callbackMethodName, byte[] state, …)` | `IActorTimerScheduler.ScheduleAsync(…, operationName, arguments, …)`      |
+| reminder                                 | `RegisterReminderAsync(…)` + 实现 `IRemindable` | `IActorReminderScheduler.ScheduleAsync(…)`，路由到指定的具名 Actor 方法   |
 | 选项                                 | `ActorRuntimeOptions` / `ActorReentrancyConfig` | `DaprActorsOptions`（选项模式）                                           |
 | 依赖注入                             | 通过 AspNetCore DI 激活器，每次激活一个作用域；构造函数接收 `ActorHost` | 每次激活一个作用域；普通的构造函数注入                                    |
-| 测试                                 | 针对 边车 的集成测试 | 内存中的确定性运行时（独立页面）                                          |
+| 测试                                 | 针对 sidecar 的集成测试 | 内存中的确定性运行时（独立页面）                                          |
 | 一个接口，多种 Actor 类型            | 不实用 | 支持                                                                      |
 | 一个 Actor 类型，多个接口            | 不支持 | 支持                                                                      |
 | 多参数的非远程处理方法               | 不可能（只能有单个负载参数） | 支持                                                                      |
 
 ## 包与托管
 
-在旧模式下，你引用 `Dapr.Actors` 获取客户端和运行时类型，引用 `Dapr.Actors.AspNetCore` 进行托管，然后在 HTTP 端口上映射 Actor 端点，让 边车 能通过 HTTP 调用你的应用。在新模式下，你只需引用一个 `Dapr.Actors.Next` 包并映射一个 gRPC 端点；应用启动时，宿主会与运行时建立一条持久流，所有回调都通过这条流接收。
+在旧模式下，你引用 `Dapr.Actors` 获取客户端和运行时类型，引用 `Dapr.Actors.AspNetCore` 进行托管，然后在 HTTP 端口上映射 Actor 端点，让 sidecar 能通过 HTTP 调用你的应用。在新模式下，你只需引用一个 `Dapr.Actors.Next` 包并映射一个 gRPC 端点；应用启动时，宿主会与运行时建立一条持久流，所有回调都通过这条流接收。
 
 ```xml
 <!-- 之前 -->
@@ -96,7 +96,7 @@ var app = builder.Build();
 app.Run();
 ```
 
-变化的原因：回调（调用、提醒、定时器、停用）以前是通过你用 `MapActorsHandlers()` 映射的端点，以入站 HTTP 请求的形式到达的。现在它们通过应用主动向运行时打开的长期双向 gRPC 流到达。已经没有与 `MapActorsHandlers()` 对应的方法了。
+变化的原因：回调（调用、reminder、timer、停用）以前是通过你用 `MapActorsHandlers()` 映射的端点，以入站 HTTP 请求的形式到达的。现在它们通过应用主动向运行时打开的长期双向 gRPC 流到达。已经没有与 `MapActorsHandlers()` 对应的方法了。
 
 {{% alert title="你的应用仍然运行着 gRPC 服务器" color="primary" %}}
 移除 Actor 的 HTTP 处理端点并不意味着应用停止监听。应用仍然会暴露它的 gRPC 服务端口，运行时会用它做前置检查（例如，当你使用其他需要应用提供 gRPC 端点的 Dapr 功能时）。改变的只是 Actor 回调的投递方式。完整的宿主配置请参见[编写、注册和调用 Actor]({{< ref dotnet-actorsnext-howto.md >}})。
@@ -221,7 +221,7 @@ protected override ValueTask OnPostActorMethodAsync(ActorMethodContext context, 
 // 没有单独的 OnActorMethodFailedAsync——请检查上面的 exception 参数
 ```
 
-## 状态管理
+## State Management
 
 状态是最值得你关注的部分，既因为它保存着你的持久数据，也因为其 API 形态发生了变化。`IActorStateManager` 变为 `IActorStateAccessor`，并通过 `State` 而不是 `StateManager` 暴露。读取操作现在返回一个 `IActorState<T>` 包装器，你通过它的 `.Value` 读取和修改值；未决的变更会在每个轮次结束时自动保存，如果需要更早持久化，可以调用 `State.SaveStateAsync()`。
 
@@ -302,9 +302,9 @@ public sealed class CheckoutService(IActorProxyFactory proxies)
 旧版非远程处理中按字符串调用的 `InvokeMethodAsync("MethodName", …)`，在新版中对应 `IDynamicActorClient.InvokeAsync(type, id, method, argsJson)`，并配合 `IActorRegistry` 进行发现。如果你之前使用非远程处理代理，仅仅是因为编译期没有契约（例如网关、工具或跨语言调用方），那么现在它已成为一条一等公民的、有文档说明的路径，而不再是代理上的一个重载。参见[动态调用]({{< ref dotnet-actorsnext-dynamic.md >}})。
 {{% /alert %}}
 
-## 定时器
+## timer
 
-定时器从 Actor 基类上的一个方法（`RegisterTimerAsync`）变为注入的 `IActorTimerScheduler`。旧 API 以字符串形式传入回调方法名，并附带一个 `byte[]` 状态块；新 API 则传入目标操作名，以及经配置的 Actor 线协议序列化器处理的带类型参数，或调用方提供的 `byte[]`，并将回调路由到该操作。
+timer 从 Actor 基类上的一个方法（`RegisterTimerAsync`）变为注入的 `IActorTimerScheduler`。旧 API 以字符串形式传入回调方法名，并附带一个 `byte[]` 状态块；新 API 则传入目标操作名，以及经配置的 Actor 线协议序列化器处理的带类型参数，或调用方提供的 `byte[]`，并将回调路由到该操作。
 
 ```csharp
 // 之前 —— 回调是方法名字符串；状态是 byte[]；通过反射校验
@@ -322,7 +322,7 @@ public Task RefreshPrices(byte[] data) { … }   // 0 或 1 个参数，必须�
 ```
 
 ```csharp
-// 之后 —— 注入调度器；以带类型参数的方式路由到指定操作
+// 之后 —— 注入 Scheduler；以带类型参数的方式路由到指定操作
 [DaprActor("Cart")]
 public sealed class CartActor(ActorActivationContext context, IActorTimerScheduler timers)
     : Actor, ICartActor
@@ -347,11 +347,11 @@ public sealed class CartActor(ActorActivationContext context, IActorTimerSchedul
 }
 ```
 
-说明：`dueTime` 仍然决定第一次触发的时间。省略 `period`（或将其设为 `TimeSpan.Zero` / `Timeout.InfiniteTimeSpan`）时定时器只触发一次；`period` 为正值时则为周期性触发。`ttl` 是可选的，如果提供，必须不小于 `dueTime`。使用 `timers.CancelAsync(actorType, id, name, ct)` 取消定时器。持久性方面的注意事项没有变：定时器驻留在内存中并与激活实例绑定，因此不会在停用或重启后保留。
+说明：`dueTime` 仍然决定第一次触发的时间。省略 `period`（或将其设为 `TimeSpan.Zero` / `Timeout.InfiniteTimeSpan`）时 timer 只触发一次；`period` 为正值时则为周期性触发。`ttl` 是可选的，如果提供，必须不小于 `dueTime`。使用 `timers.CancelAsync(actorType, id, name, ct)` 取消 timer。持久性方面的注意事项没有变：timer 驻留在内存中并与激活实例绑定，因此不会在停用或重启后保留。
 
-## 提醒
+## reminder
 
-提醒是回调形态变化最大的部分。在 `Dapr.Actors` 中，你需要实现 `IRemindable.ReceiveReminderAsync`，这是一个接收*所有*提醒的方法，你必须根据 `reminderName` 进行分支判断，并且负载是 `byte[]`。在 `Dapr.Actors.Next` 中，提醒通过 `IActorReminderScheduler` 调度，并直接路由到指定的具名 Actor 方法；既没有 `IRemindable`，也没有集中派发的 switch。
+reminder 是回调形态变化最大的部分。在 `Dapr.Actors` 中，你需要实现 `IRemindable.ReceiveReminderAsync`，这是一个接收*所有*reminder 的方法，你必须根据 `reminderName` 进行分支判断，并且负载是 `byte[]`。在 `Dapr.Actors.Next` 中，reminder 通过 `IActorReminderScheduler` 调度，并直接路由到指定的具名 Actor 方法；既没有 `IRemindable`，也没有集中派发的 switch。
 
 ```csharp
 // 之前 —— 实现 IRemindable，并按名称分支
@@ -371,7 +371,7 @@ public class CartActor : Actor, ICartActor, IRemindable
 
     public async Task ReceiveReminderAsync(string reminderName, byte[] state, TimeSpan dueTime, TimeSpan period)
     {
-        switch (reminderName)          // 一个方法派发给多个提醒
+        switch (reminderName)          // 一个方法派发给多个 reminder
         {
             case "abandon-cart":
                 var cart = await StateManager.GetOrAddStateAsync("cart", new CartState());
@@ -384,7 +384,7 @@ public class CartActor : Actor, ICartActor, IRemindable
 ```
 
 ```csharp
-// 之后 —— 通过注入的调度器调度；提醒名称即为操作名称
+// 之后 —— 通过注入的 Scheduler 调度；reminder 名称即为操作名称
 [DaprActor("Cart")]
 public sealed class CartActor(ActorActivationContext context, IActorReminderScheduler reminders)
     : Actor, ICartActor
@@ -397,7 +397,7 @@ public sealed class CartActor(ActorActivationContext context, IActorReminderSche
         await reminders.ScheduleAsync(
             actorType: "Cart",
             actorId: Id,
-            name: nameof(AbandonCart),   // 提醒名称路由到此方法
+            name: nameof(AbandonCart),   // reminder 名称路由到此方法
             dueTime: TimeSpan.FromMinutes(30),
             period: TimeSpan.Zero,
             arguments: Array.Empty<byte>(),
@@ -416,11 +416,11 @@ public sealed class CartActor(ActorActivationContext context, IActorReminderSche
 
 变化及需要注意的地方：
 
-- 不再有 `IRemindable`。删除该接口以及集中的 `ReceiveReminderAsync` switch；每个提醒都对应自己的方法。
-- 提醒的 `name` 既是持久的提醒标识，也是回调时路由的操作。请选择一个稳定的名称，不要随意重命名。如果你重命名了方法，已注册的提醒仍会调用旧的操作名，直到它们被重新注册或取消。
-- 提醒负载与定时器采用相同的重载模式：既可以传入类型化的值（由 Actor 线协议序列化器序列化），也可以在你已自行序列化负载后传入 `byte[]`。
-- `overwrite` 控制重新注册同名提醒时是否替换原有注册；Dapr 的默认值是覆盖，设置 `overwrite: false` 后，重复注册将失败。
-- 持久性没有变化：提醒在停用和重启后依然保留，并由 Dapr Scheduler 投递。
+- 不再有 `IRemindable`。删除该接口以及集中的 `ReceiveReminderAsync` switch；每个 reminder 都对应自己的方法。
+- reminder 的 `name` 既是持久的 reminder 标识，也是回调时路由的操作。请选择一个稳定的名称，不要随意重命名。如果你重命名了方法，已注册的 reminder 仍会调用旧的操作名，直到它们被重新注册或取消。
+- reminder 负载与 timer 采用相同的重载模式：既可以传入类型化的值（由 Actor 线协议序列化器序列化），也可以在你已自行序列化负载后传入 `byte[]`。
+- `overwrite` 控制重新注册同名 reminder 时是否替换原有注册；Dapr 的默认值是覆盖，设置 `overwrite: false` 后，重复注册将失败。
+- 持久性没有变化：reminder 在停用和重启后依然保留，并由 Dapr Scheduler 投递。
 
 ## 选项与重入
 
@@ -453,17 +453,17 @@ builder.Services.AddDaprActors(options =>
 });
 ```
 
-除了属性重命名之外，关于重入还有两点需要知道。第一，`Dapr.Actors.Next` 会自动为你传播调用链元数据，Actor 作者不再需要处理重入相关的请求头（`ActorReentrancyContextAccessor` 没有需要你调用的对应物）。第二，启用重入是一个有意为之的决定：如果未启用，一个回到已在调用链中的 Actor 的调用，会阻塞在第一个轮次仍持有的锁上。参见[重入自动完成，但必须启用]({{< ref "dotnet-actorsnext-howto.md#call-an-actor-from-inside-an-actor" >}})。
+除了属性重命名之外，关于重入还有两点需要知道。第一，`Dapr.Actors.Next` 会自动为你传播调用链 metadata，Actor 作者不再需要处理重入相关的请求头（`ActorReentrancyContextAccessor` 没有需要你调用的对应物）。第二，启用重入是一个有意为之的决定：如果未启用，一个回到已在调用链中的 Actor 的调用，会阻塞在第一个轮次仍持有的锁上。参见[重入自动完成，但必须启用]({{< ref "dotnet-actorsnext-howto.md#call-an-actor-from-inside-an-actor" >}})。
 
 以下选项已不再以原有形式存在：运行时选项上的 `UseJsonSerialization` 和 `JsonSerializerOptions` 已移除，因为序列化现在由注入的 `IDaprSerializer` 完成，请在那里进行配置（参见[序列化]({{< ref dotnet-actorsnext-serialization.md >}})）。`DaprApiToken` 和 `HttpEndpoint` 在新模型中不再是 Actor 选项的范畴，因为新模型通过 gRPC 流与运行时通信。
 
 ## 投递语义保持不变——现在明确说明
 
-`Dapr.Actors` 中的 Actor 调用本来就是至少一次（at-least-once）语义，提醒在未被确认前也会反复触发；只是许多团队并没有为此做设计。`Dapr.Actors.Next` 并未改变这一契约，但它让失败路径变得可测试：调用可能被重新传递，提醒在确认丢失时可能再次触发，即使处理它的轮次已经提交。因此，每个 Actor 方法、提醒和订阅处理程序都必须能够安全地重复执行。无论是状态变更还是外部副作用（发布消息、调用另一个 Actor、扣款），都需要幂等或去重；仅依靠 Actor 状态并不能让一次自增或追加操作变得可安全重放。可以使用带装饰的回调传输层，在提交之后注入响应丢失故障，然后显式地测试重新传递。参见[需要为之设计的投递保证]({{< ref "dotnet-actorsnext-howto.md#delivery-guarantees-you-must-design-for" >}})。
+`Dapr.Actors` 中的 Actor 调用本来就是至少一次（at-least-once）语义，reminder 在未被确认前也会反复触发；只是许多团队并没有为此做设计。`Dapr.Actors.Next` 并未改变这一契约，但它让失败路径变得可测试：调用可能被重新传递，reminder 在确认丢失时可能再次触发，即使处理它的轮次已经提交。因此，每个 Actor 方法、reminder 和订阅处理程序都必须能够安全地重复执行。无论是状态变更还是外部副作用（发布消息、调用另一个 Actor、扣款），都需要幂等或去重；仅依靠 Actor 状态并不能让一次自增或追加操作变得可安全重放。可以使用带装饰的回调传输层，在提交之后注入响应丢失故障，然后显式地测试重新传递。参见[需要为之设计的投递保证]({{< ref "dotnet-actorsnext-howto.md#delivery-guarantees-you-must-design-for" >}})。
 
 ## 测试
 
-与其说这是一个迁移步骤，不如说这是一个机会。在 `Dapr.Actors` 中，测试 Actor 需要针对运行中的 边车 做集成测试，这使得重入、定时器与调用之间的竞争、重新传递以及保存过程中的故障实际上都无法测试。`Dapr.Actors.Next` 提供了一个内存中的、确定性的 `ActorTestRuntime`，它通过生产环境所用的同一套生成分发器驱动你的真实 Actor，支持虚拟时间和故障注入，无需 边车。迁移某个 Actor 类型时，正是补充那些以前无法编写的单元测试的好时机。参见[测试]({{< ref dotnet-actorsnext-testing.md >}})。
+与其说这是一个迁移步骤，不如说这是一个机会。在 `Dapr.Actors` 中，测试 Actor 需要针对运行中的 sidecar 做集成测试，这使得重入、timer 与调用之间的竞争、重新传递以及保存过程中的故障实际上都无法测试。`Dapr.Actors.Next` 提供了一个内存中的、确定性的 `ActorTestRuntime`，它通过生产环境所用的同一套生成分发器驱动你的真实 Actor，支持虚拟时间和故障注入，无需 sidecar。迁移某个 Actor 类型时，正是补充那些以前无法编写的单元测试的好时机。参见[测试]({{< ref dotnet-actorsnext-testing.md >}})。
 
 ## 已取消的限制
 
@@ -509,7 +509,7 @@ public sealed class DocumentActor(ActorActivationContext context)
 1. **确认运行时版本为 1.18 或更高**，覆盖 Actor 将运行的所有位置。
 2. **挑选一个 Actor 类型**作为首个迁移对象——最好是状态较小、调用方较少的类型。
 3. **使用 `[GenerateActorClient]` 创建契约。** 如果调用方位于其他应用中，请把接口放在双方都引用的共享程序集中。
-4. **重写实现类**：使用 `[DaprActor]`，注入 `ActorActivationContext`，重写 `Id`/`State`，将 `StateManager` 调用改为 `State`，把定时器改为 `IActorTimerScheduler`，把提醒改为 `IActorReminderScheduler` 加具名方法，删除 `IRemindable`，并且只在确实需要轮次中途进行持久化写入时才保留 `SaveStateAsync`。
+4. **重写实现类**：使用 `[DaprActor]`，注入 `ActorActivationContext`，重写 `Id`/`State`，将 `StateManager` 调用改为 `State`，把 timer 改为 `IActorTimerScheduler`，把 reminder 改为 `IActorReminderScheduler` 加具名方法，删除 `IRemindable`，并且只在确实需要轮次中途进行持久化写入时才保留 `SaveStateAsync`。
 5. **验证状态可读性**：编写一个测试，植入旧结构的值，并用新代码读取；如果结构发生了变化，引入升级器。
 6. **将该类型的调用方迁移**到 `IActorProxyFactory`，使调用与 Actor 共享同一种序列化格式，避免远程处理与 JSON 混用。
 7. **使用 `ActorTestRuntime` 添加单元测试**，覆盖以前无法测试的路径。
@@ -521,7 +521,7 @@ public sealed class DocumentActor(ActorActivationContext context)
 - **Actor 类型名变更。** 类型名是持久地址的一部分；修改它会使已有实例失去归属。请保持不变。
 - **序列化器选项漂移。** 两侧的状态都是 JSON，但命名策略、枚举处理方式的不同，或旧版自定义序列化器，都可能导致已有状态无法读取。请进行验证，并对真正的结构变化使用状态迁移。
 - **共存期间的远程处理与 JSON 混用。** Next 代理（JSON）与旧版远程处理调用方（DataContract）无法对齐。请将一个 Actor 类型与其调用方一起迁移。
-- **提醒方法重命名。** 提醒名称就是被路由的操作；重命名方法会使已注册的提醒仍指向旧名称。
+- **reminder 方法重命名。** reminder 名称就是被路由的操作；重命名方法会使已注册的 reminder 仍指向旧名称。
 - **假设恰好一次。** 处理程序必须能够安全地重复执行；请让状态更新和外部副作用具有幂等性，或对请求去重。
 - **静态 `ActorProxy` 门面。** 它能工作，但其进程级可变状态是一个隐患；请改为注入 `IActorProxyFactory`。
 - **Actor 位于被引用的项目中。** 除非设置了 `DaprActorsScanReferences`，否则发现过程只扫描正在执行的程序集。

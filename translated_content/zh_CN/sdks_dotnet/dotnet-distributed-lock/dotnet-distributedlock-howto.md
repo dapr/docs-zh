@@ -12,7 +12,7 @@ description: 了解如何使用 .NET SDK 创建和使用 Dapr 分布式锁客户
   [.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) 或
   [.NET 11](https://dotnet.microsoft.com/download/dotnet/11.0)
 - [Dapr CLI](https://docs.dapr.io/getting-started/install-dapr-cli/)
-- [已初始化的 Dapr 环境](https://docs.dapr.io/getting-started/install-dapr-selfhost)
+- [已初始化的 Dapr environment](https://docs.dapr.io/getting-started/install-dapr-selfhost)
 
 ## 安装
 
@@ -25,9 +25,9 @@ description: 了解如何使用 .NET SDK 创建和使用 Dapr 分布式锁客户
 dotnet add package Dapr.DistributedLock
 ```
 
-以下示例面向 SDK `1.19.0` 或更高版本，并且需要已配置的分布式锁组件，例如名为 `lockstore` 的 Redis 锁存储。请导入 `Dapr.DistributedLock` 和 `Dapr.DistributedLock.Extensions`。此 API 处于实验阶段（`DAPR_DISTRIBUTEDLOCK`）。
+以下示例面向 SDK `1.19.0` 或更高版本，并且需要已配置的分布式锁 component，例如名为 `lockstore` 的 Redis lock store。请导入 `Dapr.DistributedLock` 和 `Dapr.DistributedLock.Extensions`。此 API 处于实验阶段（`DAPR_DISTRIBUTEDLOCK`）。
 
-`DaprDistributedLockClient` 以 TCP 套接字的形式维护对网络资源的访问，用于与 Dapr 边车通信。
+`DaprDistributedLockClient` 以 TCP 套接字的形式维护对网络资源的访问，用于与 Dapr sidecar 通信。
 
 ### 依赖注入
 
@@ -76,7 +76,7 @@ var daprDistributedLockClient = new DaprDistributedLockBuilder()
 | ----------- | ----------- |
 | [SDK 示例](https://github.com/dapr/dotnet-sdk/tree/master/examples) | 克隆 SDK 仓库，尝试一些示例并开始使用。 |
 
-## 构建块
+## building block
 
 .NET SDK 的这一部分允许你与分布式锁 API 交互，以加锁和解锁，从而在分布式应用程序中管理资源的独占性。
 
@@ -106,7 +106,7 @@ else
 
 ## 显式解锁与状态
 
-向 `TryUnlockAsync` 传入相同的组件、资源和所有者值：
+向 `TryUnlockAsync` 传入相同的 component、资源和所有者值：
 
 ```csharp
 using Dapr.DistributedLock.Models;
@@ -125,7 +125,7 @@ if (result.Status != LockStatus.Success)
 | `Success` | 锁已释放。 |
 | `LockDoesNotExist` | 锁已不存在，例如因为已过期。 |
 | `LockBelongsToOthers` | 提供的所有者并不拥有此锁。 |
-| `InternalError` | 运行时或组件报告了解锁错误。 |
+| `InternalError` | 运行时或 component 报告了解锁错误。 |
 
 无效参数会抛出标准的参数异常。gRPC 失败会包装在 `DaprException` 中，请检查 `InnerException`。正常的获取冲突返回 `null`，而不是传输异常。
 

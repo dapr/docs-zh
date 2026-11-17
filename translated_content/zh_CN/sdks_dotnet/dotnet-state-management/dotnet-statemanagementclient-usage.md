@@ -24,10 +24,10 @@ description: 使用 DaprStateManagementClient 的必备提示与建议
 
 | 方法 | 说明 |
 |------|------|
-| `UseGrpcEndpoint(string)` | 为 Dapr 边车设置 gRPC 端点。 |
-| `UseHttpEndpoint(string)` | 为 Dapr 边车设置 HTTP 端点。 |
+| `UseGrpcEndpoint(string)` | 为 Dapr sidecar 设置 gRPC 端点。 |
+| `UseHttpEndpoint(string)` | 为 Dapr sidecar 设置 HTTP 端点。 |
 | `UseJsonSerializationOptions(JsonSerializerOptions)` | 配置自定义 JSON 序列化选项。 |
-| `UseDaprApiToken(string)` | 设置用于对 Dapr 边车进行身份验证的 API 令牌。 |
+| `UseDaprApiToken(string)` | 设置用于对 Dapr sidecar 进行身份验证的 API 令牌。 |
 | `UseGrpcChannelOptions(GrpcChannelOptions)` | 提供自定义的 gRPC 通道选项。 |
 | `UseTimeout(TimeSpan)` | 配置 HTTP 请求超时。 |
 
@@ -37,9 +37,9 @@ description: 使用 DaprStateManagementClient 的必备提示与建议
 
 | 变量 | 说明 |
 |------|------|
-| `DAPR_GRPC_ENDPOINT` | Dapr 边车的 gRPC 端点地址 |
-| `DAPR_HTTP_ENDPOINT` | Dapr 边车的 HTTP 端点地址 |
-| `DAPR_API_TOKEN` | 用于对 Dapr 边车进行身份验证的 API 令牌 |
+| `DAPR_GRPC_ENDPOINT` | Dapr sidecar 的 gRPC 端点地址 |
+| `DAPR_HTTP_ENDPOINT` | Dapr sidecar 的 HTTP 端点地址 |
+| `DAPR_API_TOKEN` | 用于对 Dapr sidecar 进行身份验证的 API 令牌 |
 | `DAPR_GRPC_PORT` | gRPC 端口（当未设置 `DAPR_GRPC_ENDPOINT` 时作为后备） |
 | `DAPR_HTTP_PORT` | HTTP 端口（当未设置 `DAPR_HTTP_ENDPOINT` 时作为后备） |
 
@@ -87,7 +87,7 @@ public static IDaprStateManagementBuilder AddDaprStateManagementClient(
     ServiceLifetime lifetime = ServiceLifetime.Singleton)
 ```
 
-返回的 `IDaprStateManagementBuilder` 支持链式注册强类型状态存储：
+返回的 `IDaprStateManagementBuilder` 支持链式注册 typed state store：
 
 ```csharp
 builder.Services
@@ -168,7 +168,7 @@ builder.Services.AddDaprStateManagementClient((sp, clientBuilder) =>
 |------|------|------|
 | `Results` | `IReadOnlyList<StateQueryItem<TValue>>` | 匹配项的列表 |
 | `Token` | `string?` | 用于继续查询的分页令牌；没有更多结果时为 `null` |
-| `Metadata` | `IReadOnlyDictionary<string, string>` | 状态存储返回的附加元数据 |
+| `Metadata` | `IReadOnlyDictionary<string, string>` | state store 返回的附加 metadata |
 
 每个 `StateQueryItem<TValue>` 包含：
 
@@ -208,14 +208,14 @@ await client.SaveStateAsync("statestore", "my-widget", widget, stateOptions: opt
 
 - 参数格式不正确（例如存储名或键为空）
 - 网络问题等临时性故障
-- 指定的状态存储组件未配置或不可用
-- 使用乐观并发时的 ETag 不匹配（对于 `TrySaveStateAsync` 和 `TryDeleteStateAsync`，它们返回 `false` 而不是抛出异常）
+- 指定的 state store component 未配置或不可用
+- 使用乐观并发控制时的 ETag 不匹配（对于 `TrySaveStateAsync` 和 `TryDeleteStateAsync`，它们返回 `false` 而不是抛出异常）
 
 在上述任一情况下，都可以通过 `.InnerException` 属性查看更多异常详情。
 
 ## 从 DaprClient 迁移
 
-如果你要从 `DaprClient` 的状态管理方法迁移到新的 `Dapr.StateManagement` 包，请注意以下几点：
+如果你要从 `DaprClient` 的 State Management 方法迁移到新的 `Dapr.StateManagement` 包，请注意以下几点：
 
 - API 接口非常相似。`GetStateAsync`、`SaveStateAsync`、`DeleteStateAsync`、`GetBulkStateAsync` 和 `ExecuteStateTransactionAsync` 等方法都存在，且语义相同。
 - 默认的 JSON 序列化设置（`JsonSerializerDefaults.Web`）完全相同，因此由 `DaprClient` 写入的数据与 `DaprStateManagementClient` 完全兼容，反之亦然。
@@ -233,7 +233,7 @@ await client.SaveStateAsync("statestore", "my-widget", widget, stateOptions: opt
 | 非泛型 `GetBulkStateAsync` | 批量读取条目，但不将值反序列化为应用程序类型。 |
 | `GetStateEntryAsync<T>` | 返回一个 `StateEntry<T>`，其中跟踪值、键/存储以及 ETag，用于保存/删除辅助操作。 |
 
-在需要这些 API 的场景中请使用 `DaprClient`；不要假设将 `byte[]` 代入 JSON 泛型方法就能保留原始字节。JSON 序列化会对字节数组进行编码，而不是绕过序列化。对于大文件和分块流式传输，请改用独立的 [二进制存储]({{< ref dotnet-binarystore >}})构建块，而不要把文件内容缓冲在状态中。
+在需要这些 API 的场景中请使用 `DaprClient`；不要假设将 `byte[]` 代入 JSON 泛型方法就能保留原始字节。JSON 序列化会对字节数组进行编码，而不是绕过序列化。对于大文件和分块流式传输，请改用独立的 [Binary Store]({{< ref dotnet-binarystore >}}) building block，而不要把文件内容缓冲在状态中。
 
 ```csharp
 await legacyClient.SaveByteStateAsync("statestore", "encoded-record", encodedBytes,
@@ -242,4 +242,4 @@ var (bytes, etag) = await legacyClient.GetByteStateAndETagAsync(
     "statestore", "encoded-record", cancellationToken: cancellationToken);
 ```
 
-两类客户端使用的类型也位于不同的命名空间中。专用的状态操作使用 `Dapr.StateManagement` 中的选项与操作模型；旧版 API 则使用 `Dapr.Client` 中对应的类型。迁移时，请同时检查类型和方法名；若两者同时使用，请为重名的类型加上命名空间限定。
+两类客户端使用的类型也位于不同的 namespace 中。专用的状态操作使用 `Dapr.StateManagement` 中的选项与操作模型；旧版 API 则使用 `Dapr.Client` 中对应的类型。迁移时，请同时检查类型和方法名；若两者同时使用，请为重名的类型加上 namespace 限定。
