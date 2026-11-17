@@ -1,18 +1,18 @@
 ---
 type: docs
-title: "Dapr 客户端 Go SDK 入门"
+title: "Getting started with the Dapr client Go SDK"
 linkTitle: "Client"
 weight: 20000
 description: "如何开始使用 Dapr Go SDK"
 no_list: true
 ---
 
-Dapr 客户端包允许您从 Go 应用程序与其他 Dapr 应用程序进行交互。
+Dapr 客户端包允许你从 Go 应用程序与其他 Dapr 应用程序进行交互。
 
 ## 前置条件
 
 - 已安装 [Dapr CLI]({{% ref install-dapr-cli.md %}})
-- 已初始化 [Dapr 环境]({{% ref install-dapr-selfhost.md %}})
+- 已初始化 [Dapr environment]({{% ref install-dapr-selfhost.md %}})
 - 已安装 [Go](https://golang.org/doc/install)
 
 
@@ -21,7 +21,7 @@ Dapr 客户端包允许您从 Go 应用程序与其他 Dapr 应用程序进行�
 import "github.com/dapr/go-sdk/client"
 ```
 ## 错误处理
-Dapr 错误基于 [gRPC 的丰富错误模型](https://cloud.google.com/apis/design/errors#error_model)。
+Dapr 错误基于 [gRPC 的 Richer Error Model](https://cloud.google.com/apis/design/errors#error_model)。
 以下代码展示了如何解析和处理错误详细信息的示例：
 
 ```go
@@ -56,18 +56,18 @@ if err != nil {
             }
 
         default:
-            // 为您期望的其他类型的详细信息添加 case
+            // 为你期望的其他类型的详细信息添加 case
             fmt.Printf("Unhandled error detail type: %v\n", t)
         }
     }
 }
 ```
 
-## building blocks
+## Building blocks
 
-Go SDK 允许您与所有 [Dapr building block]({{% ref building-blocks %}}) 进行交互。
+Go SDK 允许你与所有 [Dapr building blocks]({{% ref building-blocks %}}) 进行交互。
 
-### service invocation
+### Service Invocation
 
 要在使用 Dapr sidecar 运行的另一个服务上调用特定方法，Dapr 客户端 Go SDK 提供了两种选项：
 
@@ -88,9 +88,9 @@ resp, err = client.InvokeMethodWithContent(ctx, "app-id", "method-name", "post",
 
 有关 service invocation 的完整指南，请访问[如何：调用服务]({{% ref howto-invoke-discover-services.md %}})。
 
-### workflow
+### Workflows
 
-可以使用 Dapr Go SDK 编写和管理 workflow 及其 activity，示例如下：
+可以像下面这样使用 Dapr Go SDK 编写和管理 workflow 及其 activity：
 
 ```go
 import (
@@ -145,7 +145,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// 启动新 workflow
+	// 启动一个新的 workflow
 	id, err := client.ScheduleWorkflow(ctx, "ExampleWorkflow")
 	if err != nil {
 		log.Fatal(err)
@@ -164,11 +164,11 @@ func main() {
 
 #### 管理 workflow
 
-`dapr.NewWorkflowClient()` 返回的 workflow 客户端还提供以下管理操作：`SuspendWorkflow`、`ResumeWorkflow`、`TerminateWorkflow`、`PurgeWorkflowState`、`RaiseEvent` 和 `FetchWorkflowMetadata`，以及下面的高级操作。
+`dapr.NewWorkflowClient()` 返回的 workflow 客户端还提供管理操作：`SuspendWorkflow`、`ResumeWorkflow`、`TerminateWorkflow`、`PurgeWorkflowState`、`RaiseEvent` 和 `FetchWorkflowMetadata`，以及下面的高级操作。
 
 ##### 列出 workflow instance
 
-`ListInstanceIDs` 返回属于该应用的 workflow instance ID。结果是分页的：页大小是单页所包含 ID 数量的上限。您需要持续使用上一次响应中的延续令牌（continuation token）进行调用，直到它返回 `nil` 为止。
+`ListInstanceIDs` 返回属于该应用的 workflow instance 的实例 ID。结果是分页的：页大小是每页所含 ID 数量的上限，你需要持续使用上一次响应中的延续令牌进行调用，直到其返回 `nil`。
 
 ```go
 var token string
@@ -198,9 +198,9 @@ for {
 
 这需要一个支持 Actor 且能够列出键的 state store。
 
-##### 读取 workflow 历史记录
+##### 读取 workflow 的历史记录
 
-`GetInstanceHistory` 返回实例的完整执行历史，可用于审计某次运行，或查找可以从中重新运行的事件。
+`GetInstanceHistory` 返回某个实例的完整执行历史，可用于审计一次运行，或查找可从其重新运行的事件。
 
 ```go
 hist, err := client.GetInstanceHistory(ctx, id)
@@ -213,8 +213,8 @@ for _, event := range hist.Events {
 	if ts := event.GetTaskScheduled(); ts != nil {
 		fmt.Printf("event %d scheduled activity %s\n", event.GetEventId(), ts.GetName())
 
-		// history event ID 为 int32，部分事件类型携带 -1，而 RerunWorkflowFromEvent 接受 uint32，
-		// 因此在复用之前需要先进行类型收窄。
+		// history event 的 ID 为 int32，部分事件类型携带 -1，而 RerunWorkflowFromEvent 接受 uint32，
+		// 因此复用前需要先做收窄转换。
 		if id := event.GetEventId(); id >= 0 {
 			rerunFrom = uint32(id)
 		}
@@ -226,9 +226,9 @@ for _, event := range hist.Events {
 
 ##### 从事件重新运行 workflow
 
-`RerunWorkflowFromEvent` 会将一个已完成的 workflow 从其某个 history event 处重新运行（“回溯”）到一个**新**实例中。源实例保持不变。
+`RerunWorkflowFromEvent` 从某个 history event 开始，将一个已完成的 workflow 重新运行（“回退”）到一个**新**实例中。源实例保持不变。
 
-在目标事件之前已完成并已记录的工作，会从历史中重放，而不会再次执行。目标事件之前的其他所有内容，都会在新实例中被**重新执行**：仍在进行中的 activity、尚未触发的 timer，以及尚未完成的 child workflow。请注意，在并行 workflow 中，这还包括一个已成功、但其完成记录位于目标事件**之后**的 activity，因此扇出（fan-out）的重新运行范围可能比您预期的更大。如果您的 activity 不是幂等的，请做好重新执行的准备。
+在目标事件之前已完成并记录的工作会从历史记录中重放，而不会再次执行。目标事件之前的其他内容会在新实例中**重新执行**：仍在进行中的 activity、尚未触发的 timer，以及尚未完成的 child workflow。注意，在并行 workflow 中，这还包括那些已成功、但完成记录位于目标事件**之后**的 activity——因此扇出的重新运行范围可能比你预期的更大。如果你的 activity 不是幂等的，请为重新执行做好规划。
 
 ```go
 newID, err := client.RerunWorkflowFromEvent(ctx, id, eventID,
@@ -246,33 +246,33 @@ if err != nil {
 fmt.Println(metadata.String())
 ```
 
-需要注意的事项：
+需要了解的几点：
 
-- 源实例必须处于终止状态。对运行中的实例进行重新运行会失败，并返回 `InvalidArgument`。
-- 源本身不能是 child workflow，否则同样会因 `InvalidArgument` 而失败。
-- 只有三种事件类型可以重新运行：`TaskScheduled`（已调度的 activity）、`TimerCreated` 和 `ChildWorkflowInstanceCreated`。其他任何事件都会被拒绝，并返回 `NotFound`。
+- 源实例必须处于终止状态。对正在运行的实例重新运行会以 `InvalidArgument` 失败。
+- 源实例本身不能是 child workflow，否则同样会以 `InvalidArgument` 失败。
+- 只有三种事件类型可以重新运行：`TaskScheduled`（已调度的 activity）、`TimerCreated` 和 `ChildWorkflowInstanceCreated`。其他任何事件都会以 `NotFound` 被拒绝。
 - `eventID` 是事件自身的 ID，而不是它在历史切片中的索引。
-- `WithRerunInput` 只替换目标事件的输入。对 timer 事件使用它是无效的。
+- `WithRerunInput` 仅替换目标事件的输入，用于 timer 事件时无效。
 - `WithRerunNewChildInstanceID` 仅对 child workflow 事件有效。
-- 如果省略 `WithRerunNewInstanceID`，运行时会生成一个新的实例 ID。如果提供了该参数，则它必须与源 ID 不同，且不能已有状态，否则调用会失败，并返回 `InvalidArgument` 或 `AlreadyExists`。
+- 如果省略 `WithRerunNewInstanceID`，运行时会生成一个新的实例 ID。如果提供了该参数，它必须与源 ID 不同，且不能已有状态，否则调用会以 `InvalidArgument` 或 `AlreadyExists` 失败。
 
-- 有关 workflow 的更全面指南，请访问这些如何指南：
+- 如需更全面地了解 workflow，请访问以下 How-To 指南：
   - [如何：编写 workflow]({{% ref howto-author-workflow.md %}})。
   - [如何：管理 workflow]({{% ref howto-manage-workflow.md %}})。
-- 访问 Go SDK 示例以查看完整示例：
-  - [workflow 示例](https://github.com/dapr/go-sdk/tree/main/examples/workflow)
-  - [workflow - 并行化](https://github.com/dapr/go-sdk/tree/main/examples/workflow-parallel)
+- 访问 Go SDK 示例，查看完整示例：
+  - [Workflow 示例](https://github.com/dapr/go-sdk/tree/main/examples/workflow)
+  - [Workflow - 并行化](https://github.com/dapr/go-sdk/tree/main/examples/workflow-parallel)
 
 ### State Management
 
-对于简单用例，Dapr 客户端提供了易于使用的 `Save`、`Get`、`Delete` 方法：
+对于简单的使用场景，Dapr 客户端提供了易于使用的 `Save`、`Get`、`Delete` 方法：
 
 ```go
 ctx := context.Background()
 data := []byte("hello")
 store := "my-store" // 在组件 YAML 中定义
 
-// 使用键 key1 保存状态，默认选项：强一致性、最后写入获胜
+// 使用键 key1 保存状态，默认选项：strong、last-write
 if err := client.SaveState(ctx, store, "key1", data, nil); err != nil {
     panic(err)
 }
@@ -290,7 +290,7 @@ if err := client.DeleteState(ctx, store, "key1", nil); err != nil {
 }
 ```
 
-要进行更细粒度的控制，Dapr Go 客户端提供了 `SetStateItem` 类型，可用于更精细地控制状态操作，并允许一次保存多个项：
+如需更细粒度的控制，Dapr Go 客户端提供了 `SetStateItem` 类型，可用于更精细地控制状态操作，并支持一次保存多个项：
 
 ```go
 item1 := &dapr.SetStateItem{
@@ -329,14 +329,14 @@ if err := client.SaveBulkState(ctx, store, item1, item2, item3); err != nil {
 }
 ```
 
-类似地，`GetBulkState` 方法提供了在单次操作中检索多个状态项的方法：
+同样，`GetBulkState` 方法提供了在一次操作中检索多个状态项的方式：
 
 ```go
 keys := []string{"key1", "key2", "key3"}
 items, err := client.GetBulkState(ctx, store, keys, nil,100)
 ```
 
-以及用于以事务方式执行多个 upsert 或删除操作的 `ExecuteStateTransaction` 方法。
+`ExecuteStateTransaction` 方法则可以以事务方式执行多个 upsert 或 delete 操作。
 
 ```go
 ops := make([]*dapr.StateOperation, 0)
@@ -359,7 +359,7 @@ meta := map[string]string{}
 err := testClient.ExecuteStateTransaction(ctx, store, meta, ops)
 ```
 
-使用 `QueryState` 检索、过滤和排序存储在 state store 中的键/值数据。
+使用 `QueryState` 检索、过滤和排序存储在 statestore 中的键/值数据。
 
 ```go
 // 定义查询字符串
@@ -394,9 +394,9 @@ for _, account := range queryResponse {
 }
 ```
 
-> **注意：** Query State API 目前处于 alpha 阶段
+> **注意：** Query state API 目前处于 alpha 阶段
 
-有关 State Management 的完整指南，请访问[如何：保存和获取状态]({{% ref howto-get-save-state.md %}})。
+有关 State Management 的完整指南，请访问[如何：保存与获取状态]({{% ref howto-get-save-state.md %}})。
 
 ### 发布消息
 要将数据发布到某个主题，Dapr Go 客户端提供了一个简单的方法：
@@ -418,11 +418,11 @@ if res.Error != nil {
 }
 ```
 
-有关 pub/sub 的完整指南，请访问[如何：发布和订阅]({{% ref howto-publish-subscribe.md %}})。
+有关 pub/sub 的完整指南，请访问[如何：发布与订阅]({{% ref howto-publish-subscribe.md %}})。
 
-### workflow
+### Workflow
 
-您可以使用 Go SDK 创建[workflow]({{% ref workflow-overview.md %}})。例如，先从一个简单的 workflow activity 开始：
+你可以使用 Go SDK 创建 [workflow]({{% ref workflow-overview.md %}})。例如，先从一个简单的 workflow activity 开始：
 
 ```go
 func TestActivity(ctx workflow.ActivityContext) (any, error) {
@@ -431,7 +431,7 @@ func TestActivity(ctx workflow.ActivityContext) (any, error) {
 		return "", err
 	}
 
-	// 在此处执行某些操作
+	// 在此执行一些操作
 	return "result", nil
 }
 ```
@@ -459,11 +459,11 @@ func TestWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 }
 ```
 
-要等待多个任务中的第一个完成，请使用 `ctx.Select`。它会返回最先完成的任务的索引。例如，审批闸门会等待 `Approve` 事件、`Reject` 事件或超时，以先发生者为准：
+若要等待多个任务中最先完成的那个，请使用 `ctx.Select`。它会返回最先完成的任务的索引。例如，审批闸门会等待 `Approve` 事件、`Reject` 事件或超时，以先到者为准：
 
 ```go
 func ApprovalWorkflow(ctx *workflow.WorkflowContext) (any, error) {
-	// 负数超时表示无时间限制地等待该事件
+	// 负的超时时间表示无限期等待事件
 	approve := ctx.WaitForExternalEvent("Approve", -1)
 	reject := ctx.WaitForExternalEvent("Reject", -1)
 	timeout := ctx.CreateTimer(24 * time.Hour)
@@ -488,19 +488,19 @@ func ApprovalWorkflow(ctx *workflow.WorkflowContext) (any, error) {
 }
 ```
 
-如果不使用 `Select`，workflow 就必须以较短的 `WaitForExternalEvent` 超时轮询每个事件，而每次轮询都会增加一个 timer 和一条历史记录。`Select` 本身不会增加任何 timer 或历史记录，因此在某个闸门处等待的 workflow 不会使其历史增长。落败的任务会保持挂起状态，您可以等待它们，也可以将其传给之后的 `Select`。当您在循环中对同一事件名称进行选择（select）时，应将挂起的任务传给下一次 `Select`，而不是再次为该名称调用 `WaitForExternalEvent`。`Select` 需要 Go SDK v1.16.0 或更高版本，该版本使用 durabletask-go v0.15.0 或更高版本。
+如果不使用 `Select`，workflow 就必须以较短的 `WaitForExternalEvent` 超时轮询每个事件，而每次轮询都会增加一个 timer 和一条历史记录条目。`Select` 本身不会增加 timer 或历史记录条目，因此在闸门处等待的 workflow 不会使历史记录增长。落选的任务会保持挂起，你可以等待它们，也可以将其传给之后的 `Select`。在循环中对同一事件名称做 select 时，应将挂起的任务传给下一次 `Select`，而不是再次为该名称调用 `WaitForExternalEvent`。`Select` 需要 Go SDK v1.16.0 或更高版本，该版本使用 durabletask-go v0.15.0 或更高版本。
 
-然后编写使用您所创建 workflow 的应用程序。有关完整的演练，请参阅[如何：编写 workflow 指南]({{% ref howto-author-workflow.md %}})。
+接着编写使用你所创建的 workflow 的应用程序。完整的演练请参阅 [如何：编写 workflow 指南]({{% ref howto-author-workflow.md %}})。
 
-试试 [Go SDK workflow 示例](https://github.com/dapr/go-sdk/blob/main/examples/workflow)。
+试试 [Go SDK workflow 示例。](https://github.com/dapr/go-sdk/blob/main/examples/workflow)
 
-### jobs
+### Jobs
 
-Dapr 客户端 Go SDK 允许您调度、获取和删除 job。job 使您能够安排在特定时间或间隔执行的工作。
+Dapr 客户端 Go SDK 允许你调度、获取和删除 job。Job 让你能够调度工作，使其在特定时间或以特定间隔执行。
 
-#### 调度 job
+#### 调度 Job
 
-要调度新 job，请使用 `ScheduleJob` 方法：
+要调度一个新的 job，请使用 `ScheduleJob` 方法：
 
 ```go
 import (
@@ -513,40 +513,40 @@ if err != nil {
     panic(err)
 }
 
-// 使用构建器模式创建一个简单 job
+// 使用构建器模式创建一个简单的 job
 job := client.NewJob("my-scheduled-job",
     client.WithJobData(data),
     client.WithJobDueTime("10s"), // 10 秒后执行
 )
 
-// 调度 job
+// 调度该 job
 err = client.ScheduleJob(ctx, job)
 if err != nil {
     panic(err)
 }
 ```
 
-#### 带调度与重复的 job
+#### 带调度与重复的 Job
 
-您可以使用带有 cron 表达式的 `Schedule` 字段创建重复 job：
+你可以使用 `Schedule` 字段并配合 cron 表达式创建周期性 job：
 
 ```go
 job := client.NewJob("recurring-job",
     client.WithJobData(data),
     client.WithJobSchedule("0 9 * * *"), // 每天上午 9 点运行
     client.WithJobRepeats(10),            // 重复 10 次
-    client.WithJobTTL("1h"),              // job 1 小时后过期
+    client.WithJobTTL("1h"),              // Job 在 1 小时后过期
 )
 
 err = client.ScheduleJob(ctx, job)
 ```
 
-#### 带失败策略的 job
+#### 带失败策略的 Job
 
 使用失败策略配置 job 应如何处理失败：
 
 ```go
-// 带最大重试次数和间隔的常量重试策略
+// 固定间隔的重试策略，指定最大重试次数和间隔
 job := client.NewJob("resilient-job",
     client.WithJobData(data),
     client.WithJobDueTime("2024-01-01T10:00:00Z"),
@@ -570,9 +570,9 @@ job := client.NewJob("one-shot-job",
 err = client.ScheduleJob(ctx, job)
 ```
 
-#### 获取 job
+#### 获取 Job
 
-要获取有关已调度 job 的信息：
+要获取已调度 job 的信息：
 
 ```go
 job, err := client.GetJob(ctx, "my-scheduled-job")
@@ -584,7 +584,7 @@ fmt.Printf("Job: %s, Schedule: %s, Repeats: %d\n",
     job.Name, job.Schedule, job.Repeats)
 ```
 
-#### 删除 job
+#### 删除 Job
 
 要取消已调度的 job：
 
@@ -597,19 +597,19 @@ if err != nil {
 
 有关 job 的完整指南，请访问[如何：调度和管理 job]({{< ref howto-schedule-and-handle-triggered-jobs.md >}})。
 
-### output binding
+### Output Bindings
 
 
-Dapr Go 客户端 SDK 提供了两种方法来调用 Dapr 定义的 binding 上的操作。Dapr 支持输入、输出和双向 binding。
+Dapr Go 客户端 SDK 提供了两种方法，用于调用 Dapr 定义的 binding 上的操作。Dapr 支持 input、output 和双向 binding。
 
-对于简单的仅 output binding：
+对于简单的、仅输出的 binding：
 
 ```go
 in := &dapr.InvokeBindingRequest{ Name: "binding-name", Operation: "operation-name" }
 err = client.InvokeOutputBinding(ctx, in)
 ```
 
-要调用带内容和元数据的方法：
+要使用内容和 metadata 调用该方法：
 
 ```go
 in := &dapr.InvokeBindingRequest{
@@ -647,7 +647,7 @@ func main() {
 		log.Fatal("Error creating Dapr client: ", err)
 	}
 
-	// 使用 Dapr 注册 Actor 类型
+	// 向 Dapr 注册 Actor 类型
 	actors.RegisterActor(&MyActor{})
 
 	// 创建 Actor 客户端
@@ -662,7 +662,7 @@ func main() {
 		log.Fatal("Error saving actor state: ", err)
 	}
 
-	// 在 Actor 上调用方法
+	// 调用 Actor 上的方法
 	resp, err := actorClient.InvokeActorMethod(context.Background(), "myactorstore", actorID, "MyActorMethod", &actors.Message{Data: []byte("Hello from client!")})
 	if err != nil {
 		log.Fatal("Error invoking actor method: ", err)
@@ -670,7 +670,7 @@ func main() {
 
 	log.Printf("Response from actor: %s", resp.Data)
 
-	// 在终止之前等待几秒钟
+	// 终止前等待几秒
 	time.Sleep(5 * time.Second)
 
 	// 删除 Actor
@@ -684,15 +684,15 @@ func main() {
 }
 ```
 
-有关 Actor 的完整指南，请访问 [Actor building block 文档]({{% ref actors %}})。
+有关 Actor 的完整指南，请访问 [Actors building block 文档]({{% ref actors %}})。
 
 #### 通过 gRPC 托管 Actor（Alpha）
 
-自 Go SDK v1.16.0 起，应用可以通过 gRPC 托管 Actor，而无需使用 HTTP 回调服务器。`SubscribeActorEvents` 会向 Dapr sidecar 注册 Actor runtime 的 Actor 类型，并通过一条双向流（`SubscribeActorEventsAlpha1`）接收 Actor 方法调用、reminder、timer 和停用事件。流失败时，它会重新连接并再次注册 Actor 类型。当应用不应为 Actor 回调暴露 HTTP 端点时，请使用此方式。如果 sidecar 配置了应用端口，请使用 `--app-protocol grpc` 运行它：当应用通道为 HTTP 时，sidecar 会拒绝该流。
+自 Go SDK v1.16.0 起，应用可以通过 gRPC 托管 Actor，而无需使用 HTTP 回调服务器。`SubscribeActorEvents` 会向 Dapr sidecar 注册 Actor runtime 的 Actor 类型，并通过一条双向流（`SubscribeActorEventsAlpha1`）接收 Actor 方法调用、reminder、timer 和停用事件。流失败时，它会重新连接并再次注册 Actor 类型。当应用不应为 Actor 回调暴露 HTTP 端点时，请使用这种方式。如果 sidecar 配置了应用端口，请使用 `--app-protocol grpc` 运行：当 app channel 为 HTTP 时，sidecar 会拒绝该流。
 
 ```go
-// MyActor 嵌入 actor.ServerImplBaseCtx 并实现 Type()。
-// 与 HTTP 托管方式一样，在 Actor runtime 上注册 Actor 类型。
+// MyActor 嵌入了 actor.ServerImplBaseCtx 并实现了 Type()。
+// 与 HTTP 托管一样，在 Actor runtime 上注册 Actor 类型。
 rt := runtime.GetActorRuntimeInstanceContext()
 rt.RegisterActorFactory(func() actor.ServerContext { return &MyActor{} })
 
@@ -706,11 +706,11 @@ if err != nil {
 defer stop()
 ```
 
-了解更多信息，请参阅[应用发起的 Actor gRPC 事件流]({{% ref actors-app-initiated-streams.md %}})，并试用 [Go SDK gRPC Actor 示例](https://github.com/dapr/go-sdk/tree/main/examples/actor-grpc)。
+更多信息请参阅 [Actor 应用发起的 gRPC 流]({{% ref actors-app-initiated-streams.md %}})，并尝试 [Go SDK gRPC Actor 示例](https://github.com/dapr/go-sdk/tree/main/examples/actor-grpc)。
 
-### secrets 管理
+### Secret Management
 
-Dapr 客户端还提供对运行时 secrets 的访问，这些 secrets 可由任意数量的 secrets 存储支持（例如 Kubernetes Secrets、HashiCorp Vault 或 Azure KeyVault）：
+Dapr 客户端还提供对运行时 secrets 的访问，这些 secrets 可由任意数量的 secret store 支撑（例如 Kubernetes Secrets、HashiCorp Vault 或 Azure KeyVault）：
 
 ```go
 opt := map[string]string{
@@ -722,15 +722,15 @@ secret, err := client.GetSecret(ctx, "store-name", "secret-name", opt)
 
 ### 身份验证
 
-默认情况下，Dapr 依赖网络边界来限制对其 API 的访问。但是，如果目标 Dapr API 配置了基于令牌的身份验证，用户可以通过两种方式为 Go Dapr 客户端配置该令牌：
+默认情况下，Dapr 依赖网络边界来限制对其 API 的访问。但如果目标 Dapr API 配置了基于令牌的身份验证，你可以通过两种方式在 Go Dapr 客户端中配置该令牌：
 
 **环境变量**
 
-如果定义了 DAPR_API_TOKEN 环境变量，Dapr 将自动使用它来增强其 Dapr API 调用，以确保身份验证。
+如果定义了 DAPR_API_TOKEN 环境变量，Dapr 会自动使用它为 Dapr API 调用附加身份验证信息。
 
 **显式方法**
 
-此外，用户还可以在任意 Dapr 客户端实例上显式设置 API 令牌。当用户代码需要为不同的 Dapr API 端点创建多个客户端时，此方法很有用。
+此外，你还可以在任意 Dapr 客户端实例上显式设置 API 令牌。当你的代码需要为不同的 Dapr API 端点创建多个客户端时，这种方式很有帮助。
 
 ```go
 func main() {
@@ -748,10 +748,10 @@ func main() {
 
 ### 分布式锁
 
-Dapr 客户端使用锁为资源提供互斥访问。借助锁，您可以：
+Dapr 客户端使用锁对资源提供互斥访问。借助锁，你可以：
 
-- 为数据库行、表或整个数据库提供访问
-- 按顺序锁定读取队列中的消息
+- 对数据库的某一行、某张表或整个数据库进行互斥访问
+- 按顺序锁定对队列消息的读取
 
 ```go
 package main
@@ -783,7 +783,7 @@ func main() {
 
 ### 配置
 
-借助 Dapr 客户端 Go SDK，您可以使用作为只读键/值对返回的配置项，并订阅配置项的更改。
+借助 Dapr 客户端 Go SDK，你可以读取以只读键/值对形式返回的配置项，并订阅配置项的变更。
 
 #### 配置获取
 
@@ -810,13 +810,13 @@ go func() {
 }()
 ```
 
-有关配置的完整指南，请访问[如何：从存储管理配置]({{% ref howto-manage-configuration.md %}})。
+有关配置的完整指南，请访问[如何：从存储中管理配置]({{% ref howto-manage-configuration.md %}})。
 
 ### 加密
 
-借助 Dapr 客户端 Go SDK，您可以使用高级 `Encrypt` 和 `Decrypt` 加密 API，在处理数据流的同时加密和解密文件。
+借助 Dapr 客户端 Go SDK，你可以使用高层级的 `Encrypt` 和 `Decrypt` 加密 API，在处理数据流的同时加密和解密文件。
 
-要加密：
+加密：
 
 ```go
 // 使用 Dapr 加密数据
@@ -831,7 +831,7 @@ if err != nil {
 }
 ```
 
-要解密：
+解密：
 
 ```go
 // 使用 Dapr 解密数据
