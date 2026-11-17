@@ -6,7 +6,7 @@ no_list: true
 
 ## 面向 workflow 与 AI 代理的持久执行引擎
 
-Dapr 提供持久、可验证执行的能力，使你的 workflow 和 AI 代理在发生故障后依然能够存活并持续运行至完成。其持久执行 workflow 引擎保证每个步骤即使遇到崩溃、重启和网络中断，也会运行至完成，并从中断处精确恢复状态。每个 workflow 的执行历史都经过[加密签名且可验证]({{% ref workflow-history-signing.md %}})，使运行过的内容具备防篡改性且可审计。同一引擎也驱动持久 AI 代理，使其能够推理、调用工具，并从任何故障点恢复而不丢失进度。作为 CNCF 分布式应用运行时，Dapr 基于与基础设施无关的 API，为你提供跨云和跨环境的可移植性，并具备生产系统所需的安全性、resiliency 与可观测性。
+Dapr 提供持久、可验证执行的能力，使你的 workflow 和 AI 代理在发生故障后依然能够存活并持续运行至完成。其持久执行 workflow 引擎保证每个步骤即使遇到崩溃、重启和网络中断，也会运行至完成，并从中断处精确恢复状态。每个 workflow 的执行历史都经过[加密签名且可验证]({{% ref workflow-history-signing.md %}})，使运行过的内容具备防篡改性且可审计。同一引擎也驱动持久 AI 代理，使其能够推理、调用工具，并从任何故障点恢复而不丢失进度。作为 CNCF 分布式应用运行时，Dapr 基于与基础设施无关的 API，为你提供跨云和跨环境的可移植性，并具备生产系统所需的安全性、resiliency 与 observability。
 
 {{< button text="开始使用" page="getting-started.md" >}}
 

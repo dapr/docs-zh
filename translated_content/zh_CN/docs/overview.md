@@ -46,7 +46,7 @@ Dapr 提供分布式系统 building block，让你能够以标准化的方式构
 |----------------|-------------|
 | [**workflow**]({{% ref "workflow-overview" %}}) | Dapr 的持久执行引擎，用于定义跨越多个微服务的长时间运行、持久化的流程或数据流，保证每个步骤在发生故障时仍能运行至完成。workflow API 可以与其他 Dapr building block 组合使用，且 workflow 历史可以被加密签名并验证。
 | [**service invocation**]({{% ref "service-invocation-overview" %}})  | 具备弹性的服务间调用，可对远程服务进行方法调用（包括重试），无论这些服务位于受支持托管环境中的哪个位置。
-| [**发布和订阅**]({{% ref "pubsub-overview" %}}) | 服务之间的事件发布与主题订阅，使事件驱动架构能够简化水平扩展，并对故障具备弹性。Dapr 提供至少一次的消息投递保证、消息 TTL、消费者组等其他高级功能。
+| [**发布和订阅**]({{% ref "pubsub-overview" %}}) | 服务之间的事件发布与 topic 订阅，使事件驱动架构能够简化水平扩展，并对故障具备弹性。Dapr 提供至少一次的消息投递保证、消息 TTL、消费者组等其他高级功能。
 | [**State Management**]({{% ref "state-management-overview" %}}) | 借助用于存储和查询键值对的 State Management，你可以在无状态服务之外，轻松编写长时间运行、高可用的有状态服务。state store 是可插拔的，示例包括 AWS DynamoDB、Azure Cosmos DB、Azure SQL Server、GCP Firebase、PostgreSQL 或 Redis 等。
 | [**Binary Store**]({{% ref "binarystore-overview" %}}) | Binary Store API 使你能够存储、检索和删除过大而无法放入 state store 的文件。文件内容在你的应用与已配置的存储之间以流的方式传输，而不是作为 JSON 值缓冲在 Dapr sidecar 中。
 | [**Resource bindings**]({{% ref "bindings-overview" %}}) | 带触发器的 Resource bindings 进一步构建在事件驱动架构之上，通过接收和发送来自数据库、队列、文件系统等任何外部源的事件，实现扩展性与 resiliency。
@@ -67,7 +67,7 @@ Dapr 提供分布式系统 building block，让你能够以标准化的方式构
 | building block | 说明 |
 |----------------|-------------|
 |  [**resiliency**]({{% ref "resiliency-concept" %}}) | Dapr 提供通过 resiliency 规范定义并应用容错策略的能力。受支持的规范可为超时、重试/退避以及断路器等 resiliency 模式定义策略。
-|  [**可观测性**]({{% ref "observability-concept" %}}) | Dapr 输出指标、日志和追踪，用于调试和监控 Dapr 与用户应用。Dapr 支持分布式追踪，使用 W3C Trace Context 标准并通过 Open Telemetry 将数据发送到不同的监控工具，以便在生产环境中轻松诊断并支撑服务间调用。
+|  [**observability**]({{% ref "observability-concept" %}}) | Dapr 输出指标、日志和追踪，用于调试和监控 Dapr 与用户应用。Dapr 支持分布式追踪，使用 W3C Trace Context 标准并通过 Open Telemetry 将数据发送到不同的监控工具，以便在生产环境中轻松诊断并支撑服务间调用。
 |  [**安全**]({{% ref "security-concept" %}}) | Dapr 支持 Dapr 实例之间通信的传输中加密，借助 Dapr control plane 中的 Sentry 服务实现。你可以带入自己的证书，也可以让 Dapr 自动创建并持久化自签名的根证书和颁发者证书。
 
 ## sidecar 架构
@@ -151,7 +151,7 @@ Dapr 可以在任何开发者框架中使用。以下是一些已与 Dapr 集成
 {{< diagram name="agents-overview" width="85" >}}
 
 
-[Dapr Agents]({{% ref "../developing-ai/dapr-agents" %}}) 是一个 Python 框架，用于构建由 LLM 驱动的智能持久代理。它提供以代理为中心的能力，例如工具调用、记忆管理、[MCP 支持](https://modelcontextprotocol.io/)以及代理编排，同时借助 Dapr 大规模地实现持久性、可观测性和安全性。
+[Dapr Agents]({{% ref "../developing-ai/dapr-agents" %}}) 是一个 Python 框架，用于构建由 LLM 驱动的智能持久代理。它提供以代理为中心的能力，例如工具调用、记忆管理、[MCP 支持](https://modelcontextprotocol.io/)以及 Agent Orchestration，同时借助 Dapr 大规模地实现持久性、observability 和安全性。
 
 
 #### 集成与扩展
@@ -165,4 +165,4 @@ Dapr 可以在任何开发者框架中使用。以下是一些已与 Dapr 集成
 
 Dapr 专为[运维]({{% ref operations %}})与安全而设计。Dapr sidecar、运行时、component 和配置都可以被轻松、安全地管理和部署，以满足你所在组织的需求。
 
-Dapr 支持[监控工具]({{% ref observability %}})，以便更深入地了解 Dapr 系统服务和 sidecar；同时，Dapr 的[可观测性能力]({{% ref "observability-concept" %}})能够为你的应用提供洞察，例如追踪和指标。
+Dapr 支持[监控工具]({{% ref observability %}})，以便更深入地了解 Dapr 系统服务和 sidecar；同时，Dapr 的[observability 能力]({{% ref "observability-concept" %}})能够为你的应用提供洞察，例如追踪和指标。

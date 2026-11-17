@@ -28,6 +28,6 @@ Diagrid 为任何云上的开源 Dapr 提供 [Dapr Support](https://www.diagrid.
 
 ## Diagrid Dapr Ops Dashboard
 
-免费的 [Dapr Ops Dashboard]({{< ref dapr-ops-dashboard.md >}}) 为 Kubernetes 上的 Dapr 提供运维与可观测性自动化，支持一键安装和升级、自动化的最佳实践检查，并提供跨所有集群的应用图谱。
+免费的 [Dapr Ops Dashboard]({{< ref dapr-ops-dashboard.md >}}) 为 Kubernetes 上的 Dapr 提供运维与 observability 自动化，支持一键安装和升级、自动化的最佳实践检查，并提供跨所有集群的应用图谱。
 
 {{< button text="了解 Dapr Ops Dashboard" page="dapr-ops-dashboard.md" >}}

@@ -230,7 +230,7 @@ Sidecar 会从控制平面公布的服务获取 Actor placement，因此应用�
 
 启动时，sidecar 会最多等待 `--actors-placement-startup-timeout`（注解为 `dapr.io/actors-placement-startup-timeout`，默认值为 `30s`）让 Scheduler 公布 placement，之后回退到已配置的 Placement 服务。Scheduler 只有在 sidecar 的 jobs 流注册之后才会公布 placement，因此请将该超时设置为高于应用健康探针预算的值。
 
-可以通过以下 Scheduler 标志调整由 Scheduler 提供的 placement 的分发行为：
+可以通过以下 Scheduler 标志调整由 Scheduler 提供的 placement 的 dissemination 行为：
 
 ```
 --placement-enabled                       bool      When enabled, this scheduler serves actor placement to daprd sidecars, replacing the standalone placement service. All scheduler replicas in the cluster must set the same value. (default false)

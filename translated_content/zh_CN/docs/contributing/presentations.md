@@ -10,7 +10,7 @@ description: 如何发表关于 Dapr 的演讲及示例
 
 - *dapr-slidedeck.pptx*，这是一个 150 多页的幻灯片，包含：Dapr 概述、所有 building block API、横切关注点、托管选项，以及用于创建你自己架构图的资产。
 - *dapr-workflow-slidedeck.pptx*，这是一个关于 Dapr Workflow 的专用幻灯片，包含：持久执行概念、workflow 编写、workflow 模式、workflow 管理，以及挑战与技巧。
-- *dapr-agents-slidedeck.pptx*，这是一个关于 Dapr Agents 的专用幻灯片，包含：AI 代理介绍、Dapr Agent 类型、多代理系统和代理模式。
+- *dapr-agents-slidedeck.pptx*，这是一个关于 Dapr Agents 的专用幻灯片，包含：AI 代理介绍、Dapr Agent 类型、Multi-Agent Systems 和代理模式。
 
 有一个可下载的 zip 文件，包含所有幻灯片。
 

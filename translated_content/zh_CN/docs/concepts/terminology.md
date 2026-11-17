@@ -17,7 +17,7 @@ description: Dapr 文档中常见术语和缩写的定义
 | Dapr | Distributed Application Runtime（分布式应用运行时）。 | [Dapr 概述]({{% ref overview %}})
 | Dapr Actors | 一个 Dapr building block，实现了 virtual Actor 模式，用于构建具有身份、生命周期和并发管理的有状态单线程对象。 | [Actor 概述]({{% ref actors-overview %}})
 | Dapr Agents | 基于 Dapr Python SDK 构建的开发者框架，用于创建由大型语言模型 (LLM) 驱动的持久化代理应用程序。 | [Dapr Agents]({{% ref "../developing-ai/dapr-agents" %}})
-| Dapr control plane | 属于 Dapr 安装一部分的服务集合，部署在 Kubernetes 集群等托管平台上。这使启用 Dapr 的应用程序能够在该平台上运行，并处理 Actor placement、Dapr sidecar 注入或证书颁发/轮换等 Dapr 功能。 | [自托管概述]({{% ref self-hosted-overview %}})<br />[Kubernetes 概述]({{% ref kubernetes-overview %}})
+| Dapr control plane | 属于 Dapr 安装一部分的服务集合，部署在 Kubernetes 集群等 hosting platform 上。这使启用 Dapr 的应用程序能够在该平台上运行，并处理 Actor placement、Dapr sidecar 注入或证书颁发/轮换等 Dapr 功能。 | [自托管概述]({{% ref self-hosted-overview %}})<br />[Kubernetes 概述]({{% ref kubernetes-overview %}})
 | Dapr Workflows | 一个 Dapr building block，用于编写代码优先的 workflow，具有持久执行能力，可从崩溃中恢复，支持长时间运行的进程，并支持人在回路交互。 | [workflow 概述]({{% ref workflow-overview %}})
 | HTTPEndpoint | HTTPEndpoint 是一种 Dapr 资源，用于标识可通过 service invocation API 调用的 non-Dapr endpoint。 | [service invocation API]({{% ref service_invocation_api %}})
 | MCPServer | 一种 Dapr 资源，用于声明与模型上下文协议（MCP）服务器的连接，以便通过内置 workflow 编排实现持久化工具执行。 | [MCPServer 资源]({{% ref mcp-server-resource.md %}})

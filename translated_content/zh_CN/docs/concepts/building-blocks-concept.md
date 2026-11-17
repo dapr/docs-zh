@@ -22,7 +22,7 @@ Dapr 提供以下 building blocks：
 |----------------|----------|-------------|
 | [**Workflows**]({{% ref "workflow-overview" %}}) | `/v1.0/workflow` | Dapr 的持久执行引擎。Workflow API 使你能够定义跨多个微服务的长时间运行的持久化流程或数据流，并确保每个步骤即使在遇到崩溃、重启和中断后也能运行完成。workflow 历史记录可以[经过加密签名和验证]({{% ref "workflow-history-signing.md" %}})，从而使执行过程具有防篡改性且可审计。Workflow API 可以与其他 Dapr API building blocks 结合使用。例如，workflow 可以通过 service invocation 调用另一个服务或检索 secrets，从而提供灵活性和可移植性。
 | [**Service-to-service invocation**]({{% ref "service-invocation-overview" %}}) | `/v1.0/invoke` | service invocation 使应用程序能够通过已知端点，以 http 或 gRPC 消息的形式相互通信。Dapr 提供的端点兼具反向代理和内置服务发现的功能，同时利用内置的分布式跟踪和错误处理。
-| [**发布和订阅**]({{% ref "pubsub-overview" %}}) | `/v1.0/publish` `/v1.0/subscribe`|  pub/sub 是一种松耦合的消息传递模式，发送者（或发布者）向主题发布消息，订阅者则订阅该主题。Dapr 支持应用程序之间的 pub/sub 模式。
+| [**发布和订阅**]({{% ref "pubsub-overview" %}}) | `/v1.0/publish` `/v1.0/subscribe`|  pub/sub 是一种松耦合的消息传递模式，发送者（或发布者）向 topic 发布消息，订阅者则订阅该 topic。Dapr 支持应用程序之间的 pub/sub 模式。
 | [**State Management**]({{% ref "state-management-overview" %}}) | `/v1.0/state` | 应用程序状态是应用程序希望在单次会话之后继续保留的任何内容。Dapr 提供基于键/值的状态和 Query API，并支持可插拔的 state store 以实现持久化。
 | **Binary Store** | `/v1.0-alpha1/binarystore` | Binary Store API 使你能够使用可插拔的存储 component 存储、检索和删除二进制文件。上传和下载以流的形式进行，不会在 Dapr sidecar 中缓冲整个文件。
 | [**Bindings**]({{% ref "bindings-overview" %}}) | `/v1.0/bindings` | binding 提供与外部云端或本地服务、系统的双向连接。Dapr 允许你通过 Dapr binding API 调用外部服务，也允许应用程序由所连接的服务发送的事件触发。

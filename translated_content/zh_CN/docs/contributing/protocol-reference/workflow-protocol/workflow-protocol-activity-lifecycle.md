@@ -76,7 +76,7 @@ ID 遵循特定模式：
 
 ## 重试
 
-Dapr 根据编排中定义的策略处理 Activity 重试（如果 SDK 支持在 `ScheduleTask` 操作中定义重试策略）。如果 Activity 失败并且存在重试策略，引擎将在指定的延迟后重新将 Activity 任务加入队列。
+Dapr 根据编排中定义的策略处理 Activity 重试（如果 SDK 支持在 `ScheduleTask` 操作中定义 retry policy）。如果 Activity 失败并且存在 retry policy，引擎将在指定的延迟后重新将 Activity 任务加入队列。
 
 从 Activity worker 的角度来看，重试只是一个具有相同名称和输入的新 `ActivityWorkItem`，但可能具有不同的 `task_id`（或相同的，取决于后端实现）。
 

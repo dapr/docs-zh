@@ -1,7 +1,7 @@
 ---
 type: docs
 title: "Observability"
-linkTitle: "可观测性"
+linkTitle: "Observability"
 weight: 500
 description: >
   通过追踪、指标、日志和健康检查观察应用程序
@@ -14,24 +14,24 @@ description: >
 
 对于由多个微服务组成的分布式系统来说，这可能尤其具有挑战性，因为由多个调用组成的流程可能从一个微服务开始，然后在另一个微服务中继续。
 
-在生产环境中，应用程序的可观测性至关重要；在开发过程中也很有用，可以帮助你：
+在生产环境中，应用程序的 observability 至关重要；在开发过程中也很有用，可以帮助你：
 - 了解瓶颈
 - 提高性能
 - 跨多个微服务进行基本调试
 
-虽然可以从底层基础设施收集应用程序的某些数据点（例如内存消耗和 CPU 使用率），但其他有意义的信息必须从“应用感知”层收集，该层可以展示一系列重要调用如何在微服务之间执行。通常，你会添加一些代码来检测应用程序；这些代码只需将收集到的数据（例如追踪和指标）发送到可观测性工具或服务，以便存储、可视化和分析所有这些信息。
+虽然可以从底层基础设施收集应用程序的某些数据点（例如内存消耗和 CPU 使用率），但其他有意义的信息必须从“应用感知”层收集，该层可以展示一系列重要调用如何在微服务之间执行。通常，你会添加一些代码来检测应用程序；这些代码只需将收集到的数据（例如追踪和指标）发送到 observability 工具或服务，以便存储、可视化和分析所有这些信息。
 
-维护这些不属于应用程序核心逻辑的检测代码，需要了解可观测性工具的 API、使用额外的 SDK 等。这些检测也可能带来应用程序可移植性方面的挑战，因为你需要根据应用程序的部署位置采用不同的检测方式。例如：
-- 不同的云提供商提供不同的可观测性工具
+维护这些不属于应用程序核心逻辑的检测代码，需要了解 observability 工具的 API、使用额外的 SDK 等。这些检测也可能带来应用程序可移植性方面的挑战，因为你需要根据应用程序的部署位置采用不同的检测方式。例如：
+- 不同的云提供商提供不同的 observability 工具
 - 本地部署可能需要自托管解决方案
 
-## 使用 Dapr 实现应用程序的可观测性
+## 使用 Dapr 实现应用程序的 observability
 
 当你利用 Dapr API building block 执行服务间调用、pub/sub 消息传递和其他 API 操作时，Dapr 在[分布式追踪]({{% ref tracing %}})方面具有优势。由于这些服务间通信都流经 Dapr runtime（或“sidecar”），Dapr 能够独特地卸载应用程序级检测的负担。
 
 ### 分布式追踪
 
-Dapr 可以[配置为使用广泛采用的协议生成追踪数据]({{% ref setup-tracing %}})，例如 [Open Telemetry (OTEL)](https://opentelemetry.io/) 和 [Zipkin](https://zipkin.io)。因此，它能够轻松集成多种可观测性工具。
+Dapr 可以[配置为使用广泛采用的协议生成追踪数据]({{% ref setup-tracing %}})，例如 [Open Telemetry (OTEL)](https://opentelemetry.io/) 和 [Zipkin](https://zipkin.io)。因此，它能够轻松集成多种 observability 工具。
 
 {{< diagram observability-tracing >}}
 
@@ -39,7 +39,7 @@ Dapr 可以[配置为使用广泛采用的协议生成追踪数据]({{% ref setu
 
 Dapr 使用 [W3C 追踪]({{% ref tracing %}})规范处理追踪上下文。该规范是 Open Telemetry (OTEL) 的一部分，Dapr 会据此为应用程序生成并传播上下文标头，或传播用户提供的上下文标头。这意味着使用 Dapr 默认即可获得追踪功能。
 
-## Dapr sidecar 和 control plane 的可观测性
+## Dapr sidecar 和 control plane 的 observability
 
 你还可以通过以下方式观察 Dapr 本身：
 - 生成由 Dapr sidecar 和 Dapr control plane 服务发出的日志
@@ -54,7 +54,7 @@ Dapr 生成[日志]({{% ref logs %}})，以便：
 - 展示 sidecar 的运行情况
 - 帮助用户发现问题并进行调试
 
-日志事件包含 Dapr 系统服务生成的警告、错误、信息和调试消息。你还可以配置 Dapr 将日志发送到收集器，例如 [Open Telemetry Collector]({{% ref otel-collector %}})、[Fluentd]({{% ref fluentd %}})、[New Relic]({{% ref "operations/observability/logging/newrelic.md" %}})、[Azure Monitor]({{% ref azure-monitor %}}) 以及其他可观测性工具，以便搜索和分析日志，从中获得洞察。
+日志事件包含 Dapr 系统服务生成的警告、错误、信息和调试消息。你还可以配置 Dapr 将日志发送到收集器，例如 [Open Telemetry Collector]({{% ref otel-collector %}})、[Fluentd]({{% ref fluentd %}})、[New Relic]({{% ref "operations/observability/logging/newrelic.md" %}})、[Azure Monitor]({{% ref azure-monitor %}}) 以及其他 observability 工具，以便搜索和分析日志，从中获得洞察。
 
 ### 指标
 
@@ -70,5 +70,5 @@ Dapr sidecar 会公开一个用于[健康检查]({{% ref sidecar-health %}})的 
 
 ## 后续步骤
 
-- [了解使用 Dapr 进行开发时的可观测性]({{% ref tracing %}})
-- [了解使用 Dapr 进行运维时的可观测性]({{% ref tracing %}})
+- [了解使用 Dapr 进行开发时的 observability]({{% ref tracing %}})
+- [了解使用 Dapr 进行运维时的 observability]({{% ref tracing %}})

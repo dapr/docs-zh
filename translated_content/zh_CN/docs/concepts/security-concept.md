@@ -27,7 +27,7 @@ Dapr 通过 service invocation API 提供端到端安全，能够对应用进行
 App ID 是 Dapr 中身份的唯一原子单元：
 
 - 每个启用了 Dapr 的应用都有一个 App ID。应用的多个副本共享同一个 App ID。
-- Dapr 中的所有路由、服务发现、安全策略和访问控制都源自这个 App ID。
+- Dapr 中的所有 Routing、服务发现、安全策略和访问控制都源自这个 App ID。
 - Dapr 中的服务间通信使用 App ID，而不依赖 IP 地址或主机名，从而实现跨环境的稳定、可移植寻址。
 
 例如，当一个服务使用 Dapr 的 service invocation API 调用另一个服务时，它通过目标的 App ID 而不是网络位置来调用它。
@@ -38,7 +38,7 @@ App ID 是 Dapr 中身份的唯一原子单元：
 虽然 App ID 唯一标识应用，但 namespaces 提供了额外的作用域和隔离层，尤其是在多租户或大型环境中。
 
 - Namespaces 允许操作员将 Dapr 应用部署到逻辑上隔离的分组中。
-- 两个应用可以在不同的 namespaces 中拥有相同的 App ID 而不会冲突，因为安全、路由和发现都能感知 namespace。
+- 两个应用可以在不同的 namespaces 中拥有相同的 App ID 而不会冲突，因为安全、Routing 和发现都能感知 namespace。
 
 ## Service invocation 作用域访问策略
 
@@ -46,9 +46,9 @@ Dapr 应用可以按 namespace 限定作用域，用于部署和安全。你可�
 
 Dapr 应用可以限制哪些操作可以被调用，包括允许（或拒绝）哪些应用调用它。阅读[如何：为 service invocation 应用访问控制列表配置]({{% ref invoke-allowlist %}})了解更多详情。
 
-## Pub/sub 主题作用域访问策略
+## Pub/sub topic 作用域访问策略
 
-对于 pub/sub 组件，你可以限制哪些主题类型和应用被允许发布和订阅特定主题。阅读[限定 Pub/Sub 主题访问]({{% ref "pubsub-scopes" %}})了解更多详情。
+对于 pub/sub 组件，你可以限制哪些 topic 类型和应用被允许发布和订阅特定 topic。阅读[限定 Pub/Sub topic 访问]({{% ref "pubsub-scopes" %}})了解更多详情。
 
 ## 使用 mTLS 加密数据
 
@@ -315,7 +315,7 @@ Dapr runtime 不会在静态存储中保存任何数据，这意味着 Dapr runt
 
 1. API 令牌身份验证确保反向代理知道它正在与正确的 Dapr sidecar 实例通信。这可防止消息被转发到除该 Dapr sidecar 之外的任何对象。
 2. service invocation 的 mTLS 用于反向代理与 App A 之间的身份验证。在 App A 上配置的服务访问策略将其限制为只接收来自反向代理、且发往特定端点的调用，不接受其他服务的调用。
-3. App B 使用 pub/sub 主题安全策略，表明它只能接收由 App A 发布的消息。
+3. App B 使用 pub/sub topic 安全策略，表明它只能接收由 App A 发布的消息。
 4. Redis 组件定义使用组件作用域安全策略，表明只允许 App B 调用它。
 5. App B 将 Dapr sidecar 限制为只能使用 pub/sub、state management 和 secrets API。所有其他 API 调用（例如 service invocation）都将失败。
 6. 在配置中设置的 secrets 安全策略限制了 App B 可以访问的 secrets。在本例中，App B 只能读取连接 Redis state store 组件所需的 secret，而不能读取其他 secret。

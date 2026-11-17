@@ -16,7 +16,7 @@ Dapr 不是服务网格。虽然服务网格专注于细粒度的网络控制，
 
 ### Dapr、Orleans 和 Service Fabric Reliable Actors 之间是什么关系？
 
-Dapr 中的 actors 基于 [Orleans](https://www.microsoft.com/research/project/orleans-virtual-actors/) 开创的虚拟 actor 概念，意味着它们在调用时激活，并在一段时间后停用。如果你熟悉 Orleans，Dapr C# actors 会让你感到熟悉。Dapr C# actors 基于 [Service Fabric Reliable Actors](https://docs.microsoft.com/azure/service-fabric/service-fabric-reliable-actors-introduction)（同样源自 Orleans），使你能够将 Service Fabric 中的 Reliable Actors 迁移到其他托管平台，例如 Kubernetes 或其他本地环境。
+Dapr 中的 actors 基于 [Orleans](https://www.microsoft.com/research/project/orleans-virtual-actors/) 开创的虚拟 actor 概念，意味着它们在调用时激活，并在一段时间后停用。如果你熟悉 Orleans，Dapr C# actors 会让你感到熟悉。Dapr C# actors 基于 [Service Fabric Reliable Actors](https://docs.microsoft.com/azure/service-fabric/service-fabric-reliable-actors-introduction)（同样源自 Orleans），使你能够将 Service Fabric 中的 Reliable Actors 迁移到其他 hosting platforms，例如 Kubernetes 或其他本地环境。
 
 此外，Dapr 不仅仅是关于 actors。它为你提供了一套构建任何微服务应用程序的最佳实践构建块。请参阅 [Dapr 概述]({{% ref overview %}})。
 

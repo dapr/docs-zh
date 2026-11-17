@@ -22,7 +22,7 @@ Dapr 与服务网格共享的一些常见能力包括：
 
  重要的是，Dapr 通过名称提供服务发现和调用，这是以开发者为中心的关注点。这意味着开发者通过 Dapr 的 service invocation API 调用某个服务名称上的方法，而服务网格处理的是 IP 地址和 DNS 地址等网络概念。不过，Dapr 不提供路由或流量分割等流量行为能力。流量路由通常由应用程序的入口代理（ingress proxy）来处理，不一定要使用服务网格。此外，Dapr 还提供其他应用级 building block，如 State Management、pub/sub、Actor 等。
 
-Dapr 与服务网格之间的另一个区别是可观测性（追踪和指标）。服务网格在网络层面运行，追踪服务之间的网络调用；Dapr 则通过 service invocation 实现这一点。此外，Dapr 还通过在 Cloud Events 信封中写入追踪 ID，为 pub/sub 调用提供可观测性（追踪和指标）。这意味着，对于同时使用服务间调用和 pub/sub 进行通信的应用程序，Dapr 的指标和追踪比服务网格更加全面。
+Dapr 与服务网格之间的另一个区别是 observability（追踪和指标）。服务网格在网络层面运行，追踪服务之间的网络调用；Dapr 则通过 service invocation 实现这一点。此外，Dapr 还通过在 Cloud Events 信封中写入追踪 ID，为 pub/sub 调用提供 observability（追踪和指标）。这意味着，对于同时使用服务间调用和 pub/sub 进行通信的应用程序，Dapr 的指标和追踪比服务网格更加全面。
 
 下图展示了 Dapr 与服务网格各自提供的重叠功能和独特能力：
 
@@ -61,7 +61,7 @@ Dapr 从 1.19 版本开始设置 `appProtocol`。在更早的版本中，该字�
 {{% /alert %}}
 
 ## 何时使用 Dapr、服务网格或两者兼用
-你应该使用 Dapr、服务网格，还是两者兼用？答案取决于你的需求。例如，如果你希望将 Dapr 用于一个或多个 building block（如 State Management 或 pub/sub），并且你正在考虑仅为了网络安全或可观测性而使用服务网格，你可能会发现 Dapr 已经足够适用，无需使用服务网格。
+你应该使用 Dapr、服务网格，还是两者兼用？答案取决于你的需求。例如，如果你希望将 Dapr 用于一个或多个 building block（如 State Management 或 pub/sub），并且你正在考虑仅为了网络安全或 observability 而使用服务网格，你可能会发现 Dapr 已经足够适用，无需使用服务网格。
 
 通常，当企业策略要求所有应用程序的网络流量都必须加密时，你会将服务网格与 Dapr 一起使用。例如，你可能只在应用程序的一部分中使用 Dapr，而应用程序中未使用 Dapr 的其他服务和进程同样需要对其流量进行加密。在这种情况下，服务网格是更好的选择，你很可能应当在服务网格上使用 mTLS 和分布式追踪，并在 Dapr 上禁用它们。
 
