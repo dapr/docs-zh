@@ -1,17 +1,17 @@
 {
   "version": "v1.19",
-  "generatedAt": "2026-11-17T06:24:11.051Z",
-  "latestBatchId": "batch-20261117T062411.051Z",
+  "generatedAt": "2026-11-17T22:09:32.182Z",
+  "latestBatchId": "batch-20261117T220932.182Z",
   "sourceSummary": {
     "synced": 811,
     "drift": 0,
-    "missingSource": 30
+    "missingSource": 0
   },
   "translationSummary": {
-    "translated": 364,
+    "translated": 363,
     "staleTranslation": 447,
-    "missingTranslation": 0,
-    "orphanTranslation": 30
+    "missingTranslation": 1,
+    "orphanTranslation": 0
   },
   "buckets": [
     {
@@ -47,11 +47,11 @@
       "documentCount": 605,
       "syncedCount": 605,
       "driftCount": 0,
-      "missingSourceCount": 29,
-      "translatedCount": 320,
+      "missingSourceCount": 0,
+      "translatedCount": 319,
       "staleTranslationCount": 285,
-      "missingTranslationCount": 0,
-      "orphanTranslationCount": 29
+      "missingTranslationCount": 1,
+      "orphanTranslationCount": 0
     },
     {
       "id": "pluggable-components/dotnet",
@@ -98,11 +98,11 @@
       "documentCount": 90,
       "syncedCount": 90,
       "driftCount": 0,
-      "missingSourceCount": 1,
+      "missingSourceCount": 0,
       "translatedCount": 4,
       "staleTranslationCount": 86,
       "missingTranslationCount": 0,
-      "orphanTranslationCount": 1
+      "orphanTranslationCount": 0
     },
     {
       "id": "sdks_go",
@@ -209,590 +209,40 @@
   ],
   "categories": [
     {
+      "id": "translationStateMissingTarget",
+      "label": "translation-state 命中但译文文件缺失",
+      "hint": "宜检查工作台写入链路或历史文件丢失。",
+      "count": 1,
+      "tone": "warn"
+    },
+    {
       "id": "translationStateShaMismatch",
       "label": "translation-state 的 sha 与当前源文不匹配",
       "hint": "宜重译或等待下一次同步后再判定。",
       "count": 244,
       "tone": "warn"
-    },
-    {
-      "id": "orphanTranslation",
-      "label": "存在孤儿译文",
-      "hint": "宜核对源文是否删除，或清理孤儿译文。",
-      "count": 30,
-      "tone": "warn"
     }
   ],
   "findings": [
     {
-      "type": "orphanTranslation",
+      "type": "translationStateMissingTarget",
       "version": "v1.19",
       "bucket": "docs",
-      "relativePath": "concepts/overview.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/concepts/overview.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
+      "relativePath": "operations/resiliency/policies.md",
+      "sourceFile": "data/source/docs/operations/resiliency/policies.md",
+      "translationFile": "translated_content/zh_CN/docs/operations/resiliency/policies.md",
+      "conflictStage": "translation-state",
+      "title": "translation-state 命中但译文文件缺失",
+      "detail": "宜检查工作台写入链路或历史文件丢失。",
       "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
+        "translationStateSha": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "targetExists": "false"
       },
       "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:concepts/overview.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-ai/agent-integrations/crewai/_index.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-ai/agent-integrations/crewai/_index.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
         "targetExists": "true",
-        "sourceExists": "false"
+        "authorityTranslationStatus": "translated"
       },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-ai/agent-integrations/crewai/_index.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-ai/agent-integrations/crewai/crewai-workflows.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-ai/agent-integrations/crewai/crewai-workflows.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-ai/agent-integrations/crewai/crewai-workflows.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-ai/agent-integrations/langgraph/_index.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-ai/agent-integrations/langgraph/_index.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-ai/agent-integrations/langgraph/_index.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-ai/agent-integrations/langgraph/langgraph-agents-sessions.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-ai/agent-integrations/langgraph/langgraph-agents-sessions.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-ai/agent-integrations/langgraph/langgraph-agents-sessions.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-ai/agent-integrations/openai-agents/_index.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-ai/agent-integrations/openai-agents/_index.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-ai/agent-integrations/openai-agents/_index.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-ai/agent-integrations/openai-agents/openai-agents-sessions.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-ai/agent-integrations/openai-agents/openai-agents-sessions.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-ai/agent-integrations/openai-agents/openai-agents-sessions.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-ai/dapr-agents/dapr-agents-integrations.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-ai/dapr-agents/dapr-agents-integrations.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-ai/dapr-agents/dapr-agents-integrations.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/_index.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/_index.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/_index.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/argo-cd.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/argo-cd.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/argo-cd.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/autoscale-keda.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/autoscale-keda.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/autoscale-keda.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/AWS/_index.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/AWS/_index.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/AWS/_index.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/AWS/authenticating-aws.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/AWS/authenticating-aws.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/AWS/authenticating-aws.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Azure/_index.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Azure/_index.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Azure/_index.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Azure/azure-api-management.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Azure/azure-api-management.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Azure/azure-api-management.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Azure/azure-authentication/_index.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Azure/azure-authentication/_index.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Azure/azure-authentication/_index.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Azure/azure-authentication/authenticating-azure.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Azure/azure-authentication/authenticating-azure.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Azure/azure-authentication/authenticating-azure.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Azure/azure-authentication/howto-aad.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Azure/azure-authentication/howto-aad.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Azure/azure-authentication/howto-aad.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Azure/azure-authentication/howto-mi.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Azure/azure-authentication/howto-mi.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Azure/azure-authentication/howto-mi.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Azure/azure-authentication/howto-wif.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Azure/azure-authentication/howto-wif.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Azure/azure-authentication/howto-wif.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Azure/azure-functions.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Azure/azure-functions.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Azure/azure-functions.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Azure/azure-kubernetes-service-extension.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Azure/azure-kubernetes-service-extension.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Azure/azure-kubernetes-service-extension.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Diagrid/_index.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Diagrid/_index.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Diagrid/_index.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/Diagrid/diagrid-conductor.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/Diagrid/diagrid-conductor.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/Diagrid/diagrid-conductor.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/github_actions.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/github_actions.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/github_actions.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/kratix-marketplace.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/kratix-marketplace.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/kratix-marketplace.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "developing-applications/integrations/kubernetes-operator.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/developing-applications/integrations/kubernetes-operator.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:developing-applications/integrations/kubernetes-operator.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "reference/cli/dapr-dashboard.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/reference/cli/dapr-dashboard.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:reference/cli/dapr-dashboard.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "docs",
-      "relativePath": "reference/components-reference/supported-pubsub/setup-solace-amqp.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/docs/reference/components-reference/supported-pubsub/setup-solace-amqp.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:docs:reference/components-reference/supported-pubsub/setup-solace-amqp.md"
-    },
-    {
-      "type": "orphanTranslation",
-      "version": "v1.19",
-      "bucket": "sdks_dotnet",
-      "relativePath": "dotnet-messaging/dotnet-messaging-pubsub-howto.md",
-      "sourceFile": null,
-      "translationFile": "translated_content/zh_CN/sdks_dotnet/dotnet-messaging/dotnet-messaging-pubsub-howto.md",
-      "conflictStage": "filesystem",
-      "title": "存在孤儿译文",
-      "detail": "宜核对源文是否删除，或清理孤儿译文。",
-      "observed": {
-        "targetExists": "true",
-        "sourceExists": "false"
-      },
-      "expected": {
-        "sourceExists": "true"
-      },
-      "id": "orphanTranslation:sdks_dotnet:dotnet-messaging/dotnet-messaging-pubsub-howto.md"
+      "id": "translationStateMissingTarget:docs:operations/resiliency/policies.md"
     },
     {
       "type": "translationStateShaMismatch",
@@ -5431,6 +4881,6 @@
       "id": "translationStateShaMismatch:sdks_python:python-sdk-extensions/python-workflow-ext/python-workflow.md"
     }
   ],
-  "totalFindings": 274,
+  "totalFindings": 245,
   "status": "warn"
 }
