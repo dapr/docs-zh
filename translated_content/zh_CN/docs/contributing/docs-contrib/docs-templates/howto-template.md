@@ -36,51 +36,51 @@ description: #Required; One-sentence description of what to expect in the articl
 ---
 
 <!--
-在提交 PR 之前移除此模板中的所有注释。
+Remove all the comments in this template before opening a PR.
 -->
 
 <!-- 
-H1：Hugo front-matter 中的标题作为文章的 markdown H1。 
+H1: The title in the Hugo front-matter serves as the article's markdown H1. 
 -->
 
 <!-- 导言段落  
-必填。简短的介绍，简要描述 how-to 将涵盖的内容以及任何默认的 Dapr 特性。链接到相应的概念或概述文档以提供背景。-->
+Required. Light intro that briefly describes what the how-to will cover and any default Dapr characteristics. Link off to the appropriate concept or overview docs to provide context. -->
 
 <!-- 
-如果可能，包含图表或图像。 
+Include a diagram or image, if possible. 
 -->
 
 <!--
-如果适用，在短代码注释或提示中链接到相关的快速入门，例如：
+If applicable, link to the related quickstart in a shortcode note or alert with text like:
 
- 如果尚未尝试，请先[试用 <主题> 快速入门](link)，以快速了解如何使用 <主题>。
+ If you haven't already, [try out the <topic> quickstart](link) for a quick walk-through on how to use <topic>.
 
 -->
 
 <!-- 
-确保 how-to 包含多种编程语言、操作系统或部署目标的示例（如果适用）。 
+Make sure the how-to includes examples for multiple programming languages, OS, or deployment targets, if applicable. 
 -->
 
 ## <操作或任务>
 
 <!-- 
-与快速入门不同，不要使用"步骤 1"、"步骤 2"等。  
+Unlike quickstarts, do not use "Step 1", "Step 2", etc.  
 -->
 
 ## <操作或任务>
 
 <!-- 
-每个 H2 步骤应以动词/动作词开头。
+Each H2 step should start with a verb/action word.
 -->
 
 -->
-尽可能包含代码片段。 
+Include code snippets where possible. 
 -->
 
 ## 下一步
 
 <!--
-链接到相关页面和示例。例如，构建块概述、相关教程、API 参考等。
+Link to related pages and examples. For example, the building block overview, the related tutorial, API reference, etc.
 -->
 
 ```

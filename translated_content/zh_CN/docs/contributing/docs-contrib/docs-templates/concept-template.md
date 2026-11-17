@@ -36,59 +36,59 @@ description: #Required; 一句话描述文章内容
 ---
 
 <!--
-在打开 PR 之前，请删除此模板中的所有注释。
+Remove all the comments in this template before opening a PR.
 -->
 
 <!-- 
-H1：Hugo front-matter 中的标题作为文章的 markdown H1。 
+H1: The title in the Hugo front-matter serves as the article's markdown H1. 
 -->
 
 <!-- 简介
-必需。简要介绍文章将涵盖的概念。链接到相应的参考、规范或操作指南以提供上下文。 -->
+Required. Brief intro that describes the concepts that the article will cover. Link off to the appropriate reference, specs, or how-to guides to provide context. -->
 
 <!-- 
-如果可能，包含图表或图像。 
+Include a diagram or image, if possible. 
 -->
 
 ## <第 1 节 H2>
 
 <!-- 
-在此添加你的内容。  
+Add your content here.  
 -->
 
 ## <第 2 节 H2>
 
 <!-- 
-每个 H2 步骤应以名词/描述性词开头。
+Each H2 step should start with a noun/descriptive word.
 -->
 
 ## <第 3 节 H2>
 
 <!--
-在此添加你的内容。
+Add your content here.
 -->
 
 <!--
-在适用的地方，通篇包含图表或图像。
+Include diagrams or images throughout, where applicable.
 -->
 
 ## 尝试 <概念>
 
 <!-- 
-如果适用，包含一个部分，链接到相关的快速入门、操作指南或教程。 --> 
+If applicable, include a section with links to the related quickstart, how-to guides, or tutorials. --> 
 
 ### 快速入门和教程
 
-想要测试 Dapr <主题> API？完成以下快速入门和教程，查看 <主题> 的实际应用：
+Want to put the Dapr <topic> API to the test? Walk through the following quickstart and tutorials to see <topic> in action:
 
-| 快速入门/教程 | 描述 |
+| Quickstart/tutorial | Description |
 | ------------------- | ----------- |
-| [<主题> 快速入门](link) | 快速入门的描述。 |
-| [<主题> 教程](link) | 教程的描述。 |
+| [<topic> quickstart](link) | Description of the quickstart. |
+| [<topic> tutorial](link) | Description of the tutorial. |
 
 ### 直接在应用中使用 <主题>
 
-想要跳过快速入门？没问题。你可以直接在应用中尝试 <主题> 构建块。[安装 Dapr](link) 后，即可开始使用 <主题> API，从 [<主题> 操作指南](link) 开始。
+Want to skip the quickstarts? Not a problem. You can try out the <topic> building block directly in your application. After [Dapr is installed](link), you can begin using the <topic> API, starting with [the <topic> how-to guide](link).
 
 
 -->
@@ -96,7 +96,7 @@ H1：Hugo front-matter 中的标题作为文章的 markdown H1。
 ## 后续步骤
 
 <!--
-链接到相关页面和示例。例如，相关 API 规范、相关构建块等。
+Link to related pages and examples. For example, the related API spec, related building blocks, etc.
 -->
 
 ```

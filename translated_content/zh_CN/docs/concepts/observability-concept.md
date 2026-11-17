@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "可观测性"
+title: "Observability"
 linkTitle: "可观测性"
 weight: 500
 description: >

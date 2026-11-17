@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Quickstart 指南模板"
+title: "Quickstart guide template"
 linkTitle: "Quickstart 模板"
 weight: 20
 description: 创建 Quickstart 指南的建议模板和指导
@@ -88,5 +88,4 @@ Link to related pages and examples. For example, the building block overview, th
 <!--
 Use the button shortcode to direct readers to more in-depth, related scenarios, like the Dapr tutorials.
 -->
-
 ```
