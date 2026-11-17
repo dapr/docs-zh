@@ -45,7 +45,7 @@ if err := s.Start(); err != nil {
 ```
 
 ### 事件处理
-要处理来自特定主题的事件，您需要在启动服务之前添加至少一个主题事件处理器：
+要处理来自特定 topic 的事件，您需要在启动服务之前添加至少一个 topic 事件处理器：
 
 ```go
 sub := &common.Subscription{
@@ -67,7 +67,7 @@ func eventHandler(ctx context.Context, e *common.TopicEvent) (retry bool, err er
 }
 ```
 
-或者，您可以使用[路由规则](https://docs.dapr.io/developing-applications/building-blocks/pubsub/howto-route-messages/)，根据 CloudEvent 的内容将消息发送到不同的处理器。
+或者，您可以使用[Routing 规则](https://docs.dapr.io/developing-applications/building-blocks/pubsub/howto-route-messages/)，根据 CloudEvent 的内容将消息发送到不同的处理器。
 
 ```go
 sub := &common.Subscription{

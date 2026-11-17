@@ -399,7 +399,7 @@ for _, account := range queryResponse {
 有关 State Management 的完整指南，请访问[如何：保存与获取状态]({{% ref howto-get-save-state.md %}})。
 
 ### 发布消息
-要将数据发布到某个主题，Dapr Go 客户端提供了一个简单的方法：
+要将数据发布到某个 topic，Dapr Go 客户端提供了一个简单的方法：
 
 ```go
 data := []byte(`{ "id": "a123", "value": "abcdefg", "valid": true }`)
