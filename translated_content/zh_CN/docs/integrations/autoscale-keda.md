@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用 KEDA 自动扩缩 Dapr 应用"
+title: "How to: Autoscale a Dapr app with KEDA"
 linkTitle: "KEDA"
 description: "如何配置 Dapr 应用以使用 KEDA 进行自动扩缩"
 weight: 3000

@@ -1,7 +1,7 @@
 ---
 type: docs
 weight: 5000
-title: "操作指南：在 GitHub Actions workflow 中使用 Dapr CLI"
+title: "How to: Use the Dapr CLI in a GitHub Actions workflow"
 linkTitle: "GitHub Actions"
 description: "将 Dapr CLI 添加到你的 GitHub Actions 中，以便在你的环境中部署和管理 Dapr。"
 aliases:
@@ -39,7 +39,7 @@ Dapr 可以通过 GitHub Marketplace 中提供的 [Dapr tool installer](https://
     # 获取用于 dapr init 的 K8s 凭据
     az aks get-credentials --resource-group ${{ env.RG_NAME }} --name "${{ steps.azure-deployment.outputs.aksName }}"
 
-    # 初始化 Dapr
+    # 初始化 Dapr    
     # 将 Dapr 初始化日志分组，以便这些行可以折叠。
     echo "::group::Initialize Dapr"
     dapr init --kubernetes --wait --runtime-version ${{ env.DAPR_VERSION }}

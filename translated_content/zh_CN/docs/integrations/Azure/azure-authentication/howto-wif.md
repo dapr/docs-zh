@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用工作负载身份联合"
+title: "How to: Use workload identity federation"
 linkTitle: "操作指南：使用工作负载身份联合"
 weight: 20000
 description: "了解如何配置 Dapr 在 Azure 上使用工作负载身份联合。"
@@ -14,11 +14,11 @@ aliases:
 
 [工作负载身份联合](https://learn.microsoft.com/entra/workload-id/workload-identities-overview)是一种让应用程序向 Azure 进行身份验证的方式，无需将凭据作为发布流程的一部分进行存储或管理。
 
-通过使用工作负载身份联合，任何在 Kubernetes 和 AKS 上运行、面向 Azure 的 Dapr component 都可以透明地完成身份验证，无需任何额外配置。
+通过使用工作负载身份联合，任何在 Kubernetes 和 AKS 上运行、面向 Azure 的 Dapr components 都可以透明地完成身份验证，无需任何额外配置。
 
 ## 指南
 
-我们将演示如何为你的 AKS 集群配置 Azure 密钥保管库资源。你可以根据需要替换 component 定义，将本指南用于其他 Dapr Azure component。
+我们将演示如何为你的 AKS 集群配置 Azure Key Vault 资源。你可以根据需要替换 component 定义，将本指南用于其他 Dapr Azure component。
 
 本操作指南将使用这个 [Dapr AKS secrets 示例应用](https://github.com/dapr/samples/dapr-aks-workload-identity-federation)。
 
@@ -31,15 +31,15 @@ aliases:
 
 请按照 [Azure 文档中在 AKS 集群上启用工作负载身份联合的说明](https://learn.microsoft.com/azure/aks/workload-identity-deploy-cluster#deploy-your-application4)操作。
 
-本操作指南将引导你配置 Azure Entra ID 租户，使其信任源自 AKS 集群颁发者的身份。此外，它还会引导你设置一个与你创建的 Azure 托管标识关联的 [Kubernetes service account](https://kubernetes.io/docs/concepts/security/service-accounts/)。
+本操作指南将引导你配置 Azure Entra ID 租户，使其信任源自 AKS 集群颁发者（issuer）的身份。此外，它还会引导你设置一个与你创建的 Azure 托管标识关联的 [Kubernetes service account](https://kubernetes.io/docs/concepts/security/service-accounts/)。
 
 完成后，请返回此处继续第 2 步。
 
-### 2 - 向 Azure 密钥保管库添加 secret
+### 2 - 向 Azure Key Vault 添加 secret
 
-在你创建的 Azure 密钥保管库中，添加一个名为 `dapr`、值为 `Hello Dapr!` 的 secret。
+在你创建的 Azure Key Vault 中，添加一个名为 `dapr`、值为 `Hello Dapr!` 的 secret。
 
-### 3 - 配置 Azure 密钥保管库 dapr component
+### 3 - 配置 Azure Key Vault dapr component
 
 至此，你应该已有一个名称类似 `workload-identity-sa0a1b2c` 的 Kubernetes service account。
 

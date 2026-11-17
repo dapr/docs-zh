@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Azure Functions 运行时的 Dapr 扩展"
+title: "Dapr extension for Azure Functions runtime"
 linkTitle: "Azure Functions 扩展"
 description: "从你的 Azure Functions 运行时应用访问 Dapr 能力"
 weight: 3000

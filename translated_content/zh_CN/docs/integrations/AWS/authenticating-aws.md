@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "向 AWS 进行身份验证"
+title: "Authenticating to AWS"
 linkTitle: "向 AWS 进行身份验证"
 weight: 10
 description: "关于 AWS 身份验证和配置选项的信息"

@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "如何：使用托管标识"
+title: "How to: Use managed identities"
 linkTitle: "如何：使用托管标识"
 weight: 40000
 aliases:
@@ -27,7 +27,7 @@ description: "了解如何使用托管标识"
 
 ## 授予服务访问权限
 
-为你的系统托管标识或用户分配标识，针对某个特定 Azure 资源（由资源范围指定）设置所需的 Microsoft Entra ID 角色分配或自定义权限。
+为你的系统托管标识或用户分配标识，针对某个特定 Azure 资源（由资源作用域指定）设置所需的 Microsoft Entra ID 角色分配或自定义权限。
 
 你可以为新建或已有的 Azure 资源设置托管标识。具体步骤取决于所用的服务。请查阅以下官方文档，找到最合适的说明：
 
@@ -54,7 +54,7 @@ description: "了解如何使用托管标识"
 {{% alert title="Azure Container Apps 中的托管标识" color="primary" %}}
 每个容器应用都有各自完全不同的系统托管标识，要在多个应用之间处理所需的角色分配，管理起来非常困难。
 
-因此，_强烈建议_改用用户分配标识，并将其附加到所有需要加载该 component 的应用上。然后，将该 component 的作用范围限定为这些相同的应用。
+因此，_强烈建议_改用用户分配标识，并将其附加到所有需要加载该 component 的应用上。然后，将该 component 的作用域限定为这些相同的应用。
 {{% /alert %}}
 
 ## 在 component 中设置标识
@@ -132,12 +132,12 @@ spec:
 
 - 系统托管标识或用户分配标识在目标资源上没有所需的权限。
 - 用户分配标识没有附加到你加载该 component 的 Azure 服务（容器应用或 Pod）上。这种情况尤其可能发生在以下场景中：
-  - 你使用了未限定作用范围的 component（即由环境中的所有容器应用，或 AKS 集群中的所有部署加载的 component）。
+  - 你使用了未限定作用域的 component（即由环境中的所有容器应用，或 AKS 集群中的所有部署加载的 component）。
   - 你只将用户分配标识附加到了一个容器应用或 AKS 中的一个部署上（使用 [Azure 工作负载身份](https://learn.microsoft.com/azure/aks/workload-identity-overview?tabpane=dotnet)）。
 
   在这种情况下，由于该标识并未附加到 AKS 中的其他每个容器应用或部署上，通过 `azureClientId` 引用该用户分配标识的 component 会失败。
 
-> **最佳实践：** 使用用户分配标识时，请确保将 component 的作用范围限定到特定应用！
+> **最佳实践：** 使用用户分配标识时，请确保将 component 的作用域限定到特定应用！
 
 ## 后续步骤
 

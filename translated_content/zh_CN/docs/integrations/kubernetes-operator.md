@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用 Dapr Kubernetes Operator"
+title: "How to: Use the Dapr Kubernetes Operator"
 linkTitle: "Dapr Kubernetes Operator"
 weight: 7000
 description: "使用 Dapr Kubernetes Operator 管理 Dapr control plane"

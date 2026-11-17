@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：生成新的 Microsoft Entra ID 应用程序和服务主体"
+title: "How to: Generate a new Microsoft Entra ID application and Service Principal"
 linkTitle: "操作指南：生成 Microsoft Entra ID 和服务主体"
 weight: 30000
 description: "了解如何生成 Microsoft Entra ID，并将其用作服务主体"
@@ -41,7 +41,7 @@ APP_ID=$(az ad app create --display-name "${APP_NAME}"  | jq -r .appId)
 
 {{< tabpane text=true >}}
 
-{{% tab "client secret" %}}
+{{% tab "Client secret" %}}
 
 要创建 **client secret**，请运行以下命令。
 

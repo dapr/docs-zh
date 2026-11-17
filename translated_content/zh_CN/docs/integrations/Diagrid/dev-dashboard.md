@@ -26,7 +26,7 @@ aliases:
 
 **component 与配置查看器**
 
-浏览 Dapr component 和配置，并使用构建向导创建 component 和 resiliency 策略定义，无需手动编写 YAML。
+浏览 Dapr component 和配置，并使用构建器向导创建 component 和 resiliency 策略定义，无需手动编写 YAML。
 
 **control plane 与日志**
 
