@@ -9,7 +9,7 @@ description: 如何开始使用 Dapr Java SDK
 Dapr 客户端包允许你从 Java 应用程序与其他 Dapr 应用程序进行交互。
 
 {{% alert title="注意" color="primary" %}}
-如果你还没有尝试过，请先[试用其中一个快速入门]({{% ref quickstarts %}})，快速了解如何将 Dapr Java SDK 与 API 构建块一起使用。
+如果你还没有尝试过，请先[试用其中一个 Quickstart]({{% ref quickstarts %}})，快速了解如何将 Dapr Java SDK 与 API building blocks 一起使用。
 
 {{% /alert %}}
 
@@ -49,14 +49,14 @@ DaprClient client = new DaprClientBuilder().build()
 ...
 ```
 
-## 构建块
+## building blocks
 
-Java SDK 允许你与所有 [Dapr 构建块]({{% ref building-blocks %}}) 进行交互。
+Java SDK 允许你与所有 [Dapr building blocks]({{% ref building-blocks %}}) 进行交互。
 
 ### 调用服务
 
 {{% alert title="已弃用" color="warning" %}}
-服务调用相关的 `DaprClient.invokeMethod` 封装方法已弃用。请改用下文介绍的 SDK 辅助方法 `DaprClient.invokeHttpClient(appId)`，或任何针对 Dapr 边车的原生 HTTP（或 gRPC）客户端。
+service invocation 相关的 `DaprClient.invokeMethod` 封装方法已弃用。请改用下文介绍的 SDK 辅助方法 `DaprClient.invokeHttpClient(appId)`，或任何针对 Dapr sidecar 的原生 HTTP（或 gRPC）客户端。
 {{% /alert %}}
 
 SDK 提供了一个预先配置好的 HTTP 客户端封装，它绑定到目标应用的调用前缀。相对路径会基于 `{daprHttpEndpoint}/v1.0/invoke/{appId}/method/` 解析；配置了 `dapr-api-token` 时，该请求头会被自动附加：
@@ -100,7 +100,7 @@ HttpRequest request = invoker.newRequestBuilder(
 
 | 关注点 | 由 SDK 处理 | 由你负责 |
 |---|---|---|
-| 调用 URL（`/v1.0/invoke/{appId}/method/...`） | ✓ — 基于边车端点解析，默认为 `http://localhost:3500`（可通过 `DAPR_HTTP_ENDPOINT`，或 `DAPR_SIDECAR_IP` 加 `DAPR_HTTP_PORT` 覆盖） | |
+| 调用 URL（`/v1.0/invoke/{appId}/method/...`） | ✓ — 基于 sidecar 端点解析，默认为 `http://localhost:3500`（可通过 `DAPR_HTTP_ENDPOINT`，或 `DAPR_SIDECAR_IP` 加 `DAPR_HTTP_PORT` 覆盖） | |
 | `dapr-api-token` 请求头 | ✓ — 仅在通过 `dapr.api.token` 系统属性或 `DAPR_API_TOKEN` 环境变量配置时附加 | |
 | HTTP 读取超时 | ✓ — 默认为 **60 秒**；可通过 `dapr.http.client.readTimeoutSeconds` 系统属性或 `DAPR_HTTP_CLIENT_READ_TIMEOUT_SECONDS` 环境变量覆盖 | |
 | `User-Agent: dapr-sdk-java/<version>` 请求头 | ✓ — 其值自动跟随 SDK 版本 | |
@@ -116,7 +116,7 @@ HttpRequest request = invoker.newRequestBuilder(
 当 `BodyPublisher` 报告的内容长度未知时（例如使用 `BodyPublishers.fromInputStream`），JDK 的 `HttpClient` 会发送 `Transfer-Encoding: chunked` 请求头。分块请求在高并发下与下游 HTTP 服务器的交互可能不佳，因此建议使用长度已知的发布器，例如 `DaprBodyPublishers.json(...)`、`BodyPublishers.ofByteArray(...)`、`BodyPublishers.ofString(...)` 或 `BodyPublishers.ofFile(...)`。它们会生成 `Content-Length` 分帧，并与已弃用的 `invokeMethod` API 所使用的线路格式一致。
 {{% /alert %}}
 
-此外，你也可以直接使用原生的 `java.net.http.HttpClient` 配合 `dapr-app-id` 请求头调用边车，这种调用本身无需依赖 SDK：
+此外，你也可以直接使用原生的 `java.net.http.HttpClient` 配合 `dapr-app-id` 请求头调用 sidecar，这种调用本身无需依赖 SDK：
 
 ```java
 import java.net.URI;
@@ -136,12 +136,13 @@ HttpRequest request = HttpRequest.newBuilder()
 HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 ```
 
-- 有关服务调用的完整指南，请访问[操作指南：调用服务]({{% ref howto-invoke-discover-services.md %}})。
+- 有关 service invocation 的完整指南，请访问[操作指南：调用服务]({{% ref howto-invoke-discover-services.md %}})。
 
 ### 保存和获取应用程序状态
 
 ```java
 import io.dapr.client.DaprClient;
+
 import io.dapr.client.DaprClientBuilder;
 import io.dapr.client.domain.State;
 import reactor.core.publisher.Mono;
@@ -159,7 +160,7 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 ```
 
 - 有关状态操作的完整列表，请访问[操作指南：获取和保存状态]({{% ref howto-get-save-state.md %}})。
-- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/state)，获取代码示例，并了解如何试用状态管理。
+- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/state)，获取代码示例，并了解如何试用 State Management。
 
 ### 发布和订阅消息
 
@@ -255,7 +256,7 @@ public class SubscriberController {
 }
 ```
 
-##### 批量发布消息
+##### Bulk Publish 消息
 
 ```java
 import io.dapr.client.DaprClient;
@@ -275,7 +276,7 @@ class Solution {
         System.out.println("Going to publish message : " + message);
       }
 
-      // 使用批量发布 API 发布消息列表
+      // 使用 Bulk Publish API 发布消息列表
       BulkPublishResponse<String> res = client.publishEvents(PUBSUB_NAME, TOPIC_NAME, "text/plain", messages).block()
     }
   }
@@ -283,12 +284,13 @@ class Solution {
 ```
 
 - 有关发布消息和订阅主题的完整指南，请访问[操作指南：发布和订阅]({{% ref howto-publish-subscribe.md %}})。
-- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/pubsub/http)，获取代码示例，并了解如何试用发布订阅功能。
+- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/pubsub/http)，获取代码示例，并了解如何试用 pub/sub 功能。
 
-### 与输出绑定交互
+### 与 output binding 交互
 
 ```java
 import io.dapr.client.DaprClient;
+
 import io.dapr.client.DaprClientBuilder;
 
 try (DaprClient client = (new DaprClientBuilder()).build()) {
@@ -300,10 +302,10 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关输出绑定的完整指南，请访问[操作指南：输出绑定]({{% ref howto-bindings.md %}})。
-- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http)，获取代码示例，并了解如何试用输出绑定。
+- 有关 output binding 的完整指南，请访问[操作指南：output binding]({{% ref howto-bindings.md %}})。
+- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http)，获取代码示例，并了解如何试用 output binding。
 
-### 与输入绑定交互
+### 与 input binding 交互
 
 ```java
 import org.springframework.web.bind.annotation.*;
@@ -322,10 +324,10 @@ public class myClass {
 }
 ```
 
-- 有关输入绑定的完整指南，请访问[操作指南：输入绑定]({{% ref howto-triggers %}})。
-- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http)，获取代码示例，并了解如何试用输入绑定。
+- 有关 input binding 的完整指南，请访问[操作指南：input binding]({{% ref howto-triggers %}})。
+- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http)，获取代码示例，并了解如何试用 input binding。
 
-### 获取机密
+### 获取 secrets
 
 ```java
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -339,12 +341,12 @@ try (DaprClient client = (new DaprClientBuilder()).build()) {
 }
 ```
 
-- 有关机密的完整指南，请访问[操作指南：获取机密]({{% ref howto-secrets.md %}})。
-- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/secrets)，获取代码示例，并了解如何获取机密。
+- 有关 secrets 的完整指南，请访问[操作指南：获取 secrets]({{% ref howto-secrets.md %}})。
+- 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/secrets)，获取代码示例，并了解如何获取 secrets。
 
 ### Actor
 
-Actor 是一个隔离的、独立的计算与状态单元，以单线程方式执行。Dapr 提供了基于[虚拟 Actor 模式](https://www.microsoft.com/research/project/orleans-virtual-actors/)的 Actor 实现，它提供单线程编程模型，并且 Actor 在闲置时会被垃圾回收。在 Dapr 的实现中，你按照 Actor 模型编写 Dapr Actor，Dapr 则利用底层平台提供的可扩展性与可靠性。
+Actor 是一个隔离的、独立的计算与状态单元，以单线程方式执行。Dapr 提供了基于[virtual Actor 模式](https://www.microsoft.com/research/project/orleans-virtual-actors/)的 Actor 实现，它提供单线程编程模型，并且 Actor 在闲置时会被垃圾回收。在 Dapr 的实现中，你按照 Actor 模型编写 Dapr Actor，Dapr 则利用底层平台提供的可扩展性与可靠性。
 
 ```java
 import io.dapr.actors.ActorMethod;
@@ -366,7 +368,7 @@ public interface DemoActor {
 }
 ```
 
-从 Dapr 1.19 开始，继承 `AbstractActor` 的 Actor 可以为定时器或提醒设置重复次数、生存时间（TTL）或两者兼有，使其在到期后自行停止，无需手动取消注册。将 `ActorTimerOptions` 传给 `registerActorTimer`，或将 `ActorReminderOptions` 传给 `registerReminder` 即可。设置重复次数时，周期需为整数秒；设置 TTL 时，周期需为正值。
+从 Dapr 1.19 开始，继承 `AbstractActor` 的 Actor 可以为 timer 或 reminder 设置重复次数、生存时间（TTL）或两者兼有，使其在到期后自行停止，无需手动取消注册。将 `ActorTimerOptions` 传给 `registerActorTimer`，或将 `ActorReminderOptions` 传给 `registerReminder` 即可。设置重复次数时，周期需为整数秒；设置 TTL 时，周期需为正值。
 
 ```java
 // 在 Actor 实现内部：触发 5 次，每 10 秒一次
@@ -390,7 +392,7 @@ registerActorTimer(
         .build()).block();
 ```
 
-- 有关 Actor 的完整指南，请访问[操作指南：在 Dapr 中使用虚拟 Actor]({{% ref howto-actors.md %}})。
+- 有关 Actor 的完整指南，请访问[操作指南：在 Dapr 中使用 virtual Actor]({{% ref howto-actors.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/actors)，获取代码示例，并了解如何试用 Actor。
 
 ### 获取并订阅应用程序配置
@@ -429,6 +431,7 @@ try (DaprPreviewClient client = (new DaprClientBuilder()).buildPreviewClient()) 
 ### 查询已保存的状态
 
 > 注意：这是一个预览 API，因此只能通过 DaprPreviewClient 接口访问，而不能通过普通的 DaprClient 接口访问。
+
 
 ```java
 import io.dapr.client.DaprClient;
@@ -474,7 +477,7 @@ try (DaprClient client = builder.build(); DaprPreviewClient previewClient = buil
         client.saveBulkState(request).block();
         
         
-        // 创建查询和状态查询请求
+        // 创建查询和 Query State 请求
 
         Query query = new Query()
           .setFilter(new EqFilter<>("propertyType", "apartment"))
@@ -482,10 +485,10 @@ try (DaprClient client = builder.build(); DaprPreviewClient previewClient = buil
         QueryStateRequest request = new QueryStateRequest(STATE_STORE_NAME)
           .setQuery(query);
 
-        // 使用预览客户端调用状态查询 API
+        // 使用预览客户端调用 Query State API
         QueryStateResponse<MyData> result = previewClient.queryState(request, MyData.class).block();
         
-        // 查看状态查询响应 
+        // 查看 Query State 响应 
         System.out.println("Found " + result.getResults().size() + " items.");
         for (QueryStateItem<Listing> item : result.getResults()) {
           System.out.println("Key: " + item.getKey());
@@ -494,7 +497,7 @@ try (DaprClient client = builder.build(); DaprPreviewClient previewClient = buil
 }
 ```
 
-- 有关状态查询的完整操作指南，请访问[操作指南：状态查询]({{% ref howto-state-query-api.md %}})。
+- 有关 Query State 的完整操作指南，请访问[操作指南：Query State]({{% ref howto-state-query-api.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/querystate)，查看完整的代码示例。
 
 ### 分布式锁
@@ -563,7 +566,7 @@ public class DistributedLockGrpcClient {
 - 有关分布式锁的完整操作指南，请访问[操作指南：使用锁]({{% ref howto-use-distributed-lock.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/lock)，查看完整的代码示例。
 
-### 工作流
+### workflow
 
 ```java
 package io.dapr.examples.workflows;
@@ -680,19 +683,19 @@ public class DemoWorkflowClient {
 }
 ```
 
-- 有关工作流的完整指南，请访问：
-   - [操作指南：编写工作流]({{% ref howto-author-workflow.md %}})。
-   - [操作指南：管理工作流]({{% ref howto-manage-workflow.md %}})。
-- [了解如何在 Java SDK 中使用工作流]({{% ref java-workflow.md %}})。
+- 有关 workflow 的完整指南，请访问：
+   - [操作指南：编写 workflow]({{% ref howto-author-workflow.md %}})。
+   - [操作指南：管理 workflow]({{% ref howto-manage-workflow.md %}})。
+- [了解如何在 Java SDK 中使用 workflow]({{% ref java-workflow.md %}})。
 
-## 边车 API
+## sidecar API
 
-#### 等待边车
+#### 等待 sidecar
 
-`DaprClient` 还提供了一个辅助方法，用于等待边车变为健康状态（仅适用于组件）。使用此方法时，请务必以毫秒为单位指定超时时间，并调用 block() 来等待响应式操作的结果。
+`DaprClient` 还提供了一个辅助方法，用于等待 sidecar 变为健康状态（仅适用于 component）。使用此方法时，请务必以毫秒为单位指定超时时间，并调用 block() 来等待响应式操作的结果。
 
 ```java
-// 在尝试使用 Dapr 组件之前，等待 Dapr 边车报告健康状态。
+// 在尝试使用 Dapr component 之前，等待 Dapr sidecar 报告健康状态。
 try (DaprClient client = new DaprClientBuilder().build()) {
   System.out.println("Waiting for Dapr sidecar ...");
   client.waitForSidecar(10000).block(); // 以毫秒为单位指定超时时间
@@ -700,10 +703,10 @@ try (DaprClient client = new DaprClientBuilder().build()) {
   ...
 }
 
-// 在此执行 Dapr 组件操作，例如获取机密或保存状态。
+// 在此执行 Dapr component 操作，例如获取 secrets 或保存状态。
 ```
 
-### 关闭边车
+### 关闭 sidecar
 ```java
 try (DaprClient client = new DaprClientBuilder().build()) {
   logger.info("Sending shutdown request.");
@@ -719,13 +722,13 @@ try (DaprClient client = new DaprClientBuilder().build()) {
 
 ### App API 令牌认证
 
-发布订阅、输入绑定和作业等构建块需要 Dapr 向你的应用程序发起传入调用。你可以使用 [Dapr App API 令牌认证]({{% ref app-api-token.md %}}) 来保护这些请求，从而确保只有 Dapr 能够调用你应用程序的端点。
+pub/sub、input binding 和 job 等 building blocks 需要 Dapr 向你的应用程序发起传入调用。你可以使用 [Dapr App API 令牌认证]({{% ref app-api-token.md %}}) 来保护这些请求，从而确保只有 Dapr 能够调用你应用程序的端点。
 
 #### 理解两种令牌
 
 Dapr 使用两种不同的令牌来保护通信。有关这两种令牌的详细信息，请参阅[属性]({{% ref properties.md %}})：
 
-- **`DAPR_API_TOKEN`**（你的应用 → Dapr 边车）：使用 `DaprClient` 时由 Java SDK 自动处理
+- **`DAPR_API_TOKEN`**（你的应用 → Dapr sidecar）：使用 `DaprClient` 时由 Java SDK 自动处理
 - **`APP_API_TOKEN`**（Dapr → 你的应用）：需要在你的应用程序中进行服务端校验
 
 下面的示例展示了如何为 `APP_API_TOKEN` 实现服务端校验。
@@ -828,10 +831,10 @@ public class SubscriberController {
 
 #### 示例
 
-以下是使用发布订阅、绑定和作业的可用示例：
-- [发布订阅与 App API 令牌认证](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/pubsub#app-api-token-authentication-optional)
-- [绑定与 App API 令牌认证](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http#app-api-token-authentication-optional)
-- [作业与 App API 令牌认证](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/jobs#app-api-token-authentication-optional)
+以下是使用 pub/sub、binding 和 job 的可用示例：
+- [pub/sub 与 App API 令牌认证](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/pubsub#app-api-token-authentication-optional)
+- [binding 与 App API 令牌认证](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/bindings/http#app-api-token-authentication-optional)
+- [job 与 App API 令牌认证](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/jobs#app-api-token-authentication-optional)
 
 ## 相关链接
 - [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples)

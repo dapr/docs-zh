@@ -8,7 +8,7 @@ description: 如何开始使用 Dapr 与 Spring Boot
 
 通过结合 Dapr 和 Spring Boot，我们可以创建独立于基础设施的 Java 应用程序，这些应用程序可以部署到不同的环境中，支持广泛的本地和云提供商服务。
 
-首先，我们将从一个涵盖 `DaprClient` 和 [Testcontainers](https://testcontainers.com/) 集成的简单示例开始，然后使用 Spring 和 Spring Boot 的机制与编程模型，在底层利用 Dapr API。这有助于团队移除连接特定环境基础设施（数据库、键值存储、消息代理、配置/机密存储等）所需的客户端和驱动程序等依赖项。
+首先，我们将从一个涵盖 `DaprClient` 和 [Testcontainers](https://testcontainers.com/) 集成的简单示例开始，然后使用 Spring 和 Spring Boot 的机制与编程模型，在底层利用 Dapr API。这有助于团队移除连接特定环境基础设施（数据库、键值存储、消息代理、配置/secret store 等）所需的客户端和驱动程序等依赖项。
 
 {{% alert title="注意" color="primary" %}}
 从 Dapr Java SDK 1.19 起，Spring Boot 集成要求 Spring Boot 4.0，不再适用于 Spring Boot 3.x 或 2.x。
@@ -19,6 +19,7 @@ Spring Boot 集成仍处于 alpha 阶段。我们需要你的帮助和反馈，�
 {{% /alert %}}
 
 ## 将 Dapr 和 Spring Boot 集成添加到你的项目
+
 
 如果你已经有 Spring Boot 应用程序，可以直接将以下依赖项添加到项目中：
 
@@ -54,7 +55,7 @@ SDK 1.19 移除了单独的 Spring Boot 4 构件，因为主构件现在以 Spri
 添加这些依赖项后，你可以：
 - 自动装配 `DaprClient`，在应用程序中使用
 - 使用 Spring Data 和 Messaging 抽象以及编程模型，它们在底层使用 Dapr API
-- 依赖 [Testcontainers](https://testcontainers.com/) 引导 Dapr 控制平面服务和默认组件，从而改进你的内部开发循环
+- 依赖 [Testcontainers](https://testcontainers.com/) 引导 Dapr control plane 服务和默认 component，从而改进你的内部开发循环
 
 将这些依赖项加入应用程序后，你就可以依赖 Spring Boot 自动配置来自动装配 `DaprClient` 实例：
 
@@ -96,10 +97,10 @@ record Order(String orderId, Integer amount){}
 ```
 
 如果你希望在 Spring Boot 应用程序之外不必管理 Dapr，可以依赖 [Testcontainers](https://testcontainers.com/)，在应用程序旁边为开发目的引导 Dapr。
-为此，我们可以创建一个测试配置，使用 `Testcontainers` 引导使用 Dapr API 开发应用程序所需的全部组件。
+为此，我们可以创建一个测试配置，使用 `Testcontainers` 引导使用 Dapr API 开发应用程序所需的全部 component。
 
 借助 [Testcontainers](https://testcontainers.com/) 和 Dapr 集成，我们让 `@TestConfiguration` 为应用程序引导 Dapr。
-请注意，在此示例中，我们使用名为 `kvstore` 的 Statestore 组件配置 Dapr，该组件连接到同样由 Testcontainers 引导的 `PostgreSQL` 实例。
+请注意，在此示例中，我们使用名为 `kvstore` 的 Statestore component 配置 Dapr，该 component 连接到同样由 Testcontainers 引导的 `PostgreSQL` 实例。
 
 ```java
 @TestConfiguration(proxyBeanMethods = false)
@@ -148,21 +149,21 @@ mvn spring-boot:test-run
 
 ## 利用 Spring 和 Spring Boot 编程模型与 Dapr
 
-Java SDK 允许你与所有 [Dapr 构建块]({{% ref building-blocks %}}) 交互。
+Java SDK 允许你与所有 [Dapr building block]({{% ref building-blocks %}}) 交互。
 但如果你想利用 Spring 和 Spring Boot 编程模型，可以使用 `dapr-spring-boot-starter` 集成。
 它包括 Spring Data（`KeyValueTemplate` 和 `CrudRepository`）的实现，以及用于生产和消费消息的 `DaprMessagingTemplate`
-（类似于 [Spring Kafka](https://spring.io/projects/spring-kafka)、[Spring Pulsar](https://spring.io/projects/spring-pulsar) 和 [Spring AMQP for RabbitMQ](https://spring.io/projects/spring-amqp)），以及 Dapr 工作流。
+（类似于 [Spring Kafka](https://spring.io/projects/spring-kafka)、[Spring Pulsar](https://spring.io/projects/spring-pulsar) 和 [Spring AMQP for RabbitMQ](https://spring.io/projects/spring-amqp)），以及 Dapr Workflow。
 
 ## 使用 Spring Data `CrudRepository` 和 `KeyValueTemplate`
 
 你可以使用广为人知的 Spring Data 构造，它们依赖基于 Dapr 的实现。
 借助 Dapr，你无需添加任何与基础设施相关的驱动程序或客户端，这使你的 Spring 应用程序更轻量，并与其运行环境解耦。
 
-在底层，这些实现使用 Dapr Statestore 和绑定 API。
+在底层，这些实现使用 Dapr Statestore 和 binding API。
 
 ### 配置参数
 
-借助 Spring Data 抽象，你可以配置 Dapr 使用哪些 statestore 和绑定来连接可用的基础设施。
+借助 Spring Data 抽象，你可以配置 Dapr 使用哪些 statestore 和 binding 来连接可用的基础设施。
 这可以通过设置以下属性完成：
 
 ```properties
@@ -278,7 +279,7 @@ public DaprContainer daprContainer(Network daprNetwork, PostgreSQLContainer<?> p
 }
 ```
 
-现在，在 Dapr 配置中，我们包含了一个 `pubsub` 组件，它将连接到由 Testcontainers 启动的 RabbitMQ 实例。
+现在，在 Dapr 配置中，我们包含了一个 `pubsub` component，它将连接到由 Testcontainers 启动的 RabbitMQ 实例。
 我们还设置了两个重要参数 `.withAppPort(8080)` 和 `.withAppChannelAddress("host.testcontainers.internal")`，它们允许 Dapr 在代理中发布消息时回连应用程序。
 
 要监听事件/消息，你需要在应用程序中暴露一个负责接收消息的端点。
@@ -314,13 +315,13 @@ public static void setup(){
 - `LoggingConfigurationSettings` — `logging` 块。
 - `MetricsConfigurationSettings` — `metrics` 块。
 - `NameResolutionConfigurationSettings` — `nameResolution` 块。
-- `ComponentsConfigurationSettings` — `components` 块（例如，拒绝某些组件类型）。
-- `SecretsConfigurationSettings` — `secrets` 块（限定机密存储的访问范围）。
-- `HttpPipeline` — `httpPipeline` 块（用于处理发送到 Dapr 边车的传入 HTTP 请求的中间件处理程序）。`Configuration` 类此前已接受 `appHttpPipeline` 块对应的 `AppHttpPipeline`。
+- `ComponentsConfigurationSettings` — `components` 块（例如，拒绝某些 component 类型）。
+- `SecretsConfigurationSettings` — `secrets` 块（限定 secret store 的访问范围）。
+- `HttpPipeline` — `httpPipeline` 块（用于处理发送到 Dapr sidecar 的传入 HTTP 请求的 middleware 处理程序）。`Configuration` 类此前已接受 `appHttpPipeline` 块对应的 `AppHttpPipeline`。
 
 每个设置类都对应 Configuration 资源上的同名字段；各字段的作用请参阅 [Configuration 概述]({{% ref configuration-overview.md %}})。
 
-例如，以下配置向 `httpPipeline` 添加了 `uppercase` 和 `ratelimit` 中间件处理程序。`httpPipeline` 是 `Configuration` 构造函数的最后一个参数，因此对于不使用的设置，请传入 `null`：
+例如，以下配置向 `httpPipeline` 添加了 `uppercase` 和 `ratelimit` middleware 处理程序。`httpPipeline` 是 `Configuration` 构造函数的最后一个参数，因此对于不使用的设置，请传入 `null`：
 
 ```java
 HttpPipeline httpPipeline = new HttpPipeline(List.of(
@@ -335,9 +336,9 @@ DaprContainer daprContainer = new DaprContainer("daprio/daprd:1.19.0")
     .withConfiguration(configuration);
 ```
 
-处理程序的 `name` 必须与你添加到容器中的某个[中间件组件]({{% ref middleware.md %}})的名称一致。
+处理程序的 `name` 必须与你添加到容器中的某个[middleware component]({{% ref middleware.md %}})的名称一致。
 
-此外，`Subscription` 现在接受 `scopes` 列表（即允许使用该订阅的应用 ID），与声明式订阅上的 `scopes` 字段对应。
+此外，`Subscription` 现在接受 `scopes` 列表（即允许使用该订阅的应用 ID），与 declarative subscription 上的 `scopes` 字段对应。
 
 {{% alert title="注意" color="primary" %}}
 这些是 Dapr 1.19 中的新增内容。请查看 [Testcontainers Dapr 模块 Javadoc](https://javadoc.io/doc/io.dapr/testcontainers-dapr/latest/index.html)，了解每个设置类完整的构造函数签名。
@@ -347,7 +348,7 @@ DaprContainer daprContainer = new DaprContainer("daprio/daprd:1.19.0")
 
 了解有关[可添加到 Java 应用程序中的 Dapr Java SDK 包](https://dapr.github.io/java-sdk/)的更多信息。
 
-查看如何指南：[使用 Spring Boot 和 Testcontainers 进行 Dapr 工作流，获得本地工作流开发体验](sb-workflows-howto.md)。
+查看如何指南：[使用 Spring Boot 和 Testcontainers 进行 Dapr Workflow，获得本地 workflow 开发体验](sb-workflows-howto.md)。
 
 ## 相关链接
 - [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples)

@@ -1,15 +1,15 @@
 ---
 type: docs
 title: "操作指南：在 Java SDK 中编写和管理 Dapr Workflow"
-linkTitle: "操作指南：编写和管理工作流"
+linkTitle: "操作指南：编写和管理 workflow"
 weight: 20000
-description: 如何使用 Dapr Java SDK 快速上手工作流
+description: 如何使用 Dapr Java SDK 快速上手 workflow
 ---
 
-让我们创建一个 Dapr 工作流，并通过控制台调用它。借助[提供的工作流示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)，你将：
+让我们创建一个 Dapr Workflow，并通过控制台调用它。借助[提供的 workflow 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows)，你将：
 
-- 使用 [Java 工作流 worker](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowWorker.java) 执行工作流实例
-- 利用 Java 工作流客户端和 API 调用，[启动和终止工作流实例](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowClient.java)
+- 使用 [Java workflow worker](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowWorker.java) 执行 workflow instance
+- 利用 Java Workflow Client 和 API 调用，[启动和终止 workflow instance](https://github.com/dapr/java-sdk/blob/master/examples/src/main/java/io/dapr/examples/workflows/DemoWorkflowClient.java)
 
 本示例使用 `dapr init` 的默认配置，运行于[自托管模式](https://github.com/dapr/cli#install-dapr-on-your-local-machine-self-hosted)。
 
@@ -23,7 +23,7 @@ description: 如何使用 Dapr Java SDK 快速上手工作流
 <!-- IGNORE_LINKS -->
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 <!-- END_IGNORE -->
-- 确认你使用的是最新的 proto 绑定
+- 确认你使用的是最新的 proto binding
 
 ## 设置环境
 
@@ -34,7 +34,7 @@ git clone https://github.com/dapr/java-sdk.git
 cd java-sdk
 ```
 
-运行以下命令，安装使用 Dapr Java SDK 运行此工作流示例所需的依赖。
+运行以下命令，安装使用 Dapr Java SDK 运行此 workflow 示例所需的依赖。
 
 ```bash
 mvn clean install
@@ -48,13 +48,13 @@ cd examples
 
 ## 运行 `DemoWorkflowWorker`
 
-`DemoWorkflowWorker` 类在 Dapr 的工作流运行时引擎中注册 `DemoWorkflow` 的实现。在 `DemoWorkflowWorker.java` 文件中，你可以找到 `DemoWorkflowWorker` 类和 `main` 方法：
+`DemoWorkflowWorker` 类在 Dapr 的 workflow runtime 引擎中注册 `DemoWorkflow` 的实现。在 `DemoWorkflowWorker.java` 文件中，你可以找到 `DemoWorkflowWorker` 类和 `main` 方法：
 
 ```java
 public class DemoWorkflowWorker {
 
   public static void main(String[] args) throws Exception {
-    // 向运行时注册工作流。
+    // 向运行时注册 workflow。
     WorkflowRuntime.getInstance().registerWorkflow(DemoWorkflow.class);
     System.out.println("Start workflow runtime");
     WorkflowRuntime.getInstance().startAndBlock();
@@ -64,8 +64,8 @@ public class DemoWorkflowWorker {
 ```
 
 在上述代码中：
-- `WorkflowRuntime.getInstance().registerWorkflow()` 将 `DemoWorkflow` 注册为 Dapr 工作流运行时中的一个工作流。
-- `WorkflowRuntime.getInstance().start()` 在 Dapr 工作流运行时中构建并启动引擎。
+- `WorkflowRuntime.getInstance().registerWorkflow()` 将 `DemoWorkflow` 注册为 Dapr Workflow 运行时中的一个 workflow。
+- `WorkflowRuntime.getInstance().start()` 在 Dapr Workflow 运行时中构建并启动引擎。
 
 在终端中执行以下命令，启动 `DemoWorkflowWorker`：
 
@@ -87,7 +87,7 @@ You're up and running! Both Dapr and your app logs will appear here.
 
 ## 运行 `DemoWorkflowClient`
 
-`DemoWorkflowClient` 用于启动已在 Dapr 中注册的工作流实例。
+`DemoWorkflowClient` 用于启动已在 Dapr 中注册的 workflow instance。
 
 ```java
 public class DemoWorkflowClient {
@@ -187,7 +187,7 @@ public class DemoWorkflowClient {
 }
 ```
 
-在第二个终端窗口中，运行以下命令启动工作流：
+在第二个终端窗口中，运行以下命令启动 workflow：
 
 ```sh
 java -jar target/dapr-java-sdk-examples-exec.jar io.dapr.examples.workflows.DemoWorkflowClient
@@ -235,44 +235,44 @@ Exiting DemoWorkflowClient.
 
 ## 发生了什么？
 
-1. 当你运行 `dapr run` 时，工作流 worker 将工作流（`DemoWorkflow`）及其活动注册到 Dapr 工作流引擎。
-1. 当你运行 `java` 时，工作流客户端启动了工作流实例，其中包含以下活动。你可以对照运行 `dapr run` 的终端输出进行跟踪。
-   1. 工作流启动后，触发三个并行任务，并等待它们完成。
-   1. 工作流客户端调用该活动，并将 "Hello Activity" 消息发送到控制台。
-   1. 工作流超时并被清除。
-   1. 工作流客户端以随机 ID 启动一个新的工作流实例；再使用名为 `terminateMe` 的工作流实例将其终止，并以名为 `restarting` 的工作流实例重新启动它。
-   1. 工作流客户端随后退出。
+1. 当你运行 `dapr run` 时，workflow worker 将 workflow（`DemoWorkflow`）及其 activity 注册到 Dapr Workflow 引擎。
+1. 当你运行 `java` 时，Workflow Client 启动了 workflow instance，其中包含以下 activity。你可以对照运行 `dapr run` 的终端输出进行跟踪。
+   1. workflow 启动后，触发三个并行任务，并等待它们完成。
+   1. Workflow Client 调用该 activity，并将 "Hello Activity" 消息发送到控制台。
+   1. workflow 超时并被清除。
+   1. Workflow Client 以随机 ID 启动一个新的 workflow instance；再使用名为 `terminateMe` 的 workflow instance 将其终止，并以名为 `restarting` 的 workflow instance 重新启动它。
+   1. Workflow Client 随后退出。
 
 ## 后续步骤
-- [了解有关 Dapr 工作流的更多信息]({{% ref workflow-overview.md %}})
-- [工作流 API 参考]({{% ref workflow_api.md %}})
+- [了解有关 Dapr Workflow 的更多信息]({{% ref workflow-overview.md %}})
+- [Workflow API 参考]({{% ref workflow_api.md %}})
 
 ## 高级功能
 
 ### 任务执行键
 
-任务执行键是由 durabletask-java 库生成的唯一标识符。它们存储在 `WorkflowActivityContext` 中，可用于跟踪和管理工作流活动的执行。它们特别适用于以下场景：
+任务执行键是由 durabletask-java 库生成的唯一标识符。它们存储在 `WorkflowActivityContext` 中，可用于跟踪和管理 workflow activity 的执行。它们特别适用于以下场景：
 
-1. **幂等性**：确保同一任务的活动不会被多次执行
-2. **状态管理**：跟踪活动执行的状态
+1. **幂等性**：确保同一任务的 activity 不会被多次执行
+2. **State Management**：跟踪 activity 执行的状态
 3. **错误处理**：以可控的方式管理重试与失败
 
-以下示例展示了如何在工作流活动中使用任务执行键：
+以下示例展示了如何在 workflow activity 中使用任务执行键：
 
 ```java
 public class TaskExecutionKeyActivity implements WorkflowActivity {
   @Override
   public Object run(WorkflowActivityContext ctx) {
-    // 获取该活动的任务执行键
+    // 获取该 activity 的任务执行键
     String taskExecutionKey = ctx.getTaskExecutionKey();
     
-    // 使用该键实现幂等性或状态管理
+    // 使用该键实现幂等性或 State Management
     // 例如，检查该任务是否已经执行过
     if (isTaskAlreadyExecuted(taskExecutionKey)) {
       return getPreviousResult(taskExecutionKey);
     }
     
-    // 执行活动逻辑
+    // 执行 activity 逻辑
     Object result = executeActivityLogic();
     
     // 使用任务执行键存储结果
@@ -283,9 +283,9 @@ public class TaskExecutionKeyActivity implements WorkflowActivity {
 }
 ```
 
-### 有状态工作流历史
+### stateful workflow 历史
 
-从 Dapr 1.19 开始，工作流 worker 会在内存中保存每个工作流实例的历史，因此 Dapr 边车每轮只发送新事件。此功能默认开启。若要将其关闭（例如 worker 内存有限时），可在 `WorkflowRuntimeBuilder` 上调用 `withStatefulHistoryDisabled(true)`：
+从 Dapr 1.19 开始，workflow worker 会在内存中保存每个 workflow instance 的历史，因此 Dapr sidecar 每轮只发送新事件。此功能默认开启。若要将其关闭（例如 worker 内存有限时），可在 `WorkflowRuntimeBuilder` 上调用 `withStatefulHistoryDisabled(true)`：
 
 ```java
 WorkflowRuntime runtime = new WorkflowRuntimeBuilder()
@@ -294,15 +294,15 @@ WorkflowRuntime runtime = new WorkflowRuntimeBuilder()
     .build();
 ```
 
-该构建器还提供了 `withHistoryCacheTtl`、`withHistoryCacheMaxInstances` 和 `withHistoryCacheMaxBytes` 方法，用于调整历史缓存。更多信息请参阅[有状态工作流客户端]({{% ref workflow-stateful-client.md %}})。
+该构建器还提供了 `withHistoryCacheTtl`、`withHistoryCacheMaxInstances` 和 `withHistoryCacheMaxBytes` 方法，用于调整历史缓存。更多信息请参阅[stateful workflow 客户端]({{% ref workflow-stateful-client.md %}})。
 
-### 处理重复的工作流实例 ID
+### 处理重复的 workflow instance ID
 
-从 Dapr 1.19 开始，当运行时因已存在具有该 ID 的工作流实例而拒绝某个实例 ID 时，`DaprWorkflowClient.scheduleNewWorkflow` 会抛出 `WorkflowInstanceAlreadyExistsException`。
+从 Dapr 1.19 开始，当运行时因已存在具有该 ID 的 workflow instance 而拒绝某个实例 ID 时，`DaprWorkflowClient.scheduleNewWorkflow` 会抛出 `WorkflowInstanceAlreadyExistsException`。
 
 哪些已存在的实例会导致拒绝，取决于 `NewWorkflowOptions.setEnforceUniqueInstanceId(boolean)`：
 
-- 默认情况下（该选项禁用），运行时只会拒绝属于**活跃**实例的实例 ID。若使用已达到终态（已完成、失败或已终止）的工作流的实例 ID 进行调度，则会成功，并以全新状态重新运行该工作流。
+- 默认情况下（该选项禁用），运行时只会拒绝属于**活跃**实例的实例 ID。若使用已达到终态（已完成、失败或已终止）的 workflow 的实例 ID 进行调度，则会成功，并以全新状态重新运行该 workflow。
 - 启用该选项后，只要存在具有该 ID 的实例（无论处于何种状态，包括终态），运行时就会拒绝该实例 ID。现有实例保持不变。
 
 ```java
@@ -318,9 +318,9 @@ try {
 }
 ```
 
-### 列出、检查和重新运行工作流实例
+### 列出、检查和重新运行 workflow instance
 
-从 Dapr 1.19 开始，`DaprWorkflowClient` 可以列出应用的工作流实例 ID、读取实例的历史，并从其某个历史事件重新运行已结束的实例。你可以借助这些功能在无需自行保存实例 ID 的情况下查找实例、查看失败实例停止的位置，并使用新输入从该步骤重试，而不必从头开始。
+从 Dapr 1.19 开始，`DaprWorkflowClient` 可以列出应用的 workflow instance ID、读取实例的历史，并从其某个历史事件重新运行已结束的实例。你可以借助这些功能在无需自行保存实例 ID 的情况下查找实例、查看失败实例停止的位置，并使用新输入从该步骤重试，而不必从头开始。
 
 ```java
 // 列出第一页的实例 ID，每页最多 100 个。
@@ -336,7 +336,7 @@ for (WorkflowHistoryEvent event : history) {
   System.out.printf("eventId=%d type=%s%n", event.getEventId(), event.getEventType());
 }
 
-// 使用新输入，从第一个已调度的活动重新运行
+// 使用新输入，从第一个已调度的 activity 重新运行
 int eventId = history.stream()
     .filter(event -> event.getEventType() == WorkflowHistoryEventType.TASK_SCHEDULED)
     .mapToInt(WorkflowHistoryEvent::getEventId)
@@ -346,6 +346,6 @@ String newInstanceId = client.rerunWorkflowFromEvent(instanceId, eventId,
     new RerunWorkflowFromEventOptions().setInput("new input").setOverwriteInput(true));
 ```
 
-`rerunWorkflowFromEvent` 会创建一个新的工作流实例，返回其 ID，并保持源实例不变。源实例必须处于终态，且不能是子工作流。该事件必须是活动的调度、定时器的创建或子工作流的创建。若要替换输入，请同时调用 `setOverwriteInput(true)` 和 `setInput`。若要为新实例选择 ID，请调用 `setNewInstanceId`。
+`rerunWorkflowFromEvent` 会创建一个新的 workflow instance，返回其 ID，并保持源实例不变。源实例必须处于终态，且不能是 child workflow。该事件必须是 activity 的调度、timer 的创建或 child workflow 的创建。若要替换输入，请同时调用 `setOverwriteInput(true)` 和 `setInput`。若要为新实例选择 ID，请调用 `setNewInstanceId`。
 
-如需可直接运行的版本，请参阅[工作流管理示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows/management)。
+如需可直接运行的版本，请参阅[workflow 管理示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/workflows/management)。

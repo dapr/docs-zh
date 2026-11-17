@@ -11,7 +11,7 @@ description: 用于配置 Dapr Java SDK 的全局属性，支持环境变量和�
 Dapr Java SDK 提供了一组控制 SDK 行为的全局属性。这些属性可以通过环境变量或系统属性进行配置。系统属性可以在运行 Java 应用程序时使用 `-D` 标志进行设置。
 
 这些属性会影响整个 SDK，包括客户端和运行时。它们控制的方面包括：
-- 边车连接（端点、端口）
+- sidecar 连接（端点、端口）
 - 安全设置（TLS、API 令牌）
 - 性能调优（超时、连接池）
 - 协议设置（gRPC、HTTP）
@@ -21,16 +21,16 @@ Dapr Java SDK 提供了一组控制 SDK 行为的全局属性。这些属性可�
 
 以下环境变量可用于配置 Dapr Java SDK：
 
-### 边车端点
+### sidecar 端点
 
-当设置这些变量时，客户端将自动使用它们连接到 Dapr 边车。
+当设置这些变量时，客户端将自动使用它们连接到 Dapr sidecar。
 
 | 环境变量 | 描述 | 默认值 |
 |---------------------|-------------|---------|
-| `DAPR_GRPC_ENDPOINT` | Dapr 边车的 gRPC 端点 | `localhost:50001` |
-| `DAPR_HTTP_ENDPOINT` | Dapr 边车的 HTTP 端点 | `localhost:3500` |
-| `DAPR_GRPC_PORT` | Dapr 边车的 gRPC 端口（已弃用，`DAPR_GRPC_ENDPOINT` 优先级更高） | `50001` |
-| `DAPR_HTTP_PORT` | Dapr 边车的 HTTP 端口（已弃用，`DAPR_HTTP_ENDPOINT` 优先级更高） | `3500` |
+| `DAPR_GRPC_ENDPOINT` | Dapr sidecar 的 gRPC 端点 | `localhost:50001` |
+| `DAPR_HTTP_ENDPOINT` | Dapr sidecar 的 HTTP 端点 | `localhost:3500` |
+| `DAPR_GRPC_PORT` | Dapr sidecar 的 gRPC 端口（已弃用，`DAPR_GRPC_ENDPOINT` 优先级更高） | `50001` |
+| `DAPR_HTTP_PORT` | Dapr sidecar 的 HTTP 端口（已弃用，`DAPR_HTTP_ENDPOINT` 优先级更高） | `3500` |
 
 ### API 令牌
 
@@ -38,8 +38,8 @@ Dapr 支持两种类型的 API 令牌来保护通信：
 
 | 环境变量 | 描述 | 默认值 |
 |---------------------|-------------|---------|
-| `DAPR_API_TOKEN` | 用于验证**从你的应用向 Dapr 边车发起**请求的 API 令牌。当使用 `DaprClient` 时，Java SDK 会自动在请求中包含此令牌。 | `null` |
-| `APP_API_TOKEN` | 用于验证**从 Dapr 向你的应用发起**请求的 API 令牌。当设置此变量时，Dapr 在调用你的应用程序时（例如发布订阅订阅者、输入绑定或作业触发器），会在 `dapr-api-token` 请求头/元数据中包含此令牌。你的应用程序必须验证此令牌。 | `null` |
+| `DAPR_API_TOKEN` | 用于验证**从你的应用向 Dapr sidecar 发起**请求的 API 令牌。当使用 `DaprClient` 时，Java SDK 会自动在请求中包含此令牌。 | `null` |
+| `APP_API_TOKEN` | 用于验证**从 Dapr 向你的应用发起**请求的 API 令牌。当设置此变量时，Dapr 在调用你的应用程序时（例如发布订阅订阅者、 input binding 或 job 触发器），会在 `dapr-api-token` 请求头/元数据中包含此令牌。你的应用程序必须验证此令牌。 | `null` |
 
 有关实现示例，请参阅 [App API Token Authentication]({{% ref "java-client#app-api-token-authentication" %}})。更多详情请参阅 [Dapr API token authentication](https://docs.dapr.io/operations/security/api-token/)。
 
@@ -65,12 +65,12 @@ Dapr 支持两种类型的 API 令牌来保护通信：
 | `DAPR_GRPC_KEEP_ALIVE_TIMEOUT_SECONDS` | gRPC keepalive 超时（秒） | `5` |
 | `DAPR_GRPC_KEEP_ALIVE_WITHOUT_CALLS` | 是否在没有调用时保持 gRPC 连接存活 | `true` |
 
-#### 工作流 Keepalive 设置
-工作流运行时运行期间，SDK 会以固定间隔调用边车的 `Hello` RPC，以便不把 HTTP/2 PING 帧视为活动的负载均衡器（例如 AWS Application Load Balancer）不会关闭空闲的工作项流：
+#### workflow Keepalive 设置
+workflow runtime 运行期间，SDK 会以固定间隔调用 sidecar 的 `Hello` RPC，以便不把 HTTP/2 PING 帧视为 activity 的负载均衡器（例如 AWS Application Load Balancer）不会关闭空闲的工作项流：
 
 | 环境变量 | 描述 | 默认值 |
 |---------------------|-------------|---------|
-| `DAPR_WORKFLOWS_RUNTIME_APP_KEEP_ALIVE_ENABLED` | 工作流运行时是否发送 keepalive `Hello` 调用 | `true` |
+| `DAPR_WORKFLOWS_RUNTIME_APP_KEEP_ALIVE_ENABLED` | workflow runtime 是否发送 keepalive `Hello` 调用 | `true` |
 | `DAPR_WORKFLOWS_APP_KEEP_ALIVE_INTERVAL_SECONDS` | keepalive `Hello` 调用之间的间隔（秒） | `30` |
 
 #### 入站消息设置
@@ -83,11 +83,11 @@ Dapr 支持两种类型的 API 令牌来保护通信：
 
 ### HTTP 客户端配置
 
-这些属性控制用于与 Dapr 边车通信的 HTTP 客户端的行为：
+这些属性控制用于与 Dapr sidecar 通信的 HTTP 客户端的行为：
 
 | 环境变量 | 描述 | 默认值 |
 |---------------------|-------------|---------|
-| `DAPR_HTTP_CLIENT_READ_TIMEOUT_SECONDS` | HTTP 客户端读取操作的超时时间（秒）。这是等待 Dapr 边车响应的最长时间。 | `60` |
+| `DAPR_HTTP_CLIENT_READ_TIMEOUT_SECONDS` | HTTP 客户端读取操作的超时时间（秒）。这是等待 Dapr sidecar 响应的最长时间。 | `60` |
 | `DAPR_HTTP_CLIENT_MAX_REQUESTS` | 可以同时执行的最大 HTTP 请求数。超过此限制后，请求将在内存中排队等待正在运行的调用完成。 | `1024` |
 | `DAPR_HTTP_CLIENT_MAX_IDLE_CONNECTIONS` | HTTP 连接池中的最大空闲连接数。这是池中可以保持空闲的最大连接数。 | `128` |
 
@@ -97,8 +97,8 @@ Dapr 支持两种类型的 API 令牌来保护通信：
 
 | 环境变量 | 描述 | 默认值 |
 |---------------------|-------------|---------|
-| `DAPR_API_MAX_RETRIES` | 向 Dapr 边车发起 API 调用时，可重试异常的最大重试次数 | `0` |
-| `DAPR_API_TIMEOUT_MILLISECONDS` | 向 Dapr 边车发起 API 调用的超时时间（毫秒）。值为 0 表示无超时。 | `0` |
+| `DAPR_API_MAX_RETRIES` | 向 Dapr sidecar 发起 API 调用时，可重试异常的最大重试次数 | `0` |
+| `DAPR_API_TIMEOUT_MILLISECONDS` | 向 Dapr sidecar 发起 API 调用的超时时间（毫秒）。值为 0 表示无超时。 | `0` |
 
 ### 字符串编码
 
@@ -112,21 +112,21 @@ Dapr 支持两种类型的 API 令牌来保护通信：
 
 | 系统属性 | 描述 | 默认值 |
 |----------------|-------------|---------|
-| `dapr.sidecar.ip` | Dapr 边车的 IP 地址 | `localhost` |
-| `dapr.http.port` | Dapr 边车的 HTTP 端口 | `3500` |
-| `dapr.grpc.port` | Dapr 边车的 gRPC 端口 | `50001` |
+| `dapr.sidecar.ip` | Dapr sidecar 的 IP 地址 | `localhost` |
+| `dapr.http.port` | Dapr sidecar 的 HTTP 端口 | `3500` |
+| `dapr.grpc.port` | Dapr sidecar 的 gRPC 端口 | `50001` |
 | `dapr.grpc.tls.cert.path` | gRPC TLS 证书的路径 | `null` |
 | `dapr.grpc.tls.key.path` | gRPC TLS 密钥的路径 | `null` |
 | `dapr.grpc.tls.ca.path` | gRPC TLS CA 证书的路径 | `null` |
 | `dapr.grpc.tls.insecure` | 是否使用不安全的 TLS 模式 | `false` |
-| `dapr.grpc.endpoint` | 远程边车的 gRPC 端点 | `null` |
+| `dapr.grpc.endpoint` | 远程 sidecar 的 gRPC 端点 | `null` |
 | `dapr.grpc.enable.keep.alive` | 是否启用 gRPC keepalive | `false` |
 | `dapr.grpc.keep.alive.time.seconds` | gRPC keepalive 时间（秒） | `10` |
 | `dapr.grpc.keep.alive.timeout.seconds` | gRPC keepalive 超时（秒） | `5` |
 | `dapr.grpc.keep.alive.without.calls` | 是否在没有调用时保持 gRPC 连接存活 | `true` |
-| `dapr.workflows.runtime.app.keep.alive.enabled` | 工作流运行时是否向边车发送 keepalive `Hello` 调用 | `true` |
-| `dapr.workflows.app.keep.alive.interval.seconds` | 工作流 keepalive `Hello` 调用之间的间隔（秒） | `30` |
-| `dapr.http.endpoint` | 远程边车的 HTTP 端点 | `null` |
+| `dapr.workflows.runtime.app.keep.alive.enabled` | workflow runtime 是否向 sidecar 发送 keepalive `Hello` 调用 | `true` |
+| `dapr.workflows.app.keep.alive.interval.seconds` | workflow keepalive `Hello` 调用之间的间隔（秒） | `30` |
+| `dapr.http.endpoint` | 远程 sidecar 的 HTTP 端点 | `null` |
 | `dapr.api.maxRetries` | API 调用的最大重试次数 | `0` |
 | `dapr.api.timeoutMilliseconds` | API 调用的超时时间（毫秒） | `0` |
 | `dapr.api.token` | 用于身份验证的 API 令牌 | `null` |
@@ -218,4 +218,4 @@ java -Dhttps.proxyHost=your-proxy-server.com -Dhttps.proxyPort=8443 -jar myapp.j
 
 将 `your-proxy-server.com` 替换为你的实际代理服务器主机名或 IP 地址，并调整端口号以匹配你的代理服务器配置。
 
-这些代理设置会影响 Java 应用程序发起的所有 HTTP/HTTPS 连接，包括与 Dapr 边车的连接。
+这些代理设置会影响 Java 应用程序发起的所有 HTTP/HTTPS 连接，包括与 Dapr sidecar 的连接。
