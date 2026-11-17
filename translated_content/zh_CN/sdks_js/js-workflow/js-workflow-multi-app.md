@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "JavaScript SDK 中的多应用 workflow 与历史传播"
+title: "Multi-app workflows and history propagation in the JavaScript SDK"
 linkTitle: "多应用 workflow 与历史"
 weight: 1200
 description: 协调远程 activity、child workflow 和 detached workflow，并检查祖先历史

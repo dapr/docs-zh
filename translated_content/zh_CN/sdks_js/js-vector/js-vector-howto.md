@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "操作指南：使用 Dapr JavaScript SDK 存储与查询向量"
+title: "How to: Store and query vectors with the Dapr JavaScript SDK"
 linkTitle: "操作指南：存储与查询向量"
 weight: 53050
 description: "了解如何使用 Dapr JavaScript SDK 管理集合、存储嵌入向量并查询相似向量"
 ---
 
-使用 `DaprClient.vector` 存储预先计算好的嵌入向量，并通过 Dapr vector store component 查找相似记录。本指南涵盖集合配置、写入（upsert）、读取记录、相似性查询、批量查询和删除。
+使用 `DaprClient.vector` 存储预先计算好的嵌入向量，并通过 Dapr vector store component 查找相似记录。本指南涵盖集合配置、upsert、读取记录、相似性查询、批量查询和删除。
 
 ## 先决条件
 

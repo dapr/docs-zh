@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Dapr 向量 JavaScript SDK"
+title: "Dapr Vector JavaScript SDK"
 linkTitle: "向量"
 weight: 180200
 description: 使用 Dapr JavaScript SDK 存储嵌入向量并查询相似向量

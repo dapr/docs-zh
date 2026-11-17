@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "JavaScript pub/sub 的配置与用法"
+title: "JavaScript pub/sub configuration and usage"
 linkTitle: "配置与用法"
 weight: 3400
 description: "配置 pub/sub 客户端的生命周期、端点、身份验证、序列化以及可靠的消息处理"
 ---
 
-本指南介绍使用 `@dapr/dapr` 3.19.0 或更高版本进行 pub/sub 时的通用配置与运维指导。请参阅[概述]({{% ref js-pubsub %}})，以在服务端回调与 streaming subscription 之间做出选择。
+本指南介绍使用 `@dapr/dapr` 3.19.0 或更高版本进行 pub/sub 时的通用配置与运维指导。请参阅[概述]({{% ref js-pubsub %}})，以在服务端回调与 streaming subscriptions 之间做出选择。
 
 ## 客户端生命周期
 
@@ -64,7 +64,7 @@ const customServer = new DaprServer({
 });
 ```
 
-两端应使用兼容的序列化器。自定义序列化器会替换默认的负载编码，它不会自动保留所提供的 CloudEvent 封装。TypeScript 类型参数不提供运行时校验，也不会重新创建类实例。TypeScript 应用可以从 `@dapr/dapr` 以类型的方式导入 `IDaprSerializer`。
+两端应使用兼容的序列化器。自定义序列化器会替换默认的负载编码，它不会自动保留所提供的 CloudEvent 信封。TypeScript 类型参数不提供运行时校验，也不会重新创建类实例。TypeScript 应用可以从 `@dapr/dapr` 以类型的方式导入 `IDaprSerializer`。
 
 特定传输方式的序列化限制，记录在[批量发布]({{% ref "js-pubsub-publish-howto.md#bulk-publishing" %}})和[批量订阅]({{% ref "js-pubsub-subscribe-howto.md#bulk-subscriptions" %}})的相关说明旁。
 

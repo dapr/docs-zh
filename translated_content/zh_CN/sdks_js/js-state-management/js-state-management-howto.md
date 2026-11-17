@@ -1,12 +1,12 @@
 ---
 type: docs
-title: "操作方法：使用 Dapr JavaScript SDK 管理状态"
+title: "How to: Manage state with the Dapr JavaScript SDK"
 linkTitle: "操作方法：管理状态"
 weight: 53050
 description: "了解如何保存、读取和删除状态，使用 ETag，并执行批量操作和事务"
 ---
 
-使用 `DaprClient.state` 管理键值形式的应用状态，无需依赖特定的数据库客户端。本指南使用 Redis，涵盖基本操作、乐观并发、批量操作、TTL 和事务。
+使用 `DaprClient.state` 管理键值形式的应用状态，无需依赖特定的数据库客户端。本指南使用 Redis，涵盖基本操作、乐观并发控制、批量操作、TTL 和事务。
 
 ## 前提条件
 
@@ -118,7 +118,7 @@ for (const item of items) {
 
 每个结果是一个包含 `key`、`data` 和可选 `etag` 的条目，而不仅仅是保存的值。请通过 `key` 匹配结果，而不要依赖数组顺序。在本例中，`widget-b` 已被删除；不同协议下缺失值的表现有所不同。详情请参阅[响应结构]({{% ref "js-state-management-client-usage.md#response-shapes" %}})。
 
-## 使用 ETag 的乐观并发
+## 使用 ETag 的乐观并发控制
 
 `get` 只返回值，而不返回响应的 ETag。要同时读取值及其 ETag，请对单个键使用 `getBulk`。将返回的 ETag 传给后续的保存或删除操作，以检测并发修改。
 

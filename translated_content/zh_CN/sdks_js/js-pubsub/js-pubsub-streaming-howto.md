@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "使用 JavaScript streaming subscription 接收事件"
+title: "Receive events with JavaScript streaming subscriptions"
 linkTitle: "streaming subscriptions"
 weight: 3300
 description: "无需应用服务器，使用 gRPC streaming 订阅，并支持取消、确认与故障监督"

@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "使用 JavaScript 应用服务器接收事件"
+title: "Receive events with a JavaScript application server"
 linkTitle: "服务端订阅"
 weight: 3200
 description: "注册 HTTP 或 gRPC 订阅、处理确认、路由事件，并配置批量投递与死信投递"
@@ -161,7 +161,7 @@ await server.pubsub.subscribeBulk(
 
 在当前版本中，未配置自定义序列化器的 HTTP 批量处理程序会提取 CloudEvent 的 `data`，并解码 `application/octet-stream` 条目，但不会为直接的 `application/json` 或 `text/plain` 条目填充回调数据。对于 HTTP 批量投递，建议使用常规的 Dapr CloudEvent 信封；如需消费这些直接的条目格式，请使用[自定义序列化器]({{% ref "js-pubsub-usage.md#custom-serialization" %}})或 gRPC。
 
-请参阅[Bulk Publish 与订阅]({{% ref pubsub-bulk.md %}})。
+请参阅[Bulk Publish 与发布和订阅]({{% ref pubsub-bulk.md %}})。
 
 ## 死信主题
 

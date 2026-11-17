@@ -12,7 +12,7 @@ cascade:
   github_branch: main
 ---
 
-一个用于在 JavaScript 和 TypeScript 中构建 Dapr 应用程序的客户端库。该客户端抽象了 service invocation、State Management、pub/sub、secrets 等公开 Dapr API，并提供简单直观的 API 用于构建应用程序。
+一个用于在 JavaScript 和 TypeScript 中构建 Dapr 应用程序的客户端库。该客户端抽象了服务间的 service invocation、State Management、pub/sub、secrets 等公开 Dapr API，并提供简单直观的 API 用于构建应用程序。
 
 ## 安装
 
@@ -24,31 +24,31 @@ npm install --save @dapr/dapr
 
 ## 对话
 
-通过 HTTP 或 gRPC，使用 `DaprClient.conversation` 与大型语言模型 (LLM) 对话，包括工具调用、结构化输出、PII 清理、提示词缓存保留以及 Token 用量统计。这些指南面向 JavaScript SDK **3.19.0 或更高版本**。
+通过 HTTP 或 gRPC，使用 `DaprClient.conversation` 与大型语言模型 (LLM) 对话，包括工具调用、结构化输出、PII 清理、提示词缓存保留以及 token 用量统计。这些指南面向 JavaScript SDK **3.19.0 或更高版本**。
 
 请先阅读[对话操作指南]({{% ref js-conversation-howto.md %}})。有关运行时要求和请求选项，请参阅[客户端用法]({{% ref js-conversation-client-usage.md %}})；有关完整的函数调用往返流程，请参阅[工具调用]({{% ref js-conversation-tools-howto.md %}})。
 
-## job
+## Jobs
 
-使用 `DaprClient.jobs` 和 `DaprServer.jobs` 调度一次性、基于间隔或基于 Cron 的 job，并接收其回调。job 功能需要 JavaScript SDK **3.19.0 或更高版本**、Dapr 运行时 **1.16 或更高版本**，以及正在运行的 Scheduler service。
+使用 `DaprClient.jobs` 和 `DaprServer.jobs` 调度一次性、基于间隔或基于 Cron 的 job，并接收其回调。job 功能需要 JavaScript SDK **3.19.0 或更高版本**、Dapr runtime **1.16 或更高版本**，以及正在运行的 Scheduler service。
 
-请参阅[job 操作指南]({{% ref js-jobs-howto.md %}})，阅读[客户端与回调用法指南]({{% ref js-jobs-client-usage.md %}})，或使用 [Cron 构建器]({{% ref js-jobs-cron.md %}}) 构建基于日历的调度计划。
+请参阅[job 操作指南]({{% ref js-jobs-howto.md %}})，阅读[客户端与回调用法指南]({{% ref js-jobs-client-usage.md %}})，或使用 [cron 构建器]({{% ref js-jobs-cron.md %}})构建基于日历的调度计划。
 
 ## 配置
 
-使用 `DaprClient.configuration` 读取应用设置并订阅其变更。[配置操作指南]({{% ref js-configuration-howto.md %}})和[客户端用法指南]({{% ref js-configuration-client-usage.md %}})涵盖指定键或全部键、存储特定的元数据、响应处理以及订阅清理，适用于 `@dapr/dapr` 3.19.0 或更高版本。在 JavaScript SDK 中，配置操作需要使用 gRPC。
+使用 `DaprClient.configuration` 读取应用设置并订阅其变更。[配置操作指南]({{% ref js-configuration-howto.md %}})和[客户端用法指南]({{% ref js-configuration-client-usage.md %}})涵盖指定键或全部键、存储特定的 metadata、响应处理以及订阅清理，适用于 `@dapr/dapr` 3.19.0 或更高版本。在 JavaScript SDK 中，配置操作需要使用 gRPC。
 
 ## State Management
 
-使用 `DaprClient.state` 保存、读取和删除应用状态。SDK 支持通过 HTTP 或 gRPC 进行批量操作、ETag、一致性选项、事务、TTL 元数据、自定义序列化以及 Query State。
+使用 `DaprClient.state` 保存、读取和删除应用状态。SDK 支持通过 HTTP 或 gRPC 进行批量操作、ETag、一致性选项、事务、TTL metadata、自定义序列化以及 Query State。
 
 请参阅[State Management 操作指南]({{% ref js-state-management-howto.md %}})，阅读[客户端用法指南]({{% ref js-state-management-client-usage.md %}})了解特定协议的行为，或学习如何[进行 Query State]({{% ref js-state-management-query.md %}})。这些指南面向 JavaScript SDK 3.19.0 或更高版本。
 
-## pub/sub
+## 发布和订阅
 
-通过 HTTP 或 gRPC 发布单个事件或批量事件，接收编程式服务器回调，或通过客户端发起的 gRPC 流进行订阅，无需应用程序服务器。
+通过 HTTP 或 gRPC 发布单个事件或批量事件，接收编程式服务端回调，或通过客户端发起的 gRPC 流进行订阅，无需应用程序服务器。
 
-[pub/sub 指南]({{% ref js-pubsub %}})涵盖 JavaScript SDK 3.19.0 或更高版本，包括路由、确认、死信主题、序列化、错误处理以及订阅清理。
+[发布和订阅指南]({{% ref js-pubsub %}})涵盖 JavaScript SDK 3.19.0 或更高版本，包括路由、确认、死信主题、序列化、错误处理以及订阅清理。
 
 ## service invocation
 
@@ -58,11 +58,11 @@ npm install --save @dapr/dapr
 
 ## secrets
 
-使用 `DaprClient.secret` 读取单个 secrets 和批量 secrets。有关配置步骤，请参阅[secrets 操作指南]({{% ref js-secrets-howto.md %}})；有关元数据、响应结构以及 HTTP/gRPC 差异，请阅读[客户端用法指南]({{% ref js-secrets-client-usage.md %}})。这些指南面向 JavaScript SDK 3.19.0 或更高版本。
+使用 `DaprClient.secret` 读取单个 secrets 和批量 secrets。有关配置步骤，请参阅[secrets 操作指南]({{% ref js-secrets-howto.md %}})；有关 metadata、响应结构以及 HTTP/gRPC 差异，请阅读[客户端用法指南]({{% ref js-secrets-client-usage.md %}})。这些指南面向 JavaScript SDK 3.19.0 或更高版本。
 
 ## Binary Store
 
-通过 HTTP 或 gRPC 使用 `DaprClient.binaryStore` 存储、读取、流式传输和删除二进制文件。Binary Store 需要 Dapr 运行时 1.19 或更高版本以及 JavaScript SDK 3.19.0 或更高版本。
+通过 HTTP 或 gRPC 使用 `DaprClient.binaryStore` 存储、读取、流式传输和删除二进制文件。Binary Store 需要 Dapr runtime 1.19 或更高版本以及 JavaScript SDK 3.19.0 或更高版本。
 
 请参阅[Binary Store 操作指南]({{% ref js-binarystore-howto.md %}})开始使用，或阅读[客户端用法指南]({{% ref js-binarystore-client-usage.md %}})了解配置、流式传输、取消以及错误处理。
 
@@ -74,15 +74,15 @@ npm install --save @dapr/dapr
 
 ## 搜索
 
-通过 HTTP 或 gRPC 使用 `DaprClient.search` 管理索引，以及索引、读取、删除和查询 JSON 文档。搜索需要 Dapr 运行时 1.19 或更高版本以及 JavaScript SDK 3.19.0 或更高版本。
+通过 HTTP 或 gRPC 使用 `DaprClient.search` 管理索引，并对 JSON 文档进行索引、读取、删除和查询。搜索需要 Dapr runtime 1.19 或更高版本以及 JavaScript SDK 3.19.0 或更高版本。
 
 请参阅[搜索操作指南]({{% ref js-search-howto.md %}})开始使用，或阅读[客户端用法指南]({{% ref js-search-client-usage.md %}})了解查询选项、分页、写入确认、取消以及错误。
 
 ## 向量
 
-通过 HTTP 或 gRPC 使用 `DaprClient.vector` 存储预先计算的嵌入向量，并执行相似性搜索。向量功能需要 1.19 发行系列或更高版本的、支持向量的 Dapr 运行时，以及 JavaScript SDK 3.19.0 或更高版本。
+通过 HTTP 或 gRPC 使用 `DaprClient.vector` 存储预先计算的嵌入向量，并执行相似性搜索。向量功能需要 1.19 发行系列或更高版本、支持向量的 Dapr runtime，以及 JavaScript SDK 3.19.0 或更高版本。
 
-请参阅[向量操作指南]({{% ref js-vector-howto.md %}})开始使用，或阅读[客户端用法指南]({{% ref js-vector-client-usage.md %}})了解配置、索引确认、取消以及错误处理。
+请参阅[向量操作指南]({{% ref js-vector-howto.md %}})开始使用，或阅读[客户端用法指南]({{% ref js-vector-client-usage.md %}})了解配置、索引的写入确认、取消以及错误处理。
 
 ## 结构
 
@@ -108,14 +108,14 @@ Dapr JavaScript SDK 包含两个主要 component：
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>客户端</b></h5>
-      <p class="card-text">创建 JavaScript 客户端并与 Dapr sidecar 及其他 Dapr 应用程序交互（例如，发布事件、output binding 支持等）。 </p>
+      <p class="card-text">创建 JavaScript 客户端，并与 Dapr sidecar 及其他 Dapr 应用程序交互（例如发布事件、output binding 支持等）。 </p>
       <a href="{{% ref js-client %}}" class="stretched-link"></a>
     </div>
   </div>
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>服务器</b></h5>
-      <p class="card-text">创建 JavaScript 服务器并让 Dapr sidecar 与你的应用程序交互（例如，订阅事件、input binding 支持等）。 </p>
+      <p class="card-text">创建 JavaScript 服务器，并让 Dapr sidecar 与你的应用程序交互（例如订阅事件、input binding 支持等）。 </p>
       <a href="{{% ref js-server %}}" class="stretched-link"></a>
     </div>
   </div>
@@ -139,7 +139,7 @@ Dapr JavaScript SDK 包含两个主要 component：
   <div class="card">
     <div class="card-body">
       <h5 class="card-title"><b>示例</b></h5>
-      <p class="card-text">克隆 JavaScript SDK 源代码并试用一些示例以快速入门。</p>
+      <p class="card-text">克隆 JavaScript SDK 源代码并试用一些示例，以快速入门。</p>
       <a href="{{% ref js-examples %}}" class="stretched-link"></a>
     </div>
   </div>

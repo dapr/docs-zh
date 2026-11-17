@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作方法：使用 Dapr Conversation JavaScript SDK 调用工具"
+title: "How to: Call tools with the Dapr Conversation JavaScript SDK"
 linkTitle: "操作方法：调用工具"
 weight: 50030
 description: 使用 JavaScript 定义对话工具、校验函数参数，并将工具结果发送回大型语言模型 (LLM)

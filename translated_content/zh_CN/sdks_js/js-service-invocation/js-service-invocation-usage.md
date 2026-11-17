@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "service invocation 的配置与使用"
+title: "Service invocation configuration and usage"
 linkTitle: "配置与使用"
 weight: 30
 description: "为 JavaScript service invocation 配置客户端、序列化、身份验证和失败处理"
@@ -31,7 +31,7 @@ const client = new DaprClient({
 
 当既未提供主机也未提供端口时，若已设置所选协议对应的环境变量 `DAPR_HTTP_ENDPOINT` 或 `DAPR_GRPC_ENDPOINT`，SDK 就会使用它。否则，SDK 使用已配置的主机和端口；若未配置，则回退到 `127.0.0.1` 以及 `DAPR_HTTP_PORT` 或 `DAPR_GRPC_PORT`（默认值分别为 `3500` 和 `50001`）。只要提供了主机或端口中的任意一个，就会绕过端点环境变量。
 
-`daprApiToken` 默认取自 `DAPR_API_TOKEN`。它用于向调用方自身的 sidecar 进行身份验证，而不是目标服务的应用授权请求头。若需对 HTTP 目标进行授权，请通过 `InvokerOptions.headers` 提供相应的应用请求头。请参阅[Dapr API Token 身份验证]({{% ref api-token.md %}})和[service invocation 访问控制]({{% ref invoke-allowlist.md %}})。
+`daprApiToken` 默认取自 `DAPR_API_TOKEN`。它用于向调用方自身的 sidecar 进行身份验证，而不是目标服务的应用授权请求头。若需对 HTTP 目标进行授权，请通过 `InvokerOptions.headers` 提供相应的应用请求头。请参阅[Dapr API token 身份验证]({{% ref api-token.md %}})和[service invocation 访问控制]({{% ref invoke-allowlist.md %}})。
 
 两种传输方式都会将活动的 OpenTelemetry 上下文中的 baggage 传播到 sidecar。这种内置的传播并不意味着 gRPC 调用器支持任意的 `options.headers` metadata。
 
@@ -118,7 +118,7 @@ await server.invoker.listen("echo", async (request) => {
 
 `InvokerOptions` 仅包含 `headers`。`invoke()` 不提供 `AbortSignal`、超时、截止时间、重试策略或任意的 gRPC 调用选项。不要照搬其他 SDK 的超时选项，也不要依赖那些展示了不受支持选项的示意性 API 注释。
 
-请通过[Dapr resiliency]({{% ref resiliency-overview.md %}})配置运行时的超时、重试和断路器。策略在运行时中生效，不会为 JavaScript 方法增加客户端侧的取消功能。本地的 `Promise.race()` 超时只会让调用方停止等待；它不会取消请求或远程处理。
+请通过[Dapr resiliency 策略]({{% ref resiliency-overview.md %}})配置运行时的超时、重试和断路器。策略在运行时中生效，不会为 JavaScript 方法增加客户端侧的取消功能。本地的 `Promise.race()` 超时只会让调用方停止等待；它不会取消请求或远程处理。
 
 对会改变状态的处理程序进行设计时，应能容忍重试，例如使用应用请求 ID 进行去重。超时或响应解码失败，可能发生在目标已经提交其工作之后。
 

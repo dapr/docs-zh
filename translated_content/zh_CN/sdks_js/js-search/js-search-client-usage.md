@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "搜索客户端用法"
+title: "Search client usage"
 linkTitle: "客户端用法"
 weight: 53100
 description: 配置和使用 JavaScript 搜索客户端的核心指南
@@ -50,7 +50,7 @@ TypeScript 应用可以从 `@dapr/dapr` 以类型形式导入 `IClientSearch`、
 
 ## 文档内容与 TypeScript 类型
 
-`SearchDocument<T>` 包含 `id: string`、可选的 `content: T` 以及可选的字符串映射 `metadata`。内容在建立索引前必须能序列化为 JSON 对象。SDK 使用独立于应用自定义 `DaprClient` 序列化器的 JSON 序列化，将内容转换为 UTF-8 字节，并自动解码返回的内容。请勿将预先编码的 base64 或 JSON 文本作为内容传入。
+`SearchDocument<T>` 包含 `id: string`、可选的 `content: T` 以及可选的字符串映射 `metadata`。建立索引前，内容必须能序列化为 JSON 对象。SDK 使用独立于应用自定义 `DaprClient` 序列化器的 JSON 序列化，将内容转换为 UTF-8 字节，并自动解码返回的内容。请勿将预先编码的 base64 或 JSON 文本作为内容传入。
 
 除非在 `getDocuments` 或搜索查询中设置 `includeContent: true`，否则返回的 `content` 为 undefined。存储的 metadata 缺省时默认为空对象。metadata 会原样返回，且从不参与索引、搜索或过滤。
 
@@ -99,7 +99,7 @@ for (const hit of result.hits) {
 | 选项 | 行为 |
 |------|------|
 | 省略，或 `mode: "returnOnAcceptance"` | 提供方接受写入后返回。`"queued"` 并不表示文档已可搜索或已被删除。若工作已经完成，提供方可以返回 `"completed"`。 |
-| `mode: "waitForCompletion"` | 最多等待 `waitTimeout` 直至完成。需要同时提供正数的 protobuf 时长（例如 `"10s"` 或 `"0.250s"`）以及明确的 `onWaitTimeout`。 |
+| `mode: "waitForCompletion"` | 等待写入完成：最多等待 `waitTimeout` 直至完成。需要同时提供正数的 protobuf 时长（例如 `"10s"` 或 `"0.250s"`）以及明确的 `onWaitTimeout`。 |
 | `onWaitTimeout: "continueAsync"` | 等待超时后返回 `"queued"`，并让提供方继续处理。需要提供方支持排队确认。 |
 | `onWaitTimeout: "failRequest"` | 等待超时后以 `DEADLINE_EXCEEDED` 拒绝请求。提供方的工作仍可能完成。 |
 

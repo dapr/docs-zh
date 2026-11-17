@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "JavaScript SDK 中的 workflow versioning"
+title: "Workflow versioning in the JavaScript SDK"
 linkTitle: "workflow versioning"
 weight: 1300
 description: 使用可安全重放的具名补丁演进 workflow 代码
@@ -9,9 +9,9 @@ description: 使用可安全重放的具名补丁演进 workflow 代码
 workflow 代码在重放已有实例时，必须重现历史记录中的任务序列。
 更改 activity 顺序、添加持久任务，或在没有迁移策略的情况下更改分支，都可能导致非确定性的重放失败。
 
-使用 `@dapr/dapr` **3.19.0 或更高版本**时，对具名的代码变更请使用 `ctx.isPatched(patchName)`。
+使用 `@dapr/dapr` **3.19.0 或更高版本** 时，对具名的代码变更请使用 `ctx.isPatched(patchName)`。
 补丁的求值由 Dapr runtime 进行校验；本文档中的示例使用运行时 **1.19 或更高版本**。
-有关运行时层面的概念，请参阅[workflow versioning]({{% ref workflow-versioning.md %}})。
+有关运行时层面的概念，请参阅 [workflow versioning]({{% ref workflow-versioning.md %}})。
 
 ## 引入补丁
 

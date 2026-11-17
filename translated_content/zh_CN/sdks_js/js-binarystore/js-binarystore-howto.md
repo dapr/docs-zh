@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用 Dapr JavaScript SDK 管理二进制文件"
+title: "How to: Manage binary files with the Dapr JavaScript SDK"
 linkTitle: "操作指南：管理二进制文件"
 weight: 53050
 description: 了解如何使用 Dapr JavaScript SDK 存储、读取、流式传输和删除二进制文件
@@ -14,7 +14,7 @@ description: 了解如何使用 Dapr JavaScript SDK 存储、读取、流式传�
 - 已初始化的 [Dapr environment]({{% ref install-dapr-selfhost.md %}})，且 Dapr runtime 为 1.19 或更高版本
 - [Node.js](https://nodejs.org/) 18 或更高版本
 - [`@dapr/dapr`](https://www.npmjs.com/package/@dapr/dapr) 包，版本 3.19.0 或更高
-- 已配置的[Binary Store component]({{% ref "developing-applications/building-blocks/binarystore/_index.md" %}})，例如下文的 in-memory component
+- 已配置的 [Binary Store component]({{% ref "developing-applications/building-blocks/binarystore/_index.md" %}})，例如下文的 in-memory component
 
 在应用目录中，如果还没有 npm 项目，请先初始化一个，然后安装 SDK：
 
@@ -44,7 +44,7 @@ spec:
       value: "512Mi"
 ```
 
-该 component 将文件存储在 sidecar 的内存中，单个文件上限为 4 MiB，总容量为 512 MiB。sidecar 停止后文件会丢失，且不会在多个 sidecar 之间共享。它适用于本地开发和测试，不适用于持久化存储。容量设置请参阅[in-memory component 参考]({{% ref binarystore-in-memory.md %}})。
+该 component 将文件存储在 sidecar 的内存中，单个文件上限为 4 MiB，总容量为 512 MiB。sidecar 停止后文件会丢失，且不会在多个 sidecar 之间共享。它适用于本地开发和测试，不适用于持久化存储。容量设置请参阅 [in-memory component 参考]({{% ref binarystore-in-memory.md %}})。
 
 component 的 `metadata.name`（即 `filestore`）是每次客户端操作时传入的存储名称。它不是 component 的类型，也不是 YAML 文件名。
 
@@ -109,7 +109,7 @@ await client.binaryStore.setBinaryFile(
 );
 ```
 
-上传默认的最大分块大小为 32 KiB。将 `chunkSize` 设为另一个正安全整数（单位为字节），即可调整上传分块。这不会改变 component 的单文件或总容量限制。
+上传默认的最大块大小为 32 KiB。将 `chunkSize` 设为另一个正安全整数（单位为字节），即可调整上传时的块大小。这不会改变 component 的单文件或总容量限制。
 
 文件名可以包含嵌套路径，例如 `uploads/report.pdf`。请勿使用开头或结尾的斜杠、空路径段、`.` 或 `..` 段，也不要使用字符 `\`、`*`、`?`、`[`、`]` 和 `#`。请以纯文本形式传递名称，而不是 URL 或预先编码的值；HTTP 客户端会对其进行 URL 编码。
 
@@ -132,7 +132,7 @@ SDK 直接传输原始字节，不做 JSON 序列化或文本编码。支持空�
 
 `getBinaryFileBytes` 会将整个下载内容缓冲到内存中。对于大文件，请优先使用 `getBinaryFile` 或 `getBinaryFileChunks`。
 
-## 分块读取文件
+## 按块读取文件
 
 `getBinaryFileChunks` 返回 `AsyncIterable<Buffer>`。使用 `for await...of` 消费它，即可按顺序处理字节，而无需缓冲整个文件：
 
@@ -147,7 +147,7 @@ for await (const chunk of client.binaryStore.getBinaryFileChunks(
 console.log("Downloaded bytes:", totalBytes);
 ```
 
-不同协议之间的分块边界可能不同，并且不一定与上传分块一致。跳出循环会关闭下载流。
+不同协议下的块边界可能不同，也不一定与上传时的块一致。跳出循环会关闭下载流。
 
 ## 删除文件
 

@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用 JavaScript SDK 运行和使用 virtual Actor"
+title: "How to: Run and use virtual actors with the JavaScript SDK"
 linkTitle: "运行和使用 Actor"
 weight: 10000
 description: 创建 Actor 契约、托管有状态的 Actor，并从 Node.js 客户端调用它
@@ -11,7 +11,7 @@ description: 创建 Actor 契约、托管有状态的 Actor，并从 Node.js 客
 ## 前提条件
 
 - 受支持的 [Node.js LTS 版本](https://nodejs.org/en/)。
-- [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及[已初始化的本地 Dapr environment]({{% ref install-dapr-selfhost.md %}})，其中包括 Redis 和 placement service（Placement）。使用由 Scheduler 支持的 reminder 时，还需要 Scheduler service。
+- [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及[已初始化的本地 Dapr environment]({{% ref install-dapr-selfhost.md %}})，其中包括 Redis 和 Placement service。使用由 Scheduler 支持的 reminder 时，还需要 Scheduler service。
 
 ## 步骤 1：准备项目
 

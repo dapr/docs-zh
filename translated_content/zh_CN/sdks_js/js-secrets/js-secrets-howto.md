@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用 Dapr JavaScript SDK 检索 secrets"
+title: "How to: Retrieve secrets with the Dapr JavaScript SDK"
 linkTitle: "操作指南：检索 secrets"
 weight: 52050
 description: "使用 Dapr JavaScript SDK 配置 secret store，并检索单个 secrets 和批量 secrets"

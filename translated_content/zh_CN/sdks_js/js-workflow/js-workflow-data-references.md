@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "JavaScript SDK 中的 Workflow data references"
+title: "Workflow data references in the JavaScript SDK"
 linkTitle: "数据引用（alpha）"
 weight: 1500
 description: 通过显式引用将大型 workflow 负载卸载到 Binary Store，并延后具体化
@@ -51,8 +51,8 @@ spec:
       value: "512Mi"
 ```
 
-{{% alert title="In-memory 存储仅用于实验" color="warning" %}}
-In-memory 负载会在 sidecar 停止时消失，并且不会在多个 sidecar 之间共享。而持久化的 workflow 历史可能比这些对象存活得更久，从而变得无法读取。对于必须在重启后继续运行的 workflow，请使用持久化的 Binary Store，并在历史或下游使用者仍在引用对象期间保留这些对象。
+{{% alert title="仅供实验使用的内存存储" color="warning" %}}
+内存中的负载会在 sidecar 停止时消失，并且不会在多个 sidecar 之间共享。而持久化的 workflow 历史可能比这些对象存活得更久，从而变得无法读取。对于必须在重启后继续运行的 workflow，请使用持久化的 Binary Store，并在历史或下游使用者仍在引用对象期间保留这些对象。
 {{% /alert %}}
 
 有关 component 和传输的详细信息，请参阅 [binary-store 指南]({{% ref js-binarystore-howto.md %}})。仅添加 component 本身不会启用 workflow 卸载。

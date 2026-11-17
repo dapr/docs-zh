@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "如何：使用 Dapr JavaScript SDK 索引和搜索文档"
+title: "How to: Index and search documents with the Dapr JavaScript SDK"
 linkTitle: "操作指南：搜索文档"
 weight: 53050
 description: "了解如何配置 search component，并使用 Dapr JavaScript SDK 管理和查询文档"
@@ -54,7 +54,7 @@ spec:
 此配置在本地开发中直接使用明文的 API 密钥。生产环境的凭据请使用[secret store 引用]({{% ref component-secrets.md %}})。
 {{% /alert %}}
 
-component 的 `metadata.name`（即 `mysearch`）是传递给每个客户端操作的存储名称，它既不是 component 类型，也不是 YAML 文件名。有关设置和提供方限制，请参阅 [Meilisearch component 参考]({{% ref "reference/components-reference/supported-search/meilisearch.md" %}})。
+component 的 `metadata.name`（即 `mysearch`）是传递给每个客户端操作的 store 名称，它既不是 component 类型，也不是 YAML 文件名。有关设置和提供方限制，请参阅 [Meilisearch component 参考]({{% ref "reference/components-reference/supported-search/meilisearch.md" %}})。
 
 ## 创建索引并搜索文档
 
@@ -146,7 +146,7 @@ dapr run --app-id search-example --dapr-http-port 3500 --dapr-grpc-port 50001 --
 
 示例会在搜索前等待索引完成，然后按价格升序分两页返回 `doc-1` 和 `doc-2`。Meilisearch 会用 `<em>` 标签高亮匹配内容。分数和总命中数估计值取决于提供方，请勿依赖某个具体的分数值。
 
-创建已存在的索引会以 `ALREADY_EXISTS` 失败，且不会更新其设置。在对同一 Meilisearch 实例重新运行本应用之前，请使用下文的 `deleteIndex` 删除示例索引，或选择一个新的索引名称。与内存存储不同，Meilisearch 可以在 sidecar 重启后保留文档。
+创建已存在的索引会以 `ALREADY_EXISTS` 失败，且不会更新其设置。在对同一 Meilisearch 实例重新运行本应用之前，请使用下文的 `deleteIndex` 删除示例索引，或选择一个新的索引名称。与内存 store 不同，Meilisearch 可以在 sidecar 重启后保留文档。
 
 以下代码片段复用 `client`、`storeName`、`indexName` 和 `waitOptions`。请将它们添加到 `try` 块中，位于搜索循环之后、客户端停止之前。删除示例请最后运行。
 
@@ -191,7 +191,7 @@ if (updated.failedItems.length > 0) {
 }
 ```
 
-检索会按请求顺序返回找到的文档，并省略不存在的 ID。若未设置 `includeContent: true`，则只返回 ID 和已存储的 metadata，`content` 为 undefined。索引操作使用按键 upsert：提交已存在的 ID 即可更新该文档。请提供完整的目标内容和 metadata，不要假定存在部分更新操作。
+检索会按请求顺序返回找到的文档，并省略不存在的 ID。若未设置 `includeContent: true`，则只返回 ID 和已存储的 metadata，`content` 为 undefined。索引操作使用按键 upsert：提交已存在的 ID 即可更新该文档。请提供完整的目标内容和 metadata，而不要假定存在局部补丁（partial-patch）操作。
 
 请将普通的 JSON 对象作为 `content` 传入；SDK 会负责序列化并处理传输编码，包括 HTTP 下的 base64 编码。不要自行对内容进行 base64 编码或字符串化。已存储的文档 metadata 是不透明的，既不能搜索，也不能过滤。需要搜索、过滤或排序的字段必须位于 `content` 中。
 

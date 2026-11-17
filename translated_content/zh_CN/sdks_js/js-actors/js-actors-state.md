@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "使用 JavaScript SDK 管理 Actor 状态"
+title: "Manage actor state with the JavaScript SDK"
 linkTitle: "管理 Actor 状态"
 weight: 40000
 description: 使用 Actor state manager，了解自动持久化，并处理缓存一致性

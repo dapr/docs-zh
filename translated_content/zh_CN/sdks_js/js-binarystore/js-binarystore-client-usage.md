@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "Binary Store 客户端用法"
+title: "Binary Store client usage"
 linkTitle: "客户端用法"
 weight: 53100
 description: "配置与使用 JavaScript Binary Store 客户端的基本指导"
@@ -31,7 +31,7 @@ const client = new DaprClient({
 
 ## 选择操作
 
-所有方法都接受 component 名称和相对于存储的文件名。可选的选项对象作为最后一个参数。
+所有方法都接受 component 名称和相对于 store 的文件名。可选的选项对象作为最后一个参数。
 
 | 方法 | 内容或目标 | 结果 |
 |------|------------|------|
@@ -49,7 +49,7 @@ TypeScript 应用可以从 `@dapr/dapr` 以类型形式导入 `IClientBinaryStor
 
 上传的数据块大小默认为 32 KiB。自定义的 `chunkSize` 必须是正的安全整数。较小的数据块并不会绕过 component 的文件大小或总容量限制。
 
-`getBinaryFile` 使用流管道，并遵循目标端的背压。成功时它会结束目标，失败时会销毁目标。不要将该目标用于另一次下载。失败的下载可能会留下不完整的本地文件，你的应用应删除该文件或以其他方式处理。
+`getBinaryFile` 通过 stream pipeline（流水线）传输数据，并遵循目标端的背压。成功时它会结束目标，失败时会销毁目标。不要将该目标用于另一次下载。失败的下载可能会留下不完整的本地文件，你的应用应删除该文件或以其他方式处理。
 
 `getBinaryFileChunks` 让你在每个 `Buffer` 到达时逐个处理。请使用 `for await...of` 消费它；跳出循环会关闭响应流。下载数据块的大小由运行时和传输层决定，而不是由上传时的 `chunkSize` 决定。
 

@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "操作指南：使用 Dapr JavaScript SDK 加密和解密数据"
+title: "How to: Encrypt and decrypt data with the Dapr JavaScript SDK"
 linkTitle: "加密和解密数据"
 weight: 54050
 description: 配置加密 component，并使用 Dapr JavaScript SDK 加密和解密消息与文件
@@ -148,7 +148,7 @@ try {
 dapr run --app-id crypto-files-example --dapr-http-port 3500 --dapr-grpc-port 50001 --resources-path .\components -- node files.mjs
 ```
 
-分别等待每个管道，可以让失败正确传播，并确保加密在解密开始之前完成。每次操作都使用新的流。在存在[并发加密限制]({{% ref js-cryptography-client-usage.md %}}#concurrent-operations)的运行时上，不要把加密和解密合并到同一个管道中。
+分别等待每个流水线，可以让失败正确传播，并确保加密在解密开始之前完成。每次操作都使用新的流。在存在[并发加密限制]({{% ref js-cryptography-client-usage.md %}}#concurrent-operations)的运行时上，不要把加密和解密合并到同一个流水线中。
 
 流式重载同样可以通过 HTTP 使用，但运行时会在整个输入全部到达之前缓冲 HTTP 输出。流式形式的 API 并不能消除运行时的这部分内存开销。
 

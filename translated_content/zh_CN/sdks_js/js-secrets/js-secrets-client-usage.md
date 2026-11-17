@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "secrets client 用法"
+title: "Secrets client usage"
 linkTitle: "客户端用法"
 weight: 52900
 description: 配置 JavaScript secrets client，理解 metadata、响应结构、协议差异与错误
@@ -69,7 +69,7 @@ const secret = await client.secret.get(
 );
 ```
 
-这要求使用 Kubernetes secret store，并且已存在一个 HTTP 客户端。metadata 键取决于具体 component；请参阅 [secrets API 参考]({{% ref secrets_api.md %}}) 和[component 参考]({{% ref supported-secret-stores %}})。
+这要求使用 Kubernetes secret store，并且已存在一个 HTTP 客户端。metadata 键取决于具体 component；请参阅 [secrets API 参考]({{% ref secrets_api.md %}}) 和 [component 参考]({{% ref supported-secret-stores %}})。
 
 存储名称和 secrets 名称区分大小写。HTTP 实现会将它们插入 URL 路径中，且不做编码。如果 secrets 名称包含 URL 保留字符，请在将其传给 HTTP `get` 之前使用 `encodeURIComponent` 对 secrets 名称进行编码。不要对 gRPC secrets 名称进行编码，它们以 protobuf 字段的形式发送。
 

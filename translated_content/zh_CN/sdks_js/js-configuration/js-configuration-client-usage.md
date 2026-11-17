@@ -1,6 +1,6 @@
 ---
 type: docs
-title: "配置客户端用法"
+title: "Configuration client usage"
 linkTitle: "客户端用法"
 weight: 54100
 description: "JavaScript 中配置读取、metadata、订阅、客户端生命周期与错误处理的指南"
@@ -35,13 +35,13 @@ API 令牌默认取自 `DAPR_API_TOKEN`；你也可以在客户端选项中提�
 | 方法 | 用途 | 结果 |
 |------|------|------|
 | `get(storeName, keys?, metadata?)` | 读取指定的键；当省略键或键为空时请求全部键 | 解析为 `{ items }` 的 Promise |
-| `subscribe(storeName, callback)` | 使用空的键列表监听存储 | 解析为订阅句柄的 Promise |
+| `subscribe(storeName, callback)` | 使用空的键列表监听 store | 解析为订阅句柄的 Promise |
 | `subscribeWithKeys(storeName, keys, callback)` | 监听指定的键 | 解析为订阅句柄的 Promise |
-| `subscribeWithMetadata(storeName, keys, metadata, callback)` | 使用特定于存储的请求 metadata 监听键 | 解析为订阅句柄的 Promise |
+| `subscribeWithMetadata(storeName, keys, metadata, callback)` | 使用特定于 store 的请求 metadata 监听键 | 解析为订阅句柄的 Promise |
 
 gRPC 实现会从键数组中移除空字符串（`""`）。如果结果数组为空，则发送全部键的请求；这并不表示“不读取也不监听任何内容”。需要有界的选择范围时，请使用明确的非空键。全部键请求是否受支持取决于具体 component。
 
-配置功能没有写入或删除方法，也没有公开的 `client.configuration.unsubscribe(...)` 方法。请直接更新底层存储，并使用返回句柄的 `stop()` 来停止订阅。
+配置功能没有写入或删除方法，也没有公开的 `client.configuration.unsubscribe(...)` 方法。请直接更新底层 store，并使用返回句柄的 `stop()` 来停止订阅。
 
 ## 了解响应结构
 
@@ -60,13 +60,13 @@ gRPC 实现会从键数组中移除空字符串（`""`）。如果结果数组�
 }
 ```
 
-每个条目的 `key` 与其映射键相同。`value` 和 `version` 都是字符串；版本号因存储而异，可能为空。`metadata` 包含 component 提供的响应 metadata。
+每个条目的 `key` 与其映射键相同。`value` 和 `version` 都是字符串；版本号因 store 而异，可能为空。`metadata` 包含 component 提供的响应 metadata。
 
 SDK 不会将值反序列化为数字、布尔值或应用对象。请在应用代码中解析并校验这些值。例如，JSON 类型的设置需要调用 `JSON.parse(item.value)`，并做好相应的错误处理。
 
 请显式处理缺失的键。成功的响应可能返回空的 `items` 对象；不要假设缺失的键会导致读取被拒绝。
 
-订阅回调接收的是每次更新中的条目，而不是保证完整的存储快照。空条目的流消息会被跳过。SDK 在内部保存运行时订阅 ID，并且不会在句柄或回调响应中暴露它。
+订阅回调接收的是每次更新中的条目，而不是保证完整的 store 快照。空条目的流消息会被跳过。SDK 在内部保存运行时订阅 ID，并且不会在句柄或回调响应中暴露它。
 
 ## 传递请求 metadata
 
@@ -97,7 +97,7 @@ await subscription.stop();
 
 此代码片段假定已存在一个 gRPC `client`。将 `[]` 作为键参数传入，即可请求带 metadata 的全部键订阅，但仍须 component 支持。
 
-metadata 会原样传递给存储，不会自动复制到每个返回条目的 metadata 中。支持的字段、过滤方式、轮询间隔以及变更通知行为都取决于 component；例如，Redis 并未实现 Azure 的 `label` 选择器。
+metadata 会原样传递给 store，不会自动复制到每个返回条目的 metadata 中。支持的字段、过滤方式、轮询间隔以及变更通知行为都取决于 component；例如，Redis 并未实现 Azure 的 `label` 选择器。
 
 ## 订阅的生命周期与回调
 
@@ -125,7 +125,7 @@ await subscription.stop();
 
 ## 错误处理与恢复
 
-请在应用的错误边界处等待读取和订阅创建的结果。`get` 失败时会被拒绝，例如 component 不存在、无法连接到存储，或 sidecar 返回错误。gRPC 运行时错误使用 Connect 传输层的错误码，而不是 HTTP 状态码。在 HTTP 客户端上调用配置方法会以 `HTTPNotSupportedError` 被拒绝。
+请在应用的错误边界处等待读取和订阅创建的结果。`get` 失败时会被拒绝，例如 component 不存在、无法连接到 store，或 sidecar 返回错误。gRPC 运行时错误使用 Connect 传输层的错误码，而不是 HTTP 状态码。在 HTTP 客户端上调用配置方法会以 `HTTPNotSupportedError` 被拒绝。
 
 {{% alert title="订阅错误的限制" color="warning" %}}
 在 `3.19.0` 中，消费后台订阅流时出现的意外错误会被捕获，既不会记录日志，也不会向外传播。其中包括回调被拒绝的情况，它会退出消费循环。围绕 `await subscribe...` 的 `try/catch` 无法捕获这些之后才出现的失败。流结束时，该实现也不会自动重连或重新订阅。
