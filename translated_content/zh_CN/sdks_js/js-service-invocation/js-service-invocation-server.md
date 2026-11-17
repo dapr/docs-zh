@@ -67,7 +67,7 @@ main().catch((error) => {
 dapr run --app-id invocation-service --app-port 3000 --app-protocol http --dapr-http-port 3500 --dapr-grpc-port 50001 -- node server.mjs
 ```
 
-请在 `server.start()` 之前注册处理程序。`listen()` 方法默认使用 GET；对于 `orders` 处理程序，需要显式设置 `{ method: HttpMethod.POST }`。调用方必须使用相同的方法名和动词。`health` 路由只是一个普通的示例调用路由，并不是对 Dapr 应用健康检查的配置。
+请在 `server.start()` 之前注册 handler。`listen()` 方法默认使用 GET；对于 `orders` handler，需要显式设置 `{ method: HttpMethod.POST }`。调用方必须使用相同的方法名和动词。`health` 路由只是一个普通的示例调用路由，并不是对 Dapr 应用健康检查的配置。
 
 可以使用[客户端示例]({{% ref js-service-invocation-howto.md %}})调用该服务，也可以通过 CLI 调用：
 
@@ -91,7 +91,7 @@ const server = new DaprServer({
 });
 ```
 
-保持相同的处理程序注册与启动代码。使用以下命令重启目标：
+保持相同的 handler 注册与启动代码。使用以下命令重启目标：
 
 ```sh
 dapr run --app-id invocation-service --app-port 3000 --app-protocol grpc --dapr-http-port 3500 --dapr-grpc-port 50001 -- node server.mjs
@@ -101,7 +101,7 @@ dapr run --app-id invocation-service --app-port 3000 --app-protocol grpc --dapr-
 
 ## 理解回调请求
 
-TypeScript 处理程序接收从 `@dapr/dapr` 导出的 `DaprInvokerCallbackContent`。回调是异步的，并返回一个解析为响应值的 Promise。
+TypeScript handler 接收从 `@dapr/dapr` 导出的 `DaprInvokerCallbackContent`。回调是异步的，并返回一个解析为响应值的 Promise。
 
 | 字段 | HTTP 回调 | gRPC 回调 |
 | --- | --- | --- |
@@ -134,11 +134,11 @@ await server.invoker.listen("version", async () => ({ version: "1.0" }));
 
 默认情况下，SDK 会对真值（truthy）的返回值进行 JSON 编码。不存在特殊的 `{ status, headers, body }` 响应信封：返回这样的对象时，这些属性会作为应用数据发送。回调 API 不提供 HTTP 响应对象，也不暴露 gRPC 响应 metadata。
 
-在没有自定义序列化器的情况下，`undefined`、`null`、`false`、`0` 和 `""` 不会生成对应的 JSON 值。HTTP 处理程序会改为返回 `{"closed":true}`；gRPC 处理程序则不返回任何数据。默认的 gRPC 客户端无法解析这种空响应。建议返回对象，例如 `{ accepted: false }`。
+在没有自定义序列化器的情况下，`undefined`、`null`、`false`、`0` 和 `""` 不会生成对应的 JSON 值。HTTP handler 会改为返回 `{"closed":true}`；gRPC handler 则不返回任何数据。默认的 gRPC 客户端无法解析这种空响应。建议返回对象，例如 `{ accepted: false }`。
 
 配置自定义序列化器后，除 `undefined` 之外的每个返回值都会被序列化，包括假值（falsy）。对于 `undefined`，HTTP 仍然返回闭包对象，gRPC 仍然不返回数据。参见[序列化指南]({{% ref "js-service-invocation-usage.md#serialization" %}})。
 
-抛出的处理程序错误会传递给底层的 HTTP 错误 middleware 或 gRPC 传输层；它们不会作为成功的应用响应对象返回。如果调用方需要特定的 HTTP 状态码、响应头或流式响应，请改用常规的 HTTP 框架路由。
+抛出的 handler 错误会传递给底层的 HTTP 错误 middleware 或 gRPC 传输层；它们不会作为成功的应用响应对象返回。如果调用方需要特定的 HTTP 状态码、响应头或流式响应，请改用常规的 HTTP 框架路由。
 
 ## 使用现有 HTTP 应用
 

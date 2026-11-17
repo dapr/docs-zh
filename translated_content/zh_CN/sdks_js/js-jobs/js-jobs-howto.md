@@ -24,7 +24,7 @@ npm install @dapr/dapr@3.19.0
 
 示例使用 `.mjs` 文件中的 JavaScript ES 模块，因此无需 TypeScript 编译器。同样的 API 也可用于 TypeScript。
 
-## 注册处理程序并调度周期性 job
+## 注册 handler 并调度周期性 job
 
 将以下内容保存为 `app.mjs`：
 
@@ -82,13 +82,13 @@ try {
 dapr run --app-id jobs-example --app-port 50002 --app-protocol grpc --dapr-grpc-port 50001 --dapr-http-port 3500 -- node app.mjs
 ```
 
-应用监听端口 `50002`；其客户端则将管理请求发送到端口 `50001` 上的 sidecar。该 job 每隔十秒触发一次，共触发三次。回调接收到的是负载本身，而不是 job 信封或 job 名称。如有需要，可在处理程序的闭包中捕获 job 名称。
+应用监听端口 `50002`；其客户端则将管理请求发送到端口 `50001` 上的 sidecar。该 job 每隔十秒触发一次，共触发三次。回调接收到的是负载本身，而不是 job 信封或 job 名称。如有需要，可在 handler 的闭包中捕获 job 名称。
 
-调用 `server.start()` **之前**注册处理程序。在处理程序中等待所有工作完成；处理失败时抛出错误或拒绝其 Promise，以便 Dapr 应用该 job 的失败策略。投递语义为至少一次，因此请让处理程序具备幂等性。
+调用 `server.start()` **之前**注册 handler。在 handler 中等待所有工作完成；处理失败时抛出错误或拒绝其 Promise，以便 Dapr 应用该 job 的失败策略。投递语义为至少一次，因此请让 handler 具备幂等性。
 
 示例中特意使用了 `overwrite: true`，以便在同名 job 仍然存在时可以重复运行。若不设置此选项，调度一个已存在的名称会失败。覆盖会替换已有的 job，包括其时间与重复设置；不要在每个副本启动时都盲目重置生产环境中的调度。
 
-job 归属于调度它的 sidecar 所在的应用 ID 和 namespace。回调会发送到该应用，而不是任意的目标应用。请在每个可能接收回调的副本上注册处理程序。处理程序中可以使用其他 Dapr API 来调用另一个服务或发布事件。
+job 归属于调度它的 sidecar 所在的应用 ID 和 namespace。回调会发送到该应用，而不是任意的目标应用。请在每个可能接收回调的副本上注册 handler。handler 中可以使用其他 Dapr API 来调用另一个服务或发布事件。
 
 停止 Node.js 服务器并不会删除存储在 Scheduler 中的 job。示例还显式停止了嵌入式客户端，因为 `server.stop()` 只会停止回调服务器。
 
@@ -134,7 +134,7 @@ await server.client.jobs.schedule("send-notification-tomorrow", {
 });
 ```
 
-这些代码片段复用了示例中正在运行的 `server`。若要接收这些额外的 job，需在启动服务器之前为每个名称注册对应的 `server.jobs.listen(...)` 处理程序。其余的调度示例遵循相同的模式。
+这些代码片段复用了示例中正在运行的 `server`。若要接收这些额外的 job，需在启动服务器之前为每个名称注册对应的 `server.jobs.listen(...)` handler。其余的调度示例遵循相同的模式。
 
 ## 限制周期性 job 的生命周期
 
@@ -176,7 +176,7 @@ console.log(job.data, job.failurePolicy);
 await server.client.jobs.delete("hourly-cleanup");
 ```
 
-删除 job 不会取消已在运行的回调工作，也不会注销应用中内存里的处理程序。若要修改已存储的 job，请使用其名称、替换后的选项以及 `overwrite: true` 调用 `schedule`。
+删除 job 不会取消已在运行的回调工作，也不会注销应用中内存里的 handler。若要修改已存储的 job，请使用其名称、替换后的选项以及 `overwrite: true` 调用 `schedule`。
 
 ## 后续步骤
 

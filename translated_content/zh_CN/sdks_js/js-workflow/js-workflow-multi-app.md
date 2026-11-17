@@ -37,7 +37,7 @@ function* orderWorkflow(ctx, order) {
 }
 ```
 
-调用 activity 会返回 activity 的结果；调用 child workflow 会等待 child workflow 完成，并返回其输出。失败会在对应的 `yield` 处抛出。`callSubWorkflow` 是 `callChildWorkflow` 的别名。child workflow 的位置参数为 `(workflow, input?, instanceId?, options?)`；若省略 child workflow ID，则由 SDK 推导。重试策略既可以重试 child workflow，也可以重试 activity。自定义的 child workflow ID 只应用于第一次尝试；之后的重试会获得自动生成的 child workflow ID。
+调用 activity 会返回 activity 的结果；调用 child workflow 会等待 child workflow 完成，并返回其输出。失败会在对应的 `yield` 处抛出。`callSubWorkflow` 是 `callChildWorkflow` 的别名。child workflow 的位置参数为 `(workflow, input?, instanceId?, options?)`；若省略 child workflow ID，则由 SDK 推导。retry policy 既可以重试 child workflow，也可以重试 activity。自定义的 child workflow ID 只应用于第一次尝试；之后的重试会获得自动生成的 child workflow ID。
 
 ## 调度独立的 detached workflow
 

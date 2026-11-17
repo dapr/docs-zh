@@ -13,7 +13,7 @@ JavaScript SDK 支持通过 HTTP 或 gRPC 发布事件，支持通过 `DaprServe
 
 - [Dapr CLI]({{% ref install-dapr-cli.md %}}) 以及[已初始化的 Dapr environment]({{% ref install-dapr-selfhost.md %}})。
 - 受支持的 Node.js LTS 版本。该包要求 Node.js 18 或更高版本。
-- 已配置的[pub/sub component]({{% ref supported-pubsub %}})。示例使用 component 名 `pubsub` 和主题 `orders`。
+- 已配置的[pub/sub component]({{% ref supported-pubsub %}})。示例使用 component 名 `pubsub` 和 topic `orders`。
 
 ## 安装
 
@@ -34,11 +34,11 @@ npm install @dapr/dapr@3.19.0
 | `client.pubsub.publish()` | 支持 | 支持 |
 | `client.pubsub.publishBulk()` | 支持 | 支持 |
 | `server.pubsub.subscribe()` 和 `subscribeWithOptions()` | 入站 HTTP 回调 | 入站 gRPC 回调 |
-| 基于内容的路由和 `subscribeToRoute()` | 支持 | 支持 |
+| 基于内容的 Routing 和 `subscribeToRoute()` | 支持 | 支持 |
 | `server.pubsub.subscribeBulk()` | 每批次中逐条消息的回调 | 每批次中逐条消息的回调 |
 | `client.pubsub.subscribeStream()` | 不支持 | 由客户端发起的流，无需应用服务器 |
 
-当 Dapr 需要将事件投递到应用的 HTTP 或 gRPC 监听器时，请选择服务端订阅。订阅会在应用启动时被发现。对于主动连接 Dapr、且不需要应用回调监听器的工作进程，请选择 streaming subscription。流可以在运行时创建和关闭，但不支持路由规则和批量订阅选项。
+当 Dapr 需要将事件投递到应用的 HTTP 或 gRPC 监听器时，请选择服务端订阅。订阅会在应用启动时被发现。对于主动连接 Dapr、且不需要应用回调监听器的工作进程，请选择 streaming subscription。流可以在运行时创建和关闭，但不支持 Routing 规则和批量订阅选项。
 
 ## 运行时兼容性
 
@@ -51,7 +51,7 @@ streaming subscription 使用 `SubscribeTopicEventsAlpha1`，这是一个处于 
 | 指南 | 内容 |
 | --- | --- |
 | [发布事件]({{% ref js-pubsub-publish-howto.md %}}) | 单条与批量发布、metadata、CloudEvents、原始负载以及发布失败。 |
-| [服务端订阅]({{% ref js-pubsub-subscribe-howto.md %}}) | 注册、回调数据、确认、路由、通配符、批量投递以及死信主题。 |
+| [服务端订阅]({{% ref js-pubsub-subscribe-howto.md %}}) | 注册、回调数据、确认、Routing、通配符、批量投递以及死信主题。 |
 | [streaming subscription]({{% ref js-pubsub-streaming-howto.md %}}) | 一个完整的工作进程示例、流式选项、取消、故障监督以及清理。 |
 | [配置与用法]({{% ref js-pubsub-usage.md %}}) | 客户端生命周期、端点与身份验证设置、序列化以及可靠处理。 |
 

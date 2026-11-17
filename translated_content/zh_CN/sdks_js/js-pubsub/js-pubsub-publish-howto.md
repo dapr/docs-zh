@@ -10,7 +10,7 @@ description: "发布单个事件与批量事件，配置 metadata 和 CloudEvent
 
 ## 配置发布者
 
-示例使用以下 HTTP 客户端、component `pubsub` 和主题 `orders`：
+示例使用以下 HTTP 客户端、component `pubsub` 和 topic `orders`：
 
 ```javascript
 import { CommunicationProtocolEnum, DaprClient } from "@dapr/dapr";

@@ -94,7 +94,7 @@ await server.invoker.listen("echo", async (request) => {
 }, { method: HttpMethod.POST });
 ```
 
-使用自定义序列化器时，HTTP 会在调用处理程序之前，将非 JSON 的文本或缓冲区请求体保留为字符串。JSON 请求体仍会经过 HTTP 的 JSON 解析器，并被重新字符串化。服务器会使用其已配置的序列化器对回调的返回值进行序列化。
+使用自定义序列化器时，HTTP 会在调用 handler 之前，将非 JSON 的文本或缓冲区请求体保留为字符串。JSON 请求体仍会经过 HTTP 的 JSON 解析器，并被重新字符串化。服务器会使用其已配置的序列化器对回调的返回值进行序列化。
 
 序列化器的 `contentType` 默认为 `application/json`。使用自定义序列化器时，两种客户端都可以通过 `headers["Content-Type"]` 覆盖它，但 gRPC 客户端仍不会转发其他自定义请求头。更改内容类型并不会改变序列化器的实现。
 
@@ -116,11 +116,11 @@ await server.invoker.listen("echo", async (request) => {
 
 ## 超时、取消与 resiliency
 
-`InvokerOptions` 仅包含 `headers`。`invoke()` 不提供 `AbortSignal`、超时、截止时间、重试策略或任意的 gRPC 调用选项。不要照搬其他 SDK 的超时选项，也不要依赖那些展示了不受支持选项的示意性 API 注释。
+`InvokerOptions` 仅包含 `headers`。`invoke()` 不提供 `AbortSignal`、超时、截止时间、retry policy 或任意的 gRPC 调用选项。不要照搬其他 SDK 的超时选项，也不要依赖那些展示了不受支持选项的示意性 API 注释。
 
 请通过[Dapr resiliency 策略]({{% ref resiliency-overview.md %}})配置运行时的超时、重试和断路器。策略在运行时中生效，不会为 JavaScript 方法增加客户端侧的取消功能。本地的 `Promise.race()` 超时只会让调用方停止等待；它不会取消请求或远程处理。
 
-对会改变状态的处理程序进行设计时，应能容忍重试，例如使用应用请求 ID 进行去重。超时或响应解码失败，可能发生在目标已经提交其工作之后。
+对会改变状态的 handler 进行设计时，应能容忍重试，例如使用应用请求 ID 进行去重。超时或响应解码失败，可能发生在目标已经提交其工作之后。
 
 ## 原生 gRPC 服务与流式传输
 

@@ -140,7 +140,7 @@ const response = await client.invoker.invoke(
 );
 ```
 
-namespace 路由是运行时的能力，而不是单独的 SDK 选项。请参阅[跨 namespace 的 service invocation]({{% ref service-invocation-namespaces.md %}})。
+namespace Routing 是运行时的能力，而不是单独的 SDK 选项。请参阅[跨 namespace 的 service invocation]({{% ref service-invocation-namespaces.md %}})。
 
 ## 调用 non-Dapr HTTP 端点
 

@@ -172,7 +172,7 @@ if (removed.error) {
 }
 ```
 
-HTTP 写入失败可能通过 `result.error` 返回，而 gRPC 失败会使 Promise 被拒绝。示例会检查结果，并且还有外层错误处理程序，因此两种路径都不会被忽略。
+HTTP 写入失败可能通过 `result.error` 返回，而 gRPC 失败会使 Promise 被拒绝。示例会检查结果，并且还有外层错误 handler，因此两种路径都不会被忽略。
 
 ## 删除多个条目
 

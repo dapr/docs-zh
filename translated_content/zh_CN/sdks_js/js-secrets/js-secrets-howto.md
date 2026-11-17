@@ -112,7 +112,7 @@ try {
 dapr run --app-id secrets-example --dapr-http-port 3500 --dapr-grpc-port 50001 --resources-path .\components -- node app.mjs
 ```
 
-这是一个仅作为客户端的应用；它不需要 `DaprServer`、应用端口或入站 secrets 处理程序。
+这是一个仅作为客户端的应用；它不需要 `DaprServer`、应用端口或入站 secrets handler。
 
 ### 单个 secrets 的响应
 

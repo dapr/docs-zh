@@ -25,7 +25,7 @@ await client.jobs.schedule("weekday-report", {
 });
 ```
 
-该代码片段假设已配置好 `DaprClient`。请参照[操作指南]({{% ref js-jobs-howto.md %}})，在接收方应用中注册相应的处理程序。
+该代码片段假设已配置好 `DaprClient`。请参照[操作指南]({{% ref js-jobs-howto.md %}})，在接收方应用中注册相应的 handler。
 
 你也可以直接传入运行时支持的描述符：
 

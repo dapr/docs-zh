@@ -48,7 +48,7 @@ npm install --save @dapr/dapr
 
 通过 HTTP 或 gRPC 发布单个事件或批量事件，接收编程式服务端回调，或通过客户端发起的 gRPC 流进行订阅，无需应用程序服务器。
 
-[发布和订阅指南]({{% ref js-pubsub %}})涵盖 JavaScript SDK 3.19.0 或更高版本，包括路由、确认、死信主题、序列化、错误处理以及订阅清理。
+[发布和订阅指南]({{% ref js-pubsub %}})涵盖 JavaScript SDK 3.19.0 或更高版本，包括 Routing、确认、死信主题、序列化、错误处理以及订阅清理。
 
 ## service invocation
 

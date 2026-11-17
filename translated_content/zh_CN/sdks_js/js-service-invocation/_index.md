@@ -32,7 +32,7 @@ npm install @dapr/dapr@3.19.0
 | 能力 | HTTP 客户端或服务端 | gRPC 客户端或服务端 |
 | --- | --- | --- |
 | `client.invoker.invoke()` | 调用 HTTP 调用 API | 调用 Dapr 的一元 `InvokeService` API |
-| `server.invoker.listen()` | 注册一个 HTTP 路由 | 注册一个 `AppCallback.OnInvoke` 处理程序 |
+| `server.invoker.listen()` | 注册一个 HTTP 路由 | 注册一个 `AppCallback.OnInvoke` handler |
 | 请求动词 | `GET`、`POST`、`PUT`、`PATCH`、`DELETE` | 与 HTTP 相同的动词，通过 HTTP 扩展携带 |
 | 自定义请求头 | 会转发 `options.headers` | 不会作为调用 metadata 转发 |
 | SDK 客户端的查询参数 | 将编码后的查询字符串附加到 `methodName` | 没有单独的查询字符串选项 |

@@ -191,19 +191,19 @@ await client.jobs.schedule("retryable-task", {
 
 ## 回调行为
 
-`server.jobs.listen(name, callback)` 返回 `Promise<void>`，并注册一个异步的 `(data) => Promise<void>` 处理程序。注册本身不会调度 job。请在启动服务器之前注册，且名称必须与已调度 job 的名称完全一致。
+`server.jobs.listen(name, callback)` 返回 `Promise<void>`，并注册一个异步的 `(data) => Promise<void>` handler。注册本身不会调度 job。请在启动服务器之前注册，且名称必须与已调度 job 的名称完全一致。
 
-SDK 会等待处理程序返回的 Promise，然后才确认投递。处理程序成功解析即表示成功；其返回值既不是响应负载，也不是重试指令。若要表示失败，请抛出异常或拒绝该 Promise。如果希望 Dapr 进行重试，请勿启动未等待的后台工作后提前返回，也不要捕获处理错误而不再向上抛出。
+SDK 会等待 handler 返回的 Promise，然后才确认投递。handler 成功解析即表示成功；其返回值既不是响应负载，也不是重试指令。若要表示失败，请抛出异常或拒绝该 Promise。如果希望 Dapr 进行重试，请勿启动未等待的后台工作后提前返回，也不要捕获处理错误而不再向上抛出。
 
-对同一名称重复注册会被拒绝，而不会替换已有的处理程序。SDK 未提供移除处理程序的 API。
+对同一名称重复注册会被拒绝，而不会替换已有的 handler。SDK 未提供移除 handler 的 API。
 
 | 情形 | HTTP 回调响应 | gRPC 回调响应 |
 | --- | --- | --- |
-| 处理程序完成 | `200` | 成功的 `JobEventResponse` |
-| 没有匹配的处理程序 | `404` | `NotFound` |
-| 处理程序抛出异常或被拒绝 | `500` | `Internal` |
+| handler 完成 | `200` | 成功的 `JobEventResponse` |
+| 没有匹配的 handler | `404` | `NotFound` |
+| handler 抛出异常或被拒绝 | `500` | `Internal` |
 
-缺失的处理程序和失败的处理程序都会被记录日志并报告为错误，而不会被确认为成功投递。请按至少一次投递来设计处理程序；若处理过程存在非幂等的副作用，请在应用层进行去重。
+缺失的 handler 和失败的 handler 都会被记录日志并报告为错误，而不会被确认为成功投递。请按至少一次投递来设计 handler；若处理过程存在非幂等的副作用，请在应用层进行去重。
 
 ## 错误处理
 

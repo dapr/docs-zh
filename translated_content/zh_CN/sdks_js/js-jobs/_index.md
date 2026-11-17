@@ -17,7 +17,7 @@ SDK 通过现有的客户端和服务端提供 job 功能：
 | `DaprClient.jobs.schedule(name, options)` | 创建 job，或显式覆盖已有 job。 |
 | `DaprClient.jobs.get(name)` | 获取 job 的调度计划、负载及其他设置。 |
 | `DaprClient.jobs.delete(name)` | 按名称删除 job。 |
-| `DaprServer.jobs.listen(name, callback)` | 为指定名称的 job 注册异步处理程序。 |
+| `DaprServer.jobs.listen(name, callback)` | 为指定名称的 job 注册异步 handler。 |
 | `CronExpressionBuilder` | 构建包含六个字段的 cron 表达式，可选指定时区。 |
 
 HTTP 和 gRPC 都支持 job 管理和 JSON 回调。不透明的二进制负载在调度、获取和回调时都需要使用 gRPC。SDK 会为所连接的运行时自动选择 Stable（稳定）或 Alpha1 版本的 Jobs API。

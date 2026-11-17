@@ -220,7 +220,7 @@ start().catch((e) => {
 
 #### 订阅消息
 
-请在 `server.start()` 之前为每个 component/主题组合注册一次。本示例使用端口 `50002` 上的 HTTP 监听器：
+请在 `server.start()` 之前为每个 component/topic 组合注册一次。本示例使用端口 `50002` 上的 HTTP 监听器：
 
 ```typescript
 import { DaprPubSubStatusEnum, DaprServer } from "@dapr/dapr";
@@ -254,7 +254,7 @@ start().catch((e) => {
 
 #### 基于规则订阅消息
 
-使用 `subscribeWithOptions()` 声明路由，使用 `subscribeToRoute()` 绑定处理程序。请参阅[基于内容的路由示例]({{% ref "js-pubsub-subscribe-howto.md#content-based-routing" %}})。
+使用 `subscribeWithOptions()` 声明路由，使用 `subscribeToRoute()` 绑定 handler。请参阅[基于内容的路由示例]({{% ref "js-pubsub-subscribe-howto.md#content-based-routing" %}})。
 
 #### 通配符订阅
 
