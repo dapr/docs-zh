@@ -282,7 +282,7 @@ class Solution {
 }
 ```
 
-- 有关发布消息和订阅主题的完整指南，请访问[操作指南：发布和订阅]({{% ref howto-publish-subscribe.md %}})。
+- 有关发布消息和订阅 topic 的完整指南，请访问[操作指南：发布和订阅]({{% ref howto-publish-subscribe.md %}})。
 - 访问 [Java SDK 示例](https://github.com/dapr/java-sdk/tree/master/examples/src/main/java/io/dapr/examples/pubsub/http)，获取代码示例，并了解如何试用 pub/sub。
 
 ### 与 output binding 交互

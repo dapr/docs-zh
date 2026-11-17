@@ -228,7 +228,7 @@ public class ProducerAppConfiguration {
 与 Spring Kafka、Spring Pulsar 和 Spring AMQP 类似，你可以使用 `DaprMessagingTemplate` 将消息发布到已配置的基础设施。要消费消息，你可以使用 `@Topic` 注解（该注解即将重命名为 `@DaprListener`）。
 
 要发布事件/消息，你可以在 Spring 应用程序中 `@Autowired` `DaprMessagingTemplate`。
-在此示例中，我们将发布 `Order` 事件，并把消息发送到名为 `topic` 的主题。
+在此示例中，我们将发布 `Order` 事件，并把消息发送到名为 `topic` 的 topic。
 
 ```java
 @Autowired
@@ -315,11 +315,11 @@ public static void setup(){
 - `NameResolutionConfigurationSettings` — `nameResolution` 块。
 - `ComponentsConfigurationSettings` — `components` 块（例如，拒绝某些 component 类型）。
 - `SecretsConfigurationSettings` — `secrets` 块（限定 secret store 的访问范围）。
-- `HttpPipeline` — `httpPipeline` 块（用于处理发送到 Dapr sidecar 的传入 HTTP 请求的 middleware 处理程序）。`Configuration` 类此前已接受 `appHttpPipeline` 块对应的 `AppHttpPipeline`。
+- `HttpPipeline` — `httpPipeline` 块（用于处理发送到 Dapr sidecar 的传入 HTTP 请求的 middleware handler）。`Configuration` 类此前已接受 `appHttpPipeline` 块对应的 `AppHttpPipeline`。
 
 每个设置类都对应 Configuration 资源上的同名字段；各字段的作用请参阅 [Configuration 概述]({{% ref configuration-overview.md %}})。
 
-例如，以下配置向 `httpPipeline` 添加了 `uppercase` 和 `ratelimit` middleware 处理程序。`httpPipeline` 是 `Configuration` 构造函数的最后一个参数，因此对于不使用的设置，请传入 `null`：
+例如，以下配置向 `httpPipeline` 添加了 `uppercase` 和 `ratelimit` middleware handler。`httpPipeline` 是 `Configuration` 构造函数的最后一个参数，因此对于不使用的设置，请传入 `null`：
 
 ```java
 HttpPipeline httpPipeline = new HttpPipeline(List.of(
@@ -334,7 +334,7 @@ DaprContainer daprContainer = new DaprContainer("daprio/daprd:1.19.0")
     .withConfiguration(configuration);
 ```
 
-处理程序的 `name` 必须与你添加到容器中的某个[middleware component]({{% ref middleware.md %}})的名称一致。
+handler 的 `name` 必须与你添加到容器中的某个[middleware component]({{% ref middleware.md %}})的名称一致。
 
 此外，`Subscription` 现在接受 `scopes` 列表（即允许使用该订阅的 App ID），与 declarative subscription 上的 `scopes` 字段对应。
 
