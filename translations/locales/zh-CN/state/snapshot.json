@@ -1,11 +1,11 @@
 {
   "schema": 1,
   "locale": "zh-CN",
-  "updatedAt": "2026-11-17T20:01:22.892Z",
-  "lastRun": "prune-20261117-2001",
-  "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
-  "glossaryVersion": 363,
-  "glossarySha256": "7a60bf295d5fe7e45bffba9937bd6cfa84dd8a4c0c44297ca050d8a40aa5580e",
+  "updatedAt": "2026-11-26T23:56:18.219Z",
+  "lastRun": "20261126-2345",
+  "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
+  "glossaryVersion": 364,
+  "glossarySha256": "0b7db79a81b8ba84b536bdfa197b632de53468c05d5281615a1ffd3b7a2329da",
   "docs": {
     "contributing/dotnet-contributing.md": {
       "status": "done_flagged",
@@ -108,22 +108,23 @@
     },
     "docs/_index.md": {
       "status": "done_flagged",
-      "sourceSha256": "63e75233efd7946a78c999d948611b1196de1373229c24ea5e2ef62702e483f5",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "0c89f7624710dc7c7156e7d35c53d6d206157d17359e2b001ffc9d795cf47f48",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/_index.md",
-      "translationSha256": "b744d510cd5675db4bbd08491b930ec054d63a82856592a6634644503a5db6e7",
-      "glossaryVersion": 363,
+      "translationSha256": "612b093f9a44c7f52420f85d1115e97a7148c5e910a3fb3a308c8a434c5a6b9a",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-1856",
-      "doneAt": "2026-11-17T19:02:16.287Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:49:54.285Z",
       "reviewedAt": null,
       "flags": [
+        "glossary: collection → 集合 未出现在译文中:源文 'A collection of tutorials' 译为“一系列包含代码示例的教程”，属自然省略，未改译（沿用既有译文）",
         "glossary: preferred rendering used fewer times than the term occurs in the source: collection → 集合 (source ×1, translation ×0)"
       ],
       "note": "requeued: v1.19 DNT 保留英文,机械替换文档整篇重译",
       "model": "claude-haiku-5-5",
       "retries": 0,
-      "seconds": 60,
+      "seconds": 120,
       "termTargets": {
         "actors": "Actor",
         "agent": "代理",
@@ -136,9 +137,6 @@
         "run-to-completion": "运行至完成",
         "span": "跨度",
         "verifiable-execution": "可验证执行"
-      },
-      "reviewedTerms": {
-        "observability": "可观测性"
       }
     },
     "docs/concepts/_index.md": {
@@ -607,20 +605,23 @@
     },
     "docs/contributing/docs-contrib/contributing-docs.md": {
       "status": "done_flagged",
-      "sourceSha256": "abf12317e7d80eb737c0dfc327261f91a3c818f9601920b46c13c60aee318a4a",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "9d1235fea413b9ba285f0f074f7b35fb96928be4a43696188eec839fdb68ca77",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/contributing/docs-contrib/contributing-docs.md",
-      "translationSha256": "f05a0fa399a58428eb3331505abca3be156650cf9ec22b854f56e53620e584ca",
-      "glossaryVersion": 363,
+      "translationSha256": "9e629554c35f27461942845459f4475a2c9f740380e5d3424e7d8a0f126957ca",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-1818",
-      "doneAt": "2026-11-17T18:24:47.336Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:56:18.219Z",
       "reviewedAt": null,
       "flags": [
+        "glossary: audience → 受众 (source ×1, translation ×0); 源文为普通词义 'new developer audience'，非术语，既有提示",
+        "glossary: hit → 命中 (source ×1, translation ×0); 源文为普通词义 'traps already hit'，非术语，既有提示",
+        "glossary: topic → topic (source ×4, translation ×3); 第 4 处为「本页主题」，已按普通词义保留，见 keptTerms",
         "glossary: preferred rendering used fewer times than the term occurs in the source: audience → 受众 (source ×1, translation ×0); hit "
       ],
       "note": "requeued: v1.19 DNT 保留英文,机械替换文档整篇重译",
-      "model": "haiku",
+      "model": "claude-haiku-5-5",
       "termTargets": {
         "agent": "代理",
         "audience": "受众",
@@ -629,6 +630,8 @@
         "topic": "topic",
         "vector": "向量"
       },
+      "retries": 0,
+      "seconds": 0,
       "reviewedTerms": {
         "topic": "主题"
       }
@@ -2137,17 +2140,21 @@
     },
     "docs/developing-applications/building-blocks/pubsub/pubsub-overview.md": {
       "status": "done_flagged",
-      "sourceSha256": "a1513f3694e88c478e6f91e92a52d8dda31a82e274031e29e7bd655dfa2b51f4",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "fa94797b71df01e6d7d63c6495aa53e91f9e62e5e495d83ac4f950ce0bc69462",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/pubsub/pubsub-overview.md",
-      "translationSha256": "d6d5643d0002c1ac9c97ade37da08dd4fdf296b3bc12963f5acd3642a8df830d",
-      "glossaryVersion": 363,
+      "translationSha256": "79c414806e0195eb3e20f9286b550a115002b83bab7e19e503a380e5ba902ec8",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-1856",
-      "doneAt": "2026-11-17T19:01:21.693Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:56:17.881Z",
       "reviewedAt": null,
       "flags": [
-        "源文 route/routes（名词或动词）处的“路由”未改为 Routing，请确认。",
+        "review: routing 已统一为 Routing（第 55、94、96、100 行），但源文中 route / routes（非 routing 术语）仍译为「路由」（第 83、96、181 行），请主控确认是否统一",
+        "review: dashboard 源文第 182 行指 Dapr Dev Dashboard 中的 dashboard，译文第 181 行写作「仪表板」，术语表首选为 Dashboard（保留英文），请主控确认",
+        "glossary: Dashboard → Dashboard (source ×2, translation ×1); 既有提示，即上一条 dashboard 的译法问题",
+        "glossary: Routing → Routing (source ×5, translation ×4); 差 1 处为 content-based routing，按术语表译为「基于内容的路由」，属正常",
+        "glossary: topic → topic (source ×26, translation ×23); 差 3 处为 dead letter topic(s)，按术语表译为「死信主题」，属正常",
         "glossary: preferred rendering used fewer times than the term occurs in the source: Dashboard → Dashboard (source ×2, translation ×"
       ],
       "note": "requeued: v1.19 DNT 保留英文,0133 机械替换文档整篇重译",
@@ -2175,13 +2182,12 @@
         "time-to-live": "生存时间",
         "topic": "topic"
       },
-      "reviewedTerms": {
-        "topic": "主题",
-        "handler": "处理程序",
-        "routing": "路由"
-      },
       "retries": 0,
-      "seconds": 120
+      "seconds": 0,
+      "reviewedTerms": {
+        "routing": "路由",
+        "topic": "主题"
+      }
     },
     "docs/developing-applications/building-blocks/pubsub/pubsub-raw.md": {
       "status": "done_flagged",
@@ -2318,27 +2324,28 @@
     },
     "docs/developing-applications/building-blocks/secrets/secrets-overview.md": {
       "status": "done_flagged",
-      "sourceSha256": "e17f2f285f62b6b9564c92f143282ebd24c278ac7215c3d451460ac7302a1e4c",
-      "sourceRevision": "5039589c8f80a755cdd83c65069f649533f9219a",
+      "sourceSha256": "3c0c97cdbaf315addf8671e4bbba44e97431153a16606fcdb6749187bdc01898",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/secrets/secrets-overview.md",
-      "translationSha256": "2cd3b0fc55f79ab37aa83e964d2c8f2fa1fb75fc9a026fc7354d2550d5f5f542",
-      "glossaryVersion": 325,
+      "translationSha256": "96a8d1159f01038cfa3581e058142023ade1cbd0fd2b3567bb00beb9be591eef",
+      "glossaryVersion": 363,
       "attempts": 1,
-      "runId": "20261117-0857",
-      "doneAt": "2026-11-17T09:22:38.051Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:49:30.011Z",
       "reviewedAt": null,
       "flags": [
-        "glossary-soft: key vault occurs only inside the product name Azure Key Vault (doNotTranslate), so the preferred 密钥保管库 is unused",
-        "anchor: link {{% ref \"#try-out-secrets-management\" %}} kept as in source per link rule; heading is translated to 试用 Secrets Management, so the anchor may need fix-anchors",
+        "glossary: key vault → 密钥保管库 (source ×3, translation ×0); 源文 key vault 均在 Azure Key Vault 产品名内(doNotTranslate), 既有译文即如此, 非本次变更引入",
+        "incremental: 仅插入 {{< dapr-university-track track=\"dapr-secrets\" position=\"middle\" >}} 短代码, 其余沿用旧译文",
         "glossary: preferred rendering used fewer times than the term occurs in the source: key vault → 密钥保管库 (source ×3, translation ×0)"
       ],
       "note": "requeued: v1.19 DNT 保留英文,0133 机械替换文档整篇重译",
-      "model": "claude-haiku-5-5",
+      "model": "haiku",
       "retries": 0,
-      "seconds": 60,
+      "seconds": 21,
       "termTargets": {
         "hot-reloading": "热重载",
         "key-vault": "密钥保管库",
+        "managed-identity": "托管标识",
         "scope": "作用域"
       }
     },
@@ -2885,16 +2892,19 @@
     },
     "docs/developing-applications/building-blocks/workflow/workflow-overview.md": {
       "status": "done_flagged",
-      "sourceSha256": "38cc185088d37b076b577d6a2f411b280c110f5902b1a3b89c3dc33d4cf0eeef",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "bdd9cee0567bd257bdc80010e4ee336e77ef3d715b73d6eee256c7778c1d0974",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/workflow-overview.md",
-      "translationSha256": "bd09164e7ebcc58d60430faafcee794a62862733ccd0f7513642988027c09f96",
-      "glossaryVersion": 363,
+      "translationSha256": "196a151d2ef6315c9f8cf1fa26ea619db6479c60fe2c00154e8c42d05c8e07ba",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-1856",
-      "doneAt": "2026-11-17T19:01:38.115Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:53:12.078Z",
       "reviewedAt": null,
       "flags": [
+        "glossary: instance ID → 实例 ID (source ×2, translation ×1); pre-existing in unchanged text, not touched by this incremental run",
+        "glossary: purge → purge (source ×1, translation ×0); pre-existing: unchanged list item and comment render 清除, not touched by this incremental run",
+        "glossary: span → 跨度 (source ×1, translation ×0); pre-existing and likely a false positive: 'span across multiple applications' is an ordinary verb in unchanged text",
         "glossary: preferred rendering used fewer times than the term occurs in the source: instance ID → 实例 ID (source ×2, translation ×1)"
       ],
       "note": "requeued: v1.19 DNT 保留英文,机械替换文档整篇重译",
@@ -2926,12 +2936,8 @@
         "tenant": "租户",
         "turn": "轮次"
       },
-      "reviewedTerms": {
-        "retry-policy": "重试策略",
-        "task-chaining": "任务链"
-      },
       "retries": 0,
-      "seconds": 45
+      "seconds": 120
     },
     "docs/developing-applications/building-blocks/workflow/workflow-versioning.md": {
       "status": "done",
@@ -3625,20 +3631,20 @@
     },
     "docs/getting-started/quickstarts/bindings-quickstart.md": {
       "status": "done",
-      "sourceSha256": "5fc58e67c8573f61f1ce4bf0b50dbb17460d36b469978b5d6020f033bf9de196",
-      "sourceRevision": "5039589c8f80a755cdd83c65069f649533f9219a",
+      "sourceSha256": "c1a9088825fff607297ef1203d2e046667f293a0a0dab71319e79d2bfca9c392",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/getting-started/quickstarts/bindings-quickstart.md",
-      "translationSha256": "431db8c908c74fd4586b58e2acee63131f8bab085395525651120f1c9f3609dc",
-      "glossaryVersion": 325,
+      "translationSha256": "02bebcdef658853773e945640ab1607d58fec373c1dd7631b1cfcdfa178c1e0c",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-0857",
-      "doneAt": "2026-11-17T09:02:28.094Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:49:55.884Z",
       "reviewedAt": null,
       "flags": [],
       "note": "requeued: v1.19 DNT 保留英文,0133 机械替换文档整篇重译",
       "model": "claude-haiku-5-5",
       "retries": 0,
-      "seconds": 0,
+      "seconds": 91,
       "termTargets": {
         "endpoint": "端点",
         "payload": "负载",
@@ -3750,29 +3756,29 @@
     },
     "docs/getting-started/quickstarts/pubsub-quickstart.md": {
       "status": "done_flagged",
-      "sourceSha256": "c29708e7c3bb44f998e3287ebeac29bcb23eaa34a2fdbb07a9c715103589beab",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "1e77a50f6ed61d074b6df8adbaa81f9aaf009ab2b77591d6f19f4f41749a6390",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/getting-started/quickstarts/pubsub-quickstart.md",
-      "translationSha256": "a42166181ff3755271dfe11f64d458111ffd83d1a3eb10f40d0d7bdc11162f9f",
+      "translationSha256": "bc578397b25a1dc9ef4c328f37425afece9fc531b5a6eccd36caa86ad21eaf3d",
       "glossaryVersion": 363,
       "attempts": 1,
-      "runId": "20261117-1818",
-      "doneAt": "2026-11-17T18:28:17.178Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:49:30.148Z",
       "reviewedAt": null,
       "flags": [
+        "glossary: preferred rendering used fewer times than the term occurs in the source: Dashboard → Dashboard (source ×3, translation ×2); unchanged from the previous translation, not re-translated",
         "glossary: preferred rendering used fewer times than the term occurs in the source: Dashboard → Dashboard (source ×3, translation ×"
       ],
       "note": "requeued: v1.19 DNT 保留英文,0133 机械替换文档整篇重译",
-      "model": "haiku",
+      "model": "claude-haiku-5-5",
       "termTargets": {
         "dashboard": "Dashboard",
         "pub-sub": "pub/sub",
         "publish-and-subscribe": "发布和订阅",
         "topic": "topic"
       },
-      "reviewedTerms": {
-        "topic": "主题"
-      }
+      "retries": 0,
+      "seconds": 69
     },
     "docs/getting-started/quickstarts/resiliency/_index.md": {
       "status": "done",
@@ -3841,33 +3847,22 @@
       }
     },
     "docs/getting-started/quickstarts/secrets-quickstart.md": {
-      "status": "done_flagged",
-      "sourceSha256": "19f3e3b426df940ccd0608690de25614fd59a6c3a394482d1ba1e41fb0283b57",
-      "sourceRevision": "daf23baa41710b1692eaa8a87b0ca15837ad0f47",
+      "status": "done",
+      "sourceSha256": "3665c7a81fdbd5bc2a502e48936d5fd29f81964234882a13d1cc0d28c71c7d9d",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/getting-started/quickstarts/secrets-quickstart.md",
-      "translationSha256": "78ed09022a81f414e2e4761a0a9a40e9ba08de740678dfd1958d6ffc2d7db4d0",
-      "glossaryVersion": 324,
+      "translationSha256": "15a68f9d4008ff72d7157b4a3ab77aa0cfded41fde7dbae23c635c6ae61aefd9",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-0638",
-      "doneAt": "2026-11-17T06:44:06.745Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:49:56.014Z",
       "reviewedAt": null,
-      "flags": [
-        "secret/secrets 按术语表人工裁决保留英文，未沿用旧译“机密”“密钥”"
-      ],
+      "flags": [],
       "note": "requeued: v1.19 DNT 保留英文,机械替换文档整篇重译",
       "model": "claude-haiku-5-5",
       "retries": 0,
-      "seconds": 240,
-      "termTargets": {
-        "building-block": "building block",
-        "component": "component",
-        "quickstart": "Quickstart",
-        "secret-store": "secret store",
-        "secrets": "secrets",
-        "secrets-api": "secrets API",
-        "secrets-management": "Secrets Management",
-        "sidecar": "sidecar"
-      }
+      "seconds": 91,
+      "termTargets": {}
     },
     "docs/getting-started/quickstarts/serviceinvocation-quickstart.md": {
       "status": "done",
@@ -3909,23 +3904,24 @@
     },
     "docs/getting-started/quickstarts/workflow-quickstart.md": {
       "status": "done_flagged",
-      "sourceSha256": "75f8cf0468797b3ada2fa77b0b8c6d572e998f580c49fc7a5d0bab5330597684",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "d8b42b1201c304abe104a5f4cae9dcedcc7c897b3c9426683fc3aad2f144e88f",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/getting-started/quickstarts/workflow-quickstart.md",
-      "translationSha256": "52c5a50f5348d63f7ce5ea858d5891fd1a351350a1d3d21e7cf81db1ed33b3d0",
+      "translationSha256": "8ff77edf9cd3302a230d2d3f4c5f4320590b4e319b2452fc7994c808333cf17e",
       "glossaryVersion": 363,
       "attempts": 1,
-      "runId": "20261117-1856",
-      "doneAt": "2026-11-17T19:02:16.151Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:49:51.972Z",
       "reviewedAt": null,
       "flags": [
-        "正文中 purge 仍译为“清除”（如“执行清除操作”），该译法不在驱动术语内，未改动；check 给出 purge 出现次数偏少的软提示。",
+        "glossary: purge 在源文出现 2 次，译文首选译法 purge 只出现 1 次（其余为“清除”）。未改动的旧译文按增量规则逐字节保留，未改写；请主控裁定是否统一为保留英文。",
+        "incremental: 仅改动文末（原多余的收尾代码围栏 ``` 替换为 dapr-university-track 短代码），其余字节与旧译文一致。",
         "glossary: preferred rendering used fewer times than the term occurs in the source: purge → purge (source ×2, translation ×1)"
       ],
       "note": "requeued: v1.19 DNT 保留英文,机械替换文档整篇重译",
-      "model": "claude-haiku-5-5",
+      "model": "haiku",
       "retries": 0,
-      "seconds": 90,
+      "seconds": 140,
       "termTargets": {
         "dashboard": "Dashboard",
         "fan-in": "扇入",
@@ -3935,10 +3931,6 @@
         "span": "跨度",
         "state-machine": "状态机",
         "task-chaining": "task chaining"
-      },
-      "reviewedTerms": {
-        "purge": "清理",
-        "task-chaining": "任务链"
       }
     },
     "docs/getting-started/tutorials/_index.md": {
@@ -11417,34 +11409,26 @@
       }
     },
     "sdks_dotnet/dotnet-workflow/dotnet-workflow-examples.md": {
-      "status": "done_flagged",
-      "sourceSha256": "c83882744032f511f71bb37fd0959929c726672d5687ccdce15d50cf615ac011",
-      "sourceRevision": "daf23baa41710b1692eaa8a87b0ca15837ad0f47",
+      "status": "done",
+      "sourceSha256": "d1dda326711f578f7d8c0a2f77bf63424cb816de5ae33f2b3ced9d22e88bf1fa",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/sdks_dotnet/dotnet-workflow/dotnet-workflow-examples.md",
-      "translationSha256": "e2b3cb15426e2320884f5502639a4a536bf918433972ed1e3a1090fac91182e4",
-      "glossaryVersion": 324,
+      "translationSha256": "61e082b88ce1e7d3adf66bf783a970eae405e941e2c46c15d8391ab4c0806831",
+      "glossaryVersion": 363,
       "attempts": 1,
-      "runId": "20261117-0638",
-      "doneAt": "2026-11-17T07:51:17.260Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:49:52.110Z",
       "reviewedAt": null,
-      "flags": [
-        "glossary soft: Quickstart and workflow counts are lower than source only because the source counts include URL and link-target occurrences that must stay byte-for-byte; all prose occurrences use the glossary target",
-        "glossary: preferred rendering used fewer times than the term occurs in the source: Quickstart → Quickstart (source ×3, translation"
-      ],
+      "flags": [],
       "note": "requeued: v1.19 DNT 保留英文,机械替换文档整篇重译",
-      "model": "claude-haiku-5-5",
+      "model": "haiku",
       "retries": 0,
-      "seconds": 60,
+      "seconds": 140,
       "termTargets": {
-        "alpha": "alpha",
-        "binary-store": "Binary Store",
         "envelope": "信封",
         "inline": "内联",
         "offloading": "卸载",
-        "payload": "负载",
-        "quickstart": "Quickstart",
-        "workflow": "workflow",
-        "workflow-data-references": "Workflow data references"
+        "payload": "负载"
       }
     },
     "sdks_dotnet/dotnet-workflow/dotnet-workflow-management-methods.md": {
@@ -11656,20 +11640,22 @@
     },
     "sdks_go/go-client/_index.md": {
       "status": "done_flagged",
-      "sourceSha256": "734077d550007e72274f8e2217ed0d0ac43334c811e4622d0991077a78566498",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "e6c9334b2edf58b46231b41f1360c1c9d6720d5af630cb250aeef93952f07e7d",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/sdks_go/go-client/_index.md",
-      "translationSha256": "fd7535cb857b84daff081a89aa1e14b5a5e3a842536700d4fba8abb7eca612f4",
-      "glossaryVersion": 363,
+      "translationSha256": "9c1798bb857122be0ae8ab06a0e5ffc1f6845da8213bd1fbce12b83ccd9fcfed",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-1818",
-      "doneAt": "2026-11-17T18:35:03.445Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:53:12.962Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: preferred rendering used fewer times than the term occurs in the source: error model → 错误模型 (source ×1, translation ×0);"
+        "cross-doc-anchor: the rerun links [重新运行 workflow] and [重新运行限制] point to workflow-features-concepts.md#rerunning-workflows and #rerun-limitations; fragments kept as in the source, not checked against the Chinese target document",
+        "glossary (soft, term-table conflict): error model → 错误模型 is flagged because the source sentence 'gRPC's richer error model' is in the doNotTranslate list as Richer Error Model; the translation keeps 'Richer Error Model' as the previous translation did, so the term table needs a ruling",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: error model → 错误模型 (source ×1, translation ×0)"
       ],
       "note": "requeued: v1.19 DNT 保留英文,0133 机械替换文档整篇重译",
-      "model": "haiku",
+      "model": "claude-haiku-5-5",
       "termTargets": {
         "actors": "Actor",
         "app-initiated-stream": "应用发起的流",
@@ -11681,17 +11667,14 @@
         "endpoint": "端点",
         "error-model": "错误模型",
         "failure-policy": "失败策略",
-        "fan-out": "扇出",
-        "idempotent": "幂等",
         "instance-id": "实例 ID",
         "lock": "锁",
         "pub-sub": "pub/sub",
-        "terminal-state": "终态",
+        "rerun": "重新运行",
         "topic": "topic"
       },
-      "reviewedTerms": {
-        "topic": "主题"
-      }
+      "retries": 0,
+      "seconds": 90
     },
     "sdks_go/go-service/_index.md": {
       "status": "done",
@@ -19982,28 +19965,28 @@
     },
     "docs/developing-applications/building-blocks/bindings/bindings-overview.md": {
       "status": "done_flagged",
-      "sourceSha256": "b2bbfb655bdb190be46b072c68888e2b85f0e60fc567153a2d40f255c667bb31",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "f7df5fd63848e333b51685061aa2be743ec177da1cb0c032f0bb41dda1185be0",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/bindings/bindings-overview.md",
-      "translationSha256": "67e33a4c86988c96918da72238ef9da553efc87eb1667ec06a391123f25e6fd9",
+      "translationSha256": "efb7ba31a76cfad50e11742dd355d0854142d3bf827165b525ea8cce060c4be1",
       "glossaryVersion": 363,
       "attempts": 1,
-      "runId": "20261117-1818",
-      "doneAt": "2026-11-17T18:24:49.253Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:49:30.278Z",
       "reviewedAt": null,
       "flags": [
+        "glossary: preferred rendering used fewer times than the term occurs in the source: endpoint → 端点 (source ×3, translation ×2); unchanged from the previous translation, not re-translated",
         "glossary: preferred rendering used fewer times than the term occurs in the source: endpoint → 端点 (source ×3, translation ×2)"
       ],
       "note": "adopted as stale: the translation predates the current source; kept as a reference for retranslation",
-      "model": "haiku",
+      "model": "claude-haiku-5-5",
       "termTargets": {
         "endpoint": "端点",
         "message-bus": "message bus",
         "payload": "负载"
       },
-      "reviewedTerms": {
-        "message-bus": "消息总线"
-      }
+      "retries": 0,
+      "seconds": 69
     },
     "docs/developing-applications/building-blocks/bindings/howto-triggers.md": {
       "status": "done",
@@ -20121,16 +20104,20 @@
     },
     "docs/developing-applications/building-blocks/workflow/howto-manage-workflow.md": {
       "status": "done_flagged",
-      "sourceSha256": "6fb9d1da871c84afbb3081305bd72439db8b7044ff5385f0fcf71edc83c2b40a",
-      "sourceRevision": "5039589c8f80a755cdd83c65069f649533f9219a",
+      "sourceSha256": "355eb23a7d01db99b0738e2850828a2b2d576521c2fb763f7351323237ad8615",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/howto-manage-workflow.md",
-      "translationSha256": "6f90ab3eb99587536ee38da31f6c2a26f906cd533c31360a183ecc2d1f8e145e",
-      "glossaryVersion": 362,
+      "translationSha256": "e7dcd4533bfcfc0cfa9ea32064b7aa1ce04423b08875e2052d640c82892603c2",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-1731",
-      "doneAt": "2026-11-17T17:34:40.974Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:53:10.964Z",
       "reviewedAt": null,
       "flags": [
+        "cross-doc-anchor: workflow-features-concepts.md#rerun-limitations、workflow-features-concepts.md#rerunning-workflows 为本次新增段落中的链接，fragment 保持原样",
+        "glossary: rerun → 重新运行（源 ×4，译文 ×0）；本篇既有译文统一用“重运行”（5 处），增量模式未改动未变部分，新段落沿用“重运行”以保持一致，待主控裁决术语统一",
+        "glossary: Dashboard → Dashboard（源 ×4，译文 ×3）、Routing → Routing（源 ×1，译文 ×0）；均为既有译文，未改动",
+        "cross-doc-anchor: 其余 howto-author-workflow.md、workflow_api.md 等 fragment 为既有译文原样保留",
         "glossary: preferred rendering used fewer times than the term occurs in the source: Dashboard → Dashboard (source ×4, translation ×"
       ],
       "note": "adopted as stale: the translation predates the current source; kept as a reference for retranslation",
@@ -20152,22 +20139,26 @@
     },
     "docs/developing-applications/building-blocks/workflow/workflow-features-concepts.md": {
       "status": "done_flagged",
-      "sourceSha256": "2eb8bc595d03d50c6c6561df7a385560b31859b3dc0e1f8f2502849858b2676d",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "32b14ed2d6db1f0b84fb8e05685fcfc65aed3091efcb4edf4f4f4aee8f5f6eaf",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/workflow-features-concepts.md",
-      "translationSha256": "57d78f53e60e96d5301809dc48ceffb80106294b32b624d1dbf79f5e93195f6a",
+      "translationSha256": "69e5e50500f3fecdd50e016f7e147f516a63230edde9ab72e98f17593a77356e",
       "glossaryVersion": 363,
       "attempts": 1,
-      "runId": "20261117-1856",
-      "doneAt": "2026-11-17T19:01:37.553Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:49:54.098Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: preferred rendering used fewer times than the term occurs in the source: Own history → Own history (source ×2, translati"
+        "cross-doc-anchor: howto-manage-workflow.md#re-run-workflows（指向其他文档的 fragment 保持原样）",
+        "glossary: effect → 效果 未命中译文:源文唯一一处为 side effects（副作用），非 entry effect 义项，译文用“副作用”，属正确",
+        "glossary: Own history → Own history 计数不一致（源文 2 处、译文 1 处）:第 160 行 'Their own history' 为普通用法，译为“自己的历史记录”，属自然译出；第 258 行术语保留英文，一致",
+        "review: 本篇未做独立复审（worker 规则不派 subagent）；新增的“重新运行 workflow”一节已对照 previous.diff 逐段核对",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: effect → 效果 (source ×1, translation ×0); Own hi"
       ],
       "note": "adopted as stale: the translation predates the current source; kept as a reference for retranslation",
       "model": "claude-haiku-5-5",
       "retries": 0,
-      "seconds": 60,
+      "seconds": 300,
       "termTargets": {
         "agent": "代理",
         "ancestor-chain": "祖先链",
@@ -20177,6 +20168,7 @@
         "configuration": "配置",
         "dispatch": "派发",
         "dispatch-stream": "dispatch stream",
+        "effect": "效果",
         "eternal-workflows": "eternal workflows",
         "event-sourcing": "事件溯源",
         "fan-out": "扇出",
@@ -20195,6 +20187,7 @@
         "purge": "purge",
         "record": "记录",
         "replay": "重放",
+        "rerun": "重新运行",
         "retention-policy": "保留策略",
         "retry-policy": "retry policy",
         "scope": "作用域",
@@ -20202,9 +20195,6 @@
         "terminal-state": "终态",
         "turn": "轮次",
         "worker": "工作进程"
-      },
-      "reviewedTerms": {
-        "lineage": "谱系"
       }
     },
     "docs/developing-applications/building-blocks/workflow/workflow-history-retention-policy.md": {
@@ -20240,20 +20230,23 @@
     },
     "docs/developing-applications/building-blocks/workflow/workflow-patterns.md": {
       "status": "done_flagged",
-      "sourceSha256": "8079f18f37c8133c4a52cb3af6b79ae3832b457a3fc6e1e6c5b0014a73a2ff00",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "ccacdb5a8aa22217c9d271644562224ac025af46e1004f9585c257ddce2d3006",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/workflow-patterns.md",
-      "translationSha256": "cb328f8aaff80dec61b1fd9107a0ad28745a4f9a9b7074338c8d401662a924e2",
-      "glossaryVersion": 363,
+      "translationSha256": "5cb66d097e0594b4be4eab5b02d9ad3b8bbe96db369facc6f31771c20dc9f253",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-1930",
-      "doneAt": "2026-11-17T18:47:14.664Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:53:13.110Z",
       "reviewedAt": null,
       "flags": [
+        "review: line 168 is a comment inside a C# fenced block; changed 重试策略 to retry policy because fenceComments is translate and it is the only prose rendering of the drift term; the terms-only steps skip code blocks when locating occurrences, so confirm this is wanted",
+        "glossary (soft, pre-existing, not changed): task chaining count differs (source ×5, translation ×3); task chaining stays English as the glossary requires",
+        "glossary (soft, false positive): span → 跨度 flagged because source line 1429 uses span as a verb (span multiple microservices), not the trace term",
         "glossary: preferred rendering used fewer times than the term occurs in the source: span → 跨度 (source ×2, translation ×0); task cha"
       ],
       "note": "adopted as stale: the translation predates the current source; kept as a reference for retranslation",
-      "model": "haiku",
+      "model": "claude-haiku-5-5",
       "termTargets": {
         "actors": "Actor",
         "compensation-pattern": "compensation pattern",
@@ -20273,6 +20266,8 @@
         "topic": "topic",
         "worker": "工作进程"
       },
+      "retries": 0,
+      "seconds": 60,
       "reviewedTerms": {
         "retry-policy": "重试策略"
       }

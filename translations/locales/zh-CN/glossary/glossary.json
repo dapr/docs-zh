@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 363,
-  "updatedAt": "2026-11-17T17:48:31.878Z",
+  "version": 364,
+  "updatedAt": "2026-11-26T23:49:54.129Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -8320,6 +8320,26 @@
       "lastSeen": {
         "doc": "docs/contributing/protocol-reference/workflow-protocol/workflow-protocol-execution-api.md",
         "run": "20261116-1902"
+      },
+      "conflicts": []
+    },
+    {
+      "id": "rerun",
+      "source": "rerun",
+      "target": "重新运行",
+      "alt": [],
+      "note": "Dapr Workflow 的 rerun 功能：基于已结束实例的历史事件创建新实例",
+      "origin": "auto",
+      "locked": false,
+      "confidence": "medium",
+      "occurrences": 1,
+      "firstSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-features-concepts.md",
+        "run": "20261126-2345"
+      },
+      "lastSeen": {
+        "doc": "docs/developing-applications/building-blocks/workflow/workflow-features-concepts.md",
+        "run": "20261126-2345"
       },
       "conflicts": []
     },

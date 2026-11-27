@@ -1102,3 +1102,4 @@
 {"ts":"2026-11-17T17:48:31.878Z","run":"20261117-1748","op":"revert","id":"topic","kind":"term","from":"主题","target":"topic","to":"source","doNotTranslate":"added","reason":"用户决定:不确定的术语保留英文原文","version":363}
 {"ts":"2026-11-17T17:48:31.878Z","run":"20261117-1748","op":"revert","id":"fold-path","kind":"term","from":"折叠路径","target":"fold path","to":"source","doNotTranslate":"added","reason":"用户决定:不确定的术语保留英文原文","version":363}
 {"ts":"2026-11-17T17:48:31.878Z","run":"20261117-1748","op":"revert","id":"wire-contract","kind":"term","from":"线上契约","target":"wire contract","to":"source","doNotTranslate":"added","reason":"用户决定:不确定的术语保留英文原文","version":363}
+{"ts":"2026-11-26T23:49:54.129Z","run":"20261126-2345","op":"add","id":"rerun","target":"重新运行","version":364,"doc":"docs/developing-applications/building-blocks/workflow/workflow-features-concepts.md"}
