@@ -1,7 +1,7 @@
 {
   "version": "v1.19",
-  "generatedAt": "2026-11-17T22:09:32.182Z",
-  "latestBatchId": "batch-20261117T220932.182Z",
+  "generatedAt": "2026-11-26T23:44:10.087Z",
+  "latestBatchId": "batch-20261126T234410.087Z",
   "sourceSummary": {
     "synced": 811,
     "drift": 0,
@@ -275,10 +275,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "6c85e09fe982d662b2cebeb6db55e2da639278015ce3dc9683809efd25069f3d",
-        "sourceSha256": "63e75233efd7946a78c999d948611b1196de1373229c24ea5e2ef62702e483f5"
+        "sourceSha256": "0c89f7624710dc7c7156e7d35c53d6d206157d17359e2b001ffc9d795cf47f48"
       },
       "expected": {
-        "translationStateSha": "63e75233efd7946a78c999d948611b1196de1373229c24ea5e2ef62702e483f5"
+        "translationStateSha": "0c89f7624710dc7c7156e7d35c53d6d206157d17359e2b001ffc9d795cf47f48"
       },
       "id": "translationStateShaMismatch:docs:_index.md"
     },
@@ -560,10 +560,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "3b305dca98bb69395026a525c73ced28dccfbb2a8e03e6576f8801ba17beb63e",
-        "sourceSha256": "abf12317e7d80eb737c0dfc327261f91a3c818f9601920b46c13c60aee318a4a"
+        "sourceSha256": "9d1235fea413b9ba285f0f074f7b35fb96928be4a43696188eec839fdb68ca77"
       },
       "expected": {
-        "translationStateSha": "abf12317e7d80eb737c0dfc327261f91a3c818f9601920b46c13c60aee318a4a"
+        "translationStateSha": "9d1235fea413b9ba285f0f074f7b35fb96928be4a43696188eec839fdb68ca77"
       },
       "id": "translationStateShaMismatch:docs:contributing/docs-contrib/contributing-docs.md"
     },
@@ -1016,10 +1016,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "702f7e5f63849e285e81180d601dd8c5204e07c7fa5b27de852d0750c440153c",
-        "sourceSha256": "b2bbfb655bdb190be46b072c68888e2b85f0e60fc567153a2d40f255c667bb31"
+        "sourceSha256": "f7df5fd63848e333b51685061aa2be743ec177da1cb0c032f0bb41dda1185be0"
       },
       "expected": {
-        "translationStateSha": "b2bbfb655bdb190be46b072c68888e2b85f0e60fc567153a2d40f255c667bb31"
+        "translationStateSha": "f7df5fd63848e333b51685061aa2be743ec177da1cb0c032f0bb41dda1185be0"
       },
       "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/bindings/bindings-overview.md"
     },
@@ -1358,10 +1358,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "95b0841639d8d09dfa876ff12476ba59794156d118e5bd5ca9b2c820ee3f031c",
-        "sourceSha256": "a1513f3694e88c478e6f91e92a52d8dda31a82e274031e29e7bd655dfa2b51f4"
+        "sourceSha256": "fa94797b71df01e6d7d63c6495aa53e91f9e62e5e495d83ac4f950ce0bc69462"
       },
       "expected": {
-        "translationStateSha": "a1513f3694e88c478e6f91e92a52d8dda31a82e274031e29e7bd655dfa2b51f4"
+        "translationStateSha": "fa94797b71df01e6d7d63c6495aa53e91f9e62e5e495d83ac4f950ce0bc69462"
       },
       "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/pubsub/pubsub-overview.md"
     },
@@ -1434,10 +1434,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "46fe54311b79f5aa9d57338250e12cd69605691255a0029a81965c5cd1c3ee9c",
-        "sourceSha256": "e17f2f285f62b6b9564c92f143282ebd24c278ac7215c3d451460ac7302a1e4c"
+        "sourceSha256": "3c0c97cdbaf315addf8671e4bbba44e97431153a16606fcdb6749187bdc01898"
       },
       "expected": {
-        "translationStateSha": "e17f2f285f62b6b9564c92f143282ebd24c278ac7215c3d451460ac7302a1e4c"
+        "translationStateSha": "3c0c97cdbaf315addf8671e4bbba44e97431153a16606fcdb6749187bdc01898"
       },
       "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/secrets/secrets-overview.md"
     },
@@ -1605,10 +1605,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "a89161d5b089ddde05478862937fbf22912b3af282a17b238a76fc41d92b33f1",
-        "sourceSha256": "6fb9d1da871c84afbb3081305bd72439db8b7044ff5385f0fcf71edc83c2b40a"
+        "sourceSha256": "355eb23a7d01db99b0738e2850828a2b2d576521c2fb763f7351323237ad8615"
       },
       "expected": {
-        "translationStateSha": "6fb9d1da871c84afbb3081305bd72439db8b7044ff5385f0fcf71edc83c2b40a"
+        "translationStateSha": "355eb23a7d01db99b0738e2850828a2b2d576521c2fb763f7351323237ad8615"
       },
       "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/workflow/howto-manage-workflow.md"
     },
@@ -1662,10 +1662,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "073018fef1101084d0824a837b43c743682a112ee3187218e10095aab56270ff",
-        "sourceSha256": "2eb8bc595d03d50c6c6561df7a385560b31859b3dc0e1f8f2502849858b2676d"
+        "sourceSha256": "32b14ed2d6db1f0b84fb8e05685fcfc65aed3091efcb4edf4f4f4aee8f5f6eaf"
       },
       "expected": {
-        "translationStateSha": "2eb8bc595d03d50c6c6561df7a385560b31859b3dc0e1f8f2502849858b2676d"
+        "translationStateSha": "32b14ed2d6db1f0b84fb8e05685fcfc65aed3091efcb4edf4f4f4aee8f5f6eaf"
       },
       "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/workflow/workflow-features-concepts.md"
     },
@@ -1719,10 +1719,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "1358a60fb0505281fd8e256ea213950599438db1ec731e59f96eed0ff19880b5",
-        "sourceSha256": "38cc185088d37b076b577d6a2f411b280c110f5902b1a3b89c3dc33d4cf0eeef"
+        "sourceSha256": "bdd9cee0567bd257bdc80010e4ee336e77ef3d715b73d6eee256c7778c1d0974"
       },
       "expected": {
-        "translationStateSha": "38cc185088d37b076b577d6a2f411b280c110f5902b1a3b89c3dc33d4cf0eeef"
+        "translationStateSha": "bdd9cee0567bd257bdc80010e4ee336e77ef3d715b73d6eee256c7778c1d0974"
       },
       "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/workflow/workflow-overview.md"
     },
@@ -1738,10 +1738,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "61ee3429ea23ee3b4586ec828584e731c61883cf93290bae1bac38e24ef1fb0a",
-        "sourceSha256": "8079f18f37c8133c4a52cb3af6b79ae3832b457a3fc6e1e6c5b0014a73a2ff00"
+        "sourceSha256": "ccacdb5a8aa22217c9d271644562224ac025af46e1004f9585c257ddce2d3006"
       },
       "expected": {
-        "translationStateSha": "8079f18f37c8133c4a52cb3af6b79ae3832b457a3fc6e1e6c5b0014a73a2ff00"
+        "translationStateSha": "ccacdb5a8aa22217c9d271644562224ac025af46e1004f9585c257ddce2d3006"
       },
       "id": "translationStateShaMismatch:docs:developing-applications/building-blocks/workflow/workflow-patterns.md"
     },
@@ -1966,10 +1966,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "56e53231749283e3275d94f94f6e32215aeb01015a0ecbb8e3c6b493bf5667d5",
-        "sourceSha256": "5fc58e67c8573f61f1ce4bf0b50dbb17460d36b469978b5d6020f033bf9de196"
+        "sourceSha256": "c1a9088825fff607297ef1203d2e046667f293a0a0dab71319e79d2bfca9c392"
       },
       "expected": {
-        "translationStateSha": "5fc58e67c8573f61f1ce4bf0b50dbb17460d36b469978b5d6020f033bf9de196"
+        "translationStateSha": "c1a9088825fff607297ef1203d2e046667f293a0a0dab71319e79d2bfca9c392"
       },
       "id": "translationStateShaMismatch:docs:getting-started/quickstarts/bindings-quickstart.md"
     },
@@ -2061,10 +2061,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "0355ab0866fba8cc764d5bf9752a85d8252581fc386989fe34f18a85e28e74d6",
-        "sourceSha256": "c29708e7c3bb44f998e3287ebeac29bcb23eaa34a2fdbb07a9c715103589beab"
+        "sourceSha256": "1e77a50f6ed61d074b6df8adbaa81f9aaf009ab2b77591d6f19f4f41749a6390"
       },
       "expected": {
-        "translationStateSha": "c29708e7c3bb44f998e3287ebeac29bcb23eaa34a2fdbb07a9c715103589beab"
+        "translationStateSha": "1e77a50f6ed61d074b6df8adbaa81f9aaf009ab2b77591d6f19f4f41749a6390"
       },
       "id": "translationStateShaMismatch:docs:getting-started/quickstarts/pubsub-quickstart.md"
     },
@@ -2118,10 +2118,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "324ead76d29eb3d7d633a3a497aef55f8b1b15d9e2192878de6c140759d2341d",
-        "sourceSha256": "19f3e3b426df940ccd0608690de25614fd59a6c3a394482d1ba1e41fb0283b57"
+        "sourceSha256": "3665c7a81fdbd5bc2a502e48936d5fd29f81964234882a13d1cc0d28c71c7d9d"
       },
       "expected": {
-        "translationStateSha": "19f3e3b426df940ccd0608690de25614fd59a6c3a394482d1ba1e41fb0283b57"
+        "translationStateSha": "3665c7a81fdbd5bc2a502e48936d5fd29f81964234882a13d1cc0d28c71c7d9d"
       },
       "id": "translationStateShaMismatch:docs:getting-started/quickstarts/secrets-quickstart.md"
     },
@@ -2175,10 +2175,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "6b425950f6cee353154874f7ec33dd9d62c271c9dbf263fd6fa7c54a6aa92672",
-        "sourceSha256": "75f8cf0468797b3ada2fa77b0b8c6d572e998f580c49fc7a5d0bab5330597684"
+        "sourceSha256": "d8b42b1201c304abe104a5f4cae9dcedcc7c897b3c9426683fc3aad2f144e88f"
       },
       "expected": {
-        "translationStateSha": "75f8cf0468797b3ada2fa77b0b8c6d572e998f580c49fc7a5d0bab5330597684"
+        "translationStateSha": "d8b42b1201c304abe104a5f4cae9dcedcc7c897b3c9426683fc3aad2f144e88f"
       },
       "id": "translationStateShaMismatch:docs:getting-started/quickstarts/workflow-quickstart.md"
     },
@@ -4341,10 +4341,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "c87f7a76cefd1650356ada22737e92a554421b00eeaa22e6cc62fd2a339d681e",
-        "sourceSha256": "c83882744032f511f71bb37fd0959929c726672d5687ccdce15d50cf615ac011"
+        "sourceSha256": "d1dda326711f578f7d8c0a2f77bf63424cb816de5ae33f2b3ced9d22e88bf1fa"
       },
       "expected": {
-        "translationStateSha": "c83882744032f511f71bb37fd0959929c726672d5687ccdce15d50cf615ac011"
+        "translationStateSha": "d1dda326711f578f7d8c0a2f77bf63424cb816de5ae33f2b3ced9d22e88bf1fa"
       },
       "id": "translationStateShaMismatch:sdks_dotnet:dotnet-workflow/dotnet-workflow-examples.md"
     },
@@ -4455,10 +4455,10 @@
       "detail": "宜重译或等待下一次同步后再判定。",
       "observed": {
         "translationStateSha": "e4e36848b5257d1682809fddce592544b2501b4b35fbb6a8175d3b30b1417ff1",
-        "sourceSha256": "734077d550007e72274f8e2217ed0d0ac43334c811e4622d0991077a78566498"
+        "sourceSha256": "e6c9334b2edf58b46231b41f1360c1c9d6720d5af630cb250aeef93952f07e7d"
       },
       "expected": {
-        "translationStateSha": "734077d550007e72274f8e2217ed0d0ac43334c811e4622d0991077a78566498"
+        "translationStateSha": "e6c9334b2edf58b46231b41f1360c1c9d6720d5af630cb250aeef93952f07e7d"
       },
       "id": "translationStateShaMismatch:sdks_go:go-client/_index.md"
     },
