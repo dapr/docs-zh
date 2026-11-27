@@ -8,7 +8,7 @@ aliases:
   - /zh-hans/developing-applications/dapr-agents/dapr-agents-why
 ---
 
-Dapr Agents 是一个面向生产环境的开源框架（v1.0），用于构建和编排基于大型语言模型 (LLM) 的自主代理，它以 Dapr 经过验证的分布式系统基础为支撑。与要求开发者从零开始构建基础设施的其他代理框架不同，Dapr Agents 开箱即用地提供企业级的可扩展性、状态管理和消息传递能力，使团队能够专注于代理的智能。这种方法消除了重新构建分布式系统基础能力的复杂性，同时借助 Dapr 提供可靠的代理 workflow。
+Dapr Agents 是一个面向生产环境的开源框架（v1.0），用于构建和编排基于大型语言模型 (LLM) 的自主代理，它以 Dapr 经过验证的分布式系统基础为支撑。与要求开发者从零开始构建基础设施的其他代理框架不同，Dapr Agents 开箱即用地提供企业级的可扩展性、state management 和消息传递能力，使团队能够专注于代理的智能。这种方法消除了重新构建分布式系统基础能力的复杂性，同时借助 Dapr 提供可靠的代理 workflow。
 
 ### 现有框架的挑战
 
@@ -18,9 +18,9 @@ Dapr Agents 是一个面向生产环境的开源框架（v1.0），用于构建�
 
 ### Dapr Agents 如何解决这些问题
 
-Dapr Agents 采用了一种不同的方法：它基于 Dapr 构建，利用其经过验证的 API 和模式，包括 [workflow]({{% ref workflow-overview.md %}})、[pub/sub 消息]({{% ref pubsub-overview.md %}})、[状态管理]({{% ref state-management-overview %}}) 和 [服务通信]({{% ref service-invocation-overview.md %}})。这种集成消除了从零重新创建基础组件的必要。
+Dapr Agents 采用了一种不同的方法：它基于 Dapr 构建，利用其经过验证的 API 和模式，包括 [workflow]({{% ref workflow-overview.md %}})、[pub/sub 消息]({{% ref pubsub-overview.md %}})、[state management]({{% ref state-management-overview %}}) 和 [服务通信]({{% ref service-invocation-overview.md %}})。这种集成消除了从零重新创建基础组件的必要。
 
-通过与 Dapr 的运行时和模块化 components 集成，Dapr Agents 使开发者能够构建和部署代理，让它们作为更大系统中的协作服务工作。无论是试验单个代理，还是编排涉及多个代理的 workflow，Dapr Agents 都让团队能够专注于由 LLM 驱动的代理的智能与行为，同时借助经过验证的框架实现可扩展性和可靠性。
+通过与 Dapr 的运行时和模块化的 components 集成，Dapr Agents 使开发者能够构建和部署代理，让它们作为更大系统中的协作服务工作。无论是试验单个代理，还是编排涉及多个代理的 workflow，Dapr Agents 都让团队能够专注于由 LLM 驱动的代理的智能与行为，同时借助经过验证的框架实现可扩展性和可靠性。
 
 
 ## 原则
@@ -33,7 +33,7 @@ Dapr Agents 的设计理念是将由 LLM 驱动的代理置于任务执行和工
 * **自适应任务处理**：Dapr Agents 中的代理配备了灵活的模式，如工具调用和推理循环（例如 ReAct），使它们能够自主处理复杂且不断变化的任务。
 * **Multi-Agent Systems**：Dapr Agents 的框架允许代理作为模块化、可复用的 building blocks，无缝集成到 workflow 中，无论它们是独立运行还是协作运行。
 
-虽然 Dapr Agents 以代理为中心，但它也认识到，在确定性 workflow 或更简单的任务序列中直接使用 LLM 同样有其价值。当代理内置的任务处理模式（如 `tool calling` 或 `ReAct` 循环）并非必需时，LLM 可以作为推理和决策的核心组件。这种灵活性确保你可以根据不同需求调整 Dapr Agents，而不局限于单一方法。
+虽然 Dapr Agents 以代理为中心，但它也认识到，在确定性 workflow 或更简单的任务序列中直接使用 LLM 同样有其价值。在代理内置的任务处理模式（如 `tool calling` 或 `ReAct` 循环）并非必需的场景中，LLM 可以作为推理和决策的核心组件。这种灵活性确保你可以根据不同需求调整 Dapr Agents，而不局限于单一方法。
 
 {{% alert title="注意" color="info" %}}
 代理可以独立使用，并在后台创建 workflow，也可以作为确定性 workflow 中的自主步骤使用。
@@ -56,13 +56,15 @@ Dapr Agents 中的 workflow 为构建持久代理系统提供了基础，这些�
 
 Dapr Agents 利用 [Dapr 的 pluggable component 框架]({{% ref components-concept.md %}}) 和 building blocks 来简化开发并增强灵活性：
 
-* **核心功能的 building blocks**：Dapr 提供 API building blocks，如 pub/sub 消息、状态管理、service invocation 等，以应对常见的微服务挑战并推广最佳实践。
+* **核心功能的 building blocks**：Dapr 提供 API building blocks，如 pub/sub 消息、state management、service invocation 等，以应对常见的微服务挑战并推广最佳实践。
 * **可互换的 components**：每个 building block 都运行在可互换的 components 上（例如 Redis、Kafka、Azure CosmosDB），允许你在不修改应用程序代码的情况下替换实现。
 * **无缝转换**：使用默认配置在本地开发，然后只需更新 component 定义，即可轻松部署到云环境。
 
 {{% alert title="注意" color="info" %}}
 开发者可以根据部署环境，在不同的 components 之间轻松切换（例如从 Redis 切换到 DynamoDB，或从 OpenAI 切换到 Anthropic），确保可移植性和适应性。
 {{% /alert %}}
+
+{{< diagram name="components-concept" width="80" >}}
 
 ### 消息驱动的通信
 
@@ -82,7 +84,7 @@ pub/sub 消息是 Dapr Agents 事件驱动 workflow 的主干，使代理能够�
 
 Dapr Agents 确保代理与底层基础设施之间清晰分离，强调简单性、可扩展性和适应性：
 
-* **代理的简单性**：代理只专注于推理和任务执行，而 pub/sub 消息、路由和验证由模块化的基础设施 components 外部管理。
+* **代理的简单性**：代理只专注于推理和任务执行，而 pub/sub 消息、Routing 和验证由模块化的基础设施 components 外部管理。
 * **可扩展且可适应的系统**：通过卸载非代理特定的职责，Dapr Agents 使代理能够独立扩展，并无缝适应新的用例或集成。
 
 {{% alert title="注意" color="info" %}}
@@ -100,11 +102,11 @@ Dapr Agents 使用[持久执行 workflow 引擎]({{% ref workflow-overview.md %}
 
 ### 成本效益的 AI 采用
 
-Dapr Agents 基于 Dapr 的 Workflow API 构建，该 API 将每个代理表示为一个 actor，即一个兼具计算与状态的单元，它是线程安全且原生分布式的。这种设计实现了缩容至零的架构，最大限度地降低基础设施成本，使各种规模的组织都能采用 AI。底层的虚拟 actor 模型允许数千个代理按需在单台机器上运行，并在从零扩容时保持低延迟。代理闲置时会被系统回收，但会保留其状态，直到再次需要。这种设计消除了性能与资源效率之间的权衡。
+Dapr Agents 基于 Dapr 的 Workflow API 构建，该 API 将每个代理表示为一个 actor，即一个兼具计算与状态的单元，它是线程安全且原生分布式的。这种设计实现了缩容至零的架构，最大限度地降低基础设施成本，使各种规模的组织都能采用 AI。底层的 virtual actor 模型允许数千个代理按需在单台机器上运行，并在从零扩容时保持低延迟。代理闲置时会被系统回收，但会保留其状态，直到再次需要。这种设计消除了性能与资源效率之间的权衡。
 
 ### 以数据为中心的 AI 代理
 
-通过内置的对超过 50 个企业数据源的连接，Dapr Agents 能够高效处理结构化和非结构化数据。从基础的 [PDF 提取]({{% ref "/developing-ai/dapr-agents/dapr-agents-integrations.md" %}}) 到大规模数据库交互，它让数据驱动的 AI workflow 只需极少的代码改动即可实现。Dapr 的 [bindings]({{% ref bindings-overview.md %}}) 和 [state stores]({{% ref supported-state-stores.md %}})，以及 MCP 支持，为代理的数据摄取提供了访问众多数据源的能力。
+通过内置的对超过 50 个企业数据源的连接，Dapr Agents 能够高效处理结构化和非结构化数据。从[基础的 PDF 提取到大规模数据库交互]({{% ref integrations %}})，它让数据驱动的 AI workflow 只需极少的代码改动即可实现。Dapr 的 [bindings]({{% ref bindings-overview.md %}}) 和 [state stores]({{% ref supported-state-stores.md %}})，以及 MCP 支持，为代理的数据摄取提供了访问众多数据源的能力。
 
 ### 加速开发
 
@@ -125,7 +127,7 @@ Dapr Agents 提供 AI 功能，为开发者提供完整的 API 表面来解决�
 ### 内置的消息传递和状态基础设施
 
 - **Service-to-Service Invocation**：通过内置的服务发现、错误处理和分布式追踪，实现代理之间的直接通信。代理可以在多代理 workflow 中将其用于同步消息传递。
-- **发布和订阅**：通过共享 message bus 支持代理之间的松散耦合协作。这实现了用于任务分发和协调的实时、事件驱动交互。
+- **发布和订阅**：通过共享的 message bus 支持代理之间的松散耦合协作。这实现了用于任务分发和协调的实时、事件驱动交互。
 - **Durable Workflow**：定义长时间运行的持久 workflow，将确定性流程与基于 LLM 的决策相结合。Dapr Agents 使用它来编排复杂的多步骤代理式 workflow。
 - **State Management**：提供灵活的键值存储，使代理能够在多次交互之间保留上下文，确保 workflow 过程中的连续性与适应性。
 - **LLM 集成**：使用 Dapr [Conversation API]({{% ref conversation-overview.md %}}) 抽象 LLM 推理 API，以实现聊天补全，并为嵌入向量和音频处理等其他 LLM 集成提供原生客户端。
