@@ -165,7 +165,7 @@ start().catch((e) => {
 {{% tab ".NET" %}}
 
 ```csharp
-// 能够经受长时间中断的指数退避重试策略
+// 能够经受长时间中断的指数退避 retry policy
 var retryOptions = new WorkflowTaskOptions
 {
     RetryPolicy = new WorkflowRetryPolicy(
@@ -1632,6 +1632,8 @@ compensation pattern 确保分布式 workflow 能够保持一致性，并从故�
 ## 后续步骤
 
 {{< button text="workflow 架构 >>" page="workflow-architecture.md" >}}
+
+{{< dapr-university-track track="dapr-workflow" position="end" >}}
 
 ## 相关链接
 

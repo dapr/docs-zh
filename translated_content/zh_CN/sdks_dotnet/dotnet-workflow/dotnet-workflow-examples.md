@@ -18,4 +18,4 @@ GitHub 上的 Dapr .NET SDK 仓库包含多个示例，演示如何将 Dapr Work
 
 ## 后续步骤
 
-- [试用 Dapr University workflow 课程](https://www.diagrid.io/dapr-university#dapr-workflow)
+{{< dapr-university-track track="dapr-workflow" position="end" >}}

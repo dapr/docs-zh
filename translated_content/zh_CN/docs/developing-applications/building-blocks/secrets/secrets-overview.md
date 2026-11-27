@@ -72,6 +72,8 @@ Secrets Management API building block 为你的应用程序带来了多项功能
 
 ## 试用 Secrets Management
 
+{{< dapr-university-track track="dapr-secrets" position="middle" >}}
+
 ### Quickstart 和教程
 
 想测试 Dapr Secrets Management API？请参阅以下 Quickstart 和教程，了解 Dapr secrets 的实际应用：

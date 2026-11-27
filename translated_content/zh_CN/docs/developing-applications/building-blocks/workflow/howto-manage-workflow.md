@@ -117,6 +117,8 @@ dapr workflow rerun order-12345 --event-id 5
 dapr workflow rerun order-12345 --new-instance-id order-12345-retry
 ```
 
+重运行会基于一个已结束 workflow 的历史记录，创建一个**新的** workflow instance，源实例保持不变。并非每个 workflow 或 history event 都可以重运行：使用前请先参阅 [重运行限制]({{% ref "workflow-features-concepts.md#rerun-limitations" %}})，以及 [重运行 workflow]({{% ref "workflow-features-concepts.md#rerunning-workflows" %}})，了解哪些内容会被重放、哪些会再次执行。
+
 #### Purge 已完成的 workflow
 
 请注意，从 CLI purging workflow 也会删除所有关联的 Scheduler reminder。

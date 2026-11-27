@@ -269,6 +269,23 @@ workflow 在每个轮次都会从其历史记录重放，而该历史只会不�
 
 了解更多关于 [stateful workflow client]({{< ref workflow-stateful-client.md >}}) 的信息。
 
+## 重新运行 workflow
+
+重新运行 workflow 会基于某个已结束实例的一个历史事件，创建一个**新的** workflow 实例。源实例保持不变。你可以借此从失败的步骤重试失败的 workflow，并可选择提供新的输入，无需重复已经成功的工作。
+
+在目标事件之前已完成（已完成或失败）并记录在历史中的工作，会从历史中重放，不会再次执行。其余部分都会在新实例中重新执行：仍在执行中的 activity、尚未触发的 timer，以及尚未结束的 child workflow。在并行运行 activity 的 workflow 中，这还包括一种情况：某个 activity 已经成功，但其完成记录位于目标事件*之后*，因此扇出可能会重新运行得比你预期的更多。被再次执行的 child workflow 会获得新的实例 ID。重新运行并不等同于补偿：源实例的副作用依然存在，因此应使 activity 具备幂等性。
+
+### 重新运行的限制
+
+- 源实例必须处于终态（`COMPLETED`、`FAILED` 或 `TERMINATED`）。正在运行的实例无法重新运行。
+- 源实例不能是 child workflow。请改为重新运行父 workflow。
+- 只能从三种事件类型重新运行：activity 被调度（`TaskScheduled`）、timer 被创建（`TimerCreated`），以及 child workflow 被创建（`ChildWorkflowInstanceCreated`）。其他任何事件都会被拒绝，包括 [detached workflow]({{% ref workflow-detached.md %}}) 的创建。
+- 事件 ID 是 workflow 历史中所示的事件自身 ID，而不是它在事件列表中的位置。
+- 新输入只会替换目标事件的输入，且不能用于 timer 事件。新的 child workflow 实例 ID 只能用于 child workflow 事件。
+- 若提供了新的实例 ID，它必须不同于源实例 ID，并且不能属于已有状态的实例。若省略，运行时会自动生成一个。
+
+通过 [Dapr CLI]({{% ref "howto-manage-workflow.md#re-run-workflows" %}}) 和 SDK 的 workflow 客户端可以重新运行 workflow，但不能通过 HTTP API 进行。它还可以[以其他应用所拥有的 workflow 为目标]({{% ref workflow-multi-app.md %}})。
+
 ## Purging
 
 可以从 state store 中 purge workflow 状态，purge 其全部历史记录，并移除与特定 workflow instance 相关的所有 metadata。purge 能力适用于已运行至 `COMPLETED`、`FAILED` 或 `TERMINATED` 状态的 workflow。

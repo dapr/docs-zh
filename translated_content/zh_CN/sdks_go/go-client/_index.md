@@ -228,7 +228,7 @@ for _, event := range hist.Events {
 
 `RerunWorkflowFromEvent` 从某个 history event 开始，将一个已完成的 workflow 重新运行（“回退”）到一个**新**实例中。源实例保持不变。
 
-在目标事件之前已完成并记录的工作会从历史记录中重放，而不会再次执行。目标事件之前的其他内容会在新实例中**重新执行**：仍在进行中的 activity、尚未触发的 timer，以及尚未完成的 child workflow。注意，在并行 workflow 中，这还包括那些已成功、但完成记录位于目标事件**之后**的 activity——因此扇出的重新运行范围可能比你预期的更大。如果你的 activity 不是幂等的，请为重新执行做好规划。
+在目标事件之前尚未完成的 activity 会在新实例中再次执行。关于哪些内容会被重放、哪些会被重新执行，以及适用于每次重新运行的限制，请参阅 [重新运行 workflow]({{% ref "workflow-features-concepts.md#rerunning-workflows" %}})。
 
 ```go
 newID, err := client.RerunWorkflowFromEvent(ctx, id, eventID,
@@ -246,15 +246,13 @@ if err != nil {
 fmt.Println(metadata.String())
 ```
 
-需要了解的几点：
+Go 相关说明：
 
-- 源实例必须处于终止状态。对正在运行的实例重新运行会以 `InvalidArgument` 失败。
-- 源实例本身不能是 child workflow，否则同样会以 `InvalidArgument` 失败。
-- 只有三种事件类型可以重新运行：`TaskScheduled`（已调度的 activity）、`TimerCreated` 和 `ChildWorkflowInstanceCreated`。其他任何事件都会以 `NotFound` 被拒绝。
-- `eventID` 是事件自身的 ID，而不是它在历史切片中的索引。
-- `WithRerunInput` 仅替换目标事件的输入，用于 timer 事件时无效。
-- `WithRerunNewChildInstanceID` 仅对 child workflow 事件有效。
-- 如果省略 `WithRerunNewInstanceID`，运行时会生成一个新的实例 ID。如果提供了该参数，它必须与源 ID 不同，且不能已有状态，否则调用会以 `InvalidArgument` 或 `AlreadyExists` 失败。
+- `eventID` 是 `uint32` 类型，表示事件自身的 ID，而不是它在历史切片中的索引。
+- `WithRerunInput` 替换目标事件的输入。
+- `WithRerunNewChildInstanceID` 设置重新运行出的 child workflow 的实例 ID。
+- `WithRerunNewInstanceID` 设置新的实例 ID。若省略，运行时会自动生成一个。
+- 违反任一[重新运行限制]({{% ref "workflow-features-concepts.md#rerun-limitations" %}})的请求会失败，返回 `InvalidArgument`、`NotFound`（源实例或事件不存在，或该事件类型不能被重新运行），或 `AlreadyExists`（新实例 ID 已被占用）。
 
 - 如需更全面地了解 workflow，请访问以下 How-To 指南：
   - [如何：编写 workflow]({{% ref howto-author-workflow.md %}})。

@@ -131,6 +131,8 @@ workflow 逻辑存在于你的应用程序中，并由 Dapr sidecar 中运行的
 
 ## 试用 workflow
 
+{{< dapr-university-track track="dapr-workflow" position="middle" >}}
+
 ### Quickstart 和教程
 
 想测试 workflow 吗？请完成以下 Quickstart 和教程，了解 workflow 的实际应用：

@@ -584,4 +584,6 @@ Order-processor 输出：
   - [Go](https://github.com/dapr/quickstarts/tree/master/secrets_management/go/http)
 - 了解有关 [Secrets Management building block]({{% ref secrets-overview %}}) 的更多信息
 
+{{< dapr-university-track track="dapr-secrets" position="end" >}}
+
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

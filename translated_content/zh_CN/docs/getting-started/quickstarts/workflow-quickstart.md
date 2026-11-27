@@ -1999,6 +1999,6 @@ dapr workflow purge --app-id order-processor --all
 - 使用 [HTTP 代替 SDK]({{% ref howto-manage-workflow.md %}})，通过任何编程语言设置 Dapr Workflow
 - 学习更深入的 [.NET SDK 示例 workflow](https://github.com/dapr/dotnet-sdk/tree/master/examples/Workflow)
 - 了解更多关于 [workflow 作为 Dapr building block]({{% ref workflow-overview %}}) 的内容
-```
+{{< dapr-university-track track="dapr-workflow" position="end" >}}
 
 {{< button text="Explore the workflow tutorials  >>" link="https://github.com/dapr/quickstarts/tree/master/tutorials/workflow" >}}

@@ -1093,4 +1093,6 @@ spec:
   - [Go](https://github.com/dapr/quickstarts/tree/master/bindings/go/http)
 - 了解更多关于 [Binding building block]({{% ref bindings %}}) 的信息
 
+{{< dapr-university-track track="dapr-bindings" position="end" >}}
+
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

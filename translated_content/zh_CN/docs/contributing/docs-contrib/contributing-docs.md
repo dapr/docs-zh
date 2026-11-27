@@ -364,6 +364,23 @@ shortcode 如下：
 {{% button text="My Button" link="https://example.com" color="warning" %}}
 {{% button text="My Button" link="https://example.com" color="info" %}}
 
+### Dapr University 课程卡片
+
+要将读者引导至与本页主题相关的免费、动手实践型 [Dapr University](https://www.diagrid.io/university?utm_source=dapr-docs&utm_medium=referral&utm_campaign=dapr-university&utm_content=contributing-docs) 课程（track），请使用 `dapr-university-track` shortcode。它会渲染一张卡片，包含简短介绍、课程标题和描述，以及一个指向课程页面的按钮。
+
+```
+{{</* dapr-university-track track="dapr-pubsub" position="middle" */>}}
+```
+
+- `track`（必填）：要推广的课程。请使用 `daprdocs/data/dapr_university.yaml` 中的某个键，例如 `dapr-pubsub`、`dapr-secrets` 或 `dapr-bindings`。
+- `position`（可选）：卡片在页面中的位置，可选值为 `intro`（介绍之后）、`middle` 或 `end`。默认值为 `end`。无论位于哪个位置，卡片的外观都相同。该值会写入链接的 `utm_content`，以便我们了解读者在哪个位置点击了卡片。
+
+如果 `track` 不在数据文件中，或 `position` 不是上述三个值之一，构建就会失败。
+
+请将 shortcode 单独放在一行，前后各留一个空行，且不要放在列表中。每个页面最多使用一张卡片。
+
+要添加课程，请在 `daprdocs/data/dapr_university.yaml` 中新增一个条目，包含 `topic`、`title`、`description` 和 `url`。`topic` 是文档中使用的 building block 名称，需要小写，因为卡片上显示的文字为 "Learn {topic} hands-on."。
+
 ### 参考资料
 
 [Docsy 编写指南](https://www.docsy.dev/docs/adding-content/)

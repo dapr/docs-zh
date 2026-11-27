@@ -161,6 +161,8 @@ Dapr 支持在单个请求中发送和接收多条消息。在编写需要发送
 
 ## 尝试 pub/sub
 
+{{< dapr-university-track track="dapr-pubsub" position="middle" >}}
+
 ### Quickstart 和教程
 
 想测试 Dapr pub/sub API 吗？请完成以下 Quickstart 和教程，了解 pub/sub 的实际应用：

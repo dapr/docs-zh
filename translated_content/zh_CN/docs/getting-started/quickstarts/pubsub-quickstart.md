@@ -1641,4 +1641,6 @@ Quickstart 运行期间，你可以使用 [Dapr Dev Dashboard]({{% ref dapr-dev-
   - [Go](https://github.com/dapr/quickstarts/tree/master/pub_sub/go/http)
 - 了解更多关于作为 Dapr building block 的[pub/sub]({{% ref pubsub-overview %}})的信息
 
+{{< dapr-university-track track="dapr-pubsub" position="end" >}}
+
 {{< button text="探索 Dapr 教程  >>" page="getting-started/tutorials/_index.md" >}}

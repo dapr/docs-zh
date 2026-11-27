@@ -91,6 +91,8 @@ Bindings 独立于 Dapr runtime 开发。你可以[查看并贡献 bindings](htt
 
 ## 尝试 bindings
 
+{{< dapr-university-track track="dapr-bindings" position="middle" >}}
+
 ### Quickstarts 和教程
 
 想要测试 Dapr bindings API？通过以下 Quickstarts 和教程，了解 bindings 的实际运行方式：
