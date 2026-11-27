@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "locale": "zh-CN",
-  "updatedAt": "2026-11-27T00:28:14.397Z",
-  "lastRun": "20261127-0010",
-  "sourceRevision": "7d47c0d99a285bf35340beb7c7c45cba95504cf9",
+  "updatedAt": "2026-11-27T00:31:33.630Z",
+  "lastRun": "20261127-0029",
+  "sourceRevision": "5d08bd4e4483844541c9b9ce5edc7dbce2a7b768",
   "glossaryVersion": 365,
   "glossarySha256": "122993e215c875b14b554e0906049ca289e0784e54b302fe2870ffdd00fb815c",
   "docs": {
@@ -19867,21 +19867,15 @@
     "docs/developing-ai/dapr-agents/dapr-agents-why.md": {
       "status": "done_flagged",
       "sourceSha256": "a9bb41e9934874ec90809f6c9a423a7f7dc3f57f2214ce2df3dd16b5184274fa",
-      "sourceRevision": "7d47c0d99a285bf35340beb7c7c45cba95504cf9",
+      "sourceRevision": "5d08bd4e4483844541c9b9ce5edc7dbce2a7b768",
       "translationPath": "translated_content/zh_CN/docs/developing-ai/dapr-agents/dapr-agents-why.md",
       "translationSha256": "90d52692504c77194f225f074e79922403e8f94eaa39effa674d54acbbe18e95",
-      "glossaryVersion": 364,
+      "glossaryVersion": 365,
       "attempts": 1,
-      "runId": "20261127-0010",
-      "doneAt": "2026-11-27T00:28:14.361Z",
+      "runId": "20261127-0029",
+      "doneAt": "2026-11-27T00:31:33.630Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: agent 软校验 54/70：源文计入 32 处产品名 Dapr Agents（保留英文），其余 53 处普通 agent 已全部译作代理，属自然省略",
-        "glossary: Conversation 仅出现于 Conversation API（doNotTranslate，保留英文），属自然省略",
-        "glossary: LLM 首次写作“大型语言模型 (LLM)”，其余按术语表写 LLM，属自然省略",
-        "glossary: scope 此处为普通词“访问范围”，并非 MCPServer scopes 字段，属自然省略",
-        "source: 源文 Event-Driven Workflows 段落冒号重复（“: :”），译文按原意去掉重复冒号",
-        "ref: 源文 integrations 引用已改为 {{% ref integrations %}}，译文按新写法；旧译文的 /developing-ai/dapr-agents/dapr-agents-integrations.md 引用已移除",
         "glossary: preferred rendering used fewer times than the term occurs in the source: agent → 代理 (source ×70, translation ×54); Conve"
       ],
       "note": "requeued: v1.19 build: stale ref to dapr-agents-integrations.md; retranslate against current source",
@@ -19910,7 +19904,10 @@
         "tool-calling": "工具调用"
       },
       "retries": 0,
-      "seconds": 37
+      "seconds": 0,
+      "reviewedTerms": {
+        "agent-orchestration": "代理编排"
+      }
     },
     "docs/developing-applications/building-blocks/actors/actors-runtime-config.md": {
       "status": "done_flagged",
