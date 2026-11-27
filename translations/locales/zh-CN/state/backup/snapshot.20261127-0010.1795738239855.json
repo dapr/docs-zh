@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "locale": "zh-CN",
-  "updatedAt": "2026-11-26T23:53:12.962Z",
-  "lastRun": "20261126-2345",
+  "updatedAt": "2026-11-27T00:10:34.832Z",
+  "lastRun": "prune-20261127-0010",
   "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
   "glossaryVersion": 364,
   "glossarySha256": "0b7db79a81b8ba84b536bdfa197b632de53468c05d5281615a1ffd3b7a2329da",
@@ -612,12 +612,12 @@
       "glossaryVersion": 364,
       "attempts": 1,
       "runId": "20261126-2345",
-      "doneAt": "2026-11-26T23:53:11.941Z",
+      "doneAt": "2026-11-26T23:56:18.219Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: audience → 受众 (source ×1, translation ×0); pre-existing in unchanged text (table row 'Assume a \"new developer\" audience'), not touched by this incremental run",
-        "glossary: hit → 命中 (source ×1, translation ×0); pre-existing in unchanged text ('traps already hit'), not touched by this incremental run",
-        "glossary: topic → topic (source ×4, translation ×3); the new section renders the ordinary word 'topic of the page' as 主题, the code-span `topic` is kept",
+        "glossary: audience → 受众 (source ×1, translation ×0); 源文为普通词义 'new developer audience'，非术语，既有提示",
+        "glossary: hit → 命中 (source ×1, translation ×0); 源文为普通词义 'traps already hit'，非术语，既有提示",
+        "glossary: topic → topic (source ×4, translation ×3); 第 4 处为「本页主题」，已按普通词义保留，见 keptTerms",
         "glossary: preferred rendering used fewer times than the term occurs in the source: audience → 受众 (source ×1, translation ×0); hit "
       ],
       "note": "requeued: v1.19 DNT 保留英文,机械替换文档整篇重译",
@@ -631,7 +631,10 @@
         "vector": "向量"
       },
       "retries": 0,
-      "seconds": 150
+      "seconds": 0,
+      "reviewedTerms": {
+        "topic": "主题"
+      }
     },
     "docs/contributing/docs-contrib/docs-templates/_index.md": {
       "status": "done",
@@ -2144,11 +2147,14 @@
       "glossaryVersion": 364,
       "attempts": 1,
       "runId": "20261126-2345",
-      "doneAt": "2026-11-26T23:53:11.097Z",
+      "doneAt": "2026-11-26T23:56:17.881Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: Dashboard → Dashboard（源 ×2，译文 ×1）、Routing → Routing（源 ×5，译文 ×4）、topic → topic（源 ×26，译文 ×23）；均为既有译文中未变动部分，增量模式未改动，待主控复核",
-        "cross-doc-anchor: pubsub_api#provide-routes-for-dapr-to-deliver-topic-events 为既有译文原样保留",
+        "review: routing 已统一为 Routing（第 55、94、96、100 行），但源文中 route / routes（非 routing 术语）仍译为「路由」（第 83、96、181 行），请主控确认是否统一",
+        "review: dashboard 源文第 182 行指 Dapr Dev Dashboard 中的 dashboard，译文第 181 行写作「仪表板」，术语表首选为 Dashboard（保留英文），请主控确认",
+        "glossary: Dashboard → Dashboard (source ×2, translation ×1); 既有提示，即上一条 dashboard 的译法问题",
+        "glossary: Routing → Routing (source ×5, translation ×4); 差 1 处为 content-based routing，按术语表译为「基于内容的路由」，属正常",
+        "glossary: topic → topic (source ×26, translation ×23); 差 3 处为 dead letter topic(s)，按术语表译为「死信主题」，属正常",
         "glossary: preferred rendering used fewer times than the term occurs in the source: Dashboard → Dashboard (source ×2, translation ×"
       ],
       "note": "requeued: v1.19 DNT 保留英文,0133 机械替换文档整篇重译",
@@ -2177,7 +2183,11 @@
         "topic": "topic"
       },
       "retries": 0,
-      "seconds": 109
+      "seconds": 0,
+      "reviewedTerms": {
+        "routing": "路由",
+        "topic": "主题"
+      }
     },
     "docs/developing-applications/building-blocks/pubsub/pubsub-raw.md": {
       "status": "done_flagged",
@@ -5614,21 +5624,6 @@
         "hosting-platform": "托管平台",
         "handler": "处理程序"
       }
-    },
-    "docs/operations/resiliency/policies.md": {
-      "status": "blocked",
-      "adopted": true,
-      "sourceSha256": "unknown:requeued",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
-      "translationPath": "translated_content/zh_CN/docs/operations/resiliency/policies.md",
-      "translationSha256": "ca918be85c3e3ce9ec50cac7a29bdb5350d3366c43d8bc9298c1cc37e1618c07",
-      "glossaryVersion": null,
-      "attempts": 3,
-      "runId": "20261117-1256",
-      "doneAt": "2026-11-14T19:34:01.077Z",
-      "reviewedAt": null,
-      "flags": [],
-      "note": "upstream source empty: dapr/docs v1.19 e55f735ec clears daprdocs/content/en/operations/resiliency/policies.md (0 B at HEAD and at v1.17 HEAD); nothing to translate; leaked translation deleted. Needs a human decision (exclude in profile or confirm upstream)"
     },
     "docs/operations/resiliency/policies/_index.md": {
       "status": "done",
@@ -20223,19 +20218,20 @@
       "sourceSha256": "ccacdb5a8aa22217c9d271644562224ac025af46e1004f9585c257ddce2d3006",
       "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/workflow-patterns.md",
-      "translationSha256": "6cde1d806ca3f9c61b4338f41f1a4f4245b0e13c987109f09519152d730759d5",
-      "glossaryVersion": 363,
+      "translationSha256": "5cb66d097e0594b4be4eab5b02d9ad3b8bbe96db369facc6f31771c20dc9f253",
+      "glossaryVersion": 364,
       "attempts": 1,
       "runId": "20261126-2345",
-      "doneAt": "2026-11-26T23:49:29.882Z",
+      "doneAt": "2026-11-26T23:53:13.110Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: span → 跨度 (source ×2, translation ×0); task chaining → task chaining (source ×5, translation ×3); 均为既有译文状态, 非本次变更引入",
-        "incremental: 仅在“后续步骤”末尾插入 {{< dapr-university-track track=\"dapr-workflow\" position=\"end\" >}} 短代码, 其余沿用旧译文; output.draft 未经 assemble 拼装(增量只改末段, 直接写草稿), 结构检查已通过",
+        "review: line 168 is a comment inside a C# fenced block; changed 重试策略 to retry policy because fenceComments is translate and it is the only prose rendering of the drift term; the terms-only steps skip code blocks when locating occurrences, so confirm this is wanted",
+        "glossary (soft, pre-existing, not changed): task chaining count differs (source ×5, translation ×3); task chaining stays English as the glossary requires",
+        "glossary (soft, false positive): span → 跨度 flagged because source line 1429 uses span as a verb (span multiple microservices), not the trace term",
         "glossary: preferred rendering used fewer times than the term occurs in the source: span → 跨度 (source ×2, translation ×0); task cha"
       ],
       "note": "adopted as stale: the translation predates the current source; kept as a reference for retranslation",
-      "model": "haiku",
+      "model": "claude-haiku-5-5",
       "termTargets": {
         "actors": "Actor",
         "compensation-pattern": "compensation pattern",
@@ -20256,7 +20252,10 @@
         "worker": "工作进程"
       },
       "retries": 0,
-      "seconds": 21
+      "seconds": 60,
+      "reviewedTerms": {
+        "retry-policy": "重试策略"
+      }
     },
     "docs/operations/components/component-secrets.md": {
       "status": "done_flagged",

@@ -14,7 +14,7 @@ sources:
   glob:                                    # built-in discovery; replace with `discovery: {cwd, command}` for upstream/vendored sources
     root: "data/source"
     include: ["**/*.md"]
-    exclude: []
+    exclude: ["docs/operations/resiliency/policies.md"]   # upstream file is 0 bytes since e55f735ec (dapr/docs#5512); excluded by the maintainer
 
 output:
   template: "translated_content/zh_CN/{doc}"      # {locale}, {dir} (locales.<L>.dir or the code), {doc}; relative to the repo

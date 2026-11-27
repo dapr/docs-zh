@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "version": 364,
-  "updatedAt": "2026-11-26T23:49:54.129Z",
+  "version": 365,
+  "updatedAt": "2026-11-27T00:28:14.384Z",
   "doNotTranslate": [
     {
       "term": "Dapr",
@@ -2731,6 +2731,30 @@
       "term": "wire contract",
       "note": "reverted: 用户决定:不确定的术语保留英文原文",
       "origin": "human",
+      "locked": false
+    },
+    {
+      "term": "Durable Workflow",
+      "note": "Dapr Workflow 构建块的名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "Azure CosmosDB",
+      "note": "产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "DynamoDB",
+      "note": "产品名称，保留英文。",
+      "origin": "auto",
+      "locked": false
+    },
+    {
+      "term": "ReAct",
+      "note": "推理与行动模式名称，保留英文。",
+      "origin": "auto",
       "locked": false
     }
   ],

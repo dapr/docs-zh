@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "locale": "zh-CN",
-  "updatedAt": "2026-11-26T23:53:12.078Z",
+  "updatedAt": "2026-11-26T23:56:18.219Z",
   "lastRun": "20261126-2345",
   "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
   "glossaryVersion": 364,
@@ -612,12 +612,12 @@
       "glossaryVersion": 364,
       "attempts": 1,
       "runId": "20261126-2345",
-      "doneAt": "2026-11-26T23:53:11.941Z",
+      "doneAt": "2026-11-26T23:56:18.219Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: audience → 受众 (source ×1, translation ×0); pre-existing in unchanged text (table row 'Assume a \"new developer\" audience'), not touched by this incremental run",
-        "glossary: hit → 命中 (source ×1, translation ×0); pre-existing in unchanged text ('traps already hit'), not touched by this incremental run",
-        "glossary: topic → topic (source ×4, translation ×3); the new section renders the ordinary word 'topic of the page' as 主题, the code-span `topic` is kept",
+        "glossary: audience → 受众 (source ×1, translation ×0); 源文为普通词义 'new developer audience'，非术语，既有提示",
+        "glossary: hit → 命中 (source ×1, translation ×0); 源文为普通词义 'traps already hit'，非术语，既有提示",
+        "glossary: topic → topic (source ×4, translation ×3); 第 4 处为「本页主题」，已按普通词义保留，见 keptTerms",
         "glossary: preferred rendering used fewer times than the term occurs in the source: audience → 受众 (source ×1, translation ×0); hit "
       ],
       "note": "requeued: v1.19 DNT 保留英文,机械替换文档整篇重译",
@@ -631,7 +631,10 @@
         "vector": "向量"
       },
       "retries": 0,
-      "seconds": 150
+      "seconds": 0,
+      "reviewedTerms": {
+        "topic": "主题"
+      }
     },
     "docs/contributing/docs-contrib/docs-templates/_index.md": {
       "status": "done",
@@ -2144,11 +2147,14 @@
       "glossaryVersion": 364,
       "attempts": 1,
       "runId": "20261126-2345",
-      "doneAt": "2026-11-26T23:53:11.097Z",
+      "doneAt": "2026-11-26T23:56:17.881Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: Dashboard → Dashboard（源 ×2，译文 ×1）、Routing → Routing（源 ×5，译文 ×4）、topic → topic（源 ×26，译文 ×23）；均为既有译文中未变动部分，增量模式未改动，待主控复核",
-        "cross-doc-anchor: pubsub_api#provide-routes-for-dapr-to-deliver-topic-events 为既有译文原样保留",
+        "review: routing 已统一为 Routing（第 55、94、96、100 行），但源文中 route / routes（非 routing 术语）仍译为「路由」（第 83、96、181 行），请主控确认是否统一",
+        "review: dashboard 源文第 182 行指 Dapr Dev Dashboard 中的 dashboard，译文第 181 行写作「仪表板」，术语表首选为 Dashboard（保留英文），请主控确认",
+        "glossary: Dashboard → Dashboard (source ×2, translation ×1); 既有提示，即上一条 dashboard 的译法问题",
+        "glossary: Routing → Routing (source ×5, translation ×4); 差 1 处为 content-based routing，按术语表译为「基于内容的路由」，属正常",
+        "glossary: topic → topic (source ×26, translation ×23); 差 3 处为 dead letter topic(s)，按术语表译为「死信主题」，属正常",
         "glossary: preferred rendering used fewer times than the term occurs in the source: Dashboard → Dashboard (source ×2, translation ×"
       ],
       "note": "requeued: v1.19 DNT 保留英文,0133 机械替换文档整篇重译",
@@ -2177,7 +2183,11 @@
         "topic": "topic"
       },
       "retries": 0,
-      "seconds": 109
+      "seconds": 0,
+      "reviewedTerms": {
+        "routing": "路由",
+        "topic": "主题"
+      }
     },
     "docs/developing-applications/building-blocks/pubsub/pubsub-raw.md": {
       "status": "done_flagged",
@@ -11630,20 +11640,22 @@
     },
     "sdks_go/go-client/_index.md": {
       "status": "done_flagged",
-      "sourceSha256": "734077d550007e72274f8e2217ed0d0ac43334c811e4622d0991077a78566498",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceSha256": "e6c9334b2edf58b46231b41f1360c1c9d6720d5af630cb250aeef93952f07e7d",
+      "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/sdks_go/go-client/_index.md",
-      "translationSha256": "fd7535cb857b84daff081a89aa1e14b5a5e3a842536700d4fba8abb7eca612f4",
-      "glossaryVersion": 363,
+      "translationSha256": "9c1798bb857122be0ae8ab06a0e5ffc1f6845da8213bd1fbce12b83ccd9fcfed",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-1818",
-      "doneAt": "2026-11-17T18:35:03.445Z",
+      "runId": "20261126-2345",
+      "doneAt": "2026-11-26T23:53:12.962Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: preferred rendering used fewer times than the term occurs in the source: error model → 错误模型 (source ×1, translation ×0);"
+        "cross-doc-anchor: the rerun links [重新运行 workflow] and [重新运行限制] point to workflow-features-concepts.md#rerunning-workflows and #rerun-limitations; fragments kept as in the source, not checked against the Chinese target document",
+        "glossary (soft, term-table conflict): error model → 错误模型 is flagged because the source sentence 'gRPC's richer error model' is in the doNotTranslate list as Richer Error Model; the translation keeps 'Richer Error Model' as the previous translation did, so the term table needs a ruling",
+        "glossary: preferred rendering used fewer times than the term occurs in the source: error model → 错误模型 (source ×1, translation ×0)"
       ],
       "note": "requeued: v1.19 DNT 保留英文,0133 机械替换文档整篇重译",
-      "model": "haiku",
+      "model": "claude-haiku-5-5",
       "termTargets": {
         "actors": "Actor",
         "app-initiated-stream": "应用发起的流",
@@ -11655,17 +11667,14 @@
         "endpoint": "端点",
         "error-model": "错误模型",
         "failure-policy": "失败策略",
-        "fan-out": "扇出",
-        "idempotent": "幂等",
         "instance-id": "实例 ID",
         "lock": "锁",
         "pub-sub": "pub/sub",
-        "terminal-state": "终态",
+        "rerun": "重新运行",
         "topic": "topic"
       },
-      "reviewedTerms": {
-        "topic": "主题"
-      }
+      "retries": 0,
+      "seconds": 90
     },
     "sdks_go/go-service/_index.md": {
       "status": "done",
@@ -20224,19 +20233,20 @@
       "sourceSha256": "ccacdb5a8aa22217c9d271644562224ac025af46e1004f9585c257ddce2d3006",
       "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
       "translationPath": "translated_content/zh_CN/docs/developing-applications/building-blocks/workflow/workflow-patterns.md",
-      "translationSha256": "6cde1d806ca3f9c61b4338f41f1a4f4245b0e13c987109f09519152d730759d5",
-      "glossaryVersion": 363,
+      "translationSha256": "5cb66d097e0594b4be4eab5b02d9ad3b8bbe96db369facc6f31771c20dc9f253",
+      "glossaryVersion": 364,
       "attempts": 1,
       "runId": "20261126-2345",
-      "doneAt": "2026-11-26T23:49:29.882Z",
+      "doneAt": "2026-11-26T23:53:13.110Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: span → 跨度 (source ×2, translation ×0); task chaining → task chaining (source ×5, translation ×3); 均为既有译文状态, 非本次变更引入",
-        "incremental: 仅在“后续步骤”末尾插入 {{< dapr-university-track track=\"dapr-workflow\" position=\"end\" >}} 短代码, 其余沿用旧译文; output.draft 未经 assemble 拼装(增量只改末段, 直接写草稿), 结构检查已通过",
+        "review: line 168 is a comment inside a C# fenced block; changed 重试策略 to retry policy because fenceComments is translate and it is the only prose rendering of the drift term; the terms-only steps skip code blocks when locating occurrences, so confirm this is wanted",
+        "glossary (soft, pre-existing, not changed): task chaining count differs (source ×5, translation ×3); task chaining stays English as the glossary requires",
+        "glossary (soft, false positive): span → 跨度 flagged because source line 1429 uses span as a verb (span multiple microservices), not the trace term",
         "glossary: preferred rendering used fewer times than the term occurs in the source: span → 跨度 (source ×2, translation ×0); task cha"
       ],
       "note": "adopted as stale: the translation predates the current source; kept as a reference for retranslation",
-      "model": "haiku",
+      "model": "claude-haiku-5-5",
       "termTargets": {
         "actors": "Actor",
         "compensation-pattern": "compensation pattern",
@@ -20257,7 +20267,10 @@
         "worker": "工作进程"
       },
       "retries": 0,
-      "seconds": 21
+      "seconds": 60,
+      "reviewedTerms": {
+        "retry-policy": "重试策略"
+      }
     },
     "docs/operations/components/component-secrets.md": {
       "status": "done_flagged",

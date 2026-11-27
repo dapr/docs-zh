@@ -1,9 +1,9 @@
 {
   "schema": 1,
   "locale": "zh-CN",
-  "updatedAt": "2026-11-26T23:53:13.110Z",
-  "lastRun": "20261126-2345",
-  "sourceRevision": "7bd95b21f90c782ff33b1563b8e19a0f802f61b3",
+  "updatedAt": "2026-11-27T00:28:14.361Z",
+  "lastRun": "20261127-0010",
+  "sourceRevision": "7d47c0d99a285bf35340beb7c7c45cba95504cf9",
   "glossaryVersion": 364,
   "glossarySha256": "0b7db79a81b8ba84b536bdfa197b632de53468c05d5281615a1ffd3b7a2329da",
   "docs": {
@@ -612,12 +612,12 @@
       "glossaryVersion": 364,
       "attempts": 1,
       "runId": "20261126-2345",
-      "doneAt": "2026-11-26T23:53:11.941Z",
+      "doneAt": "2026-11-26T23:56:18.219Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: audience → 受众 (source ×1, translation ×0); pre-existing in unchanged text (table row 'Assume a \"new developer\" audience'), not touched by this incremental run",
-        "glossary: hit → 命中 (source ×1, translation ×0); pre-existing in unchanged text ('traps already hit'), not touched by this incremental run",
-        "glossary: topic → topic (source ×4, translation ×3); the new section renders the ordinary word 'topic of the page' as 主题, the code-span `topic` is kept",
+        "glossary: audience → 受众 (source ×1, translation ×0); 源文为普通词义 'new developer audience'，非术语，既有提示",
+        "glossary: hit → 命中 (source ×1, translation ×0); 源文为普通词义 'traps already hit'，非术语，既有提示",
+        "glossary: topic → topic (source ×4, translation ×3); 第 4 处为「本页主题」，已按普通词义保留，见 keptTerms",
         "glossary: preferred rendering used fewer times than the term occurs in the source: audience → 受众 (source ×1, translation ×0); hit "
       ],
       "note": "requeued: v1.19 DNT 保留英文,机械替换文档整篇重译",
@@ -631,7 +631,10 @@
         "vector": "向量"
       },
       "retries": 0,
-      "seconds": 150
+      "seconds": 0,
+      "reviewedTerms": {
+        "topic": "主题"
+      }
     },
     "docs/contributing/docs-contrib/docs-templates/_index.md": {
       "status": "done",
@@ -2144,11 +2147,14 @@
       "glossaryVersion": 364,
       "attempts": 1,
       "runId": "20261126-2345",
-      "doneAt": "2026-11-26T23:53:11.097Z",
+      "doneAt": "2026-11-26T23:56:17.881Z",
       "reviewedAt": null,
       "flags": [
-        "glossary: Dashboard → Dashboard（源 ×2，译文 ×1）、Routing → Routing（源 ×5，译文 ×4）、topic → topic（源 ×26，译文 ×23）；均为既有译文中未变动部分，增量模式未改动，待主控复核",
-        "cross-doc-anchor: pubsub_api#provide-routes-for-dapr-to-deliver-topic-events 为既有译文原样保留",
+        "review: routing 已统一为 Routing（第 55、94、96、100 行），但源文中 route / routes（非 routing 术语）仍译为「路由」（第 83、96、181 行），请主控确认是否统一",
+        "review: dashboard 源文第 182 行指 Dapr Dev Dashboard 中的 dashboard，译文第 181 行写作「仪表板」，术语表首选为 Dashboard（保留英文），请主控确认",
+        "glossary: Dashboard → Dashboard (source ×2, translation ×1); 既有提示，即上一条 dashboard 的译法问题",
+        "glossary: Routing → Routing (source ×5, translation ×4); 差 1 处为 content-based routing，按术语表译为「基于内容的路由」，属正常",
+        "glossary: topic → topic (source ×26, translation ×23); 差 3 处为 dead letter topic(s)，按术语表译为「死信主题」，属正常",
         "glossary: preferred rendering used fewer times than the term occurs in the source: Dashboard → Dashboard (source ×2, translation ×"
       ],
       "note": "requeued: v1.19 DNT 保留英文,0133 机械替换文档整篇重译",
@@ -2177,7 +2183,11 @@
         "topic": "topic"
       },
       "retries": 0,
-      "seconds": 109
+      "seconds": 0,
+      "reviewedTerms": {
+        "routing": "路由",
+        "topic": "主题"
+      }
     },
     "docs/developing-applications/building-blocks/pubsub/pubsub-raw.md": {
       "status": "done_flagged",
@@ -5614,21 +5624,6 @@
         "hosting-platform": "托管平台",
         "handler": "处理程序"
       }
-    },
-    "docs/operations/resiliency/policies.md": {
-      "status": "blocked",
-      "adopted": true,
-      "sourceSha256": "unknown:requeued",
-      "sourceRevision": "ba1a9adde8f23c564ef479b1ceb967057249f6ec",
-      "translationPath": "translated_content/zh_CN/docs/operations/resiliency/policies.md",
-      "translationSha256": "ca918be85c3e3ce9ec50cac7a29bdb5350d3366c43d8bc9298c1cc37e1618c07",
-      "glossaryVersion": null,
-      "attempts": 3,
-      "runId": "20261117-1256",
-      "doneAt": "2026-11-14T19:34:01.077Z",
-      "reviewedAt": null,
-      "flags": [],
-      "note": "upstream source empty: dapr/docs v1.19 e55f735ec clears daprdocs/content/en/operations/resiliency/policies.md (0 B at HEAD and at v1.17 HEAD); nothing to translate; leaked translation deleted. Needs a human decision (exclude in profile or confirm upstream)"
     },
     "docs/operations/resiliency/policies/_index.md": {
       "status": "done",
@@ -19872,20 +19867,25 @@
     "docs/developing-ai/dapr-agents/dapr-agents-why.md": {
       "status": "done_flagged",
       "sourceSha256": "a9bb41e9934874ec90809f6c9a423a7f7dc3f57f2214ce2df3dd16b5184274fa",
-      "sourceRevision": "4a2946f7ff375548599dc77da263082374154693",
+      "sourceRevision": "7d47c0d99a285bf35340beb7c7c45cba95504cf9",
       "translationPath": "translated_content/zh_CN/docs/developing-ai/dapr-agents/dapr-agents-why.md",
-      "translationSha256": "5fcd0715d4bcdadc68018b823e47fd9b008875dcb3a921534d9d339b132d6ea4",
-      "glossaryVersion": 363,
+      "translationSha256": "90d52692504c77194f225f074e79922403e8f94eaa39effa674d54acbbe18e95",
+      "glossaryVersion": 364,
       "attempts": 1,
-      "runId": "20261117-1856",
-      "doneAt": "2026-11-17T18:59:59.691Z",
+      "runId": "20261127-0010",
+      "doneAt": "2026-11-27T00:28:14.361Z",
       "reviewedAt": null,
       "flags": [
-        "第 85 行「路由」对应源文泛指的消息路由功能，按普通含义保留；如需与 Routing 模式统一，请人工确认。",
+        "glossary: agent 软校验 54/70：源文计入 32 处产品名 Dapr Agents（保留英文），其余 53 处普通 agent 已全部译作代理，属自然省略",
+        "glossary: Conversation 仅出现于 Conversation API（doNotTranslate，保留英文），属自然省略",
+        "glossary: LLM 首次写作“大型语言模型 (LLM)”，其余按术语表写 LLM，属自然省略",
+        "glossary: scope 此处为普通词“访问范围”，并非 MCPServer scopes 字段，属自然省略",
+        "source: 源文 Event-Driven Workflows 段落冒号重复（“: :”），译文按原意去掉重复冒号",
+        "ref: 源文 integrations 引用已改为 {{% ref integrations %}}，译文按新写法；旧译文的 /developing-ai/dapr-agents/dapr-agents-integrations.md 引用已移除",
         "glossary: preferred rendering used fewer times than the term occurs in the source: agent → 代理 (source ×70, translation ×54); Conve"
       ],
-      "note": "adopted as stale: the translation predates the current source; kept as a reference for retranslation",
-      "model": "claude-haiku-5-5",
+      "note": "requeued: v1.19 build: stale ref to dapr-agents-integrations.md; retranslate against current source",
+      "model": "haiku",
       "termTargets": {
         "agent": "代理",
         "agent-orchestration": "Agent Orchestration",
@@ -19909,14 +19909,8 @@
         "structured-output": "结构化输出",
         "tool-calling": "工具调用"
       },
-      "reviewedTerms": {
-        "agent-orchestration": "代理编排",
-        "message-bus": "消息总线",
-        "multi-agent-systems": "多代理系统",
-        "routing": "路由"
-      },
       "retries": 0,
-      "seconds": 120
+      "seconds": 37
     },
     "docs/developing-applications/building-blocks/actors/actors-runtime-config.md": {
       "status": "done_flagged",
